@@ -30,10 +30,9 @@ jobs:
       # is merged it publishes every package whose version is not on npm yet.
       - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          version: pnpm version-packages
-          publish: pnpm release
-          commit: 'chore: release packages'
-          title: 'chore: release packages'
+          version-script: pnpm version-packages
+          publish-script: pnpm release
+          commit-message: 'chore: release packages'
+          pr-title: 'chore: release packages'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: 'true'
