@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'લિંક અને ડિસેબલ કરેલાં બટનો',
             text: 'anchor એલિમેન્ટ્સને નેટિવ રીતે ડિસેબલ કરી શકાતા નથી, તેથી ડિસેબલ કરેલી લિંકને <code>aria-disabled="true"</code> મળે છે અને <code>routerLink</code> હોય તો પણ તેની ક્લિક અટકાવાય છે.',
           },
+          presses: {
+            title: 'દબાવવાની ઇફેક્ટ્સ',
+            text: 'દરેક બટન દબાવી રાખો. દબાવી રાખતાં બટન શું કરે તે <code>press</code> નક્કી કરે છે, અને તે કઈ સ્પ્રિંગથી પાછું આવે તે <code>motion</code> નક્કી કરે છે. કોઈ પણ એલિમેન્ટ પર મૂકેલો <code>data-nui-press</code> તેની અંદરની દરેક વસ્તુને લાગુ પડે છે.',
+          },
+          shapes: {
+            title: 'ખૂણા, રેડિયસ અને ડેન્સિટી',
+            text: '<code>corners</code> ખૂણાનો આકાર બદલે છે, <code>radius</code> તેમનું કદ, અને <code>density</code> બટન કેટલી જગ્યા રોકે તે, પણ એ જગ્યા ક્યારેય 24px ના ટાર્ગેટ કદથી ઓછી થતી નથી. <code>corner-shape</code> ને સપોર્ટ ન કરતાં બ્રાઉઝર ગોળ ખૂણા દોરે છે.',
+          },
         },
         api: {
           NuiButton: {
@@ -220,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'બંધ ન કરી શકાય તેવો ડાયલૉગ',
             text: '<code>[dismissible]="false"</code> હોય ત્યારે Escape દબાવવાથી કે બૅકડ્રોપ પર ક્લિક કરવાથી ડાયલૉગ બંધ થતો નથી, તેથી વપરાશકર્તાએ કોઈ એક વિકલ્પ પસંદ કરવો જ પડે.',
+          },
+          entrances: {
+            title: 'એન્ટ્રી ઍનિમેશન',
+            text: 'દરેક બટન એ જ ડાયલૉગ અલગ <code>enter</code> પ્રીસેટ સાથે ખોલે છે, અને સ્પ્રિંગ દર વખતે <code>bouncy</code> જ રહે છે. ડાયલૉગ ગમે તે રીતે આવે, જતી વખતે ઝડપથી ફેડ થઈ જાય છે.',
           },
         },
         api: {
@@ -297,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'ચેકબૉક્સ અને રેડિયો આઇટમ',
             text: '<code>role</code> સેટ કરો અને <code>[checked]</code> બાઇન્ડ કરો. મેનૂ સૂચક બતાવે છે અને સ્થિતિની જાહેરાત કરે છે.',
+          },
+          entrances: {
+            title: 'એન્ટ્રી અને સ્પ્રિંગ્સ',
+            text: 'દરેક મેનૂ એક <code>enter</code> પ્રીસેટને એક <code>motion</code> સ્પ્રિંગ સાથે જોડે છે, અને જે બાજુ ખૂલે છે એ જ બાજુથી ફેલાતું પ્રગટ થાય છે. સબમેનૂને આ બંને વારસામાં મળે છે.',
           },
         },
         api: {

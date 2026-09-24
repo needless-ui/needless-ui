@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'ลิงก์และปุ่มที่ปิดใช้งาน',
             text: 'เอลิเมนต์ a ไม่มีสถานะปิดใช้งานแบบเนทีฟ ลิงก์ที่ปิดใช้งานจึงได้รับ <code>aria-disabled="true"</code> และการคลิกจะถูกบล็อก แม้จะใช้ <code>routerLink</code> ก็ตาม',
           },
+          presses: {
+            title: 'เอฟเฟกต์การกด',
+            text: 'ลองกดค้างไว้ทีละปุ่ม <code>press</code> กำหนดสิ่งที่ปุ่มทำขณะถูกกดค้างไว้ และ <code>motion</code> กำหนดสปริงที่ใช้ตอนปุ่มเด้งกลับ ใส่ <code>data-nui-press</code> ที่เอลิเมนต์ใดก็ได้เพื่อกำหนดให้กับทุกอย่างที่อยู่ข้างใน',
+          },
+          shapes: {
+            title: 'รูปทรงมุม รัศมีมุม และความหนาแน่น',
+            text: '<code>corners</code> เปลี่ยนรูปทรงของมุม <code>radius</code> เปลี่ยนขนาดของมุม และ <code>density</code> เปลี่ยนพื้นที่ที่ปุ่มใช้ แต่ปุ่มจะไม่เล็กกว่าขนาดพื้นที่กด 24px เบราว์เซอร์ที่ไม่รองรับ <code>corner-shape</code> จะวาดมุมเป็นมุมโค้ง',
+          },
         },
         api: {
           NuiButton: {
@@ -220,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'ปิดทิ้งไม่ได้',
             text: 'เมื่อตั้งค่า <code>[dismissible]="false"</code> การกด Esc และการคลิกพื้นหลังจะไม่มีผล ผู้ใช้จึงต้องเลือกตัวเลือกใดตัวเลือกหนึ่ง',
+          },
+          entrances: {
+            title: 'เอฟเฟกต์การปรากฏ',
+            text: 'แต่ละปุ่มเปิดไดอะล็อกเดียวกันด้วยพรีเซ็ต <code>enter</code> ที่ต่างกัน โดยใช้สปริง <code>bouncy</code> ไม่ว่าจะปรากฏขึ้นแบบใด ตอนปิดก็จะจางหายไปอย่างรวดเร็ว',
           },
         },
         api: {
@@ -296,6 +308,10 @@ export const messages: Messages = {
           checkable: {
             title: 'รายการแบบ checkbox และ radio',
             text: 'ตั้งค่า <code>role</code> และผูก <code>[checked]</code> เมนูจะแสดงเครื่องหมายและประกาศสถานะให้',
+          },
+          entrances: {
+            title: 'เอฟเฟกต์การปรากฏและสปริง',
+            text: 'แต่ละเมนูจับคู่พรีเซ็ต <code>enter</code> กับสปริง <code>motion</code> และขยายตัวออกมาจากด้านที่เมนูเปิด เมนูย่อยจะสืบทอดทั้งสองอย่าง',
           },
         },
         api: {

@@ -1,0 +1,13 @@
+@for (entrance of entrances; track entrance) {
+  <button nuiButton variant="outline" tone="neutral" (click)="show(entrance)">
+    {{ entrance }}
+  </button>
+}
+
+<dialog nuiDialog size="sm" motion="bouncy" [enter]="enter()" [(open)]="open">
+  <h2 nuiDialogTitle>Entrance: {{ enter() }}</h2>
+  <p nuiDialogDescription>It arrived on the bouncy spring. It leaves with a quick fade.</p>
+  <div nuiDialogActions>
+    <button nuiButton nuiDialogClose autofocus>Close</button>
+  </div>
+</dialog>

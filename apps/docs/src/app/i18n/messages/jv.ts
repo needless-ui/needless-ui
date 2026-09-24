@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'Pranala lan tombol sing dipateni',
             text: 'Anchor ora bisa dipateni kanthi native, mula pranala sing dipateni oleh <code>aria-disabled="true"</code> lan klik-e diblokir, sanajan nganggo <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Efek pencetan',
+            text: 'Pencet lan tahan saben tombol. <code>press</code> nemtokake apa sing ditindakake tombol nalika dipencet lan ditahan, lan <code>motion</code> pegas sing dienggo bali. <code>data-nui-press</code> ing elemen apa wae nyetel efek iki kanggo kabeh sing ana ing njerone.',
+          },
+          shapes: {
+            title: 'Pojok, jari-jari lan kapadhetan',
+            text: '<code>corners</code> ngowahi wangun pojok, <code>radius</code> ukurane, lan <code>density</code> papan sing dienggo tombol, nanging ora tau kurang saka ukuran target 24px. Browser tanpa <code>corner-shape</code> nggambar pojok bunder.',
+          },
         },
         api: {
           NuiButton: {
@@ -221,6 +229,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Ora bisa diilangi',
             text: 'Kanthi <code>[dismissible]="false"</code>, Escape lan klik ing backdrop ora digubris, dadi pangguna kudu milih salah siji pilihan.',
+          },
+          entrances: {
+            title: 'Animasi mlebu',
+            text: 'Saben tombol mbukak dialog sing padha nganggo preset <code>enter</code> sing beda, kanthi pegas <code>bouncy</code>. Kepriye wae tekane, dialog iki tansah lunga kanthi fade sing cepet.',
           },
         },
         api: {
@@ -297,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Item checkbox lan radio',
             text: 'Setel <code>role</code> lan bind <code>[checked]</code>. Menu nampilake indikator lan ngumumake statuse.',
+          },
+          entrances: {
+            title: 'Animasi mlebu lan pegas',
+            text: 'Saben menu masangake preset <code>enter</code> karo pegas <code>motion</code>, lan mekar saka sisih ngendi menu kasebut kabukak. Submenu oleh loro-lorone saka menu induke.',
           },
         },
         api: {

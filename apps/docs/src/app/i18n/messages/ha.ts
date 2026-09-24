@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'Mahaɗai da maɓallai da aka kashe',
             text: 'Ba za a iya kashe anchors ta hanyar asali ba, don haka mahaɗar da aka kashe tana samun <code>aria-disabled="true"</code> kuma ana toshe dannawarta, ko da tana da <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Tasirin dannawa',
+            text: 'Ku danna kowane maɓalli ku riƙe. <code>press</code> yana saita abin da maɓalli ke yi yayin da aka danna shi aka riƙe, <code>motion</code> kuma yana saita spring ɗin da yake komawa da shi. <code>data-nui-press</code> a kan kowane element yana saita shi ga duk abin da ke cikinsa.',
+          },
+          shapes: {
+            title: 'Siffa da girman kusurwoyi, da sarari',
+            text: '<code>corners</code> yana canza siffar kusurwoyi, <code>radius</code> girmansu, <code>density</code> kuma yawan sararin da maɓalli ke ɗauka, amma maɓallin ba ya taɓa yin ƙasa da girman wurin taɓawa na pixels 24. Burauzoji marasa <code>corner-shape</code> suna zana kusurwoyi a zagaye.',
+          },
         },
         api: {
           NuiButton: {
@@ -220,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Ba a iya watsar da shi',
             text: 'Da <code>[dismissible]="false"</code>, ba a kula da Escape da danna bango, don haka dole mai amfani ya zaɓi ɗaya daga cikin zaɓuɓɓukan.',
+          },
+          entrances: {
+            title: 'Yanayin shigowa',
+            text: 'Kowane maɓalli yana buɗe dialog guda ɗaya, amma da preset na <code>enter</code> dabam, tare da spring na <code>bouncy</code>. Ko ta yaya ya shigo, yana fita ne ta hanyar dusashewa cikin sauri.',
           },
         },
         api: {
@@ -300,6 +312,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Abubuwan checkbox da radio',
             text: 'Ku saita <code>role</code> kuma ku haɗa <code>[checked]</code>. Menu ɗin yana nuna alamar kuma yana sanar da yanayin.',
+          },
+          entrances: {
+            title: 'Yanayin shigowa da springs',
+            text: 'Kowane menu yana haɗa preset na <code>enter</code> da spring na <code>motion</code>, kuma yana girma daga gefen da yake buɗewa a kai. Ƙananan menu suna gadar duka biyun.',
           },
         },
         api: {

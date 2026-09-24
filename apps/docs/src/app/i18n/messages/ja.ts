@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'リンクと無効なボタン',
             text: 'a 要素はネイティブには無効化できないため、無効なリンクには <code>aria-disabled="true"</code> を設定し、<code>routerLink</code> を使っている場合でもクリックをブロックします。',
           },
+          presses: {
+            title: '押下エフェクト',
+            text: 'ボタンを1つずつ長押ししてみてください。<code>press</code> は押している間のボタンの動きを、<code>motion</code> は元に戻るときのスプリングを設定します。任意の要素に <code>data-nui-press</code> を指定すると、その中のすべてに適用されます。',
+          },
+          shapes: {
+            title: '角の形、角丸、密度',
+            text: '<code>corners</code> は角の形を、<code>radius</code> は角の大きさを、<code>density</code> はボタンが占めるスペースの広さを変えます。ただし、ボタンが 24px のターゲットサイズを下回ることはありません。<code>corner-shape</code> に対応していないブラウザーでは、角は丸く描画されます。',
+          },
         },
         api: {
           NuiButton: {
@@ -225,6 +233,10 @@ export const messages: Messages = {
           dismissible: {
             title: '閉じ方を限定したダイアログ',
             text: '<code>[dismissible]="false"</code> を指定すると Esc キーと背景のクリックが無視されるため、ユーザーはいずれかの選択肢を選ぶ必要があります。',
+          },
+          entrances: {
+            title: '登場アニメーション',
+            text: 'どのボタンも同じダイアログを開きますが、<code>enter</code> プリセットはボタンごとに異なり、スプリングはすべて <code>bouncy</code> です。どのように登場しても、閉じるときはすばやくフェードアウトします。',
           },
         },
         api: {
@@ -303,6 +315,10 @@ export const messages: Messages = {
           checkable: {
             title: 'チェックボックス項目とラジオ項目',
             text: '<code>role</code> を設定し、<code>[checked]</code> をバインドします。メニューがインジケーターを表示し、状態を読み上げます。',
+          },
+          entrances: {
+            title: '登場アニメーションとスプリング',
+            text: '各メニューは <code>enter</code> プリセットと <code>motion</code> のスプリングを組み合わせ、開く側から広がるように現れます。サブメニューはその両方を継承します。',
           },
         },
         api: {

@@ -1,13 +1,17 @@
 import type { Type } from '@angular/core';
 import { ButtonLinksExample } from '../examples/button/links';
+import { ButtonPressesExample } from '../examples/button/presses';
+import { ButtonShapesExample } from '../examples/button/shapes';
 import { ButtonSizesExample } from '../examples/button/sizes';
 import { ButtonTonesExample } from '../examples/button/tones';
 import { ButtonVariantsExample } from '../examples/button/variants';
 import { DialogConfirmExample } from '../examples/dialog/confirm';
 import { DialogDismissibleExample } from '../examples/dialog/dismissible';
+import { DialogEntrancesExample } from '../examples/dialog/entrances';
 import { DialogFormExample } from '../examples/dialog/form';
 import { MenuActionsExample } from '../examples/menu/actions';
 import { MenuCheckableExample } from '../examples/menu/checkable';
+import { MenuEntrancesExample } from '../examples/menu/entrances';
 import { MenuSubmenuExample } from '../examples/menu/submenu';
 import type { ComponentId } from './ids';
 
@@ -91,6 +95,8 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'tones', component: ButtonTonesExample },
       { id: 'sizes', component: ButtonSizesExample },
       { id: 'links', component: ButtonLinksExample },
+      { id: 'presses', component: ButtonPressesExample },
+      { id: 'shapes', component: ButtonShapesExample },
     ],
   },
   dialog: {
@@ -124,6 +130,7 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'confirm', component: DialogConfirmExample },
       { id: 'form', component: DialogFormExample },
       { id: 'dismissible', component: DialogDismissibleExample },
+      { id: 'entrances', component: DialogEntrancesExample },
     ],
   },
   menu: {
@@ -174,6 +181,7 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'actions', component: MenuActionsExample },
       { id: 'submenu', component: MenuSubmenuExample },
       { id: 'checkable', component: MenuCheckableExample },
+      { id: 'entrances', component: MenuEntrancesExample },
     ],
   },
 };

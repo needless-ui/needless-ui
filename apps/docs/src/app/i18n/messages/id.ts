@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'Tautan dan tombol nonaktif',
             text: 'Anchor tidak bisa dinonaktifkan secara native, jadi tautan nonaktif mendapat <code>aria-disabled="true"</code> dan kliknya diblokir, bahkan dengan <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Efek tekan',
+            text: 'Tekan dan tahan setiap tombol. <code>press</code> menentukan apa yang dilakukan tombol saat ditahan, dan <code>motion</code> menentukan pegas yang membawanya kembali. <code>data-nui-press</code> di elemen mana pun menerapkan efek ini ke semua yang ada di dalamnya.',
+          },
+          shapes: {
+            title: 'Sudut, radius, dan kepadatan',
+            text: '<code>corners</code> mengubah bentuk sudut, <code>radius</code> mengubah ukurannya, dan <code>density</code> mengubah ruang yang digunakan tombol, tetapi tidak pernah lebih kecil dari ukuran target 24px. Browser tanpa dukungan <code>corner-shape</code> menggambar sudut membulat.',
+          },
         },
         api: {
           NuiButton: {
@@ -222,6 +230,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Tidak bisa ditutup begitu saja',
             text: 'Dengan <code>[dismissible]="false"</code>, Esc dan klik di latar belakang diabaikan, sehingga pengguna harus memilih salah satu opsi.',
+          },
+          entrances: {
+            title: 'Animasi masuk',
+            text: 'Setiap tombol membuka dialog yang sama dengan preset <code>enter</code> yang berbeda dan pegas <code>bouncy</code>. Apa pun cara munculnya, dialog selalu keluar dengan memudar cepat.',
           },
         },
         api: {
@@ -300,6 +312,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Item checkbox dan radio',
             text: 'Tetapkan <code>role</code> dan hubungkan <code>[checked]</code>. Menu menampilkan indikatornya dan mengumumkan statusnya.',
+          },
+          entrances: {
+            title: 'Animasi masuk dan pegas',
+            text: 'Setiap menu memadukan preset <code>enter</code> dengan pegas <code>motion</code> dan membesar dari sisi tempat menu terbuka. Submenu mewarisi keduanya.',
           },
         },
         api: {

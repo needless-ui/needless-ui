@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: '링크와 비활성화된 버튼',
             text: 'a 요소는 네이티브 기능만으로는 비활성화할 수 없으므로, 비활성화된 링크에는 <code>aria-disabled="true"</code>가 지정되고 <code>routerLink</code>를 사용하더라도 클릭이 차단됩니다.',
           },
+          presses: {
+            title: '누르기 효과',
+            text: '버튼을 하나씩 길게 눌러 보십시오. <code>press</code>는 버튼을 누르고 있는 동안의 동작을, <code>motion</code>은 버튼이 되돌아올 때의 스프링을 설정합니다. 어떤 요소에든 <code>data-nui-press</code>를 지정하면 그 안의 모든 것에 적용됩니다.',
+          },
+          shapes: {
+            title: '모서리 모양, 반경, 밀도',
+            text: '<code>corners</code>는 모서리의 모양을, <code>radius</code>는 모서리의 크기를, <code>density</code>는 버튼이 차지하는 공간을 바꾸며, 버튼이 24px 타깃 크기보다 작아지는 일은 없습니다. <code>corner-shape</code>를 지원하지 않는 브라우저에서는 모서리가 둥글게 그려집니다.',
+          },
         },
         api: {
           NuiButton: {
@@ -221,6 +229,10 @@ export const messages: Messages = {
           dismissible: {
             title: '임의로 닫을 수 없는 다이얼로그',
             text: '<code>[dismissible]="false"</code>를 지정하면 Esc 키와 배경 클릭이 무시되므로, 사용자는 선택지 중 하나를 골라야 합니다.',
+          },
+          entrances: {
+            title: '등장 효과',
+            text: '각 버튼은 같은 다이얼로그를 서로 다른 <code>enter</code> 프리셋으로 열며, 스프링은 모두 <code>bouncy</code>입니다. 어떤 방식으로 등장하든 닫힐 때는 빠르게 페이드아웃됩니다.',
           },
         },
         api: {
@@ -298,6 +310,10 @@ export const messages: Messages = {
           checkable: {
             title: '체크박스 항목과 라디오 항목',
             text: '<code>role</code>을 설정하고 <code>[checked]</code>를 바인딩합니다. 메뉴가 표시기를 보여 주고 상태를 안내합니다.',
+          },
+          entrances: {
+            title: '등장 효과와 스프링',
+            text: '각 메뉴는 <code>enter</code> 프리셋과 <code>motion</code> 스프링을 짝지어 사용하며, 열리는 쪽에서부터 커지며 나타납니다. 하위 메뉴는 두 설정을 모두 상속합니다.',
           },
         },
         api: {

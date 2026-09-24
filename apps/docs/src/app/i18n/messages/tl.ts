@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'Mga link at naka-disable na button',
             text: 'Hindi puwedeng i-disable nang native ang mga anchor, kaya nilalagyan ng <code>aria-disabled="true"</code> ang naka-disable na link at hinaharangan ang mga click dito, kahit may <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Mga press effect',
+            text: 'Pindutin nang matagal ang bawat isa. Itinatakda ng <code>press</code> ang ginagawa ng button habang nakapindot, at ng <code>motion</code> ang spring na nagbabalik dito. Sa kahit anong element, itinatakda ng <code>data-nui-press</code> ang effect para sa lahat ng nasa loob nito.',
+          },
+          shapes: {
+            title: 'Mga sulok, radius at density',
+            text: 'Binabago ng <code>corners</code> ang hugis ng mga sulok, ng <code>radius</code> ang laki nila at ng <code>density</code> ang espasyong kinukuha ng button, pero hindi ito lumiliit nang lampas sa 24px na target size. Bilog ang mga sulok na iginuguhit ng mga browser na walang <code>corner-shape</code>.',
+          },
         },
         api: {
           NuiButton: {
@@ -225,6 +233,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Hindi basta maisasara',
             text: 'Kapag <code>[dismissible]="false"</code>, binabalewala ang Escape at ang mga click sa backdrop, kaya kailangang pumili ng user ng isang opsyon.',
+          },
+          entrances: {
+            title: 'Mga paglitaw',
+            text: 'Binubuksan ng bawat button ang parehong dialog gamit ang ibang <code>enter</code> preset at ang <code>bouncy</code> na spring. Paano man ito lumitaw, mabilis na fade ang pag-alis nito.',
           },
         },
         api: {
@@ -304,6 +316,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Mga checkbox at radio item',
             text: 'I-set ang <code>role</code> at i-bind ang <code>[checked]</code>. Ipinapakita ng menu ang indicator at ina-announce ang state.',
+          },
+          entrances: {
+            title: 'Mga paglitaw at spring',
+            text: 'Ipinapares ng bawat menu ang isang <code>enter</code> preset sa isang <code>motion</code> spring, at lumalaki ito mula sa gilid kung saan ito bumubukas. Minamana ng mga submenu ang dalawa.',
           },
         },
         api: {

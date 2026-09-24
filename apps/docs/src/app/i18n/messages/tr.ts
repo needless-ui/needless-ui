@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'Bağlantılar ve devre dışı düğmeler',
             text: 'Anchor öğeleri yerel olarak devre dışı bırakılamaz; bu yüzden devre dışı bir bağlantı <code>aria-disabled="true"</code> alır ve tıklamaları <code>routerLink</code> kullanılsa bile engellenir.',
           },
+          presses: {
+            title: 'Basma efektleri',
+            text: 'Her birini basılı tutun. <code>press</code> girdisi düğmenin basılı tutulurken ne yaptığını, <code>motion</code> girdisi ise hangi yayla geri döndüğünü belirler. Herhangi bir öğeye eklenen <code>data-nui-press</code> niteliği, efekti o öğenin içindeki her şeye uygular.',
+          },
+          shapes: {
+            title: 'Köşeler, yarıçap ve yoğunluk',
+            text: '<code>corners</code> köşelerin şeklini, <code>radius</code> boyutlarını, <code>density</code> ise düğmenin kapladığı alanı değiştirir; düğme hiçbir zaman 24px hedef boyutunun altına inmez. <code>corner-shape</code> desteği olmayan tarayıcılar köşeleri yuvarlak çizer.',
+          },
         },
         api: {
           NuiButton: {
@@ -222,6 +230,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Seçim zorunlu',
             text: '<code>[dismissible]="false"</code> ile Esc ve arka plan tıklamaları yok sayılır; kullanıcının bir seçenek belirlemesi gerekir.',
+          },
+          entrances: {
+            title: 'Giriş animasyonları',
+            text: 'Her düğme aynı diyaloğu farklı bir <code>enter</code> hazır ayarıyla ve <code>bouncy</code> yayıyla açar. Nasıl belirirse belirsin, hızla solarak kaybolur.',
           },
         },
         api: {
@@ -301,6 +313,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Onay kutusu ve radyo öğeleri',
             text: '<code>role</code> değerini ayarlayın ve <code>[checked]</code> bağlayın. Menü, işareti gösterir ve durumu duyurur.',
+          },
+          entrances: {
+            title: 'Giriş animasyonları ve yaylar',
+            text: 'Her menü bir <code>enter</code> hazır ayarını bir <code>motion</code> yayıyla eşleştirir ve açıldığı taraftan büyüyerek belirir. Alt menüler ikisini de devralır.',
           },
         },
         api: {

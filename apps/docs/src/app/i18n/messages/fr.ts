@@ -167,6 +167,14 @@ export const messages: Messages = {
             title: 'Liens et boutons désactivés',
             text: 'Une ancre ne peut pas être désactivée nativement : un lien désactivé reçoit donc <code>aria-disabled="true"</code> et ses clics sont bloqués, même avec <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Effets d’appui',
+            text: 'Appuyez longuement sur chaque bouton. <code>press</code> définit ce que fait un bouton tant qu’il est enfoncé, et <code>motion</code>, le ressort qui le ramène en place. Sur n’importe quel élément, <code>data-nui-press</code> applique l’effet à tout son contenu.',
+          },
+          shapes: {
+            title: 'Coins, rayon et densité',
+            text: '<code>corners</code> change la forme des coins, <code>radius</code> leur taille et <code>density</code> la place qu’occupe un bouton, sans jamais descendre sous la taille de cible minimale de 24 px. Les navigateurs qui ne prennent pas en charge <code>corner-shape</code> dessinent des coins arrondis.',
+          },
         },
         api: {
           NuiButton: {
@@ -223,6 +231,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Choix obligatoire',
             text: 'Avec <code>[dismissible]="false"</code>, Échap et les clics sur le fond sont ignorés : l’utilisateur doit choisir une option.',
+          },
+          entrances: {
+            title: 'Animations d’entrée',
+            text: 'Chaque bouton ouvre la même boîte de dialogue avec un autre préréglage <code>enter</code> et le ressort <code>bouncy</code>. Quelle que soit son entrée en scène, elle disparaît dans un fondu rapide.',
           },
         },
         api: {
@@ -303,6 +315,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Cases à cocher et boutons radio',
             text: 'Définissez <code>role</code> et liez <code>[checked]</code>. Le menu affiche l’indicateur et annonce l’état.',
+          },
+          entrances: {
+            title: 'Animations d’entrée et ressorts',
+            text: 'Chaque menu associe un préréglage <code>enter</code> à un ressort <code>motion</code> et se déploie depuis le côté où il s’ouvre. Les sous-menus héritent des deux.',
           },
         },
         api: {

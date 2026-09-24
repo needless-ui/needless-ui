@@ -167,6 +167,14 @@ export const messages: Messages = {
             title: 'Links und deaktivierte Buttons',
             text: 'Links lassen sich nicht nativ deaktivieren. Ein deaktivierter Link erhält daher <code>aria-disabled="true"</code>, und seine Klicks werden blockiert, auch mit <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Druckeffekte',
+            text: 'Halte jeden Button gedrückt. <code>press</code> bestimmt, was ein Button beim Gedrückthalten macht, und <code>motion</code> die Feder, mit der er zurückkehrt. <code>data-nui-press</code> auf einem beliebigen Element setzt den Effekt für alles darin.',
+          },
+          shapes: {
+            title: 'Ecken, Radius und Dichte',
+            text: '<code>corners</code> ändert die Form der Ecken, <code>radius</code> ihre Größe und <code>density</code> den Platz, den ein Button einnimmt – ohne je unter die Mindestzielgröße von 24 px zu fallen. Browser ohne <code>corner-shape</code> zeichnen runde Ecken.',
+          },
         },
         api: {
           NuiButton: {
@@ -226,6 +234,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Erzwungene Auswahl',
             text: 'Mit <code>[dismissible]="false"</code> werden Esc und Klicks auf den Backdrop ignoriert: Es muss eine Option gewählt werden.',
+          },
+          entrances: {
+            title: 'Eingangsanimationen',
+            text: 'Jeder Button öffnet denselben Dialog mit einem anderen <code>enter</code>-Preset und der Feder <code>bouncy</code>. Egal, wie er erscheint: Er verschwindet mit einem schnellen Ausblenden.',
           },
         },
         api: {
@@ -305,6 +317,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Checkbox- und Radio-Einträge',
             text: 'Setze <code>role</code> und binde <code>[checked]</code>. Das Menü stellt die Markierung dar und sagt den Zustand an.',
+          },
+          entrances: {
+            title: 'Eingangsanimationen und Federn',
+            text: 'Jedes Menü kombiniert ein <code>enter</code>-Preset mit einer <code>motion</code>-Feder und wächst von der Seite aus, an der es sich öffnet. Untermenüs erben beides.',
           },
         },
         api: {

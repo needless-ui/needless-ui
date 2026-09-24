@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'Viungo na vitufe vilivyozimwa',
             text: 'Anchor haziwezi kuzimwa kiasili, kwa hivyo kiungo kilichozimwa hupewa <code>aria-disabled="true"</code> na mibofyo yake huzuiwa, hata kikiwa na <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Athari za kubonyeza',
+            text: 'Bonyeza na ushikilie kila kitufe. <code>press</code> huamua kile ambacho kitufe hufanya kikiwa kimebonyezwa, na <code>motion</code> huamua springi ambayo kitufe hurudi nayo. Ukiweka <code>data-nui-press</code> kwenye kipengele chochote, hutumika kwa kila kitu kilicho ndani yake.',
+          },
+          shapes: {
+            title: 'Pembe, nusu kipenyo na msongamano',
+            text: '<code>corners</code> hubadilisha umbo la pembe, <code>radius</code> ukubwa wa pembe hizo, na <code>density</code> nafasi ambayo kitufe huchukua, lakini kitufe hakishuki kamwe chini ya eneo la kubofya la 24px. Vivinjari visivyo na <code>corner-shape</code> huchora pembe kwa mviringo.',
+          },
         },
         api: {
           NuiButton: {
@@ -222,6 +230,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Kisichoweza kuondolewa',
             text: 'Ukiweka <code>[dismissible]="false"</code>, Escape na mibofyo kwenye mandharinyuma hupuuzwa, hivyo mtumiaji lazima achague mojawapo ya chaguo.',
+          },
+          entrances: {
+            title: 'Athari za kuingia',
+            text: 'Kila kitufe hufungua kidirisha kilekile kwa preset tofauti ya <code>enter</code>, kwa springi ya <code>bouncy</code>. Kwa namna yoyote kinavyowasili, huondoka kwa kufifia haraka.',
           },
         },
         api: {
@@ -301,6 +313,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Vipengee vya checkbox na radio',
             text: 'Weka <code>role</code> na uunganishe <code>[checked]</code>. Menyu huonyesha kiashiria na kutangaza hali.',
+          },
+          entrances: {
+            title: 'Athari za kuingia na springi',
+            text: 'Kila menyu huoanisha preset ya <code>enter</code> na springi ya <code>motion</code>, na hukua kutoka upande inakofunguka. Menyu ndogo hurithi vyote viwili.',
           },
         },
         api: {

@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'Liên kết và nút bị vô hiệu hóa',
             text: 'Thẻ a không thể vô hiệu hóa theo cách native, nên liên kết bị vô hiệu hóa sẽ nhận <code>aria-disabled="true"</code> và bị chặn cú nhấp, kể cả khi dùng <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Hiệu ứng nhấn',
+            text: 'Hãy nhấn giữ từng nút. <code>press</code> quyết định nút làm gì khi đang được nhấn giữ, còn <code>motion</code> quyết định lò xo đưa nút trở lại. <code>data-nui-press</code> trên bất kỳ phần tử nào sẽ áp dụng hiệu ứng cho mọi thứ bên trong.',
+          },
+          shapes: {
+            title: 'Góc, bo góc và mật độ',
+            text: '<code>corners</code> thay đổi hình dạng các góc, <code>radius</code> thay đổi mức bo góc, còn <code>density</code> thay đổi không gian mà nút chiếm, nhưng không bao giờ nhỏ hơn vùng nhấn 24px. Trình duyệt không hỗ trợ <code>corner-shape</code> sẽ vẽ góc bo tròn.',
+          },
         },
         api: {
           NuiButton: {
@@ -220,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Không thể đóng tùy ý',
             text: 'Với <code>[dismissible]="false"</code>, phím Esc và cú nhấp vào nền đều bị bỏ qua, nên người dùng buộc phải chọn một phương án.',
+          },
+          entrances: {
+            title: 'Hiệu ứng xuất hiện',
+            text: 'Mỗi nút mở cùng một hộp thoại với một preset <code>enter</code> khác nhau và lò xo <code>bouncy</code>. Dù xuất hiện theo cách nào, hộp thoại cũng biến mất bằng hiệu ứng mờ dần nhanh.',
           },
         },
         api: {
@@ -297,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Mục checkbox và radio',
             text: 'Đặt <code>role</code> và liên kết <code>[checked]</code>. Menu sẽ hiển thị dấu chỉ báo và thông báo trạng thái.',
+          },
+          entrances: {
+            title: 'Hiệu ứng xuất hiện và lò xo',
+            text: 'Mỗi menu kết hợp một preset <code>enter</code> với một lò xo <code>motion</code> và lớn dần từ phía mà nó mở ra. Menu con kế thừa cả hai.',
           },
         },
         api: {

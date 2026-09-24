@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'Links and disabled buttons',
             text: 'Anchors can’t be disabled natively, so a disabled link gets <code>aria-disabled="true"</code> and its clicks are blocked, even with <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Press effects',
+            text: 'Press and hold each one. <code>press</code> sets what a button does while held down, and <code>motion</code> the spring it comes back on. <code>data-nui-press</code> on any element sets it for everything inside.',
+          },
+          shapes: {
+            title: 'Corners, radius and density',
+            text: '<code>corners</code> changes the shape of the corners, <code>radius</code> their size and <code>density</code> the room a button takes, never below the 24px target size. Browsers without <code>corner-shape</code> draw round corners.',
+          },
         },
         api: {
           NuiButton: {
@@ -220,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Not dismissible',
             text: 'With <code>[dismissible]="false"</code>, Escape and backdrop clicks are ignored, so the user has to pick an option.',
+          },
+          entrances: {
+            title: 'Entrances',
+            text: 'Each button opens the same dialog with another <code>enter</code> preset, on the <code>bouncy</code> spring. However it arrives, it leaves with a quick fade.',
           },
         },
         api: {
@@ -297,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Checkbox and radio items',
             text: 'Set <code>role</code> and bind <code>[checked]</code>. The menu shows the indicator and announces the state.',
+          },
+          entrances: {
+            title: 'Entrances and springs',
+            text: 'Each menu pairs an <code>enter</code> preset with a <code>motion</code> spring and grows out of the side it opens on. Submenus inherit both.',
           },
         },
         api: {

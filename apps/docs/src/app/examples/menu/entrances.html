@@ -1,0 +1,11 @@
+@for (style of styles; track style.enter) {
+  <button nuiButton variant="outline" tone="neutral" [nuiMenuTrigger]="menu">
+    {{ style.enter }} · {{ style.motion }}
+  </button>
+  <div nuiMenu #menu="ngMenu" [enter]="style.enter" [motion]="style.motion" corners="squircle">
+    <div nuiMenuItem value="rename">Rename</div>
+    <div nuiMenuItem value="duplicate">Duplicate</div>
+    <div nuiMenuSeparator></div>
+    <div nuiMenuItem value="delete" tone="danger">Delete</div>
+  </div>
+}

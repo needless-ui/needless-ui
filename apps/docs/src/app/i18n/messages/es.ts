@@ -167,6 +167,14 @@ export const messages: Messages = {
             title: 'Enlaces y botones desactivados',
             text: 'Los enlaces no se pueden desactivar de forma nativa, así que un enlace desactivado recibe <code>aria-disabled="true"</code> y sus clics se bloquean, incluso con <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Efectos al pulsar',
+            text: 'Mantén pulsado cada botón. <code>press</code> define qué hace un botón mientras está pulsado, y <code>motion</code>, el resorte con el que vuelve a su sitio. <code>data-nui-press</code> en cualquier elemento aplica el efecto a todo lo que contiene.',
+          },
+          shapes: {
+            title: 'Esquinas, radio y densidad',
+            text: '<code>corners</code> cambia la forma de las esquinas, <code>radius</code> su tamaño y <code>density</code> el espacio que ocupa un botón, sin bajar nunca del tamaño mínimo de objetivo de 24 px. Los navegadores sin <code>corner-shape</code> dibujan las esquinas redondeadas.',
+          },
         },
         api: {
           NuiButton: {
@@ -226,6 +234,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Elección obligatoria',
             text: 'Con <code>[dismissible]="false"</code>, Esc y los clics en el fondo se ignoran, así que hay que elegir una opción.',
+          },
+          entrances: {
+            title: 'Animaciones de entrada',
+            text: 'Cada botón abre el mismo diálogo con un valor predefinido de <code>enter</code> distinto y el resorte <code>bouncy</code>. Entre como entre, sale con un fundido rápido.',
           },
         },
         api: {
@@ -305,6 +317,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Elementos de casilla y de radio',
             text: 'Define <code>role</code> y enlaza <code>[checked]</code>. El menú muestra el indicador y anuncia el estado.',
+          },
+          entrances: {
+            title: 'Animaciones de entrada y resortes',
+            text: 'Cada menú combina un valor predefinido de <code>enter</code> con un resorte de <code>motion</code> y crece desde el lado por el que se abre. Los submenús heredan ambos.',
           },
         },
         api: {

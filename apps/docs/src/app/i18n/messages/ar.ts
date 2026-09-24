@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'الروابط والأزرار المعطّلة',
             text: 'لا تدعم عناصر الروابط التعطيل بشكل أصلي، لذا يحصل الرابط المعطّل على <code>aria-disabled="true"</code> وتُمنع النقرات عليه، حتى مع <code>routerLink</code>.',
           },
+          presses: {
+            title: 'تأثيرات الضغط',
+            text: 'اضغط مطولًا على كل زر. يحدد <code>press</code> ما يفعله الزر ما دام مضغوطًا، ويحدد <code>motion</code> النابض الذي يرتد به. وعند وضع <code>data-nui-press</code> على أي عنصر، يسري التأثير على كل ما بداخله.',
+          },
+          shapes: {
+            title: 'الزوايا ونصف القطر والكثافة',
+            text: 'يغيّر <code>corners</code> شكل الزوايا، و<code>radius</code> حجمها، و<code>density</code> المساحة التي يشغلها الزر، دون أن يصغر أبدًا عن حجم الهدف البالغ 24 بكسل. أما المتصفحات التي لا تدعم <code>corner-shape</code> فترسم الزوايا مستديرة.',
+          },
         },
         api: {
           NuiButton: {
@@ -221,6 +229,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'غير قابل للتجاهل',
             text: 'مع <code>[dismissible]="false"</code> يُتجاهَل مفتاح Esc والنقر على الخلفية، فيتعيّن على المستخدم اختيار أحد الخيارات.',
+          },
+          entrances: {
+            title: 'حركات الظهور',
+            text: 'يفتح كل زر مربع الحوار نفسه بإعداد مسبق مختلف لـ <code>enter</code>، مع النابض <code>bouncy</code>. وأيًّا كانت طريقة ظهوره، فإنه يختفي بتلاشٍ سريع.',
           },
         },
         api: {
@@ -297,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'عناصر checkbox وradio',
             text: 'اضبط <code>role</code> واربط <code>[checked]</code>. تعرض القائمة علامة التحديد وتُعلن عن الحالة.',
+          },
+          entrances: {
+            title: 'حركات الظهور والنوابض',
+            text: 'تجمع كل قائمة بين إعداد مسبق لـ <code>enter</code> ونابض لـ <code>motion</code>، وتتمدد من الجهة التي تنفتح عليها. وترث القوائم الفرعية كليهما.',
           },
         },
         api: {

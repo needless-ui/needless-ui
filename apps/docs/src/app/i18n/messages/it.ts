@@ -166,6 +166,14 @@ export const messages: Messages = {
             title: 'Link e pulsanti disattivati',
             text: 'Gli anchor non si possono disattivare nativamente: un link disattivato riceve <code>aria-disabled="true"</code> e i suoi clic vengono bloccati, anche con <code>routerLink</code>.',
           },
+          presses: {
+            title: 'Effetti alla pressione',
+            text: 'Tieni premuto ciascun pulsante. <code>press</code> stabilisce cosa fa un pulsante mentre resta premuto, e <code>motion</code> la molla con cui torna in posizione. <code>data-nui-press</code> su qualsiasi elemento imposta l’effetto per tutto ciò che contiene.',
+          },
+          shapes: {
+            title: 'Angoli, raggio e densità',
+            text: '<code>corners</code> cambia la forma degli angoli, <code>radius</code> la loro dimensione e <code>density</code> lo spazio che occupa un pulsante, senza mai scendere sotto l’area di tocco minima di 24px. I browser senza <code>corner-shape</code> disegnano angoli arrotondati.',
+          },
         },
         api: {
           NuiButton: {
@@ -222,6 +230,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Non chiudibile',
             text: 'Con <code>[dismissible]="false"</code>, Esc e i clic sullo sfondo vengono ignorati: bisogna scegliere un’opzione.',
+          },
+          entrances: {
+            title: 'Animazioni di entrata',
+            text: 'Ogni pulsante apre lo stesso dialog con un preset <code>enter</code> diverso e la molla <code>bouncy</code>. Comunque entri in scena, esce con una rapida dissolvenza.',
           },
         },
         api: {
@@ -300,6 +312,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Voci checkbox e radio',
             text: 'Imposta <code>role</code> e collega <code>[checked]</code>. Il menu mostra l’indicatore e annuncia lo stato.',
+          },
+          entrances: {
+            title: 'Animazioni di entrata e molle',
+            text: 'Ogni menu abbina un preset <code>enter</code> a una molla <code>motion</code> e cresce dal lato in cui si apre. I sottomenu ereditano entrambi.',
           },
         },
         api: {

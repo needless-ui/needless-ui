@@ -162,6 +162,14 @@ export const messages: Messages = {
             title: '链接与禁用按钮',
             text: '原生链接无法禁用，因此禁用的链接会获得 <code>aria-disabled="true"</code>，其点击也会被拦截，即使使用了 <code>routerLink</code> 也是如此。',
           },
+          presses: {
+            title: '按压效果',
+            text: '依次按住每个按钮试试。<code>press</code> 决定按钮被按住时的效果，<code>motion</code> 决定它回弹时使用的弹簧。在任意元素上设置 <code>data-nui-press</code>，即可作用于其中的所有内容。',
+          },
+          shapes: {
+            title: '边角、圆角与密度',
+            text: '<code>corners</code> 改变边角的形状，<code>radius</code> 改变边角的大小，<code>density</code> 改变按钮占用的空间，但按钮绝不会小于 24px 的目标尺寸。不支持 <code>corner-shape</code> 的浏览器会把边角绘制成圆角。',
+          },
         },
         api: {
           NuiButton: {
@@ -216,6 +224,10 @@ export const messages: Messages = {
           dismissible: {
             title: '不可随意关闭',
             text: '设置 <code>[dismissible]="false"</code> 后，按 Esc 键和点击遮罩都会被忽略，用户必须选择其中一个选项。',
+          },
+          entrances: {
+            title: '入场动画',
+            text: '每个按钮打开的都是同一个对话框，只是 <code>enter</code> 预设各不相同，弹簧则都是 <code>bouncy</code>。无论以哪种方式入场，离场时都是快速淡出。',
           },
         },
         api: {
@@ -290,6 +302,10 @@ export const messages: Messages = {
           checkable: {
             title: '复选与单选菜单项',
             text: '设置 <code>role</code> 并绑定 <code>[checked]</code>，菜单就会显示选中标记并播报状态。',
+          },
+          entrances: {
+            title: '入场动画与弹簧',
+            text: '每个菜单都把一个 <code>enter</code> 预设和一个 <code>motion</code> 弹簧搭配使用，并从它弹出的那一侧展开。子菜单会继承这两项设置。',
           },
         },
         api: {

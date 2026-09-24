@@ -165,6 +165,14 @@ export const messages: Messages = {
             title: 'لنکس اور غیر فعال بٹن',
             text: 'لنکس کو نیٹو طور پر غیر فعال نہیں کیا جا سکتا، اس لیے غیر فعال لنک کو <code>aria-disabled="true"</code> ملتا ہے اور اس پر کلکس روک دیے جاتے ہیں، <code>routerLink</code> کے ساتھ بھی۔',
           },
+          presses: {
+            title: 'دبانے کے اثرات',
+            text: 'ہر بٹن کو باری باری دبا کر رکھیں۔ <code>press</code> طے کرتا ہے کہ دبائے رکھنے کے دوران بٹن کیا کرتا ہے، اور <code>motion</code> وہ اسپرنگ طے کرتا ہے جس کے ساتھ بٹن واپس آتا ہے۔ کسی بھی ایلیمنٹ پر <code>data-nui-press</code> لگانے سے یہ اس کے اندر موجود ہر چیز پر لاگو ہو جاتا ہے۔',
+          },
+          shapes: {
+            title: 'کونے، ریڈیس اور ڈینسٹی',
+            text: '<code>corners</code> کونوں کی شکل بدلتا ہے، <code>radius</code> ان کا سائز، اور <code>density</code> وہ جگہ جو بٹن لیتا ہے، مگر بٹن کبھی 24 پکسل کے ٹارگٹ سائز سے چھوٹا نہیں ہوتا۔ جو براؤزرز <code>corner-shape</code> سپورٹ نہیں کرتے، وہ کونے گول بناتے ہیں۔',
+          },
         },
         api: {
           NuiButton: {
@@ -220,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'انتخاب لازمی',
             text: '<code>[dismissible]="false"</code> کے ساتھ Esc اور بیک ڈراپ پر کلکس نظر انداز ہو جاتے ہیں، اس لیے صارف کو کوئی ایک آپشن چننا ہی پڑتا ہے۔',
+          },
+          entrances: {
+            title: 'آمد کی اینیمیشنز',
+            text: 'ہر بٹن وہی ڈائیلاگ کھولتا ہے، مگر ایک مختلف <code>enter</code> پری سیٹ کے ساتھ، اور ہر بار <code>bouncy</code> اسپرنگ پر۔ ڈائیلاگ جیسے بھی نمودار ہو، جاتے وقت تیزی سے مدھم ہو کر غائب ہو جاتا ہے۔',
           },
         },
         api: {
@@ -298,6 +310,10 @@ export const messages: Messages = {
           checkable: {
             title: 'checkbox اور radio آئٹمز',
             text: '<code>role</code> سیٹ کریں اور <code>[checked]</code> بائنڈ کریں۔ مینو نشان دکھاتا ہے اور حالت بتاتا ہے۔',
+          },
+          entrances: {
+            title: 'آمد کی اینیمیشنز اور اسپرنگز',
+            text: 'ہر مینو ایک <code>enter</code> پری سیٹ کو ایک <code>motion</code> اسپرنگ کے ساتھ جوڑتا ہے، اور جس طرف کھلتا ہے اسی طرف سے پھیلتا ہوا نمودار ہوتا ہے۔ ذیلی مینوز یہ دونوں وراثت میں پاتے ہیں۔',
           },
         },
         api: {

@@ -162,6 +162,14 @@ export const messages: Messages = {
             title: '連結與停用的按鈕',
             text: '原生連結無法停用，因此停用的連結會加上 <code>aria-disabled="true"</code>，點擊也會被攔截，即使使用了 <code>routerLink</code> 也一樣。',
           },
+          presses: {
+            title: '按壓效果',
+            text: '依序按住每個按鈕試試看。<code>press</code> 決定按鈕被按住時的效果，<code>motion</code> 決定它回彈時使用的彈簧。在任何元素上設定 <code>data-nui-press</code>，就能套用到其中的所有內容。',
+          },
+          shapes: {
+            title: '邊角、圓角與密度',
+            text: '<code>corners</code> 改變邊角的形狀，<code>radius</code> 改變邊角的大小，<code>density</code> 改變按鈕佔用的空間，但按鈕絕不會小於 24px 的目標尺寸。不支援 <code>corner-shape</code> 的瀏覽器會把邊角繪製成圓角。',
+          },
         },
         api: {
           NuiButton: {
@@ -216,6 +224,10 @@ export const messages: Messages = {
           dismissible: {
             title: '不可隨意關閉',
             text: '設定 <code>[dismissible]="false"</code> 後，按 Esc 鍵和點擊背景遮罩都會被忽略，使用者必須選擇其中一個選項。',
+          },
+          entrances: {
+            title: '進場動畫',
+            text: '每個按鈕開啟的都是同一個對話框，只是 <code>enter</code> 預設集各不相同，彈簧則都是 <code>bouncy</code>。不論以哪種方式進場，離場時都是快速淡出。',
           },
         },
         api: {
@@ -289,6 +301,10 @@ export const messages: Messages = {
           checkable: {
             title: '複選與單選項目',
             text: '設定 <code>role</code> 並繫結 <code>[checked]</code>，選單就會顯示勾選標記並朗讀狀態。',
+          },
+          entrances: {
+            title: '進場動畫與彈簧',
+            text: '每個選單都把一個 <code>enter</code> 預設集和一個 <code>motion</code> 彈簧搭配使用，並從它彈出的那一側展開。子選單會繼承這兩項設定。',
           },
         },
         api: {
