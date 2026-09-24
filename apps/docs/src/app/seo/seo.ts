@@ -15,8 +15,8 @@ export interface PageSeo {
   path: string;
   /** Trail after the home page, with locale-agnostic paths. */
   breadcrumbs?: { name: string; path: string }[];
-  /** `website` for the home page, `article` for documentation. */
-  type?: 'website' | 'article';
+  /** `website` for the home page, `article` for documentation, `page` for anything else. */
+  type?: 'website' | 'article' | 'page';
   /** Keeps the page out of search results (the 404 page). */
   noindex?: boolean;
 }
@@ -51,7 +51,11 @@ export class Seo {
 
     this.setMeta('name', 'description', page.description);
     this.setMeta('name', 'robots', page.noindex ? 'noindex, follow' : 'index, follow');
-    this.setMeta('property', 'og:type', page.type ?? 'article');
+    this.setMeta(
+      'property',
+      'og:type',
+      page.type === 'page' ? 'website' : (page.type ?? 'article'),
+    );
     this.setMeta('property', 'og:site_name', site.name);
     this.setMeta('property', 'og:title', title);
     this.setMeta('property', 'og:description', page.description);
@@ -136,7 +140,7 @@ export class Seo {
     const nodes: object[] = [
       website,
       {
-        '@type': page.type === 'website' ? 'WebPage' : 'TechArticle',
+        '@type': page.type === 'website' || page.type === 'page' ? 'WebPage' : 'TechArticle',
         '@id': `${url}#page`,
         url,
         name: title,

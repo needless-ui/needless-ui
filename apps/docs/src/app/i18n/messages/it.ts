@@ -21,6 +21,8 @@ export const it: Messages = {
       license: 'Distribuito con licenza MIT.',
       source: 'Codice sorgente',
       built: 'Progettato in modo inutilmente accurato.',
+      legal: 'Note legali',
+      privacy: 'Privacy',
     },
   },
 
@@ -429,5 +431,78 @@ export const it: Messages = {
     text: 'Questa pagina non esiste o è stata spostata.',
     home: 'Vai alla home page',
     components: 'Sfoglia i componenti',
+  },
+
+  legal: {
+    labels: { name: 'Nome', address: 'Indirizzo', email: 'Email', uid: 'IDI', vat: 'Numero IVA' },
+    notice: {
+      title: 'Note legali',
+      description:
+        'Chi gestisce needlessui.com: nome, indirizzo postale ed email del gestore, con i dati del registro di commercio e dell’IVA.',
+      operator: 'Gestore del sito',
+      legalForm: 'ditta individuale',
+      country: 'Svizzera',
+      register: 'Registro di commercio',
+      registerEntry: 'Iscritta nel registro di commercio del Cantone di Zugo.',
+      vatSuffix: 'IVA',
+      blocks: [
+        { kind: 'h2', id: 'liability', text: 'Responsabilità' },
+        {
+          kind: 'p',
+          html: 'I contenuti di questo sito sono curati con attenzione, ma senza garanzia di esattezza, completezza o attualità. I siti collegati sono fuori dal nostro controllo: dei loro contenuti rispondono i rispettivi gestori.',
+        },
+        { kind: 'h2', id: 'license', text: 'Licenza' },
+        {
+          kind: 'p',
+          html: 'Needless UI, compreso questo sito, è open source con <a href="https://github.com/needless-ui/needless-ui/blob/main/LICENSE">licenza MIT</a>.',
+        },
+      ],
+    },
+    privacy: {
+      title: 'Informativa sulla privacy',
+      description:
+        'Come needlessui.com tratta i dati personali: niente cookie, analisi o tracciamento. Cosa tratta l’hosting durante la visita e quali diritti hai.',
+      updated: 'Ultimo aggiornamento: 24 settembre 2026',
+      blocks: [
+        {
+          kind: 'p',
+          html: 'Questa informativa spiega quali dati personali vengono trattati quando visiti www.needlessui.com e quali sono i tuoi diritti. In breve: il sito non usa cookie, strumenti di analisi o tracciamento e non ti chiede mai dati personali.',
+        },
+        { kind: 'h2', id: 'controller', text: 'Titolare del trattamento' },
+        {
+          kind: 'p',
+          html: 'Il gestore indicato nelle <a href="/it/legal">note legali</a>, Angelo Lamonaca. Contatto: {email}.',
+        },
+        { kind: 'h2', id: 'hosting', text: 'Hosting' },
+        {
+          kind: 'p',
+          html: 'Il sito è ospitato da Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA. Quando apri una pagina, il browser invia i dati tecnici che riceve ogni sito web: indirizzo IP, data e ora, pagina richiesta, pagina di provenienza e user agent del browser. Vercel tratta questi dati per nostro conto per erogare il sito e mantenerlo sicuro, e li conserva solo per il tempo necessario. Può trattarli negli Stati Uniti; Vercel è certificata secondo l’EU-U.S. Data Privacy Framework, la sua estensione per il Regno Unito e lo Swiss-U.S. Data Privacy Framework. Consulta l’<a href="https://vercel.com/legal/privacy-policy">informativa di Vercel</a>.',
+        },
+        {
+          kind: 'p',
+          html: 'Dove si applica il GDPR, la base giuridica è il nostro legittimo interesse a gestire un sito sicuro (art. 6, par. 1, lett. f GDPR).',
+        },
+        { kind: 'h2', id: 'storage', text: 'Cookie e archiviazione locale' },
+        {
+          kind: 'p',
+          html: 'Il sito non imposta cookie. Se scegli il tema chiaro o scuro, l’archiviazione locale del browser ricorda la scelta per la visita successiva. Non lascia mai il tuo dispositivo: per eliminarla, torna a «Sistema» o cancella i dati del sito.',
+        },
+        { kind: 'h2', id: 'tracking', text: 'Nessun tracciamento' },
+        {
+          kind: 'p',
+          html: 'Non ci sono strumenti di analisi, pubblicità, plugin social, contenuti incorporati di terzi né font esterni. I link a GitHub e npm portano a siti con una propria informativa sulla privacy.',
+        },
+        { kind: 'h2', id: 'rights', text: 'I tuoi diritti' },
+        {
+          kind: 'p',
+          html: 'Puoi chiedere quali tuoi dati personali vengono trattati e ottenerne la rettifica o la cancellazione. Dove si applica il GDPR, puoi anche opporti al trattamento, chiederne la limitazione e ricevere i tuoi dati in un formato portabile. Scrivi a {email}. Puoi inoltre presentare reclamo a un’autorità di controllo: in Svizzera l’Incaricato federale della protezione dei dati e della trasparenza (IFPDT); nell’UE l’autorità del tuo Paese, in Italia il Garante per la protezione dei dati personali.',
+        },
+        { kind: 'h2', id: 'changes', text: 'Modifiche' },
+        {
+          kind: 'p',
+          html: 'L’informativa cambia quando cambia il sito, per esempio con un nuovo hosting. La data qui sotto indica la versione in vigore.',
+        },
+      ],
+    },
   },
 };

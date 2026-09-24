@@ -21,6 +21,8 @@ export const en: Messages = {
       license: 'Released under the MIT License.',
       source: 'Source code',
       built: 'Needlessly engineered, carefully built.',
+      legal: 'Legal notice',
+      privacy: 'Privacy policy',
     },
   },
 
@@ -426,5 +428,78 @@ export const en: Messages = {
     text: 'This page doesn’t exist, or it has moved.',
     home: 'Go to the home page',
     components: 'Browse components',
+  },
+
+  legal: {
+    labels: { name: 'Name', address: 'Address', email: 'Email', uid: 'UID', vat: 'VAT number' },
+    notice: {
+      title: 'Legal notice',
+      description:
+        'Who runs needlessui.com: the operator’s name, postal address and email, with the commercial register and VAT details.',
+      operator: 'Operator',
+      legalForm: 'sole proprietorship',
+      country: 'Switzerland',
+      register: 'Commercial register',
+      registerEntry: 'Registered in the commercial register of the Canton of Zug.',
+      vatSuffix: 'MWST',
+      blocks: [
+        { kind: 'h2', id: 'liability', text: 'Liability' },
+        {
+          kind: 'p',
+          html: 'This site is written with care, but without any guarantee that it is accurate, complete or current. Linked websites are outside our control; their operators are responsible for their content.',
+        },
+        { kind: 'h2', id: 'license', text: 'License' },
+        {
+          kind: 'p',
+          html: 'Needless UI, this site included, is open source under the <a href="https://github.com/needless-ui/needless-ui/blob/main/LICENSE">MIT License</a>.',
+        },
+      ],
+    },
+    privacy: {
+      title: 'Privacy policy',
+      description:
+        'How needlessui.com handles personal data: no cookies, no analytics, no tracking. What the host processes when you visit, and your rights.',
+      updated: 'Last updated: 24 September 2026',
+      blocks: [
+        {
+          kind: 'p',
+          html: 'This policy explains which personal data is processed when you visit www.needlessui.com, and what your rights are. In short: the site uses no cookies, analytics or tracking, and never asks you for personal data.',
+        },
+        { kind: 'h2', id: 'controller', text: 'Who is responsible' },
+        {
+          kind: 'p',
+          html: 'The operator named in the <a href="/legal">legal notice</a>, Angelo Lamonaca. Contact: {email}.',
+        },
+        { kind: 'h2', id: 'hosting', text: 'Hosting' },
+        {
+          kind: 'p',
+          html: 'The site is hosted by Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, USA. When you open a page, your browser sends the technical data every website receives: your IP address, the date and time, the page requested, the page you came from and your browser’s user agent. Vercel processes this data on our behalf to deliver the site and keep it secure, and keeps it only as long as that requires. It may do so in the USA; Vercel is certified under the EU-U.S. Data Privacy Framework, its UK Extension and the Swiss-U.S. Data Privacy Framework. See <a href="https://vercel.com/legal/privacy-policy">Vercel’s privacy notice</a>.',
+        },
+        {
+          kind: 'p',
+          html: 'Where the GDPR applies, the legal basis is our legitimate interest in running a secure website (Art. 6(1)(f) GDPR).',
+        },
+        { kind: 'h2', id: 'storage', text: 'Cookies and local storage' },
+        {
+          kind: 'p',
+          html: 'The site sets no cookies. If you pick a light or dark theme, your browser’s local storage remembers the choice for your next visit. It never leaves your device; switch back to System or clear the site’s data to remove it.',
+        },
+        { kind: 'h2', id: 'tracking', text: 'No tracking' },
+        {
+          kind: 'p',
+          html: 'There are no analytics, ads, social media plugins, embedded third-party content or external fonts. Links to GitHub and npm lead to sites with their own privacy policies.',
+        },
+        { kind: 'h2', id: 'rights', text: 'Your rights' },
+        {
+          kind: 'p',
+          html: 'You can ask what personal data about you is processed, and have it corrected or deleted. Where the GDPR applies, you can also object to processing, ask for it to be restricted, and receive your data in a portable format. Write to {email}. You can also complain to a supervisory authority: in Switzerland, the Federal Data Protection and Information Commissioner (FDPIC); in the EU, the authority of your country.',
+        },
+        { kind: 'h2', id: 'changes', text: 'Changes' },
+        {
+          kind: 'p',
+          html: 'This policy changes when the site does, for example when it moves to a new host. The date below shows the current version.',
+        },
+      ],
+    },
   },
 };

@@ -296,6 +296,40 @@
     margin: var(--nui-space-1) 0;
   }
 
+  /* Legal notice and privacy policy */
+
+  .legal-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--nui-space-2) var(--nui-space-6);
+    margin: 0 0 var(--nui-space-6);
+  }
+
+  .legal-facts dt {
+    color: var(--nui-color-text-muted);
+  }
+
+  .legal-facts dd {
+    margin: 0;
+  }
+
+  .legal-updated {
+    margin-block-start: var(--nui-space-10);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  @media (max-width: 30rem) {
+    .legal-facts {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .legal-facts dd {
+      margin-block-end: var(--nui-space-3);
+    }
+  }
+
   /* Home */
 
   .hero {

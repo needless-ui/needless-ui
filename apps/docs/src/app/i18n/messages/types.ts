@@ -20,7 +20,7 @@ export interface Messages {
       theme: string;
       themes: { system: string; light: string; dark: string };
     };
-    footer: { license: string; source: string; built: string };
+    footer: { license: string; source: string; built: string; legal: string; privacy: string };
   };
   home: {
     title: string;
@@ -66,6 +66,19 @@ export interface Messages {
     items: Record<'getting-started' | 'theming', GuideText>;
   };
   notFound: { title: string; description: string; text: string; home: string; components: string };
+  legal: {
+    labels: { name: string; address: string; email: string; uid: string; vat: string };
+    notice: LegalText & {
+      operator: string;
+      legalForm: string;
+      country: string;
+      register: string;
+      registerEntry: string;
+      /** Suffix of the Swiss VAT number in this language: MWST, TVA or IVA. */
+      vatSuffix: string;
+    };
+    privacy: LegalText & { updated: string };
+  };
 }
 
 export interface ComponentText {
@@ -88,11 +101,18 @@ export interface ComponentText {
   notes: string[];
 }
 
+export type ProseBlock = { kind: 'p'; html: string } | { kind: 'h2'; id: string; text: string };
+
 export type GuideBlock =
-  | { kind: 'p'; html: string }
-  | { kind: 'h2'; id: string; text: string }
-  | { kind: 'code'; file: string }
-  | { kind: 'demo'; demo: 'nested-themes' };
+  ProseBlock | { kind: 'code'; file: string } | { kind: 'demo'; demo: 'nested-themes' };
+
+export interface LegalText {
+  title: string;
+  /** Meta description, 50–160 characters. */
+  description: string;
+  /** html; `{email}` becomes a link to the operator's email address. */
+  blocks: ProseBlock[];
+}
 
 export interface GuideText {
   title: string;

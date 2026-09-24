@@ -43,6 +43,18 @@ const pages: Routes = [
     loadComponent: () => import('./pages/guide/guide-page').then((m) => m.GuidePage),
   },
   {
+    path: 'legal',
+    canActivate: [loadLocale],
+    data: { doc: 'notice' },
+    loadComponent: () => import('./pages/legal/legal-page').then((m) => m.LegalPage),
+  },
+  {
+    path: 'privacy',
+    canActivate: [loadLocale],
+    data: { doc: 'privacy' },
+    loadComponent: () => import('./pages/legal/legal-page').then((m) => m.LegalPage),
+  },
+  {
     path: '404',
     canActivate: [loadLocale],
     loadComponent: () => import('./pages/not-found/not-found-page').then((m) => m.NotFoundPage),

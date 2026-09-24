@@ -1,16 +1,25 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { GUIDE_IDS, isGuideId } from '../../docs/ids';
 import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
+import { InAppLinks } from '../../shared/in-app-links';
 import { NestedThemesDemo } from '../../shared/nested-themes-demo';
 import { Toc } from '../../shared/toc';
 import { NotFoundPage } from '../not-found/not-found-page';
 
 @Component({
   selector: 'docs-guide-page',
-  imports: [RouterLink, RouterLinkActive, CodeBlock, NestedThemesDemo, Toc, NotFoundPage],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    CodeBlock,
+    InAppLinks,
+    NestedThemesDemo,
+    Toc,
+    NotFoundPage,
+  ],
   template: `
     @let guides = i18n.t().guides;
     @if (guide(); as guide) {
@@ -37,8 +46,7 @@ import { NotFoundPage } from '../not-found/not-found-page';
             <h1>{{ guide.title }}</h1>
           </header>
           <div class="doc-grid">
-            <!-- Links inside translated prose are plain anchors; route them in-app. -->
-            <article class="doc-article prose" (click)="followLink($event)">
+            <article class="doc-article prose" docsInAppLinks>
               @for (block of guide.blocks; track $index) {
                 @switch (block.kind) {
                   @case ('p') {
@@ -70,7 +78,6 @@ export class GuidePage {
 
   protected readonly i18n = inject(I18n);
   protected readonly ids = GUIDE_IDS;
-  private readonly router = inject(Router);
 
   protected readonly guide = computed(() => {
     const id = this.id();
@@ -95,15 +102,5 @@ export class GuidePage {
         breadcrumbs: [{ name: guide.title, path }],
       });
     });
-  }
-
-  protected followLink(event: MouseEvent): void {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
-      return;
-    const anchor = (event.target as Element).closest('a');
-    const href = anchor?.getAttribute('href');
-    if (!href?.startsWith('/') || anchor?.target) return;
-    event.preventDefault();
-    void this.router.navigateByUrl(href);
   }
 }
