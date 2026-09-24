@@ -14,40 +14,29 @@ const CSS = fileURLToPath(
   new URL('../../../packages/css/dist/needless-ui.min.css', import.meta.url),
 );
 const MARK = await readFile(new URL('favicon.svg', PUBLIC), 'utf8');
+/** The logo's paper and ink colors. */
+const PAPER = '#fefcf8';
+const INK = '#214f3e';
 
 const OG = `
-<html data-nui-theme="dark">
-  <body style="margin:0;width:1200px;height:630px;display:flex;align-items:center;gap:64px;padding:0 80px;
-               box-sizing:border-box;background:var(--nui-color-bg-canvas);color:var(--nui-color-text-default);
-               font-family:var(--nui-font-family-sans)">
-    <div style="flex:1.25">
-      <div style="width:112px;height:112px">${MARK}</div>
-      <h1 style="margin:40px 0 0;font-size:84px;line-height:1;letter-spacing:-0.03em">Needless UI</h1>
-      <p style="margin:20px 0 0;font-size:34px;line-height:1.25;color:var(--nui-color-text-muted)">
-        The Needlessly Engineered<br>Styling Toolkit
-      </p>
-      <p style="margin:28px 0 0;font-size:24px;color:var(--nui-color-accent-text)">
-        Accessible Angular components · MIT
-      </p>
-    </div>
-    <div style="flex:1;display:grid;gap:28px;justify-items:start">
-      <div style="display:flex;gap:12px">
-        <span class="nui-button" data-size="lg">Save</span>
-        <span class="nui-button" data-size="lg" data-variant="soft" data-tone="neutral">Cancel</span>
-      </div>
-      <div class="nui-menu" style="width:280px;font-size:18px">
-        <div class="nui-menu-item" style="min-height:40px">Edit <span class="nui-menu-shortcut">⌘E</span></div>
-        <div class="nui-menu-item" style="min-height:40px" data-active="true">Duplicate <span class="nui-menu-shortcut">⌘D</span></div>
-        <div class="nui-menu-separator"></div>
-        <div class="nui-menu-item" style="min-height:40px" data-tone="danger">Delete</div>
-      </div>
+<html>
+  <body style="margin:0;width:1200px;height:630px;display:flex;align-items:center;gap:64px;padding:0 96px;
+               box-sizing:border-box;background:${PAPER};color:${INK};font-family:var(--nui-font-family-sans)">
+    <div style="width:360px;flex:none">${MARK}</div>
+    <div>
+      <h1 style="margin:0;font-size:88px;line-height:1;letter-spacing:-0.03em">Needless UI</h1>
+      <p style="margin:24px 0 0;font-size:36px;line-height:1.25">The Needlessly Engineered<br>Styling Toolkit</p>
+      <p style="margin:32px 0 0;font-size:26px;opacity:0.8">Accessible Angular components · MIT</p>
     </div>
   </body>
 </html>`;
 
-const icon = (size: number, padding: number) => `
-<html><body style="margin:0;width:${size}px;height:${size}px;display:grid;place-items:center;background:transparent">
-  <div style="width:${size - 2 * padding}px;height:${size - 2 * padding}px">${MARK}</div>
+/** The mark on the logo's paper, so it reads on light and dark tabs alike. */
+const tile = (size: number, radius: number) => `
+<html><body style="margin:0;width:${size}px;height:${size}px;background:transparent">
+  <div style="width:100%;height:100%;display:grid;place-items:center;border-radius:${radius}px;background:${PAPER}">
+    <div style="width:86%">${MARK}</div>
+  </div>
 </body></html>`;
 
 const browser = await chromium.launch();
@@ -73,6 +62,7 @@ async function render(
 }
 
 await render(OG, 1200, 630, 'og-image.png');
-await render(icon(180, 0), 180, 180, 'apple-touch-icon.png');
-await render(icon(48, 0), 48, 48, 'favicon-48.png', true);
+// iOS rounds the touch icon's corners itself.
+await render(tile(180, 0), 180, 180, 'apple-touch-icon.png');
+await render(tile(48, 10), 48, 48, 'favicon-48.png', true);
 await browser.close();

@@ -65,7 +65,20 @@
   :root {
     --header-height: 3.75rem;
     --page-gutter: var(--nui-space-6);
+    /* The logo's colors. The dark-mode green keeps its hue, lightened to the same contrast. */
+    --docs-brand-ink: #214f3e;
+    --docs-brand-dot: #f7a17d;
     scroll-padding-block-start: calc(var(--header-height) + var(--nui-space-4));
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-nui-theme='light']) {
+      --docs-brand-ink: #87bfa8;
+    }
+  }
+
+  :root[data-nui-theme='dark'] {
+    --docs-brand-ink: #87bfa8;
   }
 
   :not(pre) > code {
@@ -168,12 +181,12 @@
     white-space: nowrap;
   }
 
-  .logo-tile {
-    fill: var(--nui-color-accent-solid);
+  .logo-ink {
+    fill: var(--docs-brand-ink);
   }
 
-  .logo-needle {
-    fill: var(--nui-color-accent-on-solid);
+  .logo-dot {
+    fill: var(--docs-brand-dot);
   }
 
   .site-nav {
