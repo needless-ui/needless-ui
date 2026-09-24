@@ -1,0 +1,14 @@
+<button nuiButton variant="outline" tone="neutral" [nuiPopoverTrigger]="filters">Filters</button>
+<div nuiPopover #filters="nuiPopover" aria-labelledby="filters-title" arrow>
+  <fieldset class="filters">
+    <legend id="filters-title">Show issues that are</legend>
+    @for (state of states; track state.id) {
+      <label>
+        <input type="checkbox" [checked]="shown().has(state.id)" (change)="toggle(state.id)" />
+        {{ state.label }}
+      </label>
+    }
+  </fieldset>
+  <button nuiButton size="sm" (click)="filters.hide()">Done</button>
+</div>
+<p>Showing {{ summary() }} issues.</p>

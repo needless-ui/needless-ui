@@ -95,7 +95,8 @@
     overflow-wrap: anywhere;
   }
 
-  kbd {
+  /* The command palette draws its own keys. */
+  kbd:not(.nui-command kbd) {
     display: inline-block;
     padding: 0.1em 0.45em;
     border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
@@ -712,6 +713,82 @@
     display: grid;
     flex: 1;
     gap: var(--nui-space-1);
+  }
+
+  .preview-stack {
+    display: grid;
+    justify-items: start;
+    gap: var(--nui-space-1);
+    inline-size: min(13rem, 100%);
+  }
+
+  .preview-stack > .nui-combobox,
+  .preview-stack > .nui-select-trigger {
+    inline-size: 100%;
+  }
+
+  .preview-typed {
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .preview-popup {
+    position: static;
+    display: flex;
+    inline-size: 100%;
+    min-inline-size: 0;
+    opacity: 1;
+    transform: none;
+  }
+
+  .preview-command {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    inline-size: min(14rem, 100%);
+    margin: 0;
+    opacity: 1;
+    scale: 1;
+    box-shadow: var(--nui-shadow-md);
+  }
+
+  .preview-command .nui-command-field {
+    padding-block: var(--nui-space-2);
+  }
+
+  .preview-command .nui-select-list {
+    margin: var(--nui-space-1);
+  }
+
+  .preview-popover {
+    --nui-anchor-center: 2.25rem;
+
+    position: relative;
+    display: grid;
+    gap: var(--nui-space-1);
+    margin-block-start: var(--nui-space-2);
+    padding: var(--nui-space-3);
+    opacity: 1;
+    transform: none;
+  }
+
+  .preview-check {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-2);
+  }
+
+  .preview-check::before {
+    content: '';
+    box-sizing: border-box;
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+    border: 1.5px solid var(--nui-color-border-strong);
+    border-radius: 0.2rem;
+  }
+
+  .preview-check[data-checked]::before {
+    border-color: transparent;
+    background-color: var(--nui-color-accent-solid);
   }
 
   .preview-toast {

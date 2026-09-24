@@ -104,7 +104,15 @@ export const messages: Messages = {
       type: 'Uri',
       default: 'Default',
       description: 'Paglalarawan',
-      kinds: { input: 'Input', model: 'Two-way', output: 'Output', method: 'Method' },
+      kinds: {
+        input: 'Input',
+        model: 'Two-way',
+        output: 'Output',
+        method: 'Method',
+        property: 'Property',
+      },
+      texts:
+        'Input din ang bawat text na ipinapakita o ina-announce nito, kaya puwede mo itong isalin:',
       customization: {
         note: 'Sinusunod ng mga customization input na hindi mo sine-set ang pinakamalapit na <code>data-nui-*</code> attribute. Tingnan ang <a href="/guides/customization">gabay sa pag-customize</a>.',
         members: {
@@ -823,6 +831,375 @@ export const messages: Messages = {
           'Humihinto ang mga timer habang naka-hover o naka-focus ang stack at habang nakatago ang page, at hindi kailanman nagta-time out ang mga toast na naghihintay sa isang promise.',
           'Anumang dapat aksyunan ng user ay dapat nasa labas din ng toast.',
           'Sa reduced motion, hindi nag-a-animate at hindi puwedeng i-swipe ang mga toast, at nakatago ang timer line.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox at autocomplete para sa Angular',
+        summary: 'Isang text field na nagmumungkahi ng mga opsyon habang nagta-type ka.',
+        description:
+          'Accessible na Angular combobox: fuzzy search na may highlight, maraming value bilang chip, bagong value mula sa itinipang text, at resulta mula sa server.',
+        apiDescription:
+          'API reference ng Needless UI combobox: nui-combobox na may value, values, multiple, create, filtering, loading at clearable, at mga custom na row.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI combobox: editable na combobox na may list autocomplete, aria-activedescendant, mga chip at IME input.',
+        overview: [
+          'Text field na may listahan ng mga mungkahi ang combobox. Fuzzy ang search at hindi nito pinapansin ang mga accent: nauuna ang mga pinakaangkop na tugma at minamarkahan ang mga tumugmang titik. Tumatanggap ito ng parehong mga <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> object gaya ng select.',
+          'Kapag may <code>multiple</code>, nagiging mga chip sa unahan ng text ang mga napiling opsyon, at ginagawang bagong value ng <code>create</code> ang itinipang text. Para sa mga resulta mula sa server, i-off ang <code>filtering</code>, mag-search sa <code>(queryChange)</code> at i-set ang <code>loading</code> habang naghihintay.',
+        ],
+        examples: {
+          country: {
+            title: 'Paghahanap',
+            text: 'Hindi kailangang magkakatabi ang mga tumugmang titik, at kasama rin sa pagtutugma ang <code>keywords</code>. Nagdadagdag ang <code>clearable</code> ng clear button at pinapayagan nitong i-clear ng Escape ang value.',
+          },
+          tags: {
+            title: 'Mga chip at bagong value',
+            text: 'Nagpapakita ng mga chip ang <code>multiple</code> at bina-bind nito ang <code>[(values)]</code>. Kapag hindi pa opsyon ang text, nag-aalok ang <code>create</code> na idagdag ito.',
+          },
+          people: {
+            title: 'Mga resulta mula sa server',
+            text: 'Ipinapakita ng listahan ang ipinadala ng server, nang walang filter, na may loading row habang naghihintay. Nananatili ang mga napiling label kapag may dumating na bagong resulta.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Isang text field na nagmumungkahi ng mga opsyon habang nagta-type ka.',
+            members: {
+              options:
+                'Ang mga opsyon, bilang mga <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> object.',
+              value: 'Ang napiling value, o <code>null</code>. Gumagana rin sa mga form.',
+              values: 'Ang mga napiling value, kapag may <code>multiple</code>.',
+              multiple: 'Pinapayagang pumili ng ilang opsyon, na ipinapakita bilang mga chip.',
+              create:
+                'Gumagawa ng value mula sa itinipang text. Nag-aalok ang listahan na idagdag ang text na hindi pa opsyon.',
+              filtering:
+                'Fini-filter ang mga opsyon habang nagta-type ka. I-off ito kapag server ang nagfi-filter.',
+              loading: 'Nagpapakita ng loading row habang hinihintay ang mga resulta.',
+              clearable:
+                'Nagdadagdag ng button na nagki-clear ng value, at pinapayagang i-clear ito ng Escape.',
+              placeholder: 'Text na ipinapakita habang walang laman ang field.',
+              label:
+                'Accessible name, kapag walang <code>&lt;label&gt;</code> na nagpapangalan sa field.',
+              inputId: 'Id ng text field, para sa <code>&lt;label for&gt;</code>.',
+              disabled: 'Dini-disable ang field.',
+              compareWith:
+                'Sinasabi kung iisang opsyon ang dalawang value, para sa mga value na object.',
+              displayWith:
+                'Text para sa value na wala sa mga opsyon, gaya ng value na na-set bago mag-load ang mga ito.',
+              virtual:
+                'Nire-render lang ang mga row na nakikita: palagi, hindi kailanman, o <code>auto</code> kapag lampas 200 row.',
+              queryChange: 'Inilalabas ang text habang itinitipa ito, para sa search sa server.',
+              openChange: 'Nagfa-fire kapag bumukas o nagsara ang listahan.',
+              show: 'Binubuksan ang listahan.',
+              hide: 'Isinasara ang listahan.',
+              clear: 'Kini-clear ang value at ang text.',
+              focus: 'Inililipat ang focus sa text field.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Ilagay ito sa isang <code>ng-template</code> sa loob ng component para ikaw mismo ang gumuhit ng bawat row. Nasa context ang opsyon at ang row nito.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Iginuguhit ang label ng opsyon na may markang mga tumugmang titik, pati ang description at path nito, para sa sarili mong mga row.',
+            members: { nuiOptionText: 'Ang row, mula sa template context.' },
+          },
+        },
+        keyboard: [
+          ['Down at up arrow', 'Binubuksan ang listahan, saka lumilipat sa mga opsyon.'],
+          ['Page Down at Page Up', 'Lumilipat nang sampung opsyon.'],
+          ['Enter', 'Pinipili ang active na opsyon.'],
+          ['Alt + down o up arrow', 'Binubuksan o isinasara ang listahan.'],
+          [
+            'Escape',
+            'Isinasara ang listahan; pagkatapos, kini-clear ang text, o ang value kapag clearable.',
+          ],
+          ['Backspace', 'Sa field na walang laman, inaalis ang huling chip.'],
+          [
+            'Left arrow',
+            'Mula sa simula ng text (right arrow sa right-to-left na text), lumilipat sa mga chip. Doon, nag-aalis ng chip ang Backspace o Delete.',
+          ],
+        ],
+        notes: [
+          'Isang <code>combobox</code> ang text field na may <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> at <code>aria-controls</code>. Nananatili rito ang focus, at itinuturo ng <code>aria-activedescendant</code> ang active na opsyon.',
+          'Isang list na may pangalan ang mga chip, at ipinapangalan ang bawat remove button sa chip nito, gaya ng “Remove Italy”.',
+          'Mga status message ang “No matches” at ang loading row, kaya ina-announce ang mga ito ng mga screen reader.',
+          'Ipinapaubaya sa input method ang mga key na kumukumpirma ng composition nito, gaya sa Chinese o Japanese.',
+        ],
+      },
+      command: {
+        name: 'Command palette',
+        title: 'Command palette component para sa Angular',
+        summary: 'Bawat command sa app mo, isang pindot lang ang layo.',
+        description:
+          'Accessible na Angular command palette: ⌘K mula kahit saan, fuzzy search hanggang sa mga nested na page, mga grupo, at shortcut ayon sa bawat platform.',
+        apiDescription:
+          'API reference ng Needless UI command palette: nui-command-palette na may commands, hotkey, bindShortcuts at loop, at ang hugis ng NuiCommand.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI command palette: modal na dialog na may search combobox, aria-activedescendant at navigation sa mga page.',
+        overview: [
+          'Search field para sa mga command ng app mo ang command palette, sa loob ng modal na dialog. Binubuksan ito ng ⌘K mula kahit saan (Ctrl+K sa Windows at Linux). Pumili ng command at magsasara ang palette, saka nito patatakbuhin ang command.',
+          'Puwedeng may grupo, description, keywords at shortcut ang mga command, na ipinapakita gamit ang mga simbolo ng bawat platform. Nagbubukas ng page ng iba pang command ang isang command na may <code>children</code>, at naaabot ng search mula sa itaas ang laman ng mga page.',
+        ],
+        examples: {
+          palette: {
+            title: 'Mga command at page',
+            text: 'Mga grupo, shortcut, isang naka-disable na command at dalawang page. Sinasabi ng <code>(run)</code> kung ano ang tumakbo; gumagana rin ang sariling <code>run</code> ng isang command.',
+          },
+          people: {
+            title: 'Mga custom na row',
+            text: 'Iginuguhit ng isang <code>nuiOptionTemplate</code> ang bawat row, at pinapanatili ng <code>nuiOptionText</code> ang mga naka-markang tugma. Iniiwan ng <code>[hotkey]="null"</code> ang ⌘K sa palette sa itaas.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Isang modal na dialog na may search field para sa mga command mo.',
+            members: {
+              commands: 'Ang mga command, bilang mga <code>NuiCommand</code> object.',
+              open: 'Kung bukas ang palette.',
+              hotkey:
+                'Ang shortcut na nagbubukas at nagsasara nito mula kahit saan, o <code>null</code> kung wala. Ang <code>mod</code> ay ⌘ sa mga Apple device at Ctrl sa iba.',
+              bindShortcuts:
+                'Pinapatakbo rin ang mga command gamit ang sarili nilang shortcut, kahit saan sa page.',
+              loop: 'Mula sa huling command, pumupunta sa una ang down; mula sa una, pumupunta sa huli ang up.',
+              filtering:
+                'Nagfi-filter habang nagta-type ka. I-off ito kapag server ang nagfi-filter ng mga command.',
+              loading: 'Nagpapakita ng loading row habang hinihintay ang mga resulta.',
+              hints: 'Ipinapakita sa ibaba ang mga key na gagamitin.',
+              virtual:
+                'Nire-render lang ang mga row na nakikita: palagi, hindi kailanman, o <code>auto</code> kapag lampas 200 row.',
+              label: 'Accessible name ng dialog at ng search field nito.',
+              placeholder: 'Text na ipinapakita sa search field na walang laman.',
+              run: 'Inilalabas ang bawat command na tumatakbo.',
+              queryChange: 'Inilalabas ang text habang itinitipa ito, para sa search sa server.',
+              show: 'Binubuksan ang palette.',
+              hide: 'Isinasara ang palette.',
+              toggle: 'Binubuksan ang palette, o isinasara ito.',
+              back: 'Bumabalik sa naunang page.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Isang command, o isang page ng mga command.',
+            members: {
+              label: 'Ang text na ipinapakita at hinahanap.',
+              description: 'Pangalawang text sa ilalim ng label.',
+              group:
+                'Nakalista sa ilalim ng heading ng grupo ang mga command na may parehong grupo.',
+              keywords: 'Iba pang salitang tinutugma ng search, gaya ng mga kasingkahulugan.',
+              shortcut: 'Mga key na ipinapakita kasama nito, gaya ng <code>mod+shift+p</code>.',
+              disabled: 'Ipinapakita, pero hindi ito mapapatakbo.',
+              children:
+                'Mga command na isang level pababa: kapag pinili ang command na ito, binubuksan ang mga iyon bilang page.',
+              run: 'Tumatakbo kapag pinili ito, pagkasara ng palette.',
+              id: 'Para sa sarili mong gamit, gaya ng pagkilala sa mga command sa <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K o Ctrl+K', 'Binubuksan o isinasara ang palette.'],
+          ['Down at up arrow', 'Lumilipat sa mga command, paikot sa magkabilang dulo.'],
+          ['Page Down at Page Up', 'Lumilipat nang sampung command.'],
+          ['Enter', 'Pinapatakbo ang active na command, o binubuksan ang page nito.'],
+          ['Escape', 'Bumabalik nang isang page; sa pinakaitaas, isinasara ang palette.'],
+          ['Backspace', 'Sa field na walang laman sa isang page, bumabalik.'],
+        ],
+        notes: [
+          'Isa itong native na modal <code>&lt;dialog&gt;</code>: inert ang page sa likod, nananatili sa loob ang focus, at pagsara nito, bumabalik ang focus kung saan ito dati.',
+          'Isang <code>combobox</code> ang search field na tumuturo sa active na command gamit ang <code>aria-activedescendant</code>. Sa isang page, kinukuha nito ang pangalan ng page.',
+          'Text sa bawat opsyon ang mga shortcut key, kaya binabasa ang mga ito ng mga screen reader. Nakatago sa assistive technology ang mga key hint sa ibaba.',
+          'Hindi tumatakbo ang mga shortcut na walang Ctrl, Alt o ⌘ habang nagta-type ka sa isang field.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Mga popover at hovercard component para sa Angular',
+        summary: 'Mga lumulutang na panel sa tabi ng button, at mga rich tooltip sa hover.',
+        description:
+          'Accessible na Angular popover at hovercard sa native na popover API: placement na bumabaligtad at sumusunod, mga arrow, light dismiss at mga hover delay.',
+        apiDescription:
+          'API reference ng Needless UI popover: nuiPopover at nuiHovercard na may side, align, offset at arrow, at ang mga trigger directive nila.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI popover at hovercard: dialog at tooltip role, pagbalik ng focus, Escape at WCAG 1.4.13.',
+        overview: [
+          'Maliit na panel ang popover na bumubukas sa tabi ng isang button, para sa interactive na content: mga filter, maikling form, color picker. Isa itong native na <code>popover="auto"</code>, kaya isinasara ito ng browser sa Escape o sa click sa labas, ibinabalik ang focus, at inilalagay ito kasunod mismo ng trigger nito sa tab order.',
+          'Rich tooltip ang hovercard. Bumubukas ito pagkatapos ng maikling hover, o agad sa keyboard focus, at inilalarawan nito ang trigger nito. Nananatili itong bukas habang inililipat ang pointer papunta rito, kaya nababasa at napipili ang text nito.',
+          'Pareho silang lumilipat sa kabilang gilid kapag walang puwang, nananatili sa screen, at sumusunod sa trigger nila habang nag-i-scroll ang page.',
+        ],
+        examples: {
+          filters: {
+            title: 'Mga filter',
+            text: 'Isang popover na may form sa loob. Itinuturo ito ng <code>arrow</code> sa trigger nito, at isinasara ito ng <code>hide()</code> mula sa code.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Mag-hover sa isang pangalan, o abutin ito gamit ang Tab. Inilalarawan ng card ang link, kaya binabasa ito ng mga screen reader pagkatapos ng pangalan.',
+          },
+          sides: {
+            title: 'Mga gilid at paglitaw',
+            text: 'Itinatakda ng <code>side</code> at <code>align</code> kung saan ito bubukas; sumusunod ang <code>start</code> at <code>end</code> sa direksyon ng pagsulat. Itinatakda ng <code>enter</code> at <code>motion</code> kung paano ito lilitaw.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Isang native na popover na inilalagay sa tabi ng element na nagbukas dito.',
+            members: {
+              side: 'Ang gilid ng trigger kung saan ito bumubukas. Lumilipat ito sa kabila kapag walang puwang.',
+              align: 'Kung paano ito pumapantay sa trigger sa gilid na iyon.',
+              offset: 'Agwat sa pagitan ng trigger at ng panel, sa pixel.',
+              arrow: 'Nagpapakita ng arrow na nakaturo sa trigger.',
+              openChange: 'Nagfa-fire kapag bumukas o nagsara ito.',
+              show: 'Binubuksan ito sa tabi ng kahit anong element.',
+              hide: 'Isinasara ito.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Isang button na nagbubukas at nagsasara ng popover, gamit ang native na <code>popovertarget</code>.',
+            members: { nuiPopoverTrigger: 'Ang popover na bubuksan.' },
+          },
+          NuiHovercard: {
+            summary: 'Isang rich tooltip na naglalarawan sa trigger nito.',
+            members: {
+              side: 'Ang gilid ng trigger kung saan ito bumubukas. Lumilipat ito sa kabila kapag walang puwang.',
+              align: 'Kung paano ito pumapantay sa trigger sa gilid na iyon.',
+              offset: 'Agwat sa pagitan ng trigger at ng card, sa pixel.',
+              arrow: 'Nagpapakita ng arrow na nakaturo sa trigger.',
+              openDelay:
+                'Ilang millisecond ng hover bago ito bumukas. Agad itong binubuksan ng keyboard focus.',
+              closeDelay: 'Ilang millisecond bago ito magsara, pagkaalis ng pointer.',
+              openChange: 'Nagfa-fire kapag bumukas o nagsara ito.',
+              show: 'Binubuksan ito sa tabi ng kahit anong element.',
+              hide: 'Isinasara ito.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Nagpapakita ng hovercard sa hover at sa keyboard focus, at ginagawa itong description ng element na ito.',
+            members: { nuiHovercardTrigger: 'Ang hovercard na ipapakita.' },
+          },
+        },
+        keyboard: [
+          ['Enter o Space sa trigger', 'Binubuksan o isinasara ang popover.'],
+          ['Tab', 'Pumapasok sa bukas na popover, na kasunod mismo ng trigger nito.'],
+          [
+            'Escape',
+            'Isinasara ang popover at ibinabalik ang focus sa trigger nito, o itinatago ang hovercard.',
+          ],
+        ],
+        notes: [
+          'Non-modal na <code>dialog</code> ang popover: pangalanan ito gamit ang <code>aria-label</code> o <code>aria-labelledby</code>. Nakakakuha ang trigger nito ng <code>aria-haspopup</code> at ng <code>aria-expanded</code> ng browser.',
+          'Isang <code>tooltip</code> ang hovercard at ito ang <code>aria-describedby</code> ng trigger nito, kaya binabasa ang text nito kasama ng trigger. Huwag maglagay ng mga control dito; gumamit ng popover para sa mga iyon.',
+          'Sumusunod ang hovercard sa WCAG 1.4.13: itinatago ito ng Escape nang hindi inililipat ang focus, puwedeng ilipat ang pointer papunta rito, at nananatili ito habang naka-hover o naka-focus.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Select component para sa Angular',
+        summary: 'Pumili ng isa o marami, mula sa maikli o napakahabang listahan.',
+        description:
+          'Accessible na Angular select: isa o marami, mga grupo, tree, pag-type para tumalon, select all, at virtual scrolling para sa listahang kahit gaano kahaba.',
+        apiDescription:
+          'API reference ng Needless UI select: nui-select na may value, values, multiple, selectAll at virtual, ang hugis ng NuiOption at mga custom na row.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI select: select-only na combobox na may listbox o tree, aria-activedescendant, typeahead at mga tree key.',
+        overview: [
+          'Isang button ang select na nagbubukas ng listahan ng mga opsyon. Bigyan ito ng <code>options</code>, isang array ng <code>NuiOption</code>, at i-bind ang <code>[(value)]</code>, o ang <code>[(values)]</code> kapag may <code>multiple</code>. Gumagana rin ito sa Signal Forms, reactive forms at <code>ngModel</code>.',
+          'Puwedeng may <code>group</code>, <code>description</code> at <code>keywords</code> ang mga opsyon, at ginagawang tree ng <code>children</code> ang listahan. Kapag lampas 200 row, ang mga nakikitang row lang ang nire-render, kaya kasimbilis ng sampu ang pagbukas ng 100,000 opsyon.',
+          'Para mag-type at mag-filter, gamitin ang <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Mga grupo',
+            text: 'Nakalista sa ilalim ng heading ng grupo nila ang mga opsyon na may <code>group</code>. Kapag nag-type ng titik, tatalon ito sa susunod na opsyong nagsisimula sa titik na iyon.',
+          },
+          toppings: {
+            title: 'Marami nang sabay',
+            text: 'Pinapanatiling bukas ng <code>multiple</code> ang listahan at bina-bind nito ang <code>[(values)]</code>. Nagdadagdag ang <code>selectAll</code> ng button na pumipili o nagki-clear ng lahat ng opsyon. Hindi mapipili ang mga naka-disable na opsyon.',
+          },
+          folders: {
+            title: 'Tree',
+            text: 'Bumubuo ng tree ang mga opsyong may <code>children</code>. Bumubukas ang listahan nang naka-expand ang mga folder ng napiling opsyon.',
+          },
+          zones: {
+            title: 'Mahahabang listahan',
+            text: 'Bawat time zone, ayon sa rehiyon. Kapag lampas 200 row, ang mga nakikitang row lang ang nire-render, at nananatiling naka-render ang active na opsyon para sa mga screen reader.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Isang button na nagbubukas ng listahan ng mga opsyon.',
+            members: {
+              options: 'Ang mga opsyon, bilang mga <code>NuiOption</code> object.',
+              value: 'Ang napiling value, o <code>null</code>. Gumagana rin sa mga form.',
+              values: 'Ang mga napiling value, kapag may <code>multiple</code>.',
+              multiple:
+                'Pinapayagang pumili ng ilang opsyon. Nananatiling bukas ang listahan habang pumipili ka.',
+              selectAll:
+                'Kapag may <code>multiple</code>, nagdadagdag ng button na pumipili o nagki-clear ng lahat ng opsyon.',
+              placeholder: 'Text na ipinapakita habang wala pang napipili.',
+              label:
+                'Accessible name, kapag walang <code>&lt;label&gt;</code> na nagpapangalan sa button.',
+              triggerId: 'Id ng button, para sa <code>&lt;label for&gt;</code>.',
+              disabled: 'Dini-disable ang select.',
+              compareWith:
+                'Sinasabi kung iisang opsyon ang dalawang value, para sa mga value na object.',
+              virtual:
+                'Nire-render lang ang mga row na nakikita: palagi, hindi kailanman, o <code>auto</code> kapag lampas 200 row.',
+              openChange: 'Nagfa-fire kapag bumukas o nagsara ang listahan.',
+              show: 'Binubuksan ang listahan.',
+              hide: 'Isinasara ang listahan.',
+              focus: 'Inililipat ang focus sa button.',
+            },
+          },
+          NuiOption: {
+            summary: 'Isang opsyon. Tinatanggap ito ng select, ng combobox at ng command palette.',
+            members: {
+              value: 'Ang itinatakda kapag pinili ito. Kahit anong type.',
+              label: 'Ang text na ipinapakita at hinahanap.',
+              description: 'Pangalawang text sa ilalim ng label.',
+              group:
+                'Nakalista nang sunod-sunod sa ilalim ng heading ng grupo ang mga opsyon na may parehong grupo.',
+              keywords:
+                'Iba pang salitang tinutugma ng search, gaya ng mga kasingkahulugan o code.',
+              disabled: 'Ipinapakita, pero hindi ito mapipili.',
+              children: 'Mga opsyon na isang level pababa, na ginagawang tree ang listahan.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Ilagay ito sa isang <code>ng-template</code> sa loob ng component para ikaw mismo ang gumuhit ng bawat row. Nasa context ang opsyon at ang row nito.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Iginuguhit ang label ng opsyon na may markang mga tumugmang titik, pati ang description at path nito, para sa sarili mong mga row.',
+            members: { nuiOptionText: 'Ang row, mula sa template context.' },
+          },
+        },
+        keyboard: [
+          ['Down at up arrow', 'Binubuksan ang listahan, saka lumilipat sa mga opsyon.'],
+          ['Home at End', 'Pumupunta sa una o huling opsyon.'],
+          ['Page Down at Page Up', 'Lumilipat nang sampung opsyon.'],
+          ['Enter o Space', 'Binubuksan ang listahan, o pinipili ang active na opsyon.'],
+          ['Mga titik', 'Tumatalon sa susunod na opsyong nagsisimula sa mga ito.'],
+          [
+            'Right at left arrow',
+            'Sa tree, ine-expand ang opsyon o pumupunta sa unang child nito; kino-collapse ito o pumupunta sa parent nito. Baligtad sa right-to-left na text.',
+          ],
+          ['Alt + up arrow', 'Pinipili ang active na opsyon at isinasara ang listahan.'],
+          [
+            'Tab',
+            'Kapag iisa ang pinipili, pinipili ang active na opsyon at lumilipat sa susunod.',
+          ],
+          ['Escape', 'Isinasara ang listahan nang walang pinipili.'],
+        ],
+        notes: [
+          'Select-only na <code>combobox</code> ang button na may <code>aria-expanded</code> at <code>aria-controls</code>. Nananatili rito ang focus, at itinuturo ng <code>aria-activedescendant</code> ang active na opsyon.',
+          'Isang <code>listbox</code> ang listahan, o isang <code>tree</code> na may <code>aria-level</code> at <code>aria-expanded</code>. Nananatiling tama ang <code>aria-setsize</code> at <code>aria-posinset</code> kahit ilang row lang ang naka-render.',
+          'Solid fill ang active na opsyon at, sa forced colors, may outline ito.',
+          'Pangalanan ito gamit ang isang <code>&lt;label for&gt;</code> na nakaturo sa <code>triggerId</code>, o gamit ang <code>label</code>.',
         ],
       },
     },

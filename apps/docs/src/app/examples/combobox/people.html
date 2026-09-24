@@ -1,0 +1,13 @@
+<div class="field">
+  <label for="assignee">Assign to</label>
+  <nui-combobox
+    inputId="assignee"
+    placeholder="Search people"
+    [options]="people()"
+    [filtering]="false"
+    [loading]="loading()"
+    (queryChange)="search($event)"
+    [(value)]="person"
+  />
+</div>
+<p>Assigned to {{ person() ?? 'nobody' }}. Results take 400 ms, as from a server.</p>

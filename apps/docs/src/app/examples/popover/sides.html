@@ -1,0 +1,16 @@
+@for (item of sides; track item.side) {
+  <button nuiButton variant="outline" tone="neutral" [nuiPopoverTrigger]="popover">
+    {{ item.side }}
+  </button>
+  <div
+    nuiPopover
+    #popover="nuiPopover"
+    arrow
+    [side]="item.side"
+    [enter]="item.enter"
+    [motion]="item.motion"
+    [attr.aria-label]="item.side"
+  >
+    {{ item.enter }} · {{ item.motion }}
+  </div>
+}

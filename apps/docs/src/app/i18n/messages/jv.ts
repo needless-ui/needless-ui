@@ -104,7 +104,15 @@ export const messages: Messages = {
       type: 'Jinis',
       default: 'Gawan',
       description: 'Katrangan',
-      kinds: { input: 'Input', model: 'Rong arah', output: 'Output', method: 'Metode' },
+      kinds: {
+        input: 'Input',
+        model: 'Rong arah',
+        output: 'Output',
+        method: 'Metode',
+        property: 'Properti',
+      },
+      texts:
+        'Saben teks sing ditampilake utawa diumumake uga minangka input, dadi panjenengan bisa nerjemahake:',
       customization: {
         note: 'Input kustomisasi sing ora panjenengan setel bakal ngetutake attribute <code>data-nui-*</code> sing paling cedhak. Pirsani <a href="/guides/customization">pandhuan kustomisasi</a>.',
         members: {
@@ -802,6 +810,365 @@ export const messages: Messages = {
           'Timer mandheg nalika tumpukan lagi di-hover utawa difokus lan nalika kaca didhelikake, lan toast sing ngenteni promise ora tau entek wektune.',
           'Apa wae sing kudu ditindakake pangguna uga kudu ana ing njaba toast.',
           'Yen obah dikurangi, toast ora dianimasi utawa digeser, lan garis timer didhelikake.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox lan autocomplete kanggo Angular',
+        summary: 'Kolom teks sing menehi saran pilihan nalika panjenengan ngetik.',
+        description:
+          'Combobox Angular sing aksesibel: panelusuran fuzzy kanthi sorotan, akeh nilai minangka chip, nilai anyar saka teks sing diketik, lan asil saka server.',
+        apiDescription:
+          'Referensi API combobox Needless UI: nui-combobox kanthi value, values, multiple, create, filtering, loading lan clearable, uga baris kustom.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas combobox Needless UI: combobox sing bisa disunting kanthi autocomplete dhaptar, active descendant, chip lan input IME.',
+        overview: [
+          'Combobox yaiku kolom teks kanthi dhaptar saran. Panelusurane fuzzy lan ora nggubris tandha aksen: sing paling cocog ana ing ndhuwur lan aksara sing cocog ditandhani. Combobox nampa obyek <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> sing padha karo select.',
+          'Kanthi <code>multiple</code>, pilihan sing dipilih dadi chip ing ngarep teks, lan <code>create</code> ngowahi teks sing diketik dadi nilai anyar. Kanggo asil saka server, pateni <code>filtering</code>, telusuri nalika <code>(queryChange)</code> lan setel <code>loading</code> sajrone ngenteni.',
+        ],
+        examples: {
+          country: {
+            title: 'Panelusuran',
+            text: 'Aksara sing cocog ora kudu jejer, lan <code>keywords</code> uga dietung. <code>clearable</code> nambahake tombol busak lan ngidini Escape mbusak nilai.',
+          },
+          tags: {
+            title: 'Chip lan nilai anyar',
+            text: '<code>multiple</code> nampilake chip lan bind <code>[(values)]</code>. Yen teks durung dadi pilihan, <code>create</code> nawakake kanggo nambahake.',
+          },
+          people: {
+            title: 'Asil saka server',
+            text: 'Dhaptar nampilake apa sing dikirim server, tanpa disaring, kanthi baris loading sajrone ngenteni. Label sing wis dipilih tetep ana nalika asil anyar teka.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Kolom teks sing menehi saran pilihan nalika panjenengan ngetik.',
+            members: {
+              options:
+                'Pilihan-pilihan, minangka obyek <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>.',
+              value: 'Nilai sing dipilih, utawa <code>null</code>. Uga bisa karo formulir.',
+              values: 'Nilai-nilai sing dipilih, kanthi <code>multiple</code>.',
+              multiple: 'Ngidini milih sawetara pilihan, ditampilake minangka chip.',
+              create:
+                'Nggawe nilai saka teks sing diketik. Dhaptar banjur nawakake nambah teks sing dudu pilihan.',
+              filtering:
+                'Nyaring pilihan nalika panjenengan ngetik. Pateni yen server sing nyaring.',
+              loading: 'Nampilake baris loading nalika asil lagi ing dalan.',
+              clearable: 'Nambahake tombol kanggo mbusak nilai, lan ngidini Escape mbusak.',
+              placeholder: 'Teks sing katon nalika kolom kosong.',
+              label:
+                'Jeneng aksesibel, yen ora ana <code>&lt;label&gt;</code> sing menehi jeneng kolom.',
+              inputId: 'Id kolom teks, kanggo <code>&lt;label for&gt;</code>.',
+              disabled: 'Mateni kolom.',
+              compareWith:
+                'Nemtokake apa loro nilai iku pilihan sing padha, kanggo nilai sing awujud obyek.',
+              displayWith:
+                'Teks kanggo nilai sing ora ana ing pilihan, kayata nilai sing disetel sadurunge pilihan dimuat.',
+              virtual:
+                'Mung nggambar baris sing katon: tansah, ora tau, utawa kanthi <code>auto</code> yen luwih saka 200 baris.',
+              queryChange: 'Ngetokake teks nalika diketik, kanggo panelusuran server.',
+              openChange: 'Ngetokake nalika dhaptar kabukak utawa ditutup.',
+              show: 'Mbukak dhaptar.',
+              hide: 'Nutup dhaptar.',
+              clear: 'Mbusak nilai lan teks.',
+              focus: 'Mindhah fokus menyang kolom teks.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Pasang ing <code>ng-template</code> ing njero komponen kanggo nggambar saben baris dhewe. Konteks-e ngemot pilihan lan barise.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Nggambar label pilihan kanthi aksara sing cocog ditandhani, uga katrangan lan path-e, kanggo baris panjenengan dhewe.',
+            members: { nuiOptionText: 'Baris, saka konteks template.' },
+          },
+        },
+        keyboard: [
+          ['Panah mudhun lan munggah', 'Mbukak dhaptar, banjur pindhah ing antarane pilihan.'],
+          ['Page Down lan Page Up', 'Pindhah sepuluh pilihan.'],
+          ['Enter', 'Milih pilihan sing aktif.'],
+          ['Alt + panah mudhun utawa munggah', 'Mbukak utawa nutup dhaptar.'],
+          ['Escape', 'Nutup dhaptar; banjur mbusak teks, utawa nilai yen clearable.'],
+          ['Backspace', 'Ing kolom kosong, mbusak chip pungkasan.'],
+          [
+            'Panah kiwa',
+            'Saka wiwitan teks (panah tengen ing teks tengen-menyang-kiwa), pindhah menyang chip. Ing kono, Backspace utawa Delete mbusak chip.',
+          ],
+        ],
+        notes: [
+          'Kolom teks yaiku <code>combobox</code> kanthi <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> lan <code>aria-controls</code>. Fokus tetep ing kono, lan <code>aria-activedescendant</code> nuding pilihan sing aktif.',
+          'Chip yaiku dhaptar sing duwe jeneng, lan saben tombol busak dijenengi miturut chip-e, kayata “Remove Italy”.',
+          '“No matches” lan baris loading yaiku pesen status, dadi screen reader ngumumake.',
+          'Tombol sing ngonfirmasi komposisi input method, kayata kanggo basa Cina utawa Jepang, diserahake marang input method.',
+        ],
+      },
+      command: {
+        name: 'Palet printah',
+        title: 'Komponen palet printah kanggo Angular',
+        summary: 'Saben printah ing aplikasi panjenengan, mung sak pencetan tombol.',
+        description:
+          'Palet printah Angular sing aksesibel: ⌘K saka ngendi wae, panelusuran fuzzy nganti kaca susun, klompok, lan shortcut sing ditulis miturut saben platform.',
+        apiDescription:
+          'Referensi API palet printah Needless UI: nui-command-palette kanthi commands, hotkey, bindShortcuts lan loop, uga wangun NuiCommand.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas palet printah Needless UI: dialog modal kanthi combobox panelusuran, active descendant lan navigasi kaca.',
+        overview: [
+          'Palet printah yaiku kolom panelusuran kanggo printah-printah ing aplikasi panjenengan, ing njero dialog modal. ⌘K mbukak palet saka ngendi wae (Ctrl+K ing Windows lan Linux). Pilih printah, palet bakal ditutup, banjur printah kasebut dilakokake.',
+          'Printah bisa duwe klompok, katrangan, tembung kunci lan shortcut, sing ditampilake nganggo simbol saben platform. Printah kanthi <code>children</code> mbukak kaca isi printah liyane, lan panelusuran saka ndhuwur tekan nganti njero kaca-kaca kasebut.',
+        ],
+        examples: {
+          palette: {
+            title: 'Printah lan kaca',
+            text: 'Klompok, shortcut, siji printah sing dipateni lan rong kaca. <code>(run)</code> ngabari apa sing dilakokake; <code>run</code> duweke printah dhewe uga bisa.',
+          },
+          people: {
+            title: 'Baris kustom',
+            text: '<code>nuiOptionTemplate</code> nggambar saben baris, lan <code>nuiOptionText</code> njaga tandha sing cocog. <code>[hotkey]="null"</code> ninggalake ⌘K kanggo palet ing ndhuwur.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Dialog modal kanthi kolom panelusuran kanggo printah-printah panjenengan.',
+            members: {
+              commands: 'Printah-printah, minangka obyek <code>NuiCommand</code>.',
+              open: 'Apa palet lagi kabukak.',
+              hotkey:
+                'Shortcut sing mbukak lan nutup palet saka ngendi wae, utawa <code>null</code> yen ora ana. <code>mod</code> yaiku ⌘ ing piranti Apple lan Ctrl ing liyane.',
+              bindShortcuts:
+                'Uga nglakokake printah nganggo shortcut-e dhewe, ing ngendi wae ing kaca.',
+              loop: 'Mudhun ing printah pungkasan tumuju sing kapisan, lan munggah ing sing kapisan tumuju sing pungkasan.',
+              filtering:
+                'Nyaring nalika panjenengan ngetik. Pateni yen server sing nyaring printah.',
+              loading: 'Nampilake baris loading nalika asil lagi ing dalan.',
+              hints: 'Nampilake tombol-tombol sing bisa diagem ing sisih ngisor.',
+              virtual:
+                'Mung nggambar baris sing katon: tansah, ora tau, utawa kanthi <code>auto</code> yen luwih saka 200 baris.',
+              label: 'Jeneng aksesibel dialog lan kolom panelusurane.',
+              placeholder: 'Teks sing katon ing kolom panelusuran sing kosong.',
+              run: 'Ngetokake saben printah sing dilakokake.',
+              queryChange: 'Ngetokake teks nalika diketik, kanggo panelusuran server.',
+              show: 'Mbukak palet.',
+              hide: 'Nutup palet.',
+              toggle: 'Mbukak palet, utawa nutup.',
+              back: 'Bali menyang kaca sadurunge.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Siji printah, utawa kaca isi printah.',
+            members: {
+              label: 'Teks sing ditampilake lan ditelusuri.',
+              description: 'Teks tambahan ing sangisore label.',
+              group: 'Printah kanthi klompok sing padha dijejerake ing sangisore heading kasebut.',
+              keywords: 'Tembung liyane sing dicocogake panelusuran, kayata sinonim.',
+              shortcut: 'Tombol sing ditampilake bareng, kayata <code>mod+shift+p</code>.',
+              disabled: 'Katon, nanging ora bisa dilakokake.',
+              children:
+                'Printah siji level ing ngisore: milih iki mbukak printah-printah kasebut minangka kaca.',
+              run: 'Dilakokake nalika dipilih, sawise palet ditutup.',
+              id: 'Kanggo kaperluan panjenengan dhewe, kayata mbedakake printah ing <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K utawa Ctrl+K', 'Mbukak utawa nutup palet.'],
+          ['Panah mudhun lan munggah', 'Pindhah ing antarane printah, muter ing pucuk-pucuke.'],
+          ['Page Down lan Page Up', 'Pindhah sepuluh printah.'],
+          ['Enter', 'Nglakokake printah sing aktif, utawa mbukak kacane.'],
+          ['Escape', 'Bali sak kaca; ing level paling ndhuwur, nutup palet.'],
+          ['Backspace', 'Ing kolom kosong ing sawijining kaca, bali.'],
+        ],
+        notes: [
+          'Iki <code>&lt;dialog&gt;</code> modal native: kaca ing mburi dadi inert, fokus tetep ing njero, lan nutup palet mbalekake fokus menyang panggonan asale.',
+          'Kolom panelusuran yaiku <code>combobox</code> sing nuding printah aktif nganggo <code>aria-activedescendant</code>. Ing sawijining kaca, kolom iki nganggo jeneng kaca kasebut.',
+          'Tombol shortcut dadi teks ing saben pilihan, dadi screen reader maca. Pitunjuk tombol ing sisih ngisor didhelikake saka teknologi asistif.',
+          'Shortcut tanpa Ctrl, Alt utawa ⌘ ora mlaku nalika panjenengan ngetik ing kolom.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Komponen popover lan hovercard kanggo Angular',
+        summary: 'Panel ngambang ing sandhinge tombol, lan tooltip jangkep nalika hover.',
+        description:
+          'Popover lan hovercard Angular sing aksesibel ing popover API native: posisi sing malik lan ngetutake, panah, ditutup kanthi klik ing njaba lan tundha hover.',
+        apiDescription:
+          'Referensi API popover Needless UI: nuiPopover lan nuiHovercard kanthi side, align, offset lan arrow, uga directive trigger-e.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas popover lan hovercard Needless UI: role dialog lan tooltip, fokus bali, Escape lan WCAG 1.4.13.',
+        overview: [
+          'Popover yaiku panel cilik sing kabukak ing sandhinge tombol, kanggo barang sing panjenengan agem: saringan, formulir cekak, pamilih werna. Iki <code>popover="auto"</code> native, dadi browser nutup popover nalika Escape utawa klik ing njaba, mbalekake fokus, lan nyelehake langsung sawise trigger-e ing urutan tab.',
+          'Hovercard yaiku tooltip sing jangkep. Kabukak sawise hover sedhela, utawa langsung nalika fokus keyboard, lan nerangake trigger-e. Tetep kabukak nalika pointer pindhah menyang ndhuwure, dadi teks-e bisa diwaca lan dipilih.',
+          'Loro-lorone malik menyang sisih liya yen ora ana papan, tetep ing layar, lan ngetutake trigger-e nalika kaca digulung.',
+        ],
+        examples: {
+          filters: {
+            title: 'Saringan',
+            text: 'Popover kanthi formulir ing njerone. <code>arrow</code> nudingake popover menyang trigger-e, lan <code>hide()</code> nutup saka kode.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Hover ing sawijining jeneng, utawa tekani nganggo Tab. Kertu kasebut nerangake pranala, dadi screen reader maca sawise jeneng.',
+          },
+          sides: {
+            title: 'Sisih lan animasi mlebu',
+            text: '<code>side</code> lan <code>align</code> nemtokake ing ngendi kabukak; <code>start</code> lan <code>end</code> ngetutake arah tulisan. <code>enter</code> lan <code>motion</code> nemtokake kepriye tekane.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Popover native sing diselehake ing sandhinge elemen sing mbukak.',
+            members: {
+              side: 'Sisih trigger panggonane kabukak. Malik yen ora ana papan.',
+              align: 'Kepriye jejere karo trigger ing sadawane sisih kasebut.',
+              offset: 'Jarak antarane trigger lan panel, ing piksel.',
+              arrow: 'Nampilake panah sing nuding trigger.',
+              openChange: 'Ngetokake nalika kabukak utawa ditutup.',
+              show: 'Mbukak ing sandhinge elemen apa wae.',
+              hide: 'Nutup.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Tombol sing mbukak lan nutup popover, nganggo <code>popovertarget</code> native.',
+            members: { nuiPopoverTrigger: 'Popover sing arep dibukak.' },
+          },
+          NuiHovercard: {
+            summary: 'Tooltip jangkep sing nerangake trigger-e.',
+            members: {
+              side: 'Sisih trigger panggonane kabukak. Malik yen ora ana papan.',
+              align: 'Kepriye jejere karo trigger ing sadawane sisih kasebut.',
+              offset: 'Jarak antarane trigger lan kertu, ing piksel.',
+              arrow: 'Nampilake panah sing nuding trigger.',
+              openDelay: 'Milidetik hover sadurunge kabukak. Fokus keyboard langsung mbukak.',
+              closeDelay: 'Milidetik sadurunge ditutup, sawise pointer lunga.',
+              openChange: 'Ngetokake nalika kabukak utawa ditutup.',
+              show: 'Mbukak ing sandhinge elemen apa wae.',
+              hide: 'Nutup.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Nampilake hovercard nalika hover lan fokus keyboard, lan ndadekake hovercard iku katrangan elemen iki.',
+            members: { nuiHovercardTrigger: 'Hovercard sing arep ditampilake.' },
+          },
+        },
+        keyboard: [
+          ['Enter utawa Spasi ing trigger', 'Mbukak utawa nutup popover.'],
+          ['Tab', 'Mlebu menyang popover sing kabukak, sing ana langsung sawise trigger-e.'],
+          [
+            'Escape',
+            'Nutup popover lan mbalekake fokus menyang trigger-e, utawa ndhelikake hovercard.',
+          ],
+        ],
+        notes: [
+          'Popover yaiku <code>dialog</code> non-modal: wenehana jeneng nganggo <code>aria-label</code> utawa <code>aria-labelledby</code>. Trigger-e oleh <code>aria-haspopup</code> lan <code>aria-expanded</code> saka browser.',
+          'Hovercard yaiku <code>tooltip</code> lan dadi <code>aria-describedby</code> kanggo trigger-e, dadi teks-e diwaca bareng trigger. Aja lebokake kontrol ing njerone; agem popover kanggo kontrol.',
+          'Hovercard nyukupi WCAG 1.4.13: Escape ndhelikake tanpa mindhah fokus, pointer bisa pindhah menyang ndhuwure, lan tetep katon sajrone di-hover utawa difokus.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Komponen select kanggo Angular',
+        summary: 'Pilih siji utawa akeh pilihan, saka dhaptar cekak utawa sing gedhe banget.',
+        description:
+          'Select Angular sing aksesibel: siji utawa akeh pilihan, klompok, wit, ngetik kanggo mlumpat, pilih kabeh, lan virtual scrolling kanggo dhaptar sadawa apa wae.',
+        apiDescription:
+          'Referensi API select Needless UI: nui-select kanthi value, values, multiple, selectAll lan virtual, wangun NuiOption lan baris kustom.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas select Needless UI: combobox mung-pilih kanthi listbox utawa tree, active descendant, typeahead lan tombol wit.',
+        overview: [
+          'Select yaiku tombol sing mbukak dhaptar pilihan. Wenehana <code>options</code>, yaiku array <code>NuiOption</code>, lan bind <code>[(value)]</code>, utawa <code>[(values)]</code> kanthi <code>multiple</code>. Uga bisa karo Signal Forms, reactive forms lan <code>ngModel</code>.',
+          'Pilihan bisa duwe <code>group</code>, <code>description</code> lan <code>keywords</code>, lan <code>children</code> ndadekake dhaptar dadi wit. Luwih saka 200 baris, mung baris sing katon sing digambar, dadi 100.000 pilihan kabukak padha cepete karo sepuluh.',
+          'Yen arep ngetik lan nyaring, agem <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Klompok',
+            text: 'Pilihan kanthi <code>group</code> dijejerake ing sangisore heading-e. Ngetik siji aksara mlumpat menyang pilihan sabanjure sing diwiwiti aksara kasebut.',
+          },
+          toppings: {
+            title: 'Akeh sekaligus',
+            text: '<code>multiple</code> njaga dhaptar tetep kabukak lan bind <code>[(values)]</code>. <code>selectAll</code> nambahake tombol sing milih utawa mbusak kabeh pilihan. Pilihan sing dipateni ora bisa dipilih.',
+          },
+          folders: {
+            title: 'Struktur wit',
+            text: 'Pilihan kanthi <code>children</code> mbentuk wit. Dhaptar kabukak kanthi folder saka pilihan sing dipilih wis mekar.',
+          },
+          zones: {
+            title: 'Dhaptar dawa',
+            text: 'Kabeh zona wektu, miturut wilayah. Luwih saka 200 baris, mung baris sing katon sing digambar, lan pilihan aktif tetep digambar kanggo screen reader.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Tombol sing mbukak dhaptar pilihan.',
+            members: {
+              options: 'Pilihan-pilihan, minangka obyek <code>NuiOption</code>.',
+              value: 'Nilai sing dipilih, utawa <code>null</code>. Uga bisa karo formulir.',
+              values: 'Nilai-nilai sing dipilih, kanthi <code>multiple</code>.',
+              multiple:
+                'Ngidini milih sawetara pilihan. Dhaptar tetep kabukak sajrone panjenengan milih.',
+              selectAll:
+                'Kanthi <code>multiple</code>, nambahake tombol sing milih utawa mbusak kabeh pilihan.',
+              placeholder: 'Teks sing katon nalika durung ana sing dipilih.',
+              label:
+                'Jeneng aksesibel, yen ora ana <code>&lt;label&gt;</code> sing menehi jeneng tombol.',
+              triggerId: 'Id tombol, kanggo <code>&lt;label for&gt;</code>.',
+              disabled: 'Mateni select.',
+              compareWith:
+                'Nemtokake apa loro nilai iku pilihan sing padha, kanggo nilai sing awujud obyek.',
+              virtual:
+                'Mung nggambar baris sing katon: tansah, ora tau, utawa kanthi <code>auto</code> yen luwih saka 200 baris.',
+              openChange: 'Ngetokake nalika dhaptar kabukak utawa ditutup.',
+              show: 'Mbukak dhaptar.',
+              hide: 'Nutup dhaptar.',
+              focus: 'Mindhah fokus menyang tombol.',
+            },
+          },
+          NuiOption: {
+            summary: 'Siji pilihan. Select, combobox lan palet printah kabeh nampa pilihan iki.',
+            members: {
+              value: 'Apa sing disetel nalika dipilih. Jinis apa wae.',
+              label: 'Teks sing ditampilake lan ditelusuri.',
+              description: 'Teks tambahan ing sangisore label.',
+              group:
+                'Pilihan kanthi klompok sing padha dijejerake ing sangisore heading kasebut, miturut urutan.',
+              keywords: 'Tembung liyane sing dicocogake panelusuran, kayata sinonim utawa kode.',
+              disabled: 'Katon, nanging ora bisa dipilih.',
+              children: 'Pilihan siji level ing ngisore, sing ndadekake dhaptar dadi wit.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Pasang ing <code>ng-template</code> ing njero komponen kanggo nggambar saben baris dhewe. Konteks-e ngemot pilihan lan barise.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Nggambar label pilihan kanthi aksara sing cocog ditandhani, uga katrangan lan path-e, kanggo baris panjenengan dhewe.',
+            members: { nuiOptionText: 'Baris, saka konteks template.' },
+          },
+        },
+        keyboard: [
+          ['Panah mudhun lan munggah', 'Mbukak dhaptar, banjur pindhah ing antarane pilihan.'],
+          ['Home lan End', 'Pindhah menyang pilihan kapisan utawa pungkasan.'],
+          ['Page Down lan Page Up', 'Pindhah sepuluh pilihan.'],
+          ['Enter utawa Spasi', 'Mbukak dhaptar, utawa milih pilihan sing aktif.'],
+          ['Aksara', 'Mlumpat menyang pilihan sabanjure sing diwiwiti aksara kasebut.'],
+          [
+            'Panah tengen lan kiwa',
+            'Ing wit, mekarake pilihan utawa pindhah menyang anak kapisane; nyiyutake pilihan utawa pindhah menyang induke. Kewalik ing teks tengen-menyang-kiwa.',
+          ],
+          ['Alt + panah munggah', 'Milih pilihan sing aktif lan nutup dhaptar.'],
+          ['Tab', 'Ing mode milih siji, milih pilihan sing aktif lan pindhah terus.'],
+          ['Escape', 'Nutup dhaptar tanpa milih.'],
+        ],
+        notes: [
+          'Tombol iki yaiku <code>combobox</code> mung-pilih kanthi <code>aria-expanded</code> lan <code>aria-controls</code>. Fokus tetep ing tombol, lan <code>aria-activedescendant</code> nuding pilihan sing aktif.',
+          'Dhaptar yaiku <code>listbox</code>, utawa <code>tree</code> kanthi <code>aria-level</code> lan <code>aria-expanded</code>. <code>aria-setsize</code> lan <code>aria-posinset</code> tetep bener nalika mung sawetara baris sing digambar.',
+          'Pilihan aktif nduweni isen solid lan, ing forced colors, outline.',
+          'Wenehana jeneng nganggo <code>&lt;label for&gt;</code> sing nuding <code>triggerId</code>, utawa nganggo <code>label</code>.',
         ],
       },
     },

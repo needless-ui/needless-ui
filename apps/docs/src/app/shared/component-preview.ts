@@ -44,6 +44,35 @@ import type { ComponentId } from '../docs/ids';
           >
         </div>
       }
+      @case ('combobox') {
+        <div class="preview-stack">
+          <div class="nui-combobox">
+            <span class="nui-select-chip">docs<span class="nui-select-chip-remove"></span></span>
+            <span class="nui-select-chip">design<span class="nui-select-chip-remove"></span></span>
+            <span class="preview-typed">fea</span>
+          </div>
+          <div class="nui-select-popup preview-popup">
+            <div class="nui-select-option" data-active>
+              <span><mark>fea</mark>ture</span>
+            </div>
+            <div class="nui-select-option">Add “fea”</div>
+          </div>
+        </div>
+      }
+      @case ('command') {
+        <div class="nui-dialog nui-command preview-command">
+          <div class="nui-command-field"><span class="preview-typed">the</span></div>
+          <div class="nui-select-list">
+            <div class="nui-select-option" data-active>
+              <span><mark>The</mark>me</span><span class="nui-command-more"></span>
+            </div>
+            <div class="nui-select-option">
+              Share…
+              <span class="nui-command-shortcut"><kbd>⌘</kbd><kbd>S</kbd></span>
+            </div>
+          </div>
+        </div>
+      }
       @case ('dialog') {
         <div class="nui-dialog preview-dialog" data-size="sm">
           <p class="nui-dialog-title">Delete project?</p>
@@ -92,10 +121,32 @@ import type { ComponentId } from '../docs/ids';
           </div>
         </div>
       }
+      @case ('popover') {
+        <div class="preview-stack">
+          <span class="nui-button" data-size="sm" data-variant="outline" data-tone="neutral"
+            >Filters</span
+          >
+          <div class="nui-popover preview-popover" data-arrow data-side="bottom">
+            <span class="preview-check" data-checked>Open</span>
+            <span class="preview-check" data-checked>In review</span>
+            <span class="preview-check">Closed</span>
+          </div>
+        </div>
+      }
       @case ('rating') {
         <span class="nui-rating" style="--_value: 4.5; --_max: 5"
           ><span class="nui-rating-display"></span
         ></span>
+      }
+      @case ('select') {
+        <div class="preview-stack">
+          <span class="nui-select-trigger"><span class="nui-select-value">Italy</span></span>
+          <div class="nui-select-popup preview-popup">
+            <div class="nui-select-option">France</div>
+            <div class="nui-select-option" data-active>Italy</div>
+            <div class="nui-select-option">Spain</div>
+          </div>
+        </div>
       }
       @case ('skeleton') {
         <div class="preview-skeleton">

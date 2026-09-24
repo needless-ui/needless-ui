@@ -1,0 +1,10 @@
+/* Only while open: a display value on a closed popover would show it. */
+.profile:popover-open {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nui-space-3);
+}
+
+.profile strong {
+  display: block;
+}

@@ -104,7 +104,14 @@ export const messages: Messages = {
       type: 'Tür',
       default: 'Varsayılan',
       description: 'Açıklama',
-      kinds: { input: 'Girdi', model: 'Çift yönlü', output: 'Çıktı', method: 'Metot' },
+      kinds: {
+        input: 'Girdi',
+        model: 'Çift yönlü',
+        output: 'Çıktı',
+        method: 'Metot',
+        property: 'Özellik',
+      },
+      texts: 'Gösterdiği veya duyurduğu her metin de bir girdidir, yani hepsini çevirebilirsiniz:',
       customization: {
         note: 'Ayarlamadığınız özelleştirme girdileri, değerlerini en yakın <code>data-nui-*</code> niteliğinden alır. Ayrıntılar için <a href="/guides/customization">özelleştirme kılavuzuna</a> bakın.',
         members: {
@@ -795,6 +802,359 @@ export const messages: Messages = {
           'Fare yığının üzerindeyken veya yığın odaktayken, ayrıca sayfa gizliyken zamanlayıcılar duraklar; bir promise’i bekleyen bildirimlerin süresi hiç dolmaz.',
           'Kullanıcının üzerinde işlem yapması gereken her şey bildirimin dışında da bulunmalıdır.',
           'Azaltılmış hareket açıkken bildirimlerde animasyon olmaz, kaydırarak kapatma da çalışmaz; zamanlayıcı çizgisi gizlenir.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Angular için combobox ve otomatik tamamlama',
+        summary: 'Siz yazarken seçenek öneren bir metin alanı.',
+        description:
+          'Erişilebilir Angular combobox: vurgulu bulanık arama, çip olarak çoklu değer, yazılan metinden yeni değerler ve sunucudan gelen sonuçlar.',
+        apiDescription:
+          'Needless UI combobox bileşeninin API referansı: value, values, multiple, create, filtering, loading ve clearable girdileriyle nui-combobox, özel satırlar.',
+        a11yDescription:
+          'Needless UI combobox bileşeninin klavye kullanımı ve erişilebilirliği: öneri listeli düzenlenebilir combobox, aria-activedescendant, çipler ve IME girişi.',
+        overview: [
+          'Combobox, öneri listesi olan bir metin alanıdır. Aksanları yok sayan bulanık bir arama yapar: en iyi eşleşmeler önce gelir, eşleşen harfler işaretlenir. Select ile aynı <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> nesnelerini alır.',
+          '<code>multiple</code> ile seçilen seçenekler metnin önünde çip olur; <code>create</code> ise yazılan metni yeni bir değere dönüştürür. Sunucudan gelen sonuçlar için <code>filtering</code> girdisini kapatın, aramayı <code>(queryChange)</code> içinde yapın ve beklerken <code>loading</code> ayarlayın.',
+        ],
+        examples: {
+          country: {
+            title: 'Arama',
+            text: 'Eşleşen harflerin yan yana olması gerekmez; <code>keywords</code> da hesaba katılır. <code>clearable</code> bir temizleme düğmesi ekler ve değerin Esc ile temizlenmesini sağlar.',
+          },
+          tags: {
+            title: 'Çipler ve yeni değerler',
+            text: '<code>multiple</code> çipleri gösterir ve <code>[(values)]</code> bağlar. Metin henüz bir seçenek değilse <code>create</code> onu eklemeyi önerir.',
+          },
+          people: {
+            title: 'Sunucu sonuçları',
+            text: 'Liste, sunucunun gönderdiklerini filtrelemeden gösterir ve beklerken bir yükleme satırı görüntüler. Yeni sonuçlar geldiğinde seçilen etiketler korunur.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Siz yazarken seçenek öneren bir metin alanı.',
+            members: {
+              options:
+                '<a href="/components/select/api#NuiOption"><code>NuiOption</code></a> nesneleri biçiminde seçenekler.',
+              value: 'Seçilen değer ya da <code>null</code>. Formlarla da çalışır.',
+              values: '<code>multiple</code> ile seçilen değerler.',
+              multiple:
+                'Birden fazla seçeneğin seçilmesine izin verir; seçilenler çip olarak gösterilir.',
+              create:
+                'Yazılan metinden bir değer oluşturur. Liste, seçenekler arasında olmayan metni eklemeyi önerir.',
+              filtering:
+                'Siz yazarken seçenekleri filtreler. Filtrelemeyi sunucu yapıyorsa kapatın.',
+              loading: 'Sonuçlar beklenirken bir yükleme satırı gösterir.',
+              clearable: 'Değeri temizleyen bir düğme ekler ve Esc ile de temizlenmesini sağlar.',
+              placeholder: 'Alan boşken gösterilen metin.',
+              label: 'Alanı adlandıran bir <code>&lt;label&gt;</code> yoksa erişilebilir ad.',
+              inputId: '<code>&lt;label for&gt;</code> için metin alanının id’si.',
+              disabled: 'Alanı devre dışı bırakır.',
+              compareWith:
+                'Nesne olan değerlerde, iki değerin aynı seçenek olup olmadığını belirler.',
+              displayWith:
+                'Seçenekler arasında olmayan bir değerin metni; örneğin seçenekler yüklenmeden önce ayarlanan bir değer.',
+              virtual:
+                'Yalnızca görünen satırları render eder: her zaman, hiçbir zaman ya da <code>auto</code> ile 200 satırı aşınca.',
+              queryChange: 'Sunucu araması için metni yazıldıkça yayar.',
+              openChange: 'Liste açıldığında veya kapandığında tetiklenir.',
+              show: 'Listeyi açar.',
+              hide: 'Listeyi kapatır.',
+              clear: 'Değeri ve metni temizler.',
+              focus: 'Odağı metin alanına taşır.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Her satırı kendiniz çizmek için bileşenin içindeki bir <code>ng-template</code> üzerine koyun. Bağlamda seçenek ve satırı bulunur.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Kendi satırlarınız için bir seçeneğin etiketini (eşleşen harfler işaretli), açıklamasını ve yolunu çizer.',
+            members: { nuiOptionText: 'Şablon bağlamındaki satır.' },
+          },
+        },
+        keyboard: [
+          ['Aşağı ve yukarı ok', 'Listeyi açar, ardından seçenekler arasında gezinir.'],
+          ['Page Down ve Page Up', 'On seçenek atlar.'],
+          ['Enter', 'Etkin seçeneği seçer.'],
+          ['Alt + aşağı veya yukarı ok', 'Listeyi açar veya kapatır.'],
+          ['Esc', 'Listeyi kapatır; ardından metni ya da temizlenebiliyorsa değeri temizler.'],
+          ['Backspace', 'Boş alanda son çipi kaldırır.'],
+          [
+            'Sol ok',
+            'Metnin başından (sağdan sola metinde sağ ok) çiplere geçer. Orada Backspace veya Delete bir çipi kaldırır.',
+          ],
+        ],
+        notes: [
+          'Metin alanı <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> ve <code>aria-controls</code> taşıyan bir <code>combobox</code> öğesidir. Odak alanda kalır; <code>aria-activedescendant</code> etkin seçeneği gösterir.',
+          'Çipler adlandırılmış bir listedir; her kaldırma düğmesi, “Remove Italy” gibi, ait olduğu çipin adını taşır.',
+          '“No matches” ve yükleme satırı durum mesajlarıdır; bu yüzden ekran okuyucular onları duyurur.',
+          'Çince veya Japonca gibi dillerde giriş yöntemi (IME) bileşimini onaylayan tuşlar giriş yöntemine bırakılır.',
+        ],
+      },
+      command: {
+        name: 'Komut paleti',
+        title: 'Angular için komut paleti bileşeni',
+        summary: 'Uygulamanızdaki her komut, bir tuş uzağınızda.',
+        description:
+          'Erişilebilir Angular komut paleti: her yerden ⌘K, iç içe sayfalara uzanan bulanık arama, gruplar ve her platformun yazımına uygun kısayollar.',
+        apiDescription:
+          'Needless UI komut paletinin API referansı: commands, hotkey, bindShortcuts ve loop girdileriyle nui-command-palette ve NuiCommand yapısı.',
+        a11yDescription:
+          'Needless UI komut paletinin klavye kullanımı ve erişilebilirliği: modal diyalog, combobox arama alanı, aria-activedescendant ve sayfa gezintisi.',
+        overview: [
+          'Komut paleti, modal bir diyalog içinde uygulamanızın komutlarında arama yapan bir alandır. ⌘K onu her yerden açar (Windows ve Linux’ta Ctrl+K). Bir komut seçtiğinizde palet kapanır, ardından komutu çalıştırır.',
+          'Komutların bir grubu, açıklaması, anahtar kelimeleri ve her platformun simgeleriyle gösterilen bir kısayolu olabilir. <code>children</code> içeren bir komut, başka komutlardan oluşan bir sayfa açar; en üst düzeyden yapılan arama sayfaların içine de ulaşır.',
+        ],
+        examples: {
+          palette: {
+            title: 'Komutlar ve sayfalar',
+            text: 'Gruplar, kısayollar, devre dışı bir komut ve iki sayfa. <code>(run)</code> neyin çalıştığını bildirir; komutun kendi <code>run</code> fonksiyonu da çalışır.',
+          },
+          people: {
+            title: 'Özel satırlar',
+            text: 'Her satırı bir <code>nuiOptionTemplate</code> çizer, <code>nuiOptionText</code> ise işaretli eşleşmeleri korur. <code>[hotkey]="null"</code>, ⌘K kısayolunu yukarıdaki palete bırakır.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Komutlarınızda arama yapan bir alan içeren modal diyalog.',
+            members: {
+              commands: '<code>NuiCommand</code> nesneleri biçiminde komutlar.',
+              open: 'Paletin açık olup olmadığı.',
+              hotkey:
+                'Paleti her yerden açıp kapatan kısayol; kısayol istemiyorsanız <code>null</code>. <code>mod</code>, Apple cihazlarında ⌘, diğerlerinde ise Ctrl tuşudur.',
+              bindShortcuts: 'Komutları, sayfanın her yerinde kendi kısayollarıyla da çalıştırır.',
+              loop: 'Son komutta aşağı ok ilk komuta, ilk komutta yukarı ok son komuta gider.',
+              filtering: 'Siz yazarken filtreler. Komutları sunucu filtreliyorsa kapatın.',
+              loading: 'Sonuçlar beklenirken bir yükleme satırı gösterir.',
+              hints: 'Kullanılacak tuşları altta gösterir.',
+              virtual:
+                'Yalnızca görünen satırları render eder: her zaman, hiçbir zaman ya da <code>auto</code> ile 200 satırı aşınca.',
+              label: 'Diyaloğun ve arama alanının erişilebilir adı.',
+              placeholder: 'Boş arama alanında gösterilen metin.',
+              run: 'Çalışan her komutu yayar.',
+              queryChange: 'Sunucu araması için metni yazıldıkça yayar.',
+              show: 'Paleti açar.',
+              hide: 'Paleti kapatır.',
+              toggle: 'Paleti açar ya da kapatır.',
+              back: 'Bir önceki sayfaya döner.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Tek bir komut ya da bir komut sayfası.',
+            members: {
+              label: 'Gösterilen ve aranan metin.',
+              description: 'Etiketin altındaki ikincil metin.',
+              group: 'Aynı gruptaki komutlar o başlığın altında listelenir.',
+              keywords: 'Aramanın eşleştirdiği ek sözcükler; örneğin eş anlamlılar.',
+              shortcut: 'Komutla birlikte gösterilen tuşlar; örneğin <code>mod+shift+p</code>.',
+              disabled: 'Gösterilir ama çalıştırılamaz.',
+              children:
+                'Bir alt düzeydeki komutlar: bu komutu seçmek onları bir sayfa olarak açar.',
+              run: 'Seçildiğinde, palet kapandıktan sonra çalışır.',
+              id: 'Kendi kullanımınız için; örneğin komutları <code>(run)</code> içinde ayırt etmek.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K veya Ctrl+K', 'Paleti açar veya kapatır.'],
+          ['Aşağı ve yukarı ok', 'Komutlar arasında gezinir; uçlarda başa veya sona döner.'],
+          ['Page Down ve Page Up', 'On komut atlar.'],
+          ['Enter', 'Etkin komutu çalıştırır ya da sayfasını açar.'],
+          ['Esc', 'Bir sayfa geri gider; en üst düzeyde paleti kapatır.'],
+          ['Backspace', 'Bir sayfadaki boş alanda geri gider.'],
+        ],
+        notes: [
+          'Yerel bir modal <code>&lt;dialog&gt;</code> öğesidir: arkadaki sayfa etkileşime kapanır, odak içeride kalır ve palet kapanınca odak eski yerine döner.',
+          'Arama alanı, etkin komutu <code>aria-activedescendant</code> ile gösteren bir <code>combobox</code> öğesidir. Bir sayfadayken o sayfanın adını alır.',
+          'Kısayol tuşları her seçeneğin içinde metin olarak bulunur; bu yüzden ekran okuyucular onları okur. Alttaki tuş ipuçları yardımcı teknolojilerden gizlenir.',
+          'Ctrl, Alt veya ⌘ içermeyen kısayollar, bir alana yazarken çalışmaz.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Angular için popover ve hovercard bileşenleri',
+        summary: 'Bir düğmenin yanında açılan paneller ve üzerine gelince zengin araç ipuçları.',
+        description:
+          'Yerel popover API’si tabanlı erişilebilir Angular popover ve hovercard: taraf değiştiren ve izleyen konum, oklar, dışarı tıklayınca kapanma ve gecikmeler.',
+        apiDescription:
+          'Needless UI popover bileşeninin API referansı: side, align, offset ve arrow girdileriyle nuiPopover ve nuiHovercard, ayrıca tetikleyici direktifleri.',
+        a11yDescription:
+          'Needless UI popover ve hovercard bileşenlerinin klavye kullanımı ve erişilebilirliği: dialog ve tooltip rolleri, odağın dönmesi, Esc ve WCAG 1.4.13.',
+        overview: [
+          'Popover, bir düğmenin yanında açılan ve etkileşimli içerik için kullanılan küçük bir paneldir: filtreler, kısa bir form, renk seçici. Yerel bir <code>popover="auto"</code> olduğundan tarayıcı onu Esc’e basıldığında veya dışarı tıklandığında kapatır, odağı geri verir ve sekme sırasında tetikleyicisinin hemen arkasına yerleştirir.',
+          'Hovercard zengin bir araç ipucudur. Kısa bir süre üzerine gelindiğinde, klavyeyle odaklanıldığında ise hemen açılır ve tetikleyicisini açıklar. İşaretçi üzerine geçtiğinde açık kalır; böylece metni okunup seçilebilir.',
+          'İkisi de yer olmadığında diğer tarafa geçer, ekranda kalır ve sayfa kaydırıldıkça tetikleyicisini izler.',
+        ],
+        examples: {
+          filters: {
+            title: 'Filtreler',
+            text: 'İçinde form olan bir popover. <code>arrow</code> onu tetikleyicisine yöneltir, <code>hide()</code> ise koddan kapatır.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Bir adın üzerine gelin ya da Tab ile ona ulaşın. Kart bağlantıyı açıklar; bu yüzden ekran okuyucular onu addan sonra okur.',
+          },
+          sides: {
+            title: 'Taraflar ve giriş animasyonları',
+            text: '<code>side</code> ve <code>align</code> nerede açılacağını belirler; <code>start</code> ve <code>end</code> yazı yönünü izler. <code>enter</code> ve <code>motion</code> ise nasıl belireceğini belirler.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Onu açan öğenin yanına yerleştirilen yerel bir popover.',
+            members: {
+              side: 'Tetikleyicinin hangi tarafında açıldığı. Yer yoksa diğer tarafa geçer.',
+              align: 'O taraf boyunca tetikleyiciyle nasıl hizalandığı.',
+              offset: 'Tetikleyici ile panel arasındaki boşluk, piksel cinsinden.',
+              arrow: 'Tetikleyiciyi gösteren bir ok ekler.',
+              openChange: 'Açıldığında veya kapandığında tetiklenir.',
+              show: 'Herhangi bir öğenin yanında açar.',
+              hide: 'Kapatır.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary: 'Yerel <code>popovertarget</code> ile bir popover’ı açıp kapatan düğme.',
+            members: { nuiPopoverTrigger: 'Açılacak popover.' },
+          },
+          NuiHovercard: {
+            summary: 'Tetikleyicisini açıklayan zengin bir araç ipucu.',
+            members: {
+              side: 'Tetikleyicinin hangi tarafında açıldığı. Yer yoksa diğer tarafa geçer.',
+              align: 'O taraf boyunca tetikleyiciyle nasıl hizalandığı.',
+              offset: 'Tetikleyici ile kart arasındaki boşluk, piksel cinsinden.',
+              arrow: 'Tetikleyiciyi gösteren bir ok ekler.',
+              openDelay:
+                'Açılmadan önce üzerinde durulması gereken süre, milisaniye cinsinden. Klavye odağı onu hemen açar.',
+              closeDelay:
+                'İşaretçi ayrıldıktan sonra kapanana kadar geçen süre, milisaniye cinsinden.',
+              openChange: 'Açıldığında veya kapandığında tetiklenir.',
+              show: 'Herhangi bir öğenin yanında açar.',
+              hide: 'Kapatır.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Üzerine gelindiğinde ve klavye odağında bir hovercard gösterir ve onu bu öğenin açıklaması yapar.',
+            members: { nuiHovercardTrigger: 'Gösterilecek hovercard.' },
+          },
+        },
+        keyboard: [
+          ['Tetikleyicide Enter veya Boşluk', 'Popover’ı açar veya kapatır.'],
+          ['Tab', 'Tetikleyicisinin hemen ardından gelen açık popover’ın içine geçer.'],
+          ['Esc', 'Popover’ı kapatıp odağı tetikleyicisine geri verir ya da hovercard’ı gizler.'],
+        ],
+        notes: [
+          'Popover, modal olmayan bir <code>dialog</code> öğesidir: <code>aria-label</code> veya <code>aria-labelledby</code> ile adlandırın. Tetikleyicisi <code>aria-haspopup</code> ve tarayıcının sağladığı <code>aria-expanded</code> niteliğini alır.',
+          'Hovercard bir <code>tooltip</code> öğesidir ve tetikleyicisinin <code>aria-describedby</code> değeridir; bu sayede metni tetikleyiciyle birlikte okunur. İçine kontrol koymayın; onlar için popover kullanın.',
+          'Hovercard, WCAG 1.4.13’ü karşılar: Esc onu odağı taşımadan gizler, işaretçi üzerine geçebilir ve üzerine gelindiği ya da odaklanıldığı sürece açık kalır.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Angular için select bileşeni',
+        summary: 'Kısa ya da devasa bir listeden bir veya birden çok seçenek seçin.',
+        description:
+          'Erişilebilir Angular select: tekli veya çoklu seçim, gruplar, ağaçlar, yazarak atlama, tümünü seçme ve her uzunlukta liste için sanal kaydırma.',
+        apiDescription:
+          'Needless UI select bileşeninin API referansı: value, values, multiple, selectAll ve virtual girdileriyle nui-select, NuiOption yapısı ve özel satırlar.',
+        a11yDescription:
+          'Needless UI select bileşeninin klavye kullanımı ve erişilebilirliği: yalnızca seçimli combobox, listbox veya ağaç, aria-activedescendant ve yazarak arama.',
+        overview: [
+          'Select, bir seçenek listesi açan bir düğmedir. Ona bir <code>NuiOption</code> dizisi olan <code>options</code> verin ve <code>[(value)]</code> ya da <code>multiple</code> ile <code>[(values)]</code> bağlayın. Signal Forms, reaktif formlar ve <code>ngModel</code> ile de çalışır.',
+          'Seçeneklerin <code>group</code>, <code>description</code> ve <code>keywords</code> değerleri olabilir; <code>children</code> ise listeyi bir ağaca dönüştürür. 200 satırın üzerinde yalnızca görünen satırlar render edilir; böylece 100.000 seçenek de on seçenek kadar hızlı açılır.',
+          'Bunun yerine yazıp filtrelemek için <a href="/components/combobox">combobox</a> kullanın.',
+        ],
+        examples: {
+          countries: {
+            title: 'Gruplar',
+            text: '<code>group</code> değeri olan seçenekler grubun başlığı altında listelenir. Bir harf yazmak, o harfle başlayan bir sonraki seçeneğe atlar.',
+          },
+          toppings: {
+            title: 'Aynı anda birden çok',
+            text: '<code>multiple</code> listeyi açık tutar ve <code>[(values)]</code> bağlar. <code>selectAll</code>, tüm seçenekleri seçen veya temizleyen bir düğme ekler. Devre dışı seçenekler seçilemez.',
+          },
+          folders: {
+            title: 'Ağaç',
+            text: '<code>children</code> içeren seçenekler bir ağaç oluşturur. Liste, seçili seçeneğin klasörleri genişletilmiş olarak açılır.',
+          },
+          zones: {
+            title: 'Uzun listeler',
+            text: 'Bölgelere göre tüm saat dilimleri. 200 satırın üzerinde yalnızca görünen satırlar render edilir; etkin seçenek ise ekran okuyucular için render edilmiş olarak kalır.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Bir seçenek listesi açan düğme.',
+            members: {
+              options: '<code>NuiOption</code> nesneleri biçiminde seçenekler.',
+              value: 'Seçilen değer ya da <code>null</code>. Formlarla da çalışır.',
+              values: '<code>multiple</code> ile seçilen değerler.',
+              multiple:
+                'Birden fazla seçeneğin seçilmesine izin verir. Siz seçerken liste açık kalır.',
+              selectAll:
+                '<code>multiple</code> ile, tüm seçenekleri seçen veya temizleyen bir düğme ekler.',
+              placeholder: 'Hiçbir şey seçilmemişken gösterilen metin.',
+              label: 'Düğmeyi adlandıran bir <code>&lt;label&gt;</code> yoksa erişilebilir ad.',
+              triggerId: '<code>&lt;label for&gt;</code> için düğmenin id’si.',
+              disabled: 'Select bileşenini devre dışı bırakır.',
+              compareWith:
+                'Nesne olan değerlerde, iki değerin aynı seçenek olup olmadığını belirler.',
+              virtual:
+                'Yalnızca görünen satırları render eder: her zaman, hiçbir zaman ya da <code>auto</code> ile 200 satırı aşınca.',
+              openChange: 'Liste açıldığında veya kapandığında tetiklenir.',
+              show: 'Listeyi açar.',
+              hide: 'Listeyi kapatır.',
+              focus: 'Odağı düğmeye taşır.',
+            },
+          },
+          NuiOption: {
+            summary: 'Tek bir seçenek. Select, combobox ve komut paleti bunları alır.',
+            members: {
+              value: 'Seçildiğinde ayarlanan değer. Her türden olabilir.',
+              label: 'Gösterilen ve aranan metin.',
+              description: 'Etiketin altındaki ikincil metin.',
+              group: 'Aynı gruptaki seçenekler sırasıyla o başlığın altında listelenir.',
+              keywords: 'Aramanın eşleştirdiği ek sözcükler; örneğin eş anlamlılar veya kodlar.',
+              disabled: 'Gösterilir ama seçilemez.',
+              children: 'Bir alt düzeydeki seçenekler; listeyi bir ağaca dönüştürür.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Her satırı kendiniz çizmek için bileşenin içindeki bir <code>ng-template</code> üzerine koyun. Bağlamda seçenek ve satırı bulunur.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Kendi satırlarınız için bir seçeneğin etiketini (eşleşen harfler işaretli), açıklamasını ve yolunu çizer.',
+            members: { nuiOptionText: 'Şablon bağlamındaki satır.' },
+          },
+        },
+        keyboard: [
+          ['Aşağı ve yukarı ok', 'Listeyi açar, ardından seçenekler arasında gezinir.'],
+          ['Home ve End', 'İlk veya son seçeneğe gider.'],
+          ['Page Down ve Page Up', 'On seçenek atlar.'],
+          ['Enter veya Boşluk', 'Listeyi açar ya da etkin seçeneği seçer.'],
+          ['Harfler', 'Yazılan harflerle başlayan bir sonraki seçeneğe atlar.'],
+          [
+            'Sağ ve sol ok',
+            'Ağaçta bir seçeneği genişletir veya ilk alt öğesine gider; daraltır veya üst öğesine gider. Sağdan sola metinde tersine çalışır.',
+          ],
+          ['Alt + yukarı ok', 'Etkin seçeneği seçer ve listeyi kapatır.'],
+          ['Tab', 'Tekli seçimde etkin seçeneği seçer ve sonraki öğeye geçer.'],
+          ['Esc', 'Seçim yapmadan listeyi kapatır.'],
+        ],
+        notes: [
+          'Düğme, <code>aria-expanded</code> ve <code>aria-controls</code> taşıyan, yalnızca seçim yapılan bir <code>combobox</code> öğesidir. Odak düğmede kalır; <code>aria-activedescendant</code> etkin seçeneği gösterir.',
+          'Liste bir <code>listbox</code> ya da <code>aria-level</code> ve <code>aria-expanded</code> taşıyan bir <code>tree</code> öğesidir. Yalnızca bazı satırlar render edildiğinde de <code>aria-setsize</code> ve <code>aria-posinset</code> doğru kalır.',
+          'Etkin seçenek dolgun bir zemin, forced colors modunda ise bir dış çizgi alır.',
+          '<code>triggerId</code> değerini gösteren bir <code>&lt;label for&gt;</code> ya da <code>label</code> ile adlandırın.',
         ],
       },
     },

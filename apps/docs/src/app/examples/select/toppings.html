@@ -1,0 +1,12 @@
+<div class="field">
+  <label for="toppings">Toppings</label>
+  <nui-select
+    triggerId="toppings"
+    multiple
+    selectAll
+    placeholder="None"
+    [options]="toppings"
+    [(values)]="picked"
+  />
+</div>
+<p>{{ picked().length }} toppings. The list stays open while you pick.</p>

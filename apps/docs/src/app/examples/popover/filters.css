@@ -1,0 +1,26 @@
+.filters {
+  display: grid;
+  gap: var(--nui-space-2);
+  margin: 0 0 var(--nui-space-4);
+  padding: 0;
+  border: 0;
+}
+
+.filters legend {
+  margin-block-end: var(--nui-space-2);
+  padding: 0;
+  font-weight: var(--nui-font-weight-semibold);
+}
+
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: var(--nui-space-2);
+}
+
+.filters input {
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin: 0;
+  accent-color: var(--nui-color-accent-solid);
+}

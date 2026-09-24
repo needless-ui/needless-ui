@@ -103,7 +103,15 @@ export const messages: Messages = {
       type: 'Kiểu',
       default: 'Mặc định',
       description: 'Mô tả',
-      kinds: { input: 'Input', model: 'Hai chiều', output: 'Output', method: 'Phương thức' },
+      kinds: {
+        input: 'Input',
+        model: 'Hai chiều',
+        output: 'Output',
+        method: 'Phương thức',
+        property: 'Thuộc tính',
+      },
+      texts:
+        'Mọi văn bản mà component hiển thị hoặc đọc lên cũng là input, nên bạn có thể dịch chúng:',
       customization: {
         note: 'Các input tùy biến mà bạn không đặt sẽ lấy giá trị từ thuộc tính <code>data-nui-*</code> gần nhất. Xem <a href="/guides/customization">hướng dẫn tùy biến</a>.',
         members: {
@@ -801,6 +809,357 @@ export const messages: Messages = {
           'Bộ hẹn giờ tạm dừng khi con trỏ nằm trên chồng toast hoặc chồng toast có focus, và khi trang bị ẩn; toast đang chờ promise thì không bao giờ hết hạn.',
           'Mọi thứ người dùng buộc phải xử lý cũng nên có ở ngoài toast.',
           'Khi giảm chuyển động, toast không có hiệu ứng động và không vuốt được, còn thanh hẹn giờ bị ẩn.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox và tự động hoàn thành cho Angular',
+        summary: 'Ô nhập văn bản gợi ý các tùy chọn khi bạn gõ.',
+        description:
+          'Combobox Angular hỗ trợ tiếp cận: tìm kiếm mờ có tô sáng, nhiều giá trị dạng chip, tạo giá trị mới từ văn bản đã gõ và kết quả từ máy chủ.',
+        apiDescription:
+          'Tài liệu API về combobox của Needless UI: nui-combobox với value, values, multiple, create, filtering, loading, clearable và dòng tùy biến.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của combobox Needless UI: combobox cho phép gõ, có danh sách gợi ý, aria-activedescendant, chip và nhập qua bộ gõ IME.',
+        overview: [
+          'Combobox là một ô nhập văn bản kèm danh sách gợi ý. Tìm kiếm ở đây là tìm kiếm mờ, không phân biệt dấu: kết quả khớp nhất đứng đầu và các chữ cái khớp được đánh dấu. Combobox nhận cùng các đối tượng <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> như select.',
+          'Với <code>multiple</code>, các tùy chọn đã chọn trở thành chip đứng trước văn bản, còn <code>create</code> biến văn bản đã gõ thành giá trị mới. Với kết quả từ máy chủ, hãy tắt <code>filtering</code>, tìm kiếm trong <code>(queryChange)</code> và đặt <code>loading</code> trong lúc chờ.',
+        ],
+        examples: {
+          country: {
+            title: 'Tìm kiếm',
+            text: 'Các chữ cái khớp không cần đứng liền nhau, và <code>keywords</code> cũng được tính. <code>clearable</code> thêm nút xóa và cho phép phím Esc xóa giá trị.',
+          },
+          tags: {
+            title: 'Chip và giá trị mới',
+            text: '<code>multiple</code> hiển thị chip và liên kết <code>[(values)]</code>. Khi văn bản chưa phải là một tùy chọn, <code>create</code> sẽ đề nghị thêm nó.',
+          },
+          people: {
+            title: 'Kết quả từ máy chủ',
+            text: 'Danh sách hiển thị đúng những gì máy chủ gửi về, không lọc, kèm một dòng đang tải trong lúc chờ. Nhãn đã chọn vẫn được giữ khi có kết quả mới.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Ô nhập văn bản gợi ý các tùy chọn khi bạn gõ.',
+            members: {
+              options:
+                'Các tùy chọn, dưới dạng đối tượng <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>.',
+              value: 'Giá trị đã chọn, hoặc <code>null</code>. Cũng dùng được với biểu mẫu.',
+              values: 'Các giá trị đã chọn, khi có <code>multiple</code>.',
+              multiple: 'Cho phép chọn nhiều tùy chọn, hiển thị dưới dạng chip.',
+              create:
+                'Tạo giá trị từ văn bản đã gõ. Khi đó danh sách đề nghị thêm văn bản chưa có trong các tùy chọn.',
+              filtering: 'Lọc các tùy chọn khi bạn gõ. Hãy tắt đi khi máy chủ lọc thay.',
+              loading: 'Hiển thị một dòng đang tải trong lúc chờ kết quả.',
+              clearable: 'Thêm nút xóa giá trị, và cho phép phím Esc xóa giá trị.',
+              placeholder: 'Văn bản hiển thị khi ô nhập còn trống.',
+              label:
+                'Accessible name, khi không có <code>&lt;label&gt;</code> nào đặt tên cho ô nhập.',
+              inputId: 'Id của ô nhập văn bản, dùng cho <code>&lt;label for&gt;</code>.',
+              disabled: 'Vô hiệu hóa ô nhập.',
+              compareWith:
+                'Cho biết hai giá trị có phải cùng một tùy chọn hay không, dành cho giá trị là đối tượng.',
+              displayWith:
+                'Văn bản cho giá trị không có trong các tùy chọn, chẳng hạn giá trị được đặt trước khi tùy chọn tải xong.',
+              virtual:
+                'Chỉ render các dòng đang hiển thị: luôn luôn, không bao giờ, hoặc <code>auto</code> khi quá 200 dòng.',
+              queryChange: 'Phát ra văn bản trong lúc gõ, để tìm kiếm trên máy chủ.',
+              openChange: 'Phát ra khi danh sách mở hoặc đóng.',
+              show: 'Mở danh sách.',
+              hide: 'Đóng danh sách.',
+              clear: 'Xóa giá trị và văn bản.',
+              focus: 'Chuyển focus vào ô nhập văn bản.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Đặt lên một <code>ng-template</code> bên trong component để tự vẽ từng dòng. Context chứa tùy chọn và dòng của nó.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Vẽ nhãn của tùy chọn với các chữ cái khớp được đánh dấu, cùng mô tả và đường dẫn của nó, cho các dòng do bạn tự vẽ.',
+            members: { nuiOptionText: 'Dòng, lấy từ context của template.' },
+          },
+        },
+        keyboard: [
+          ['Mũi tên xuống và lên', 'Mở danh sách, rồi di chuyển qua các tùy chọn.'],
+          ['Page Down và Page Up', 'Di chuyển mười tùy chọn.'],
+          ['Enter', 'Chọn tùy chọn hiện tại.'],
+          ['Alt + mũi tên xuống hoặc lên', 'Mở hoặc đóng danh sách.'],
+          ['Esc', 'Đóng danh sách; nhấn tiếp thì xóa văn bản, hoặc xóa giá trị nếu có clearable.'],
+          ['Backspace', 'Trong ô trống, xóa chip cuối cùng.'],
+          [
+            'Mũi tên trái',
+            'Từ đầu văn bản (mũi tên phải với văn bản viết từ phải sang trái), di chuyển vào các chip. Tại đó, Backspace hoặc Delete xóa một chip.',
+          ],
+        ],
+        notes: [
+          'Ô nhập văn bản là một <code>combobox</code> với <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> và <code>aria-controls</code>. Focus ở lại trong ô nhập, và <code>aria-activedescendant</code> trỏ tới tùy chọn hiện tại.',
+          'Các chip là một danh sách có tên, và mỗi nút xóa được đặt tên theo chip của nó, chẳng hạn “Remove Italy”.',
+          '“No matches” và dòng đang tải là thông báo trạng thái, nên trình đọc màn hình sẽ đọc chúng lên.',
+          'Các phím dùng để xác nhận khi soạn chữ bằng bộ gõ, như với tiếng Trung hoặc tiếng Nhật, được để cho bộ gõ xử lý.',
+        ],
+      },
+      command: {
+        name: 'Bảng lệnh',
+        title: 'Component bảng lệnh cho Angular',
+        summary: 'Mọi lệnh trong ứng dụng, chỉ cách một lần bấm phím.',
+        description:
+          'Bảng lệnh Angular hỗ trợ tiếp cận: ⌘K từ bất kỳ đâu, tìm kiếm mờ vào cả các trang lồng nhau, nhóm lệnh và phím tắt hiển thị theo cách của từng nền tảng.',
+        apiDescription:
+          'Tài liệu API về bảng lệnh của Needless UI: nui-command-palette với commands, hotkey, bindShortcuts và loop, cùng cấu trúc NuiCommand.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của bảng lệnh Needless UI: hộp thoại modal có combobox tìm kiếm, aria-activedescendant và điều hướng giữa các trang.',
+        overview: [
+          'Bảng lệnh là một ô tìm kiếm trên các lệnh của ứng dụng, nằm trong một hộp thoại modal. ⌘K mở nó từ bất kỳ đâu (Ctrl+K trên Windows và Linux). Chọn một lệnh thì bảng lệnh đóng lại, rồi chạy lệnh đó.',
+          'Lệnh có thể có nhóm, mô tả, từ khóa và phím tắt, hiển thị bằng ký hiệu của từng nền tảng. Lệnh có <code>children</code> sẽ mở ra một trang chứa thêm lệnh, và tìm kiếm từ cấp trên cùng vẫn tìm được vào bên trong các trang.',
+        ],
+        examples: {
+          palette: {
+            title: 'Lệnh và trang',
+            text: 'Nhóm, phím tắt, một lệnh bị vô hiệu hóa và hai trang. <code>(run)</code> cho bạn biết lệnh nào đã chạy; <code>run</code> riêng của từng lệnh cũng hoạt động.',
+          },
+          people: {
+            title: 'Dòng tùy biến',
+            text: '<code>nuiOptionTemplate</code> vẽ từng dòng, còn <code>nuiOptionText</code> giữ phần khớp được đánh dấu. <code>[hotkey]="null"</code> nhường ⌘K cho bảng lệnh ở trên.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Hộp thoại modal có ô tìm kiếm trên các lệnh của bạn.',
+            members: {
+              commands: 'Các lệnh, dưới dạng đối tượng <code>NuiCommand</code>.',
+              open: 'Bảng lệnh có đang mở hay không.',
+              hotkey:
+                'Phím tắt mở và đóng bảng lệnh từ bất kỳ đâu, hoặc <code>null</code> nếu không dùng. <code>mod</code> là ⌘ trên thiết bị Apple và Ctrl trên các thiết bị khác.',
+              bindShortcuts:
+                'Chạy cả các lệnh bằng phím tắt riêng của chúng, ở bất kỳ đâu trên trang.',
+              loop: 'Nhấn xuống ở lệnh cuối sẽ về lệnh đầu, và nhấn lên ở lệnh đầu sẽ về lệnh cuối.',
+              filtering: 'Lọc khi bạn gõ. Hãy tắt đi khi máy chủ lọc các lệnh.',
+              loading: 'Hiển thị một dòng đang tải trong lúc chờ kết quả.',
+              hints: 'Hiển thị gợi ý phím ở phía dưới.',
+              virtual:
+                'Chỉ render các dòng đang hiển thị: luôn luôn, không bao giờ, hoặc <code>auto</code> khi quá 200 dòng.',
+              label: 'Accessible name của hộp thoại và ô tìm kiếm của nó.',
+              placeholder: 'Văn bản hiển thị trong ô tìm kiếm còn trống.',
+              run: 'Phát ra mỗi lệnh được chạy.',
+              queryChange: 'Phát ra văn bản trong lúc gõ, để tìm kiếm trên máy chủ.',
+              show: 'Mở bảng lệnh.',
+              hide: 'Đóng bảng lệnh.',
+              toggle: 'Mở hoặc đóng bảng lệnh.',
+              back: 'Quay về trang trước đó.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Một lệnh, hoặc một trang gồm nhiều lệnh.',
+            members: {
+              label: 'Văn bản được hiển thị và dùng để tìm kiếm.',
+              description: 'Văn bản phụ bên dưới nhãn.',
+              group: 'Các lệnh cùng nhóm được liệt kê dưới tiêu đề của nhóm đó.',
+              keywords: 'Các từ khác mà tìm kiếm sẽ khớp, chẳng hạn từ đồng nghĩa.',
+              shortcut: 'Các phím hiển thị kèm lệnh, chẳng hạn <code>mod+shift+p</code>.',
+              disabled: 'Vẫn hiển thị nhưng không chạy được.',
+              children: 'Các lệnh ở cấp dưới: chọn lệnh này sẽ mở chúng thành một trang.',
+              run: 'Chạy khi lệnh được chọn, sau khi bảng lệnh đã đóng.',
+              id: 'Để bạn tự dùng, chẳng hạn để phân biệt các lệnh trong <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K hoặc Ctrl+K', 'Mở hoặc đóng bảng lệnh.'],
+          ['Mũi tên xuống và lên', 'Di chuyển qua các lệnh, quay vòng ở hai đầu.'],
+          ['Page Down và Page Up', 'Di chuyển mười lệnh.'],
+          ['Enter', 'Chạy lệnh hiện tại, hoặc mở trang của nó.'],
+          ['Esc', 'Quay lại một trang; ở cấp trên cùng thì đóng bảng lệnh.'],
+          ['Backspace', 'Trong ô trống ở một trang, quay lại trang trước.'],
+        ],
+        notes: [
+          'Đây là một <code>&lt;dialog&gt;</code> modal native: trang phía sau không thể tương tác, focus ở lại bên trong, và khi đóng thì focus quay về chỗ cũ.',
+          'Ô tìm kiếm là một <code>combobox</code> trỏ tới lệnh hiện tại bằng <code>aria-activedescendant</code>. Khi ở trong một trang, ô này mang tên của trang đó.',
+          'Phím tắt là văn bản trong mỗi tùy chọn, nên trình đọc màn hình sẽ đọc chúng. Gợi ý phím ở phía dưới được ẩn khỏi công nghệ hỗ trợ.',
+          'Phím tắt không có Ctrl, Alt hoặc ⌘ sẽ không chạy khi bạn đang gõ trong một ô nhập.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Component popover và hovercard cho Angular',
+        summary: 'Bảng nổi cạnh một nút, và tooltip nâng cao khi di chuột qua.',
+        description:
+          'Popover và hovercard Angular hỗ trợ tiếp cận dựa trên popover API native: vị trí tự lật và bám theo, mũi tên, đóng khi nhấp ra ngoài và độ trễ khi hover.',
+        apiDescription:
+          'Tài liệu API về popover của Needless UI: nuiPopover và nuiHovercard với side, align, offset và arrow, cùng các directive trigger của chúng.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của popover và hovercard Needless UI: vai trò dialog và tooltip, trả lại focus, phím Esc và WCAG 1.4.13.',
+        overview: [
+          'Popover là một bảng nhỏ mở ra cạnh một nút, dành cho nội dung tương tác: bộ lọc, một biểu mẫu ngắn, bộ chọn màu. Đây là một <code>popover="auto"</code> native, nên trình duyệt đóng nó khi nhấn Esc hoặc nhấp ra ngoài, trả lại focus và đặt nó ngay sau trigger trong thứ tự tab.',
+          'Hovercard là một tooltip nâng cao. Nó mở ra sau một lúc di chuột qua, hoặc ngay lập tức khi nhận focus từ bàn phím, và mô tả trigger của nó. Nó vẫn mở khi con trỏ di chuyển lên nó, để văn bản có thể được đọc và chọn.',
+          'Cả hai đều lật sang phía bên kia khi không đủ chỗ, luôn nằm trong màn hình và bám theo trigger khi trang cuộn.',
+        ],
+        examples: {
+          filters: {
+            title: 'Bộ lọc',
+            text: 'Một popover có biểu mẫu bên trong. <code>arrow</code> hướng nó về phía trigger, còn <code>hide()</code> đóng nó từ mã.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Di chuột qua một cái tên, hoặc dùng Tab để đến đó. Thẻ mô tả liên kết, nên trình đọc màn hình sẽ đọc nó sau tên.',
+          },
+          sides: {
+            title: 'Phía mở và hiệu ứng xuất hiện',
+            text: '<code>side</code> và <code>align</code> quyết định nơi nó mở ra; <code>start</code> và <code>end</code> đi theo hướng viết. <code>enter</code> và <code>motion</code> quyết định cách nó xuất hiện.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Một popover native được đặt cạnh phần tử đã mở nó.',
+            members: {
+              side: 'Phía của trigger mà nó mở ra. Tự lật khi không đủ chỗ.',
+              align: 'Cách nó căn với trigger dọc theo phía đó.',
+              offset: 'Khoảng cách giữa trigger và bảng, tính bằng pixel.',
+              arrow: 'Hiển thị mũi tên trỏ về trigger.',
+              openChange: 'Phát ra khi nó mở hoặc đóng.',
+              show: 'Mở nó cạnh một phần tử bất kỳ.',
+              hide: 'Đóng nó.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary: 'Một nút mở và đóng popover, bằng <code>popovertarget</code> native.',
+            members: { nuiPopoverTrigger: 'Popover cần mở.' },
+          },
+          NuiHovercard: {
+            summary: 'Một tooltip nâng cao mô tả trigger của nó.',
+            members: {
+              side: 'Phía của trigger mà nó mở ra. Tự lật khi không đủ chỗ.',
+              align: 'Cách nó căn với trigger dọc theo phía đó.',
+              offset: 'Khoảng cách giữa trigger và thẻ, tính bằng pixel.',
+              arrow: 'Hiển thị mũi tên trỏ về trigger.',
+              openDelay:
+                'Số mili giây di chuột qua trước khi nó mở. Focus từ bàn phím mở nó ngay lập tức.',
+              closeDelay: 'Số mili giây trước khi nó đóng, sau khi con trỏ đã rời đi.',
+              openChange: 'Phát ra khi nó mở hoặc đóng.',
+              show: 'Mở nó cạnh một phần tử bất kỳ.',
+              hide: 'Đóng nó.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Hiển thị hovercard khi di chuột qua và khi nhận focus từ bàn phím, đồng thời biến nó thành phần mô tả của phần tử này.',
+            members: { nuiHovercardTrigger: 'Hovercard cần hiển thị.' },
+          },
+        },
+        keyboard: [
+          ['Enter hoặc Phím cách trên trigger', 'Mở hoặc đóng popover.'],
+          ['Tab', 'Di chuyển vào popover đang mở, vốn nằm ngay sau trigger của nó.'],
+          ['Esc', 'Đóng popover và trả focus về trigger, hoặc ẩn hovercard.'],
+        ],
+        notes: [
+          'Popover là một <code>dialog</code> không modal: hãy đặt tên cho nó bằng <code>aria-label</code> hoặc <code>aria-labelledby</code>. Trigger của nó nhận <code>aria-haspopup</code> và <code>aria-expanded</code> do trình duyệt cung cấp.',
+          'Hovercard là một <code>tooltip</code> và là <code>aria-describedby</code> của trigger, nên văn bản của nó được đọc cùng trigger. Đừng đặt phần tử tương tác vào bên trong; hãy dùng popover cho chúng.',
+          'Hovercard đáp ứng WCAG 1.4.13: Esc ẩn nó mà không di chuyển focus, con trỏ có thể di chuyển lên nó, và nó vẫn hiển thị khi đang được hover hoặc có focus.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Component select cho Angular',
+        summary: 'Chọn một hoặc nhiều tùy chọn, từ danh sách ngắn hay cực dài.',
+        description:
+          'Select Angular hỗ trợ tiếp cận: chọn một hoặc nhiều, nhóm, cây, gõ để nhảy tới, chọn tất cả và cuộn ảo cho danh sách dài bao nhiêu cũng được.',
+        apiDescription:
+          'Tài liệu API về select của Needless UI: nui-select với value, values, multiple, selectAll và virtual, cấu trúc NuiOption và dòng tùy biến.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của select Needless UI: combobox chỉ để chọn với listbox hoặc cây, aria-activedescendant, gõ để tìm và phím điều hướng cây.',
+        overview: [
+          'Select là một nút mở ra danh sách các tùy chọn. Truyền cho nó <code>options</code>, một mảng <code>NuiOption</code>, rồi liên kết <code>[(value)]</code>, hoặc <code>[(values)]</code> khi có <code>multiple</code>. Nó cũng dùng được với Signal Forms, reactive forms và <code>ngModel</code>.',
+          'Tùy chọn có thể có <code>group</code>, <code>description</code> và <code>keywords</code>, còn <code>children</code> biến danh sách thành cây. Khi quá 200 dòng, chỉ các dòng đang hiển thị được render, nên 100.000 tùy chọn cũng mở nhanh như mười.',
+          'Nếu muốn gõ để lọc, hãy dùng <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Nhóm',
+            text: 'Các tùy chọn có <code>group</code> được liệt kê dưới tiêu đề của nhóm. Gõ một chữ cái sẽ nhảy tới tùy chọn tiếp theo bắt đầu bằng chữ đó.',
+          },
+          toppings: {
+            title: 'Chọn nhiều cùng lúc',
+            text: '<code>multiple</code> giữ danh sách luôn mở và liên kết <code>[(values)]</code>. <code>selectAll</code> thêm một nút để chọn hoặc bỏ chọn mọi tùy chọn. Không thể chọn các tùy chọn bị vô hiệu hóa.',
+          },
+          folders: {
+            title: 'Cây',
+            text: 'Các tùy chọn có <code>children</code> tạo thành một cây. Danh sách mở ra với các thư mục chứa tùy chọn đã chọn được mở rộng sẵn.',
+          },
+          zones: {
+            title: 'Danh sách dài',
+            text: 'Mọi múi giờ, theo khu vực. Khi quá 200 dòng, chỉ các dòng đang hiển thị được render, và tùy chọn hiện tại luôn được render cho trình đọc màn hình.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Một nút mở ra danh sách các tùy chọn.',
+            members: {
+              options: 'Các tùy chọn, dưới dạng đối tượng <code>NuiOption</code>.',
+              value: 'Giá trị đã chọn, hoặc <code>null</code>. Cũng dùng được với biểu mẫu.',
+              values: 'Các giá trị đã chọn, khi có <code>multiple</code>.',
+              multiple: 'Cho phép chọn nhiều tùy chọn. Danh sách vẫn mở trong lúc bạn chọn.',
+              selectAll:
+                'Khi có <code>multiple</code>, thêm một nút để chọn hoặc bỏ chọn mọi tùy chọn.',
+              placeholder: 'Văn bản hiển thị khi chưa chọn gì.',
+              label:
+                'Accessible name, khi không có <code>&lt;label&gt;</code> nào đặt tên cho nút.',
+              triggerId: 'Id của nút, dùng cho <code>&lt;label for&gt;</code>.',
+              disabled: 'Vô hiệu hóa select.',
+              compareWith:
+                'Cho biết hai giá trị có phải cùng một tùy chọn hay không, dành cho giá trị là đối tượng.',
+              virtual:
+                'Chỉ render các dòng đang hiển thị: luôn luôn, không bao giờ, hoặc <code>auto</code> khi quá 200 dòng.',
+              openChange: 'Phát ra khi danh sách mở hoặc đóng.',
+              show: 'Mở danh sách.',
+              hide: 'Đóng danh sách.',
+              focus: 'Chuyển focus vào nút.',
+            },
+          },
+          NuiOption: {
+            summary: 'Một tùy chọn. Select, combobox và bảng lệnh đều nhận kiểu đối tượng này.',
+            members: {
+              value: 'Giá trị được đặt khi chọn tùy chọn này. Kiểu bất kỳ.',
+              label: 'Văn bản được hiển thị và dùng để tìm kiếm.',
+              description: 'Văn bản phụ bên dưới nhãn.',
+              group: 'Các tùy chọn cùng nhóm được liệt kê theo thứ tự dưới tiêu đề của nhóm đó.',
+              keywords: 'Các từ khác mà tìm kiếm sẽ khớp, chẳng hạn từ đồng nghĩa hoặc mã.',
+              disabled: 'Vẫn hiển thị nhưng không chọn được.',
+              children: 'Các tùy chọn ở cấp dưới, biến danh sách thành cây.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Đặt lên một <code>ng-template</code> bên trong component để tự vẽ từng dòng. Context chứa tùy chọn và dòng của nó.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Vẽ nhãn của tùy chọn với các chữ cái khớp được đánh dấu, cùng mô tả và đường dẫn của nó, cho các dòng do bạn tự vẽ.',
+            members: { nuiOptionText: 'Dòng, lấy từ context của template.' },
+          },
+        },
+        keyboard: [
+          ['Mũi tên xuống và lên', 'Mở danh sách, rồi di chuyển qua các tùy chọn.'],
+          ['Home và End', 'Chuyển đến tùy chọn đầu tiên hoặc cuối cùng.'],
+          ['Page Down và Page Up', 'Di chuyển mười tùy chọn.'],
+          ['Enter hoặc Phím cách', 'Mở danh sách, hoặc chọn tùy chọn hiện tại.'],
+          ['Chữ cái', 'Nhảy tới tùy chọn tiếp theo bắt đầu bằng các chữ đó.'],
+          [
+            'Mũi tên phải và trái',
+            'Trong cây, mở rộng một tùy chọn hoặc đi tới con đầu tiên của nó; thu gọn nó hoặc đi tới cha của nó. Đảo ngược với văn bản viết từ phải sang trái.',
+          ],
+          ['Alt + mũi tên lên', 'Chọn tùy chọn hiện tại và đóng danh sách.'],
+          ['Tab', 'Khi chỉ chọn một, chọn tùy chọn hiện tại rồi chuyển tiếp.'],
+          ['Esc', 'Đóng danh sách mà không chọn.'],
+        ],
+        notes: [
+          'Nút là một <code>combobox</code> chỉ để chọn, có <code>aria-expanded</code> và <code>aria-controls</code>. Focus ở lại trên nút, và <code>aria-activedescendant</code> trỏ tới tùy chọn hiện tại.',
+          'Danh sách là một <code>listbox</code>, hoặc một <code>tree</code> với <code>aria-level</code> và <code>aria-expanded</code>. <code>aria-setsize</code> và <code>aria-posinset</code> vẫn đúng khi chỉ một phần các dòng được render.',
+          'Tùy chọn hiện tại có nền đặc và, ở chế độ forced colors, có đường viền.',
+          'Đặt tên cho nó bằng một <code>&lt;label for&gt;</code> trỏ tới <code>triggerId</code>, hoặc bằng <code>label</code>.',
         ],
       },
     },

@@ -1,0 +1,5 @@
+<div class="field">
+  <label for="folder">Move to</label>
+  <nui-select triggerId="folder" [options]="folders" [(value)]="folder" />
+</div>
+<p>Chosen: {{ folder() }}. → opens a folder and ← closes it.</p>

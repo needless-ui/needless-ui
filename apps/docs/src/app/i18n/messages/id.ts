@@ -104,7 +104,15 @@ export const messages: Messages = {
       type: 'Tipe',
       default: 'Default',
       description: 'Deskripsi',
-      kinds: { input: 'Input', model: 'Dua arah', output: 'Output', method: 'Metode' },
+      kinds: {
+        input: 'Input',
+        model: 'Dua arah',
+        output: 'Output',
+        method: 'Metode',
+        property: 'Properti',
+      },
+      texts:
+        'Setiap teks yang ditampilkan atau diumumkannya juga merupakan input, jadi Anda bisa menerjemahkannya:',
       customization: {
         note: 'Input kustomisasi yang tidak Anda atur akan mengikuti atribut <code>data-nui-*</code> terdekat. Lihat <a href="/guides/customization">panduan kustomisasi</a>.',
         members: {
@@ -807,6 +815,370 @@ export const messages: Messages = {
           'Timer berhenti sementara selama tumpukan di-hover atau difokus dan selama halaman tersembunyi, dan toast yang menunggu promise tidak pernah kedaluwarsa.',
           'Apa pun yang harus ditindaklanjuti pengguna sebaiknya juga tersedia di luar toast.',
           'Saat gerakan dikurangi, toast tidak beranimasi dan tidak bisa digeser, dan garis timer disembunyikan.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox dan pelengkapan otomatis untuk Angular',
+        summary: 'Kolom teks yang menyarankan opsi saat Anda mengetik.',
+        description:
+          'Combobox Angular yang aksesibel: pencarian fuzzy dengan sorotan, banyak nilai sebagai chip, nilai baru dari teks yang diketik, dan hasil dari server.',
+        apiDescription:
+          'Referensi API combobox Needless UI: nui-combobox dengan value, values, multiple, create, filtering, loading, dan clearable, serta baris kustom.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas combobox Needless UI: combobox yang bisa diedit dengan daftar saran, aria-activedescendant, chip, dan input IME.',
+        overview: [
+          'Combobox adalah kolom teks dengan daftar saran. Pencariannya fuzzy dan mengabaikan aksen: kecocokan terbaik muncul lebih dulu dan huruf yang cocok ditandai. Komponen ini menerima objek <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> yang sama dengan select.',
+          'Dengan <code>multiple</code>, opsi yang dipilih menjadi chip di depan teks, dan <code>create</code> mengubah teks yang diketik menjadi nilai baru. Untuk hasil dari server, matikan <code>filtering</code>, lakukan pencarian di <code>(queryChange)</code>, dan tetapkan <code>loading</code> selama menunggu.',
+        ],
+        examples: {
+          country: {
+            title: 'Pencarian',
+            text: 'Huruf yang cocok tidak harus berdampingan, dan <code>keywords</code> juga ikut dihitung. <code>clearable</code> menambahkan tombol hapus dan memungkinkan Esc mengosongkan nilai.',
+          },
+          tags: {
+            title: 'Chip dan nilai baru',
+            text: '<code>multiple</code> menampilkan chip dan menghubungkan <code>[(values)]</code>. Jika teksnya belum menjadi opsi, <code>create</code> menawarkan untuk menambahkannya.',
+          },
+          people: {
+            title: 'Hasil dari server',
+            text: 'Daftar menampilkan kiriman server apa adanya, tanpa disaring, dengan baris pemuatan selama menunggu. Label yang sudah dipilih tetap tersimpan saat hasil baru tiba.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Kolom teks yang menyarankan opsi saat Anda mengetik.',
+            members: {
+              options:
+                'Opsi-opsinya, sebagai objek <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>.',
+              value: 'Nilai yang dipilih, atau <code>null</code>. Juga bekerja dengan formulir.',
+              values: 'Nilai-nilai yang dipilih, dengan <code>multiple</code>.',
+              multiple: 'Memungkinkan beberapa opsi dipilih, yang ditampilkan sebagai chip.',
+              create:
+                'Membuat nilai dari teks yang diketik. Daftar lalu menawarkan untuk menambahkan teks yang belum menjadi opsi.',
+              filtering:
+                'Menyaring opsi saat Anda mengetik. Matikan jika server yang menyaringnya.',
+              loading: 'Menampilkan baris pemuatan selama menunggu hasil.',
+              clearable:
+                'Menambahkan tombol untuk mengosongkan nilai, dan memungkinkan Esc mengosongkannya.',
+              placeholder: 'Teks yang ditampilkan saat kolom kosong.',
+              label:
+                'Nama aksesibel, jika tidak ada <code>&lt;label&gt;</code> yang menamai kolom.',
+              inputId: 'Id kolom teks, untuk <code>&lt;label for&gt;</code>.',
+              disabled: 'Menonaktifkan kolom.',
+              compareWith:
+                'Menentukan apakah dua nilai adalah opsi yang sama, untuk nilai berupa objek.',
+              displayWith:
+                'Teks untuk nilai yang tidak ada di antara opsi, misalnya nilai yang ditetapkan sebelum opsi dimuat.',
+              virtual:
+                'Hanya merender baris yang terlihat: selalu, tidak pernah, atau <code>auto</code> jika lebih dari 200 baris.',
+              queryChange: 'Mengirimkan teks selagi diketik, untuk pencarian di server.',
+              openChange: 'Terpicu saat daftar terbuka atau tertutup.',
+              show: 'Membuka daftar.',
+              hide: 'Menutup daftar.',
+              clear: 'Mengosongkan nilai dan teks.',
+              focus: 'Memfokuskan kolom teks.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Pasang pada <code>ng-template</code> di dalam komponen untuk menggambar sendiri setiap baris. Konteksnya berisi opsi dan barisnya.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Menggambar label opsi dengan huruf yang cocok ditandai, beserta deskripsi dan jalurnya, untuk baris buatan Anda sendiri.',
+            members: { nuiOptionText: 'Baris dari konteks template.' },
+          },
+        },
+        keyboard: [
+          ['Panah bawah dan atas', 'Membuka daftar, lalu berpindah antaropsi.'],
+          ['Page Down dan Page Up', 'Melompat sepuluh opsi.'],
+          ['Enter', 'Memilih opsi yang aktif.'],
+          ['Alt + panah bawah atau atas', 'Membuka atau menutup daftar.'],
+          ['Esc', 'Menutup daftar; lalu mengosongkan teks, atau nilainya jika clearable.'],
+          ['Backspace', 'Di kolom kosong, menghapus chip terakhir.'],
+          [
+            'Panah kiri',
+            'Dari awal teks (panah kanan pada teks kanan-ke-kiri), pindah ke chip. Di sana, Backspace atau Delete menghapus chip.',
+          ],
+        ],
+        notes: [
+          'Kolom teksnya adalah <code>combobox</code> dengan <code>aria-autocomplete="list"</code>, <code>aria-expanded</code>, dan <code>aria-controls</code>. Fokus tetap di kolom itu, dan <code>aria-activedescendant</code> menunjuk ke opsi yang aktif.',
+          'Chip berupa daftar bernama, dan setiap tombol hapus dinamai sesuai chip-nya, misalnya “Remove Italy”.',
+          '“No matches” dan baris pemuatan adalah pesan status, sehingga pembaca layar mengumumkannya.',
+          'Tombol yang mengonfirmasi komposisi metode input, seperti untuk bahasa Tionghoa atau Jepang, diserahkan ke metode input.',
+        ],
+      },
+      command: {
+        name: 'Palet perintah',
+        title: 'Komponen palet perintah untuk Angular',
+        summary: 'Semua perintah di aplikasi Anda, cukup satu tombol.',
+        description:
+          'Palet perintah Angular yang aksesibel: ⌘K dari mana saja, pencarian fuzzy hingga ke halaman bersarang, grup, dan pintasan sesuai penulisan tiap platform.',
+        apiDescription:
+          'Referensi API palet perintah Needless UI: nui-command-palette dengan commands, hotkey, bindShortcuts, dan loop, serta bentuk NuiCommand.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas palet perintah Needless UI: dialog modal dengan combobox pencarian, aria-activedescendant, dan navigasi halaman.',
+        overview: [
+          'Palet perintah adalah kolom pencarian atas perintah-perintah aplikasi Anda, di dalam dialog modal. ⌘K membukanya dari mana saja (Ctrl+K di Windows dan Linux). Pilih sebuah perintah, lalu palet tertutup dan menjalankannya.',
+          'Perintah bisa memiliki grup, deskripsi, kata kunci, dan pintasan, yang ditampilkan dengan simbol tiap platform. Perintah dengan <code>children</code> membuka halaman berisi perintah lain, dan pencarian dari tingkat teratas ikut menjangkau isi halaman.',
+        ],
+        examples: {
+          palette: {
+            title: 'Perintah dan halaman',
+            text: 'Grup, pintasan, perintah nonaktif, dan dua halaman. <code>(run)</code> memberi tahu perintah mana yang dijalankan; <code>run</code> milik perintah itu sendiri juga berfungsi.',
+          },
+          people: {
+            title: 'Baris kustom',
+            text: '<code>nuiOptionTemplate</code> menggambar setiap baris, dan <code>nuiOptionText</code> mempertahankan tanda kecocokan. <code>[hotkey]="null"</code> menyerahkan ⌘K ke palet di atas.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Dialog modal dengan kolom pencarian atas perintah-perintah Anda.',
+            members: {
+              commands: 'Perintah-perintahnya, sebagai objek <code>NuiCommand</code>.',
+              open: 'Apakah palet sedang terbuka.',
+              hotkey:
+                'Pintasan yang membuka dan menutup palet dari mana saja, atau <code>null</code> jika tidak ada. <code>mod</code> adalah ⌘ di perangkat Apple dan Ctrl di perangkat lain.',
+              bindShortcuts:
+                'Juga menjalankan perintah lewat pintasannya sendiri, di mana saja pada halaman.',
+              loop: 'Panah bawah di perintah terakhir menuju yang pertama, dan panah atas di perintah pertama menuju yang terakhir.',
+              filtering:
+                'Menyaring saat Anda mengetik. Matikan jika server yang menyaring perintah.',
+              loading: 'Menampilkan baris pemuatan selama menunggu hasil.',
+              hints: 'Menampilkan petunjuk tombol di bagian bawah.',
+              virtual:
+                'Hanya merender baris yang terlihat: selalu, tidak pernah, atau <code>auto</code> jika lebih dari 200 baris.',
+              label: 'Nama aksesibel dialog dan kolom pencariannya.',
+              placeholder: 'Teks yang ditampilkan di kolom pencarian yang kosong.',
+              run: 'Mengirimkan setiap perintah yang dijalankan.',
+              queryChange: 'Mengirimkan teks selagi diketik, untuk pencarian di server.',
+              show: 'Membuka palet.',
+              hide: 'Menutup palet.',
+              toggle: 'Membuka palet, atau menutupnya.',
+              back: 'Kembali ke halaman sebelumnya.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Satu perintah, atau satu halaman perintah.',
+            members: {
+              label: 'Teks yang ditampilkan dan dicari.',
+              description: 'Teks sekunder di bawah label.',
+              group: 'Perintah dengan grup yang sama dicantumkan di bawah judul grup tersebut.',
+              keywords: 'Kata lain yang dicocokkan pencarian, misalnya sinonim.',
+              shortcut: 'Tombol yang ditampilkan bersamanya, misalnya <code>mod+shift+p</code>.',
+              disabled: 'Ditampilkan, tetapi tidak bisa dijalankan.',
+              children:
+                'Perintah satu tingkat di bawahnya: memilih perintah ini membukanya sebagai halaman.',
+              run: 'Dijalankan saat dipilih, setelah palet tertutup.',
+              id: 'Untuk keperluan Anda sendiri, misalnya membedakan perintah di <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K atau Ctrl+K', 'Membuka atau menutup palet.'],
+          ['Panah bawah dan atas', 'Berpindah antarperintah, berputar di kedua ujung.'],
+          ['Page Down dan Page Up', 'Melompat sepuluh perintah.'],
+          ['Enter', 'Menjalankan perintah yang aktif, atau membuka halamannya.'],
+          ['Esc', 'Kembali satu halaman; di tingkat teratas, menutup palet.'],
+          ['Backspace', 'Di kolom kosong pada sebuah halaman, kembali ke halaman sebelumnya.'],
+        ],
+        notes: [
+          'Komponen ini adalah <code>&lt;dialog&gt;</code> modal native: halaman di belakangnya menjadi inert, fokus tetap di dalam, dan saat ditutup fokus kembali ke tempat semula.',
+          'Kolom pencariannya adalah <code>combobox</code> yang menunjuk perintah aktif dengan <code>aria-activedescendant</code>. Di sebuah halaman, kolom ini memakai nama halaman tersebut.',
+          'Tombol pintasan berupa teks di setiap opsi, sehingga dibacakan oleh pembaca layar. Petunjuk tombol di bagian bawah disembunyikan dari teknologi bantu.',
+          'Pintasan tanpa Ctrl, Alt, atau ⌘ tidak berjalan saat Anda mengetik di sebuah kolom.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Komponen popover dan hovercard untuk Angular',
+        summary: 'Panel mengambang di samping tombol, dan tooltip kaya konten saat hover.',
+        description:
+          'Popover dan hovercard Angular yang aksesibel berbasis Popover API native: posisi yang berbalik dan mengikuti, panah, tutup saat klik di luar, dan jeda hover.',
+        apiDescription:
+          'Referensi API popover Needless UI: nuiPopover dan nuiHovercard dengan side, align, offset, dan arrow, serta direktif pemicunya.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas popover dan hovercard Needless UI: role dialog dan tooltip, pengembalian fokus, Esc, dan WCAG 1.4.13.',
+        overview: [
+          'Popover adalah panel kecil yang terbuka di samping tombol, untuk konten interaktif: filter, formulir singkat, pemilih warna. Ini adalah <code>popover="auto"</code> native, sehingga browser menutupnya saat Esc ditekan atau saat ada klik di luar, mengembalikan fokus, dan menempatkannya tepat setelah pemicunya dalam urutan tab.',
+          'Hovercard adalah tooltip kaya konten. Kartu ini terbuka setelah hover singkat, atau langsung saat fokus keyboard, dan mendeskripsikan pemicunya. Kartu tetap terbuka saat pointer berpindah ke atasnya, sehingga teksnya bisa dibaca dan dipilih.',
+          'Keduanya berpindah ke sisi lain jika tidak ada ruang, tetap berada di layar, dan mengikuti pemicunya saat halaman digulir.',
+        ],
+        examples: {
+          filters: {
+            title: 'Filter',
+            text: 'Popover berisi formulir. <code>arrow</code> mengarahkannya ke pemicunya, dan <code>hide()</code> menutupnya dari kode.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Arahkan kursor ke sebuah nama, atau jangkau dengan Tab. Kartu itu mendeskripsikan tautan, sehingga pembaca layar membacanya setelah nama.',
+          },
+          sides: {
+            title: 'Sisi dan animasi masuk',
+            text: '<code>side</code> dan <code>align</code> menentukan tempat popover terbuka; <code>start</code> dan <code>end</code> mengikuti arah tulisan. <code>enter</code> dan <code>motion</code> menentukan cara munculnya.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Popover native yang ditempatkan di samping elemen yang membukanya.',
+            members: {
+              side: 'Sisi pemicu tempat panel terbuka. Berpindah ke sisi lain jika tidak ada ruang.',
+              align: 'Perataan terhadap pemicu di sepanjang sisi tersebut.',
+              offset: 'Jarak antara pemicu dan panel, dalam piksel.',
+              arrow: 'Menampilkan panah yang menunjuk ke pemicu.',
+              openChange: 'Terpicu saat terbuka atau tertutup.',
+              show: 'Membukanya di samping elemen apa pun.',
+              hide: 'Menutupnya.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Tombol yang membuka dan menutup popover, dengan <code>popovertarget</code> native.',
+            members: { nuiPopoverTrigger: 'Popover yang akan dibuka.' },
+          },
+          NuiHovercard: {
+            summary: 'Tooltip kaya konten yang mendeskripsikan pemicunya.',
+            members: {
+              side: 'Sisi pemicu tempat kartu terbuka. Berpindah ke sisi lain jika tidak ada ruang.',
+              align: 'Perataan terhadap pemicu di sepanjang sisi tersebut.',
+              offset: 'Jarak antara pemicu dan kartu, dalam piksel.',
+              arrow: 'Menampilkan panah yang menunjuk ke pemicu.',
+              openDelay:
+                'Lama hover dalam milidetik sebelum kartu terbuka. Fokus keyboard langsung membukanya.',
+              closeDelay: 'Jeda dalam milidetik sebelum kartu tertutup, setelah pointer pergi.',
+              openChange: 'Terpicu saat terbuka atau tertutup.',
+              show: 'Membukanya di samping elemen apa pun.',
+              hide: 'Menutupnya.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Menampilkan hovercard saat hover dan saat fokus keyboard, serta menjadikannya deskripsi elemen ini.',
+            members: { nuiHovercardTrigger: 'Hovercard yang akan ditampilkan.' },
+          },
+        },
+        keyboard: [
+          ['Enter atau Spasi pada pemicu', 'Membuka atau menutup popover.'],
+          ['Tab', 'Masuk ke popover yang terbuka, yang berada tepat setelah pemicunya.'],
+          [
+            'Esc',
+            'Menutup popover dan mengembalikan fokus ke pemicunya, atau menyembunyikan hovercard.',
+          ],
+        ],
+        notes: [
+          'Popover adalah <code>dialog</code> non-modal: beri nama dengan <code>aria-label</code> atau <code>aria-labelledby</code>. Pemicunya mendapat <code>aria-haspopup</code> dan <code>aria-expanded</code> dari browser.',
+          'Hovercard adalah <code>tooltip</code> sekaligus <code>aria-describedby</code> milik pemicunya, sehingga teksnya dibacakan bersama pemicu. Jangan taruh kontrol di dalamnya; gunakan popover untuk itu.',
+          'Hovercard memenuhi WCAG 1.4.13: Esc menyembunyikannya tanpa memindahkan fokus, pointer bisa berpindah ke atasnya, dan hovercard tetap tampil selama di-hover atau difokus.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Komponen select untuk Angular',
+        summary: 'Pilih satu atau banyak opsi, dari daftar pendek maupun yang sangat panjang.',
+        description:
+          'Select Angular yang aksesibel: pilihan tunggal atau ganda, grup, pohon, lompat saat mengetik, pilih semua, dan virtual scrolling untuk daftar sepanjang apa pun.',
+        apiDescription:
+          'Referensi API select Needless UI: nui-select dengan value, values, multiple, selectAll, dan virtual, bentuk NuiOption, serta baris kustom.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas select Needless UI: combobox khusus pilih, listbox atau pohon, aria-activedescendant, pencarian saat mengetik, dan tombol pohon.',
+        overview: [
+          'Select adalah tombol yang membuka daftar opsi. Beri <code>options</code>, yaitu array <code>NuiOption</code>, lalu hubungkan <code>[(value)]</code>, atau <code>[(values)]</code> dengan <code>multiple</code>. Komponen ini juga bekerja dengan Signal Forms, reactive forms, dan <code>ngModel</code>.',
+          'Opsi bisa memiliki <code>group</code>, <code>description</code>, dan <code>keywords</code>, sedangkan <code>children</code> menjadikan daftar sebagai pohon. Di atas 200 baris, hanya baris yang terlihat yang dirender, sehingga 100.000 opsi terbuka secepat sepuluh opsi.',
+          'Untuk mengetik dan menyaring, gunakan <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Grup',
+            text: 'Opsi dengan <code>group</code> dicantumkan di bawah judul grupnya. Mengetik sebuah huruf akan melompat ke opsi berikutnya yang diawali huruf itu.',
+          },
+          toppings: {
+            title: 'Banyak sekaligus',
+            text: '<code>multiple</code> membuat daftar tetap terbuka dan menghubungkan <code>[(values)]</code>. <code>selectAll</code> menambahkan tombol yang memilih atau mengosongkan semua opsi. Opsi yang nonaktif tidak bisa dipilih.',
+          },
+          folders: {
+            title: 'Pohon',
+            text: 'Opsi dengan <code>children</code> membentuk pohon. Daftar terbuka dengan folder dari opsi yang dipilih dalam keadaan terbentang.',
+          },
+          zones: {
+            title: 'Daftar panjang',
+            text: 'Semua zona waktu, per wilayah. Di atas 200 baris, hanya baris yang terlihat yang dirender, dan opsi yang aktif tetap dirender untuk pembaca layar.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Tombol yang membuka daftar opsi.',
+            members: {
+              options: 'Opsi-opsinya, sebagai objek <code>NuiOption</code>.',
+              value: 'Nilai yang dipilih, atau <code>null</code>. Juga bekerja dengan formulir.',
+              values: 'Nilai-nilai yang dipilih, dengan <code>multiple</code>.',
+              multiple:
+                'Memungkinkan beberapa opsi dipilih. Daftar tetap terbuka selama Anda memilih.',
+              selectAll:
+                'Dengan <code>multiple</code>, menambahkan tombol yang memilih atau mengosongkan semua opsi.',
+              placeholder: 'Teks yang ditampilkan saat belum ada yang dipilih.',
+              label:
+                'Nama aksesibel, jika tidak ada <code>&lt;label&gt;</code> yang menamai tombol.',
+              triggerId: 'Id tombol, untuk <code>&lt;label for&gt;</code>.',
+              disabled: 'Menonaktifkan select.',
+              compareWith:
+                'Menentukan apakah dua nilai adalah opsi yang sama, untuk nilai berupa objek.',
+              virtual:
+                'Hanya merender baris yang terlihat: selalu, tidak pernah, atau <code>auto</code> jika lebih dari 200 baris.',
+              openChange: 'Terpicu saat daftar terbuka atau tertutup.',
+              show: 'Membuka daftar.',
+              hide: 'Menutup daftar.',
+              focus: 'Memfokuskan tombol.',
+            },
+          },
+          NuiOption: {
+            summary: 'Satu opsi. Select, combobox, dan palet perintah semuanya menerima objek ini.',
+            members: {
+              value: 'Nilai yang ditetapkan saat opsi ini dipilih. Tipe apa pun.',
+              label: 'Teks yang ditampilkan dan dicari.',
+              description: 'Teks sekunder di bawah label.',
+              group:
+                'Opsi dengan grup yang sama dicantumkan berurutan di bawah judul grup tersebut.',
+              keywords: 'Kata lain yang dicocokkan pencarian, misalnya sinonim atau kode.',
+              disabled: 'Ditampilkan, tetapi tidak bisa dipilih.',
+              children: 'Opsi satu tingkat di bawahnya, yang menjadikan daftar sebagai pohon.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Pasang pada <code>ng-template</code> di dalam komponen untuk menggambar sendiri setiap baris. Konteksnya berisi opsi dan barisnya.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Menggambar label opsi dengan huruf yang cocok ditandai, beserta deskripsi dan jalurnya, untuk baris buatan Anda sendiri.',
+            members: { nuiOptionText: 'Baris dari konteks template.' },
+          },
+        },
+        keyboard: [
+          ['Panah bawah dan atas', 'Membuka daftar, lalu berpindah antaropsi.'],
+          ['Home dan End', 'Menuju opsi pertama atau terakhir.'],
+          ['Page Down dan Page Up', 'Melompat sepuluh opsi.'],
+          ['Enter atau Spasi', 'Membuka daftar, atau memilih opsi yang aktif.'],
+          ['Huruf', 'Melompat ke opsi berikutnya yang diawali huruf tersebut.'],
+          [
+            'Panah kanan dan kiri',
+            'Di pohon, membentangkan opsi atau menuju anak pertamanya; menciutkannya atau menuju induknya. Dicerminkan pada teks kanan-ke-kiri.',
+          ],
+          ['Alt + panah atas', 'Memilih opsi yang aktif dan menutup daftar.'],
+          [
+            'Tab',
+            'Pada pilihan tunggal, memilih opsi yang aktif lalu berpindah ke elemen berikutnya.',
+          ],
+          ['Esc', 'Menutup daftar tanpa memilih.'],
+        ],
+        notes: [
+          'Tombolnya adalah <code>combobox</code> khusus pilih dengan <code>aria-expanded</code> dan <code>aria-controls</code>. Fokus tetap di tombol, dan <code>aria-activedescendant</code> menunjuk ke opsi yang aktif.',
+          'Daftarnya adalah <code>listbox</code>, atau <code>tree</code> dengan <code>aria-level</code> dan <code>aria-expanded</code>. <code>aria-setsize</code> dan <code>aria-posinset</code> tetap benar meskipun hanya sebagian baris yang dirender.',
+          'Opsi yang aktif memakai isian solid dan, dalam mode forced colors, sebuah outline.',
+          'Beri nama dengan <code>&lt;label for&gt;</code> yang menunjuk ke <code>triggerId</code>, atau dengan <code>label</code>.',
         ],
       },
     },

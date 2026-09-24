@@ -103,7 +103,14 @@ export const messages: Messages = {
       type: '型',
       default: 'デフォルト',
       description: '説明',
-      kinds: { input: '入力', model: '双方向', output: '出力', method: 'メソッド' },
+      kinds: {
+        input: '入力',
+        model: '双方向',
+        output: '出力',
+        method: 'メソッド',
+        property: 'プロパティ',
+      },
+      texts: '表示や読み上げに使うテキストもすべて入力なので、翻訳できます：',
       customization: {
         note: 'カスタマイズ用の入力のうち、設定しなかったものは最も近い <code>data-nui-*</code> 属性に従います。詳しくは<a href="/guides/customization">カスタマイズガイド</a>をご覧ください。',
         members: {
@@ -810,6 +817,363 @@ export const messages: Messages = {
           'スタックにホバーまたはフォーカスしている間と、ページが非表示の間はタイマーが止まります。Promise の結果を待っているトーストは、時間切れで消えることはありません。',
           'ユーザーが対応しなければならない内容は、トースト以外の場所にも用意してください。',
           '動きを減らす設定では、トーストはアニメーションもスワイプもせず、タイマーの線も表示されません。',
+        ],
+      },
+      combobox: {
+        name: 'コンボボックス',
+        title: 'Angular 用コンボボックス・オートコンプリート',
+        summary: '入力に合わせて選択肢を提案するテキストフィールド。',
+        description:
+          'アクセシブルな Angular のコンボボックス。一致箇所を強調するあいまい検索、チップでの複数選択、入力からの新しい値の作成、サーバーからの結果に対応します。',
+        apiDescription:
+          'Needless UI のコンボボックスの API リファレンス。value、values、multiple、create、filtering、loading、clearable を持つ nui-combobox と、カスタム行を解説します。',
+        a11yDescription:
+          'Needless UI のコンボボックスのキーボード操作とアクセシビリティ。リスト補完付きの編集可能なコンボボックス、aria-activedescendant、チップ、IME 入力を解説します。',
+        overview: [
+          'コンボボックスは、候補のリストを備えたテキストフィールドです。検索はあいまい検索で、アクセント記号を区別しません。一致度の高いものから順に並び、一致した文字には印が付きます。セレクトと同じ <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> オブジェクトを受け取ります。',
+          '<code>multiple</code> を指定すると、選んだ選択肢がテキストの前にチップとして並び、<code>create</code> を指定すると、入力したテキストが新しい値になります。サーバーから結果を得るには、<code>filtering</code> をオフにして <code>(queryChange)</code> で検索し、待っている間は <code>loading</code> を設定します。',
+        ],
+        examples: {
+          country: {
+            title: '検索',
+            text: '一致する文字は隣り合っている必要がなく、<code>keywords</code> も検索対象になります。<code>clearable</code> を指定するとクリアボタンが付き、Esc キーで値をクリアできます。',
+          },
+          tags: {
+            title: 'チップと新しい値',
+            text: '<code>multiple</code> はチップを表示し、<code>[(values)]</code> をバインドします。入力したテキストがまだ選択肢にない場合は、<code>create</code> がその追加を提案します。',
+          },
+          people: {
+            title: 'サーバーからの結果',
+            text: 'リストにはサーバーから届いた結果が絞り込まずにそのまま表示され、待っている間は読み込み中の行が表示されます。新しい結果が届いても、選んだ選択肢のラベルは保持されます。',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: '入力に合わせて選択肢を提案するテキストフィールド。',
+            members: {
+              options:
+                '選択肢。<a href="/components/select/api#NuiOption"><code>NuiOption</code></a> オブジェクトで指定します。',
+              value: '選ばれた値、または <code>null</code>。フォームでも使えます。',
+              values: '選ばれた値の配列。<code>multiple</code> のときに使います。',
+              multiple: '複数の選択肢を選べるようにします。選んだものはチップとして表示されます。',
+              create:
+                '入力したテキストから値を作成します。選択肢にないテキストは、リストで追加を提案します。',
+              filtering:
+                '入力に合わせて選択肢を絞り込みます。サーバー側で絞り込む場合はオフにします。',
+              loading: '結果を待っている間、読み込み中の行を表示します。',
+              clearable: '値をクリアするボタンを追加し、Esc キーでもクリアできるようにします。',
+              placeholder: 'フィールドが空のときに表示するテキスト。',
+              label:
+                'アクセシブルな名前。<code>&lt;label&gt;</code> でフィールドに名前を付けていない場合に使います。',
+              inputId: 'テキストフィールドの id。<code>&lt;label for&gt;</code> で使います。',
+              disabled: 'フィールドを無効にします。',
+              compareWith:
+                '2つの値が同じ選択肢かどうかを判定します。値がオブジェクトの場合に使います。',
+              displayWith:
+                '選択肢にない値に表示するテキスト。たとえば、選択肢の読み込み前に設定された値に使います。',
+              virtual:
+                '表示範囲の行だけをレンダリングします。常に行う、行わない、200行を超えたら行う <code>auto</code> のいずれか。',
+              queryChange: '入力中のテキストを出力します。サーバー検索に使います。',
+              openChange: 'リストが開いたとき、または閉じたときに出力します。',
+              show: 'リストを開きます。',
+              hide: 'リストを閉じます。',
+              clear: '値とテキストをクリアします。',
+              focus: 'テキストフィールドにフォーカスします。',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'コンポーネント内の <code>ng-template</code> に付けると、各行を自分で描画できます。コンテキストには選択肢とその行が入っています。',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              '選択肢のラベル（一致した文字に印を付けたもの）、説明、パスを描画します。独自の行で使います。',
+            members: { nuiOptionText: '行。テンプレートのコンテキストから渡します。' },
+          },
+        },
+        keyboard: [
+          ['上下矢印キー', 'リストを開き、選択肢の間を移動します。'],
+          ['Page Down / Page Up', '選択肢を10個分移動します。'],
+          ['Enter', 'アクティブな選択肢を選びます。'],
+          ['Alt + 下または上矢印キー', 'リストを開閉します。'],
+          ['Esc', 'リストを閉じます。次に押すとテキストを、クリア可能な場合は値をクリアします。'],
+          ['Backspace', 'フィールドが空のとき、最後のチップを削除します。'],
+          [
+            '左矢印キー',
+            'テキストの先頭からチップに移動します（右から左に書く言語では右矢印キー）。チップ上では Backspace または Delete でチップを削除します。',
+          ],
+        ],
+        notes: [
+          'テキストフィールドは <code>aria-autocomplete="list"</code>、<code>aria-expanded</code>、<code>aria-controls</code> を持つ <code>combobox</code> です。フォーカスはフィールドにとどまり、<code>aria-activedescendant</code> がアクティブな選択肢を指します。',
+          'チップは名前付きのリストで、各削除ボタンには「Remove Italy」のように、そのチップに応じた名前が付きます。',
+          '「No matches」と読み込み中の行はステータスメッセージなので、スクリーンリーダーが読み上げます。',
+          '中国語や日本語の入力などで IME の変換を確定するキーは、IME に任せます。',
+        ],
+      },
+      command: {
+        name: 'コマンドパレット',
+        title: 'Angular 用コマンドパレットコンポーネント',
+        summary: 'アプリのあらゆるコマンドを、キー操作ひとつで。',
+        description:
+          'アクセシブルな Angular のコマンドパレット。どこでも ⌘K で開き、入れ子のページも探せるあいまい検索、グループ、各 OS の表記に合わせたショートカットに対応します。',
+        apiDescription:
+          'Needless UI のコマンドパレットの API リファレンス。commands、hotkey、bindShortcuts、loop を持つ nui-command-palette と、NuiCommand の形式を解説します。',
+        a11yDescription:
+          'Needless UI のコマンドパレットのキーボード操作とアクセシビリティ。検索用コンボボックスを備えたモーダルダイアログ、aria-activedescendant、ページ移動を解説します。',
+        overview: [
+          'コマンドパレットは、アプリのコマンドを検索するフィールドをモーダルダイアログに収めたものです。⌘K（Windows と Linux では Ctrl+K）でどこからでも開けます。コマンドを選ぶとパレットが閉じ、そのあとでコマンドが実行されます。',
+          'コマンドにはグループ、説明、キーワード、ショートカットを持たせることができ、ショートカットは各プラットフォームの記号で表示されます。<code>children</code> を持つコマンドは、さらにコマンドが並ぶページを開きます。検索は最上位からページの中まで届きます。',
+        ],
+        examples: {
+          palette: {
+            title: 'コマンドとページ',
+            text: 'グループ、ショートカット、無効なコマンド、2つのページ。実行されたコマンドは <code>(run)</code> でわかります。コマンド自体の <code>run</code> も使えます。',
+          },
+          people: {
+            title: 'カスタム行',
+            text: '<code>nuiOptionTemplate</code> が各行を描画し、<code>nuiOptionText</code> が一致箇所の印を保ちます。<code>[hotkey]="null"</code> にすると、⌘K は上のパレットに任されます。',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'コマンドを検索するフィールドを備えたモーダルダイアログ。',
+            members: {
+              commands: 'コマンド。<code>NuiCommand</code> オブジェクトで指定します。',
+              open: 'パレットが開いているかどうか。',
+              hotkey:
+                'どこからでもパレットを開閉するショートカット。不要なら <code>null</code>。<code>mod</code> は Apple デバイスでは ⌘、それ以外では Ctrl です。',
+              bindShortcuts:
+                'ページのどこにいても、各コマンド自身のショートカットでコマンドを実行できるようにします。',
+              loop: '最後のコマンドで下に進むと最初に、最初のコマンドで上に進むと最後に移動します。',
+              filtering:
+                '入力に合わせて絞り込みます。サーバー側でコマンドを絞り込む場合はオフにします。',
+              loading: '結果を待っている間、読み込み中の行を表示します。',
+              hints: '使えるキーを下部に表示します。',
+              virtual:
+                '表示範囲の行だけをレンダリングします。常に行う、行わない、200行を超えたら行う <code>auto</code> のいずれか。',
+              label: 'ダイアログとその検索フィールドのアクセシブルな名前。',
+              placeholder: '空の検索フィールドに表示するテキスト。',
+              run: 'コマンドが実行されるたびに、そのコマンドを出力します。',
+              queryChange: '入力中のテキストを出力します。サーバー検索に使います。',
+              show: 'パレットを開きます。',
+              hide: 'パレットを閉じます。',
+              toggle: 'パレットを開きます。開いていれば閉じます。',
+              back: '前のページに戻ります。',
+            },
+          },
+          NuiCommand: {
+            summary: '1つのコマンド、またはコマンドを集めたページ。',
+            members: {
+              label: '表示され、検索の対象になるテキスト。',
+              description: 'ラベルの下に表示する補足テキスト。',
+              group: '同じグループのコマンドは、その見出しの下にまとめて表示されます。',
+              keywords: '検索でマッチさせる追加の語。たとえば同義語。',
+              shortcut: '一緒に表示するキー。たとえば <code>mod+shift+p</code>。',
+              disabled: '表示はされますが、実行できません。',
+              children: '1階層下のコマンド。このコマンドを選ぶと、それらがページとして開きます。',
+              run: '選ばれたとき、パレットが閉じてから実行されます。',
+              id: '自由に使える値。たとえば <code>(run)</code> でコマンドを区別するのに使います。',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K または Ctrl+K', 'パレットを開閉します。'],
+          ['上下矢印キー', 'コマンドの間を移動します。端に達すると反対側に回ります。'],
+          ['Page Down / Page Up', 'コマンドを10個分移動します。'],
+          ['Enter', 'アクティブなコマンドを実行するか、そのページを開きます。'],
+          ['Esc', '1つ前のページに戻ります。最上位ではパレットを閉じます。'],
+          ['Backspace', 'ページ内で検索フィールドが空のとき、前のページに戻ります。'],
+        ],
+        notes: [
+          'ネイティブのモーダル <code>&lt;dialog&gt;</code> です。背後のページは操作できなくなり、フォーカスは内側にとどまり、閉じるとフォーカスは元の位置に戻ります。',
+          '検索フィールドは <code>combobox</code> で、<code>aria-activedescendant</code> でアクティブなコマンドを指します。ページ内では、そのページの名前が付きます。',
+          'ショートカットキーは各選択肢内のテキストなので、スクリーンリーダーで読み上げられます。下部のキーのヒントは支援技術から隠されています。',
+          'Ctrl、Alt、⌘ を含まないショートカットは、フィールドに入力している間は実行されません。',
+        ],
+      },
+      popover: {
+        name: 'ポップオーバー',
+        title: 'Angular 用ポップオーバー・ホバーカードコンポーネント',
+        summary: 'ボタンの横に浮かぶパネルと、ホバーで表示されるリッチなツールチップ。',
+        description:
+          'ネイティブの Popover API を使ったアクセシブルな Angular のポップオーバーとホバーカード。反転・追従する配置、矢印、外側クリックで閉じる操作、ホバー遅延に対応します。',
+        apiDescription:
+          'Needless UI のポップオーバーの API リファレンス。side、align、offset、arrow を持つ nuiPopover と nuiHovercard、それぞれのトリガーディレクティブを解説します。',
+        a11yDescription:
+          'Needless UI のポップオーバーとホバーカードのキーボード操作とアクセシビリティ。dialog と tooltip のロール、フォーカスの戻り先、Esc キー、WCAG 1.4.13 を解説します。',
+        overview: [
+          'ポップオーバーは、ボタンの横に開く小さなパネルで、フィルター、短いフォーム、カラーピッカーなど、操作するものに使います。ネイティブの <code>popover="auto"</code> なので、Esc キーや外側のクリックでブラウザーが閉じてフォーカスを戻し、タブ順序ではトリガーの直後に置きます。',
+          'ホバーカードはリッチなツールチップです。少しホバーすると開き、キーボードでフォーカスするとすぐに開いて、トリガーを説明します。ポインターがカードの上に移っても開いたままなので、テキストを読んだり選択したりできます。',
+          'どちらも、スペースがなければ反対側に反転し、画面内にとどまり、ページのスクロールに合わせてトリガーに追従します。',
+        ],
+        examples: {
+          filters: {
+            title: 'フィルター',
+            text: 'フォームを含むポップオーバーです。<code>arrow</code> でトリガーを指す矢印を付け、<code>hide()</code> でコードから閉じます。',
+          },
+          profile: {
+            title: 'ホバーカード',
+            text: '名前にホバーするか、Tab キーで移動してみてください。カードはリンクの説明になるので、スクリーンリーダーは名前のあとにカードを読み上げます。',
+          },
+          sides: {
+            title: '表示位置と登場アニメーション',
+            text: '<code>side</code> と <code>align</code> で開く位置を設定します。<code>start</code> と <code>end</code> は書字方向に従います。<code>enter</code> と <code>motion</code> で登場のしかたを設定します。',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'ネイティブのポップオーバー。開いた要素の横に配置されます。',
+            members: {
+              side: 'トリガーのどちら側に開くか。スペースがなければ反転します。',
+              align: 'その辺に沿って、トリガーとどう揃えるか。',
+              offset: 'トリガーとパネルの間隔（ピクセル単位）。',
+              arrow: 'トリガーを指す矢印を表示します。',
+              openChange: '開いたとき、または閉じたときに出力します。',
+              show: '任意の要素の横に開きます。',
+              hide: '閉じます。',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary: 'ネイティブの <code>popovertarget</code> でポップオーバーを開閉するボタン。',
+            members: { nuiPopoverTrigger: '開くポップオーバー。' },
+          },
+          NuiHovercard: {
+            summary: 'トリガーを説明するリッチなツールチップ。',
+            members: {
+              side: 'トリガーのどちら側に開くか。スペースがなければ反転します。',
+              align: 'その辺に沿って、トリガーとどう揃えるか。',
+              offset: 'トリガーとカードの間隔（ピクセル単位）。',
+              arrow: 'トリガーを指す矢印を表示します。',
+              openDelay:
+                '開くまでのホバー時間（ミリ秒）。キーボードでフォーカスした場合はすぐに開きます。',
+              closeDelay: 'ポインターが離れてから閉じるまでのミリ秒数。',
+              openChange: '開いたとき、または閉じたときに出力します。',
+              show: '任意の要素の横に開きます。',
+              hide: '閉じます。',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'ホバー時とキーボードでのフォーカス時にホバーカードを表示し、それをこの要素の説明にします。',
+            members: { nuiHovercardTrigger: '表示するホバーカード。' },
+          },
+        },
+        keyboard: [
+          ['トリガー上で Enter または Space', 'ポップオーバーを開閉します。'],
+          [
+            'Tab',
+            '開いているポップオーバーの中に移動します。ポップオーバーはトリガーの直後にあります。',
+          ],
+          ['Esc', 'ポップオーバーを閉じてトリガーにフォーカスを戻すか、ホバーカードを隠します。'],
+        ],
+        notes: [
+          'ポップオーバーは非モーダルの <code>dialog</code> です。<code>aria-label</code> または <code>aria-labelledby</code> で名前を付けてください。トリガーには <code>aria-haspopup</code> と、ブラウザーによる <code>aria-expanded</code> が付きます。',
+          'ホバーカードは <code>tooltip</code> で、トリガーの <code>aria-describedby</code> になるため、そのテキストはトリガーと一緒に読み上げられます。操作できる要素は入れないでください。それにはポップオーバーを使います。',
+          'ホバーカードは WCAG 1.4.13 を満たします。Esc キーでフォーカスを動かさずに隠せ、ポインターをカードの上に移動でき、ホバーまたはフォーカスしている間は表示されたままです。',
+        ],
+      },
+      select: {
+        name: 'セレクト',
+        title: 'Angular 用セレクトコンポーネント',
+        summary: '短いリストからも巨大なリストからも、1つまたは複数の選択肢を選べます。',
+        description:
+          'アクセシブルな Angular のセレクト。単一選択と複数選択、グループ、ツリー、入力によるジャンプ、すべて選択、どんな長さのリストにも使える仮想スクロールに対応します。',
+        apiDescription:
+          'Needless UI のセレクトの API リファレンス。value、values、multiple、selectAll、virtual を持つ nui-select、NuiOption の形式、カスタム行を解説します。',
+        a11yDescription:
+          'Needless UI のセレクトのキーボード操作とアクセシビリティ。選択専用コンボボックス、リストボックスとツリー、aria-activedescendant、文字検索、ツリーのキーを解説します。',
+        overview: [
+          'セレクトは、選択肢のリストを開くボタンです。<code>NuiOption</code> の配列を <code>options</code> に渡し、<code>[(value)]</code> を、<code>multiple</code> の場合は <code>[(values)]</code> をバインドします。Signal Forms、リアクティブフォーム、<code>ngModel</code> でも使えます。',
+          '選択肢には <code>group</code>、<code>description</code>、<code>keywords</code> を持たせることができ、<code>children</code> があるとリストはツリーになります。200行を超えると表示範囲の行だけがレンダリングされるので、10万個の選択肢でも10個と同じ速さで開きます。',
+          '入力して絞り込みたい場合は、<a href="/components/combobox">コンボボックス</a>を使ってください。',
+        ],
+        examples: {
+          countries: {
+            title: 'グループ',
+            text: '<code>group</code> を持つ選択肢は、その見出しの下に並びます。文字を入力すると、その文字で始まる次の選択肢にジャンプします。',
+          },
+          toppings: {
+            title: '複数選択',
+            text: '<code>multiple</code> を指定するとリストは開いたままになり、<code>[(values)]</code> をバインドします。<code>selectAll</code> は、すべての選択肢を選択または解除するボタンを追加します。無効な選択肢は選べません。',
+          },
+          folders: {
+            title: 'ツリー',
+            text: '<code>children</code> を持つ選択肢はツリーになります。リストを開くと、選ばれた選択肢のフォルダーが展開された状態で表示されます。',
+          },
+          zones: {
+            title: '長いリスト',
+            text: 'すべてのタイムゾーンを地域別に並べています。200行を超えると表示範囲の行だけがレンダリングされ、アクティブな選択肢はスクリーンリーダーのためにレンダリングされたまま残ります。',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: '選択肢のリストを開くボタン。',
+            members: {
+              options: '選択肢。<code>NuiOption</code> オブジェクトで指定します。',
+              value: '選ばれた値、または <code>null</code>。フォームでも使えます。',
+              values: '選ばれた値の配列。<code>multiple</code> のときに使います。',
+              multiple: '複数の選択肢を選べるようにします。選んでいる間、リストは開いたままです。',
+              selectAll:
+                '<code>multiple</code> のとき、すべての選択肢を選択または解除するボタンを追加します。',
+              placeholder: '何も選ばれていないときに表示するテキスト。',
+              label:
+                'アクセシブルな名前。<code>&lt;label&gt;</code> でボタンに名前を付けていない場合に使います。',
+              triggerId: 'ボタンの id。<code>&lt;label for&gt;</code> で使います。',
+              disabled: 'セレクトを無効にします。',
+              compareWith:
+                '2つの値が同じ選択肢かどうかを判定します。値がオブジェクトの場合に使います。',
+              virtual:
+                '表示範囲の行だけをレンダリングします。常に行う、行わない、200行を超えたら行う <code>auto</code> のいずれか。',
+              openChange: 'リストが開いたとき、または閉じたときに出力します。',
+              show: 'リストを開きます。',
+              hide: 'リストを閉じます。',
+              focus: 'ボタンにフォーカスします。',
+            },
+          },
+          NuiOption: {
+            summary:
+              '1つの選択肢。セレクト、コンボボックス、コマンドパレットのいずれもこれを受け取ります。',
+            members: {
+              value: '選んだときに設定される値。型は任意です。',
+              label: '表示され、検索の対象になるテキスト。',
+              description: 'ラベルの下に表示する補足テキスト。',
+              group: '同じグループの選択肢は、その見出しの下に順番に表示されます。',
+              keywords: '検索でマッチさせる追加の語。たとえば同義語やコード。',
+              disabled: '表示はされますが、選べません。',
+              children: '1階層下の選択肢。これがあるとリストはツリーになります。',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'コンポーネント内の <code>ng-template</code> に付けると、各行を自分で描画できます。コンテキストには選択肢とその行が入っています。',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              '選択肢のラベル（一致した文字に印を付けたもの）、説明、パスを描画します。独自の行で使います。',
+            members: { nuiOptionText: '行。テンプレートのコンテキストから渡します。' },
+          },
+        },
+        keyboard: [
+          ['上下矢印キー', 'リストを開き、選択肢の間を移動します。'],
+          ['Home / End', '最初または最後の選択肢に移動します。'],
+          ['Page Down / Page Up', '選択肢を10個分移動します。'],
+          ['Enter または Space', 'リストを開くか、アクティブな選択肢を選びます。'],
+          ['文字キー', '入力した文字で始まる次の選択肢にジャンプします。'],
+          [
+            '左右矢印キー',
+            'ツリーで、右は選択肢を展開するか最初の子に移動し、左は折りたたむか親に移動します。右から左に書く言語では左右が逆になります。',
+          ],
+          ['Alt + 上矢印キー', 'アクティブな選択肢を選んで、リストを閉じます。'],
+          ['Tab', '単一選択では、アクティブな選択肢を選んで次の要素に移動します。'],
+          ['Esc', '何も選ばずにリストを閉じます。'],
+        ],
+        notes: [
+          'ボタンは <code>aria-expanded</code> と <code>aria-controls</code> を持つ選択専用の <code>combobox</code> です。フォーカスはボタンにとどまり、<code>aria-activedescendant</code> がアクティブな選択肢を指します。',
+          'リストは <code>listbox</code>、または <code>aria-level</code> と <code>aria-expanded</code> を持つ <code>tree</code> です。一部の行だけがレンダリングされているときも、<code>aria-setsize</code> と <code>aria-posinset</code> は正しい値を保ちます。',
+          'アクティブな選択肢はベタ塗りで表示され、強制カラーモードではアウトラインが付きます。',
+          '<code>triggerId</code> を指す <code>&lt;label for&gt;</code>、または <code>label</code> で名前を付けてください。',
         ],
       },
     },

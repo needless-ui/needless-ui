@@ -1,0 +1,16 @@
+<button nuiButton variant="outline" tone="neutral" (click)="open.set(true)">Find a person…</button>
+<nui-command-palette
+  label="Find a person"
+  placeholder="Search people"
+  [hotkey]="null"
+  [hints]="false"
+  [commands]="people"
+  [(open)]="open"
+  (run)="chosen.set($event.label)"
+>
+  <ng-template nuiOptionTemplate let-row="row">
+    <span nuiAvatar size="sm" decorative [name]="row.label"></span>
+    <span [nuiOptionText]="row"></span>
+  </ng-template>
+</nui-command-palette>
+<p>Opened: {{ chosen() }}.</p>

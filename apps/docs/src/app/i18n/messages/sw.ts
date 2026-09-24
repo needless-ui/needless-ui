@@ -103,7 +103,14 @@ export const messages: Messages = {
       type: 'Aina',
       default: 'Chaguomsingi',
       description: 'Maelezo',
-      kinds: { input: 'Input', model: 'Pande mbili', output: 'Output', method: 'Mbinu' },
+      kinds: {
+        input: 'Input',
+        model: 'Pande mbili',
+        output: 'Output',
+        method: 'Mbinu',
+        property: 'Sifa',
+      },
+      texts: 'Maandishi yote yanayoonyeshwa au kutangazwa pia ni input, hivyo unaweza kuyatafsiri:',
       customization: {
         note: 'Input za ubinafsishaji usizoweka hufuata attribute ya <code>data-nui-*</code> iliyo karibu zaidi. Tazama <a href="/guides/customization">mwongozo wa ubinafsishaji</a>.',
         members: {
@@ -816,6 +823,360 @@ export const messages: Messages = {
           'Vipima muda husimama wakati rundo lina hover au focus na wakati ukurasa umefichwa, na muda wa toast zinazosubiri promise hauishi kamwe.',
           'Chochote ambacho mtumiaji lazima akifanyie kazi kinapaswa kupatikana pia nje ya toast.',
           'Mwendo ukiwa umepunguzwa, toast hazihuishwi wala kutelezeshwa, na mstari wa kipima muda hufichwa.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox na ukamilishaji kiotomatiki kwa Angular',
+        summary: 'Sehemu ya maandishi inayopendekeza chaguo unapoandika.',
+        description:
+          'Combobox ya Angular inayofikika: utafutaji wa fuzzy unaoangazia yanayolingana, thamani nyingi kama chip, thamani mpya kutoka kwa maandishi na matokeo ya seva.',
+        apiDescription:
+          'Marejeleo ya API ya combobox ya Needless UI: nui-combobox yenye value, values, multiple, create, filtering, loading na clearable, na safu maalum.',
+        a11yDescription:
+          'Kibodi na ufikivu wa combobox ya Needless UI: combobox inayoharirika yenye ukamilishaji wa orodha, active descendant, chip na uingizaji wa IME.',
+        overview: [
+          'Combobox ni sehemu ya maandishi yenye orodha ya mapendekezo. Utafutaji ni wa fuzzy na hupuuza alama za lafudhi: yanayolingana zaidi huja kwanza na herufi zinazolingana huwekewa alama. Hupokea vitu vilevile vya <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> kama select.',
+          'Ukiweka <code>multiple</code>, chaguo zilizochaguliwa huwa chip kabla ya maandishi, na <code>create</code> hugeuza maandishi yaliyoandikwa kuwa thamani mpya. Kwa matokeo ya seva, zima <code>filtering</code>, tafuta kwenye <code>(queryChange)</code> na uweke <code>loading</code> unaposubiri.',
+        ],
+        examples: {
+          country: {
+            title: 'Utafutaji',
+            text: 'Herufi zinazolingana hazihitaji kufuatana, na <code>keywords</code> huhesabiwa pia. <code>clearable</code> huongeza kitufe cha kufuta na huruhusu Escape kufuta thamani.',
+          },
+          tags: {
+            title: 'Chip na thamani mpya',
+            text: '<code>multiple</code> huonyesha chip na huunganisha <code>[(values)]</code>. Maandishi yasipokuwa chaguo bado, <code>create</code> hutoa nafasi ya kuyaongeza.',
+          },
+          people: {
+            title: 'Matokeo ya seva',
+            text: 'Orodha huonyesha kile seva ilichotuma, bila kuchuja, pamoja na safu ya kupakia inaposubiri. Lebo zilizochaguliwa hubaki matokeo mapya yanapofika.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Sehemu ya maandishi inayopendekeza chaguo unapoandika.',
+            members: {
+              options:
+                'Chaguo, kama vitu vya <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>.',
+              value: 'Thamani iliyochaguliwa, au <code>null</code>. Hufanya kazi pia na fomu.',
+              values: 'Thamani zilizochaguliwa, kwa <code>multiple</code>.',
+              multiple: 'Huruhusu kuchagua chaguo kadhaa, zinazoonyeshwa kama chip.',
+              create:
+                'Huunda thamani kutoka kwa maandishi yaliyoandikwa. Kisha orodha hutoa nafasi ya kuongeza maandishi yasiyo chaguo.',
+              filtering: 'Huchuja chaguo unapoandika. Izime ikiwa seva ndiyo inayozichuja.',
+              loading: 'Huonyesha safu ya kupakia matokeo yakiwa njiani.',
+              clearable: 'Huongeza kitufe kinachofuta thamani, na huruhusu Escape kuifuta.',
+              placeholder: 'Maandishi yanayoonyeshwa sehemu ikiwa tupu.',
+              label:
+                'Jina linalofikika, ikiwa hakuna <code>&lt;label&gt;</code> inayoipa sehemu jina.',
+              inputId: 'Id ya sehemu ya maandishi, kwa <code>&lt;label for&gt;</code>.',
+              disabled: 'Huzima sehemu.',
+              compareWith:
+                'Huamua kama thamani mbili ni chaguo lilelile, kwa thamani ambazo ni vitu.',
+              displayWith:
+                'Maandishi ya thamani isiyo miongoni mwa chaguo, kama iliyowekwa kabla hazijapakia.',
+              virtual:
+                'Huchora safu zinazoonekana pekee: daima, kamwe, au kwa <code>auto</code> safu zikizidi 200.',
+              queryChange: 'Hutoa maandishi yanapoandikwa, kwa utafutaji kwenye seva.',
+              openChange: 'Hutoa tukio orodha inapofunguka au inapofungwa.',
+              show: 'Hufungua orodha.',
+              hide: 'Hufunga orodha.',
+              clear: 'Hufuta thamani na maandishi.',
+              focus: 'Huweka focus kwenye sehemu ya maandishi.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Iweke kwenye <code>ng-template</code> ndani ya kijenzi ili uchore kila safu mwenyewe. Muktadha una chaguo na safu yake.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Huchora lebo ya chaguo, herufi zinazolingana zikiwa na alama, pamoja na maelezo na njia yake, kwa safu zako mwenyewe.',
+            members: { nuiOptionText: 'Safu, kutoka kwenye muktadha wa template.' },
+          },
+        },
+        keyboard: [
+          ['Mishale ya chini na juu', 'Hufungua orodha, kisha husogea kati ya chaguo.'],
+          ['Page Down na Page Up', 'Husogea chaguo kumi.'],
+          ['Enter', 'Huchagua chaguo amilifu.'],
+          ['Alt + mshale wa chini au juu', 'Hufungua au hufunga orodha.'],
+          ['Escape', 'Hufunga orodha; kisha hufuta maandishi, au thamani ikiwa ni clearable.'],
+          ['Backspace', 'Katika sehemu tupu, huondoa chip ya mwisho.'],
+          [
+            'Mshale wa kushoto',
+            'Kutoka mwanzo wa maandishi (mshale wa kulia katika maandishi ya kulia kwenda kushoto), huingia kwenye chip. Hapo, Backspace au Delete huondoa chip.',
+          ],
+        ],
+        notes: [
+          'Sehemu ya maandishi ni <code>combobox</code> yenye <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> na <code>aria-controls</code>. Focus hubaki ndani yake, na <code>aria-activedescendant</code> huelekeza kwenye chaguo amilifu.',
+          'Chip ni orodha yenye jina, na kila kitufe cha kuondoa hupewa jina la chip yake, kama vile “Remove Italy”.',
+          '“No matches” na safu ya kupakia ni jumbe za hali, hivyo visoma skrini huzitangaza.',
+          'Vitufe vinavyothibitisha utungaji wa mbinu ya kuingiza maandishi (IME), kama kwa Kichina au Kijapani, huachiwa mbinu hiyo.',
+        ],
+      },
+      command: {
+        name: 'Paleti ya amri',
+        title: 'Kijenzi cha paleti ya amri kwa Angular',
+        summary: 'Kila amri ya programu yako, kwa mbonyezo mmoja tu.',
+        description:
+          'Paleti ya amri ya Angular inayofikika: ⌘K kutoka popote, utafutaji wa fuzzy hadi kurasa za ndani, makundi, na njia za mkato kama kila jukwaa linavyoziandika.',
+        apiDescription:
+          'Marejeleo ya API ya paleti ya amri ya Needless UI: nui-command-palette yenye commands, hotkey, bindShortcuts na loop, na umbo la NuiCommand.',
+        a11yDescription:
+          'Kibodi na ufikivu wa paleti ya amri ya Needless UI: kidirisha cha modal chenye combobox ya utafutaji, active descendant na urambazaji wa kurasa.',
+        overview: [
+          'Paleti ya amri ni sehemu ya utafutaji wa amri za programu yako, ndani ya kidirisha cha modal. ⌘K huifungua kutoka popote (Ctrl+K kwenye Windows na Linux). Chagua amri, na paleti hufungwa kisha huitekeleza.',
+          'Amri zinaweza kuwa na kundi, maelezo, maneno muhimu na njia ya mkato inayoonyeshwa kwa alama za kila jukwaa. Amri yenye <code>children</code> hufungua ukurasa wa amri zaidi, na utafutaji hufika ndani ya kurasa kutoka ngazi ya juu.',
+        ],
+        examples: {
+          palette: {
+            title: 'Amri na kurasa',
+            text: 'Makundi, njia za mkato, amri iliyozimwa na kurasa mbili. <code>(run)</code> hukuambia kilichotekelezwa; <code>run</code> ya amri yenyewe hufanya kazi pia.',
+          },
+          people: {
+            title: 'Safu maalum',
+            text: '<code>nuiOptionTemplate</code> huchora kila safu, na <code>nuiOptionText</code> huhifadhi alama za yanayolingana. <code>[hotkey]="null"</code> huiachia paleti ya juu ⌘K.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Kidirisha cha modal chenye sehemu ya utafutaji wa amri zako.',
+            members: {
+              commands: 'Amri, kama vitu vya <code>NuiCommand</code>.',
+              open: 'Kama paleti imefunguliwa.',
+              hotkey:
+                'Njia ya mkato inayoifungua na kuifunga kutoka popote, au <code>null</code> ili isiwepo. <code>mod</code> ni ⌘ kwenye vifaa vya Apple na Ctrl kwingineko.',
+              bindShortcuts: 'Hutekeleza pia amri kwa njia zao za mkato, popote kwenye ukurasa.',
+              loop: 'Kushuka kutoka amri ya mwisho huenda kwenye ya kwanza, na kupanda kutoka ya kwanza huenda kwenye ya mwisho.',
+              filtering: 'Huchuja unapoandika. Izime ikiwa seva ndiyo inayochuja amri.',
+              loading: 'Huonyesha safu ya kupakia matokeo yakiwa njiani.',
+              hints: 'Huonyesha chini vitufe vya kutumia.',
+              virtual:
+                'Huchora safu zinazoonekana pekee: daima, kamwe, au kwa <code>auto</code> safu zikizidi 200.',
+              label: 'Jina linalofikika la kidirisha na la sehemu yake ya utafutaji.',
+              placeholder: 'Maandishi yanayoonyeshwa kwenye sehemu tupu ya utafutaji.',
+              run: 'Hutoa kila amri inayotekelezwa.',
+              queryChange: 'Hutoa maandishi yanapoandikwa, kwa utafutaji kwenye seva.',
+              show: 'Hufungua paleti.',
+              hide: 'Hufunga paleti.',
+              toggle: 'Hufungua paleti, au huifunga.',
+              back: 'Hurudi kwenye ukurasa uliotangulia.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Amri moja, au ukurasa wa amri.',
+            members: {
+              label: 'Maandishi yanayoonyeshwa na kutafutwa.',
+              description: 'Maandishi ya ziada chini ya lebo.',
+              group: 'Amri zenye kundi moja huorodheshwa chini ya kichwa hicho.',
+              keywords: 'Maneno zaidi ambayo utafutaji hulinganisha, kama visawe.',
+              shortcut: 'Vitufe vinavyoonyeshwa pamoja nayo, kama vile <code>mod+shift+p</code>.',
+              disabled: 'Huonyeshwa, lakini haiwezi kutekelezwa.',
+              children: 'Amri za ngazi moja chini: kuchagua hii huzifungua kama ukurasa.',
+              run: 'Hutekelezwa inapochaguliwa, baada ya paleti kufungwa.',
+              id: 'Kwa matumizi yako mwenyewe, kama kutofautisha amri katika <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K au Ctrl+K', 'Hufungua au hufunga paleti.'],
+          ['Mishale ya chini na juu', 'Husogea kati ya amri, na huzunguka kwenye ncha.'],
+          ['Page Down na Page Up', 'Husogea amri kumi.'],
+          ['Enter', 'Hutekeleza amri amilifu, au hufungua ukurasa wake.'],
+          ['Escape', 'Hurudi ukurasa mmoja nyuma; kwenye ngazi ya juu, hufunga paleti.'],
+          ['Backspace', 'Katika sehemu tupu kwenye ukurasa, hurudi nyuma.'],
+        ],
+        notes: [
+          'Ni <code>&lt;dialog&gt;</code> asilia ya modal: ukurasa ulio nyuma hauwezi kutumika, focus hubaki ndani, na kuifunga hurudisha focus ilipokuwa.',
+          'Sehemu ya utafutaji ni <code>combobox</code> inayoelekeza kwenye amri amilifu kwa <code>aria-activedescendant</code>. Ikiwa kwenye ukurasa, huchukua jina la ukurasa huo.',
+          'Vitufe vya njia za mkato ni maandishi ndani ya kila chaguo, hivyo visoma skrini huvisoma. Vidokezo vya vitufe vilivyo chini vimefichwa kwa teknolojia saidizi.',
+          'Njia za mkato zisizo na Ctrl, Alt au ⌘ hazitekelezwi unapoandika kwenye sehemu.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Vijenzi vya popover na hovercard kwa Angular',
+        summary: 'Paneli zinazoelea kando ya kitufe, na tooltip za kina kwa hover.',
+        description:
+          'Popover na hovercard za Angular zinazofikika kwa popover API asilia: uwekaji unaogeuka na kufuata, mishale, kufunga kwa kubofya nje na ucheleweshaji wa hover.',
+        apiDescription:
+          'Marejeleo ya API ya popover ya Needless UI: nuiPopover na nuiHovercard zenye side, align, offset na arrow, pamoja na directive zake za trigger.',
+        a11yDescription:
+          'Kibodi na ufikivu wa popover na hovercard za Needless UI: majukumu ya dialog na tooltip, kurudi kwa focus, Escape na WCAG 1.4.13.',
+        overview: [
+          'Popover ni paneli ndogo inayofunguka kando ya kitufe, kwa vitu unavyotumia: vichujio, fomu fupi, kichagua rangi. Ni <code>popover="auto"</code> asilia, hivyo kivinjari huifunga kwa Escape au kubofya nje, hurudisha focus, na huiweka mara baada ya trigger yake katika mpangilio wa Tab.',
+          'Hovercard ni tooltip ya kina. Hufunguka baada ya hover fupi, au mara moja kwa focus ya kibodi, na hueleza trigger yake. Hubaki wazi kielekezi kinapohamia juu yake, hivyo maandishi yake yanaweza kusomwa na kuchaguliwa.',
+          'Zote mbili hugeukia upande mwingine pasipo nafasi, hubaki ndani ya skrini, na hufuata trigger yao ukurasa unaposogezwa.',
+        ],
+        examples: {
+          filters: {
+            title: 'Vichujio',
+            text: 'Popover yenye fomu ndani. <code>arrow</code> huielekeza kwenye trigger yake, na <code>hide()</code> huifunga kutoka kwenye msimbo.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Weka kipanya juu ya jina, au lifikie kwa Tab. Kadi hueleza kiungo, hivyo visoma skrini huisoma baada ya jina.',
+          },
+          sides: {
+            title: 'Pande na athari za kuingia',
+            text: '<code>side</code> na <code>align</code> huamua mahali inapofunguka; <code>start</code> na <code>end</code> hufuata mwelekeo wa maandishi. <code>enter</code> na <code>motion</code> huamua jinsi inavyowasili.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Popover asilia iliyowekwa kando ya kipengele kilichoifungua.',
+            members: {
+              side: 'Upande wa trigger inakofunguka. Hugeukia upande mwingine pasipo nafasi.',
+              align: 'Jinsi inavyojipanga na trigger kwenye upande huo.',
+              offset: 'Pengo kati ya trigger na paneli, kwa pikseli.',
+              arrow: 'Huonyesha mshale unaoelekea trigger.',
+              openChange: 'Hutoa tukio inapofunguka au inapofungwa.',
+              show: 'Huifungua kando ya kipengele chochote.',
+              hide: 'Huifunga.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Kitufe kinachofungua na kufunga popover, kwa <code>popovertarget</code> asilia.',
+            members: { nuiPopoverTrigger: 'Popover ya kufungua.' },
+          },
+          NuiHovercard: {
+            summary: 'Tooltip ya kina inayoeleza trigger yake.',
+            members: {
+              side: 'Upande wa trigger inakofunguka. Hugeukia upande mwingine pasipo nafasi.',
+              align: 'Jinsi inavyojipanga na trigger kwenye upande huo.',
+              offset: 'Pengo kati ya trigger na kadi, kwa pikseli.',
+              arrow: 'Huonyesha mshale unaoelekea trigger.',
+              openDelay:
+                'Milisekunde za hover kabla haijafunguka. Focus ya kibodi huifungua mara moja.',
+              closeDelay: 'Milisekunde kabla haijafungwa, baada ya kielekezi kuondoka.',
+              openChange: 'Hutoa tukio inapofunguka au inapofungwa.',
+              show: 'Huifungua kando ya kipengele chochote.',
+              hide: 'Huifunga.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Huonyesha hovercard kwa hover na kwa focus ya kibodi, na huifanya kuwa maelezo ya kipengele hiki.',
+            members: { nuiHovercardTrigger: 'Hovercard ya kuonyesha.' },
+          },
+        },
+        keyboard: [
+          ['Enter au Space kwenye trigger', 'Hufungua au hufunga popover.'],
+          ['Tab', 'Huingia kwenye popover iliyo wazi, inayokuja mara baada ya trigger yake.'],
+          [
+            'Escape',
+            'Hufunga popover na kurudisha focus kwenye trigger yake, au huficha hovercard.',
+          ],
+        ],
+        notes: [
+          'Popover ni <code>dialog</code> isiyo ya modal: ipe jina kwa <code>aria-label</code> au <code>aria-labelledby</code>. Trigger yake hupata <code>aria-haspopup</code> na <code>aria-expanded</code> ya kivinjari.',
+          'Hovercard ni <code>tooltip</code> na ni <code>aria-describedby</code> ya trigger yake, hivyo maandishi yake husomwa pamoja na trigger. Usiweke vidhibiti ndani yake; tumia popover kwa vidhibiti hivyo.',
+          'Hovercard inatimiza WCAG 1.4.13: Escape huificha bila kuhamisha focus, kielekezi kinaweza kuhamia juu yake, na hubaki wazi ikiwa na hover au focus.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Kijenzi cha select kwa Angular',
+        summary: 'Chagua chaguo moja au nyingi, kutoka orodha fupi au kubwa mno.',
+        description:
+          'Select ya Angular inayofikika: chaguo moja au nyingi, makundi, miti, kuruka kwa kuandika, kuchagua zote, na virtual scrolling kwa orodha za urefu wowote.',
+        apiDescription:
+          'Marejeleo ya API ya select ya Needless UI: nui-select yenye value, values, multiple, selectAll na virtual, umbo la NuiOption na safu maalum.',
+        a11yDescription:
+          'Kibodi na ufikivu wa select ya Needless UI: combobox ya kuchagua tu yenye listbox au tree, active descendant, typeahead na vitufe vya mti.',
+        overview: [
+          'Select ni kitufe kinachofungua orodha ya chaguo. Ipe <code>options</code>, yaani array ya <code>NuiOption</code>, na uunganishe <code>[(value)]</code>, au <code>[(values)]</code> ukiweka <code>multiple</code>. Hufanya kazi pia na Signal Forms, reactive forms na <code>ngModel</code>.',
+          'Chaguo zinaweza kuwa na <code>group</code>, <code>description</code> na <code>keywords</code>, na <code>children</code> hufanya orodha kuwa mti. Safu zikizidi 200, ni zile zinazoonekana tu zinazochorwa, hivyo chaguo 100,000 hufunguka haraka kama kumi.',
+          'Ili kuandika na kuchuja badala yake, tumia <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Makundi',
+            text: 'Chaguo zenye <code>group</code> huorodheshwa chini ya kichwa chake. Kuandika herufi huruka hadi chaguo linalofuata linaloanza nayo.',
+          },
+          toppings: {
+            title: 'Nyingi kwa pamoja',
+            text: '<code>multiple</code> huacha orodha wazi na huunganisha <code>[(values)]</code>. <code>selectAll</code> huongeza kitufe kinachochagua au kufuta chaguo zote. Chaguo zilizozimwa haziwezi kuchaguliwa.',
+          },
+          folders: {
+            title: 'Mti',
+            text: 'Chaguo zenye <code>children</code> huunda mti. Orodha hufunguka huku folda za chaguo lililochaguliwa zikiwa zimepanuliwa.',
+          },
+          zones: {
+            title: 'Orodha ndefu',
+            text: 'Kanda zote za saa, kwa eneo. Safu zikizidi 200, ni zile zinazoonekana tu zinazochorwa, na chaguo amilifu hubaki likichorwa kwa ajili ya visoma skrini.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Kitufe kinachofungua orodha ya chaguo.',
+            members: {
+              options: 'Chaguo, kama vitu vya <code>NuiOption</code>.',
+              value: 'Thamani iliyochaguliwa, au <code>null</code>. Hufanya kazi pia na fomu.',
+              values: 'Thamani zilizochaguliwa, kwa <code>multiple</code>.',
+              multiple: 'Huruhusu kuchagua chaguo kadhaa. Orodha hubaki wazi unapochagua.',
+              selectAll:
+                'Kwa <code>multiple</code>, huongeza kitufe kinachochagua au kufuta chaguo zote.',
+              placeholder: 'Maandishi yanayoonyeshwa wakati hakuna kilichochaguliwa.',
+              label:
+                'Jina linalofikika, ikiwa hakuna <code>&lt;label&gt;</code> inayokipa kitufe jina.',
+              triggerId: 'Id ya kitufe, kwa <code>&lt;label for&gt;</code>.',
+              disabled: 'Huzima select.',
+              compareWith:
+                'Huamua kama thamani mbili ni chaguo lilelile, kwa thamani ambazo ni vitu.',
+              virtual:
+                'Huchora safu zinazoonekana pekee: daima, kamwe, au kwa <code>auto</code> safu zikizidi 200.',
+              openChange: 'Hutoa tukio orodha inapofunguka au inapofungwa.',
+              show: 'Hufungua orodha.',
+              hide: 'Hufunga orodha.',
+              focus: 'Huweka focus kwenye kitufe.',
+            },
+          },
+          NuiOption: {
+            summary: 'Chaguo moja. Select, combobox na paleti ya amri zote hupokea chaguo hizi.',
+            members: {
+              value: 'Kinachowekwa likichaguliwa. Aina yoyote.',
+              label: 'Maandishi yanayoonyeshwa na kutafutwa.',
+              description: 'Maandishi ya ziada chini ya lebo.',
+              group: 'Chaguo zenye kundi moja huorodheshwa chini ya kichwa hicho, kwa mpangilio.',
+              keywords: 'Maneno zaidi ambayo utafutaji hulinganisha, kama visawe au misimbo.',
+              disabled: 'Huonyeshwa, lakini haliwezi kuchaguliwa.',
+              children: 'Chaguo za ngazi moja chini, zinazofanya orodha kuwa mti.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Iweke kwenye <code>ng-template</code> ndani ya kijenzi ili uchore kila safu mwenyewe. Muktadha una chaguo na safu yake.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Huchora lebo ya chaguo, herufi zinazolingana zikiwa na alama, pamoja na maelezo na njia yake, kwa safu zako mwenyewe.',
+            members: { nuiOptionText: 'Safu, kutoka kwenye muktadha wa template.' },
+          },
+        },
+        keyboard: [
+          ['Mishale ya chini na juu', 'Hufungua orodha, kisha husogea kati ya chaguo.'],
+          ['Home na End', 'Huenda kwenye chaguo la kwanza au la mwisho.'],
+          ['Page Down na Page Up', 'Husogea chaguo kumi.'],
+          ['Enter au Space', 'Hufungua orodha, au huchagua chaguo amilifu.'],
+          ['Herufi', 'Huruka hadi chaguo linalofuata linaloanza nazo.'],
+          [
+            'Mishale ya kulia na kushoto',
+            'Katika mti, hupanua chaguo au huenda kwa mtoto wake wa kwanza; hulikunja au huenda kwa mzazi wake. Katika maandishi ya kulia kwenda kushoto, mishale hubadilishana.',
+          ],
+          ['Alt + mshale wa juu', 'Huchagua chaguo amilifu na kufunga orodha.'],
+          ['Tab', 'Kwa uchaguzi mmoja, huchagua chaguo amilifu na kuendelea.'],
+          ['Escape', 'Hufunga orodha bila kuchagua.'],
+        ],
+        notes: [
+          'Kitufe ni <code>combobox</code> ya kuchagua tu yenye <code>aria-expanded</code> na <code>aria-controls</code>. Focus hubaki juu yake, na <code>aria-activedescendant</code> huelekeza kwenye chaguo amilifu.',
+          'Orodha ni <code>listbox</code>, au <code>tree</code> yenye <code>aria-level</code> na <code>aria-expanded</code>. <code>aria-setsize</code> na <code>aria-posinset</code> hubaki sahihi hata safu chache tu zikichorwa.',
+          'Chaguo amilifu lina ujazo kamili na, katika forced colors, mstari wa nje.',
+          'Ipe jina kwa <code>&lt;label for&gt;</code> inayoelekeza kwenye <code>triggerId</code>, au kwa <code>label</code>.',
         ],
       },
     },

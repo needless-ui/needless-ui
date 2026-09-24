@@ -1,0 +1,5 @@
+<button nuiButton variant="outline" tone="neutral" (click)="open.set(true)">
+  Search commands…
+</button>
+<nui-command-palette [commands]="commands" [(open)]="open" (run)="last.set($event.label)" />
+<p>Last command: {{ last() }}. ⌘K (Ctrl+K) opens it from anywhere on this page.</p>

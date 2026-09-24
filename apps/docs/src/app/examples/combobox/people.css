@@ -1,0 +1,6 @@
+.field {
+  display: grid;
+  gap: var(--nui-space-1);
+  inline-size: min(100%, 18rem);
+  font-weight: var(--nui-font-weight-medium);
+}

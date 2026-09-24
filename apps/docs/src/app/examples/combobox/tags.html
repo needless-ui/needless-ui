@@ -1,0 +1,11 @@
+<div class="field">
+  <label for="labels">Labels</label>
+  <nui-combobox
+    inputId="labels"
+    multiple
+    [options]="options"
+    [create]="create"
+    [(values)]="labels"
+  />
+</div>
+<p>{{ labels().join(', ') || 'No labels' }}. Backspace removes the last one.</p>

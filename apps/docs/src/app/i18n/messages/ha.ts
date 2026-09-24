@@ -98,12 +98,20 @@ export const messages: Messages = {
       import: 'Shigo da shi',
       selector: 'Selector',
       exportAs: 'An fitar da shi a matsayin',
-      members: 'Kaddarori',
+      members: 'Kadarori',
       name: 'Suna',
       type: 'Iri',
       default: 'Na asali',
       description: 'Bayani',
-      kinds: { input: 'Input', model: 'Hanya biyu', output: 'Output', method: 'Method' },
+      kinds: {
+        input: 'Input',
+        model: 'Hanya biyu',
+        output: 'Output',
+        method: 'Method',
+        property: 'Kadara',
+      },
+      texts:
+        'Kowane rubutu da yake nunawa ko sanarwa shi ma input ne, don haka za ku iya fassara shi:',
       customization: {
         note: 'Inputs na keɓancewa da ba ku saita ba suna bin attribute na <code>data-nui-*</code> mafi kusa. Ku duba <a href="/guides/customization">jagorar keɓancewa</a>.',
         members: {
@@ -811,6 +819,370 @@ export const messages: Messages = {
           'Ƙidayar lokaci tana tsayawa yayin da linzami ko focus ke kan tarin, da yayin da shafin ke a ɓoye, kuma toasts da ke jiran promise ba sa ƙarewa.',
           'Duk abin da dole ne mai amfani ya yi aiki a kansa ya kamata ya kasance a wajen toast ma.',
           'A yanayin rage motsi, toasts ba sa motsi ko jan yatsa, kuma ana ɓoye layin ƙidayar lokaci.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox da kammalawa ta atomatik don Angular',
+        summary: 'Filin rubutu da ke ba da shawarar zaɓuɓɓuka yayin da kuke rubutu.',
+        description:
+          'Combobox na Angular mai sauƙin amfani ga kowa: bincike mai sassauci da haskakawa, ƙimomi da yawa a matsayin chips, sabuwar ƙima daga rubutu da sakamakon server.',
+        apiDescription:
+          'Bayanin API na combobox ɗin Needless UI: nui-combobox mai value, values, multiple, create, filtering, loading da clearable, da layuka na musamman.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na combobox ɗin Needless UI: combobox mai gyaruwa da kammalawar jeri, active descendant, chips da IME.',
+        overview: [
+          'Combobox filin rubutu ne mai jerin shawarwari. Binciken yana da sassauci kuma ba ya la’akari da alamomin da ke kan haruffa: mafi dacewa ne ke zuwa da farko, kuma ana haskaka haruffan da suka dace. Yana karɓar objects na <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> iri ɗaya da select.',
+          'Da <code>multiple</code>, zaɓuɓɓukan da aka zaɓa suna zama chips kafin rubutun, kuma <code>create</code> yana mayar da rubutun da aka shigar ya zama sabuwar ƙima. Don sakamako daga server, ku kashe <code>filtering</code>, ku yi bincike a <code>(queryChange)</code>, kuma ku saita <code>loading</code> yayin da kuke jira.',
+        ],
+        examples: {
+          country: {
+            title: 'Bincike',
+            text: 'Ba dole ba ne haruffan da suka dace su kasance a jere, kuma ana lissafa <code>keywords</code> ma. <code>clearable</code> yana ƙara maɓallin sharewa kuma yana barin Escape ya share ƙimar.',
+          },
+          tags: {
+            title: 'Chips da sabbin ƙimomi',
+            text: '<code>multiple</code> yana nuna chips kuma yana haɗa <code>[(values)]</code>. Idan rubutun bai zama zaɓi ba tukuna, <code>create</code> yana ba da damar ƙara shi.',
+          },
+          people: {
+            title: 'Sakamako daga server',
+            text: 'Jerin yana nuna abin da server ya aiko, ba tare da tacewa ba, da layin lodawa yayin jira. Lakabai na abubuwan da aka zaɓa ba sa ɓacewa idan sabon sakamako ya iso.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Filin rubutu da ke ba da shawarar zaɓuɓɓuka yayin da kuke rubutu.',
+            members: {
+              options:
+                'Zaɓuɓɓukan, a matsayin objects na <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>.',
+              value: 'Ƙimar da aka zaɓa, ko <code>null</code>. Yana aiki da fom ma.',
+              values: 'Ƙimomin da aka zaɓa, da <code>multiple</code>.',
+              multiple: 'Yana ba da damar zaɓar zaɓuɓɓuka da yawa, da ake nunawa a matsayin chips.',
+              create:
+                'Yana samar da ƙima daga rubutun da aka shigar. Sai jerin ya ba da damar ƙara rubutun da ba zaɓi ba ne.',
+              filtering:
+                'Yana tace zaɓuɓɓuka yayin da kuke rubutu. Ku kashe shi idan server ne ke tacewa.',
+              loading: 'Yana nuna layin lodawa yayin da sakamako ke kan hanya.',
+              clearable:
+                'Yana ƙara maɓallin da ke share ƙimar, kuma yana barin Escape ya share ta.',
+              placeholder: 'Rubutun da ake nunawa yayin da filin ba shi da komai.',
+              label:
+                'Sunan da ake sanarwa, idan babu <code>&lt;label&gt;</code> da ke ba filin suna.',
+              inputId: 'Id na filin rubutu, don <code>&lt;label for&gt;</code>.',
+              disabled: 'Yana kashe filin.',
+              compareWith: 'Yana faɗa ko ƙimomi biyu zaɓi ɗaya ne, idan ƙimomin objects ne.',
+              displayWith:
+                'Rubutu don ƙimar da ba ta cikin zaɓuɓɓuka, kamar wadda aka saita kafin a loda su.',
+              virtual:
+                'Yana nuna layukan da ake gani kawai: koyaushe, ba ko kaɗan, ko <code>auto</code> idan layuka sun wuce 200.',
+              queryChange:
+                'Yana fitar da rubutun yayin da ake shigar da shi, don bincike a server.',
+              openChange: 'Yana fitarwa idan jerin ya buɗe ko ya rufe.',
+              show: 'Yana buɗe jerin.',
+              hide: 'Yana rufe jerin.',
+              clear: 'Yana share ƙimar da rubutun.',
+              focus: 'Yana kai focus kan filin rubutu.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Ku sa shi a kan <code>ng-template</code> a cikin component ɗin don ku zana kowane layi da kanku. Context ɗin yana ɗauke da zaɓin da layinsa.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Yana zana lakabin zaɓi tare da haskaka haruffan da suka dace, bayaninsa da hanyarsa, don layukanku.',
+            members: { nuiOptionText: 'Layin, daga context na template.' },
+          },
+        },
+        keyboard: [
+          ['Kibiyar ƙasa da ta sama', 'Suna buɗe jerin, sannan suna ratsa zaɓuɓɓuka.'],
+          ['Page Down da Page Up', 'Suna tafiya zaɓuɓɓuka goma.'],
+          ['Enter', 'Yana zaɓar zaɓin da ke aiki.'],
+          ['Alt + kibiyar ƙasa ko ta sama', 'Yana buɗe ko rufe jerin.'],
+          [
+            'Escape',
+            'Yana rufe jerin; sannan yana share rubutun, ko ƙimar idan an saita clearable.',
+          ],
+          ['Backspace', 'A filin da babu komai, yana cire chip na ƙarshe.'],
+          [
+            'Kibiyar hagu',
+            'Daga farkon rubutu (kibiyar dama a rubutu daga dama zuwa hagu), yana shiga cikin chips. A can, Backspace ko Delete yana cire chip.',
+          ],
+        ],
+        notes: [
+          'Filin rubutun <code>combobox</code> ne mai <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> da <code>aria-controls</code>. Focus yana zama a cikinsa, kuma <code>aria-activedescendant</code> yana nuna zaɓin da ke aiki.',
+          'Chips jeri ne mai suna, kuma kowane maɓallin cirewa yana ɗauke da sunan chip ɗinsa, kamar “Remove Italy”.',
+          '“No matches” da layin lodawa saƙonnin yanayi ne, don haka manhajojin karanta allo suna sanar da su.',
+          'Maɓallan da ke tabbatar da haɗa rubutu a hanyar shigar da rubutu (IME), kamar na Sinanci ko Japananci, ana barin su ga hanyar shigarwar.',
+        ],
+      },
+      command: {
+        name: 'Command palette',
+        title: 'Component na command palette don Angular',
+        summary: 'Kowane umarni a manhajarku, dannawa ɗaya kawai.',
+        description:
+          'Command palette na Angular mai sauƙin amfani ga kowa: ⌘K daga ko’ina, bincike mai sassauci cikin shafuka, rukunoni da gajerun hanyoyi a tsarin kowane dandali.',
+        apiDescription:
+          'Bayanin API na command palette ɗin Needless UI: nui-command-palette mai commands, hotkey, bindShortcuts da loop, da tsarin NuiCommand.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na command palette ɗin Needless UI: dialog na modal mai combobox na bincike, active descendant da kewaya shafuka.',
+        overview: [
+          'Command palette filin bincike ne a kan umarnan manhajarku, a cikin dialog na modal. ⌘K yana buɗe shi daga ko’ina (Ctrl+K a Windows da Linux). Ku zaɓi umarni, palette ɗin zai rufe, sannan ya aiwatar da shi.',
+          'Umarni na iya samun rukuni, bayani, keywords da gajeriyar hanya, da ake nunawa da alamomin kowane dandali. Umarni mai <code>children</code> yana buɗe shafin ƙarin umarnai, kuma bincike yana kaiwa cikin shafuka daga sama.',
+        ],
+        examples: {
+          palette: {
+            title: 'Umarnai da shafuka',
+            text: 'Rukunoni, gajerun hanyoyi, umarnin da aka kashe da shafuka biyu. <code>(run)</code> yana gaya muku abin da ya gudana; <code>run</code> na kowane umarni ma yana aiki.',
+          },
+          people: {
+            title: 'Layuka na musamman',
+            text: '<code>nuiOptionTemplate</code> yana zana kowane layi, <code>nuiOptionText</code> kuma yana riƙe haruffan da aka haskaka. <code>[hotkey]="null"</code> yana barin ⌘K ga palette ɗin da ke sama.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Dialog na modal mai filin bincike a kan umarnanku.',
+            members: {
+              commands: 'Umarnan, a matsayin objects na <code>NuiCommand</code>.',
+              open: 'Ko palette ɗin a buɗe yake.',
+              hotkey:
+                'Gajeriyar hanyar da ke buɗe shi da rufe shi daga ko’ina, ko <code>null</code> idan ba a so. <code>mod</code> shi ne ⌘ a na’urorin Apple, Ctrl kuma a sauran.',
+              bindShortcuts: 'Yana aiwatar da umarnai da gajerun hanyoyinsu ma, a ko’ina a shafin.',
+              loop: 'Kibiyar ƙasa a kan umarni na ƙarshe tana zuwa na farko, kibiyar sama a kan na farko kuma tana zuwa na ƙarshe.',
+              filtering:
+                'Yana tacewa yayin da kuke rubutu. Ku kashe shi idan server ne ke tace umarnan.',
+              loading: 'Yana nuna layin lodawa yayin da sakamako ke kan hanya.',
+              hints: 'Yana nuna maɓallan da za a yi amfani da su a ƙasa.',
+              virtual:
+                'Yana nuna layukan da ake gani kawai: koyaushe, ba ko kaɗan, ko <code>auto</code> idan layuka sun wuce 200.',
+              label: 'Sunan da ake sanarwa na dialog ɗin da filin bincikensa.',
+              placeholder: 'Rubutun da ake nunawa a filin bincike idan babu komai.',
+              run: 'Yana fitar da kowane umarni da ya gudana.',
+              queryChange:
+                'Yana fitar da rubutun yayin da ake shigar da shi, don bincike a server.',
+              show: 'Yana buɗe palette ɗin.',
+              hide: 'Yana rufe palette ɗin.',
+              toggle: 'Yana buɗe palette ɗin, ko ya rufe shi.',
+              back: 'Yana komawa shafin da ya gabata.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Umarni ɗaya, ko shafin umarnai.',
+            members: {
+              label: 'Rubutun da ake nunawa ake kuma bincika.',
+              description: 'Rubutu na biyu a ƙarƙashin lakabi.',
+              group: 'Ana jera umarnai masu rukuni ɗaya ƙarƙashin heading ɗinsa.',
+              keywords:
+                'Ƙarin kalmomin da bincike ke dacewa da su, kamar kalmomi masu ma’ana ɗaya.',
+              shortcut: 'Maɓallan da ake nunawa tare da shi, kamar <code>mod+shift+p</code>.',
+              disabled: 'Ana nuna shi, amma ba zai iya gudana ba.',
+              children: 'Umarnai a mataki na ƙasa: zaɓar wannan yana buɗe su a matsayin shafi.',
+              run: 'Yana gudana idan aka zaɓe shi, bayan palette ɗin ya rufe.',
+              id: 'Don amfaninku, kamar bambance umarnai a <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K ko Ctrl+K', 'Yana buɗe ko rufe palette ɗin.'],
+          ['Kibiyar ƙasa da ta sama', 'Suna ratsa umarnai, suna zagayawa daga ƙarshe zuwa farko.'],
+          ['Page Down da Page Up', 'Suna tafiya umarnai goma.'],
+          ['Enter', 'Yana aiwatar da umarnin da ke aiki, ko yana buɗe shafinsa.'],
+          ['Escape', 'Yana komawa shafi ɗaya baya; a sama, yana rufe palette ɗin.'],
+          ['Backspace', 'A filin da babu komai a cikin shafi, yana komawa baya.'],
+        ],
+        notes: [
+          'Palette ɗin <code>&lt;dialog&gt;</code> ne na modal na asali: shafin da ke baya ba ya aiki, focus yana zama a ciki, kuma rufewa tana mayar da focus inda yake a da.',
+          'Filin binciken <code>combobox</code> ne da ke nuna umarnin da ke aiki ta <code>aria-activedescendant</code>. A cikin shafi, yana ɗaukar sunan shafin.',
+          'Maɓallan gajerun hanyoyi rubutu ne a cikin kowane zaɓi, don haka manhajojin karanta allo suna karanta su. Alamun maɓallai a ƙasa a ɓoye suke daga fasahohin taimako.',
+          'Gajerun hanyoyi marasa Ctrl, Alt ko ⌘ ba sa aiki yayin da kuke rubutu a fili.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Components na popover da hovercard don Angular',
+        summary:
+          'Panels masu shawagi kusa da maɓalli, da tooltips masu bayani idan linzami ya zo kansu.',
+        description:
+          'Popover da hovercard na Angular masu sauƙin amfani ga kowa bisa popover API na asali: matsayi mai juyawa da bibiya, kibiya, jinkiri da rufewa ta danna waje.',
+        apiDescription:
+          'Bayanin API na popover ɗin Needless UI: nuiPopover da nuiHovercard masu side, align, offset da arrow, da directives ɗinsu na trigger.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na popover da hovercard na Needless UI: matsayin dialog da tooltip, dawowar focus, Escape da WCAG 1.4.13.',
+        overview: [
+          'Popover ƙaramin panel ne da ke buɗewa kusa da maɓalli, don abubuwan da kuke mu’amala da su: abubuwan tacewa, gajeren fom, mai zaɓar launi. <code>popover="auto"</code> ne na asali, don haka burauza yana rufe shi da Escape ko danna waje, yana mayar da focus, kuma yana sa shi nan da nan bayan trigger ɗinsa a jerin Tab.',
+          'Hovercard tooltip ne mai cikakken bayani. Yana buɗewa bayan linzami ya ɗan tsaya a kai, ko nan take idan focus na allon madannai ya zo, kuma yana bayyana trigger ɗinsa. Yana zama a buɗe yayin da linzami ke matsawa kansa, don a iya karanta rubutunsa da zaɓar sa.',
+          'Dukansu suna juyawa zuwa ɗayan gefe idan babu wuri, suna zama a cikin allo, kuma suna bin trigger ɗinsu yayin da shafin ke gungurawa.',
+        ],
+        examples: {
+          filters: {
+            title: 'Abubuwan tacewa',
+            text: 'Popover mai fom a ciki. <code>arrow</code> yana nuna shi zuwa trigger ɗinsa, <code>hide()</code> kuma yana rufe shi daga code.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Ku kai linzami kan suna, ko ku isa gare shi da Tab. Katin yana bayyana mahaɗar, don haka manhajojin karanta allo suna karanta shi bayan sunan.',
+          },
+          sides: {
+            title: 'Gefuna da yanayin shigowa',
+            text: '<code>side</code> da <code>align</code> suna saita inda yake buɗewa; <code>start</code> da <code>end</code> suna bin alkiblar rubutu. <code>enter</code> da <code>motion</code> suna saita yadda yake bayyana.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Popover na asali da ake sanyawa kusa da element ɗin da ya buɗe shi.',
+            members: {
+              side: 'Gefen trigger ɗin da yake buɗewa a kai. Yana juyawa idan babu wuri.',
+              align: 'Yadda yake daidaita da trigger ɗin a tsawon wannan gefe.',
+              offset: 'Tazara tsakanin trigger da panel ɗin, a pixels.',
+              arrow: 'Yana nuna kibiya da ke nuni zuwa trigger ɗin.',
+              openChange: 'Yana fitarwa idan ya buɗe ko ya rufe.',
+              show: 'Yana buɗe shi kusa da kowane element.',
+              hide: 'Yana rufe shi.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Maɓallin da ke buɗe popover da rufe shi, da <code>popovertarget</code> na asali.',
+            members: { nuiPopoverTrigger: 'Popover ɗin da za a buɗe.' },
+          },
+          NuiHovercard: {
+            summary: 'Tooltip mai cikakken bayani da ke bayyana trigger ɗinsa.',
+            members: {
+              side: 'Gefen trigger ɗin da yake buɗewa a kai. Yana juyawa idan babu wuri.',
+              align: 'Yadda yake daidaita da trigger ɗin a tsawon wannan gefe.',
+              offset: 'Tazara tsakanin trigger da katin, a pixels.',
+              arrow: 'Yana nuna kibiya da ke nuni zuwa trigger ɗin.',
+              openDelay:
+                'Milliseconds da linzami zai tsaya kafin ya buɗe. Focus na allon madannai yana buɗe shi nan take.',
+              closeDelay: 'Milliseconds kafin ya rufe, bayan linzami ya bar shi.',
+              openChange: 'Yana fitarwa idan ya buɗe ko ya rufe.',
+              show: 'Yana buɗe shi kusa da kowane element.',
+              hide: 'Yana rufe shi.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Yana nuna hovercard idan linzami ya zo kansa ko focus na allon madannai, kuma yana mai da shi bayanin wannan element ɗin.',
+            members: { nuiHovercardTrigger: 'Hovercard ɗin da za a nuna.' },
+          },
+        },
+        keyboard: [
+          ['Enter ko Space a kan trigger', 'Yana buɗe ko rufe popover ɗin.'],
+          ['Tab', 'Yana shiga popover da ke buɗe, wanda ke zuwa nan da nan bayan trigger ɗinsa.'],
+          [
+            'Escape',
+            'Yana rufe popover ɗin kuma yana mayar da focus kan trigger ɗinsa, ko yana ɓoye hovercard ɗin.',
+          ],
+        ],
+        notes: [
+          'Popover ɗin <code>dialog</code> ne wanda ba modal ba: ku ba shi suna da <code>aria-label</code> ko <code>aria-labelledby</code>. Trigger ɗinsa yana samun <code>aria-haspopup</code> da <code>aria-expanded</code> na burauza.',
+          'Hovercard ɗin <code>tooltip</code> ne kuma shi ne <code>aria-describedby</code> na trigger ɗinsa, don haka ana karanta rubutunsa tare da trigger ɗin. Kada ku sa controls a cikinsa; ku yi amfani da popover don su.',
+          'Hovercard ɗin ya cika WCAG 1.4.13: Escape yana ɓoye shi ba tare da motsa focus ba, linzami na iya matsawa kansa, kuma yana zama yayin da linzami ko focus ke kansa.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Component na select don Angular',
+        summary: 'Ku ɗauki zaɓi ɗaya ko da yawa, daga gajeren jeri ko mai tsawo sosai.',
+        description:
+          'Select na Angular mai sauƙin amfani ga kowa: zaɓi ɗaya ko da yawa, rukunoni, bishiya, tsalle ta rubutu, zaɓar duka da virtual scrolling don kowane tsawon jeri.',
+        apiDescription:
+          'Bayanin API na select ɗin Needless UI: nui-select mai value, values, multiple, selectAll da virtual, tsarin NuiOption da layuka na musamman.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na select ɗin Needless UI: combobox na zaɓi kawai mai listbox ko tree, active descendant, typeahead da maɓallan bishiya.',
+        overview: [
+          'Select maɓalli ne da ke buɗe jerin zaɓuɓɓuka. Ku ba shi <code>options</code>, array na <code>NuiOption</code>, kuma ku haɗa <code>[(value)]</code>, ko <code>[(values)]</code> tare da <code>multiple</code>. Yana aiki da Signal Forms, reactive forms da <code>ngModel</code> ma.',
+          'Zaɓuɓɓuka na iya samun <code>group</code>, <code>description</code> da <code>keywords</code>, kuma <code>children</code> suna mayar da jerin ya zama bishiya. Bayan layuka 200, layukan da ake gani kawai ake nunawa, don haka zaɓuɓɓuka 100,000 suna buɗewa da sauri kamar goma.',
+          'Don ku rubuta ku tace a maimakon haka, ku yi amfani da <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Rukunoni',
+            text: 'Ana jera zaɓuɓɓuka masu <code>group</code> ƙarƙashin heading ɗinsa. Rubuta harafi yana tsallakawa zuwa zaɓi na gaba da ya fara da shi.',
+          },
+          toppings: {
+            title: 'Da yawa lokaci ɗaya',
+            text: '<code>multiple</code> yana barin jerin a buɗe kuma yana haɗa <code>[(values)]</code>. <code>selectAll</code> yana ƙara maɓallin da ke zaɓar kowane zaɓi ko share su duka. Ba za a iya zaɓar zaɓuɓɓukan da aka kashe ba.',
+          },
+          folders: {
+            title: 'Bishiya',
+            text: 'Zaɓuɓɓuka masu <code>children</code> suna samar da bishiya. Jerin yana buɗewa da folders ɗin zaɓin da aka zaɓa a buɗe.',
+          },
+          zones: {
+            title: 'Dogayen jeri',
+            text: 'Dukan yankunan lokaci, an rarraba su bisa nahiya. Bayan layuka 200, layukan da ake gani kawai ake nunawa, kuma zaɓin da ke aiki yana ci gaba da kasancewa don manhajojin karanta allo.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Maɓallin da ke buɗe jerin zaɓuɓɓuka.',
+            members: {
+              options: 'Zaɓuɓɓukan, a matsayin objects na <code>NuiOption</code>.',
+              value: 'Ƙimar da aka zaɓa, ko <code>null</code>. Yana aiki da fom ma.',
+              values: 'Ƙimomin da aka zaɓa, da <code>multiple</code>.',
+              multiple:
+                'Yana ba da damar zaɓar zaɓuɓɓuka da yawa. Jerin yana zama a buɗe yayin da kuke zaɓa.',
+              selectAll:
+                'Da <code>multiple</code>, yana ƙara maɓallin da ke zaɓar kowane zaɓi ko share su duka.',
+              placeholder: 'Rubutun da ake nunawa yayin da ba a zaɓi komai ba.',
+              label:
+                'Sunan da ake sanarwa, idan babu <code>&lt;label&gt;</code> da ke ba maɓallin suna.',
+              triggerId: 'Id na maɓallin, don <code>&lt;label for&gt;</code>.',
+              disabled: 'Yana kashe select ɗin.',
+              compareWith: 'Yana faɗa ko ƙimomi biyu zaɓi ɗaya ne, idan ƙimomin objects ne.',
+              virtual:
+                'Yana nuna layukan da ake gani kawai: koyaushe, ba ko kaɗan, ko <code>auto</code> idan layuka sun wuce 200.',
+              openChange: 'Yana fitarwa idan jerin ya buɗe ko ya rufe.',
+              show: 'Yana buɗe jerin.',
+              hide: 'Yana rufe jerin.',
+              focus: 'Yana kai focus kan maɓallin.',
+            },
+          },
+          NuiOption: {
+            summary: 'Zaɓi ɗaya. Select, combobox da command palette duka suna karɓar su.',
+            members: {
+              value: 'Abin da zaɓar sa ke saitawa. Kowane iri.',
+              label: 'Rubutun da ake nunawa ake kuma bincika.',
+              description: 'Rubutu na biyu a ƙarƙashin lakabi.',
+              group: 'Ana jera zaɓuɓɓuka masu rukuni ɗaya ƙarƙashin heading ɗinsa, bisa tsari.',
+              keywords:
+                'Ƙarin kalmomin da bincike ke dacewa da su, kamar kalmomi masu ma’ana ɗaya ko codes.',
+              disabled: 'Ana nuna shi, amma ba za a iya zaɓar sa ba.',
+              children: 'Zaɓuɓɓuka a mataki na ƙasa, waɗanda ke mayar da jerin ya zama bishiya.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Ku sa shi a kan <code>ng-template</code> a cikin component ɗin don ku zana kowane layi da kanku. Context ɗin yana ɗauke da zaɓin da layinsa.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Yana zana lakabin zaɓi tare da haskaka haruffan da suka dace, bayaninsa da hanyarsa, don layukanku.',
+            members: { nuiOptionText: 'Layin, daga context na template.' },
+          },
+        },
+        keyboard: [
+          ['Kibiyar ƙasa da ta sama', 'Suna buɗe jerin, sannan suna ratsa zaɓuɓɓuka.'],
+          ['Home da End', 'Suna zuwa zaɓi na farko ko na ƙarshe.'],
+          ['Page Down da Page Up', 'Suna tafiya zaɓuɓɓuka goma.'],
+          ['Enter ko Space', 'Yana buɗe jerin, ko yana zaɓar zaɓin da ke aiki.'],
+          ['Haruffa', 'Suna tsallakawa zuwa zaɓi na gaba da ya fara da su.'],
+          [
+            'Kibiyar dama da ta hagu',
+            'A bishiya, suna buɗe zaɓi ko zuwa na farko a cikinsa; suna naɗe shi ko zuwa wanda ke ɗauke da shi. Suna juyawa a rubutu daga dama zuwa hagu.',
+          ],
+          ['Alt + kibiyar sama', 'Yana zaɓar zaɓin da ke aiki kuma yana rufe jerin.'],
+          ['Tab', 'Idan zaɓi ɗaya ake yi, yana zaɓar zaɓin da ke aiki kuma yana wucewa.'],
+          ['Escape', 'Yana rufe jerin ba tare da zaɓa ba.'],
+        ],
+        notes: [
+          'Maɓallin <code>combobox</code> ne na zaɓi kawai mai <code>aria-expanded</code> da <code>aria-controls</code>. Focus yana zama a kansa, kuma <code>aria-activedescendant</code> yana nuna zaɓin da ke aiki.',
+          'Jerin <code>listbox</code> ne, ko <code>tree</code> mai <code>aria-level</code> da <code>aria-expanded</code>. <code>aria-setsize</code> da <code>aria-posinset</code> suna zama daidai ko da wasu layuka kawai ake nunawa.',
+          'Zaɓin da ke aiki yana da cikakken launin bango, kuma a yanayin forced colors yana da outline.',
+          'Ku ba shi suna da <code>&lt;label for&gt;</code> da ke nuni zuwa <code>triggerId</code>, ko da <code>label</code>.',
         ],
       },
     },

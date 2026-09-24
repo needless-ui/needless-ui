@@ -105,7 +105,15 @@ export const messages: Messages = {
       type: 'Typ',
       default: 'Standardwert',
       description: 'Beschreibung',
-      kinds: { input: 'Input', model: 'Two-Way', output: 'Output', method: 'Methode' },
+      kinds: {
+        input: 'Input',
+        model: 'Two-Way',
+        output: 'Output',
+        method: 'Methode',
+        property: 'Eigenschaft',
+      },
+      texts:
+        'Auch jeder Text, den die Komponente anzeigt oder ansagt, ist ein Input und lässt sich so übersetzen:',
       customization: {
         note: 'Anpassungs-Inputs, die du nicht setzt, richten sich nach dem nächstgelegenen <code>data-nui-*</code>-Attribut. Mehr dazu in der <a href="/guides/customization">Anleitung zur Anpassung</a>.',
         members: {
@@ -822,6 +830,371 @@ export const messages: Messages = {
           'Die Timer pausieren, solange der Mauszeiger auf dem Stapel liegt oder er den Fokus hat und solange die Seite verborgen ist, und Toasts, die auf ein Promise warten, laufen nie ab.',
           'Alles, worauf reagiert werden muss, sollte auch außerhalb des Toasts verfügbar sein.',
           'Bei reduzierter Bewegung sind Toasts nicht animiert und lassen sich nicht wegwischen, und die Timer-Linie ist ausgeblendet.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox und Autovervollständigung für Angular',
+        summary: 'Ein Textfeld, das beim Tippen Optionen vorschlägt.',
+        description:
+          'Barrierefreie Angular-Combobox: Fuzzy-Suche mit Hervorhebung, mehrere Werte als Chips, neue Werte aus eingegebenem Text und Ergebnisse vom Server.',
+        apiDescription:
+          'API-Referenz der Combobox von Needless UI: nui-combobox mit value, values, multiple, create, filtering, loading und clearable sowie eigenen Zeilen.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit der Combobox von Needless UI: editierbar, mit Listen-Autovervollständigung, aria-activedescendant, Chips und IME.',
+        overview: [
+          'Die Combobox ist ein Textfeld mit einer Liste von Vorschlägen. Die Fuzzy-Suche ignoriert Akzente: Die besten Treffer stehen oben, und die gefundenen Buchstaben werden markiert. Sie akzeptiert dieselben <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>-Objekte wie das Select.',
+          'Mit <code>multiple</code> werden gewählte Optionen zu Chips vor dem Text, und <code>create</code> macht aus eingegebenem Text einen neuen Wert. Für Ergebnisse vom Server schaltest du <code>filtering</code> aus, suchst bei <code>(queryChange)</code> und setzt <code>loading</code>, während du wartest.',
+        ],
+        examples: {
+          country: {
+            title: 'Suche',
+            text: 'Gefundene Buchstaben müssen nicht nebeneinanderstehen, und auch <code>keywords</code> zählen. <code>clearable</code> fügt einen Button zum Leeren hinzu, und Esc leert dann den Wert.',
+          },
+          tags: {
+            title: 'Chips und neue Werte',
+            text: '<code>multiple</code> zeigt Chips und bindet <code>[(values)]</code>. Ist der Text noch keine Option, bietet <code>create</code> an, ihn hinzuzufügen.',
+          },
+          people: {
+            title: 'Ergebnisse vom Server',
+            text: 'Die Liste zeigt ungefiltert, was der Server geschickt hat, und eine Ladezeile, solange sie wartet. Gewählte Beschriftungen bleiben erhalten, wenn neue Ergebnisse kommen.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Ein Textfeld, das beim Tippen Optionen vorschlägt.',
+            members: {
+              options:
+                'Die Optionen als <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>-Objekte.',
+              value: 'Der gewählte Wert oder <code>null</code>. Funktioniert auch mit Formularen.',
+              values: 'Die gewählten Werte, mit <code>multiple</code>.',
+              multiple: 'Erlaubt die Wahl mehrerer Optionen, angezeigt als Chips.',
+              create:
+                'Macht aus eingegebenem Text einen Wert. Die Liste bietet dann an, Text hinzuzufügen, der keine Option ist.',
+              filtering:
+                'Filtert die Optionen beim Tippen. Schalte es aus, wenn ein Server sie filtert.',
+              loading: 'Zeigt eine Ladezeile, solange Ergebnisse unterwegs sind.',
+              clearable: 'Ergänzt einen Button, der den Wert leert, und lässt Esc ihn leeren.',
+              placeholder: 'Text, der angezeigt wird, solange das Feld leer ist.',
+              label: 'Zugänglicher Name, wenn kein <code>&lt;label&gt;</code> das Feld benennt.',
+              inputId: 'ID des Textfelds, für <code>&lt;label for&gt;</code>.',
+              disabled: 'Deaktiviert das Feld.',
+              compareWith:
+                'Prüft, ob zwei Werte dieselbe Option sind, für Werte, die Objekte sind.',
+              displayWith:
+                'Text für einen Wert, der nicht unter den Optionen ist, etwa einen, der vor dem Laden gesetzt wurde.',
+              virtual:
+                'Rendert nur die sichtbaren Zeilen: immer, nie oder <code>auto</code> bei mehr als 200 Zeilen.',
+              queryChange: 'Emittiert den Text während der Eingabe, für eine Suche auf dem Server.',
+              openChange: 'Emittiert, wenn sich die Liste öffnet oder schließt.',
+              show: 'Öffnet die Liste.',
+              hide: 'Schließt die Liste.',
+              clear: 'Leert den Wert und den Text.',
+              focus: 'Fokussiert das Textfeld.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Setze es auf ein <code>ng-template</code> in der Komponente, um jede Zeile selbst zu zeichnen. Der Kontext enthält die Option und ihre Zeile.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Zeichnet die Beschriftung einer Option mit markierten Treffern, ihre Beschreibung und ihren Pfad, für eigene Zeilen.',
+            members: { nuiOptionText: 'Die Zeile, aus dem Template-Kontext.' },
+          },
+        },
+        keyboard: [
+          [
+            'Pfeil nach unten und oben',
+            'Öffnet die Liste und bewegt sich dann durch die Optionen.',
+          ],
+          ['Bild ab und Bild auf', 'Springt zehn Optionen weiter.'],
+          ['Enter', 'Wählt die aktive Option.'],
+          ['Alt + Pfeil nach unten oder oben', 'Öffnet oder schließt die Liste.'],
+          ['Esc', 'Schließt die Liste; leert danach den Text oder, falls erlaubt, den Wert.'],
+          ['Rücktaste', 'Entfernt in einem leeren Feld den letzten Chip.'],
+          [
+            'Pfeil nach links',
+            'Springt vom Textanfang (Pfeil nach rechts bei Text von rechts nach links) in die Chips. Dort entfernen Rücktaste oder Entf einen Chip.',
+          ],
+        ],
+        notes: [
+          'Das Textfeld ist eine <code>combobox</code> mit <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> und <code>aria-controls</code>. Der Fokus bleibt darin, und <code>aria-activedescendant</code> zeigt auf die aktive Option.',
+          'Die Chips sind eine benannte Liste, und jeder Entfernen-Button ist nach seinem Chip benannt, etwa „Remove Italy“.',
+          '„No matches“ und die Ladezeile sind Statusmeldungen, daher sagen Screenreader sie an.',
+          'Tasten, die eine IME-Eingabe bestätigen, etwa bei Chinesisch oder Japanisch, überlässt die Combobox der Eingabemethode.',
+        ],
+      },
+      command: {
+        name: 'Befehlspalette',
+        title: 'Befehlspaletten-Komponente für Angular',
+        summary: 'Jeder Befehl deiner App, nur einen Tastendruck entfernt.',
+        description:
+          'Barrierefreie Befehlspalette für Angular: ⌘K von überall, Fuzzy-Suche bis in verschachtelte Seiten, Gruppen und Tastenkürzel passend zur Plattform.',
+        apiDescription:
+          'API-Referenz der Befehlspalette von Needless UI: nui-command-palette mit commands, hotkey, bindShortcuts und loop sowie die Struktur von NuiCommand.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit der Befehlspalette von Needless UI: modaler Dialog mit Such-Combobox, aria-activedescendant und Seitennavigation.',
+        overview: [
+          'Die Befehlspalette ist ein Suchfeld für die Befehle deiner App, in einem modalen Dialog. ⌘K öffnet sie von überall (Ctrl+K unter Windows und Linux). Wählst du einen Befehl, schließt sich die Palette und führt ihn dann aus.',
+          'Befehle können eine Gruppe, eine Beschreibung, Schlüsselwörter und ein Tastenkürzel haben, das mit den Symbolen der Plattform erscheint. Ein Befehl mit <code>children</code> öffnet eine Seite weiterer Befehle, und die Suche auf oberster Ebene reicht bis in die Seiten.',
+        ],
+        examples: {
+          palette: {
+            title: 'Befehle und Seiten',
+            text: 'Gruppen, Tastenkürzel, ein deaktivierter Befehl und zwei Seiten. <code>(run)</code> meldet, was ausgeführt wurde; auch das eigene <code>run</code> eines Befehls funktioniert.',
+          },
+          people: {
+            title: 'Eigene Zeilen',
+            text: 'Ein <code>nuiOptionTemplate</code> zeichnet jede Zeile, und <code>nuiOptionText</code> behält die markierten Treffer. <code>[hotkey]="null"</code> überlässt ⌘K der Palette oben.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Ein modaler Dialog mit einem Suchfeld für deine Befehle.',
+            members: {
+              commands: 'Die Befehle als <code>NuiCommand</code>-Objekte.',
+              open: 'Ob die Palette geöffnet ist.',
+              hotkey:
+                'Das Tastenkürzel, das sie von überall öffnet und schließt, oder <code>null</code> für keines. <code>mod</code> ist ⌘ auf Apple-Geräten und sonst Ctrl.',
+              bindShortcuts:
+                'Führt Befehle auch über ihre eigenen Tastenkürzel aus, überall auf der Seite.',
+              loop: 'Pfeil nach unten auf dem letzten Befehl springt zum ersten, Pfeil nach oben auf dem ersten zum letzten.',
+              filtering:
+                'Filtert beim Tippen. Schalte es aus, wenn ein Server die Befehle filtert.',
+              loading: 'Zeigt eine Ladezeile, solange Ergebnisse unterwegs sind.',
+              hints: 'Zeigt unten die Tasten, die du verwenden kannst.',
+              virtual:
+                'Rendert nur die sichtbaren Zeilen: immer, nie oder <code>auto</code> bei mehr als 200 Zeilen.',
+              label: 'Zugänglicher Name des Dialogs und seines Suchfelds.',
+              placeholder: 'Text im leeren Suchfeld.',
+              run: 'Emittiert jeden ausgeführten Befehl.',
+              queryChange: 'Emittiert den Text während der Eingabe, für eine Suche auf dem Server.',
+              show: 'Öffnet die Palette.',
+              hide: 'Schließt die Palette.',
+              toggle: 'Öffnet die Palette oder schließt sie.',
+              back: 'Geht zur vorherigen Seite zurück.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Ein Befehl oder eine Seite voller Befehle.',
+            members: {
+              label: 'Der angezeigte und durchsuchte Text.',
+              description: 'Zusätzlicher Text unter der Beschriftung.',
+              group: 'Befehle mit derselben Gruppe stehen unter dieser Überschrift.',
+              keywords: 'Weitere Wörter, die die Suche findet, etwa Synonyme.',
+              shortcut: 'Tasten, die daneben angezeigt werden, etwa <code>mod+shift+p</code>.',
+              disabled: 'Wird angezeigt, lässt sich aber nicht ausführen.',
+              children:
+                'Befehle eine Ebene tiefer: Wählst du diesen Befehl, öffnen sie sich als Seite.',
+              run: 'Wird beim Auswählen ausgeführt, sobald die Palette geschlossen ist.',
+              id: 'Für deine eigenen Zwecke, etwa um Befehle in <code>(run)</code> zu unterscheiden.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K oder Ctrl+K', 'Öffnet oder schließt die Palette.'],
+          ['Pfeil nach unten und oben', 'Bewegt sich reihum durch die Befehle.'],
+          ['Bild ab und Bild auf', 'Springt zehn Befehle weiter.'],
+          ['Enter', 'Führt den aktiven Befehl aus oder öffnet seine Seite.'],
+          ['Esc', 'Geht eine Seite zurück; auf der obersten Ebene wird die Palette geschlossen.'],
+          ['Rücktaste', 'Geht in einem leeren Feld auf einer Seite zurück.'],
+        ],
+        notes: [
+          'Sie ist ein natives modales <code>&lt;dialog&gt;</code>: Die Seite dahinter ist inert, der Fokus bleibt darin, und beim Schließen kehrt der Fokus dorthin zurück, wo er war.',
+          'Das Suchfeld ist eine <code>combobox</code>, die mit <code>aria-activedescendant</code> auf den aktiven Befehl zeigt. Auf einer Seite trägt es den Namen der Seite.',
+          'Tastenkürzel stehen als Text in jeder Option, sodass Screenreader sie vorlesen. Die Tastenhinweise unten sind vor assistiven Technologien verborgen.',
+          'Tastenkürzel ohne Ctrl, Alt oder ⌘ werden nicht ausgeführt, während du in ein Feld tippst.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Popover- und Hovercard-Komponenten für Angular',
+        summary: 'Schwebende Panels neben einem Button und reichhaltige Tooltips beim Hovern.',
+        description:
+          'Barrierefreie Popover und Hovercards für Angular mit nativer Popover-API: umklappende, mitwandernde Platzierung, Pfeile, Light Dismiss und Hover-Verzögerung.',
+        apiDescription:
+          'API-Referenz des Popovers von Needless UI: nuiPopover und nuiHovercard mit side, align, offset und arrow sowie ihre Trigger-Direktiven.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit des Popovers und der Hovercard von Needless UI: Rollen dialog und tooltip, Fokusrückgabe, Esc und WCAG 1.4.13.',
+        overview: [
+          'Ein Popover ist ein kleines Panel, das sich neben einem Button öffnet, für interaktive Inhalte: Filter, ein kurzes Formular, eine Farbauswahl. Es ist ein natives <code>popover="auto"</code>, daher schließt der Browser es bei Esc oder einem Klick außerhalb, gibt den Fokus zurück und setzt es in der Tab-Reihenfolge direkt hinter seinen Trigger.',
+          'Eine Hovercard ist ein reichhaltiger Tooltip. Sie öffnet sich nach kurzem Hovern oder sofort bei Tastaturfokus und beschreibt ihren Trigger. Sie bleibt offen, während der Mauszeiger auf sie wechselt, damit man ihren Text lesen und markieren kann.',
+          'Beide klappen auf die andere Seite um, wenn der Platz fehlt, bleiben auf dem Bildschirm und folgen ihrem Trigger, wenn die Seite scrollt.',
+        ],
+        examples: {
+          filters: {
+            title: 'Filter',
+            text: 'Ein Popover mit einem Formular darin. <code>arrow</code> lässt es auf seinen Trigger zeigen, und <code>hide()</code> schließt es per Code.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Fahre mit der Maus über einen Namen oder erreiche ihn mit Tab. Die Karte beschreibt den Link, daher lesen Screenreader sie nach dem Namen vor.',
+          },
+          sides: {
+            title: 'Seiten und Eingangsanimationen',
+            text: '<code>side</code> und <code>align</code> legen fest, wo es sich öffnet; <code>start</code> und <code>end</code> folgen der Schreibrichtung. <code>enter</code> und <code>motion</code> legen fest, wie es erscheint.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Ein natives Popover, platziert neben dem Element, das es geöffnet hat.',
+            members: {
+              side: 'Die Seite des Triggers, an der es sich öffnet. Fehlt der Platz, klappt es um.',
+              align: 'Wie es entlang dieser Seite am Trigger ausgerichtet ist.',
+              offset: 'Abstand zwischen Trigger und Panel, in Pixeln.',
+              arrow: 'Blendet einen Pfeil ein, der auf den Trigger zeigt.',
+              openChange: 'Emittiert, wenn es sich öffnet oder schließt.',
+              show: 'Öffnet es neben einem beliebigen Element.',
+              hide: 'Schließt es.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Ein Button, der ein Popover öffnet und schließt, mit dem nativen <code>popovertarget</code>.',
+            members: { nuiPopoverTrigger: 'Das zu öffnende Popover.' },
+          },
+          NuiHovercard: {
+            summary: 'Ein reichhaltiger Tooltip, der seinen Trigger beschreibt.',
+            members: {
+              side: 'Die Seite des Triggers, an der sie sich öffnet. Fehlt der Platz, klappt sie um.',
+              align: 'Wie sie entlang dieser Seite am Trigger ausgerichtet ist.',
+              offset: 'Abstand zwischen Trigger und Karte, in Pixeln.',
+              arrow: 'Blendet einen Pfeil ein, der auf den Trigger zeigt.',
+              openDelay:
+                'Millisekunden Hovern, bevor sie sich öffnet. Tastaturfokus öffnet sie sofort.',
+              closeDelay:
+                'Millisekunden bis zum Schließen, nachdem der Mauszeiger sie verlassen hat.',
+              openChange: 'Emittiert, wenn sie sich öffnet oder schließt.',
+              show: 'Öffnet sie neben einem beliebigen Element.',
+              hide: 'Schließt sie.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Zeigt eine Hovercard beim Hovern und bei Tastaturfokus an und macht sie zur Beschreibung dieses Elements.',
+            members: { nuiHovercardTrigger: 'Die anzuzeigende Hovercard.' },
+          },
+        },
+        keyboard: [
+          ['Enter oder Leertaste auf dem Trigger', 'Öffnet oder schließt das Popover.'],
+          ['Tab', 'Springt in ein geöffnetes Popover, das direkt auf seinen Trigger folgt.'],
+          [
+            'Esc',
+            'Schließt das Popover und setzt den Fokus zurück auf seinen Trigger, oder blendet die Hovercard aus.',
+          ],
+        ],
+        notes: [
+          'Das Popover ist ein nicht modaler <code>dialog</code>: Benenne es mit <code>aria-label</code> oder <code>aria-labelledby</code>. Sein Trigger erhält <code>aria-haspopup</code> und das <code>aria-expanded</code> des Browsers.',
+          'Die Hovercard ist ein <code>tooltip</code> und das <code>aria-describedby</code> ihres Triggers, daher wird ihr Text mit dem Trigger vorgelesen. Lass Bedienelemente draußen; dafür gibt es das Popover.',
+          'Die Hovercard erfüllt WCAG 1.4.13: Esc blendet sie aus, ohne den Fokus zu verschieben, der Mauszeiger kann auf sie wechseln, und sie bleibt sichtbar, solange der Mauszeiger darauf liegt oder sie den Fokus hat.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Select-Komponente für Angular',
+        summary: 'Wähle eine oder mehrere Optionen, aus einer kurzen oder riesigen Liste.',
+        description:
+          'Barrierefreies Angular-Select: Einfach- oder Mehrfachauswahl, Gruppen, Bäume, Typeahead, Alle auswählen und virtuelles Scrollen für beliebig lange Listen.',
+        apiDescription:
+          'API-Referenz des Selects von Needless UI: nui-select mit value, values, multiple, selectAll und virtual, die Struktur von NuiOption und eigene Zeilen.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit des Selects von Needless UI: Combobox ohne Texteingabe, Listbox oder Baum, aria-activedescendant, Typeahead und Baumnavigation.',
+        overview: [
+          'Das Select ist ein Button, der eine Liste von Optionen öffnet. Übergib <code>options</code>, ein Array aus <code>NuiOption</code>, und binde <code>[(value)]</code> oder, mit <code>multiple</code>, <code>[(values)]</code>. Es funktioniert auch mit Signal Forms, Reactive Forms und <code>ngModel</code>.',
+          'Optionen können eine <code>group</code>, eine <code>description</code> und <code>keywords</code> haben, und <code>children</code> macht die Liste zu einem Baum. Bei mehr als 200 Zeilen werden nur die sichtbaren gerendert, sodass sich 100.000 Optionen so schnell öffnen wie zehn.',
+          'Wenn du stattdessen tippen und filtern willst, nimm die <a href="/components/combobox">Combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Gruppen',
+            text: 'Optionen mit einer <code>group</code> stehen unter deren Überschrift. Ein getippter Buchstabe springt zur nächsten Option, die damit beginnt.',
+          },
+          toppings: {
+            title: 'Mehrere auf einmal',
+            text: '<code>multiple</code> hält die Liste offen und bindet <code>[(values)]</code>. <code>selectAll</code> ergänzt einen Button, der alle Optionen auswählt oder abwählt. Deaktivierte Optionen lassen sich nicht wählen.',
+          },
+          folders: {
+            title: 'Baum',
+            text: 'Optionen mit <code>children</code> bilden einen Baum. Die Liste öffnet sich mit aufgeklappten Ordnern bis zur gewählten Option.',
+          },
+          zones: {
+            title: 'Lange Listen',
+            text: 'Alle Zeitzonen, nach Region. Bei mehr als 200 Zeilen werden nur die sichtbaren gerendert, und die aktive Option bleibt für Screenreader gerendert.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Ein Button, der eine Liste von Optionen öffnet.',
+            members: {
+              options: 'Die Optionen als <code>NuiOption</code>-Objekte.',
+              value: 'Der gewählte Wert oder <code>null</code>. Funktioniert auch mit Formularen.',
+              values: 'Die gewählten Werte, mit <code>multiple</code>.',
+              multiple:
+                'Erlaubt die Wahl mehrerer Optionen. Die Liste bleibt beim Auswählen offen.',
+              selectAll:
+                'Ergänzt mit <code>multiple</code> einen Button, der alle Optionen auswählt oder abwählt.',
+              placeholder: 'Text, der angezeigt wird, solange nichts gewählt ist.',
+              label: 'Zugänglicher Name, wenn kein <code>&lt;label&gt;</code> den Button benennt.',
+              triggerId: 'ID des Buttons, für <code>&lt;label for&gt;</code>.',
+              disabled: 'Deaktiviert das Select.',
+              compareWith:
+                'Prüft, ob zwei Werte dieselbe Option sind, für Werte, die Objekte sind.',
+              virtual:
+                'Rendert nur die sichtbaren Zeilen: immer, nie oder <code>auto</code> bei mehr als 200 Zeilen.',
+              openChange: 'Emittiert, wenn sich die Liste öffnet oder schließt.',
+              show: 'Öffnet die Liste.',
+              hide: 'Schließt die Liste.',
+              focus: 'Fokussiert den Button.',
+            },
+          },
+          NuiOption: {
+            summary: 'Eine Option. Select, Combobox und Befehlspalette nehmen sie alle entgegen.',
+            members: {
+              value: 'Der Wert, den die Auswahl setzt. Beliebiger Typ.',
+              label: 'Der angezeigte und durchsuchte Text.',
+              description: 'Zusätzlicher Text unter der Beschriftung.',
+              group:
+                'Optionen mit derselben Gruppe stehen der Reihe nach unter dieser Überschrift.',
+              keywords: 'Weitere Wörter, die die Suche findet, etwa Synonyme oder Codes.',
+              disabled: 'Wird angezeigt, kann aber nicht gewählt werden.',
+              children: 'Optionen eine Ebene tiefer, die die Liste zu einem Baum machen.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Setze es auf ein <code>ng-template</code> in der Komponente, um jede Zeile selbst zu zeichnen. Der Kontext enthält die Option und ihre Zeile.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Zeichnet die Beschriftung einer Option mit markierten Treffern, ihre Beschreibung und ihren Pfad, für eigene Zeilen.',
+            members: { nuiOptionText: 'Die Zeile, aus dem Template-Kontext.' },
+          },
+        },
+        keyboard: [
+          [
+            'Pfeil nach unten und oben',
+            'Öffnet die Liste und bewegt sich dann durch die Optionen.',
+          ],
+          ['Pos1 und Ende', 'Springt zur ersten oder letzten Option.'],
+          ['Bild ab und Bild auf', 'Springt zehn Optionen weiter.'],
+          ['Enter oder Leertaste', 'Öffnet die Liste oder wählt die aktive Option.'],
+          ['Buchstaben', 'Springt zur nächsten Option, die mit ihnen beginnt.'],
+          [
+            'Pfeil nach rechts und links',
+            'Klappt im Baum eine Option auf oder springt zu ihrem ersten Kind; klappt sie zu oder springt zum Elternelement. Bei Text von rechts nach links sind die Pfeile vertauscht.',
+          ],
+          ['Alt + Pfeil nach oben', 'Wählt die aktive Option und schließt die Liste.'],
+          ['Tab', 'Wählt bei Einfachauswahl die aktive Option und springt weiter.'],
+          ['Esc', 'Schließt die Liste, ohne zu wählen.'],
+        ],
+        notes: [
+          'Der Button ist eine <code>combobox</code> ohne Texteingabe, mit <code>aria-expanded</code> und <code>aria-controls</code>. Der Fokus bleibt auf ihm, und <code>aria-activedescendant</code> zeigt auf die aktive Option.',
+          'Die Liste ist eine <code>listbox</code> oder ein <code>tree</code> mit <code>aria-level</code> und <code>aria-expanded</code>. <code>aria-setsize</code> und <code>aria-posinset</code> bleiben korrekt, auch wenn nur einige Zeilen gerendert sind.',
+          'Die aktive Option hat eine volle Füllung und im Forced-Colors-Modus eine Kontur.',
+          'Benenne das Select mit einem <code>&lt;label for&gt;</code>, das auf <code>triggerId</code> zeigt, oder mit <code>label</code>.',
         ],
       },
     },

@@ -1,0 +1,11 @@
+<div class="field">
+  <label for="country-search">Country</label>
+  <nui-combobox
+    inputId="country-search"
+    clearable
+    placeholder="Search countries"
+    [options]="countries"
+    [(value)]="country"
+  />
+</div>
+<p>Chosen: {{ country() ?? 'none' }}. Try “swz”, or “schweiz”.</p>

@@ -104,7 +104,14 @@ export const messages: Messages = {
       type: 'Tipo',
       default: 'Predefinito',
       description: 'Descrizione',
-      kinds: { input: 'Input', model: 'Bidirezionale', output: 'Output', method: 'Metodo' },
+      kinds: {
+        input: 'Input',
+        model: 'Bidirezionale',
+        output: 'Output',
+        method: 'Metodo',
+        property: 'Proprietà',
+      },
+      texts: 'Anche ogni testo che mostra o annuncia è un input, così puoi tradurlo:',
       customization: {
         note: 'Gli input di personalizzazione che non imposti seguono l’attributo <code>data-nui-*</code> più vicino. Vedi la <a href="/guides/customization">guida alla personalizzazione</a>.',
         members: {
@@ -809,6 +816,364 @@ export const messages: Messages = {
           'I timer si fermano finché la pila ha il mouse sopra o il focus e finché la pagina è nascosta, e i toast in attesa di una promise non scadono mai.',
           'Tutto ciò su cui l’utente deve agire dovrebbe trovarsi anche fuori dal toast.',
           'Con la riduzione del movimento i toast non si animano né si scartano con lo swipe, e la linea del timer è nascosta.',
+        ],
+      },
+      combobox: {
+        name: 'Combobox',
+        title: 'Combobox e autocompletamento per Angular',
+        summary: 'Un campo di testo che suggerisce opzioni mentre scrivi.',
+        description:
+          'Combobox Angular accessibile: ricerca fuzzy con evidenziazione, più valori come chip, nuovi valori dal testo digitato e risultati da un server.',
+        apiDescription:
+          'Riferimento API della combobox Needless UI: nui-combobox con value, values, multiple, create, filtering, loading e clearable, e righe personalizzate.',
+        a11yDescription:
+          'Tastiera e accessibilità della combobox Needless UI: combobox modificabile con autocompletamento a elenco, discendente attivo, chip e input IME.',
+        overview: [
+          'La combobox è un campo di testo con un elenco di suggerimenti. La ricerca è fuzzy e ignora gli accenti: le corrispondenze migliori vengono prima e le lettere trovate sono evidenziate. Accetta gli stessi oggetti <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> della select.',
+          'Con <code>multiple</code>, le opzioni scelte diventano chip prima del testo, e <code>create</code> trasforma il testo digitato in un nuovo valore. Per i risultati da un server, disattiva <code>filtering</code>, cerca su <code>(queryChange)</code> e imposta <code>loading</code> durante l’attesa.',
+        ],
+        examples: {
+          country: {
+            title: 'Ricerca',
+            text: 'Le lettere trovate non devono per forza essere vicine, e contano anche le <code>keywords</code>. <code>clearable</code> aggiunge un pulsante per cancellare, e anche Esc cancella il valore.',
+          },
+          tags: {
+            title: 'Chip e nuovi valori',
+            text: '<code>multiple</code> mostra i chip e collega <code>[(values)]</code>. Quando il testo non è ancora un’opzione, <code>create</code> propone di aggiungerlo.',
+          },
+          people: {
+            title: 'Risultati dal server',
+            text: 'L’elenco mostra ciò che ha inviato il server, senza filtri, con una riga di caricamento durante l’attesa. Le etichette scelte restano quando arrivano nuovi risultati.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: 'Un campo di testo che suggerisce opzioni mentre scrivi.',
+            members: {
+              options:
+                'Le opzioni, come oggetti <a href="/components/select/api#NuiOption"><code>NuiOption</code></a>.',
+              value: 'Il valore scelto, o <code>null</code>. Funziona anche con i moduli.',
+              values: 'I valori scelti, con <code>multiple</code>.',
+              multiple: 'Permette di scegliere più opzioni, mostrate come chip.',
+              create:
+                'Crea un valore dal testo digitato. L’elenco propone allora di aggiungere il testo che non è un’opzione.',
+              filtering: 'Filtra le opzioni mentre scrivi. Disattivalo quando le filtra un server.',
+              loading: 'Mostra una riga di caricamento mentre i risultati sono in arrivo.',
+              clearable:
+                'Aggiunge un pulsante che cancella il valore, e permette di cancellarlo con Esc.',
+              placeholder: 'Testo mostrato mentre il campo è vuoto.',
+              label:
+                'Nome accessibile, quando nessun <code>&lt;label&gt;</code> dà un nome al campo.',
+              inputId: 'Id del campo di testo, per <code>&lt;label for&gt;</code>.',
+              disabled: 'Disattiva il campo.',
+              compareWith:
+                'Indica se due valori sono la stessa opzione, per i valori che sono oggetti.',
+              displayWith:
+                'Testo per un valore che non è tra le opzioni, come uno impostato prima che si carichino.',
+              virtual:
+                'Renderizza solo le righe visibili: sempre, mai, o <code>auto</code> oltre 200 righe.',
+              queryChange: 'Emette il testo mentre viene digitato, per una ricerca sul server.',
+              openChange: 'Emette quando l’elenco si apre o si chiude.',
+              show: 'Apre l’elenco.',
+              hide: 'Chiude l’elenco.',
+              clear: 'Cancella il valore e il testo.',
+              focus: 'Sposta il focus sul campo di testo.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Mettilo su un <code>ng-template</code> dentro il componente per disegnare tu ogni riga. Il contesto contiene l’opzione e la sua riga.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Disegna l’etichetta di un’opzione con le lettere trovate evidenziate, la sua descrizione e il suo percorso, per le tue righe.',
+            members: { nuiOptionText: 'La riga, dal contesto del template.' },
+          },
+        },
+        keyboard: [
+          ['Freccia giù e su', 'Apre l’elenco, poi si sposta tra le opzioni.'],
+          ['Pag giù e Pag su', 'Si sposta di dieci opzioni.'],
+          ['Invio', 'Sceglie l’opzione attiva.'],
+          ['Alt + freccia giù o su', 'Apre o chiude l’elenco.'],
+          ['Esc', 'Chiude l’elenco; poi cancella il testo, o il valore se è azzerabile.'],
+          ['Backspace', 'In un campo vuoto, rimuove l’ultimo chip.'],
+          [
+            'Freccia sinistra',
+            'Dall’inizio del testo (freccia destra nel testo da destra a sinistra), passa ai chip. Lì, Backspace o Canc rimuove un chip.',
+          ],
+        ],
+        notes: [
+          'Il campo di testo è una <code>combobox</code> con <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> e <code>aria-controls</code>. Il focus resta lì, e <code>aria-activedescendant</code> punta all’opzione attiva.',
+          'I chip formano un elenco con nome, e ogni pulsante di rimozione prende il nome dal suo chip, come «Remove Italy».',
+          '«No matches» e la riga di caricamento sono messaggi di stato, quindi gli screen reader li annunciano.',
+          'I tasti che confermano una composizione IME, come per il cinese o il giapponese, vengono lasciati all’IME.',
+        ],
+      },
+      command: {
+        name: 'Palette dei comandi',
+        title: 'Componente palette dei comandi per Angular',
+        summary: 'Ogni comando della tua app, a portata di tasto.',
+        description:
+          'Palette dei comandi Angular accessibile: ⌘K ovunque, ricerca fuzzy anche nelle pagine annidate, gruppi e scorciatoie nella notazione di ogni piattaforma.',
+        apiDescription:
+          'Riferimento API della palette dei comandi Needless UI: nui-command-palette con commands, hotkey, bindShortcuts e loop, e la struttura di NuiCommand.',
+        a11yDescription:
+          'Tastiera e accessibilità della palette dei comandi Needless UI: un dialog modale con una combobox di ricerca, discendente attivo e navigazione tra pagine.',
+        overview: [
+          'La palette dei comandi è un campo di ricerca sui comandi della tua app, in un dialog modale. ⌘K la apre da qualsiasi punto (Ctrl+K su Windows e Linux). Scegli un comando: la palette si chiude, poi lo esegue.',
+          'I comandi possono avere un gruppo, una descrizione, parole chiave e una scorciatoia, mostrata con i simboli di ogni piattaforma. Un comando con <code>children</code> apre una pagina di altri comandi, e dal livello principale la ricerca raggiunge anche le pagine.',
+        ],
+        examples: {
+          palette: {
+            title: 'Comandi e pagine',
+            text: 'Gruppi, scorciatoie, un comando disattivato e due pagine. <code>(run)</code> ti dice cosa è stato eseguito; funziona anche il <code>run</code> del comando stesso.',
+          },
+          people: {
+            title: 'Righe personalizzate',
+            text: 'Un <code>nuiOptionTemplate</code> disegna ogni riga, e <code>nuiOptionText</code> mantiene le corrispondenze evidenziate. <code>[hotkey]="null"</code> lascia ⌘K alla palette qui sopra.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: 'Un dialog modale con un campo di ricerca sui tuoi comandi.',
+            members: {
+              commands: 'I comandi, come oggetti <code>NuiCommand</code>.',
+              open: 'Indica se la palette è aperta.',
+              hotkey:
+                'La scorciatoia che la apre e la chiude da qualsiasi punto, o <code>null</code> per nessuna. <code>mod</code> è ⌘ sui dispositivi Apple e Ctrl altrove.',
+              bindShortcuts:
+                'Esegue i comandi anche con le loro scorciatoie, ovunque nella pagina.',
+              loop: 'La freccia giù sull’ultimo comando passa al primo, e la freccia su sul primo passa all’ultimo.',
+              filtering:
+                'Filtra mentre scrivi. Disattivalo quando è un server a filtrare i comandi.',
+              loading: 'Mostra una riga di caricamento mentre i risultati sono in arrivo.',
+              hints: 'Mostra in basso i tasti da usare.',
+              virtual:
+                'Renderizza solo le righe visibili: sempre, mai, o <code>auto</code> oltre 200 righe.',
+              label: 'Nome accessibile del dialog e del suo campo di ricerca.',
+              placeholder: 'Testo mostrato nel campo di ricerca vuoto.',
+              run: 'Emette ogni comando eseguito.',
+              queryChange: 'Emette il testo mentre viene digitato, per una ricerca sul server.',
+              show: 'Apre la palette.',
+              hide: 'Chiude la palette.',
+              toggle: 'Apre la palette, o la chiude.',
+              back: 'Torna alla pagina precedente.',
+            },
+          },
+          NuiCommand: {
+            summary: 'Un comando, o una pagina di comandi.',
+            members: {
+              label: 'Il testo mostrato e cercato.',
+              description: 'Testo secondario sotto l’etichetta.',
+              group: 'I comandi con lo stesso gruppo sono elencati sotto quell’intestazione.',
+              keywords: 'Altre parole che la ricerca trova, come i sinonimi.',
+              shortcut: 'Tasti mostrati accanto al comando, come <code>mod+shift+p</code>.',
+              disabled: 'Visibile, ma non si può eseguire.',
+              children:
+                'Comandi di un livello inferiore: scegliere questo comando li apre come pagina.',
+              run: 'Viene eseguito quando lo si sceglie, dopo la chiusura della palette.',
+              id: 'Per i tuoi scopi, ad esempio distinguere i comandi in <code>(run)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K o Ctrl+K', 'Apre o chiude la palette.'],
+          ['Freccia giù e su', 'Si sposta tra i comandi, ricominciando dall’altra estremità.'],
+          ['Pag giù e Pag su', 'Si sposta di dieci comandi.'],
+          ['Invio', 'Esegue il comando attivo, o apre la sua pagina.'],
+          ['Esc', 'Torna indietro di una pagina; al livello principale, chiude la palette.'],
+          ['Backspace', 'In un campo vuoto dentro una pagina, torna indietro.'],
+        ],
+        notes: [
+          'È un <code>&lt;dialog&gt;</code> modale nativo: la pagina dietro è inerte, il focus resta all’interno e la chiusura riporta il focus dov’era.',
+          'Il campo di ricerca è una <code>combobox</code> che punta al comando attivo con <code>aria-activedescendant</code>. In una pagina, prende il nome della pagina.',
+          'I tasti delle scorciatoie sono testo in ogni opzione, quindi gli screen reader li leggono. I suggerimenti dei tasti in basso sono nascosti alle tecnologie assistive.',
+          'Le scorciatoie senza Ctrl, Alt o ⌘ non si attivano mentre scrivi in un campo.',
+        ],
+      },
+      popover: {
+        name: 'Popover',
+        title: 'Componenti popover e hovercard per Angular',
+        summary:
+          'Pannelli flottanti accanto a un pulsante e tooltip ricchi al passaggio del mouse.',
+        description:
+          'Popover e hovercard Angular accessibili sull’API popover nativa: posizione che si ribalta e segue, frecce, chiusura al clic esterno e ritardi di hover.',
+        apiDescription:
+          'Riferimento API del popover Needless UI: nuiPopover e nuiHovercard con side, align, offset e arrow, e le loro direttive trigger.',
+        a11yDescription:
+          'Tastiera e accessibilità di popover e hovercard Needless UI: ruoli dialog e tooltip, ritorno del focus, tasto Esc e WCAG 1.4.13.',
+        overview: [
+          'Un popover è un piccolo pannello che si apre accanto a un pulsante, per contenuti interattivi: filtri, un breve modulo, un selettore di colore. È un <code>popover="auto"</code> nativo, quindi il browser lo chiude con Esc o con un clic esterno, riporta il focus e lo mette subito dopo il suo trigger nell’ordine di tabulazione.',
+          'Una hovercard è un tooltip ricco. Si apre dopo un breve passaggio del mouse, o subito con il focus da tastiera, e descrive il suo trigger. Resta aperta mentre il puntatore ci si sposta sopra, così il testo si può leggere e selezionare.',
+          'Entrambi passano al lato opposto quando manca spazio, restano sullo schermo e seguono il loro trigger mentre la pagina scorre.',
+        ],
+        examples: {
+          filters: {
+            title: 'Filtri',
+            text: 'Un popover con un modulo all’interno. <code>arrow</code> lo fa puntare verso il suo trigger, e <code>hide()</code> lo chiude da codice.',
+          },
+          profile: {
+            title: 'Hovercard',
+            text: 'Passa il mouse su un nome, o raggiungilo con Tab. La card descrive il link, quindi gli screen reader la leggono dopo il nome.',
+          },
+          sides: {
+            title: 'Lati e animazioni di entrata',
+            text: '<code>side</code> e <code>align</code> stabiliscono dove si apre; <code>start</code> e <code>end</code> seguono la direzione del testo. <code>enter</code> e <code>motion</code> stabiliscono come entra in scena.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: 'Un popover nativo posizionato accanto all’elemento che lo ha aperto.',
+            members: {
+              side: 'Il lato del trigger su cui si apre. Passa al lato opposto quando manca spazio.',
+              align: 'Come si allinea al trigger lungo quel lato.',
+              offset: 'Distanza tra il trigger e il pannello, in pixel.',
+              arrow: 'Mostra una freccia che punta al trigger.',
+              openChange: 'Emette quando si apre o si chiude.',
+              show: 'Lo apre accanto a qualsiasi elemento.',
+              hide: 'Lo chiude.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary:
+              'Un pulsante che apre e chiude un popover, con il <code>popovertarget</code> nativo.',
+            members: { nuiPopoverTrigger: 'Il popover da aprire.' },
+          },
+          NuiHovercard: {
+            summary: 'Un tooltip ricco che descrive il suo trigger.',
+            members: {
+              side: 'Il lato del trigger su cui si apre. Passa al lato opposto quando manca spazio.',
+              align: 'Come si allinea al trigger lungo quel lato.',
+              offset: 'Distanza tra il trigger e la card, in pixel.',
+              arrow: 'Mostra una freccia che punta al trigger.',
+              openDelay:
+                'Millisecondi di hover prima dell’apertura. Il focus da tastiera la apre subito.',
+              closeDelay: 'Millisecondi prima della chiusura, dopo che il puntatore è uscito.',
+              openChange: 'Emette quando si apre o si chiude.',
+              show: 'La apre accanto a qualsiasi elemento.',
+              hide: 'La chiude.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              'Mostra una hovercard al passaggio del mouse e con il focus da tastiera, e ne fa la descrizione di questo elemento.',
+            members: { nuiHovercardTrigger: 'La hovercard da mostrare.' },
+          },
+        },
+        keyboard: [
+          ['Invio o Spazio sul trigger', 'Apre o chiude il popover.'],
+          ['Tab', 'Entra in un popover aperto, che viene subito dopo il suo trigger.'],
+          ['Esc', 'Chiude il popover e riporta il focus sul suo trigger, o nasconde la hovercard.'],
+        ],
+        notes: [
+          'Il popover è un <code>dialog</code> non modale: dagli un nome con <code>aria-label</code> o <code>aria-labelledby</code>. Il suo trigger riceve <code>aria-haspopup</code> e l’<code>aria-expanded</code> del browser.',
+          'La hovercard è un <code>tooltip</code> e l’<code>aria-describedby</code> del suo trigger, quindi il suo testo viene letto insieme al trigger. Non metterci controlli; per quelli usa un popover.',
+          'La hovercard rispetta WCAG 1.4.13: Esc la nasconde senza spostare il focus, il puntatore può andarci sopra, e resta visibile finché ha il mouse sopra o il focus.',
+        ],
+      },
+      select: {
+        name: 'Select',
+        title: 'Componente select per Angular',
+        summary: 'Scegli una o più opzioni, da un elenco breve o enorme.',
+        description:
+          'Select Angular accessibile: singola o multipla, gruppi, alberi, ricerca per digitazione, seleziona tutto e scorrimento virtuale per elenchi di ogni lunghezza.',
+        apiDescription:
+          'Riferimento API della select Needless UI: nui-select con value, values, multiple, selectAll e virtual, la struttura di NuiOption e righe personalizzate.',
+        a11yDescription:
+          'Accessibilità della select Needless UI: combobox di sola selezione con listbox o albero, discendente attivo, ricerca per digitazione e tasti per gli alberi.',
+        overview: [
+          'La select è un pulsante che apre un elenco di opzioni. Passale <code>options</code>, un array di <code>NuiOption</code>, e collega <code>[(value)]</code>, oppure <code>[(values)]</code> con <code>multiple</code>. Funziona anche con Signal Forms, i form reattivi e <code>ngModel</code>.',
+          'Le opzioni possono avere un <code>group</code>, una <code>description</code> e delle <code>keywords</code>, e <code>children</code> trasforma l’elenco in un albero. Oltre le 200 righe, vengono renderizzate solo quelle visibili, così 100.000 opzioni si aprono veloci come dieci.',
+          'Per digitare e filtrare, usa invece la <a href="/components/combobox">combobox</a>.',
+        ],
+        examples: {
+          countries: {
+            title: 'Gruppi',
+            text: 'Le opzioni con un <code>group</code> sono elencate sotto la sua intestazione. Digitando una lettera si salta alla prossima opzione che inizia con essa.',
+          },
+          toppings: {
+            title: 'Più opzioni insieme',
+            text: '<code>multiple</code> tiene aperto l’elenco e collega <code>[(values)]</code>. <code>selectAll</code> aggiunge un pulsante che seleziona o deseleziona tutte le opzioni. Le opzioni disattivate non si possono scegliere.',
+          },
+          folders: {
+            title: 'Albero',
+            text: 'Le opzioni con <code>children</code> formano un albero. L’elenco si apre con le cartelle dell’opzione scelta già espanse.',
+          },
+          zones: {
+            title: 'Elenchi lunghi',
+            text: 'Tutti i fusi orari, per regione. Oltre le 200 righe, vengono renderizzate solo quelle visibili, e l’opzione attiva resta renderizzata per gli screen reader.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: 'Un pulsante che apre un elenco di opzioni.',
+            members: {
+              options: 'Le opzioni, come oggetti <code>NuiOption</code>.',
+              value: 'Il valore scelto, o <code>null</code>. Funziona anche con i moduli.',
+              values: 'I valori scelti, con <code>multiple</code>.',
+              multiple: 'Permette di scegliere più opzioni. L’elenco resta aperto mentre scegli.',
+              selectAll:
+                'Con <code>multiple</code>, aggiunge un pulsante che seleziona o deseleziona tutte le opzioni.',
+              placeholder: 'Testo mostrato finché non si sceglie nulla.',
+              label:
+                'Nome accessibile, quando nessun <code>&lt;label&gt;</code> dà un nome al pulsante.',
+              triggerId: 'Id del pulsante, per <code>&lt;label for&gt;</code>.',
+              disabled: 'Disattiva la select.',
+              compareWith:
+                'Indica se due valori sono la stessa opzione, per i valori che sono oggetti.',
+              virtual:
+                'Renderizza solo le righe visibili: sempre, mai, o <code>auto</code> oltre 200 righe.',
+              openChange: 'Emette quando l’elenco si apre o si chiude.',
+              show: 'Apre l’elenco.',
+              hide: 'Chiude l’elenco.',
+              focus: 'Sposta il focus sul pulsante.',
+            },
+          },
+          NuiOption: {
+            summary: 'Un’opzione. La usano la select, la combobox e la palette dei comandi.',
+            members: {
+              value: 'Il valore impostato quando la si sceglie. Di qualsiasi tipo.',
+              label: 'Il testo mostrato e cercato.',
+              description: 'Testo secondario sotto l’etichetta.',
+              group:
+                'Le opzioni con lo stesso gruppo sono elencate in ordine sotto quell’intestazione.',
+              keywords: 'Altre parole che la ricerca trova, come sinonimi o codici.',
+              disabled: 'Visibile, ma non si può scegliere.',
+              children:
+                'Opzioni di un livello più in basso, che trasformano l’elenco in un albero.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              'Mettilo su un <code>ng-template</code> dentro il componente per disegnare tu ogni riga. Il contesto contiene l’opzione e la sua riga.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              'Disegna l’etichetta di un’opzione con le lettere trovate evidenziate, la sua descrizione e il suo percorso, per le tue righe.',
+            members: { nuiOptionText: 'La riga, dal contesto del template.' },
+          },
+        },
+        keyboard: [
+          ['Freccia giù e su', 'Apre l’elenco, poi si sposta tra le opzioni.'],
+          ['Home e Fine', 'Va alla prima o all’ultima opzione.'],
+          ['Pag giù e Pag su', 'Si sposta di dieci opzioni.'],
+          ['Invio o Spazio', 'Apre l’elenco, o sceglie l’opzione attiva.'],
+          ['Lettere', 'Passa alla prossima opzione che inizia con quelle lettere.'],
+          [
+            'Freccia destra e sinistra',
+            'In un albero, espande un’opzione o passa al suo primo figlio; la comprime o passa al genitore. Le frecce si invertono nel testo da destra a sinistra.',
+          ],
+          ['Alt + freccia su', 'Sceglie l’opzione attiva e chiude l’elenco.'],
+          ['Tab', 'Con scelta singola, sceglie l’opzione attiva e prosegue.'],
+          ['Esc', 'Chiude l’elenco senza scegliere.'],
+        ],
+        notes: [
+          'Il pulsante è una <code>combobox</code> di sola selezione con <code>aria-expanded</code> e <code>aria-controls</code>. Il focus resta su di esso, e <code>aria-activedescendant</code> punta all’opzione attiva.',
+          'L’elenco è una <code>listbox</code>, o un <code>tree</code> con <code>aria-level</code> e <code>aria-expanded</code>. <code>aria-setsize</code> e <code>aria-posinset</code> restano corretti anche quando solo alcune righe sono renderizzate.',
+          'L’opzione attiva ha un riempimento pieno e, in modalità forced colors, un contorno.',
+          'Dai un nome alla select con un <code>&lt;label for&gt;</code> che punta a <code>triggerId</code>, o con <code>label</code>.',
         ],
       },
     },

@@ -1,0 +1,5 @@
+<div class="field">
+  <label for="country">Country</label>
+  <nui-select triggerId="country" [options]="countries" [(value)]="country" />
+</div>
+<p>Chosen: {{ country() }}. Type “s” to jump to Spain, again for Switzerland.</p>

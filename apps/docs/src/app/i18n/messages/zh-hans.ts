@@ -101,7 +101,8 @@ export const messages: Messages = {
       type: '类型',
       default: '默认值',
       description: '说明',
-      kinds: { input: '输入', model: '双向绑定', output: '输出', method: '方法' },
+      kinds: { input: '输入', model: '双向绑定', output: '输出', method: '方法', property: '属性' },
+      texts: '它显示或播报的所有文本也都是输入属性，因此可以翻译：',
       customization: {
         note: '用于自定义的输入属性如果未设置，会沿用最近的 <code>data-nui-*</code> 属性。详见<a href="/guides/customization">自定义指南</a>。',
         members: {
@@ -771,6 +772,342 @@ export const messages: Messages = {
           '当鼠标悬停在堆叠上、堆叠获得焦点或页面被隐藏时，计时器会暂停；等待 Promise 的 Toast 永远不会超时。',
           '任何需要用户处理的内容，都应同时在 Toast 之外提供。',
           '开启减少动态效果后，Toast 不再播放动画，也不能滑动，计时条也会隐藏。',
+        ],
+      },
+      combobox: {
+        name: '组合框',
+        title: 'Angular 组合框与自动补全组件',
+        summary: '在你输入时给出建议选项的文本框。',
+        description:
+          '无障碍的 Angular 组合框：带匹配高亮的模糊搜索、以标签显示的多个值、由输入的文本创建新值，以及来自服务器的结果。',
+        apiDescription:
+          'Needless UI 组合框的 API 参考：nui-combobox 的 value、values、multiple、create、filtering、loading 和 clearable，以及自定义行。',
+        a11yDescription:
+          'Needless UI 组合框的键盘操作与无障碍支持：带列表自动补全的可编辑组合框、aria-activedescendant、标签和输入法输入。',
+        overview: [
+          '组合框是一个带建议列表的文本框。搜索为模糊匹配，并且忽略重音符号：最匹配的结果排在最前，匹配的字母会被标出。它与选择器接收相同的 <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> 对象。',
+          '设置 <code>multiple</code> 后，选中的选项会以标签形式显示在文本之前；<code>create</code> 会把输入的文本变成新值。若结果来自服务器，请关闭 <code>filtering</code>，在 <code>(queryChange)</code> 中搜索，并在等待期间设置 <code>loading</code>。',
+        ],
+        examples: {
+          country: {
+            title: '搜索',
+            text: '匹配的字母不必相邻，<code>keywords</code> 也会参与匹配。<code>clearable</code> 会添加一个清除按钮，并允许按 Esc 键清除值。',
+          },
+          tags: {
+            title: '标签与新值',
+            text: '<code>multiple</code> 会显示标签并绑定 <code>[(values)]</code>。当输入的文本还不是任何选项时，<code>create</code> 会提议添加它。',
+          },
+          people: {
+            title: '服务器结果',
+            text: '列表按原样显示服务器返回的结果，不做过滤，等待期间显示加载提示行。新结果到达时，已选选项的显示文本会保留。',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: '在你输入时给出建议选项的文本框。',
+            members: {
+              options:
+                '选项，以 <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> 对象的形式提供。',
+              value: '选中的值，或 <code>null</code>。也可以与表单配合使用。',
+              values: '启用 <code>multiple</code> 时选中的多个值。',
+              multiple: '允许选择多个选项，并以标签形式显示。',
+              create: '由输入的文本生成值。列表会提议添加尚不是选项的文本。',
+              filtering: '在输入时过滤选项。由服务器过滤时请关闭它。',
+              loading: '在结果返回之前显示加载提示行。',
+              clearable: '添加一个清除值的按钮，并允许按 Esc 键清除。',
+              placeholder: '文本框为空时显示的文本。',
+              label: '可访问名称，在没有 <code>&lt;label&gt;</code> 为文本框命名时使用。',
+              inputId: '文本框的 id，供 <code>&lt;label for&gt;</code> 使用。',
+              disabled: '禁用文本框。',
+              compareWith: '判断两个值是否为同一选项，适用于对象类型的值。',
+              displayWith: '不在选项中的值所显示的文本，例如在选项加载之前设置的值。',
+              virtual: '只渲染可见的行：始终、从不，或 <code>auto</code>（超过 200 行时启用）。',
+              queryChange: '在输入时发出文本，用于服务器端搜索。',
+              openChange: '列表打开或关闭时发出。',
+              show: '打开列表。',
+              hide: '关闭列表。',
+              clear: '清除值和文本。',
+              focus: '让文本框获得焦点。',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              '把它放在组件内的 <code>ng-template</code> 上，即可自行绘制每一行。上下文中包含选项及其所在行。',
+            members: {},
+          },
+          NuiOptionText: {
+            summary: '绘制选项的显示文本（标出匹配的字母）、描述和路径，用于你自定义的行。',
+            members: { nuiOptionText: '行，取自模板上下文。' },
+          },
+        },
+        keyboard: [
+          ['向下 / 向上箭头键', '打开列表，然后在选项之间移动。'],
+          ['Page Down / Page Up', '一次移动十个选项。'],
+          ['Enter', '选择高亮的选项。'],
+          ['Alt + 向下或向上箭头键', '打开或关闭列表。'],
+          ['Esc', '关闭列表；再按则清除文本，若可清除则清除值。'],
+          ['Backspace', '文本框为空时，删除最后一个标签。'],
+          [
+            '向左箭头键',
+            '在文本开头时移入标签（在从右到左的文本中为向右箭头键）。在标签上按 Backspace 或 Delete 可删除该标签。',
+          ],
+        ],
+        notes: [
+          '文本框是一个带有 <code>aria-autocomplete="list"</code>、<code>aria-expanded</code> 和 <code>aria-controls</code> 的 <code>combobox</code>。焦点始终留在其中，<code>aria-activedescendant</code> 指向高亮的选项。',
+          '标签组成一个带名称的列表，每个删除按钮都以对应的标签命名，例如“Remove Italy”。',
+          '“No matches”和加载提示行都是状态消息，因此屏幕阅读器会播报它们。',
+          '用于确认输入法组字的按键（例如输入中文或日文时）会交给输入法处理。',
+        ],
+      },
+      command: {
+        name: '命令面板',
+        title: 'Angular 命令面板组件',
+        summary: '应用中的所有命令，一键即达。',
+        description:
+          '无障碍的 Angular 命令面板：随处按 ⌘K 打开，模糊搜索可深入嵌套页面，支持分组，并按各平台的写法显示快捷键。',
+        apiDescription:
+          'Needless UI 命令面板的 API 参考：nui-command-palette 的 commands、hotkey、bindShortcuts 和 loop，以及 NuiCommand 的结构。',
+        a11yDescription:
+          'Needless UI 命令面板的键盘操作与无障碍支持：带搜索组合框的模态对话框、aria-activedescendant 和页面导航。',
+        overview: [
+          '命令面板是放在模态对话框中的搜索框，用于搜索应用中的命令。在任何地方按 ⌘K 都能打开它（Windows 和 Linux 上为 Ctrl+K）。选择一个命令后，面板会先关闭，再执行该命令。',
+          '命令可以带有分组、描述、关键词和快捷键，快捷键以各平台的符号显示。带有 <code>children</code> 的命令会打开一个包含更多命令的页面，从顶层搜索时也能搜到各页面中的命令。',
+        ],
+        examples: {
+          palette: {
+            title: '命令与页面',
+            text: '分组、快捷键、一个禁用的命令和两个页面。<code>(run)</code> 会告诉你执行了哪个命令；命令自身的 <code>run</code> 也同样有效。',
+          },
+          people: {
+            title: '自定义行',
+            text: '<code>nuiOptionTemplate</code> 负责绘制每一行，<code>nuiOptionText</code> 保留匹配处的标记。<code>[hotkey]="null"</code> 把 ⌘K 留给上面的面板。',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: '带有命令搜索框的模态对话框。',
+            members: {
+              commands: '命令，以 <code>NuiCommand</code> 对象的形式提供。',
+              open: '面板是否打开。',
+              hotkey:
+                '随处打开和关闭面板的快捷键；设为 <code>null</code> 则不使用。<code>mod</code> 在 Apple 设备上是 ⌘，在其他设备上是 Ctrl。',
+              bindShortcuts: '还可以在页面任意位置通过命令各自的快捷键执行命令。',
+              loop: '在最后一个命令上按向下键会回到第一个，在第一个命令上按向上键会跳到最后一个。',
+              filtering: '在输入时进行过滤。由服务器过滤命令时请关闭它。',
+              loading: '在结果返回之前显示加载提示行。',
+              hints: '在底部显示可用的按键。',
+              virtual: '只渲染可见的行：始终、从不，或 <code>auto</code>（超过 200 行时启用）。',
+              label: '对话框及其搜索框的可访问名称。',
+              placeholder: '搜索框为空时显示的文本。',
+              run: '每执行一个命令就发出该命令。',
+              queryChange: '在输入时发出文本，用于服务器端搜索。',
+              show: '打开面板。',
+              hide: '关闭面板。',
+              toggle: '打开面板，或将其关闭。',
+              back: '返回上一页。',
+            },
+          },
+          NuiCommand: {
+            summary: '一个命令，或一页命令。',
+            members: {
+              label: '显示并用于搜索的文本。',
+              description: '显示在主文本下方的次要文本。',
+              group: '分组相同的命令会列在该分组标题下。',
+              keywords: '搜索时额外匹配的词，例如同义词。',
+              shortcut: '随命令一起显示的按键，例如 <code>mod+shift+p</code>。',
+              disabled: '会显示，但无法执行。',
+              children: '下一级的命令：选择此命令会将它们作为一个页面打开。',
+              run: '被选中时，在面板关闭后执行。',
+              id: '供你自行使用，例如在 <code>(run)</code> 中区分命令。',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K 或 Ctrl+K', '打开或关闭面板。'],
+          ['向下 / 向上箭头键', '在命令之间移动，到达末端时循环。'],
+          ['Page Down / Page Up', '一次移动十个命令。'],
+          ['Enter', '执行高亮的命令，或打开它的页面。'],
+          ['Esc', '返回上一页；在顶层时关闭面板。'],
+          ['Backspace', '在页面中且搜索框为空时，返回上一页。'],
+        ],
+        notes: [
+          '它是原生的模态 <code>&lt;dialog&gt;</code>：背后的页面不可交互，焦点保持在其中，关闭后焦点会回到原来的位置。',
+          '搜索框是一个 <code>combobox</code>，通过 <code>aria-activedescendant</code> 指向高亮的命令。在某个页面中时，它会使用该页面的名称。',
+          '快捷键是每个选项中的文本，因此屏幕阅读器会读出它们。底部的按键提示对辅助技术隐藏。',
+          '不含 Ctrl、Alt 或 ⌘ 的快捷键，在输入框中打字时不会触发。',
+        ],
+      },
+      popover: {
+        name: '弹出框',
+        title: 'Angular 弹出框与悬停卡片组件',
+        summary: '在按钮旁浮出的面板，以及悬停时出现、内容丰富的工具提示。',
+        description:
+          '基于原生 Popover API 的无障碍 Angular 弹出框和悬停卡片：可翻转并跟随的定位、箭头、点击外部关闭，以及悬停延迟。',
+        apiDescription:
+          'Needless UI 弹出框的 API 参考：nuiPopover 和 nuiHovercard 的 side、align、offset 与 arrow，以及它们的触发器指令。',
+        a11yDescription:
+          'Needless UI 弹出框和悬停卡片的键盘操作与无障碍支持：dialog 与 tooltip 角色、焦点归还、Esc 键和 WCAG 1.4.13。',
+        overview: [
+          '弹出框是在按钮旁打开的小面板，用于放置可交互的内容：筛选条件、简短的表单、颜色选择器。它是原生的 <code>popover="auto"</code>，因此浏览器会在按 Esc 键或点击外部时关闭它、归还焦点，并在 Tab 键顺序中把它放在触发器之后。',
+          '悬停卡片是一种内容丰富的工具提示。短暂悬停后打开，通过键盘获得焦点时则立即打开，用来描述它的触发器。指针移到卡片上时它会保持打开，因此其中的文字可以阅读和选中。',
+          '两者在空间不足时都会翻转到另一侧，始终保持在屏幕内，并在页面滚动时跟随触发器。',
+        ],
+        examples: {
+          filters: {
+            title: '筛选',
+            text: '内含表单的弹出框。<code>arrow</code> 让它指向触发器，<code>hide()</code> 可在代码中关闭它。',
+          },
+          profile: {
+            title: '悬停卡片',
+            text: '将鼠标悬停在某个名字上，或用 Tab 键移到它。卡片用来描述该链接，因此屏幕阅读器会在名字之后读出它。',
+          },
+          sides: {
+            title: '方位与入场动画',
+            text: '<code>side</code> 和 <code>align</code> 决定它在哪里打开；<code>start</code> 和 <code>end</code> 跟随书写方向。<code>enter</code> 和 <code>motion</code> 决定它如何入场。',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: '原生弹出框，放置在打开它的元素旁边。',
+            members: {
+              side: '在触发器的哪一侧打开。空间不足时会翻转。',
+              align: '沿该侧与触发器的对齐方式。',
+              offset: '触发器与面板之间的间距，单位为像素。',
+              arrow: '显示一个指向触发器的箭头。',
+              openChange: '打开或关闭时发出。',
+              show: '在任意元素旁边打开它。',
+              hide: '关闭它。',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary: '通过原生 <code>popovertarget</code> 打开和关闭弹出框的按钮。',
+            members: { nuiPopoverTrigger: '要打开的弹出框。' },
+          },
+          NuiHovercard: {
+            summary: '描述其触发器的、内容丰富的工具提示。',
+            members: {
+              side: '在触发器的哪一侧打开。空间不足时会翻转。',
+              align: '沿该侧与触发器的对齐方式。',
+              offset: '触发器与卡片之间的间距，单位为像素。',
+              arrow: '显示一个指向触发器的箭头。',
+              openDelay: '悬停多少毫秒后打开。通过键盘获得焦点时会立即打开。',
+              closeDelay: '指针离开后，经过多少毫秒关闭。',
+              openChange: '打开或关闭时发出。',
+              show: '在任意元素旁边打开它。',
+              hide: '关闭它。',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary: '在悬停和键盘聚焦时显示悬停卡片，并将其设为此元素的描述。',
+            members: { nuiHovercardTrigger: '要显示的悬停卡片。' },
+          },
+        },
+        keyboard: [
+          ['在触发器上按 Enter 或空格键', '打开或关闭弹出框。'],
+          ['Tab', '移入已打开的弹出框，它紧跟在触发器之后。'],
+          ['Esc', '关闭弹出框并将焦点返回触发器，或隐藏悬停卡片。'],
+        ],
+        notes: [
+          '弹出框是非模态的 <code>dialog</code>：请用 <code>aria-label</code> 或 <code>aria-labelledby</code> 为它命名。它的触发器会获得 <code>aria-haspopup</code>，以及由浏览器维护的 <code>aria-expanded</code>。',
+          '悬停卡片是一个 <code>tooltip</code>，也是其触发器的 <code>aria-describedby</code>，因此它的文字会随触发器一起读出。不要在其中放置控件；需要控件时请使用弹出框。',
+          '悬停卡片符合 WCAG 1.4.13：按 Esc 键可将其隐藏且不移动焦点，指针可以移到卡片上，并且在悬停或获得焦点期间会一直显示。',
+        ],
+      },
+      select: {
+        name: '选择器',
+        title: 'Angular 选择器组件',
+        summary: '从简短或海量的列表中选择一个或多个选项。',
+        description:
+          '无障碍的 Angular 选择器：单选或多选、分组、树形结构、键入跳转、全选，以及适用于任意长度列表的虚拟滚动。',
+        apiDescription:
+          'Needless UI 选择器的 API 参考：nui-select 的 value、values、multiple、selectAll 和 virtual，NuiOption 的结构，以及自定义行。',
+        a11yDescription:
+          'Needless UI 选择器的键盘操作与无障碍支持：带列表框或树的仅供选择的组合框、aria-activedescendant、键入搜索和树形导航键。',
+        overview: [
+          '选择器是一个点击后打开选项列表的按钮。为它传入 <code>options</code>（一个 <code>NuiOption</code> 数组），并绑定 <code>[(value)]</code>；启用 <code>multiple</code> 时则绑定 <code>[(values)]</code>。它也支持 Signal Forms、响应式表单和 <code>ngModel</code>。',
+          '选项可以带有 <code>group</code>、<code>description</code> 和 <code>keywords</code>，<code>children</code> 则会让列表变成树。超过 200 行时只渲染可见的行，因此十万个选项也能像十个一样快速打开。',
+          '如果想输入文本来筛选，请使用<a href="/components/combobox">组合框</a>。',
+        ],
+        examples: {
+          countries: {
+            title: '分组',
+            text: '带有 <code>group</code> 的选项会列在对应的分组标题下。输入一个字母会跳到下一个以该字母开头的选项。',
+          },
+          toppings: {
+            title: '一次多选',
+            text: '<code>multiple</code> 会让列表保持打开，并绑定 <code>[(values)]</code>。<code>selectAll</code> 会添加一个全选或全部清除的按钮。禁用的选项无法选择。',
+          },
+          folders: {
+            title: '树形结构',
+            text: '带有 <code>children</code> 的选项构成一棵树。打开列表时，已选选项所在的文件夹会自动展开。',
+          },
+          zones: {
+            title: '长列表',
+            text: '按地区列出所有时区。超过 200 行时只渲染可见的行，而高亮的选项始终保持渲染，供屏幕阅读器使用。',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: '点击后打开选项列表的按钮。',
+            members: {
+              options: '选项，以 <code>NuiOption</code> 对象的形式提供。',
+              value: '选中的值，或 <code>null</code>。也可以与表单配合使用。',
+              values: '启用 <code>multiple</code> 时选中的多个值。',
+              multiple: '允许选择多个选项。选择期间列表保持打开。',
+              selectAll: '启用 <code>multiple</code> 时，添加一个全选或全部清除的按钮。',
+              placeholder: '未选择任何项时显示的文本。',
+              label: '可访问名称，在没有 <code>&lt;label&gt;</code> 为按钮命名时使用。',
+              triggerId: '按钮的 id，供 <code>&lt;label for&gt;</code> 使用。',
+              disabled: '禁用选择器。',
+              compareWith: '判断两个值是否为同一选项，适用于对象类型的值。',
+              virtual: '只渲染可见的行：始终、从不，或 <code>auto</code>（超过 200 行时启用）。',
+              openChange: '列表打开或关闭时发出。',
+              show: '打开列表。',
+              hide: '关闭列表。',
+              focus: '让按钮获得焦点。',
+            },
+          },
+          NuiOption: {
+            summary: '单个选项。选择器、组合框和命令面板都接收这种对象。',
+            members: {
+              value: '选中它时设置的值，可以是任意类型。',
+              label: '显示并用于搜索的文本。',
+              description: '显示在主文本下方的次要文本。',
+              group: '分组相同的选项会按顺序列在该分组标题下。',
+              keywords: '搜索时额外匹配的词，例如同义词或代码。',
+              disabled: '会显示，但无法选择。',
+              children: '下一级的选项，会让列表变成树。',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              '把它放在组件内的 <code>ng-template</code> 上，即可自行绘制每一行。上下文中包含选项及其所在行。',
+            members: {},
+          },
+          NuiOptionText: {
+            summary: '绘制选项的显示文本（标出匹配的字母）、描述和路径，用于你自定义的行。',
+            members: { nuiOptionText: '行，取自模板上下文。' },
+          },
+        },
+        keyboard: [
+          ['向下 / 向上箭头键', '打开列表，然后在选项之间移动。'],
+          ['Home / End', '跳到第一个或最后一个选项。'],
+          ['Page Down / Page Up', '一次移动十个选项。'],
+          ['Enter 或空格键', '打开列表，或选择高亮的选项。'],
+          ['字母键', '跳到下一个以这些字母开头的选项。'],
+          [
+            '向右 / 向左箭头键',
+            '在树中，展开选项或移到其第一个子项；折叠选项或移到其父项。在从右到左的文本中左右方向相反。',
+          ],
+          ['Alt + 向上箭头键', '选择高亮的选项并关闭列表。'],
+          ['Tab', '单选时，选择高亮的选项并移到下一个元素。'],
+          ['Esc', '不做选择，直接关闭列表。'],
+        ],
+        notes: [
+          '按钮是一个仅供选择的 <code>combobox</code>，带有 <code>aria-expanded</code> 和 <code>aria-controls</code>。焦点始终留在按钮上，<code>aria-activedescendant</code> 指向高亮的选项。',
+          '列表是一个 <code>listbox</code>，或是带有 <code>aria-level</code> 和 <code>aria-expanded</code> 的 <code>tree</code>。即使只渲染了部分行，<code>aria-setsize</code> 和 <code>aria-posinset</code> 也保持正确。',
+          '高亮的选项使用实色填充，在强制颜色模式下还会显示轮廓线。',
+          '请用指向 <code>triggerId</code> 的 <code>&lt;label for&gt;</code> 为它命名，或使用 <code>label</code>。',
         ],
       },
     },

@@ -71,7 +71,9 @@ export interface Messages {
       type: string;
       default: string;
       description: string;
-      kinds: { input: string; model: string; output: string; method: string };
+      kinds: { input: string; model: string; output: string; method: string; property: string };
+      /** Before the list of an API's text inputs. */
+      texts: string;
       /** The customization inputs every component shares. */
       customization: {
         /** html, shown under each table that lists them */

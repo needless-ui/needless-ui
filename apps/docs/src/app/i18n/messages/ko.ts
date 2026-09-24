@@ -103,7 +103,8 @@ export const messages: Messages = {
       type: '타입',
       default: '기본값',
       description: '설명',
-      kinds: { input: '입력', model: '양방향', output: '출력', method: '메서드' },
+      kinds: { input: '입력', model: '양방향', output: '출력', method: '메서드', property: '속성' },
+      texts: '표시하거나 읽어 주는 모든 텍스트도 입력이므로 번역할 수 있습니다:',
       customization: {
         note: '설정하지 않은 커스터마이징 입력은 가장 가까운 <code>data-nui-*</code> 속성을 따릅니다. 자세한 내용은 <a href="/guides/customization">커스터마이징 가이드</a>를 참고하시기 바랍니다.',
         members: {
@@ -799,6 +800,355 @@ export const messages: Messages = {
           '스택에 마우스를 올리거나 포커스가 있는 동안, 그리고 페이지가 숨겨진 동안에는 타이머가 멈추며, 프로미스를 기다리는 토스트는 시간이 지나도 닫히지 않습니다.',
           '사용자가 반드시 처리해야 하는 내용은 토스트 밖에도 있어야 합니다.',
           '동작 줄이기 설정에서는 토스트에 애니메이션이 없고 스와이프도 되지 않으며, 타이머 선이 숨겨집니다.',
+        ],
+      },
+      combobox: {
+        name: '콤보박스',
+        title: 'Angular 콤보박스·자동 완성 컴포넌트',
+        summary: '입력하는 대로 옵션을 제안하는 텍스트 필드입니다.',
+        description:
+          '접근성을 갖춘 Angular 콤보박스입니다. 일치 부분을 강조하는 퍼지 검색, 칩으로 표시되는 다중 값, 입력한 텍스트로 새 값 만들기, 서버 결과를 지원합니다.',
+        apiDescription:
+          'Needless UI 콤보박스의 API 레퍼런스입니다. value, values, multiple, create, filtering, loading, clearable을 지원하는 nui-combobox와 사용자 지정 행을 설명합니다.',
+        a11yDescription:
+          'Needless UI 콤보박스의 키보드 동작과 접근성을 다룹니다. 목록 자동 완성을 갖춘 편집 가능한 콤보박스, aria-activedescendant, 칩, IME 입력을 설명합니다.',
+        overview: [
+          '콤보박스는 제안 목록이 딸린 텍스트 필드입니다. 검색은 퍼지 방식이며 악센트를 구분하지 않습니다. 가장 잘 일치하는 항목이 먼저 오고, 일치한 글자는 표시됩니다. 셀렉트와 같은 <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> 객체를 받습니다.',
+          '<code>multiple</code>을 지정하면 선택한 옵션이 텍스트 앞에 칩으로 표시되고, <code>create</code>는 입력한 텍스트를 새 값으로 만듭니다. 서버에서 결과를 가져오려면 <code>filtering</code>을 끄고, <code>(queryChange)</code>에서 검색하고, 기다리는 동안 <code>loading</code>을 설정합니다.',
+        ],
+        examples: {
+          country: {
+            title: '검색',
+            text: '일치하는 글자가 서로 붙어 있을 필요는 없으며, <code>keywords</code>도 검색 대상입니다. <code>clearable</code>은 지우기 버튼을 추가하고, Esc 키로 값을 지울 수 있게 합니다.',
+          },
+          tags: {
+            title: '칩과 새 값',
+            text: '<code>multiple</code>은 칩을 표시하고 <code>[(values)]</code>를 바인딩합니다. 입력한 텍스트가 아직 옵션에 없으면 <code>create</code>가 추가를 제안합니다.',
+          },
+          people: {
+            title: '서버 결과',
+            text: '목록은 서버가 보낸 결과를 필터링 없이 그대로 보여 주며, 기다리는 동안 로딩 행을 표시합니다. 새 결과가 도착해도 선택한 옵션의 레이블은 유지됩니다.',
+          },
+        },
+        api: {
+          NuiCombobox: {
+            summary: '입력하는 대로 옵션을 제안하는 텍스트 필드입니다.',
+            members: {
+              options:
+                '옵션 목록. <a href="/components/select/api#NuiOption"><code>NuiOption</code></a> 객체로 지정합니다.',
+              value: '선택된 값 또는 <code>null</code>. 폼과도 함께 사용할 수 있습니다.',
+              values: '<code>multiple</code>일 때 선택된 값 목록.',
+              multiple: '여러 옵션을 선택할 수 있게 하며, 선택한 옵션은 칩으로 표시됩니다.',
+              create:
+                '입력한 텍스트로 값을 만듭니다. 옵션에 없는 텍스트는 목록에서 추가하도록 제안합니다.',
+              filtering: '입력하는 대로 옵션을 필터링합니다. 서버에서 필터링할 때는 끕니다.',
+              loading: '결과를 기다리는 동안 로딩 행을 표시합니다.',
+              clearable: '값을 지우는 버튼을 추가하고, Esc 키로도 지울 수 있게 합니다.',
+              placeholder: '필드가 비어 있을 때 표시되는 텍스트.',
+              label:
+                '<code>&lt;label&gt;</code>로 필드의 이름을 지정하지 않을 때 사용하는 접근 가능한 이름.',
+              inputId: '<code>&lt;label for&gt;</code>에 사용할 텍스트 필드의 id.',
+              disabled: '필드를 비활성화합니다.',
+              compareWith: '두 값이 같은 옵션인지 판단합니다. 값이 객체일 때 사용합니다.',
+              displayWith:
+                '옵션에 없는 값에 표시할 텍스트. 예를 들어 옵션을 불러오기 전에 설정된 값에 사용합니다.',
+              virtual:
+                '보이는 행만 렌더링합니다: 항상, 안 함, 또는 200행을 넘으면 켜지는 <code>auto</code>.',
+              queryChange: '입력되는 텍스트를 내보냅니다. 서버 검색에 사용합니다.',
+              openChange: '목록이 열리거나 닫힐 때 내보냅니다.',
+              show: '목록을 엽니다.',
+              hide: '목록을 닫습니다.',
+              clear: '값과 텍스트를 지웁니다.',
+              focus: '텍스트 필드에 포커스를 줍니다.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              '컴포넌트 안의 <code>ng-template</code>에 지정하면 각 행을 직접 그릴 수 있습니다. 컨텍스트에는 옵션과 해당 행이 들어 있습니다.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              '옵션의 레이블(일치한 글자 표시 포함), 설명, 경로를 그립니다. 직접 만든 행에서 사용합니다.',
+            members: { nuiOptionText: '템플릿 컨텍스트에서 가져온 행.' },
+          },
+        },
+        keyboard: [
+          ['아래쪽 / 위쪽 화살표', '목록을 연 다음, 옵션 사이를 이동합니다.'],
+          ['Page Down / Page Up', '옵션을 열 개씩 이동합니다.'],
+          ['Enter', '활성 옵션을 선택합니다.'],
+          ['Alt + 아래쪽 또는 위쪽 화살표', '목록을 열거나 닫습니다.'],
+          ['Esc', '목록을 닫고, 그다음에는 텍스트를 지웁니다. 지우기가 가능하면 값을 지웁니다.'],
+          ['Backspace', '필드가 비어 있으면 마지막 칩을 제거합니다.'],
+          [
+            '왼쪽 화살표',
+            '텍스트 맨 앞에서 칩으로 이동합니다(오른쪽에서 왼쪽으로 쓰는 언어에서는 오른쪽 화살표). 칩에서는 Backspace 또는 Delete로 칩을 제거합니다.',
+          ],
+        ],
+        notes: [
+          '텍스트 필드는 <code>aria-autocomplete="list"</code>, <code>aria-expanded</code>, <code>aria-controls</code>를 가진 <code>combobox</code>입니다. 포커스는 필드에 머물며, <code>aria-activedescendant</code>가 활성 옵션을 가리킵니다.',
+          '칩은 이름이 있는 목록이며, 각 제거 버튼에는 ‘Remove Italy’처럼 해당 칩에 맞는 이름이 붙습니다.',
+          '‘No matches’와 로딩 행은 상태 메시지이므로 스크린 리더가 안내합니다.',
+          '중국어나 일본어 입력처럼 입력기 조합을 확정하는 키는 입력기가 처리하도록 둡니다.',
+        ],
+      },
+      command: {
+        name: '명령 팔레트',
+        title: 'Angular 명령 팔레트 컴포넌트',
+        summary: '앱의 모든 명령을 키 입력 한 번으로 불러옵니다.',
+        description:
+          '접근성을 갖춘 Angular 명령 팔레트입니다. 어디서나 ⌘K로 열고, 중첩 페이지까지 찾는 퍼지 검색, 그룹, 플랫폼별 표기에 맞춘 단축키 표시를 지원합니다.',
+        apiDescription:
+          'Needless UI 명령 팔레트의 API 레퍼런스입니다. commands, hotkey, bindShortcuts, loop를 지원하는 nui-command-palette와 NuiCommand 형식을 설명합니다.',
+        a11yDescription:
+          'Needless UI 명령 팔레트의 키보드 동작과 접근성을 다룹니다. 검색 콤보박스가 있는 모달 다이얼로그, aria-activedescendant, 페이지 탐색을 설명합니다.',
+        overview: [
+          '명령 팔레트는 앱의 명령을 검색하는 필드를 모달 다이얼로그에 담은 것입니다. 어디서나 ⌘K(Windows와 Linux에서는 Ctrl+K)로 열 수 있습니다. 명령을 선택하면 팔레트가 닫힌 뒤 그 명령이 실행됩니다.',
+          '명령에는 그룹, 설명, 키워드, 단축키를 지정할 수 있으며, 단축키는 플랫폼별 기호로 표시됩니다. <code>children</code>이 있는 명령은 하위 명령이 담긴 페이지를 열며, 최상위에서 검색해도 페이지 안의 명령까지 찾습니다.',
+        ],
+        examples: {
+          palette: {
+            title: '명령과 페이지',
+            text: '그룹, 단축키, 비활성화된 명령, 두 개의 페이지가 있습니다. <code>(run)</code>으로 무엇이 실행되었는지 알 수 있으며, 명령 자체의 <code>run</code>도 동작합니다.',
+          },
+          people: {
+            title: '사용자 지정 행',
+            text: '<code>nuiOptionTemplate</code>이 각 행을 그리고, <code>nuiOptionText</code>가 일치 부분 표시를 유지합니다. <code>[hotkey]="null"</code>로 ⌘K는 위쪽 팔레트에 맡깁니다.',
+          },
+        },
+        api: {
+          NuiCommandPalette: {
+            summary: '명령을 검색하는 필드가 있는 모달 다이얼로그입니다.',
+            members: {
+              commands: '명령 목록. <code>NuiCommand</code> 객체로 지정합니다.',
+              open: '팔레트가 열려 있는지 여부.',
+              hotkey:
+                '어디서나 팔레트를 열고 닫는 단축키이며, 없애려면 <code>null</code>을 지정합니다. <code>mod</code>는 Apple 기기에서는 ⌘, 그 외에서는 Ctrl입니다.',
+              bindShortcuts: '페이지 어디서든 각 명령의 단축키로도 명령을 실행합니다.',
+              loop: '마지막 명령에서 아래로 가면 첫 번째로, 첫 번째 명령에서 위로 가면 마지막으로 이동합니다.',
+              filtering: '입력하는 대로 필터링합니다. 서버에서 명령을 필터링할 때는 끕니다.',
+              loading: '결과를 기다리는 동안 로딩 행을 표시합니다.',
+              hints: '하단에 사용할 수 있는 키를 표시합니다.',
+              virtual:
+                '보이는 행만 렌더링합니다: 항상, 안 함, 또는 200행을 넘으면 켜지는 <code>auto</code>.',
+              label: '다이얼로그와 검색 필드의 접근 가능한 이름.',
+              placeholder: '빈 검색 필드에 표시되는 텍스트.',
+              run: '실행되는 각 명령을 내보냅니다.',
+              queryChange: '입력되는 텍스트를 내보냅니다. 서버 검색에 사용합니다.',
+              show: '팔레트를 엽니다.',
+              hide: '팔레트를 닫습니다.',
+              toggle: '팔레트를 열거나 닫습니다.',
+              back: '이전 페이지로 돌아갑니다.',
+            },
+          },
+          NuiCommand: {
+            summary: '명령 하나, 또는 명령이 담긴 페이지입니다.',
+            members: {
+              label: '표시되고 검색되는 텍스트.',
+              description: '레이블 아래의 보조 텍스트.',
+              group: '같은 그룹의 명령은 그 제목 아래에 나열됩니다.',
+              keywords: '검색에서 일치시킬 추가 단어. 예: 동의어.',
+              shortcut: '함께 표시되는 키. 예: <code>mod+shift+p</code>.',
+              disabled: '표시되지만 실행할 수 없습니다.',
+              children: '한 단계 아래의 명령. 이 명령을 선택하면 페이지로 열립니다.',
+              run: '선택되면 팔레트가 닫힌 뒤 실행됩니다.',
+              id: '자유롭게 쓰는 값. 예를 들어 <code>(run)</code>에서 명령을 구분할 때 사용합니다.',
+            },
+          },
+        },
+        keyboard: [
+          ['⌘K 또는 Ctrl+K', '팔레트를 열거나 닫습니다.'],
+          ['아래쪽 / 위쪽 화살표', '명령 사이를 이동하며, 끝에 닿으면 반대쪽 끝으로 넘어갑니다.'],
+          ['Page Down / Page Up', '명령을 열 개씩 이동합니다.'],
+          ['Enter', '활성 명령을 실행하거나 해당 페이지를 엽니다.'],
+          ['Esc', '한 페이지 뒤로 갑니다. 최상위에서는 팔레트를 닫습니다.'],
+          ['Backspace', '페이지 안에서 필드가 비어 있으면 뒤로 갑니다.'],
+        ],
+        notes: [
+          '네이티브 모달 <code>&lt;dialog&gt;</code>입니다. 뒤쪽 페이지는 상호작용할 수 없게 되고, 포커스는 안에 머물며, 닫으면 포커스가 원래 위치로 돌아갑니다.',
+          '검색 필드는 <code>aria-activedescendant</code>로 활성 명령을 가리키는 <code>combobox</code>입니다. 페이지 안에서는 해당 페이지의 이름을 가집니다.',
+          '단축키는 각 옵션 안의 텍스트이므로 스크린 리더가 읽어 줍니다. 하단의 키 힌트는 보조 기술에서 숨겨집니다.',
+          'Ctrl, Alt, ⌘가 없는 단축키는 필드에 입력하는 동안에는 실행되지 않습니다.',
+        ],
+      },
+      popover: {
+        name: '팝오버',
+        title: 'Angular 팝오버·호버 카드 컴포넌트',
+        summary: '버튼 옆에 뜨는 패널과, 마우스를 올리면 나타나는 리치 툴팁입니다.',
+        description:
+          '네이티브 Popover API로 만든 접근성을 갖춘 Angular 팝오버와 호버 카드입니다. 뒤집히고 따라가는 위치 지정, 화살표, 바깥 클릭으로 닫기, 호버 지연을 지원합니다.',
+        apiDescription:
+          'Needless UI 팝오버의 API 레퍼런스입니다. side, align, offset, arrow를 지원하는 nuiPopover와 nuiHovercard, 그리고 각각의 트리거 디렉티브를 설명합니다.',
+        a11yDescription:
+          'Needless UI 팝오버와 호버 카드의 키보드 동작과 접근성을 다룹니다. dialog와 tooltip 역할, 포커스 복귀, Esc 키, WCAG 1.4.13을 설명합니다.',
+        overview: [
+          '팝오버는 버튼 옆에 열리는 작은 패널로, 필터, 짧은 폼, 색상 선택기처럼 상호작용하는 요소에 사용합니다. 네이티브 <code>popover="auto"</code>이므로 Esc 키나 바깥 클릭으로 브라우저가 닫고 포커스를 되돌리며, 탭 순서에서 트리거 바로 뒤에 둡니다.',
+          '호버 카드는 리치 툴팁입니다. 잠시 마우스를 올려 두면 열리고, 키보드로 포커스하면 바로 열리며, 트리거를 설명합니다. 포인터가 카드 위로 옮겨 가도 열린 상태를 유지하므로 텍스트를 읽고 선택할 수 있습니다.',
+          '둘 다 공간이 없으면 반대쪽으로 뒤집히고, 화면 안에 머물며, 페이지가 스크롤되면 트리거를 따라갑니다.',
+        ],
+        examples: {
+          filters: {
+            title: '필터',
+            text: '안에 폼이 있는 팝오버입니다. <code>arrow</code>는 트리거를 가리키는 화살표를 달고, <code>hide()</code>는 코드에서 팝오버를 닫습니다.',
+          },
+          profile: {
+            title: '호버 카드',
+            text: '이름에 마우스를 올리거나 Tab 키로 이동해 보십시오. 카드가 링크를 설명하므로, 스크린 리더는 이름 다음에 카드를 읽어 줍니다.',
+          },
+          sides: {
+            title: '방향과 등장 효과',
+            text: '<code>side</code>와 <code>align</code>은 열리는 위치를 정하며, <code>start</code>와 <code>end</code>는 쓰기 방향을 따릅니다. <code>enter</code>와 <code>motion</code>은 등장하는 방식을 정합니다.',
+          },
+        },
+        api: {
+          NuiPopover: {
+            summary: '자신을 연 요소 옆에 배치되는 네이티브 팝오버입니다.',
+            members: {
+              side: '트리거의 어느 쪽에 열리는지. 공간이 없으면 뒤집힙니다.',
+              align: '그 쪽을 따라 트리거와 어떻게 정렬할지.',
+              offset: '트리거와 패널 사이의 간격(픽셀 단위).',
+              arrow: '트리거를 가리키는 화살표를 표시합니다.',
+              openChange: '열리거나 닫힐 때 내보냅니다.',
+              show: '원하는 요소 옆에 엽니다.',
+              hide: '닫습니다.',
+            },
+          },
+          NuiPopoverTrigger: {
+            summary: '네이티브 <code>popovertarget</code>으로 팝오버를 열고 닫는 버튼입니다.',
+            members: { nuiPopoverTrigger: '열 팝오버.' },
+          },
+          NuiHovercard: {
+            summary: '트리거를 설명하는 리치 툴팁입니다.',
+            members: {
+              side: '트리거의 어느 쪽에 열리는지. 공간이 없으면 뒤집힙니다.',
+              align: '그 쪽을 따라 트리거와 어떻게 정렬할지.',
+              offset: '트리거와 카드 사이의 간격(픽셀 단위).',
+              arrow: '트리거를 가리키는 화살표를 표시합니다.',
+              openDelay:
+                '열리기 전까지 마우스를 올려 두어야 하는 시간(밀리초). 키보드 포커스로는 바로 열립니다.',
+              closeDelay: '포인터가 벗어난 뒤 닫히기까지의 시간(밀리초).',
+              openChange: '열리거나 닫힐 때 내보냅니다.',
+              show: '원하는 요소 옆에 엽니다.',
+              hide: '닫습니다.',
+            },
+          },
+          NuiHovercardTrigger: {
+            summary:
+              '마우스를 올리거나 키보드로 포커스하면 호버 카드를 표시하고, 호버 카드를 이 요소의 설명으로 지정합니다.',
+            members: { nuiHovercardTrigger: '표시할 호버 카드.' },
+          },
+        },
+        keyboard: [
+          ['트리거에서 Enter 또는 Space', '팝오버를 열거나 닫습니다.'],
+          ['Tab', '열린 팝오버 안으로 이동합니다. 팝오버는 트리거 바로 다음에 옵니다.'],
+          ['Esc', '팝오버를 닫고 포커스를 트리거로 되돌리거나, 호버 카드를 숨깁니다.'],
+        ],
+        notes: [
+          '팝오버는 비모달 <code>dialog</code>입니다. <code>aria-label</code> 또는 <code>aria-labelledby</code>로 이름을 지정합니다. 트리거에는 <code>aria-haspopup</code>과 브라우저가 관리하는 <code>aria-expanded</code>가 지정됩니다.',
+          '호버 카드는 <code>tooltip</code>이자 트리거의 <code>aria-describedby</code>이므로, 그 텍스트는 트리거와 함께 읽힙니다. 컨트롤은 넣지 말고, 컨트롤이 필요하면 팝오버를 사용합니다.',
+          '호버 카드는 WCAG 1.4.13을 충족합니다. Esc 키로 포커스를 옮기지 않고 숨길 수 있고, 포인터를 카드 위로 옮길 수 있으며, 마우스를 올려 두거나 포커스가 있는 동안에는 계속 표시됩니다.',
+        ],
+      },
+      select: {
+        name: '셀렉트',
+        title: 'Angular 셀렉트 컴포넌트',
+        summary: '짧은 목록이든 아주 긴 목록이든, 옵션을 하나 또는 여러 개 고를 수 있습니다.',
+        description:
+          '접근성을 갖춘 Angular 셀렉트입니다. 단일·다중 선택, 그룹, 트리, 입력으로 이동, 모두 선택, 길이에 관계없이 목록을 다루는 가상 스크롤을 지원합니다.',
+        apiDescription:
+          'Needless UI 셀렉트의 API 레퍼런스입니다. value, values, multiple, selectAll, virtual을 지원하는 nui-select, NuiOption 형식, 사용자 지정 행을 설명합니다.',
+        a11yDescription:
+          'Needless UI 셀렉트의 키보드 동작과 접근성을 다룹니다. 리스트박스나 트리를 여는 선택 전용 콤보박스, aria-activedescendant, 문자 검색, 트리 키를 설명합니다.',
+        overview: [
+          '셀렉트는 옵션 목록을 여는 버튼입니다. <code>NuiOption</code> 배열인 <code>options</code>를 전달하고 <code>[(value)]</code>를 바인딩하거나, <code>multiple</code>과 함께 <code>[(values)]</code>를 바인딩합니다. Signal Forms, 반응형 폼, <code>ngModel</code>과도 함께 동작합니다.',
+          '옵션에는 <code>group</code>, <code>description</code>, <code>keywords</code>를 지정할 수 있으며, <code>children</code>이 있으면 목록이 트리가 됩니다. 200행을 넘으면 보이는 행만 렌더링하므로, 옵션이 10만 개여도 10개일 때만큼 빠르게 열립니다.',
+          '입력해서 필터링하려면 <a href="/components/combobox">콤보박스</a>를 사용합니다.',
+        ],
+        examples: {
+          countries: {
+            title: '그룹',
+            text: '<code>group</code>이 있는 옵션은 해당 제목 아래에 나열됩니다. 글자를 입력하면 그 글자로 시작하는 다음 옵션으로 이동합니다.',
+          },
+          toppings: {
+            title: '여러 개 한꺼번에',
+            text: '<code>multiple</code>은 목록을 열어 둔 채로 <code>[(values)]</code>를 바인딩합니다. <code>selectAll</code>은 모든 옵션을 선택하거나 해제하는 버튼을 추가합니다. 비활성화된 옵션은 선택할 수 없습니다.',
+          },
+          folders: {
+            title: '트리',
+            text: '<code>children</code>이 있는 옵션은 트리를 이룹니다. 목록을 열면 선택된 옵션이 있는 폴더가 펼쳐진 상태로 표시됩니다.',
+          },
+          zones: {
+            title: '긴 목록',
+            text: '모든 시간대를 지역별로 나열합니다. 200행을 넘으면 보이는 행만 렌더링되며, 활성 옵션은 스크린 리더를 위해 계속 렌더링됩니다.',
+          },
+        },
+        api: {
+          NuiSelect: {
+            summary: '옵션 목록을 여는 버튼입니다.',
+            members: {
+              options: '옵션 목록. <code>NuiOption</code> 객체로 지정합니다.',
+              value: '선택된 값 또는 <code>null</code>. 폼과도 함께 사용할 수 있습니다.',
+              values: '<code>multiple</code>일 때 선택된 값 목록.',
+              multiple:
+                '여러 옵션을 선택할 수 있게 합니다. 고르는 동안 목록이 열린 상태로 유지됩니다.',
+              selectAll:
+                '<code>multiple</code>과 함께 사용하면 모든 옵션을 선택하거나 해제하는 버튼을 추가합니다.',
+              placeholder: '아무것도 선택되지 않았을 때 표시되는 텍스트.',
+              label:
+                '<code>&lt;label&gt;</code>로 버튼의 이름을 지정하지 않을 때 사용하는 접근 가능한 이름.',
+              triggerId: '<code>&lt;label for&gt;</code>에 사용할 버튼의 id.',
+              disabled: '셀렉트를 비활성화합니다.',
+              compareWith: '두 값이 같은 옵션인지 판단합니다. 값이 객체일 때 사용합니다.',
+              virtual:
+                '보이는 행만 렌더링합니다: 항상, 안 함, 또는 200행을 넘으면 켜지는 <code>auto</code>.',
+              openChange: '목록이 열리거나 닫힐 때 내보냅니다.',
+              show: '목록을 엽니다.',
+              hide: '목록을 닫습니다.',
+              focus: '버튼에 포커스를 줍니다.',
+            },
+          },
+          NuiOption: {
+            summary: '옵션 하나입니다. 셀렉트, 콤보박스, 명령 팔레트 모두 이 형식을 받습니다.',
+            members: {
+              value: '선택하면 설정되는 값. 어떤 타입이든 됩니다.',
+              label: '표시되고 검색되는 텍스트.',
+              description: '레이블 아래의 보조 텍스트.',
+              group: '같은 그룹의 옵션은 그 제목 아래에 순서대로 나열됩니다.',
+              keywords: '검색에서 일치시킬 추가 단어. 예: 동의어나 코드.',
+              disabled: '표시되지만 선택할 수 없습니다.',
+              children: '한 단계 아래의 옵션으로, 목록을 트리로 만듭니다.',
+            },
+          },
+          NuiOptionTemplate: {
+            summary:
+              '컴포넌트 안의 <code>ng-template</code>에 지정하면 각 행을 직접 그릴 수 있습니다. 컨텍스트에는 옵션과 해당 행이 들어 있습니다.',
+            members: {},
+          },
+          NuiOptionText: {
+            summary:
+              '옵션의 레이블(일치한 글자 표시 포함), 설명, 경로를 그립니다. 직접 만든 행에서 사용합니다.',
+            members: { nuiOptionText: '템플릿 컨텍스트에서 가져온 행.' },
+          },
+        },
+        keyboard: [
+          ['아래쪽 / 위쪽 화살표', '목록을 연 다음, 옵션 사이를 이동합니다.'],
+          ['Home / End', '첫 번째 또는 마지막 옵션으로 이동합니다.'],
+          ['Page Down / Page Up', '옵션을 열 개씩 이동합니다.'],
+          ['Enter 또는 Space', '목록을 열거나 활성 옵션을 선택합니다.'],
+          ['문자 키', '입력한 문자로 시작하는 다음 옵션으로 이동합니다.'],
+          [
+            '오른쪽 / 왼쪽 화살표',
+            '트리에서 옵션을 펼치거나 첫 번째 자식으로 이동하고, 옵션을 접거나 부모로 이동합니다. 오른쪽에서 왼쪽으로 쓰는 언어에서는 좌우가 반대입니다.',
+          ],
+          ['Alt + 위쪽 화살표', '활성 옵션을 선택하고 목록을 닫습니다.'],
+          ['Tab', '단일 선택일 때 활성 옵션을 선택하고 다음으로 이동합니다.'],
+          ['Esc', '선택하지 않고 목록을 닫습니다.'],
+        ],
+        notes: [
+          '버튼은 <code>aria-expanded</code>와 <code>aria-controls</code>를 가진 선택 전용 <code>combobox</code>입니다. 포커스는 버튼에 머물며, <code>aria-activedescendant</code>가 활성 옵션을 가리킵니다.',
+          '목록은 <code>listbox</code>이거나, <code>aria-level</code>과 <code>aria-expanded</code>를 가진 <code>tree</code>입니다. 일부 행만 렌더링될 때도 <code>aria-setsize</code>와 <code>aria-posinset</code>은 올바른 값을 유지합니다.',
+          '활성 옵션은 단색으로 채워지며, 강제 색상 모드에서는 윤곽선이 표시됩니다.',
+          '<code>triggerId</code>를 가리키는 <code>&lt;label for&gt;</code> 또는 <code>label</code>로 이름을 지정합니다.',
         ],
       },
     },

@@ -101,18 +101,20 @@ export class OverviewSection extends ComponentSection {
           <section class="api-entry">
             <h2 [id]="entry.name">{{ entry.name }}</h2>
             <p [innerHTML]="entryText.summary"></p>
-            <dl class="api-meta">
-              <dt>{{ labels.selector }}</dt>
-              <dd>
-                <code>{{ entry.selector }}</code>
-              </dd>
-              @if (entry.exportAs) {
-                <dt>{{ labels.exportAs }}</dt>
+            @if (entry.selector) {
+              <dl class="api-meta">
+                <dt>{{ labels.selector }}</dt>
                 <dd>
-                  <code>{{ entry.exportAs }}</code>
+                  <code>{{ entry.selector }}</code>
                 </dd>
-              }
-            </dl>
+                @if (entry.exportAs) {
+                  <dt>{{ labels.exportAs }}</dt>
+                  <dd>
+                    <code>{{ entry.exportAs }}</code>
+                  </dd>
+                }
+              </dl>
+            }
             @if (entry.members.length) {
               <div
                 class="table-wrap"
@@ -168,6 +170,16 @@ export class OverviewSection extends ComponentSection {
               </div>
               @if (hasCustomization(entry)) {
                 <p class="api-note" [innerHTML]="labels.customization.note"></p>
+              }
+              @if (entry.texts; as texts) {
+                <p class="api-note">
+                  {{ labels.texts }}
+                  <!-- Spaces between tags alone are dropped, so the one after each name is spelled out. -->
+                  @for (name of texts; track name) {
+                    <code>{{ name }}</code
+                    >{{ ' ' }}
+                  }
+                </p>
               }
             }
           </section>

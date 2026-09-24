@@ -9,6 +9,11 @@ import { ButtonShapesExample } from '../examples/button/shapes';
 import { ButtonSizesExample } from '../examples/button/sizes';
 import { ButtonTonesExample } from '../examples/button/tones';
 import { ButtonVariantsExample } from '../examples/button/variants';
+import { ComboboxCountryExample } from '../examples/combobox/country';
+import { ComboboxPeopleExample } from '../examples/combobox/people';
+import { ComboboxTagsExample } from '../examples/combobox/tags';
+import { CommandPaletteExample } from '../examples/command/palette';
+import { CommandPeopleExample } from '../examples/command/people';
 import { DialogConfirmExample } from '../examples/dialog/confirm';
 import { DialogDismissibleExample } from '../examples/dialog/dismissible';
 import { DialogEntrancesExample } from '../examples/dialog/entrances';
@@ -23,8 +28,15 @@ import { NumberFieldFormatsExample } from '../examples/number-field/formats';
 import { NumberFieldGuestsExample } from '../examples/number-field/guests';
 import { OtpLettersExample } from '../examples/otp/letters';
 import { OtpVerifyExample } from '../examples/otp/verify';
+import { PopoverFiltersExample } from '../examples/popover/filters';
+import { PopoverProfileExample } from '../examples/popover/profile';
+import { PopoverSidesExample } from '../examples/popover/sides';
 import { RatingAverageExample } from '../examples/rating/average';
 import { RatingPickExample } from '../examples/rating/pick';
+import { SelectCountriesExample } from '../examples/select/countries';
+import { SelectFoldersExample } from '../examples/select/folders';
+import { SelectToppingsExample } from '../examples/select/toppings';
+import { SelectZonesExample } from '../examples/select/zones';
 import { SkeletonCardExample } from '../examples/skeleton/card';
 import { ToastActionsExample } from '../examples/toast/actions';
 import { ToastTonesExample } from '../examples/toast/tones';
@@ -32,7 +44,7 @@ import type { ComponentId } from './ids';
 
 export interface ApiMember {
   name: string;
-  kind: 'input' | 'model' | 'output' | 'method';
+  kind: 'input' | 'model' | 'output' | 'method' | 'property';
   type: string;
   default?: string;
   /** Set on the shared customization inputs, which take their description from one place. */
@@ -41,9 +53,12 @@ export interface ApiMember {
 
 export interface ApiEntry {
   name: string;
-  selector: string;
+  /** Absent for an interface, whose members are its properties. */
+  selector?: string;
   exportAs?: string;
   members: ApiMember[];
+  /** Inputs that only hold texts to show or announce, listed together under the table. */
+  texts?: string[];
 }
 
 export interface ExampleEntry {
@@ -61,6 +76,8 @@ export interface ComponentDoc {
 }
 
 const TONE = "'accent' | 'neutral' | 'danger'";
+const SIDE = "'top' | 'bottom' | 'start' | 'end'";
+const ALIGN = "'start' | 'center' | 'end'";
 const SIZE = "'sm' | 'md' | 'lg'";
 
 type Customization = 'motion' | 'spring' | 'press' | 'enter' | 'corners' | 'radius' | 'density';
@@ -81,6 +98,38 @@ const customization = (...names: Customization[]): ApiMember[] =>
     type: CUSTOMIZATION_TYPES[name],
     customization: name,
   }));
+
+/** Where a popover or hovercard goes, relative to its trigger. */
+const placement = (): ApiMember[] => [
+  { name: 'side', kind: 'input', type: SIDE, default: "'bottom'" },
+  { name: 'align', kind: 'input', type: ALIGN, default: "'start'" },
+  { name: 'offset', kind: 'input', type: 'number', default: '8' },
+  { name: 'arrow', kind: 'input', type: 'boolean', default: 'false' },
+];
+
+/** The option shape shared by the select, the combobox and the command palette. */
+const NUI_OPTION: ApiEntry = {
+  name: 'NuiOption',
+  members: [
+    { name: 'value', kind: 'property', type: 'V' },
+    { name: 'label', kind: 'property', type: 'string' },
+    { name: 'description', kind: 'property', type: 'string' },
+    { name: 'group', kind: 'property', type: 'string' },
+    { name: 'keywords', kind: 'property', type: 'string[]' },
+    { name: 'disabled', kind: 'property', type: 'boolean' },
+    { name: 'children', kind: 'property', type: 'NuiOption<V>[]' },
+  ],
+};
+
+/** Custom rows, for every list of options. */
+const OPTION_TEMPLATES: ApiEntry[] = [
+  { name: 'NuiOptionTemplate', selector: 'ng-template[nuiOptionTemplate]', members: [] },
+  {
+    name: 'NuiOptionText',
+    selector: '[nuiOptionText]',
+    members: [{ name: 'nuiOptionText', kind: 'input', type: 'NuiOptionRow<V>' }],
+  },
+];
 
 export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
   avatar: {
@@ -151,6 +200,119 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'links', component: ButtonLinksExample },
       { id: 'presses', component: ButtonPressesExample },
       { id: 'shapes', component: ButtonShapesExample },
+    ],
+  },
+  combobox: {
+    id: 'combobox',
+    importFile: 'snippets/import-combobox.ts',
+    api: [
+      {
+        name: 'NuiCombobox',
+        selector: 'nui-combobox',
+        members: [
+          { name: 'options', kind: 'input', type: 'NuiOption<V>[]' },
+          { name: 'value', kind: 'model', type: 'V | null', default: 'null' },
+          { name: 'values', kind: 'model', type: 'readonly V[]', default: '[]' },
+          { name: 'multiple', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'create', kind: 'input', type: '(text: string) => V' },
+          { name: 'filtering', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'loading', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'clearable', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'placeholder', kind: 'input', type: 'string', default: "''" },
+          { name: 'label', kind: 'input', type: 'string' },
+          { name: 'inputId', kind: 'input', type: 'string' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          {
+            name: 'compareWith',
+            kind: 'input',
+            type: '(a: V, b: V) => boolean',
+            default: 'Object.is',
+          },
+          { name: 'displayWith', kind: 'input', type: '(value: V) => string', default: 'String' },
+          { name: 'virtual', kind: 'input', type: "boolean | 'auto'", default: "'auto'" },
+          { name: 'queryChange', kind: 'output', type: 'string' },
+          { name: 'openChange', kind: 'output', type: 'boolean' },
+          { name: 'show', kind: 'method', type: '() => void' },
+          { name: 'hide', kind: 'method', type: '() => void' },
+          { name: 'clear', kind: 'method', type: '() => void' },
+          { name: 'focus', kind: 'method', type: '(options?: FocusOptions) => void' },
+        ],
+        texts: [
+          'emptyLabel',
+          'loadingLabel',
+          'clearLabel',
+          'toggleLabel',
+          'chipsLabel',
+          'removeLabel',
+          'createLabel',
+        ],
+      },
+      ...OPTION_TEMPLATES,
+    ],
+    examples: [
+      { id: 'country', component: ComboboxCountryExample },
+      { id: 'tags', component: ComboboxTagsExample },
+      { id: 'people', component: ComboboxPeopleExample },
+    ],
+  },
+  command: {
+    id: 'command',
+    importFile: 'snippets/import-command.ts',
+    api: [
+      {
+        name: 'NuiCommandPalette',
+        selector: 'nui-command-palette',
+        members: [
+          { name: 'commands', kind: 'input', type: 'NuiCommand[]' },
+          { name: 'open', kind: 'model', type: 'boolean', default: 'false' },
+          { name: 'hotkey', kind: 'input', type: 'string | null', default: "'mod+k'" },
+          { name: 'bindShortcuts', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'loop', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'filtering', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'loading', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'hints', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'virtual', kind: 'input', type: "boolean | 'auto'", default: "'auto'" },
+          { name: 'label', kind: 'input', type: 'string', default: "'Command palette'" },
+          {
+            name: 'placeholder',
+            kind: 'input',
+            type: 'string',
+            default: "'Type a command or search…'",
+          },
+          { name: 'run', kind: 'output', type: 'NuiCommand' },
+          { name: 'queryChange', kind: 'output', type: 'string' },
+          { name: 'show', kind: 'method', type: '() => void' },
+          { name: 'hide', kind: 'method', type: '() => void' },
+          { name: 'toggle', kind: 'method', type: '() => void' },
+          { name: 'back', kind: 'method', type: '() => void' },
+        ],
+        texts: [
+          'emptyLabel',
+          'loadingLabel',
+          'backLabel',
+          'closeLabel',
+          'moveLabel',
+          'chooseLabel',
+        ],
+      },
+      {
+        name: 'NuiCommand',
+        members: [
+          { name: 'label', kind: 'property', type: 'string' },
+          { name: 'description', kind: 'property', type: 'string' },
+          { name: 'group', kind: 'property', type: 'string' },
+          { name: 'keywords', kind: 'property', type: 'string[]' },
+          { name: 'shortcut', kind: 'property', type: 'string' },
+          { name: 'disabled', kind: 'property', type: 'boolean' },
+          { name: 'children', kind: 'property', type: 'NuiCommand[]' },
+          { name: 'run', kind: 'property', type: '() => void' },
+          { name: 'id', kind: 'property', type: 'string' },
+        ],
+      },
+    ],
+    examples: [
+      { id: 'palette', component: CommandPaletteExample },
+      { id: 'people', component: CommandPeopleExample },
     ],
   },
   dialog: {
@@ -323,6 +485,53 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'letters', component: OtpLettersExample },
     ],
   },
+  popover: {
+    id: 'popover',
+    importFile: 'snippets/import-popover.ts',
+    api: [
+      {
+        name: 'NuiPopover',
+        selector: '[nuiPopover]',
+        exportAs: 'nuiPopover',
+        members: [
+          ...placement(),
+          ...customization('enter', 'motion', 'spring', 'corners', 'radius', 'density'),
+          { name: 'openChange', kind: 'output', type: 'boolean' },
+          { name: 'show', kind: 'method', type: '(anchor: HTMLElement) => void' },
+          { name: 'hide', kind: 'method', type: '() => void' },
+        ],
+      },
+      {
+        name: 'NuiPopoverTrigger',
+        selector: 'button[nuiPopoverTrigger]',
+        members: [{ name: 'nuiPopoverTrigger', kind: 'input', type: 'NuiPopover' }],
+      },
+      {
+        name: 'NuiHovercard',
+        selector: '[nuiHovercard]',
+        exportAs: 'nuiHovercard',
+        members: [
+          ...placement(),
+          { name: 'openDelay', kind: 'input', type: 'number', default: '500' },
+          { name: 'closeDelay', kind: 'input', type: 'number', default: '300' },
+          ...customization('enter', 'motion', 'spring', 'corners', 'radius', 'density'),
+          { name: 'openChange', kind: 'output', type: 'boolean' },
+          { name: 'show', kind: 'method', type: '(anchor: HTMLElement) => void' },
+          { name: 'hide', kind: 'method', type: '() => void' },
+        ],
+      },
+      {
+        name: 'NuiHovercardTrigger',
+        selector: '[nuiHovercardTrigger]',
+        members: [{ name: 'nuiHovercardTrigger', kind: 'input', type: 'NuiHovercard' }],
+      },
+    ],
+    examples: [
+      { id: 'filters', component: PopoverFiltersExample },
+      { id: 'profile', component: PopoverProfileExample },
+      { id: 'sides', component: PopoverSidesExample },
+    ],
+  },
   rating: {
     id: 'rating',
     importFile: 'snippets/import-rating.ts',
@@ -345,6 +554,47 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
     examples: [
       { id: 'pick', component: RatingPickExample },
       { id: 'average', component: RatingAverageExample },
+    ],
+  },
+  select: {
+    id: 'select',
+    importFile: 'snippets/import-select.ts',
+    api: [
+      {
+        name: 'NuiSelect',
+        selector: 'nui-select',
+        members: [
+          { name: 'options', kind: 'input', type: 'NuiOption<V>[]' },
+          { name: 'value', kind: 'model', type: 'V | null', default: 'null' },
+          { name: 'values', kind: 'model', type: 'readonly V[]', default: '[]' },
+          { name: 'multiple', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'selectAll', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'placeholder', kind: 'input', type: 'string', default: "'Select…'" },
+          { name: 'label', kind: 'input', type: 'string' },
+          { name: 'triggerId', kind: 'input', type: 'string' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          {
+            name: 'compareWith',
+            kind: 'input',
+            type: '(a: V, b: V) => boolean',
+            default: 'Object.is',
+          },
+          { name: 'virtual', kind: 'input', type: "boolean | 'auto'", default: "'auto'" },
+          { name: 'openChange', kind: 'output', type: 'boolean' },
+          { name: 'show', kind: 'method', type: '() => void' },
+          { name: 'hide', kind: 'method', type: '() => void' },
+          { name: 'focus', kind: 'method', type: '(options?: FocusOptions) => void' },
+        ],
+        texts: ['selectAllLabel', 'clearAllLabel', 'emptyLabel'],
+      },
+      NUI_OPTION,
+      ...OPTION_TEMPLATES,
+    ],
+    examples: [
+      { id: 'countries', component: SelectCountriesExample },
+      { id: 'toppings', component: SelectToppingsExample },
+      { id: 'folders', component: SelectFoldersExample },
+      { id: 'zones', component: SelectZonesExample },
     ],
   },
   skeleton: {
