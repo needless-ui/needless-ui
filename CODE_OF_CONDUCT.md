@@ -4,7 +4,7 @@ Needless UI follows the [Contributor Covenant, version 2.1](https://www.contribu
 
 ## Reporting
 
-Report unacceptable behavior privately to the maintainers at **[INSERT CONTACT METHOD]**. All reports are reviewed promptly and handled confidentially.
+Report unacceptable behavior privately to the maintainers at [angelo.lamonaca@pm.me](mailto:angelo.lamonaca@pm.me). All reports are reviewed promptly and handled confidentially.
 
 ## Enforcement
 
