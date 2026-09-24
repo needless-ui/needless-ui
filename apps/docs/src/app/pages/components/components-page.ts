@@ -20,7 +20,14 @@ import { ComponentPreview } from '../../shared/component-preview';
         @for (id of ids; track id) {
           @let item = page.items[id];
           <li class="card">
-            <docs-preview class="card-preview" [id]="id" />
+            <!-- Decorative, so drawn in the browser: prerendered, eleven previews and their styles would miss the first round trip. -->
+            <div class="card-preview">
+              @defer (on viewport; prefetch on idle) {
+                <docs-preview [id]="id" />
+              } @placeholder {
+                <span></span>
+              }
+            </div>
             <div class="card-body">
               <h2>
                 <a [routerLink]="i18n.link('/components/' + id)">{{ item.name }}</a>

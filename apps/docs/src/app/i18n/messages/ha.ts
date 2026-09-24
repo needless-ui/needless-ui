@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: 'Nauyi ya zama na dindindin yanzu. Ku sabunta shafin don sake gina sararin samaniya.',
       reduced: 'Tsarinku yana son rage motsi, don haka nauyi zai ci gaba da kashe. Kun yi sa’a.',
     },
+    toaster: { label: 'Sanarwa (Alt+T)', close: 'Watsar' },
   },
 
   home: {
@@ -394,6 +395,422 @@ export const messages: Messages = {
           'Abubuwan da ake iya yi wa alama suna sanar da yanayinsu ta <code>aria-checked</code>.',
           'Zaɓar abu yana rufe menu ɗin kuma yana mayar da focus kan trigger. Matsar da focus waje da trigger da menu ɗin ma yana rufe shi.',
           'Tsayin kowane abu aƙalla pixels 28 ne, sama da mafi ƙarancin girman wurin taɓawa na WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Component na avatar don Angular',
+        summary: 'Hoton mutum, ko haruffan farko na sunansa a kan launin da yake nasa koyaushe.',
+        description:
+          'Avatar na Angular: haruffan farko na suna idan babu hoto, launi tabbatacce ga kowane suna, ɗigon yanayi da rukunoni, duka a bayyane a kowane jigo.',
+        apiDescription:
+          'Bayanin API na avatar ɗin Needless UI: nuiAvatar mai suna, hoto, girma, siffa da yanayi, da kuma nuiAvatarGroup.',
+        a11yDescription:
+          'Sauƙin amfani na avatar ɗin Needless UI: matsayi da sunan hoto, avatars na ado, da haruffan farko masu bambancin launi na 4.5:1.',
+        overview: [
+          'Component ɗin <code>nuiAvatar</code> yana nuna hoto, ko haruffan farko na sunan mutumin idan babu hoto ko hoton ya kasa lodawa. Haruffan suna zaune a kan launin da aka lissafa daga sunan, don haka mutum ɗaya yana riƙe launi ɗaya a ko’ina.',
+          'Ana taƙaita haske da chroma na kowane hue ta yadda farin haruffan farko za su ci gaba da bambancin launi sama da 4.5:1, komai sunan da jigon.',
+        ],
+        examples: {
+          people: {
+            title: 'Haruffan farko, hotuna da yanayi',
+            text: 'Idan babu <code>src</code>, haruffan farko da launin suna fitowa daga <code>name</code>. <code>status</code> yana ƙara ɗigon yanayi.',
+          },
+          group: {
+            title: 'Rukunoni, girma da siffofi',
+            text: '<code>nuiAvatarGroup</code> yana jera avatars a layi ɗaya, suna ɗan hawa kan juna. <code>size</code> yana karɓar <code>sm</code>, <code>md</code> ko <code>lg</code>, kuma <code>shape="square"</code> ya dace da ƙungiyoyi da manhajoji.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Hoto ko haruffan farko, mai ɗauke da sunan mutumin.',
+            members: {
+              name: 'Sunan mutumin. Daga gare shi ne sunan da ake sanarwa, haruffan farko da launin ke fitowa.',
+              src: 'URL na hoton. Idan ya kasa lodawa, haruffan farko ne ke bayyana a maimakonsa.',
+              size: 'Girma: <code>sm</code>, <code>md</code> ko <code>lg</code>.',
+              shape: '<code>circle</code> ko <code>square</code>.',
+              status:
+                'Ɗigon yanayi: <code>online</code>, <code>away</code>, <code>busy</code> ko <code>offline</code>.',
+              label:
+                'Sunan da ake sanarwa wanda ya faɗi fiye da sunan kawai, kamar “Ada Lovelace, tana kan layi”.',
+              decorative:
+                'Yana ɓoye avatar ɗin daga fasahohin taimako, don avatars da ke kusa da sunan da ake gani.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: 'Layin avatars masu hawa kan juna. Ku ba shi suna da <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Avatar hoto ne (<code>role="img"</code>) mai ɗauke da sunan mutumin. Idan yana kusa da sunan mutumin da ake gani, ku saita <code>decorative</code> don kada manhajojin karanta allo su karanta sunan sau biyu.',
+          'Ɗigon yanayi ana ganinsa ne kawai. Idan yana da muhimmanci, ku sa shi a cikin <code>label</code>.',
+          'Haruffan farko suna riƙe bambancin launi aƙalla 4.5:1 a kan kowane launi da aka samar.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Component na breadcrumbs don Angular',
+        summary: 'Jerin shafukan da ke kaiwa zuwa shafin da ake ciki.',
+        description:
+          'Breadcrumbs na Angular masu sauƙin amfani ga kowa a kan nav da jeri na asali: masu raba CSS da ke juyawa a rubutun dama zuwa hagu, da gungura dogon jeri.',
+        apiDescription:
+          'Bayanin API na breadcrumbs ɗin Needless UI: directive ɗin nuiBreadcrumbs da lakabin landmark ɗinsa.',
+        a11yDescription:
+          'Sauƙin amfani na breadcrumbs ɗin Needless UI: landmark na kewayawa, ma’anar jeri, shafin da ake ciki da girman wuraren taɓawa.',
+        overview: [
+          'Breadcrumbs suna nuna inda shafi yake a cikin gidan yanar gizo. Directive ɗin <code>nuiBreadcrumbs</code> yana ba <code>&lt;nav&gt;</code> na asali da jerinsa salo; abu na ƙarshe shi ne shafin da ake ciki, mai alamar <code>aria-current="page"</code>.',
+          'Jerin da ya fi container ɗinsa tsawo yana gungurawa gefe maimakon ya sauka zuwa sabon layi. Yana farawa a gungure har ƙarshe, kuma gefunansa suna dusashewa inda akwai ƙarin abin gani.',
+        ],
+        examples: {
+          trail: {
+            title: 'Jerin shafuka',
+            text: 'Mahaɗai zuwa shafukan da ke sama, sannan shafin da ake ciki a matsayin rubutu zalla mai <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Jeri masu tsawo',
+            text: 'A cikin ƙunƙuntaccen container jerin yana gungurawa, kuma yana farawa da shafin da ake ciki a bayyane.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Yana ba <code>&lt;nav&gt;</code> da jerinsa salon breadcrumbs.',
+            members: { label: 'Sunan da ake sanarwa na landmark ɗin kewayawa.' },
+          },
+        },
+        keyboard: [['Tab', 'Yana matsawa zuwa mahaɗa ta gaba a cikin jerin.']],
+        notes: [
+          'Landmark ne na kewayawa mai jeri na yau da kullum, don haka manhajojin karanta allo suna sanar da yawan shafukan da ke cikin jerin.',
+          'Ana zana masu rabewa da CSS, don haka ba a karanta su da murya, kuma suna juyawa a rubutun dama zuwa hagu.',
+          'Tsayin kowace mahaɗa aƙalla pixels 24 ne.',
+        ],
+      },
+
+      empty: {
+        name: 'Empty state',
+        title: 'Component na empty state don Angular',
+        summary: 'Abin da za a nuna idan babu abin nunawa, da abin da za a yi game da hakan.',
+        description:
+          'Empty state na Angular mai hoto, take, gajeren bayani da ayyuka, tare da hotuna huɗu da aka gina a ciki waɗanda ke shawagi a hankali.',
+        apiDescription:
+          'Bayanin API na empty state ɗin Needless UI: nuiEmpty da sassansa na media, take, bayani da ayyuka.',
+        a11yDescription:
+          'Sauƙin amfani na empty state ɗin Needless UI: hotunan ado, headings masu ma’ana da rage motsi.',
+        overview: [
+          'Empty state yana maye gurbin jeri, tebur ko shafin da har yanzu babu komai a cikinsa. Yana bayyana dalili, kuma yana ba da mataki na gaba.',
+          'Sashen media yana karɓar hotonku, ko yana zana ɗaya daga cikin hotunan da aka gina a ciki: <code>search</code>, <code>inbox</code>, <code>files</code> ko <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Babu sakamako',
+            text: 'Take da ke faɗin abin da ya faru, layin taimako, da ayyukan da ke nuna hanyar fita.',
+          },
+          pictures: {
+            title: 'Hotunan da aka gina a ciki',
+            text: 'Ku saita <code>illustration</code> a kan <code>nuiEmptyMedia</code>. Hotunan suna bin jigo kuma suna shawagi sai dai idan an rage motsi.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Container ɗin: ginshiƙi a tsakiya.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Hoton, a ɓoye daga fasahohin taimako.',
+            members: {
+              illustration:
+                'Hoton da aka gina a ciki: <code>search</code>, <code>inbox</code>, <code>files</code> ko <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Take. Ku yi amfani da matakin heading da ya dace da shafin.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Layin bayani.', members: {} },
+          NuiEmptyActions: { summary: 'Layin maɓallai.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Hoton na ado ne (<code>aria-hidden</code>): take da bayani ne ke ɗauke da saƙon.',
+          'Ku yi amfani da heading don take, a matakin da ya dace da tsarin shafin.',
+          'Hotunan da aka gina a ciki suna daina shawagi idan mai amfani ya fi son rage motsi.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Number field',
+        title: 'Component na filin lamba don Angular',
+        summary: 'Filin shigar da lamba mai maɓallan ƙari da ragi, a tsarin rubutun kowane yanki.',
+        description:
+          'Filin lamba na Angular mai sauƙin amfani ga kowa: spinbutton mai maɓallan mataki, matakai da allon madannai, min da max, da tsarin kuɗi, kaso da ma’auni.',
+        apiDescription:
+          'Bayanin API na filin lamba na Needless UI: nuiNumberField, nuiNumberInput mai min, max, step da format, da nuiNumberStep.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na filin lamba na Needless UI: matsayin spinbutton, maɓallan kibiya da na shafi, da maɓallan mataki.',
+        overview: [
+          'Filin lamba filin rubutu ne da ke riƙe lamba. Yana nuna lambar a tsarin yankin, yana karanta rubutun da aka shigar a tsari ɗaya, kuma idan focus ya bar shi yana daidaita ta zuwa <code>step</code> mafi kusa tsakanin <code>min</code> da <code>max</code>.',
+          'Yana karanta lambobi da alamomin rabewa na asali ma: lambobin Larabci-Indiya, na Farisa da na Devanagari, sarari da ɗigo a matsayin masu raba rukuni, da kowace alamar ragi. Idan aka danna maɓallin mataki aka riƙe, yana maimaitawa, yana ƙara sauri.',
+        ],
+        examples: {
+          guests: {
+            title: 'Maɓallan ƙari da ragi',
+            text: 'Maɓalli a kowane gefe, wanda ke kashewa a <code>min</code> da <code>max</code>. Maɓallan kibiya ma suna canza ƙimar mataki-mataki.',
+          },
+          formats: {
+            title: 'Kuɗi da kaso',
+            text: 'Ku ba <code>format</code> zaɓuɓɓukan <code>Intl.NumberFormat</code>, da kuma <code>locale</code>. Ƙimar tana zama lamba zalla.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Yana haɗa filin da maɓallan matakinsa.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Filin rubutu da ke riƙe lamba, a matsayin spinbutton na ARIA.',
+            members: {
+              value: 'Lambar, ko <code>null</code> idan babu komai. Yana aiki da fom ma.',
+              min: 'Ƙimar mafi ƙanƙanta da aka yarda da ita.',
+              max: 'Ƙimar mafi girma da aka yarda da ita.',
+              step: 'Yawan canjin da mataki ɗaya ke yi wa ƙimar. Idan focus ya bar filin, ƙimar tana daidaita zuwa gare shi.',
+              format:
+                "Zaɓuɓɓukan <code>Intl.NumberFormat</code>, kamar <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Yankin (locale) da ake amfani da shi wajen tsara lambobi da karanta su.',
+              disabled: 'Yana kashe filin da maɓallansa.',
+              stepBy:
+                'Yana ƙara ƙimar (idan lambar ta fi sifili) ko ya rage ta (idan ta gaza sifili) da adadin matakai.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Maɓallin mataki. Idan aka riƙe shi, yana maimaitawa.',
+            members: {
+              nuiNumberStep:
+                '<code>1</code> yana hawa mataki ɗaya, <code>-1</code> kuma yana sauka mataki ɗaya.',
+              label: 'Sunan da ake sanarwa. Idan ba a saita ba, “Increase” ko “Decrease” ne.',
+            },
+          },
+        },
+        keyboard: [
+          ['Kibiyar sama da ta ƙasa', 'Suna hawa ko sauka da ƙimar mataki ɗaya.'],
+          ['Page Up da Page Down', 'Suna tafiya matakai goma.'],
+          ['Home da End', 'Suna zuwa mafi ƙanƙanta ko mafi girma.'],
+          ['Enter', 'Yana tabbatar da abin da aka rubuta.'],
+        ],
+        notes: [
+          'Filin <code>spinbutton</code> ne mai <code>aria-valuenow</code>, <code>aria-valuemin</code> da <code>aria-valuemax</code>, kuma ƙimar da aka tsara tana cikin <code>aria-valuetext</code>.',
+          'Maɓallan mataki ba sa cikin jerin Tab, tunda maɓallan allon madannai suna yin aiki ɗaya, amma suna da suna kuma an haɗa su da filin ta <code>aria-controls</code>.',
+          'Ku ba filin lakabi da <code>aria-label</code> ko <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'OTP input',
+        title: 'Filin OTP da lambar tabbatarwa don Angular',
+        summary:
+          'Lambobin tabbatarwa a cikin akwatuna dabam-dabam, a kan filin shigarwa na gaske guda ɗaya.',
+        description:
+          'Filin OTP na Angular mai sauƙin amfani ga kowa: fili ɗaya na asali a ƙarƙashi, cika daga SMS, WebOTP, tsabtace liƙi, rukunoni, ɓoyewa da girgiza a kuskure.',
+        apiDescription:
+          'Bayanin API na filin OTP na Needless UI: nuiOtp mai tsawo, tsari, rukunoni da ɓoyewa, da nuiOtpInput mai WebOTP.',
+        a11yDescription:
+          'Allon madannai da sauƙin amfani na filin OTP na Needless UI: filin rubutu ɗaya mai lakabi, zoben focus a bayyane da cikawa ta atomatik.',
+        overview: [
+          'Filin OTP yana kama da layin akwatuna, amma a ƙarƙashinsa <code>&lt;input&gt;</code> ɗaya ne na asali. Cikawa ta atomatik daga SMS (<code>autocomplete="one-time-code"</code>), liƙawa, manhajojin ajiye kalmar sirri, fom da manhajojin karanta allo duk suna ganin filin rubutu na yau da kullum.',
+          'Ana tsabtace lambobin da aka liƙa, don haka “123-456” da “123 456” duka suna aiki, kuma ana ƙin haruffan da tsarin bai yarda da su ba. A Android, <code>webOtp</code> yana cike lambar daga SMS da zarar ya iso.',
+        ],
+        examples: {
+          verify: {
+            title: 'Tabbatarwa',
+            text: '<code>(completed)</code> yana aiki idan akwati na ƙarshe ya cika. Ku saita <code>aria-invalid</code> a kan filin don ƙin lamba: akwatunan suna zama ja kuma suna girgiza.',
+          },
+          letters: {
+            title: 'Haruffa, rukunoni da ɓoyewa',
+            text: '<code>pattern="alphanumeric"</code> yana karɓar haruffa ma, <code>[groups]</code> yana ƙara masu rabewa, <code>masked</code> kuma yana zana ɗigo.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Yana zana akwatunan kuma yana kewaye filin.',
+            members: {
+              length: 'Adadin haruffa.',
+              pattern: '<code>digits</code>, ko <code>alphanumeric</code> don haruffa da lambobi.',
+              groups: 'Girman rukunoni, da mai rabewa a tsakaninsu, kamar <code>[3, 3]</code>.',
+              masked: 'Yana zana ɗigo a maimakon haruffan.',
+              completed: 'Yana fitar da lambar duk lokacin da aka cike akwati na ƙarshe.',
+            },
+          },
+          NuiOtpInput: {
+            summary: 'Filin na gaske. Yana samun attributes da lambar amfani sau ɗaya ke buƙata.',
+            members: {
+              webOtp: 'Yana cike lambar daga SMS mai shigowa ta WebOTP API, inda ake tallafa masa.',
+            },
+          },
+        },
+        keyboard: [
+          ['Lambobi ko haruffa', 'Suna cike akwatin da ake ciki kuma suna matsawa zuwa na gaba.'],
+          ['Backspace', 'Yana goge harafin da ya gabaci cursor.'],
+          [
+            'Kibiyar hagu da ta dama',
+            'Suna matsawa akwati ɗaya; ana zaɓar akwatin da ya cika, don haka rubutu yana maye gurbinsa.',
+          ],
+          ['Liƙa', 'Yana cike akwatunan daga lambar da aka kwafa.'],
+        ],
+        notes: [
+          'Manhajojin karanta allo suna haɗuwa da filin rubutu ɗaya. Ku ba shi lakabi da <code>aria-label</code> ko <code>&lt;label&gt;</code>.',
+          'Akwatunan a ɓoye suke daga fasahohin taimako; akwatin da ake gyarawa ne ke nuna zoben focus.',
+          'A yanayin rage motsi, cursor ba ya ƙyaftawa kuma akwatunan ba sa tsalle ko girgiza.',
+        ],
+      },
+
+      rating: {
+        name: 'Rating',
+        title: 'Component na rating da taurari don Angular',
+        summary: 'Taurari don bayar da ƙima, a kan maɓallan radio na gaske.',
+        description:
+          'Rating da taurari na Angular a kan maɓallan radio na asali: allon madannai da fom, samfoti a ƙarƙashin linzami, sharewa, da nuna ɓangare a yanayin karatu kawai.',
+        apiDescription:
+          'Bayanin API na rating ɗin Needless UI: nuiRating mai ƙima, max, yanayin karatu kawai da na sharewa, da lakabai da za a iya fassarawa.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na rating ɗin Needless UI: rukunin radio mai suna, taurari masu lakabi da hoton karatu kawai.',
+        overview: [
+          'Rating rukuni ne na maɓallan radio na asali da aka zana a matsayin taurari. Maɓallan kibiya, fom da manhajojin karanta allo suna aiki kamar yadda suke yi da kowane rukunin radio; CSS yana cike taurarin kuma yana nuna samfotin sabuwar ƙima a ƙarƙashin linzami.',
+          'A yanayin karatu kawai, yana nuna kowane ɓangare, kamar matsakaicin 4.3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Bayar da ƙima',
+            text: 'Ku haɗa <code>[(value)]</code> ko fom. Da <code>clearable</code>, sake zaɓar tauraro ɗaya yana share ƙimar.',
+          },
+          average: {
+            title: 'Nuna matsakaici',
+            text: '<code>readonly</code> yana cike taurari har zuwa kowane ɓangare kuma yana ba hoton suna “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: 'Rukunin radio na taurari, ko hoton ƙima na karatu kawai.',
+            members: {
+              value: 'Ƙimar, ko <code>null</code>. Yana aiki da fom ma.',
+              max: 'Adadin taurari.',
+              readonly: 'Yana nuna ƙimar, har zuwa kowane ɓangare, maimakon neman ta.',
+              disabled: 'Yana kashe kowane tauraro.',
+              clearable: 'Sake zaɓar tauraron da aka zaɓa yana share ƙimar.',
+              name: 'Sunan da maɓallan radio ke rabawa. Ana samar da shi kai tsaye idan ba a saita ba.',
+              starLabel: 'Sunan da ake sanarwa na kowane tauraro, a matsayin function na ƙimarsa.',
+              readonlyLabel: 'Sunan da ake sanarwa a yanayin karatu kawai.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Yana shiga rukunin, zuwa tauraron da aka zaɓa.'],
+          ['Maɓallan kibiya', 'Suna canza ƙimar.'],
+          ['Space', 'Yana zaɓar tauraron da ke da focus.'],
+        ],
+        notes: [
+          'Kowane tauraro radio ne na asali mai suna kamar “3 stars”. Ku ba rukunin suna da <code>aria-label</code>.',
+          'A yanayin karatu kawai, rating hoto ne (<code>role="img"</code>) mai suna “Rated 4.3 out of 5”.',
+          'Ana zana taurari da CSS masks, don haka suna bin forced colors.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Component na skeleton loader don Angular',
+        summary: 'Masu riƙe wuri da ke kiyaye tsarin shafi yayin da abun ciki ke lodawa.',
+        description:
+          'Skeleton loaders na Angular don rubutu, da’ira da tubala, da haske guda da ke ratsa dukan shafin, wanda ba ya bayyana idan an rage motsi.',
+        apiDescription:
+          'Bayanin API na skeleton ɗin Needless UI: directive ɗin nuiSkeleton da siffofinsa na rubutu, da’ira da tubali.',
+        a11yDescription:
+          'Sauƙin amfani na skeleton ɗin Needless UI: masu riƙe wuri a ɓoye, yankunan aria-busy, rage motsi da forced colors.',
+        overview: [
+          'Skeletons suna riƙe siffar abun cikin da har yanzu ke lodawa, don kada shafin ya yi tsalle idan ya iso. Ku saita girmansu da CSS.',
+          'An kafa hasken a kan viewport: haske ɗaya yana ratsa kowane skeleton a shafin a lokaci guda, komai girmansa ko matsayinsa.',
+        ],
+        examples: {
+          card: {
+            title: 'Lodin kati',
+            text: 'Layuka, da’ira da tubali a madadin bayanan wani mutum. Katin yana da <code>aria-busy</code> yayin da yake lodawa.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Mai riƙe wuri, a ɓoye daga fasahohin taimako.',
+            members: {
+              shape: '<code>text</code> (layi), <code>circle</code> ko <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeletons a ɓoye suke daga manhajojin karanta allo. Ku saita <code>aria-busy="true"</code> a kan yankin da ke lodawa, kuma ku cire shi idan abun ciki ya iso.',
+          'Babu haske mai ratsawa idan mai amfani ya fi son rage motsi.',
+          'A yanayin forced colors, kowane skeleton yana samun outline.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Sanarwar toast don Angular',
+        summary:
+          'Gajerun saƙonni da ke taruwa kan juna, ake share su da jan yatsa, kuma ba sa ƙwace focus.',
+        description:
+          'Toasts na Angular masu sauƙin amfani ga kowa: tari a top layer, toasts na promise, Undo, share da jan yatsa, da lokaci mai tsayawa da linzami ko focus.',
+        apiDescription:
+          'Bayanin API na toasts ɗin Needless UI: service ɗin NuiToaster, zaɓuɓɓukansa da toasts na promise, da yankin nui-toaster.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na toasts ɗin Needless UI: sanarwa, gajeriyar hanyar Alt+T, Escape da tsayar da lokaci.',
+        overview: [
+          'Toasts suna tabbatar da abin da ya faru yanzu, ko suna ba da wani aiki kamar Undo, ba tare da katse aiki ba. Ku sa <code>&lt;nui-toaster&gt;</code> ɗaya a cikin shell ɗin manhaja, sannan ku kira <code>NuiToaster</code> daga ko’ina.',
+          'Suna taruwa a bayan mafi sabo, kuma suna bazuwa idan linzami ko focus ya zo kansu, duka a kan spring na motsi. Jan yatsa zuwa gefe yana jefar da toast. Ƙidayar lokaci tana tsayawa yayin da linzami ko focus ke kan tarin, da kuma yayin da shafin ke bayan fage.',
+        ],
+        examples: {
+          tones: {
+            title: 'Tones',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> da <code>danger()</code>. Toasts na danger suna daɗewa kuma ana sanar da su nan take (assertive).',
+          },
+          actions: {
+            title: 'Ayyuka da promises',
+            text: '<code>action</code> yana ƙara maɓalli kamar Undo. <code>promise()</code> yana nuna spinner, sannan ya koma sakamakon.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Service ɗin da ke nuna toasts. Ku yi inject ɗinsa a ko’ina.',
+            members: {
+              toasts: 'Kowane toast da ke kan allo, mafi sabo da farko.',
+              show: 'Yana nuna toast. Ku ba da take, ko zaɓuɓɓuka masu bayani, tone, tsawon lokaci, aiki ko id.',
+              success: 'Yana nuna toast na nasara.',
+              warning: 'Yana nuna toast na gargaɗi.',
+              danger:
+                'Yana nuna toast na haɗari. Yana ɗaukar daƙiƙa 8 kuma ana sanar da shi nan take.',
+              promise:
+                'Yana nuna toast na lodawa har sai promise ya kammala, sannan saƙon nasara ko na haɗari.',
+              dismiss: 'Yana watsar da toast ɗaya, ko dukansu.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Yankin da toasts ke bayyana. Ku sa shi sau ɗaya, a cikin shell ɗin manhaja.',
+            members: {
+              position: 'Kusurwa ko gefen viewport. Farko da ƙarshe suna bin alkiblar rubutu.',
+              expanded: 'Yana barin tarin a bazu.',
+              label: 'Sunan da ake sanarwa na yankin. Ku faɗi yadda za a kai gare shi.',
+              closeLabel: 'Sunan da ake sanarwa na maɓallan rufewa.',
+              hotkey:
+                'Maɓallin, a matsayin <code>KeyboardEvent.code</code>, da ke kai focus kan mafi sabon toast tare da Alt.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Yana kai focus kan mafi sabon toast.'],
+          ['Tab', 'Yana ratsa toasts, ayyukansu da maɓallan rufewa.'],
+          ['Escape', 'Yana watsar da toast ɗin da ke da focus.'],
+        ],
+        notes: [
+          'Ana sanar da kowane toast idan ya bayyana: cikin ladabi (polite), ko nan take (assertive) don danger. Toasts ba sa ɗaukar focus.',
+          'Ƙidayar lokaci tana tsayawa yayin da linzami ko focus ke kan tarin, da yayin da shafin ke a ɓoye, kuma toasts da ke jiran promise ba sa ƙarewa.',
+          'Duk abin da dole ne mai amfani ya yi aiki a kansa ya kamata ya kasance a wajen toast ma.',
+          'A yanayin rage motsi, toasts ba sa motsi ko jan yatsa, kuma ana ɓoye layin ƙidayar lokaci.',
         ],
       },
     },

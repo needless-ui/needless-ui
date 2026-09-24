@@ -195,27 +195,30 @@ export class ApiSection extends ComponentSection {
     @let labels = i18n.t().components.a11y;
     <div class="doc-grid">
       <article class="doc-article">
-        <h2 id="keyboard">{{ labels.keyboard }}</h2>
-        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="keyboard">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">{{ labels.key }}</th>
-                <th scope="col">{{ labels.action }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (row of text().keyboard; track row[0]) {
+        <!-- Components you only look at (an avatar, a skeleton) have no keys to list. -->
+        @if (text().keyboard.length) {
+          <h2 id="keyboard">{{ labels.keyboard }}</h2>
+          <div class="table-wrap" tabindex="0" role="region" aria-labelledby="keyboard">
+            <table>
+              <thead>
                 <tr>
-                  <th scope="row">
-                    <kbd>{{ row[0] }}</kbd>
-                  </th>
-                  <td>{{ row[1] }}</td>
+                  <th scope="col">{{ labels.key }}</th>
+                  <th scope="col">{{ labels.action }}</th>
                 </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                @for (row of text().keyboard; track row[0]) {
+                  <tr>
+                    <th scope="row">
+                      <kbd>{{ row[0] }}</kbd>
+                    </th>
+                    <td>{{ row[1] }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
 
         <h2 id="notes">{{ labels.notes }}</h2>
         <ul class="notes">
@@ -233,7 +236,7 @@ export class AccessibilitySection extends ComponentSection {
   protected readonly toc = computed(() => {
     const labels = this.i18n.t().components.a11y;
     return [
-      { id: 'keyboard', label: labels.keyboard },
+      ...(this.text().keyboard.length ? [{ id: 'keyboard', label: labels.keyboard }] : []),
       { id: 'notes', label: labels.notes },
     ];
   });

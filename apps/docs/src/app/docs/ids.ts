@@ -1,5 +1,17 @@
 /** Every documented page id. Server routes import this file, so it stays free of components. */
-export const COMPONENT_IDS = ['button', 'dialog', 'menu'] as const;
+export const COMPONENT_IDS = [
+  'avatar',
+  'breadcrumbs',
+  'button',
+  'dialog',
+  'empty',
+  'menu',
+  'number-field',
+  'otp',
+  'rating',
+  'skeleton',
+  'toast',
+] as const;
 export type ComponentId = (typeof COMPONENT_IDS)[number];
 
 export const GUIDE_IDS = ['getting-started', 'theming', 'customization'] as const;

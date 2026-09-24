@@ -1,3 +1,5 @@
+import type { ComponentId } from '../../docs/ids';
+
 /**
  * Shape of every language's content. Each locale file is typed with it, so a
  * missing or misspelled key fails the build.
@@ -33,6 +35,8 @@ export interface Messages {
       fallen: string;
       reduced: string;
     };
+    /** The region where toasts appear, and its close buttons. */
+    toaster: { label: string; close: string };
   };
   home: {
     title: string;
@@ -81,7 +85,7 @@ export interface Messages {
     };
     a11y: { keyboard: string; key: string; action: string; notes: string };
     titles: { api: (name: string) => string; accessibility: (name: string) => string };
-    items: Record<'button' | 'dialog' | 'menu', ComponentText>;
+    items: Record<ComponentId, ComponentText>;
   };
   guides: {
     title: string;

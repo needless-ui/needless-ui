@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: 'Trọng lực giờ là vĩnh viễn. Hãy tải lại trang để xây dựng lại vũ trụ.',
       reduced: 'Hệ thống của bạn yêu cầu giảm chuyển động, nên trọng lực vẫn tắt. May mắn đấy.',
     },
+    toaster: { label: 'Thông báo (Alt+T)', close: 'Đóng' },
   },
 
   home: {
@@ -385,6 +386,421 @@ export const messages: Messages = {
           'Các mục có thể đánh dấu thông báo trạng thái qua <code>aria-checked</code>.',
           'Chọn một mục sẽ đóng menu và trả focus về trigger. Chuyển focus ra ngoài trigger và menu cũng sẽ đóng menu.',
           'Các mục cao ít nhất 28 pixel, vượt kích thước vùng nhấn tối thiểu của WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Component avatar cho Angular',
+        summary:
+          'Ảnh của một người, hoặc chữ cái đầu tên của họ trên một màu luôn dành riêng cho họ.',
+        description:
+          'Avatar Angular hiển thị chữ cái đầu khi không có ảnh, mỗi tên một màu cố định, có chấm trạng thái và nhóm, dễ đọc ở mọi theme.',
+        apiDescription:
+          'Tài liệu API về avatar của Needless UI: nuiAvatar với tên, ảnh, kích thước, hình dạng và trạng thái, cùng nuiAvatarGroup.',
+        a11yDescription:
+          'Khả năng tiếp cận của avatar Needless UI: vai trò và tên của hình ảnh, avatar trang trí và chữ cái đầu giữ độ tương phản 4,5:1.',
+        overview: [
+          'Component <code>nuiAvatar</code> hiển thị một ảnh, hoặc chữ cái đầu tên của người đó khi không có ảnh hay ảnh không tải được. Chữ cái đầu nằm trên một màu được tính từ tên, nên cùng một người luôn có cùng một màu ở mọi nơi.',
+          'Với mỗi sắc độ, độ sáng và độ bão hòa được giới hạn để chữ cái đầu màu trắng luôn có độ tương phản trên 4,5:1, bất kể tên và theme.',
+        ],
+        examples: {
+          people: {
+            title: 'Chữ cái đầu, ảnh và trạng thái',
+            text: 'Khi không có <code>src</code>, chữ cái đầu và màu được lấy từ <code>name</code>. <code>status</code> thêm một chấm trạng thái.',
+          },
+          group: {
+            title: 'Nhóm, kích thước và hình dạng',
+            text: '<code>nuiAvatarGroup</code> xếp một hàng avatar chồng lên nhau. <code>size</code> nhận <code>sm</code>, <code>md</code> hoặc <code>lg</code>, còn <code>shape="square"</code> hợp với đội nhóm và ứng dụng.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Ảnh hoặc chữ cái đầu, được đặt tên theo người đó.',
+            members: {
+              name: 'Tên của người đó. Accessible name, chữ cái đầu và màu đều được lấy từ đây.',
+              src: 'URL của ảnh. Nếu ảnh không tải được, chữ cái đầu sẽ hiển thị thay thế.',
+              size: 'Kích thước: <code>sm</code>, <code>md</code> hoặc <code>lg</code>.',
+              shape: '<code>circle</code> hoặc <code>square</code>.',
+              status:
+                'Chấm trạng thái: <code>online</code>, <code>away</code>, <code>busy</code> hoặc <code>offline</code>.',
+              label:
+                'Accessible name nói nhiều hơn cái tên, chẳng hạn “Ada Lovelace, đang trực tuyến”.',
+              decorative: 'Ẩn avatar khỏi công nghệ hỗ trợ, dành cho avatar nằm cạnh tên hiển thị.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary:
+              'Một hàng avatar chồng lên nhau. Đặt tên cho nhóm bằng <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Avatar là một hình ảnh (<code>role="img"</code>) được đặt tên theo người đó. Khi tên người đó đã hiển thị ngay bên cạnh, hãy đặt <code>decorative</code> để người dùng trình đọc màn hình không phải nghe tên hai lần.',
+          'Chấm trạng thái chỉ mang tính thị giác. Khi trạng thái quan trọng, hãy đưa nó vào <code>label</code>.',
+          'Chữ cái đầu giữ độ tương phản tối thiểu 4,5:1 trên mọi màu được sinh ra.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Component breadcrumb cho Angular',
+        summary: 'Chuỗi trang dẫn đến trang hiện tại.',
+        description:
+          'Breadcrumb Angular hỗ trợ tiếp cận trên nav và danh sách native, dấu phân cách bằng CSS tự lật khi văn bản từ phải sang trái, cuộn khi chuỗi dài.',
+        apiDescription:
+          'Tài liệu API về breadcrumb của Needless UI: directive nuiBreadcrumbs và nhãn của landmark điều hướng.',
+        a11yDescription:
+          'Khả năng tiếp cận của breadcrumb Needless UI: landmark điều hướng, ngữ nghĩa danh sách, trang hiện tại và vùng nhấn.',
+        overview: [
+          'Breadcrumb cho biết vị trí của một trang trong website. Directive <code>nuiBreadcrumbs</code> tạo kiểu cho một <code>&lt;nav&gt;</code> native và danh sách bên trong; mục cuối cùng là trang hiện tại, được đánh dấu bằng <code>aria-current="page"</code>.',
+          'Chuỗi dài hơn vùng chứa sẽ cuộn ngang thay vì xuống dòng. Ban đầu chuỗi được cuộn sẵn đến cuối, và các đầu mờ dần ở phía còn nội dung bị khuất.',
+        ],
+        examples: {
+          trail: {
+            title: 'Một chuỗi trang',
+            text: 'Liên kết đến các trang cấp trên, sau đó là trang hiện tại dưới dạng văn bản thường với <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Chuỗi dài',
+            text: 'Trong vùng chứa hẹp, chuỗi có thể cuộn, và ban đầu trang hiện tại đã nằm trong tầm nhìn.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Tạo kiểu breadcrumb cho một <code>&lt;nav&gt;</code> và danh sách của nó.',
+            members: { label: 'Accessible name của landmark điều hướng.' },
+          },
+        },
+        keyboard: [['Tab', 'Chuyển đến liên kết tiếp theo trong chuỗi.']],
+        notes: [
+          'Đây là một landmark điều hướng chứa danh sách thông thường, nên trình đọc màn hình sẽ thông báo chuỗi có bao nhiêu trang.',
+          'Dấu phân cách được vẽ bằng CSS, nên không bị đọc lên, và tự lật chiều khi văn bản viết từ phải sang trái.',
+          'Mỗi liên kết cao ít nhất 24px.',
+        ],
+      },
+
+      empty: {
+        name: 'Trạng thái trống',
+        title: 'Component trạng thái trống cho Angular',
+        summary: 'Hiển thị gì khi không có gì để hiển thị, và nên làm gì tiếp theo.',
+        description:
+          'Trạng thái trống cho Angular với hình ảnh, tiêu đề, lời giải thích ngắn và hành động, kèm bốn hình minh họa có sẵn trôi nhẹ nhàng.',
+        apiDescription:
+          'Tài liệu API về trạng thái trống của Needless UI: nuiEmpty cùng các phần hình ảnh, tiêu đề, mô tả và hành động.',
+        a11yDescription:
+          'Khả năng tiếp cận của trạng thái trống Needless UI: hình ảnh trang trí, tiêu đề có ý nghĩa và giảm chuyển động.',
+        overview: [
+          'Trạng thái trống thay thế cho một danh sách, bảng hoặc trang chưa có nội dung gì. Nó giải thích lý do và gợi ý bước tiếp theo.',
+          'Phần media nhận hình ảnh của riêng bạn, hoặc vẽ một hình có sẵn: <code>search</code>, <code>inbox</code>, <code>files</code> hoặc <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Không có kết quả',
+            text: 'Một tiêu đề cho biết chuyện gì đã xảy ra, một dòng hướng dẫn và các hành động giúp tìm lối ra.',
+          },
+          pictures: {
+            title: 'Hình minh họa có sẵn',
+            text: 'Đặt <code>illustration</code> trên <code>nuiEmptyMedia</code>. Hình minh họa đổi theo theme và trôi nhẹ, trừ khi chuyển động được giảm.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Vùng chứa: một cột căn giữa.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Hình ảnh, được ẩn khỏi công nghệ hỗ trợ.',
+            members: {
+              illustration:
+                'Một hình có sẵn: <code>search</code>, <code>inbox</code>, <code>files</code> hoặc <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Tiêu đề. Hãy dùng cấp heading phù hợp với trang.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Một dòng giải thích.', members: {} },
+          NuiEmptyActions: { summary: 'Một hàng nút.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Hình ảnh chỉ mang tính trang trí (<code>aria-hidden</code>): tiêu đề và mô tả truyền tải thông điệp.',
+          'Dùng một heading cho tiêu đề, ở cấp phù hợp với cấu trúc của trang.',
+          'Các hình có sẵn ngừng trôi khi người dùng bật giảm chuyển động.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Ô nhập số',
+        title: 'Component ô nhập số cho Angular',
+        summary: 'Ô nhập số có nút tăng giảm, định dạng theo từng locale.',
+        description:
+          'Ô nhập số Angular hỗ trợ tiếp cận: spinbutton có nút tăng giảm, bước nhảy bằng bàn phím, min và max, định dạng locale cho tiền tệ, phần trăm và đơn vị.',
+        apiDescription:
+          'Tài liệu API về ô nhập số của Needless UI: nuiNumberField, nuiNumberInput với min, max, step và format, cùng nuiNumberStep.',
+        a11yDescription:
+          'Tương tác bàn phím và khả năng tiếp cận của ô nhập số Needless UI: vai trò spinbutton, phím mũi tên, phím Page và nút tăng giảm.',
+        overview: [
+          'Ô nhập số là một ô nhập văn bản chứa một con số. Nó hiển thị số theo định dạng của locale, đọc lại văn bản đã gõ theo cùng định dạng đó, và khi mất focus sẽ làm tròn giá trị theo <code>step</code> trong khoảng từ <code>min</code> đến <code>max</code>.',
+          'Nó cũng đọc được chữ số và dấu phân cách của các hệ chữ khác: chữ số Ả Rập-Ấn Độ, Ba Tư và Devanagari, dấu cách và dấu chấm làm dấu phân cách hàng nghìn, cùng mọi kiểu dấu trừ. Khi giữ một nút tăng giảm, giá trị thay đổi liên tục, ngày càng nhanh.',
+        ],
+        examples: {
+          guests: {
+            title: 'Nút tăng giảm',
+            text: 'Nút ở hai bên, tự vô hiệu hóa khi chạm <code>min</code> và <code>max</code>. Các phím mũi tên cũng tăng giảm được giá trị.',
+          },
+          formats: {
+            title: 'Tiền tệ và phần trăm',
+            text: 'Truyền các tùy chọn <code>Intl.NumberFormat</code> vào <code>format</code> cùng một <code>locale</code>. Giá trị vẫn là một số bình thường.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Nhóm ô nhập với các nút tăng giảm của nó.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Ô nhập văn bản chứa một con số, đóng vai trò spinbutton ARIA.',
+            members: {
+              value: 'Con số, hoặc <code>null</code> khi trống. Cũng dùng được với biểu mẫu.',
+              min: 'Giá trị nhỏ nhất được phép.',
+              max: 'Giá trị lớn nhất được phép.',
+              step: 'Mức thay đổi của giá trị sau mỗi bước. Khi mất focus, giá trị được làm tròn theo bước.',
+              format:
+                "Tùy chọn <code>Intl.NumberFormat</code>, chẳng hạn <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Locale dùng để định dạng và đọc số.',
+              disabled: 'Vô hiệu hóa ô nhập và các nút của nó.',
+              stepBy: 'Tăng (số dương) hoặc giảm (số âm) giá trị theo một số bước.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Nút tăng giảm. Giữ nút để lặp lại.',
+            members: {
+              nuiNumberStep: '<code>1</code> để tăng và <code>-1</code> để giảm.',
+              label: 'Accessible name. Mặc định là “Increase” hoặc “Decrease”.',
+            },
+          },
+        },
+        keyboard: [
+          ['Mũi tên lên và xuống', 'Tăng hoặc giảm giá trị một bước.'],
+          ['Page Up và Page Down', 'Tăng hoặc giảm mười bước.'],
+          ['Home và End', 'Chuyển đến giá trị nhỏ nhất hoặc lớn nhất.'],
+          ['Enter', 'Xác nhận giá trị vừa gõ.'],
+        ],
+        notes: [
+          'Ô nhập là một <code>spinbutton</code> với <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>, và giá trị đã định dạng trong <code>aria-valuetext</code>.',
+          'Các nút tăng giảm nằm ngoài thứ tự tab vì các phím đã làm cùng việc đó, nhưng chúng vẫn có tên và được liên kết với ô nhập qua <code>aria-controls</code>.',
+          'Gắn nhãn cho ô nhập bằng <code>aria-label</code> hoặc một <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'Ô nhập OTP',
+        title: 'Ô nhập OTP và mã xác minh cho Angular',
+        summary: 'Mã xác minh trong các ô riêng biệt, trên một ô nhập thật duy nhất.',
+        description:
+          'Ô nhập OTP Angular hỗ trợ tiếp cận: một trường native dưới các ô, tự điền từ SMS, WebOTP, làm sạch khi dán, nhóm, che ký tự và rung khi lỗi.',
+        apiDescription:
+          'Tài liệu API về ô nhập OTP của Needless UI: nuiOtp với độ dài, mẫu, nhóm và che ký tự, cùng nuiOtpInput hỗ trợ WebOTP.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của ô nhập OTP Needless UI: một trường văn bản có nhãn, viền focus rõ ràng và tự điền.',
+        overview: [
+          'Ô nhập OTP trông như một hàng ô, nhưng bên dưới chỉ là một <code>&lt;input&gt;</code> native. Tính năng tự điền từ SMS (<code>autocomplete="one-time-code"</code>), thao tác dán, trình quản lý mật khẩu, biểu mẫu và trình đọc màn hình đều thấy một trường văn bản bình thường.',
+          'Mã được dán vào sẽ được làm sạch, nên cả “123-456” lẫn “123 456” đều dùng được, còn ký tự mà mẫu không cho phép sẽ bị từ chối. Trên Android, <code>webOtp</code> điền mã từ SMS ngay khi tin nhắn đến.',
+        ],
+        examples: {
+          verify: {
+            title: 'Xác minh',
+            text: '<code>(completed)</code> được kích hoạt khi ô cuối cùng được điền. Đặt <code>aria-invalid</code> trên ô nhập để từ chối một mã: các ô chuyển sang màu đỏ và rung lên.',
+          },
+          letters: {
+            title: 'Chữ cái, nhóm và che ký tự',
+            text: '<code>pattern="alphanumeric"</code> nhận cả chữ cái, <code>[groups]</code> thêm dấu phân cách, còn <code>masked</code> hiển thị dấu chấm.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Vẽ các ô và bao bọc ô nhập.',
+            members: {
+              length: 'Số ký tự.',
+              pattern: '<code>digits</code>, hoặc <code>alphanumeric</code> cho chữ cái và chữ số.',
+              groups:
+                'Kích thước các nhóm, có dấu phân cách giữa chúng, chẳng hạn <code>[3, 3]</code>.',
+              masked: 'Hiển thị dấu chấm thay cho ký tự.',
+              completed: 'Phát ra mã mỗi khi ô cuối cùng được điền.',
+            },
+          },
+          NuiOtpInput: {
+            summary: 'Ô nhập thật. Nó nhận các thuộc tính cần thiết cho mã dùng một lần.',
+            members: {
+              webOtp: 'Điền mã từ SMS gửi đến qua WebOTP API, ở những trình duyệt hỗ trợ.',
+            },
+          },
+        },
+        keyboard: [
+          ['Chữ số hoặc chữ cái', 'Điền vào ô hiện tại và chuyển sang ô tiếp theo.'],
+          ['Backspace', 'Xóa ký tự đứng trước con trỏ.'],
+          [
+            'Mũi tên trái và phải',
+            'Di chuyển một ô; ô đã điền sẽ được chọn, nên gõ vào sẽ thay thế nó.',
+          ],
+          ['Dán', 'Điền các ô từ một mã đã sao chép.'],
+        ],
+        notes: [
+          'Trình đọc màn hình chỉ gặp một trường văn bản. Hãy gắn nhãn cho nó bằng <code>aria-label</code> hoặc một <code>&lt;label&gt;</code>.',
+          'Các ô được ẩn khỏi công nghệ hỗ trợ; ô đang được chỉnh sửa hiển thị viền focus.',
+          'Khi giảm chuyển động, con trỏ không nhấp nháy và các ô không nảy hay rung.',
+        ],
+      },
+
+      rating: {
+        name: 'Đánh giá',
+        title: 'Component đánh giá sao cho Angular',
+        summary: 'Những ngôi sao để đánh giá, dựa trên các nút radio thật.',
+        description:
+          'Đánh giá sao Angular hỗ trợ tiếp cận trên nút radio native: hỗ trợ bàn phím và biểu mẫu, xem trước khi di chuột, xóa đánh giá và hiển thị số lẻ chỉ đọc.',
+        apiDescription:
+          'Tài liệu API về đánh giá của Needless UI: nuiRating với value, max, chế độ chỉ đọc và có thể xóa, cùng các nhãn dịch được.',
+        a11yDescription:
+          'Tương tác bàn phím và khả năng tiếp cận của đánh giá Needless UI: nhóm radio có tên, ngôi sao có nhãn và hình ảnh chỉ đọc.',
+        overview: [
+          'Component đánh giá là một nhóm nút radio native được vẽ thành các ngôi sao. Phím mũi tên, biểu mẫu và trình đọc màn hình hoạt động như với mọi nhóm radio khác; CSS tô màu các ngôi sao và xem trước mức đánh giá mới dưới con trỏ chuột.',
+          'Ở chế độ chỉ đọc, nó hiển thị được mọi giá trị lẻ, chẳng hạn điểm trung bình 4,3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Đánh giá một thứ gì đó',
+            text: 'Liên kết <code>[(value)]</code> hoặc một biểu mẫu. Với <code>clearable</code>, chọn lại chính ngôi sao đó sẽ xóa đánh giá.',
+          },
+          average: {
+            title: 'Hiển thị điểm trung bình',
+            text: '<code>readonly</code> tô các ngôi sao đến mọi mức lẻ và đặt tên cho hình ảnh là “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary:
+              'Một nhóm radio gồm các ngôi sao, hoặc một hình ảnh chỉ đọc thể hiện mức đánh giá.',
+            members: {
+              value: 'Mức đánh giá, hoặc <code>null</code>. Cũng dùng được với biểu mẫu.',
+              max: 'Số ngôi sao.',
+              readonly: 'Hiển thị giá trị, đến mọi mức lẻ, thay vì yêu cầu người dùng đánh giá.',
+              disabled: 'Vô hiệu hóa mọi ngôi sao.',
+              clearable: 'Chọn lại ngôi sao hiện tại sẽ xóa đánh giá.',
+              name: 'Tên dùng chung cho các nút radio. Mặc định được sinh tự động.',
+              starLabel: 'Accessible name của mỗi ngôi sao, dưới dạng hàm theo giá trị của nó.',
+              readonlyLabel: 'Accessible name ở chế độ chỉ đọc.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Di chuyển vào nhóm, đến ngôi sao đang được chọn.'],
+          ['Phím mũi tên', 'Thay đổi mức đánh giá.'],
+          ['Phím cách', 'Chọn ngôi sao đang có focus.'],
+        ],
+        notes: [
+          'Mỗi ngôi sao là một nút radio native có tên như “3 stars”. Hãy đặt tên cho nhóm bằng <code>aria-label</code>.',
+          'Ở chế độ chỉ đọc, đánh giá là một hình ảnh (<code>role="img"</code>) có tên “Rated 4.3 out of 5”.',
+          'Các ngôi sao được vẽ bằng CSS mask, nên tuân theo chế độ forced colors.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Component skeleton loader cho Angular',
+        summary: 'Phần giữ chỗ giữ nguyên bố cục trong khi nội dung đang tải.',
+        description:
+          'Skeleton loader Angular cho văn bản, hình tròn và khối, với một vệt sáng quét qua cả trang và tắt hẳn khi giảm chuyển động.',
+        apiDescription:
+          'Tài liệu API về skeleton của Needless UI: directive nuiSkeleton và các hình dạng văn bản, hình tròn và khối.',
+        a11yDescription:
+          'Khả năng tiếp cận của skeleton Needless UI: phần giữ chỗ bị ẩn, vùng aria-busy, giảm chuyển động và chế độ forced colors.',
+        overview: [
+          'Skeleton giữ hình dạng của nội dung đang tải, để trang không bị giật khi nội dung xuất hiện. Hãy đặt kích thước cho chúng bằng CSS.',
+          'Vệt sáng được cố định theo viewport: một dải sáng duy nhất quét qua mọi skeleton trên trang cùng lúc, bất kể kích thước hay vị trí của chúng.',
+        ],
+        examples: {
+          card: {
+            title: 'Tải một thẻ',
+            text: 'Các dòng, một hình tròn và một khối thay chỗ cho hồ sơ. Thẻ có <code>aria-busy</code> trong khi đang tải.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Phần giữ chỗ, được ẩn khỏi công nghệ hỗ trợ.',
+            members: {
+              shape: '<code>text</code> (một dòng), <code>circle</code> hoặc <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeleton được ẩn khỏi trình đọc màn hình. Hãy đặt <code>aria-busy="true"</code> trên vùng đang tải và gỡ bỏ khi nội dung đã đến.',
+          'Không có vệt sáng khi người dùng bật giảm chuyển động.',
+          'Ở chế độ forced colors, mỗi skeleton có một đường viền.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Thông báo toast cho Angular',
+        summary: 'Thông báo ngắn xếp chồng, vuốt để bỏ và không bao giờ cướp focus.',
+        description:
+          'Toast Angular hỗ trợ tiếp cận: chồng thông báo ở top layer, toast cho promise, hành động hoàn tác, vuốt để đóng và hẹn giờ tạm dừng khi hover, focus.',
+        apiDescription:
+          'Tài liệu API về toast của Needless UI: service NuiToaster, các tùy chọn và toast cho promise, cùng vùng nui-toaster.',
+        a11yDescription:
+          'Tương tác bàn phím và khả năng tiếp cận của toast Needless UI: thông báo cho trình đọc màn hình, phím tắt Alt+T, Esc và tạm dừng hẹn giờ.',
+        overview: [
+          'Toast xác nhận điều vừa xảy ra, hoặc đưa ra một hành động như Hoàn tác, mà không làm gián đoạn. Đặt một <code>&lt;nui-toaster&gt;</code> trong khung ứng dụng, rồi gọi <code>NuiToaster</code> từ bất kỳ đâu.',
+          'Các toast xếp chồng phía sau toast mới nhất và xòe ra như quạt khi di chuột qua hoặc khi có focus, tất cả đều chuyển động theo lò xo motion. Vuốt sang ngang để hất một toast đi. Bộ hẹn giờ tạm dừng khi con trỏ nằm trên chồng toast hoặc chồng toast có focus, và khi trang chạy nền.',
+        ],
+        examples: {
+          tones: {
+            title: 'Tông màu',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> và <code>danger()</code>. Toast danger hiển thị lâu hơn và được đọc lên ở chế độ assertive.',
+          },
+          actions: {
+            title: 'Hành động và promise',
+            text: 'Một <code>action</code> thêm một nút như Hoàn tác. <code>promise()</code> hiển thị một spinner, rồi chuyển thành kết quả.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Service hiển thị toast. Có thể inject ở bất kỳ đâu.',
+            members: {
+              toasts: 'Mọi toast đang có trên màn hình, mới nhất trước.',
+              show: 'Hiển thị một toast. Truyền vào tiêu đề, hoặc tùy chọn gồm mô tả, tông màu, thời lượng, hành động hoặc id.',
+              success: 'Hiển thị toast thành công.',
+              warning: 'Hiển thị toast cảnh báo.',
+              danger:
+                'Hiển thị toast danger. Toast này hiển thị trong 8 giây và được đọc lên ở chế độ assertive.',
+              promise:
+                'Hiển thị toast đang tải cho đến khi promise hoàn tất, rồi hiển thị thông điệp thành công hoặc danger.',
+              dismiss: 'Đóng một toast, hoặc tất cả.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Vùng nơi toast xuất hiện. Đặt một lần, trong khung ứng dụng.',
+            members: {
+              position: 'Góc hoặc cạnh của viewport. Đầu và cuối đi theo hướng văn bản.',
+              expanded: 'Giữ chồng toast luôn xòe ra.',
+              label: 'Accessible name của vùng. Hãy nêu cách để đến được vùng này.',
+              closeLabel: 'Accessible name của các nút đóng.',
+              hotkey:
+                'Phím, dưới dạng <code>KeyboardEvent.code</code>, dùng cùng Alt để chuyển focus đến toast mới nhất.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Chuyển focus đến toast mới nhất.'],
+          ['Tab', 'Di chuyển qua các toast, hành động và nút đóng của chúng.'],
+          ['Esc', 'Đóng toast đang có focus.'],
+        ],
+        notes: [
+          'Mỗi toast đều được đọc lên khi xuất hiện: ở chế độ polite, hoặc assertive với danger. Toast không bao giờ lấy focus.',
+          'Bộ hẹn giờ tạm dừng khi con trỏ nằm trên chồng toast hoặc chồng toast có focus, và khi trang bị ẩn; toast đang chờ promise thì không bao giờ hết hạn.',
+          'Mọi thứ người dùng buộc phải xử lý cũng nên có ở ngoài toast.',
+          'Khi giảm chuyển động, toast không có hiệu ứng động và không vuốt được, còn thanh hẹn giờ bị ẩn.',
         ],
       },
     },

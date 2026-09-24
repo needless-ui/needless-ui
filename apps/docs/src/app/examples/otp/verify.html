@@ -1,0 +1,12 @@
+<div nuiOtp [groups]="[3, 3]" (completed)="verify($event)">
+  <input
+    nuiOtpInput
+    aria-label="Verification code"
+    [attr.aria-invalid]="wrong() || null"
+    [(ngModel)]="code"
+  />
+</div>
+<p>Try 123456, or anything else.</p>
+@if (verified()) {
+  <p>Verified.</p>
+}

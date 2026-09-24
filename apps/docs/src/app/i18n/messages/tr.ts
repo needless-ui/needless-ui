@@ -34,6 +34,7 @@ export const messages: Messages = {
       reduced:
         'Sisteminiz daha az hareket istiyor, bu yüzden yerçekimi kapalı kalıyor. Şanslısınız.',
     },
+    toaster: { label: 'Bildirimler (Alt+T)', close: 'Kapat' },
   },
 
   home: {
@@ -378,6 +379,422 @@ export const messages: Messages = {
           'İşaretlenebilir öğeler durumlarını <code>aria-checked</code> ile duyurur.',
           'Bir öğeyi seçmek menüyü kapatır ve odağı tetikleyiciye geri verir. Odağı tetikleyicinin ve menünün dışına taşımak da menüyü kapatır.',
           'Öğeler en az 28 piksel yüksekliğindedir; bu, WCAG 2.2’nin minimum hedef boyutunun üzerindedir.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Angular için avatar bileşeni',
+        summary: 'Bir kişinin fotoğrafı ya da her zaman ona ait bir renk üzerinde baş harfleri.',
+        description:
+          'Fotoğraf yoksa baş harfleri gösteren Angular avatarı: her ada sabit bir renk, durum noktaları ve gruplar; hepsi her temada okunaklı.',
+        apiDescription:
+          'Needless UI avatarının API referansı: ad, fotoğraf, boyut, şekil ve durum girdileriyle nuiAvatar ve nuiAvatarGroup.',
+        a11yDescription:
+          'Needless UI avatarının erişilebilirliği: görsel rolü ve adı, dekoratif avatarlar ve en az 4,5:1 kontrastlı baş harfler.',
+        overview: [
+          '<code>nuiAvatar</code> bileşeni bir fotoğraf gösterir; fotoğraf yoksa ya da yüklenemezse kişinin baş harflerini gösterir. Baş harfler addan hesaplanan bir rengin üzerinde durur; böylece aynı kişi her yerde aynı renkte görünür.',
+          'Her renk tonunun açıklığı ve doygunluğu, ad ve tema ne olursa olsun beyaz baş harflerin kontrast oranını 4,5:1’in üzerinde tutacak şekilde sınırlandırılır.',
+        ],
+        examples: {
+          people: {
+            title: 'Baş harfler, fotoğraflar ve durum',
+            text: '<code>src</code> yoksa baş harfler ve renk <code>name</code> değerinden gelir. <code>status</code> bir durum noktası ekler.',
+          },
+          group: {
+            title: 'Gruplar, boyutlar ve şekiller',
+            text: '<code>nuiAvatarGroup</code>, bir sıra avatarı üst üste bindirir. <code>size</code> girdisi <code>sm</code>, <code>md</code> veya <code>lg</code> değerini alır; <code>shape="square"</code> ise ekiplere ve uygulamalara yakışır.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Kişinin adıyla adlandırılan bir fotoğraf ya da baş harfler.',
+            members: {
+              name: 'Kişinin adı. Erişilebilir ad, baş harfler ve renk bu değerden türetilir.',
+              src: 'Fotoğraf URL’si. Fotoğraf yüklenemezse yerine baş harfler gösterilir.',
+              size: 'Boyut: <code>sm</code>, <code>md</code> veya <code>lg</code>.',
+              shape: '<code>circle</code> veya <code>square</code>.',
+              status:
+                'Durum noktası: <code>online</code>, <code>away</code>, <code>busy</code> veya <code>offline</code>.',
+              label:
+                'Addan fazlasını söyleyen bir erişilebilir ad; örneğin “Ada Lovelace, çevrimiçi”.',
+              decorative:
+                'Avatarı yardımcı teknolojilerden gizler; görünür adın yanındaki avatarlar için.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary:
+              'Üst üste binen avatarlardan oluşan bir sıra. <code>aria-label</code> ile adlandırın.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Avatar, kişinin adıyla adlandırılmış bir görseldir (<code>role="img"</code>). Kişinin adı yanında zaten görünüyorsa <code>decorative</code> ayarlayın; böylece ekran okuyucu kullanıcıları adı iki kez duymaz.',
+          'Durum noktası yalnızca görseldir. Durum önemliyse onu <code>label</code> içine yazın.',
+          'Baş harfler, üretilen her renkte en az 4,5:1 kontrast oranını korur.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Angular için breadcrumb bileşeni',
+        summary: 'Mevcut sayfaya giden sayfa yolu.',
+        description:
+          'Yerel nav ve liste üzerine kurulu erişilebilir Angular breadcrumb bileşeni: sağdan sola metinde yansıyan CSS ayırıcıları, uzun yollarda kaydırma.',
+        apiDescription:
+          'Needless UI breadcrumb bileşeninin API referansı: nuiBreadcrumbs direktifi ve landmark etiketi.',
+        a11yDescription:
+          'Needless UI breadcrumb bileşeninin erişilebilirliği: gezinme landmark’ı, liste semantiği, mevcut sayfa ve hedef boyutları.',
+        overview: [
+          'Breadcrumb, bir sayfanın sitedeki yerini gösterir. <code>nuiBreadcrumbs</code> direktifi yerel bir <code>&lt;nav&gt;</code> öğesini ve içindeki listeyi biçimlendirir; son öğe mevcut sayfadır ve <code>aria-current="page"</code> ile işaretlenir.',
+          'Kapsayıcısından uzun bir yol, alt satıra geçmek yerine yatay olarak kayar. Başlangıçta sona kaydırılmış olarak gelir; ötesinde görülecek öğe bulunan kenarlar soluklaşır.',
+        ],
+        examples: {
+          trail: {
+            title: 'Sayfa yolu',
+            text: 'Üst sayfalar için bağlantılar, ardından <code>aria-current="page"</code> ile düz metin olarak mevcut sayfa.',
+          },
+          long: {
+            title: 'Uzun yollar',
+            text: 'Dar bir kapsayıcıda yol kaydırılabilir ve başlangıçta mevcut sayfa görünür.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary:
+              'Bir <code>&lt;nav&gt;</code> öğesini ve listesini breadcrumb olarak biçimlendirir.',
+            members: { label: 'Gezinme landmark’ının erişilebilir adı.' },
+          },
+        },
+        keyboard: [['Tab', 'Yoldaki bir sonraki bağlantıya geçer.']],
+        notes: [
+          'Düz bir liste içeren bir gezinme landmark’ıdır; bu sayede ekran okuyucular yolda kaç sayfa olduğunu duyurur.',
+          'Ayırıcılar CSS ile çizilir; bu yüzden sesli okunmaz ve sağdan sola metinde ters döner.',
+          'Her bağlantı en az 24px yüksekliğindedir.',
+        ],
+      },
+
+      empty: {
+        name: 'Boş durum',
+        title: 'Angular için boş durum bileşeni',
+        summary: 'Gösterilecek bir şey yokken ne gösterileceği ve ne yapılabileceği.',
+        description:
+          'Görsel, başlık, kısa bir açıklama ve eylemler içeren Angular boş durum bileşeni; ayrıca hafifçe süzülen dört yerleşik çizim.',
+        apiDescription:
+          'Needless UI boş durum bileşeninin API referansı: nuiEmpty ile medya, başlık, açıklama ve eylem parçaları.',
+        a11yDescription:
+          'Needless UI boş durum bileşeninin erişilebilirliği: dekoratif görseller, anlamlı başlıklar ve azaltılmış hareket.',
+        overview: [
+          'Boş durum, henüz içinde hiçbir şey olmayan bir listenin, tablonun ya da sayfanın yerini alır. Nedenini açıklar ve bir sonraki adımı önerir.',
+          'Medya parçasına kendi görselinizi koyabilir ya da yerleşik bir görsel çizdirebilirsiniz: <code>search</code>, <code>inbox</code>, <code>files</code> veya <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Sonuç yok',
+            text: 'Ne olduğunu söyleyen bir başlık, bir satırlık yardım ve çıkış yolu sunan eylemler.',
+          },
+          pictures: {
+            title: 'Yerleşik görseller',
+            text: '<code>nuiEmptyMedia</code> üzerinde <code>illustration</code> ayarlayın. Görseller temaya uyar ve hareket azaltılmadıkça süzülür.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Kapsayıcı: ortalanmış bir sütun.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Yardımcı teknolojilerden gizlenen görsel.',
+            members: {
+              illustration:
+                'Yerleşik bir görsel: <code>search</code>, <code>inbox</code>, <code>files</code> veya <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Başlık. Sayfaya uyan başlık düzeyini kullanın.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Bir satırlık açıklama.', members: {} },
+          NuiEmptyActions: { summary: 'Bir düğme satırı.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Görsel dekoratiftir (<code>aria-hidden</code>): mesajı başlık ve açıklama iletir.',
+          'Başlık için, sayfanın ana hattına uyan düzeyde bir başlık öğesi kullanın.',
+          'Kullanıcı azaltılmış hareketi tercih ettiğinde yerleşik görseller süzülmeyi bırakır.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Sayı alanı',
+        title: 'Angular için sayı alanı bileşeni',
+        summary: 'Adım düğmeleri olan, her yerel ayara göre biçimlendirilen bir sayı alanı.',
+        description:
+          'Erişilebilir Angular sayı alanı: adım düğmeli bir spinbutton, klavyeyle adımlama, min ve max, para birimi, yüzde ve birimler için yerel biçimler.',
+        apiDescription:
+          'Needless UI sayı alanının API referansı: nuiNumberField, min, max, step ve format girdileriyle nuiNumberInput ve nuiNumberStep.',
+        a11yDescription:
+          'Needless UI sayı alanının klavye etkileşimi ve erişilebilirliği: spinbutton rolü, ok ve Page tuşları, adım düğmeleri.',
+        overview: [
+          'Sayı alanı, bir sayı tutan metin alanıdır. Sayıyı yerel ayara göre biçimlendirerek gösterir, yazılan metni aynı biçimde geri okur ve odak ayrıldığında değeri <code>min</code> ile <code>max</code> arasında en yakın <code>step</code> katına yuvarlar.',
+          'Farklı yazı sistemlerinin rakamlarını ve ayırıcılarını da okur: Arap-Hint, Fars ve Devanagari rakamları, basamak ayırıcısı olarak boşluklar ve noktalar, ayrıca her tür eksi işareti. Bir adım düğmesi basılı tutulduğunda adım, giderek hızlanarak tekrarlanır.',
+        ],
+        examples: {
+          guests: {
+            title: 'Adım düğmeleri',
+            text: 'Her iki yanda, <code>min</code> ve <code>max</code> değerlerinde devre dışı kalan düğmeler. Ok tuşları da değeri adım adım değiştirir.',
+          },
+          formats: {
+            title: 'Para birimi ve yüzde',
+            text: '<code>format</code> girdisine <code>Intl.NumberFormat</code> seçeneklerini verin ve bir <code>locale</code> belirleyin. Değer düz bir sayı olarak kalır.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Alanı adım düğmeleriyle gruplar.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Bir sayı tutan, ARIA spinbutton olarak çalışan metin alanı.',
+            members: {
+              value: 'Sayı; alan boşken <code>null</code>. Formlarla da çalışır.',
+              min: 'İzin verilen en küçük değer.',
+              max: 'İzin verilen en büyük değer.',
+              step: 'Bir adımın değeri ne kadar değiştirdiği. Odak ayrıldığında değer, adımın en yakın katına yuvarlanır.',
+              format:
+                "<code>Intl.NumberFormat</code> seçenekleri; örneğin <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Sayıları biçimlendirmek ve okumak için kullanılan yerel ayar.',
+              disabled: 'Alanı ve düğmelerini devre dışı bırakır.',
+              stepBy: 'Değeri belirtilen sayıda adım artırır (pozitif) veya azaltır (negatif).',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Bir adım düğmesi. Basılı tutulduğunda tekrarlar.',
+            members: {
+              nuiNumberStep: '<code>1</code> bir adım artırır, <code>-1</code> bir adım azaltır.',
+              label: 'Erişilebilir ad. Varsayılan değer: “Increase” veya “Decrease”.',
+            },
+          },
+        },
+        keyboard: [
+          ['Yukarı ve aşağı ok', 'Değeri bir adım artırır veya azaltır.'],
+          ['Page Up ve Page Down', 'Değeri on adım birden değiştirir.'],
+          ['Home ve End', 'En küçük veya en büyük değere gider.'],
+          ['Enter', 'Yazılan değeri uygular.'],
+        ],
+        notes: [
+          'Alan, <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code> ve biçimlendirilmiş değeri taşıyan <code>aria-valuetext</code> ile bir <code>spinbutton</code> öğesidir.',
+          'Tuşlar aynı işi yaptığı için adım düğmeleri sekme sırasının dışında kalır; yine de adları vardır ve <code>aria-controls</code> ile alana bağlıdır.',
+          'Alanı <code>aria-label</code> veya bir <code>&lt;label&gt;</code> ile etiketleyin.',
+        ],
+      },
+
+      otp: {
+        name: 'OTP alanı',
+        title: 'Angular için OTP ve doğrulama kodu alanı',
+        summary: 'Tek bir gerçek alan üzerinde, ayrı kutucuklarda doğrulama kodları.',
+        description:
+          'Erişilebilir Angular OTP alanı: kutucukların altında tek yerel alan, SMS’ten otomatik doldurma, WebOTP, akıllı yapıştırma, gruplar, maskeleme, hata sarsıntısı.',
+        apiDescription:
+          'Needless UI OTP alanının API referansı: uzunluk, desen, gruplar ve maskeleme girdileriyle nuiOtp; WebOTP destekli nuiOtpInput.',
+        a11yDescription:
+          'Needless UI OTP alanının klavye kullanımı ve erişilebilirliği: etiketli tek metin alanı, görünür odak halkası ve otomatik doldurma.',
+        overview: [
+          'OTP alanı bir kutucuk sırası gibi görünür, ancak altında tek bir yerel <code>&lt;input&gt;</code> vardır. SMS ile otomatik doldurma (<code>autocomplete="one-time-code"</code>), yapıştırma, parola yöneticileri, formlar ve ekran okuyucular sıradan bir metin alanı görür.',
+          'Yapıştırılan kodlar temizlenir; böylece hem “123-456” hem de “123 456” çalışır, desenin izin vermediği karakterler ise reddedilir. Android’de <code>webOtp</code>, SMS gelir gelmez kodu doldurur.',
+        ],
+        examples: {
+          verify: {
+            title: 'Doğrulama',
+            text: '<code>(completed)</code>, son kutucuk dolduğunda tetiklenir. Bir kodu reddetmek için alana <code>aria-invalid</code> ekleyin: kutucuklar kırmızıya döner ve sarsılır.',
+          },
+          letters: {
+            title: 'Harfler, gruplar ve maskeleme',
+            text: '<code>pattern="alphanumeric"</code> harfleri de kabul eder, <code>[groups]</code> ayırıcılar ekler, <code>masked</code> ise noktalar çizer.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Kutucukları çizer ve alanı sarmalar.',
+            members: {
+              length: 'Karakter sayısı.',
+              pattern:
+                '<code>digits</code> ya da harfler ve rakamlar için <code>alphanumeric</code>.',
+              groups: 'Aralarına ayırıcı çizilen grup boyutları; örneğin <code>[3, 3]</code>.',
+              masked: 'Karakterler yerine noktalar çizer.',
+              completed: 'Son kutucuk her dolduğunda kodu yayar.',
+            },
+          },
+          NuiOtpInput: {
+            summary: 'Gerçek alan. Tek kullanımlık bir kodun gerektirdiği nitelikleri alır.',
+            members: {
+              webOtp: 'Desteklenen tarayıcılarda, gelen SMS’teki kodu WebOTP API’siyle doldurur.',
+            },
+          },
+        },
+        keyboard: [
+          ['Rakamlar veya harfler', 'Geçerli kutucuğu doldurur ve bir sonrakine geçer.'],
+          ['Backspace', 'İmleçten önceki karakteri siler.'],
+          [
+            'Sol ve sağ ok',
+            'Bir kutucuk ilerler; dolu kutucuk seçilir, böylece yazdığınız karakter onun yerini alır.',
+          ],
+          ['Yapıştırma', 'Kopyalanan koddan kutucukları doldurur.'],
+        ],
+        notes: [
+          'Ekran okuyucular tek bir metin alanıyla karşılaşır. Alanı <code>aria-label</code> veya bir <code>&lt;label&gt;</code> ile etiketleyin.',
+          'Kutucuklar yardımcı teknolojilerden gizlenir; düzenlenen kutucuk odak halkasını gösterir.',
+          'Azaltılmış hareket açıkken imleç yanıp sönmez, kutucuklar da zıplamaz veya sarsılmaz.',
+        ],
+      },
+
+      rating: {
+        name: 'Puanlama',
+        title: 'Angular için yıldızlı puanlama bileşeni',
+        summary: 'Gerçek radyo düğmeleri üzerinde, puan vermek için yıldızlar.',
+        description:
+          'Yerel radyo düğmeleriyle erişilebilir Angular yıldızlı puanlama: klavye ve form desteği, üzerine gelince önizleme, temizleme, kesirli salt okunur gösterim.',
+        apiDescription:
+          'Needless UI puanlama bileşeninin API referansı: değer, max, salt okunur ve temizlenebilir modlar, çevrilebilir etiketlerle nuiRating.',
+        a11yDescription:
+          'Needless UI puanlama bileşeninin klavye etkileşimi ve erişilebilirliği: adlandırılmış radyo grubu, etiketli yıldızlar, salt okunur görsel.',
+        overview: [
+          'Puanlama, yıldız olarak çizilen yerel radyo düğmelerinden oluşan bir gruptur. Ok tuşları, formlar ve ekran okuyucular her radyo grubunda olduğu gibi çalışır; yıldızları CSS doldurur ve işaretçinin altındaki yeni puanı önizler.',
+          'Salt okunur modda 4,3 gibi bir ortalama da dahil olmak üzere her kesirli değeri gösterir.',
+        ],
+        examples: {
+          pick: {
+            title: 'Puan verme',
+            text: '<code>[(value)]</code> ya da bir form bağlayın. <code>clearable</code> ile aynı yıldızı yeniden seçmek puanı temizler.',
+          },
+          average: {
+            title: 'Ortalamayı gösterme',
+            text: '<code>readonly</code>, yıldızları herhangi bir kesre kadar doldurur ve görseli “Rated 4.3 out of 5” olarak adlandırır.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: 'Yıldızlardan oluşan bir radyo grubu ya da bir puanın salt okunur görseli.',
+            members: {
+              value: 'Puan ya da <code>null</code>. Formlarla da çalışır.',
+              max: 'Yıldız sayısı.',
+              readonly: 'Puan istemek yerine değeri, kesirli olsa bile gösterir.',
+              disabled: 'Tüm yıldızları devre dışı bırakır.',
+              clearable: 'Geçerli yıldızı yeniden seçmek puanı temizler.',
+              name: 'Radyo düğmelerinin ortak adı. Varsayılan olarak otomatik üretilir.',
+              starLabel: 'Her yıldızın erişilebilir adı; yıldızın değerini alan bir fonksiyon.',
+              readonlyLabel: 'Salt okunur moddaki erişilebilir ad.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Gruba, işaretli yıldıza geçer.'],
+          ['Ok tuşları', 'Puanı değiştirir.'],
+          ['Boşluk', 'Odaktaki yıldızı işaretler.'],
+        ],
+        notes: [
+          'Her yıldız, “3 stars” gibi bir adı olan yerel bir radyo düğmesidir. Grubu <code>aria-label</code> ile adlandırın.',
+          'Salt okunur modda puanlama, “Rated 4.3 out of 5” adını taşıyan bir görseldir (<code>role="img"</code>).',
+          'Yıldızlar CSS maskeleriyle çizilir; bu sayede forced colors moduna uyar.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Angular için skeleton yükleyici bileşeni',
+        summary: 'İçerik yüklenirken düzeni koruyan yer tutucular.',
+        description:
+          'Metin, daire ve bloklar için Angular skeleton yükleyicileri: tüm sayfayı tek seferde tarayan bir parıltı, azaltılmış hareket açıkken ise hiç parıltı yok.',
+        apiDescription:
+          'Needless UI skeleton bileşeninin API referansı: nuiSkeleton direktifi ve metin, daire ve blok şekilleri.',
+        a11yDescription:
+          'Needless UI skeleton bileşeninin erişilebilirliği: gizli yer tutucular, aria-busy bölgeleri, azaltılmış hareket ve forced colors.',
+        overview: [
+          'Skeleton’lar hâlâ yüklenen içeriğin şeklini korur; böylece içerik geldiğinde sayfa zıplamaz. Boyutlarını CSS ile belirleyin.',
+          'Parıltı görüntü alanına sabitlenmiştir: boyutu veya konumu ne olursa olsun, tek bir ışık huzmesi sayfadaki tüm skeleton’ların üzerinden aynı anda geçer.',
+        ],
+        examples: {
+          card: {
+            title: 'Kart yükleme',
+            text: 'Bir profilin yerini tutan satırlar, bir daire ve bir blok. Kart yüklenirken <code>aria-busy</code> durumundadır.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Yardımcı teknolojilerden gizlenen bir yer tutucu.',
+            members: {
+              shape: '<code>text</code> (bir satır), <code>circle</code> veya <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeleton’lar ekran okuyuculardan gizlenir. Yüklenen bölgeye <code>aria-busy="true"</code> ekleyin ve içerik geldiğinde kaldırın.',
+          'Kullanıcı azaltılmış hareketi tercih ettiğinde parıltı gösterilmez.',
+          'Forced colors modunda her skeleton bir dış çizgi alır.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Angular için toast bildirimleri',
+        summary: 'Üst üste yığılan, kaydırılarak kapatılan ve odağı asla çalmayan kısa mesajlar.',
+        description:
+          'Erişilebilir Angular toast bildirimleri: üst katmanda bir yığın, promise bildirimleri, geri alma eylemleri, kaydırarak kapatma ve duraklayan zamanlayıcılar.',
+        apiDescription:
+          'Needless UI toast bildirimlerinin API referansı: NuiToaster servisi, seçenekleri ve promise bildirimleri, ayrıca nui-toaster bölgesi.',
+        a11yDescription:
+          'Needless UI toast bildirimlerinin klavye etkileşimi ve erişilebilirliği: duyurular, Alt+T kısayolu, Esc ve duraklayan zamanlayıcılar.',
+        overview: [
+          'Toast bildirimleri, akışı kesmeden az önce olanı onaylar ya da Geri al gibi bir eylem sunar. Uygulama kabuğuna bir <code>&lt;nui-toaster&gt;</code> yerleştirin, ardından <code>NuiToaster</code> servisini her yerden çağırın.',
+          'Bildirimler en yenisinin arkasında yığılır ve üzerine gelindiğinde ya da odaklanıldığında yelpaze gibi açılır; bunların hepsi motion yayıyla olur. Yana doğru kaydırmak bir bildirimi atar. Fare yığının üzerindeyken veya yığın odaktayken, ayrıca sayfa arka plandayken zamanlayıcılar duraklar.',
+        ],
+        examples: {
+          tones: {
+            title: 'Tonlar',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> ve <code>danger()</code>. Danger bildirimleri daha uzun süre kalır ve öncelikli (assertive) olarak duyurulur.',
+          },
+          actions: {
+            title: 'Eylemler ve promise’ler',
+            text: 'Bir <code>action</code>, Geri al gibi bir düğme ekler. <code>promise()</code> önce bir yükleme göstergesi gösterir, ardından sonuca dönüşür.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Bildirimleri gösteren servis. İstediğiniz yere enjekte edin.',
+            members: {
+              toasts: 'Ekrandaki tüm bildirimler, en yenisi önce.',
+              show: 'Bir bildirim gösterir. Bir başlık ya da açıklama, ton, süre, eylem veya id içeren seçenekler verin.',
+              success: 'Bir başarı bildirimi gösterir.',
+              warning: 'Bir uyarı bildirimi gösterir.',
+              danger:
+                'Bir hata (danger) bildirimi gösterir. 8 saniye kalır ve öncelikli olarak duyurulur.',
+              promise:
+                'Promise sonuçlanana kadar bir yükleme bildirimi, ardından başarı ya da hata mesajını gösterir.',
+              dismiss: 'Bir bildirimi ya da hepsini kapatır.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Bildirimlerin göründüğü bölge. Uygulama kabuğuna bir kez yerleştirin.',
+            members: {
+              position:
+                'Görüntü alanının köşesi veya kenarı. Başlangıç ve bitiş, metin yönünü izler.',
+              expanded: 'Yığını yelpaze gibi açık tutar.',
+              label: 'Bölgenin erişilebilir adı. Bölgeye nasıl ulaşılacağını belirtin.',
+              closeLabel: 'Kapatma düğmelerinin erişilebilir adı.',
+              hotkey:
+                'Alt ile birlikte odağı en yeni bildirime taşıyan tuş, <code>KeyboardEvent.code</code> biçiminde.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Odağı en yeni bildirime taşır.'],
+          ['Tab', 'Bildirimler, eylemleri ve kapatma düğmeleri arasında gezinir.'],
+          ['Esc', 'Odaktaki bildirimi kapatır.'],
+        ],
+        notes: [
+          'Her bildirim göründüğünde duyurulur: nazikçe (polite) ya da danger için öncelikli olarak (assertive). Bildirimler odağı asla almaz.',
+          'Fare yığının üzerindeyken veya yığın odaktayken, ayrıca sayfa gizliyken zamanlayıcılar duraklar; bir promise’i bekleyen bildirimlerin süresi hiç dolmaz.',
+          'Kullanıcının üzerinde işlem yapması gereken her şey bildirimin dışında da bulunmalıdır.',
+          'Azaltılmış hareket açıkken bildirimlerde animasyon olmaz, kaydırarak kapatma da çalışmaz; zamanlayıcı çizgisi gizlenir.',
         ],
       },
     },

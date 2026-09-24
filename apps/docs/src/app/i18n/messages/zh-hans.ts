@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: '重力现在是永久的。刷新页面来重建宇宙。',
       reduced: '你的系统要求减少动态效果，所以重力保持关闭。真走运。',
     },
+    toaster: { label: '通知（Alt+T）', close: '关闭' },
   },
 
   home: {
@@ -128,7 +129,8 @@ export const messages: Messages = {
     },
     titles: {
       api: (name) => `${name} API`,
-      accessibility: (name) => `${name} 无障碍支持`,
+      // A space after a Latin name (Button 无障碍支持), none after a Chinese one (头像无障碍支持).
+      accessibility: (name) => `${name}${/[぀-ヿ㐀-鿿豈-﫿]$/u.test(name) ? '' : ' '}无障碍支持`,
     },
     items: {
       button: {
@@ -364,6 +366,411 @@ export const messages: Messages = {
           '可勾选的菜单项通过 <code>aria-checked</code> 播报其状态。',
           '选择菜单项后，菜单会关闭，焦点返回触发器。焦点移出触发器和菜单时，菜单也会关闭。',
           '菜单项高度至少为 28 像素，超过 WCAG 2.2 的最小目标尺寸。',
+        ],
+      },
+
+      avatar: {
+        name: '头像',
+        title: 'Angular 头像组件',
+        summary: '人物的照片，或是以此人专属颜色为底的姓名首字母。',
+        description:
+          'Angular 头像组件：没有照片时显示姓名首字母，每个名字都有固定的颜色，还支持状态点和头像组，在任何主题下都清晰易读。',
+        apiDescription:
+          'Needless UI 头像的 API 参考：nuiAvatar 的名字、照片、尺寸、形状和状态，以及 nuiAvatarGroup。',
+        a11yDescription:
+          'Needless UI 头像的无障碍支持：图像角色与名称、装饰性头像，以及始终保持 4.5:1 对比度的姓名首字母。',
+        overview: [
+          '<code>nuiAvatar</code> 组件显示一张照片；没有照片或照片加载失败时，则显示此人的姓名首字母。首字母的底色根据名字计算得出，因此同一个人在任何地方都是同一种颜色。',
+          '每种色相的亮度和色度都设有上限，确保白色首字母的对比度始终高于 4.5:1，无论名字和主题是什么。',
+        ],
+        examples: {
+          people: {
+            title: '首字母、照片和状态',
+            text: '没有 <code>src</code> 时，首字母和颜色都取自 <code>name</code>。<code>status</code> 会添加一个在线状态点。',
+          },
+          group: {
+            title: '头像组、尺寸和形状',
+            text: '<code>nuiAvatarGroup</code> 让一排头像彼此重叠。<code>size</code> 可取 <code>sm</code>、<code>md</code> 或 <code>lg</code>，<code>shape="square"</code> 则适合团队和应用。',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: '显示照片或姓名首字母，并以此人的名字作为可访问名称。',
+            members: {
+              name: '此人的名字。可访问名称、首字母和颜色都由它得出。',
+              src: '照片的 URL。加载失败时改为显示首字母。',
+              size: '尺寸：<code>sm</code>、<code>md</code> 或 <code>lg</code>。',
+              shape: '<code>circle</code> 或 <code>square</code>。',
+              status:
+                '在线状态点：<code>online</code>、<code>away</code>、<code>busy</code> 或 <code>offline</code>。',
+              label: '比名字包含更多信息的可访问名称，例如“Ada Lovelace，在线”。',
+              decorative: '对辅助技术隐藏头像，适用于旁边已经显示名字的头像。',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: '一排彼此重叠的头像。请用 <code>aria-label</code> 为它命名。',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          '头像是一张以此人名字命名的图像（<code>role="img"</code>）。如果旁边已经显示了名字，请设置 <code>decorative</code>，以免屏幕阅读器把名字读两遍。',
+          '状态点只是视觉提示。如果状态很重要，请把它写进 <code>label</code>。',
+          '在每一种生成的颜色上，首字母的对比度都至少为 4.5:1。',
+        ],
+      },
+
+      breadcrumbs: {
+        name: '面包屑',
+        title: 'Angular 面包屑组件',
+        summary: '通向当前页面的层级路径。',
+        description:
+          '基于原生 nav 和列表构建的无障碍 Angular 面包屑：CSS 分隔符在从右到左的文本中自动镜像，路径过长时可以横向滚动。',
+        apiDescription:
+          'Needless UI 面包屑的 API 参考：nuiBreadcrumbs 指令，以及为导航地标命名的标签。',
+        a11yDescription:
+          'Needless UI 面包屑的无障碍支持：导航地标、列表语义、当前页面标记和目标尺寸。',
+        overview: [
+          '面包屑显示页面在网站中所处的位置。<code>nuiBreadcrumbs</code> 指令为原生的 <code>&lt;nav&gt;</code> 及其中的列表添加样式；最后一项是当前页面，用 <code>aria-current="page"</code> 标记。',
+          '路径比容器更长时会横向滚动，而不会换行。初始时滚动到末尾，哪一端还有未显示的内容，哪一端就会渐隐。',
+        ],
+        examples: {
+          trail: {
+            title: '面包屑路径',
+            text: '先是各级上层页面的链接，最后是以纯文本显示、带有 <code>aria-current="page"</code> 的当前页面。',
+          },
+          long: {
+            title: '长路径',
+            text: '在狭窄的容器中，路径可以滚动，初始时当前页面就在可见区域内。',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: '为 <code>&lt;nav&gt;</code> 及其中的列表应用面包屑样式。',
+            members: { label: '导航地标的可访问名称。' },
+          },
+        },
+        keyboard: [['Tab', '移到路径中的下一个链接。']],
+        notes: [
+          '它是一个包含普通列表的导航地标，因此屏幕阅读器会播报路径中有多少个页面。',
+          '分隔符由 CSS 绘制，因此不会被朗读，并且会在从右到左的文本中镜像显示。',
+          '每个链接的高度都至少为 24px。',
+        ],
+      },
+
+      empty: {
+        name: '空状态',
+        title: 'Angular 空状态组件',
+        summary: '没有内容可显示时要显示的内容，并告诉用户接下来该做什么。',
+        description:
+          'Angular 空状态组件：由图片、标题、简短说明和操作按钮组成，另附四幅会轻轻漂浮的内置插图。',
+        apiDescription:
+          'Needless UI 空状态的 API 参考：nuiEmpty 及其媒体、标题、描述和操作等组成部分。',
+        a11yDescription:
+          'Needless UI 空状态的无障碍支持：装饰性图片、有意义的标题，以及减少动态效果。',
+        overview: [
+          '空状态用来替代还没有任何内容的列表、表格或页面。它会说明原因，并提供下一步操作。',
+          '媒体部分可以放你自己的图片，也可以绘制一幅内置插图：<code>search</code>、<code>inbox</code>、<code>files</code> 或 <code>error</code>。',
+        ],
+        examples: {
+          search: {
+            title: '无搜索结果',
+            text: '用标题说明发生了什么，用一行文字提供帮助，再用操作按钮给出解决办法。',
+          },
+          pictures: {
+            title: '内置插图',
+            text: '在 <code>nuiEmptyMedia</code> 上设置 <code>illustration</code>。插图会跟随主题变化，并会轻轻漂浮，除非用户要求减少动态效果。',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: '容器：居中排列的单列布局。', members: {} },
+          NuiEmptyMedia: {
+            summary: '图片，对辅助技术隐藏。',
+            members: {
+              illustration:
+                '内置插图：<code>search</code>、<code>inbox</code>、<code>files</code> 或 <code>error</code>。',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: '标题。请使用适合页面的标题级别。',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: '一行说明文字。', members: {} },
+          NuiEmptyActions: { summary: '一行按钮。', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          '图片是装饰性的（<code>aria-hidden</code>）：信息由标题和描述传达。',
+          '请用标题元素作为标题，并选用符合页面大纲的级别。',
+          '当用户偏好减少动态效果时，内置插图会停止漂浮。',
+        ],
+      },
+
+      'number-field': {
+        name: '数字输入框',
+        title: 'Angular 数字输入框组件',
+        summary: '带步进按钮的数字输入框，可按任意语言环境格式化。',
+        description:
+          '无障碍的 Angular 数字输入框：带步进按钮的 spinbutton，支持键盘步进、最小值和最大值，以及按语言环境格式化货币、百分比和单位。',
+        apiDescription:
+          'Needless UI 数字输入框的 API 参考：nuiNumberField、支持 min、max、step 和 format 的 nuiNumberInput，以及 nuiNumberStep。',
+        a11yDescription:
+          'Needless UI 数字输入框的键盘交互与无障碍支持：spinbutton 角色、方向键和翻页键，以及步进按钮。',
+        overview: [
+          '数字输入框是一个存放数字的文本输入框。它按语言环境格式化显示数字，也按同样的格式解析输入的文本，并在失去焦点时把数值按 <code>step</code> 对齐，限制在 <code>min</code> 和 <code>max</code> 之间。',
+          '它也能识别各地的原生数字和分隔符：阿拉伯-印度数字、波斯数字和天城文数字，用作分组分隔符的空格和点，以及各种负号。按住步进按钮会连续步进，而且越来越快。',
+        ],
+        examples: {
+          guests: {
+            title: '步进按钮',
+            text: '两侧各有一个按钮，到达 <code>min</code> 或 <code>max</code> 时会被禁用。方向键也能步进。',
+          },
+          formats: {
+            title: '货币与百分比',
+            text: '把 <code>Intl.NumberFormat</code> 选项传给 <code>format</code>，并指定 <code>locale</code>。值始终是一个普通的数字。',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: '把输入框和它的步进按钮组合在一起。',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: '存放数字的文本输入框，角色为 ARIA spinbutton。',
+            members: {
+              value: '数字；为空时为 <code>null</code>。也可以与表单配合使用。',
+              min: '允许的最小值。',
+              max: '允许的最大值。',
+              step: '每一步改变的数值。失去焦点时，值会按步长对齐。',
+              format:
+                "<code>Intl.NumberFormat</code> 选项，例如 <code>{ style: 'currency', currency: 'EUR' }</code>。",
+              locale: '格式化和解析数字时使用的语言环境。',
+              disabled: '禁用输入框及其按钮。',
+              stepBy: '按指定的步数增加（正数）或减少（负数）数值。',
+            },
+          },
+          NuiNumberStep: {
+            summary: '步进按钮。按住时会连续步进。',
+            members: {
+              nuiNumberStep: '<code>1</code> 表示增加，<code>-1</code> 表示减少。',
+              label: '可访问名称。默认为“Increase”或“Decrease”。',
+            },
+          },
+        },
+        keyboard: [
+          ['向上 / 向下箭头键', '将数值增加或减少一个步长。'],
+          ['Page Up / Page Down', '一次增减十个步长。'],
+          ['Home / End', '跳到最小值或最大值。'],
+          ['Enter', '确认已输入的内容。'],
+        ],
+        notes: [
+          '输入框是一个 <code>spinbutton</code>，带有 <code>aria-valuenow</code>、<code>aria-valuemin</code> 和 <code>aria-valuemax</code>，并以格式化后的值作为 <code>aria-valuetext</code>。',
+          '步进按钮不在 Tab 键顺序中，因为按键可以完成同样的操作；但它们都有名称，并通过 <code>aria-controls</code> 与输入框关联。',
+          '请用 <code>aria-label</code> 或 <code>&lt;label&gt;</code> 为输入框添加标签。',
+        ],
+      },
+
+      otp: {
+        name: '验证码输入框',
+        title: 'Angular OTP 验证码输入框组件',
+        summary: '分格显示的验证码，底层是一个真正的输入框。',
+        description:
+          '无障碍的 Angular 验证码输入框：格子下方是一个原生输入框，支持短信自动填充、WebOTP、粘贴清理、分组、掩码显示和出错抖动。',
+        apiDescription:
+          'Needless UI 验证码输入框的 API 参考：支持长度、字符类型、分组和掩码的 nuiOtp，以及支持 WebOTP 的 nuiOtpInput。',
+        a11yDescription:
+          'Needless UI 验证码输入框的键盘操作与无障碍支持：一个带标签的文本框、清晰可见的焦点环和自动填充。',
+        overview: [
+          '验证码输入框看起来是一排格子，但底层只是一个原生的 <code>&lt;input&gt;</code>。短信自动填充（<code>autocomplete="one-time-code"</code>）、粘贴、密码管理器、表单和屏幕阅读器看到的都是一个普通的文本框。',
+          '粘贴的验证码会被自动清理，因此“123-456”和“123 456”都能使用，所设字符类型不允许的字符则会被拒绝。在 Android 上，<code>webOtp</code> 会在短信到达时自动填入验证码。',
+        ],
+        examples: {
+          verify: {
+            title: '验证',
+            text: '填满最后一格时会触发 <code>(completed)</code>。要拒绝某个验证码，就在输入框上设置 <code>aria-invalid</code>：格子会变红并抖动。',
+          },
+          letters: {
+            title: '字母、分组与掩码',
+            text: '<code>pattern="alphanumeric"</code> 也接受字母，<code>[groups]</code> 会添加分隔符，<code>masked</code> 则显示为圆点。',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: '绘制格子并包裹输入框。',
+            members: {
+              length: '字符数。',
+              pattern: '<code>digits</code>，或允许字母和数字的 <code>alphanumeric</code>。',
+              groups: '各组的长度，组与组之间会显示分隔符，例如 <code>[3, 3]</code>。',
+              masked: '用圆点代替字符显示。',
+              completed: '每次填满最后一格时发出验证码。',
+            },
+          },
+          NuiOtpInput: {
+            summary: '真正的输入框。它会获得一次性验证码所需的属性。',
+            members: {
+              webOtp: '在支持的环境中，通过 WebOTP API 从收到的短信中填入验证码。',
+            },
+          },
+        },
+        keyboard: [
+          ['数字键或字母键', '填入当前格并移到下一格。'],
+          ['Backspace', '删除光标前的字符。'],
+          ['向左 / 向右箭头键', '移动一格；已填的格子会被选中，因此输入会替换其中的字符。'],
+          ['粘贴', '用复制的验证码填满格子。'],
+        ],
+        notes: [
+          '屏幕阅读器看到的只是一个文本框。请用 <code>aria-label</code> 或 <code>&lt;label&gt;</code> 为它添加标签。',
+          '格子对辅助技术隐藏；正在编辑的格子会显示焦点环。',
+          '开启减少动态效果后，光标不再闪烁，格子也不会跳动或抖动。',
+        ],
+      },
+
+      rating: {
+        name: '评分',
+        title: 'Angular 星级评分组件',
+        summary: '用星星打分，底层是真正的单选按钮。',
+        description:
+          '基于原生单选按钮的无障碍 Angular 星级评分：支持键盘和表单、悬停预览、清除评分，以及只读模式下的小数显示。',
+        apiDescription:
+          'Needless UI 评分的 API 参考：nuiRating 的值、最大值、只读与可清除模式，以及可翻译的标签。',
+        a11yDescription:
+          'Needless UI 评分的键盘交互与无障碍支持：带名称的单选按钮组、带标签的星星，以及只读模式下的图像。',
+        overview: [
+          '评分组件是一组绘制成星星的原生单选按钮。方向键、表单和屏幕阅读器的表现与任何单选按钮组一样；CSS 负责填充星星，并在指针所在处预览新的评分。',
+          '在只读模式下，它可以显示任意小数，例如 4.3 的平均分。',
+        ],
+        examples: {
+          pick: {
+            title: '进行评分',
+            text: '绑定 <code>[(value)]</code> 或表单。设置 <code>clearable</code> 后，再次选择同一颗星会清除评分。',
+          },
+          average: {
+            title: '显示平均分',
+            text: '<code>readonly</code> 会按任意比例填充星星，并把这张图像命名为“Rated 4.3 out of 5”。',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: '由星星组成的单选按钮组，或是只读的评分图像。',
+            members: {
+              value: '评分值，或 <code>null</code>。也可以与表单配合使用。',
+              max: '星星的数量。',
+              readonly: '只显示评分值（可精确到任意小数），而不让用户评分。',
+              disabled: '禁用所有星星。',
+              clearable: '再次选择当前的星星会清除评分。',
+              name: '这些单选按钮共用的名称，默认自动生成。',
+              starLabel: '每颗星的可访问名称，是一个以星级值为参数的函数。',
+              readonlyLabel: '只读模式下的可访问名称。',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', '进入按钮组，并定位到已选中的星星。'],
+          ['方向键', '更改评分。'],
+          ['空格键', '选中获得焦点的星星。'],
+        ],
+        notes: [
+          '每颗星都是一个原生单选按钮，名称形如“3 stars”。请用 <code>aria-label</code> 为按钮组命名。',
+          '在只读模式下，评分是一张名为“Rated 4.3 out of 5”的图像（<code>role="img"</code>）。',
+          '星星由 CSS 遮罩绘制，因此会遵循强制颜色模式。',
+        ],
+      },
+
+      skeleton: {
+        name: '骨架屏',
+        title: 'Angular 骨架屏组件',
+        summary: '在内容加载期间占住布局的占位元素。',
+        description:
+          'Angular 骨架屏组件，提供文本、圆形和块状占位，同一道扫光掠过整个页面；开启减少动态效果时则不显示扫光。',
+        apiDescription:
+          'Needless UI 骨架屏的 API 参考：nuiSkeleton 指令及其文本、圆形和块状三种形状。',
+        a11yDescription:
+          'Needless UI 骨架屏的无障碍支持：隐藏的占位元素、aria-busy 区域、减少动态效果和强制颜色模式。',
+        overview: [
+          '骨架屏保留仍在加载的内容的形状，这样内容到达时页面不会跳动。请用 CSS 设置它们的尺寸。',
+          '扫光固定在视口上：同一道高光会同时掠过页面上的所有骨架屏，无论它们的尺寸和位置如何。',
+        ],
+        examples: {
+          card: {
+            title: '加载卡片',
+            text: '用几行文本、一个圆形和一个块状占位代替个人资料。加载期间，卡片处于 <code>aria-busy</code> 状态。',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: '占位元素，对辅助技术隐藏。',
+            members: {
+              shape: '<code>text</code>（一行文本）、<code>circle</code> 或 <code>block</code>。',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          '骨架屏对屏幕阅读器隐藏。请在正在加载的区域上设置 <code>aria-busy="true"</code>，并在内容到达后将其移除。',
+          '当用户偏好减少动态效果时，不显示扫光。',
+          '在强制颜色模式下，每个骨架屏都会显示轮廓线。',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Angular Toast 通知组件',
+        summary: '可堆叠、可滑动关闭、从不抢夺焦点的简短消息。',
+        description:
+          '无障碍的 Angular Toast：在顶层（top layer）堆叠显示，支持 Promise Toast、撤销操作和滑动关闭，计时器在悬停或聚焦时暂停。',
+        apiDescription:
+          'Needless UI Toast 的 API 参考：NuiToaster 服务、它的选项和 Promise Toast，以及 nui-toaster 区域。',
+        a11yDescription:
+          'Needless UI Toast 的键盘交互与无障碍支持：播报方式、Alt+T 快捷键、Esc 键和可暂停的计时器。',
+        overview: [
+          'Toast 用来确认刚刚发生的事，或提供“撤销”之类的操作，而不会打断用户。在应用外壳中放置一个 <code>&lt;nui-toaster&gt;</code>，然后就可以在任何地方调用 <code>NuiToaster</code>。',
+          '它们叠放在最新一条的后面，悬停或聚焦时展开，所有动画都使用 motion 弹簧。向侧边一滑，就能甩掉一条 Toast。当鼠标悬停在堆叠上、堆叠获得焦点，或页面处于后台时，计时器会暂停。',
+        ],
+        examples: {
+          tones: {
+            title: '色调',
+            text: '<code>show()</code>、<code>success()</code>、<code>warning()</code> 和 <code>danger()</code>。danger 类 Toast 停留得更久，并会被立即播报。',
+          },
+          actions: {
+            title: '操作与 Promise',
+            text: '<code>action</code> 会添加一个按钮，例如“撤销”。<code>promise()</code> 先显示加载图标，然后变为结果。',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: '用来显示 Toast 的服务。可以在任何地方注入。',
+            members: {
+              toasts: '屏幕上的所有 Toast，最新的排在最前面。',
+              show: '显示一条 Toast。传入标题，或传入包含描述、色调、持续时间、操作或 id 的选项。',
+              success: '显示一条成功 Toast。',
+              warning: '显示一条警告 Toast。',
+              danger: '显示一条危险 Toast。它会停留 8 秒，并会被立即播报。',
+              promise: '在 Promise 敲定之前显示加载中的 Toast，之后显示相应的成功或危险消息。',
+              dismiss: '关闭一条 Toast，或关闭全部。',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Toast 出现的区域。在应用外壳中放置一次即可。',
+            members: {
+              position: '视口的某个角或某条边。起始端和末端跟随文本方向。',
+              expanded: '让堆叠始终保持展开。',
+              label: '区域的可访问名称。请在其中说明如何跳转到该区域。',
+              closeLabel: '关闭按钮的可访问名称。',
+              hotkey:
+                '与 Alt 组合使用、将焦点移到最新一条 Toast 的按键，以 <code>KeyboardEvent.code</code> 表示。',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', '将焦点移到最新的一条 Toast。'],
+          ['Tab', '在各条 Toast 及其操作按钮和关闭按钮之间移动。'],
+          ['Esc', '关闭获得焦点的 Toast。'],
+        ],
+        notes: [
+          '每条 Toast 出现时都会被播报：通常等屏幕阅读器空闲时再播报，danger 类则会立即播报。Toast 从不抢夺焦点。',
+          '当鼠标悬停在堆叠上、堆叠获得焦点或页面被隐藏时，计时器会暂停；等待 Promise 的 Toast 永远不会超时。',
+          '任何需要用户处理的内容，都应同时在 Toast 之外提供。',
+          '开启减少动态效果后，Toast 不再播放动画，也不能滑动，计时条也会隐藏。',
         ],
       },
     },

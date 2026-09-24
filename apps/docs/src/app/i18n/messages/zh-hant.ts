@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: '重力現在是永久的。重新整理頁面來重建宇宙。',
       reduced: '你的系統要求減少動態效果，所以重力維持關閉。真幸運。',
     },
+    toaster: { label: '通知（Alt+T）', close: '關閉' },
   },
 
   home: {
@@ -128,7 +129,8 @@ export const messages: Messages = {
     },
     titles: {
       api: (name) => `${name} API`,
-      accessibility: (name) => `${name} 無障礙支援`,
+      // A space after a Latin name (Button 無障礙支援), none after a Chinese one (頭像無障礙支援).
+      accessibility: (name) => `${name}${/[぀-ヿ㐀-鿿豈-﫿]$/u.test(name) ? '' : ' '}無障礙支援`,
     },
     items: {
       button: {
@@ -363,6 +365,411 @@ export const messages: Messages = {
           '可勾選的項目會透過 <code>aria-checked</code> 朗讀其狀態。',
           '選取項目後，選單會關閉，焦點回到觸發元素。焦點移出觸發元素和選單時，選單也會關閉。',
           '項目高度至少為 28 像素，超過 WCAG 2.2 的最小目標尺寸。',
+        ],
+      },
+
+      avatar: {
+        name: '頭像',
+        title: 'Angular 頭像元件',
+        summary: '人物的照片，或是以此人專屬顏色為底的姓名首字母。',
+        description:
+          'Angular 頭像元件：沒有照片時顯示姓名首字母，每個名字都有固定的顏色，還支援狀態點和頭像群組，在任何主題下都清晰易讀。',
+        apiDescription:
+          'Needless UI 頭像的 API 參考文件：nuiAvatar 的名字、照片、尺寸、形狀和狀態，以及 nuiAvatarGroup。',
+        a11yDescription:
+          'Needless UI 頭像的無障礙支援：圖片角色與名稱、裝飾性頭像，以及始終維持 4.5:1 對比度的姓名首字母。',
+        overview: [
+          '<code>nuiAvatar</code> 元件會顯示一張照片；沒有照片或照片載入失敗時，則顯示此人的姓名首字母。首字母的底色根據名字計算而來，因此同一個人在任何地方都是同一種顏色。',
+          '每種色相的亮度和彩度都設有上限，確保白色首字母的對比度始終高於 4.5:1，不論名字和主題為何。',
+        ],
+        examples: {
+          people: {
+            title: '首字母、照片和狀態',
+            text: '沒有 <code>src</code> 時，首字母和顏色都取自 <code>name</code>。<code>status</code> 會加上一個上線狀態點。',
+          },
+          group: {
+            title: '群組、尺寸和形狀',
+            text: '<code>nuiAvatarGroup</code> 會讓一列頭像彼此重疊。<code>size</code> 可設為 <code>sm</code>、<code>md</code> 或 <code>lg</code>，<code>shape="square"</code> 則適合團隊和應用程式。',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: '顯示照片或姓名首字母，並以此人的名字作為無障礙名稱。',
+            members: {
+              name: '此人的名字。無障礙名稱、首字母和顏色都由它而來。',
+              src: '照片的網址。載入失敗時會改為顯示首字母。',
+              size: '尺寸：<code>sm</code>、<code>md</code> 或 <code>lg</code>。',
+              shape: '<code>circle</code> 或 <code>square</code>。',
+              status:
+                '上線狀態點：<code>online</code>、<code>away</code>、<code>busy</code> 或 <code>offline</code>。',
+              label: '比名字提供更多資訊的無障礙名稱，例如「Ada Lovelace，上線中」。',
+              decorative: '對輔助科技隱藏頭像，適用於旁邊已經顯示名字的頭像。',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: '一列彼此重疊的頭像。請用 <code>aria-label</code> 為它命名。',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          '頭像是一張以此人名字命名的圖片（<code>role="img"</code>）。如果旁邊已經顯示名字，請設定 <code>decorative</code>，以免螢幕閱讀器把名字唸兩次。',
+          '狀態點只是視覺提示。如果狀態很重要，請把它寫進 <code>label</code>。',
+          '在每一種產生的顏色上，首字母的對比度都至少為 4.5:1。',
+        ],
+      },
+
+      breadcrumbs: {
+        name: '麵包屑',
+        title: 'Angular 麵包屑元件',
+        summary: '通往目前頁面的層級路徑。',
+        description:
+          '以原生 nav 和清單打造的無障礙 Angular 麵包屑：CSS 分隔符號在由右至左的文字中自動鏡像，路徑過長時可以橫向捲動。',
+        apiDescription:
+          'Needless UI 麵包屑的 API 參考文件：nuiBreadcrumbs 指令，以及為導覽地標命名的標籤。',
+        a11yDescription:
+          'Needless UI 麵包屑的無障礙支援：導覽地標、清單語意、目前頁面的標示和目標尺寸。',
+        overview: [
+          '麵包屑會顯示頁面在網站中的位置。<code>nuiBreadcrumbs</code> 指令為原生的 <code>&lt;nav&gt;</code> 及其中的清單加上樣式；最後一項是目前頁面，以 <code>aria-current="page"</code> 標示。',
+          '路徑比容器還長時會橫向捲動，而不會換行。一開始會捲動到最後面，哪一端還有未顯示的內容，哪一端就會淡出。',
+        ],
+        examples: {
+          trail: {
+            title: '麵包屑路徑',
+            text: '先是上層各頁面的連結，最後是以純文字顯示、帶有 <code>aria-current="page"</code> 的目前頁面。',
+          },
+          long: {
+            title: '長路徑',
+            text: '在狹窄的容器中，路徑可以捲動，一開始目前頁面就在可見範圍內。',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: '為 <code>&lt;nav&gt;</code> 及其中的清單套用麵包屑樣式。',
+            members: { label: '導覽地標的無障礙名稱。' },
+          },
+        },
+        keyboard: [['Tab', '移到路徑中的下一個連結。']],
+        notes: [
+          '它是包含一般清單的導覽地標，因此螢幕閱讀器會朗讀路徑中有幾個頁面。',
+          '分隔符號由 CSS 繪製，因此不會被朗讀，並會在由右至左的文字中鏡像顯示。',
+          '每個連結的高度都至少為 24px。',
+        ],
+      },
+
+      empty: {
+        name: '空狀態',
+        title: 'Angular 空狀態元件',
+        summary: '沒有內容可顯示時要顯示的內容，並告訴使用者下一步該怎麼做。',
+        description:
+          'Angular 空狀態元件：由圖片、標題、簡短說明和操作按鈕組成，另附四幅會輕輕漂浮的內建插圖。',
+        apiDescription:
+          'Needless UI 空狀態的 API 參考文件：nuiEmpty 及其媒體、標題、描述和操作等組成部分。',
+        a11yDescription:
+          'Needless UI 空狀態的無障礙支援：裝飾性圖片、有意義的標題，以及減少動態效果。',
+        overview: [
+          '空狀態用來取代還沒有任何內容的清單、表格或頁面。它會說明原因，並提供下一步。',
+          '媒體部分可以放你自己的圖片，也可以繪製一幅內建插圖：<code>search</code>、<code>inbox</code>、<code>files</code> 或 <code>error</code>。',
+        ],
+        examples: {
+          search: {
+            title: '沒有搜尋結果',
+            text: '用標題說明發生了什麼事，用一行文字提供協助，再用操作按鈕提供解決方法。',
+          },
+          pictures: {
+            title: '內建插圖',
+            text: '在 <code>nuiEmptyMedia</code> 上設定 <code>illustration</code>。插圖會隨主題變化，並會輕輕漂浮，除非使用者要求減少動態效果。',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: '容器：置中排列的單欄版面。', members: {} },
+          NuiEmptyMedia: {
+            summary: '圖片，對輔助科技隱藏。',
+            members: {
+              illustration:
+                '內建插圖：<code>search</code>、<code>inbox</code>、<code>files</code> 或 <code>error</code>。',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: '標題。請使用適合頁面的標題層級。',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: '一行說明文字。', members: {} },
+          NuiEmptyActions: { summary: '一列按鈕。', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          '圖片是裝飾性的（<code>aria-hidden</code>）：訊息由標題和描述傳達。',
+          '請用標題元素作為標題，並選用符合頁面大綱的層級。',
+          '當使用者偏好減少動態效果時，內建插圖會停止漂浮。',
+        ],
+      },
+
+      'number-field': {
+        name: '數字輸入欄位',
+        title: 'Angular 數字輸入欄位元件',
+        summary: '附有步進按鈕的數字輸入欄位，可依任何地區設定格式化。',
+        description:
+          '無障礙的 Angular 數字輸入欄位：附有步進按鈕的 spinbutton，支援鍵盤步進、最小值與最大值，以及依地區設定格式化貨幣、百分比和單位。',
+        apiDescription:
+          'Needless UI 數字輸入欄位的 API 參考文件：nuiNumberField、支援 min、max、step 和 format 的 nuiNumberInput，以及 nuiNumberStep。',
+        a11yDescription:
+          'Needless UI 數字輸入欄位的鍵盤互動與無障礙支援：spinbutton 角色、方向鍵與翻頁鍵，以及步進按鈕。',
+        overview: [
+          '數字輸入欄位是存放數字的文字輸入欄位。它依地區設定格式化顯示數字，也以相同格式解析輸入的文字，並在失去焦點時把數值依 <code>step</code> 對齊，限制在 <code>min</code> 和 <code>max</code> 之間。',
+          '它也能辨識各地的原生數字和分隔符號：阿拉伯-印度數字、波斯數字和天城文數字，當作千分位符號的空格和句點，以及各種負號。按住步進按鈕會連續步進，而且越來越快。',
+        ],
+        examples: {
+          guests: {
+            title: '步進按鈕',
+            text: '兩側各有一個按鈕，到達 <code>min</code> 或 <code>max</code> 時會停用。方向鍵也能步進。',
+          },
+          formats: {
+            title: '貨幣與百分比',
+            text: '把 <code>Intl.NumberFormat</code> 選項傳給 <code>format</code>，並指定 <code>locale</code>。值一律是單純的數字。',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: '把輸入欄位和它的步進按鈕組合在一起。',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: '存放數字的文字輸入欄位，角色為 ARIA spinbutton。',
+            members: {
+              value: '數字；為空時是 <code>null</code>。也能搭配表單使用。',
+              min: '允許的最小值。',
+              max: '允許的最大值。',
+              step: '每一步改變的數值。失去焦點時，值會依步進值對齊。',
+              format:
+                "<code>Intl.NumberFormat</code> 選項，例如 <code>{ style: 'currency', currency: 'EUR' }</code>。",
+              locale: '格式化和解析數字時使用的地區設定。',
+              disabled: '停用輸入欄位及其按鈕。',
+              stepBy: '依指定的步數增加（正數）或減少（負數）數值。',
+            },
+          },
+          NuiNumberStep: {
+            summary: '步進按鈕。按住時會連續步進。',
+            members: {
+              nuiNumberStep: '<code>1</code> 表示增加，<code>-1</code> 表示減少。',
+              label: '無障礙名稱。預設為「Increase」或「Decrease」。',
+            },
+          },
+        },
+        keyboard: [
+          ['向上 / 向下鍵', '將數值增加或減少一個步進值。'],
+          ['Page Up / Page Down', '一次增減十個步進值。'],
+          ['Home / End', '跳到最小值或最大值。'],
+          ['Enter', '確認已輸入的內容。'],
+        ],
+        notes: [
+          '輸入欄位是一個 <code>spinbutton</code>，帶有 <code>aria-valuenow</code>、<code>aria-valuemin</code> 和 <code>aria-valuemax</code>，並以格式化後的值作為 <code>aria-valuetext</code>。',
+          '步進按鈕不在 Tab 鍵順序中，因為按鍵就能完成同樣的操作；但它們都有名稱，並透過 <code>aria-controls</code> 與輸入欄位建立關聯。',
+          '請用 <code>aria-label</code> 或 <code>&lt;label&gt;</code> 為輸入欄位加上標籤。',
+        ],
+      },
+
+      otp: {
+        name: '驗證碼輸入欄位',
+        title: 'Angular OTP 驗證碼輸入欄位元件',
+        summary: '分格顯示的驗證碼，底層是一個真正的輸入欄位。',
+        description:
+          '無障礙的 Angular 驗證碼輸入欄位：格子下方是一個原生欄位，支援簡訊自動填入、WebOTP、貼上時自動整理、分組、遮蔽顯示和錯誤抖動。',
+        apiDescription:
+          'Needless UI 驗證碼輸入欄位的 API 參考文件：支援長度、字元類型、分組和遮蔽顯示的 nuiOtp，以及支援 WebOTP 的 nuiOtpInput。',
+        a11yDescription:
+          'Needless UI 驗證碼輸入欄位的鍵盤操作與無障礙支援：一個加上標籤的文字欄位、清楚可見的焦點環和自動填入。',
+        overview: [
+          '驗證碼輸入欄位看起來是一列格子，底層其實只是一個原生的 <code>&lt;input&gt;</code>。簡訊自動填入（<code>autocomplete="one-time-code"</code>）、貼上、密碼管理工具、表單和螢幕閱讀器看到的都是一個普通的文字欄位。',
+          '貼上的驗證碼會自動整理，因此「123-456」和「123 456」都能使用，所設字元類型不允許的字元則會被拒絕。在 Android 上，<code>webOtp</code> 會在簡訊送達時自動填入驗證碼。',
+        ],
+        examples: {
+          verify: {
+            title: '驗證',
+            text: '填滿最後一格時會觸發 <code>(completed)</code>。要拒絕某個驗證碼，就在輸入欄位上設定 <code>aria-invalid</code>：格子會變紅並抖動。',
+          },
+          letters: {
+            title: '字母、分組與遮蔽顯示',
+            text: '<code>pattern="alphanumeric"</code> 也接受字母，<code>[groups]</code> 會加上分隔符號，<code>masked</code> 則顯示為圓點。',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: '繪製格子並包住輸入欄位。',
+            members: {
+              length: '字元數。',
+              pattern: '<code>digits</code>，或允許字母和數字的 <code>alphanumeric</code>。',
+              groups: '各組的長度，組與組之間會顯示分隔符號，例如 <code>[3, 3]</code>。',
+              masked: '以圓點取代字元顯示。',
+              completed: '每次填滿最後一格時發出驗證碼。',
+            },
+          },
+          NuiOtpInput: {
+            summary: '真正的輸入欄位。它會取得一次性驗證碼所需的屬性。',
+            members: {
+              webOtp: '在支援的環境中，透過 WebOTP API 從收到的簡訊填入驗證碼。',
+            },
+          },
+        },
+        keyboard: [
+          ['數字鍵或字母鍵', '填入目前的格子並移到下一格。'],
+          ['Backspace', '刪除游標前的字元。'],
+          ['向左 / 向右鍵', '移動一格；已填入的格子會被選取，因此輸入會取代其中的字元。'],
+          ['貼上', '用複製的驗證碼填滿格子。'],
+        ],
+        notes: [
+          '螢幕閱讀器看到的只是一個文字欄位。請用 <code>aria-label</code> 或 <code>&lt;label&gt;</code> 為它加上標籤。',
+          '格子對輔助科技隱藏；正在編輯的格子會顯示焦點環。',
+          '開啟減少動態效果後，游標不再閃爍，格子也不會跳動或抖動。',
+        ],
+      },
+
+      rating: {
+        name: '評分',
+        title: 'Angular 星級評分元件',
+        summary: '用星星評分，底層是真正的單選按鈕。',
+        description:
+          '以原生單選按鈕打造的無障礙 Angular 星級評分：支援鍵盤和表單、滑鼠懸停預覽、清除評分，以及唯讀模式下的小數顯示。',
+        apiDescription:
+          'Needless UI 評分的 API 參考文件：nuiRating 的值、最大值、唯讀與可清除模式，以及可翻譯的標籤。',
+        a11yDescription:
+          'Needless UI 評分的鍵盤互動與無障礙支援：具名的單選按鈕群組、加上標籤的星星，以及唯讀模式下的圖片。',
+        overview: [
+          '評分元件是一組繪製成星星的原生單選按鈕。方向鍵、表單和螢幕閱讀器的運作方式與任何單選按鈕群組相同；CSS 負責填滿星星，並在指標所在處預覽新的評分。',
+          '在唯讀模式下，它能顯示任意小數，例如平均 4.3 分。',
+        ],
+        examples: {
+          pick: {
+            title: '進行評分',
+            text: '繫結 <code>[(value)]</code> 或表單。設定 <code>clearable</code> 後，再次選擇同一顆星會清除評分。',
+          },
+          average: {
+            title: '顯示平均分數',
+            text: '<code>readonly</code> 會依任意比例填滿星星，並將這張圖片命名為「Rated 4.3 out of 5」。',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: '由星星組成的單選按鈕群組，或唯讀的評分圖片。',
+            members: {
+              value: '評分值，或 <code>null</code>。也能搭配表單使用。',
+              max: '星星的數量。',
+              readonly: '只顯示評分值（可精確到任意小數），而不讓使用者評分。',
+              disabled: '停用所有星星。',
+              clearable: '再次選擇目前的星星會清除評分。',
+              name: '這些單選按鈕共用的名稱，預設會自動產生。',
+              starLabel: '每顆星的無障礙名稱，是以星級值為參數的函式。',
+              readonlyLabel: '唯讀模式下的無障礙名稱。',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', '進入群組，並移到已勾選的星星。'],
+          ['方向鍵', '變更評分。'],
+          ['空白鍵', '勾選取得焦點的星星。'],
+        ],
+        notes: [
+          '每顆星都是一個原生單選按鈕，名稱形如「3 stars」。請用 <code>aria-label</code> 為群組命名。',
+          '在唯讀模式下，評分是一張名為「Rated 4.3 out of 5」的圖片（<code>role="img"</code>）。',
+          '星星以 CSS 遮罩繪製，因此會遵循強制色彩模式。',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Angular Skeleton 骨架載入元件',
+        summary: '在內容載入期間撐住版面的預留位置。',
+        description:
+          'Angular Skeleton 骨架載入元件，提供文字、圓形和區塊三種預留位置，同一道光澤會掃過整個頁面；減少動態效果時則不顯示光澤。',
+        apiDescription:
+          'Needless UI Skeleton 的 API 參考文件：nuiSkeleton 指令及其文字、圓形和區塊三種形狀。',
+        a11yDescription:
+          'Needless UI Skeleton 的無障礙支援：隱藏的預留位置、aria-busy 區域、減少動態效果和強制色彩模式。',
+        overview: [
+          'Skeleton 會保留仍在載入的內容的形狀，讓內容出現時頁面不會跳動。請用 CSS 設定它的尺寸。',
+          '光澤效果固定在可視區域上：同一道高光會同時掃過頁面上的每個 Skeleton，不論它的尺寸或位置為何。',
+        ],
+        examples: {
+          card: {
+            title: '載入卡片',
+            text: '以幾行文字、一個圓形和一個區塊代替個人資料。載入期間，卡片會帶有 <code>aria-busy</code>。',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: '預留位置，對輔助科技隱藏。',
+            members: {
+              shape: '<code>text</code>（一行文字）、<code>circle</code> 或 <code>block</code>。',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeleton 對螢幕閱讀器隱藏。請在正在載入的區域上設定 <code>aria-busy="true"</code>，並在內容出現後將它移除。',
+          '當使用者偏好減少動態效果時，不會顯示光澤效果。',
+          '在強制色彩模式下，每個 Skeleton 都會顯示外框。',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Angular Toast 通知元件',
+        summary: '可堆疊、可滑開、從不搶走焦點的簡短訊息。',
+        description:
+          '無障礙的 Angular Toast：在頂層（top layer）堆疊顯示，支援 Promise Toast、復原操作和滑動關閉，計時器會在滑鼠懸停或取得焦點時暫停。',
+        apiDescription:
+          'Needless UI Toast 的 API 參考文件：NuiToaster 服務、它的選項和 Promise Toast，以及 nui-toaster 區域。',
+        a11yDescription:
+          'Needless UI Toast 的鍵盤互動與無障礙支援：朗讀方式、Alt+T 快速鍵、Esc 鍵和可暫停的計時器。',
+        overview: [
+          'Toast 用來確認剛剛發生的事，或提供「復原」之類的操作，而不會打斷使用者。在應用程式殼層中放一個 <code>&lt;nui-toaster&gt;</code>，之後就能在任何地方呼叫 <code>NuiToaster</code>。',
+          '它們會疊在最新一則的後方，滑鼠懸停或取得焦點時展開，全部使用 motion 彈簧。往側邊一滑，就能甩掉一則 Toast。當滑鼠懸停在堆疊上、堆疊取得焦點，或頁面在背景時，計時器會暫停。',
+        ],
+        examples: {
+          tones: {
+            title: '色調',
+            text: '<code>show()</code>、<code>success()</code>、<code>warning()</code> 和 <code>danger()</code>。danger 類的 Toast 會停留得更久，並會立即朗讀。',
+          },
+          actions: {
+            title: '操作與 Promise',
+            text: '<code>action</code> 會加上一個按鈕，例如「復原」。<code>promise()</code> 會先顯示載入圖示，再變成結果。',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: '用來顯示 Toast 的服務。可以在任何地方注入。',
+            members: {
+              toasts: '畫面上的所有 Toast，最新的排在最前面。',
+              show: '顯示一則 Toast。傳入標題，或傳入包含描述、色調、持續時間、操作或 id 的選項。',
+              success: '顯示一則成功 Toast。',
+              warning: '顯示一則警告 Toast。',
+              danger: '顯示一則危險 Toast。它會停留 8 秒，並會立即朗讀。',
+              promise: '在 Promise 完成前顯示載入中的 Toast，之後顯示對應的成功或危險訊息。',
+              dismiss: '關閉一則 Toast，或關閉全部。',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Toast 出現的區域。在應用程式殼層中放置一次即可。',
+            members: {
+              position: '可視區域的某個角落或邊緣。開頭端和結尾端會依循文字方向。',
+              expanded: '讓堆疊一直保持展開。',
+              label: '區域的無障礙名稱。請在其中說明如何移到這個區域。',
+              closeLabel: '關閉按鈕的無障礙名稱。',
+              hotkey:
+                '與 Alt 搭配使用、將焦點移到最新一則 Toast 的按鍵，以 <code>KeyboardEvent.code</code> 表示。',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', '將焦點移到最新的一則 Toast。'],
+          ['Tab', '在各則 Toast 及其操作按鈕和關閉按鈕之間移動。'],
+          ['Esc', '關閉取得焦點的 Toast。'],
+        ],
+        notes: [
+          '每則 Toast 出現時都會被朗讀：一般會等螢幕閱讀器空閒時再朗讀，danger 類則會立即朗讀。Toast 從不搶走焦點。',
+          '當滑鼠懸停在堆疊上、堆疊取得焦點或頁面被隱藏時，計時器會暫停；等待 Promise 的 Toast 永遠不會逾時。',
+          '任何需要使用者處理的內容，都應該同時在 Toast 以外提供。',
+          '開啟減少動態效果後，Toast 不再播放動畫，也無法滑動，計時條也會隱藏。',
         ],
       },
     },

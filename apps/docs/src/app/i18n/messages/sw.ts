@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: 'Mvuto sasa ni wa kudumu. Pakia upya ukurasa ili kujenga upya ulimwengu.',
       reduced: 'Mfumo wako unaomba mwendo mdogo, kwa hiyo mvuto unabaki umezimwa. Bahati njema.',
     },
+    toaster: { label: 'Arifa (Alt+T)', close: 'Ondoa' },
   },
 
   home: {
@@ -395,6 +396,426 @@ export const messages: Messages = {
           'Vipengee vinavyoweza kuteuliwa hutangaza hali yao kupitia <code>aria-checked</code>.',
           'Kuchagua kipengee hufunga menyu na kurudisha focus kwenye trigger. Kuhamisha focus nje ya trigger na menyu pia huifunga.',
           'Vipengee vina kimo cha angalau pikseli 28, juu ya ukubwa wa chini wa eneo la kubofya wa WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Kijenzi cha avatar kwa Angular',
+        summary:
+          'Picha ya mtu, au herufi za mwanzo za jina lake juu ya rangi ambayo ni yake daima.',
+        description:
+          'Avatar ya Angular yenye herufi za mwanzo picha isipokuwepo, rangi thabiti kwa kila jina, vitone vya hali na makundi, vyote vikisomeka katika kila mandhari.',
+        apiDescription:
+          'Marejeleo ya API ya avatar ya Needless UI: nuiAvatar yenye jina, picha, saizi, umbo na hali, pamoja na nuiAvatarGroup.',
+        a11yDescription:
+          'Ufikivu wa avatar ya Needless UI: jukumu la picha na jina, avatar za mapambo, na herufi za mwanzo zinazodumisha utofautishaji wa 4.5:1.',
+        overview: [
+          'Kijenzi cha <code>nuiAvatar</code> huonyesha picha, au herufi za mwanzo za jina la mtu ikiwa hakuna picha au picha ikishindwa kupakia. Herufi hizo hukaa juu ya rangi inayokokotolewa kutoka kwenye jina, hivyo mtu yuleyule hubaki na rangi ileile kila mahali.',
+          'Kila hue imewekewa kikomo cha mwangaza (lightness) na ukolezi (chroma) ili herufi nyeupe zibaki juu ya uwiano wa utofautishaji wa 4.5:1, bila kujali jina wala mandhari.',
+        ],
+        examples: {
+          people: {
+            title: 'Herufi za mwanzo, picha na hali',
+            text: 'Bila <code>src</code>, herufi za mwanzo na rangi hutokana na <code>name</code>. <code>status</code> huongeza kitone cha upatikanaji.',
+          },
+          group: {
+            title: 'Makundi, saizi na maumbo',
+            text: '<code>nuiAvatarGroup</code> hupanga safu ya avatar zinazopishana. <code>size</code> hupokea <code>sm</code>, <code>md</code> au <code>lg</code>, na <code>shape="square"</code> hufaa kwa timu na programu.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Picha au herufi za mwanzo, zinazopewa jina la mtu husika.',
+            members: {
+              name: 'Jina la mtu. Jina linalofikika, herufi za mwanzo na rangi hutokana nalo.',
+              src: 'URL ya picha. Ikishindwa kupakia, herufi za mwanzo huonyeshwa badala yake.',
+              size: 'Saizi: <code>sm</code>, <code>md</code> au <code>lg</code>.',
+              shape: '<code>circle</code> au <code>square</code>.',
+              status:
+                'Kitone cha upatikanaji: <code>online</code>, <code>away</code>, <code>busy</code> au <code>offline</code>.',
+              label:
+                'Jina linalofikika linaloeleza zaidi ya jina, kama vile “Ada Lovelace, yuko mtandaoni”.',
+              decorative:
+                'Huficha avatar kwa teknolojia saidizi, kwa ajili ya avatar zilizo kando ya jina linaloonekana.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: 'Safu ya avatar zinazopishana. Ipe jina kwa <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Avatar ni picha (<code>role="img"</code>) yenye jina la mtu. Ikiwa kando ya jina lake linaloonekana, weka <code>decorative</code> ili watumiaji wa visoma skrini wasilisikie jina mara mbili.',
+          'Kitone cha hali huonekana kwa macho tu. Hali hiyo ikiwa muhimu, iweke ndani ya <code>label</code>.',
+          'Herufi za mwanzo hudumisha uwiano wa utofautishaji wa angalau 4.5:1 kwenye kila rangi inayozalishwa.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Kijenzi cha breadcrumbs kwa Angular',
+        summary: 'Mfuatano wa kurasa unaoelekeza hadi ukurasa wa sasa.',
+        description:
+          'Breadcrumbs za Angular zinazofikika kwenye nav na orodha asilia: vitenganishi vya CSS vinavyogeuka kwa maandishi ya kulia-kushoto, na njia ndefu zinazosogezwa.',
+        apiDescription:
+          'Marejeleo ya API ya breadcrumbs za Needless UI: directive ya nuiBreadcrumbs na lebo ya landmark yake.',
+        a11yDescription:
+          'Ufikivu wa breadcrumbs za Needless UI: landmark ya urambazaji, semantiki ya orodha, ukurasa wa sasa na ukubwa wa eneo la kubofya.',
+        overview: [
+          'Breadcrumbs huonyesha mahali ukurasa ulipo ndani ya tovuti. Directive ya <code>nuiBreadcrumbs</code> hupamba <code>&lt;nav&gt;</code> asilia na orodha yake; kipengee cha mwisho ni ukurasa wa sasa, uliowekewa alama ya <code>aria-current="page"</code>.',
+          'Njia iliyo ndefu kuliko nafasi yake husogezwa kando badala ya kukatika kwenda mstari mpya. Huanza ikiwa imesogezwa hadi mwisho, na ncha zake hufifia pale ambapo kuna zaidi ya kuona.',
+        ],
+        examples: {
+          trail: {
+            title: 'Njia ya kurasa',
+            text: 'Viungo vya kurasa za juu, kisha ukurasa wa sasa kama maandishi ya kawaida yenye <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Njia ndefu',
+            text: 'Katika nafasi nyembamba njia husogezwa, ikianza na ukurasa wa sasa ukionekana.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Hupamba <code>&lt;nav&gt;</code> na orodha yake kama breadcrumbs.',
+            members: { label: 'Jina linalofikika la landmark ya urambazaji.' },
+          },
+        },
+        keyboard: [['Tab', 'Huenda kwenye kiungo kinachofuata katika njia.']],
+        notes: [
+          'Ni landmark ya urambazaji yenye orodha ya kawaida, hivyo visoma skrini hutangaza njia ina kurasa ngapi.',
+          'Vitenganishi huchorwa kwa CSS, kwa hivyo havisomwi kwa sauti, na hugeuka upande katika maandishi ya kulia kwenda kushoto.',
+          'Kila kiungo kina kimo cha angalau 24px.',
+        ],
+      },
+
+      empty: {
+        name: 'Hali tupu',
+        title: 'Kijenzi cha hali tupu kwa Angular',
+        summary: 'Cha kuonyesha wakati hakuna cha kuonyesha, na nini cha kufanya kuhusu hilo.',
+        description:
+          'Hali tupu ya Angular yenye picha, kichwa, maelezo mafupi na vitendo, pamoja na michoro minne iliyojengewa ndani inayoelea taratibu.',
+        apiDescription:
+          'Marejeleo ya API ya hali tupu ya Needless UI: nuiEmpty na sehemu zake za media, kichwa, maelezo na vitendo.',
+        a11yDescription:
+          'Ufikivu wa hali tupu ya Needless UI: picha za mapambo, vichwa vyenye maana na mwendo uliopunguzwa.',
+        overview: [
+          'Hali tupu huchukua nafasi ya orodha, jedwali au ukurasa ambao bado hauna kitu. Hueleza sababu, na hupendekeza hatua inayofuata.',
+          'Sehemu ya media hupokea picha yako mwenyewe, au huchora mojawapo ya zile zilizojengewa ndani: <code>search</code>, <code>inbox</code>, <code>files</code> au <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Hakuna matokeo',
+            text: 'Kichwa kinachoeleza kilichotokea, mstari mmoja wa msaada, na vitendo vya kutoka hapo.',
+          },
+          pictures: {
+            title: 'Picha zilizojengewa ndani',
+            text: 'Weka <code>illustration</code> kwenye <code>nuiEmptyMedia</code>. Picha hufuata mandhari na huelea, isipokuwa mwendo umepunguzwa.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Kontena: safu wima iliyowekwa katikati.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Picha, iliyofichwa kwa teknolojia saidizi.',
+            members: {
+              illustration:
+                'Picha iliyojengewa ndani: <code>search</code>, <code>inbox</code>, <code>files</code> au <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Kichwa. Tumia kiwango cha heading kinachofaa ukurasa.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Mstari mmoja wa maelezo.', members: {} },
+          NuiEmptyActions: { summary: 'Safu ya vitufe.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Picha ni ya mapambo (<code>aria-hidden</code>): kichwa na maelezo ndivyo vinavyobeba ujumbe.',
+          'Kichwa kiwe heading, katika kiwango kinachoendana na muundo wa ukurasa.',
+          'Picha zilizojengewa ndani huacha kuelea mtumiaji anapopendelea mwendo uliopunguzwa.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Sehemu ya namba',
+        title: 'Kijenzi cha sehemu ya namba kwa Angular',
+        summary:
+          'Input ya namba yenye vitufe vya kuongeza na kupunguza, iliyoumbizwa kwa kila locale.',
+        description:
+          'Sehemu ya namba ya Angular inayofikika: spinbutton yenye vitufe vya hatua, hatua kwa kibodi, min na max, na uumbizaji wa locale kwa sarafu, asilimia na vipimo.',
+        apiDescription:
+          'Marejeleo ya API ya sehemu ya namba ya Needless UI: nuiNumberField, nuiNumberInput yenye min, max, step na format, na nuiNumberStep.',
+        a11yDescription:
+          'Matumizi ya kibodi na ufikivu wa sehemu ya namba ya Needless UI: jukumu la spinbutton, vitufe vya mishale na Page, na vitufe vya hatua.',
+        overview: [
+          'Sehemu ya namba ni input ya maandishi inayobeba namba. Huonyesha namba ikiwa imeumbizwa kwa locale, husoma maandishi yaliyoandikwa kwa umbizo hilohilo, na inapopoteza focus hurekebisha thamani iendane na <code>step</code> kati ya <code>min</code> na <code>max</code>.',
+          'Husoma pia tarakimu na vitenganishi asilia: namba za Kiarabu-Kihindi, Kiajemi na Devanagari, nafasi na nukta kama vitenganishi vya makundi ya tarakimu, na kila aina ya alama ya kutoa. Ukishikilia kitufe cha hatua, hurudia kwa kasi inayoongezeka.',
+        ],
+        examples: {
+          guests: {
+            title: 'Vitufe vya hatua',
+            text: 'Vitufe kila upande, vinavyozimwa kwenye <code>min</code> na <code>max</code>. Vitufe vya mishale navyo hubadilisha thamani.',
+          },
+          formats: {
+            title: 'Sarafu na asilimia',
+            text: 'Pitisha chaguo za <code>Intl.NumberFormat</code> kwa <code>format</code> pamoja na <code>locale</code>. Thamani hubaki kuwa namba ya kawaida.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Huweka input pamoja na vitufe vyake vya hatua katika kundi moja.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Input ya maandishi inayobeba namba, kama spinbutton ya ARIA.',
+            members: {
+              value: 'Namba, au <code>null</code> ikiwa tupu. Hufanya kazi pia na fomu.',
+              min: 'Thamani ndogo zaidi inayoruhusiwa.',
+              max: 'Thamani kubwa zaidi inayoruhusiwa.',
+              step: 'Kiasi ambacho hatua moja hubadilisha thamani. Input inapopoteza focus, thamani hurekebishwa iendane nacho.',
+              format:
+                "Chaguo za <code>Intl.NumberFormat</code>, kama vile <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Locale ya kuumbiza na kusoma namba.',
+              disabled: 'Huzima input na vitufe vyake.',
+              stepBy: 'Huongeza (chanya) au hupunguza (hasi) thamani kwa idadi fulani ya hatua.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Kitufe cha hatua. Ukikishikilia, hurudia.',
+            members: {
+              nuiNumberStep:
+                '<code>1</code> huongeza hatua moja na <code>-1</code> hupunguza hatua moja.',
+              label: 'Jina linalofikika. Chaguomsingi ni “Increase” au “Decrease”.',
+            },
+          },
+        },
+        keyboard: [
+          ['Mishale ya juu na chini', 'Huongeza au hupunguza thamani kwa hatua moja.'],
+          ['Page Up na Page Down', 'Husogeza thamani hatua kumi.'],
+          ['Home na End', 'Huenda kwenye thamani ya chini kabisa au ya juu kabisa.'],
+          ['Enter', 'Huthibitisha kilichoandikwa.'],
+        ],
+        notes: [
+          'Input ni <code>spinbutton</code> yenye <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>, na thamani iliyoumbizwa kama <code>aria-valuetext</code>.',
+          'Vitufe vya hatua haviko kwenye mpangilio wa Tab, kwa kuwa vitufe vya kibodi hufanya kazi hiyohiyo, lakini vina majina na vimeunganishwa na input kupitia <code>aria-controls</code>.',
+          'Ipe input lebo kwa <code>aria-label</code> au <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'Input ya OTP',
+        title: 'Input ya OTP na msimbo wa uthibitishaji kwa Angular',
+        summary: 'Misimbo ya uthibitishaji katika visanduku tofauti, juu ya input moja halisi.',
+        description:
+          'Input ya OTP ya Angular inayofikika, yenye sehemu moja asilia: kujaza kwa SMS, WebOTP, kusafisha kilichobandikwa, makundi, kuficha na kutikisika kwa kosa.',
+        apiDescription:
+          'Marejeleo ya API ya input ya OTP ya Needless UI: nuiOtp yenye length, pattern, makundi na kuficha herufi, na nuiOtpInput yenye WebOTP.',
+        a11yDescription:
+          'Kibodi na ufikivu wa input ya OTP ya Needless UI: sehemu moja ya maandishi yenye lebo, pete ya focus inayoonekana na kujaza kiotomatiki.',
+        overview: [
+          'Input ya OTP inaonekana kama safu ya visanduku, lakini chini yake kuna <code>&lt;input&gt;</code> moja asilia. Kujaza kiotomatiki kwa SMS (<code>autocomplete="one-time-code"</code>), kubandika, vidhibiti vya manenosiri, fomu na visoma skrini vyote huona sehemu ya kawaida ya maandishi.',
+          'Misimbo iliyobandikwa husafishwa, hivyo “123-456” na “123 456” zote hufanya kazi, na herufi ambazo pattern hairuhusu hukataliwa. Kwenye Android, <code>webOtp</code> hujaza msimbo kutoka kwenye SMS mara inapofika.',
+        ],
+        examples: {
+          verify: {
+            title: 'Uthibitishaji',
+            text: '<code>(completed)</code> hutokea kisanduku cha mwisho kinapojazwa. Weka <code>aria-invalid</code> kwenye input ili kukataa msimbo: visanduku hubadilika kuwa vyekundu na kutikisika.',
+          },
+          letters: {
+            title: 'Herufi, makundi na kuficha',
+            text: '<code>pattern="alphanumeric"</code> hupokea herufi pia, <code>[groups]</code> huongeza vitenganishi, na <code>masked</code> huchora vitone.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Huchora visanduku na kuizunguka input.',
+            members: {
+              length: 'Idadi ya herufi.',
+              pattern: '<code>digits</code>, au <code>alphanumeric</code> kwa herufi na tarakimu.',
+              groups:
+                'Ukubwa wa makundi, yakichorwa na kitenganishi kati yao, kama vile <code>[3, 3]</code>.',
+              masked: 'Huchora vitone badala ya herufi.',
+              completed: 'Hutoa msimbo kila mara kisanduku cha mwisho kinapojazwa.',
+            },
+          },
+          NuiOtpInput: {
+            summary:
+              'Input halisi. Hupewa attribute zinazohitajika na msimbo wa matumizi ya mara moja.',
+            members: {
+              webOtp:
+                'Hujaza msimbo kutoka kwenye SMS inayoingia kupitia API ya WebOTP, pale inapoauniwa.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tarakimu au herufi', 'Hujaza kisanduku cha sasa na kwenda kinachofuata.'],
+          ['Backspace', 'Hufuta herufi iliyo kabla ya kishale.'],
+          [
+            'Mishale ya kushoto na kulia',
+            'Husogea kisanduku kimoja; kisanduku kilichojazwa huchaguliwa, hivyo kuandika hukibadilisha.',
+          ],
+          ['Kubandika', 'Hujaza visanduku kutoka kwa msimbo ulionakiliwa.'],
+        ],
+        notes: [
+          'Visoma skrini hukutana na sehemu moja ya maandishi. Ipe lebo kwa <code>aria-label</code> au <code>&lt;label&gt;</code>.',
+          'Visanduku vimefichwa kwa teknolojia saidizi; kisanduku kinachohaririwa huonyesha pete ya focus.',
+          'Mwendo ukiwa umepunguzwa, kishale hakipepesi na visanduku haviruki wala kutikisika.',
+        ],
+      },
+
+      rating: {
+        name: 'Ukadiriaji',
+        title: 'Kijenzi cha ukadiriaji wa nyota kwa Angular',
+        summary: 'Nyota za kukadiria, juu ya vitufe halisi vya redio.',
+        description:
+          'Ukadiriaji wa nyota wa Angular unaofikika kwa vitufe asilia vya redio: kibodi, fomu, onyesho la awali kwa hover, kufuta, na onyesho la desimali la kusoma tu.',
+        apiDescription:
+          'Marejeleo ya API ya ukadiriaji wa Needless UI: nuiRating yenye value, max, hali za kusoma tu na kufutika, na lebo zinazotafsirika.',
+        a11yDescription:
+          'Matumizi ya kibodi na ufikivu wa ukadiriaji wa Needless UI: kundi la redio lenye jina, nyota zenye lebo na picha ya kusoma tu.',
+        overview: [
+          'Ukadiriaji ni kundi la vitufe asilia vya redio vilivyochorwa kama nyota. Vitufe vya mishale, fomu na visoma skrini hufanya kazi kama kwa kundi lolote la redio; CSS hujaza nyota na, chini ya kipanya, huonyesha mapema ukadiriaji mpya.',
+          'Katika hali ya kusoma tu, huonyesha thamani yenye desimali yoyote, kama wastani wa 4.3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Kukadiria kitu',
+            text: 'Unganisha <code>[(value)]</code> au fomu. Ukiweka <code>clearable</code>, kuchagua nyota ileile tena hufuta ukadiriaji.',
+          },
+          average: {
+            title: 'Kuonyesha wastani',
+            text: '<code>readonly</code> hujaza nyota hadi desimali yoyote na huipa picha jina “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: 'Kundi la redio la nyota, au picha ya kusoma tu ya ukadiriaji.',
+            members: {
+              value: 'Ukadiriaji, au <code>null</code>. Hufanya kazi pia na fomu.',
+              max: 'Idadi ya nyota.',
+              readonly: 'Huonyesha thamani, hata yenye desimali, badala ya kuiomba.',
+              disabled: 'Huzima kila nyota.',
+              clearable: 'Kuchagua nyota ya sasa tena hufuta ukadiriaji.',
+              name: 'Jina linalotumiwa na vitufe vyote vya redio. Huzalishwa kwa chaguomsingi.',
+              starLabel: 'Jina linalofikika la kila nyota, kama function ya thamani yake.',
+              readonlyLabel: 'Jina linalofikika katika hali ya kusoma tu.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Huingia kwenye kundi, kwenye nyota iliyoteuliwa.'],
+          ['Vitufe vya mishale', 'Hubadilisha ukadiriaji.'],
+          ['Space', 'Huteua nyota iliyo na focus.'],
+        ],
+        notes: [
+          'Kila nyota ni redio asilia yenye jina kama “3 stars”. Lipe kundi jina kwa <code>aria-label</code>.',
+          'Katika hali ya kusoma tu, ukadiriaji ni picha (<code>role="img"</code>) yenye jina “Rated 4.3 out of 5”.',
+          'Nyota huchorwa kwa CSS masks, hivyo hufuata forced colors.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Kijenzi cha skeleton loader kwa Angular',
+        summary: 'Vishika nafasi vinavyodumisha mpangilio wakati maudhui yanapakia.',
+        description:
+          'Skeleton loader za Angular kwa maandishi, duara na vitalu, zenye mng’ao mmoja unaopita ukurasa mzima, na bila mng’ao mwendo ukipunguzwa.',
+        apiDescription:
+          'Marejeleo ya API ya skeleton ya Needless UI: directive ya nuiSkeleton na maumbo yake ya text, circle na block.',
+        a11yDescription:
+          'Ufikivu wa skeleton ya Needless UI: vishika nafasi vilivyofichwa, maeneo ya aria-busy, mwendo uliopunguzwa na forced colors.',
+        overview: [
+          'Skeleton hudumisha umbo la maudhui ambayo bado yanapakia, hivyo ukurasa hauruki yanapofika. Weka ukubwa wake kwa CSS.',
+          'Mng’ao umefungwa kwenye viewport: mwangaza mmoja hupita juu ya kila skeleton kwenye ukurasa kwa wakati mmoja, bila kujali ukubwa au mahali ilipo.',
+        ],
+        examples: {
+          card: {
+            title: 'Kadi inapakia',
+            text: 'Mistari, duara na kitalu vinavyosimama badala ya wasifu. Kadi huwa <code>aria-busy</code> wakati inapakia.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Kishika nafasi, kilichofichwa kwa teknolojia saidizi.',
+            members: {
+              shape: '<code>text</code> (mstari), <code>circle</code> au <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeleton hufichwa kwa visoma skrini. Weka <code>aria-busy="true"</code> kwenye eneo linalopakia, na uiondoe maudhui yanapofika.',
+          'Hakuna mng’ao mtumiaji anapopendelea mwendo uliopunguzwa.',
+          'Katika hali ya forced colors, kila skeleton hupata mstari wa nje.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Arifa za toast kwa Angular',
+        summary:
+          'Jumbe fupi zinazorundikana, zinazoondolewa kwa kutelezesha na zisizowahi kunyakua focus.',
+        description:
+          'Toast za Angular zinazofikika: rundo kwenye top layer, toast za promise, kutendua, kutelezesha ili kuondoa, na vipima muda vinavyosimama kwa hover na focus.',
+        apiDescription:
+          'Marejeleo ya API ya toast za Needless UI: huduma ya NuiToaster, chaguo zake na toast za promise, na eneo la nui-toaster.',
+        a11yDescription:
+          'Matumizi ya kibodi na ufikivu wa toast za Needless UI: matangazo, kitufe cha mkato Alt+T, Escape na vipima muda vinavyosimama.',
+        overview: [
+          'Toast huthibitisha kilichotokea hivi punde, au hutoa kitendo kama kutendua (Undo), bila kukatiza. Weka <code>&lt;nui-toaster&gt;</code> moja kwenye ganda la programu, kisha uite <code>NuiToaster</code> kutoka popote.',
+          'Hujipanga nyuma ya ile mpya zaidi na hutandazika kwa hover au focus, kila mwendo ukitumia springi ya motion. Kutelezesha kando huitupa toast. Vipima muda husimama wakati rundo lina hover au focus, na wakati ukurasa uko chinichini.',
+        ],
+        examples: {
+          tones: {
+            title: 'Toni',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> na <code>danger()</code>. Toast za danger hukaa muda mrefu zaidi na hutangazwa kwa msisitizo (assertive).',
+          },
+          actions: {
+            title: 'Vitendo na promise',
+            text: '<code>action</code> huongeza kitufe kama Undo. <code>promise()</code> huonyesha spinner, kisha hubadilika kuwa matokeo.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Huduma inayoonyesha toast. Unaweza kuiingiza (inject) popote.',
+            members: {
+              toasts: 'Kila toast iliyo kwenye skrini, mpya zaidi kwanza.',
+              show: 'Huonyesha toast. Pitisha kichwa, au chaguo zenye maelezo, toni, muda, kitendo au id.',
+              success: 'Huonyesha toast ya mafanikio.',
+              warning: 'Huonyesha toast ya onyo.',
+              danger:
+                'Huonyesha toast ya danger. Hukaa sekunde 8 na hutangazwa kwa msisitizo (assertive).',
+              promise:
+                'Huonyesha toast ya kupakia hadi promise ikamilike, kisha ujumbe wake wa mafanikio au wa danger.',
+              dismiss: 'Huondoa toast moja, au zote.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Eneo ambamo toast huonekana. Liweke mara moja, kwenye ganda la programu.',
+            members: {
+              position:
+                'Pembe au ukingo wa viewport. Mwanzo na mwisho hufuata mwelekeo wa maandishi.',
+              expanded: 'Huacha rundo likiwa limetandazwa.',
+              label: 'Jina linalofikika la eneo. Eleza jinsi ya kulifikia.',
+              closeLabel: 'Jina linalofikika la vitufe vya kufunga.',
+              hotkey:
+                'Kitufe, kama <code>KeyboardEvent.code</code>, ambacho pamoja na Alt huhamishia focus kwenye toast mpya zaidi.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Huhamishia focus kwenye toast mpya zaidi.'],
+          ['Tab', 'Hupita kwenye toast, vitendo vyake na vitufe vya kufunga.'],
+          ['Escape', 'Huondoa toast iliyo na focus.'],
+        ],
+        notes: [
+          'Kila toast hutangazwa inapotokea: kwa upole (polite), au kwa msisitizo (assertive) kwa danger. Toast hazichukui focus kamwe.',
+          'Vipima muda husimama wakati rundo lina hover au focus na wakati ukurasa umefichwa, na muda wa toast zinazosubiri promise hauishi kamwe.',
+          'Chochote ambacho mtumiaji lazima akifanyie kazi kinapaswa kupatikana pia nje ya toast.',
+          'Mwendo ukiwa umepunguzwa, toast hazihuishwi wala kutelezeshwa, na mstari wa kipima muda hufichwa.',
         ],
       },
     },

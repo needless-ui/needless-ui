@@ -34,6 +34,7 @@ export const messages: Messages = {
       reduced:
         'Sistem panjenengan nyuwun obah sing luwih sithik, dadi gravitasi tetep mati. Begja.',
     },
+    toaster: { label: 'Notifikasi (Alt+T)', close: 'Tutup' },
   },
 
   home: {
@@ -385,6 +386,422 @@ export const messages: Messages = {
           'Item sing bisa dicenthang ngumumake statuse lumantar <code>aria-checked</code>.',
           'Milih item nutup menu lan mbalekake fokus menyang trigger. Mindhah fokus metu saka trigger lan menu uga nutup menu.',
           'Dhuwure item paling ora 28 piksel, ngluwihi ukuran target minimal WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Komponen avatar kanggo Angular',
+        summary: 'Gambar sawijining wong, utawa inisiale ing werna sing tansah dadi duweke.',
+        description:
+          'Avatar Angular kanthi inisial minangka gantine gambar, werna tetep kanggo saben jeneng, titik status lan klompok, kabeh gampang diwaca ing saben tema.',
+        apiDescription:
+          'Referensi API avatar Needless UI: nuiAvatar kanthi jeneng, gambar, ukuran, wangun lan status, uga nuiAvatarGroup.',
+        a11yDescription:
+          'Aksesibilitas avatar Needless UI: role lan jeneng gambar, avatar dekoratif, lan inisial sing njaga kontras 4,5:1.',
+        overview: [
+          'Komponen <code>nuiAvatar</code> nampilake gambar, utawa inisial wong kasebut yen ora ana gambar utawa gambare gagal dimuat. Inisial kasebut dumunung ing werna sing diitung saka jeneng, dadi wong sing padha tansah oleh werna sing padha ing ngendi wae.',
+          'Saben hue diwatesi padhange (lightness) lan kentele werna (chroma) supaya inisial putih tetep ngluwihi rasio kontras 4,5:1, apa wae jeneng lan temane.',
+        ],
+        examples: {
+          people: {
+            title: 'Inisial, gambar lan status',
+            text: 'Tanpa <code>src</code>, inisial lan werna dijupuk saka <code>name</code>. <code>status</code> nambahake titik kasedhiyan.',
+          },
+          group: {
+            title: 'Klompok, ukuran lan wangun',
+            text: '<code>nuiAvatarGroup</code> nata sabaris avatar supaya rada tumpang-tindih. <code>size</code> nampa <code>sm</code>, <code>md</code> utawa <code>lg</code>, lan <code>shape="square"</code> cocog kanggo tim lan aplikasi.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Gambar utawa inisial, kanthi jenenge wong kasebut.',
+            members: {
+              name: 'Jenenge wong. Jeneng aksesibel, inisial lan werna asale saka kene.',
+              src: 'URL gambar. Yen gagal dimuat, inisial sing ditampilake minangka gantine.',
+              size: 'Ukuran: <code>sm</code>, <code>md</code> utawa <code>lg</code>.',
+              shape: '<code>circle</code> utawa <code>square</code>.',
+              status:
+                'Titik kasedhiyan: <code>online</code>, <code>away</code>, <code>busy</code> utawa <code>offline</code>.',
+              label:
+                'Jeneng aksesibel sing nerangake luwih saka jeneng, kayata “Ada Lovelace, lagi online”.',
+              decorative:
+                'Ndhelikake avatar saka teknologi asistif, kanggo avatar sing ana ing sandhinge jeneng sing katon.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary:
+              'Baris avatar sing tumpang-tindih. Wenehana jeneng nganggo <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Avatar yaiku gambar (<code>role="img"</code>) kanthi jenenge wong kasebut. Yen ana ing sandhinge jeneng sing katon, setel <code>decorative</code> supaya pangguna screen reader ora krungu jeneng kaping pindho.',
+          'Titik status mung kanggo dideleng. Yen statuse penting, lebokna ing <code>label</code>.',
+          'Inisial tansah njaga rasio kontras paling ora 4,5:1 ing saben werna sing digawe.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Komponen breadcrumbs kanggo Angular',
+        summary: 'Jejak kaca-kaca sing tumuju menyang kaca saiki.',
+        description:
+          'Breadcrumbs Angular sing aksesibel ing nav lan dhaptar native, kanthi pamisah CSS sing kewalik ing teks tengen-menyang-kiwa lan jejak dawa sing bisa digulung.',
+        apiDescription:
+          'Referensi API breadcrumbs Needless UI: directive nuiBreadcrumbs lan label landmark-e.',
+        a11yDescription:
+          'Aksesibilitas breadcrumbs Needless UI: landmark navigasi, semantik dhaptar, kaca saiki lan ukuran target.',
+        overview: [
+          'Breadcrumbs nuduhake ing ngendi sawijining kaca dumunung ing situs. Directive <code>nuiBreadcrumbs</code> menehi gaya marang <code>&lt;nav&gt;</code> native lan dhaptare; item pungkasan yaiku kaca saiki, sing ditandhani <code>aria-current="page"</code>.',
+          'Jejak sing luwih dawa tinimbang wadhahe bakal digulung mangiwa-manengen tinimbang pindhah baris. Jejak kasebut wiwit ing posisi kagulung nganti pungkasan, lan pinggire dadi samar ing sisih sing isih ana isine.',
+        ],
+        examples: {
+          trail: {
+            title: 'Jejak kaca',
+            text: 'Pranala kanggo kaca-kaca ing ndhuwur, banjur kaca saiki minangka teks biasa kanthi <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Jejak sing dawa',
+            text: 'Ing wadhah sing ciyut, jejak bisa digulung, lan wiwitane kaca saiki wis katon.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Menehi gaya breadcrumbs marang <code>&lt;nav&gt;</code> lan dhaptare.',
+            members: { label: 'Jeneng aksesibel kanggo landmark navigasi.' },
+          },
+        },
+        keyboard: [['Tab', 'Pindhah menyang pranala sabanjure ing jejak.']],
+        notes: [
+          'Iki landmark navigasi kanthi dhaptar biasa, dadi screen reader ngumumake pira cacahe kaca ing jejak.',
+          'Pamisah digambar nganggo CSS, dadi ora diwaca banter, lan kewalik ing teks tengen-menyang-kiwa.',
+          'Saben pranala dhuwure paling ora 24px.',
+        ],
+      },
+
+      empty: {
+        name: 'Kahanan kosong',
+        title: 'Komponen kahanan kosong kanggo Angular',
+        summary:
+          'Apa sing ditampilake nalika ora ana sing bisa ditampilake, lan apa sing kudu ditindakake.',
+        description:
+          'Kahanan kosong Angular kanthi gambar, judhul, katrangan cekak lan tumindak, uga papat ilustrasi bawaan sing ngambang alon-alon.',
+        apiDescription:
+          'Referensi API kahanan kosong Needless UI: nuiEmpty lan bagean media, judhul, katrangan lan tumindake.',
+        a11yDescription:
+          'Aksesibilitas kahanan kosong Needless UI: gambar dekoratif, heading sing duwe teges lan obah sing luwih sithik.',
+        overview: [
+          'Kahanan kosong ngganteni dhaptar, tabel utawa kaca sing durung ana isine. Iki nerangake sebabe, lan menehi langkah sabanjure.',
+          'Bagean media nampa gambar panjenengan dhewe, utawa nggambar salah siji gambar bawaan: <code>search</code>, <code>inbox</code>, <code>files</code> utawa <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Ora ana asil',
+            text: 'Judhul sing nerangake apa sing kedadeyan, siji baris pitulung, lan tumindak kanggo dalan metu.',
+          },
+          pictures: {
+            title: 'Gambar bawaan',
+            text: 'Setel <code>illustration</code> ing <code>nuiEmptyMedia</code>. Gambar-gambare ngetutake tema lan ngambang, kajaba yen obah dikurangi.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Wadhah: siji kolom ing tengah.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Gambar, didhelikake saka teknologi asistif.',
+            members: {
+              illustration:
+                'Gambar bawaan: <code>search</code>, <code>inbox</code>, <code>files</code> utawa <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Judhul. Agem level heading sing cocog karo kaca.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Siji baris katrangan.', members: {} },
+          NuiEmptyActions: { summary: 'Baris tombol.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Gambare mung dekoratif (<code>aria-hidden</code>): judhul lan katrangan sing nggawa pesen.',
+          'Agem heading kanggo judhul, kanthi level sing cocog karo struktur kaca.',
+          'Gambar bawaan mandheg ngambang yen pangguna milih obah sing luwih sithik.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Kolom angka',
+        title: 'Komponen kolom angka kanggo Angular',
+        summary: 'Input angka kanthi tombol langkah, diformat miturut saben locale.',
+        description:
+          'Kolom angka Angular sing aksesibel: spinbutton kanthi tombol langkah, langkah lumantar keyboard, min, max, lan format locale kanggo mata uang, persen lan unit.',
+        apiDescription:
+          'Referensi API kolom angka Needless UI: nuiNumberField, nuiNumberInput kanthi min, max, step lan format, uga nuiNumberStep.',
+        a11yDescription:
+          'Interaksi keyboard lan aksesibilitas kolom angka Needless UI: role spinbutton, tombol panah lan Page, lan tombol langkah.',
+        overview: [
+          'Kolom angka yaiku input teks sing isine angka. Kolom iki nampilake angka sing wis diformat miturut locale, maca maneh teks sing diketik nganggo format sing padha, lan nalika ilang fokus (blur) nyetel nilaine supaya pas karo <code>step</code> ing antarane <code>min</code> lan <code>max</code>.',
+          'Kolom iki uga bisa maca angka lan pamisah native: angka Arab-India, Persia lan Dewanagari, spasi lan titik minangka pamisah ewonan, lan saben tandha minus. Yen tombol langkah dipencet lan ditahan, bakal mbaleni terus, saya suwe saya cepet.',
+        ],
+        examples: {
+          guests: {
+            title: 'Tombol langkah',
+            text: 'Tombol ing saben sisih, sing mati nalika tekan <code>min</code> lan <code>max</code>. Tombol panah uga bisa ngowahi nilai.',
+          },
+          formats: {
+            title: 'Mata uang lan persen',
+            text: 'Wenehna pilihan <code>Intl.NumberFormat</code> menyang <code>format</code> lan sawijining <code>locale</code>. Nilaine tetep angka biasa.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Nglumpukake input karo tombol langkahe.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Input teks sing isine angka, minangka spinbutton ARIA.',
+            members: {
+              value: 'Angkane, utawa <code>null</code> yen kosong. Uga bisa karo formulir.',
+              min: 'Nilai paling cilik sing diidini.',
+              max: 'Nilai paling gedhe sing diidini.',
+              step: 'Sepira akehe owah-owahan nilai saben langkah. Nalika ilang fokus, nilaine dipasake karo langkah iki.',
+              format:
+                "Pilihan <code>Intl.NumberFormat</code>, kayata <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Locale kanggo ngformat lan maca angka.',
+              disabled: 'Mateni input lan tombol-tombole.',
+              stepBy: 'Munggahake (positif) utawa mudhunake (negatif) nilai sacacahe langkah.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Tombol langkah. Yen ditahan, bakal mbaleni.',
+            members: {
+              nuiNumberStep:
+                '<code>1</code> munggahake salangkah lan <code>-1</code> mudhunake salangkah.',
+              label: 'Jeneng aksesibel. Gawane “Increase” utawa “Decrease”.',
+            },
+          },
+        },
+        keyboard: [
+          ['Panah munggah lan mudhun', 'Munggahake utawa mudhunake nilai salangkah.'],
+          ['Page Up lan Page Down', 'Ngowahi nilai sepuluh langkah.'],
+          ['Home lan End', 'Pindhah menyang nilai minimal utawa maksimal.'],
+          ['Enter', 'Netepake apa sing wis diketik.'],
+        ],
+        notes: [
+          'Input iki yaiku <code>spinbutton</code> kanthi <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>, lan nilai sing wis diformat minangka <code>aria-valuetext</code>.',
+          'Tombol langkah ora mlebu urutan tab, amarga tombol keyboard wis nindakake pakaryan sing padha, nanging tombol-tombol iki duwe jeneng lan disambungake menyang input lumantar <code>aria-controls</code>.',
+          'Wenehana label marang input nganggo <code>aria-label</code> utawa <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'Input OTP',
+        title: 'Input OTP lan kode verifikasi kanggo Angular',
+        summary: 'Kode verifikasi ing slot-slot kapisah, ing siji input sing asli.',
+        description:
+          'Input OTP Angular sing aksesibel: siji kolom native ing sangisore slot, isi otomatis SMS, WebOTP, ngresiki tempelan, klompok, masking lan goyang nalika salah.',
+        apiDescription:
+          'Referensi API input OTP Needless UI: nuiOtp kanthi length, pattern, klompok lan masking, uga nuiOtpInput kanthi WebOTP.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas input OTP Needless UI: siji kolom teks sing duwe label, cincin fokus sing katon lan isi otomatis.',
+        overview: [
+          'Input OTP katon kaya baris slot, nanging ing sangisore mung ana siji <code>&lt;input&gt;</code> native. Isi otomatis SMS (<code>autocomplete="one-time-code"</code>), tempel, password manager, formulir lan screen reader kabeh ndeleng kolom teks biasa.',
+          'Kode sing ditempel diresiki, dadi “123-456” lan “123 456” padha bisa, lan karakter sing ora diidini pattern ditolak. Ing Android, <code>webOtp</code> ngisi kode saka SMS nalika SMS-e teka.',
+        ],
+        examples: {
+          verify: {
+            title: 'Verifikasi',
+            text: '<code>(completed)</code> kepicu nalika slot pungkasan wis kebak. Setel <code>aria-invalid</code> ing input kanggo nolak kode: slot-slote dadi abang lan goyang.',
+          },
+          letters: {
+            title: 'Aksara, klompok lan masking',
+            text: '<code>pattern="alphanumeric"</code> uga nampa aksara, <code>[groups]</code> nambahake pamisah, lan <code>masked</code> nggambar titik.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Nggambar slot lan mbungkus input.',
+            members: {
+              length: 'Cacahe karakter.',
+              pattern:
+                '<code>digits</code>, utawa <code>alphanumeric</code> kanggo aksara lan angka.',
+              groups:
+                'Ukuran klompok, kanthi pamisah sing digambar ing antarane, kayata <code>[3, 3]</code>.',
+              masked: 'Nggambar titik tinimbang karakter.',
+              completed: 'Ngetokake kode saben slot pungkasan kebak.',
+            },
+          },
+          NuiOtpInput: {
+            summary: 'Input sing asli. Oleh attribute sing dibutuhake kode sepisan pakai.',
+            members: {
+              webOtp: 'Ngisi kode saka SMS sing mlebu lumantar API WebOTP, yen didhukung.',
+            },
+          },
+        },
+        keyboard: [
+          ['Angka utawa aksara', 'Ngisi slot saiki lan pindhah menyang sabanjure.'],
+          ['Backspace', 'Mbusak karakter sadurunge kursor.'],
+          [
+            'Panah kiwa lan tengen',
+            'Pindhah siji slot; slot sing wis kebak dipilih, dadi ngetik bakal ngganti isine.',
+          ],
+          ['Tempel', 'Ngisi slot saka kode sing wis disalin.'],
+        ],
+        notes: [
+          'Screen reader mung nemoni siji kolom teks. Wenehana label nganggo <code>aria-label</code> utawa <code>&lt;label&gt;</code>.',
+          'Slot didhelikake saka teknologi asistif; slot sing lagi disunting nuduhake cincin fokus.',
+          'Yen obah dikurangi, kursor ora kedhip lan slot ora mlumpat utawa goyang.',
+        ],
+      },
+
+      rating: {
+        name: 'Rating',
+        title: 'Komponen rating lintang kanggo Angular',
+        summary: 'Lintang kanggo menehi rating, ing tombol radio sing asli.',
+        description:
+          'Rating lintang Angular sing aksesibel ing tombol radio native: keyboard lan formulir, pratinjau hover, mbusak rating, lan tampilan mung-waca kanthi pecahan.',
+        apiDescription:
+          'Referensi API rating Needless UI: nuiRating kanthi value, max, mode mung-waca lan bisa dibusak, uga label sing bisa diterjemahake.',
+        a11yDescription:
+          'Interaksi keyboard lan aksesibilitas rating Needless UI: klompok radio sing duwe jeneng, lintang sing duwe label lan gambar mung-waca.',
+        overview: [
+          'Rating yaiku klompok tombol radio native sing digambar dadi lintang. Tombol panah, formulir lan screen reader lakune padha kaya ing klompok radio liyane; CSS ngisi lintang lan nuduhake pratinjau rating anyar ing sangisore pointer.',
+          'Ing mode mung-waca, rating bisa nuduhake pecahan apa wae, kayata rata-rata 4,3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Menehi rating',
+            text: 'Bind <code>[(value)]</code> utawa formulir. Kanthi <code>clearable</code>, milih lintang sing padha maneh bakal mbusak rating.',
+          },
+          average: {
+            title: 'Nuduhake rata-rata',
+            text: '<code>readonly</code> ngisi lintang nganti pecahan apa wae lan menehi jeneng gambar “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: 'Klompok radio lintang, utawa gambar rating sing mung-waca.',
+            members: {
+              value: 'Rating, utawa <code>null</code>. Uga bisa karo formulir.',
+              max: 'Cacahe lintang.',
+              readonly: 'Nuduhake nilai, nganti pecahan apa wae, tinimbang nyuwun rating.',
+              disabled: 'Mateni kabeh lintang.',
+              clearable: 'Milih lintang saiki maneh bakal mbusak rating.',
+              name: 'Jeneng sing dienggo bareng dening tombol radio. Gawane digawe otomatis.',
+              starLabel: 'Jeneng aksesibel saben lintang, minangka fungsi saka nilaine.',
+              readonlyLabel: 'Jeneng aksesibel ing mode mung-waca.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Mlebu menyang klompok, ing lintang sing dicenthang.'],
+          ['Tombol panah', 'Ngowahi rating.'],
+          ['Spasi', 'Nyenthang lintang sing lagi difokus.'],
+        ],
+        notes: [
+          'Saben lintang yaiku radio native kanthi jeneng kayata “3 stars”. Wenehana jeneng klompok nganggo <code>aria-label</code>.',
+          'Ing mode mung-waca, rating yaiku gambar (<code>role="img"</code>) kanthi jeneng “Rated 4.3 out of 5”.',
+          'Lintang digambar nganggo CSS mask, dadi ngetutake forced colors.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Komponen skeleton loader kanggo Angular',
+        summary: 'Placeholder sing njaga tata letak nalika isi lagi dimuat.',
+        description:
+          'Skeleton loader Angular kanggo teks, bunderan lan blok, kanthi siji sorot cahya sing nyapu sakabehe kaca, lan tanpa sorot yen obah dikurangi.',
+        apiDescription:
+          'Referensi API skeleton Needless UI: directive nuiSkeleton lan wangun text, circle lan block.',
+        a11yDescription:
+          'Aksesibilitas skeleton Needless UI: placeholder sing didhelikake, wilayah aria-busy, obah sing luwih sithik lan forced colors.',
+        overview: [
+          'Skeleton njaga wangun isi sing isih dimuat, dadi kaca ora mlumpat nalika isine teka. Atur ukurane nganggo CSS.',
+          'Sorot cahyane dipasang ing viewport: siji sorotan nyapu kabeh skeleton ing kaca bebarengan, apa wae ukuran lan posisine.',
+        ],
+        examples: {
+          card: {
+            title: 'Kertu lagi dimuat',
+            text: 'Garis, bunderan lan blok minangka gantine profil. Kertu kasebut <code>aria-busy</code> sajrone dimuat.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Placeholder, didhelikake saka teknologi asistif.',
+            members: {
+              shape: '<code>text</code> (garis), <code>circle</code> utawa <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeleton didhelikake saka screen reader. Setel <code>aria-busy="true"</code> ing wilayah sing lagi dimuat, lan busak yen isine wis teka.',
+          'Ora ana sorot cahya yen pangguna milih obah sing luwih sithik.',
+          'Ing mode forced colors, saben skeleton oleh outline.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Notifikasi toast kanggo Angular',
+        summary: 'Pesen cekak sing numpuk, bisa digeser ilang lan ora tau ngrebut fokus.',
+        description:
+          'Toast Angular sing aksesibel: tumpukan ing top layer, toast promise, tumindak Undo, geser kanggo ngilangi, lan timer sing mandheg nalika hover lan fokus.',
+        apiDescription:
+          'Referensi API toast Needless UI: layanan NuiToaster, pilihan-pilihane lan toast promise, uga wilayah nui-toaster.',
+        a11yDescription:
+          'Interaksi keyboard lan aksesibilitas toast Needless UI: pengumuman, hotkey Alt+T, Escape lan timer sing mandheg.',
+        overview: [
+          'Toast ngonfirmasi apa sing lagi wae kedadeyan, utawa menehi tumindak kayata Undo, tanpa ngganggu. Pasang siji <code>&lt;nui-toaster&gt;</code> ing app shell, banjur celuk <code>NuiToaster</code> saka ngendi wae.',
+          'Toast-toast numpuk ing mburine sing paling anyar lan mekar kaya kipas nalika hover utawa fokus, kabeh nganggo pegas motion. Geseran mangiwa utawa manengen mbuwang siji toast. Timer mandheg nalika tumpukan lagi di-hover utawa difokus, lan nalika kaca ana ing latar mburi.',
+        ],
+        examples: {
+          tones: {
+            title: 'Tone',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> lan <code>danger()</code>. Toast danger tetep luwih suwe lan langsung diumumake (assertive).',
+          },
+          actions: {
+            title: 'Tumindak lan promise',
+            text: '<code>action</code> nambahake tombol kayata Undo. <code>promise()</code> nampilake spinner, banjur malih dadi asile.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Layanan sing nampilake toast. Inject ing ngendi wae.',
+            members: {
+              toasts: 'Kabeh toast ing layar, sing paling anyar dhisik.',
+              show: 'Nampilake toast. Wenehna judhul, utawa pilihan kanthi katrangan, tone, durasi, tumindak utawa id.',
+              success: 'Nampilake toast sukses.',
+              warning: 'Nampilake toast pepenget.',
+              danger: 'Nampilake toast danger. Tetep 8 detik lan langsung diumumake (assertive).',
+              promise:
+                'Nampilake toast loading nganti promise rampung, banjur pesen sukses utawa danger-e.',
+              dismiss: 'Ngilangi siji toast, utawa kabeh.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Wilayah panggonane toast katon. Pasang sepisan wae, ing app shell.',
+            members: {
+              position: 'Pojok utawa pinggir viewport. Wiwitan lan pungkasan ngetutake arah teks.',
+              expanded: 'Njaga tumpukan tetep mekar.',
+              label: 'Jeneng aksesibel wilayah. Terangna carane tekan mrana.',
+              closeLabel: 'Jeneng aksesibel tombol tutup.',
+              hotkey:
+                'Tombol, minangka <code>KeyboardEvent.code</code>, sing bareng karo Alt mindhah fokus menyang toast paling anyar.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Mindhah fokus menyang toast paling anyar.'],
+          ['Tab', 'Pindhah ing antarane toast, tumindake lan tombol tutupe.'],
+          ['Escape', 'Ngilangi toast sing lagi difokus.'],
+        ],
+        notes: [
+          'Saben toast diumumake nalika katon: kanthi sopan (polite), utawa langsung (assertive) kanggo danger. Toast ora tau njupuk fokus.',
+          'Timer mandheg nalika tumpukan lagi di-hover utawa difokus lan nalika kaca didhelikake, lan toast sing ngenteni promise ora tau entek wektune.',
+          'Apa wae sing kudu ditindakake pangguna uga kudu ana ing njaba toast.',
+          'Yen obah dikurangi, toast ora dianimasi utawa digeser, lan garis timer didhelikake.',
         ],
       },
     },

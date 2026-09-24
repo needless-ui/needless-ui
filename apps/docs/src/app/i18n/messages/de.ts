@@ -35,6 +35,7 @@ export const messages: Messages = {
       reduced:
         'Dein System wünscht weniger Bewegung, also bleibt die Schwerkraft aus. Glück gehabt.',
     },
+    toaster: { label: 'Benachrichtigungen (Alt + T)', close: 'Schließen' },
   },
 
   home: {
@@ -132,8 +133,9 @@ export const messages: Messages = {
       notes: 'Hinweise zur Barrierefreiheit',
     },
     titles: {
-      api: (name) => `API der ${name}-Komponente`,
-      accessibility: (name) => `Barrierefreiheit der ${name}-Komponente`,
+      // Apposition instead of a compound: "Bewertung-Komponente" would need a linking s.
+      api: (name) => `API der Komponente ${name}`,
+      accessibility: (name) => `Barrierefreiheit der Komponente ${name}`,
     },
     items: {
       button: {
@@ -399,6 +401,427 @@ export const messages: Messages = {
           'Checkbox- und Radio-Einträge melden ihren Zustand über <code>aria-checked</code>.',
           'Die Wahl eines Eintrags schließt das Menü und setzt den Fokus zurück auf den Trigger. Verlässt der Fokus Trigger und Menü, schließt es sich ebenfalls.',
           'Einträge sind mindestens 28 Pixel hoch und liegen damit über der Mindestzielgröße der WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Avatar-Komponente für Angular',
+        summary: 'Das Bild einer Person oder ihre Initialen auf einer Farbe, die immer ihr gehört.',
+        description:
+          'Angular-Avatar mit Initialen, wenn ein Bild fehlt, einer festen Farbe pro Name, Statuspunkten und Gruppen, in jedem Theme gut lesbar.',
+        apiDescription:
+          'API-Referenz des Avatars von Needless UI: nuiAvatar mit Name, Bild, Größe, Form und Status sowie nuiAvatarGroup.',
+        a11yDescription:
+          'Barrierefreiheit des Avatars von Needless UI: Bildrolle und Name, dekorative Avatare und Initialen mit einem Kontrast von 4,5:1.',
+        overview: [
+          'Die Komponente <code>nuiAvatar</code> zeigt ein Bild oder die Initialen der Person, wenn es keins gibt oder es nicht lädt. Die Initialen stehen auf einer Farbe, die aus dem Namen berechnet wird, sodass dieselbe Person überall dieselbe Farbe behält.',
+          'Jeder Farbton ist auf eine Helligkeit und Buntheit begrenzt, bei der weiße Initialen ein Kontrastverhältnis von über 4,5:1 behalten, unabhängig von Name und Theme.',
+        ],
+        examples: {
+          people: {
+            title: 'Initialen, Bilder und Status',
+            text: 'Ohne <code>src</code> ergeben sich Initialen und Farbe aus <code>name</code>. <code>status</code> ergänzt einen Punkt für den Anwesenheitsstatus.',
+          },
+          group: {
+            title: 'Gruppen, Größen und Formen',
+            text: '<code>nuiAvatarGroup</code> lässt eine Reihe von Avataren überlappen. <code>size</code> akzeptiert <code>sm</code>, <code>md</code> oder <code>lg</code>, und <code>shape="square"</code> passt zu Teams und Apps.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Ein Bild oder Initialen, benannt nach der Person.',
+            members: {
+              name: 'Der Name der Person. Daraus ergeben sich der zugängliche Name, die Initialen und die Farbe.',
+              src: 'URL des Bildes. Lädt es nicht, erscheinen stattdessen die Initialen.',
+              size: 'Größe: <code>sm</code>, <code>md</code> oder <code>lg</code>.',
+              shape: '<code>circle</code> oder <code>square</code>.',
+              status:
+                'Ein Punkt für den Anwesenheitsstatus: <code>online</code>, <code>away</code>, <code>busy</code> oder <code>offline</code>.',
+              label:
+                'Ein zugänglicher Name, der mehr sagt als der Name allein, etwa „Ada Lovelace, online“.',
+              decorative:
+                'Verbirgt den Avatar vor assistiven Technologien, für Avatare neben dem sichtbaren Namen.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: 'Eine Reihe überlappender Avatare. Benenne sie mit <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Ein Avatar ist ein Bild (<code>role="img"</code>), benannt nach der Person. Steht er neben ihrem sichtbaren Namen, setze <code>decorative</code>, damit Screenreader den Namen nicht doppelt ansagen.',
+          'Der Statuspunkt ist rein visuell. Wenn der Status wichtig ist, nimm ihn in <code>label</code> auf.',
+          'Initialen behalten auf jeder generierten Farbe ein Kontrastverhältnis von mindestens 4,5:1.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Breadcrumbs-Komponente für Angular',
+        summary: 'Der Pfad aus Seiten, der zur aktuellen Seite führt.',
+        description:
+          'Barrierefreie Angular-Breadcrumbs auf nativem nav und nativer Liste: CSS-Trenner, die sich bei Rechts-nach-links-Text spiegeln, und scrollende lange Pfade.',
+        apiDescription:
+          'API-Referenz der Breadcrumbs von Needless UI: die Direktive nuiBreadcrumbs und der Name ihrer Navigations-Landmark.',
+        a11yDescription:
+          'Barrierefreiheit der Breadcrumbs von Needless UI: Navigations-Landmark, Listensemantik, die aktuelle Seite und Zielgrößen.',
+        overview: [
+          'Breadcrumbs zeigen, wo eine Seite innerhalb der Website liegt. Die Direktive <code>nuiBreadcrumbs</code> gestaltet ein natives <code>&lt;nav&gt;</code> und seine Liste; der letzte Eintrag ist die aktuelle Seite, markiert mit <code>aria-current="page"</code>.',
+          'Ein Pfad, der länger als sein Container ist, scrollt seitlich, statt umzubrechen. Er ist anfangs ans Ende gescrollt, und die Ränder blenden aus, wo es noch mehr zu sehen gibt.',
+        ],
+        examples: {
+          trail: {
+            title: 'Ein Pfad',
+            text: 'Links zu den übergeordneten Seiten, dann die aktuelle Seite als reiner Text mit <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Lange Pfade',
+            text: 'In einem schmalen Container scrollt der Pfad, und die aktuelle Seite ist von Anfang an sichtbar.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Gestaltet ein <code>&lt;nav&gt;</code> und seine Liste als Breadcrumbs.',
+            members: { label: 'Zugänglicher Name der Navigations-Landmark.' },
+          },
+        },
+        keyboard: [['Tab', 'Springt zum nächsten Link im Pfad.']],
+        notes: [
+          'Die Breadcrumbs sind eine Navigations-Landmark mit einer einfachen Liste, sodass Screenreader ansagen, wie viele Seiten der Pfad hat.',
+          'Die Trenner werden mit CSS gezeichnet, deshalb werden sie nicht vorgelesen, und bei Rechts-nach-links-Text spiegeln sie sich.',
+          'Jeder Link ist mindestens 24 px hoch.',
+        ],
+      },
+
+      empty: {
+        name: 'Empty State',
+        title: 'Empty-State-Komponente für Angular',
+        summary: 'Was du zeigst, wenn es nichts zu zeigen gibt, und wie es weitergeht.',
+        description:
+          'Angular-Empty-State mit Bild, Titel, kurzer Erklärung und Aktionen, dazu vier eingebaute Illustrationen, die sanft schweben.',
+        apiDescription:
+          'API-Referenz des Empty State von Needless UI: nuiEmpty und seine Teile für Bild, Titel, Beschreibung und Aktionen.',
+        a11yDescription:
+          'Barrierefreiheit des Empty State von Needless UI: dekorative Bilder, aussagekräftige Überschriften und reduzierte Bewegung.',
+        overview: [
+          'Ein Empty State ersetzt eine Liste, Tabelle oder Seite, die noch nichts enthält. Er erklärt, warum, und bietet den nächsten Schritt an.',
+          'Der Bildteil nimmt dein eigenes Bild auf oder zeichnet ein eingebautes: <code>search</code>, <code>inbox</code>, <code>files</code> oder <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Keine Ergebnisse',
+            text: 'Ein Titel, der sagt, was passiert ist, eine Zeile Hilfe und Aktionen als Ausweg.',
+          },
+          pictures: {
+            title: 'Eingebaute Bilder',
+            text: 'Setze <code>illustration</code> auf <code>nuiEmptyMedia</code>. Die Bilder folgen dem Theme und schweben, sofern Bewegung nicht reduziert ist.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Der Container: eine zentrierte Spalte.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Das Bild, verborgen vor assistiven Technologien.',
+            members: {
+              illustration:
+                'Ein eingebautes Bild: <code>search</code>, <code>inbox</code>, <code>files</code> oder <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Der Titel. Verwende die Überschriftenebene, die zur Seite passt.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Eine Zeile Erklärung.', members: {} },
+          NuiEmptyActions: { summary: 'Eine Reihe von Buttons.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Das Bild ist dekorativ (<code>aria-hidden</code>): Titel und Beschreibung transportieren die Botschaft.',
+          'Verwende für den Titel eine Überschrift, auf der Ebene, die zur Gliederung der Seite passt.',
+          'Die eingebauten Bilder schweben nicht mehr, wenn reduzierte Bewegung bevorzugt wird.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Zahlenfeld',
+        title: 'Zahlenfeld-Komponente für Angular',
+        summary: 'Eine Zahleneingabe mit Schritt-Buttons, passend formatiert für jede Locale.',
+        description:
+          'Barrierefreies Angular-Zahlenfeld: ein Spinbutton mit Schritt-Buttons, Tastatursteuerung, min und max sowie Locale-Formaten für Währung, Prozent und Einheiten.',
+        apiDescription:
+          'API-Referenz des Zahlenfelds von Needless UI: nuiNumberField, nuiNumberInput mit min, max, step und format sowie nuiNumberStep.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit des Zahlenfelds von Needless UI: Rolle spinbutton, Pfeil- und Bildtasten sowie Schritt-Buttons.',
+        overview: [
+          'Das Zahlenfeld ist ein Texteingabefeld, das eine Zahl enthält. Es zeigt die Zahl im Format der Locale an, liest eingegebenen Text im selben Format wieder ein und lässt sie beim Verlassen des Felds auf <code>step</code> einrasten, zwischen <code>min</code> und <code>max</code>.',
+          'Es versteht auch native Ziffern und Trennzeichen: arabisch-indische, persische und Devanagari-Ziffern, Leerzeichen und Punkte als Tausendertrennzeichen und jede Art von Minuszeichen. Hältst du einen Schritt-Button gedrückt, wiederholt er sich immer schneller.',
+        ],
+        examples: {
+          guests: {
+            title: 'Schritt-Buttons',
+            text: 'Buttons auf beiden Seiten, die bei <code>min</code> und <code>max</code> deaktiviert werden. Auch die Pfeiltasten ändern den Wert schrittweise.',
+          },
+          formats: {
+            title: 'Währung und Prozent',
+            text: 'Übergib an <code>format</code> Optionen von <code>Intl.NumberFormat</code> und dazu eine <code>locale</code>. Der Wert bleibt eine einfache Zahl.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Gruppiert das Eingabefeld mit seinen Schritt-Buttons.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Ein Texteingabefeld, das eine Zahl enthält, als ARIA-Spinbutton.',
+            members: {
+              value:
+                'Die Zahl oder <code>null</code>, wenn das Feld leer ist. Funktioniert auch mit Formularen.',
+              min: 'Kleinster erlaubter Wert.',
+              max: 'Größter erlaubter Wert.',
+              step: 'Um wie viel ein Schritt den Wert ändert. Beim Verlassen des Felds rastet der Wert darauf ein.',
+              format:
+                "Optionen für <code>Intl.NumberFormat</code>, etwa <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Locale zum Formatieren und Einlesen von Zahlen.',
+              disabled: 'Deaktiviert das Eingabefeld und seine Buttons.',
+              stepBy: 'Geht eine Anzahl von Schritten nach oben (positiv) oder unten (negativ).',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Ein Schritt-Button. Gedrückt gehalten, wiederholt er sich.',
+            members: {
+              nuiNumberStep:
+                '<code>1</code> geht einen Schritt nach oben, <code>-1</code> einen nach unten.',
+              label: 'Zugänglicher Name. Standardmäßig „Increase“ oder „Decrease“.',
+            },
+          },
+        },
+        keyboard: [
+          ['Pfeil nach oben und unten', 'Erhöht oder verringert den Wert um einen Schritt.'],
+          ['Bild auf und Bild ab', 'Geht zehn Schritte auf einmal.'],
+          ['Pos1 und Ende', 'Springt zum Minimum oder Maximum.'],
+          ['Enter', 'Übernimmt die Eingabe.'],
+        ],
+        notes: [
+          'Das Eingabefeld ist ein <code>spinbutton</code> mit <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code> und dem formatierten Wert als <code>aria-valuetext</code>.',
+          'Die Schritt-Buttons liegen außerhalb der Tab-Reihenfolge, weil die Tasten dasselbe erledigen, sind aber benannt und über <code>aria-controls</code> mit dem Eingabefeld verknüpft.',
+          'Beschrifte das Eingabefeld mit <code>aria-label</code> oder einem <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'OTP-Eingabe',
+        title: 'OTP- und Bestätigungscode-Eingabe für Angular',
+        summary: 'Bestätigungscodes in einzelnen Slots, auf einem einzigen echten Eingabefeld.',
+        description:
+          'Barrierefreie OTP-Eingabe für Angular: natives Feld unter den Slots, SMS-Autofill, WebOTP, bereinigtes Einfügen, Gruppen, Maskierung und Wackeln bei Fehlern.',
+        apiDescription:
+          'API-Referenz der OTP-Eingabe von Needless UI: nuiOtp mit Länge, Muster, Gruppen und Maskierung sowie nuiOtpInput mit WebOTP.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit der OTP-Eingabe von Needless UI: ein beschriftetes Textfeld, ein sichtbarer Fokusring und Autofill.',
+        overview: [
+          'Die OTP-Eingabe sieht aus wie eine Reihe von Slots, darunter liegt aber ein einziges natives <code>&lt;input&gt;</code>. SMS-Autofill (<code>autocomplete="one-time-code"</code>), Einfügen, Passwortmanager, Formulare und Screenreader sehen alle ein gewöhnliches Textfeld.',
+          'Eingefügte Codes werden bereinigt, sodass „123-456“ und „123 456“ beide funktionieren, und Zeichen, die das Muster nicht erlaubt, werden abgelehnt. Unter Android füllt <code>webOtp</code> den Code aus der SMS aus, sobald sie ankommt.',
+        ],
+        examples: {
+          verify: {
+            title: 'Verifizierung',
+            text: '<code>(completed)</code> wird ausgelöst, sobald der letzte Slot gefüllt ist. Setze <code>aria-invalid</code> auf das Eingabefeld, um einen Code abzulehnen: Die Slots werden rot und wackeln.',
+          },
+          letters: {
+            title: 'Buchstaben, Gruppen und Maskierung',
+            text: '<code>pattern="alphanumeric"</code> akzeptiert auch Buchstaben, <code>[groups]</code> fügt Trenner ein und <code>masked</code> zeichnet Punkte.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Zeichnet die Slots und umschließt das Eingabefeld.',
+            members: {
+              length: 'Anzahl der Zeichen.',
+              pattern:
+                '<code>digits</code> oder <code>alphanumeric</code> für Buchstaben und Ziffern.',
+              groups:
+                'Gruppengrößen, jeweils durch einen Trenner abgesetzt, etwa <code>[3, 3]</code>.',
+              masked: 'Zeichnet Punkte statt der Zeichen.',
+              completed: 'Emittiert den Code jedes Mal, wenn der letzte Slot gefüllt wird.',
+            },
+          },
+          NuiOtpInput: {
+            summary: 'Das echte Eingabefeld. Es erhält die Attribute, die ein Einmalcode braucht.',
+            members: {
+              webOtp:
+                'Füllt den Code über die WebOTP-API aus einer eingehenden SMS aus, sofern unterstützt.',
+            },
+          },
+        },
+        keyboard: [
+          ['Ziffern oder Buchstaben', 'Füllen den aktuellen Slot und springen zum nächsten.'],
+          ['Rücktaste', 'Löscht das Zeichen vor dem Cursor.'],
+          [
+            'Pfeil nach links und rechts',
+            'Springen einen Slot weiter; ein gefüllter Slot wird markiert, sodass Tippen ihn ersetzt.',
+          ],
+          ['Einfügen', 'Füllt die Slots aus einem kopierten Code.'],
+        ],
+        notes: [
+          'Screenreader treffen auf ein einziges Textfeld. Beschrifte es mit <code>aria-label</code> oder einem <code>&lt;label&gt;</code>.',
+          'Die Slots sind vor assistiven Technologien verborgen; der gerade bearbeitete Slot zeigt den Fokusring.',
+          'Bei reduzierter Bewegung blinkt der Cursor nicht, und die Slots hüpfen und wackeln nicht.',
+        ],
+      },
+
+      rating: {
+        name: 'Bewertung',
+        title: 'Komponente für Sternebewertungen in Angular',
+        summary: 'Sterne zum Bewerten, auf echten Radiobuttons.',
+        description:
+          'Barrierefreie Sternebewertung für Angular auf nativen Radiobuttons: Tastatur und Formulare, Vorschau beim Hovern, Zurücksetzen und schreibgeschützte Bruchteile.',
+        apiDescription:
+          'API-Referenz der Bewertung von Needless UI: nuiRating mit value, max, schreibgeschütztem und zurücksetzbarem Modus sowie übersetzbaren Beschriftungen.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit der Bewertung von Needless UI: benannte Radiogruppe, beschriftete Sterne und das schreibgeschützte Bild.',
+        overview: [
+          'Die Bewertung ist eine Gruppe nativer Radiobuttons, die als Sterne gezeichnet werden. Pfeiltasten, Formulare und Screenreader funktionieren wie bei jeder Radiogruppe; CSS füllt die Sterne und zeigt unter dem Mauszeiger eine Vorschau der neuen Bewertung.',
+          'Schreibgeschützt zeigt sie beliebige Bruchteile an, etwa einen Durchschnitt von 4,3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Etwas bewerten',
+            text: 'Binde <code>[(value)]</code> oder ein Formular. Mit <code>clearable</code> setzt die erneute Wahl desselben Sterns die Bewertung zurück.',
+          },
+          average: {
+            title: 'Einen Durchschnitt anzeigen',
+            text: '<code>readonly</code> füllt die Sterne bis zu einem beliebigen Bruchteil und gibt dem Bild den Namen „Rated 4.3 out of 5“.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary:
+              'Eine Radiogruppe aus Sternen oder ein schreibgeschütztes Bild einer Bewertung.',
+            members: {
+              value: 'Die Bewertung oder <code>null</code>. Funktioniert auch mit Formularen.',
+              max: 'Anzahl der Sterne.',
+              readonly:
+                'Zeigt den Wert auf beliebige Bruchteile genau an, statt nach einem zu fragen.',
+              disabled: 'Deaktiviert alle Sterne.',
+              clearable: 'Die erneute Wahl des aktuellen Sterns setzt die Bewertung zurück.',
+              name: 'Gemeinsamer Name der Radiobuttons. Wird standardmäßig generiert.',
+              starLabel: 'Zugänglicher Name jedes Sterns, als Funktion seines Werts.',
+              readonlyLabel: 'Zugänglicher Name im schreibgeschützten Modus.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Springt in die Gruppe, zum ausgewählten Stern.'],
+          ['Pfeiltasten', 'Ändern die Bewertung.'],
+          ['Leertaste', 'Wählt den fokussierten Stern aus.'],
+        ],
+        notes: [
+          'Jeder Stern ist ein nativer Radiobutton mit dem Namen „3 stars“. Benenne die Gruppe mit <code>aria-label</code>.',
+          'Schreibgeschützt ist die Bewertung ein Bild (<code>role="img"</code>) mit dem Namen „Rated 4.3 out of 5“.',
+          'Die Sterne werden mit CSS-Masken gezeichnet und folgen daher dem Forced-Colors-Modus.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Skeleton-Loader-Komponente für Angular',
+        summary: 'Platzhalter, die das Layout halten, während Inhalte laden.',
+        description:
+          'Skeleton-Loader für Angular als Text, Kreis und Block, mit einem Schimmer, der über die ganze Seite zieht, und ohne Schimmer bei reduzierter Bewegung.',
+        apiDescription:
+          'API-Referenz des Skeletons von Needless UI: die Direktive nuiSkeleton und ihre Formen text, circle und block.',
+        a11yDescription:
+          'Barrierefreiheit des Skeletons von Needless UI: verborgene Platzhalter, Bereiche mit aria-busy, reduzierte Bewegung und Forced Colors.',
+        overview: [
+          'Skeletons halten die Form von Inhalten, die noch laden, damit die Seite nicht springt, wenn sie ankommen. Ihre Größe legst du mit CSS fest.',
+          'Der Schimmer ist am Viewport fixiert: Ein einziges Glanzlicht zieht gleichzeitig über jedes Skeleton auf der Seite, egal wie groß es ist und wo es liegt.',
+        ],
+        examples: {
+          card: {
+            title: 'Eine Karte laden',
+            text: 'Zeilen, ein Kreis und ein Block als Platzhalter für ein Profil. Die Karte ist <code>aria-busy</code>, solange sie lädt.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Ein Platzhalter, verborgen vor assistiven Technologien.',
+            members: {
+              shape: '<code>text</code> (eine Zeile), <code>circle</code> oder <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeletons sind vor Screenreadern verborgen. Setze <code>aria-busy="true"</code> auf den Bereich, der lädt, und entferne es, sobald der Inhalt da ist.',
+          'Wird reduzierte Bewegung bevorzugt, gibt es keinen Schimmer.',
+          'Im Forced-Colors-Modus erhält jedes Skeleton eine Kontur.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Toast-Benachrichtigungen für Angular',
+        summary:
+          'Kurze Meldungen, die sich stapeln, sich wegwischen lassen und nie den Fokus stehlen.',
+        description:
+          'Barrierefreie Toasts für Angular: ein Stapel im Top Layer, Promise-Toasts, Rückgängig-Aktionen, Wischen zum Schließen und bei Hover und Fokus pausierende Timer.',
+        apiDescription:
+          'API-Referenz der Toasts von Needless UI: der Service NuiToaster, seine Optionen und Promise-Toasts sowie die Region nui-toaster.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit der Toasts von Needless UI: Ansagen, der Hotkey Alt + T, Esc und pausierende Timer.',
+        overview: [
+          'Toasts bestätigen, was gerade passiert ist, oder bieten eine Aktion wie „Rückgängig“ an, ohne zu unterbrechen. Platziere ein <code>&lt;nui-toaster&gt;</code> in der App-Shell und rufe dann <code>NuiToaster</code> von überall auf.',
+          'Sie stapeln sich hinter dem neuesten und fächern sich bei Hover oder Fokus auf, alles mit der eingestellten Feder. Ein seitliches Wischen wirft einen Toast weg. Die Timer pausieren, solange der Mauszeiger auf dem Stapel liegt oder er den Fokus hat, und solange die Seite im Hintergrund ist.',
+        ],
+        examples: {
+          tones: {
+            title: 'Farbtöne',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> und <code>danger()</code>. Danger-Toasts bleiben länger und werden mit Vorrang angesagt.',
+          },
+          actions: {
+            title: 'Aktionen und Promises',
+            text: 'Eine <code>action</code> fügt einen Button wie „Rückgängig“ hinzu. <code>promise()</code> zeigt einen Spinner und verwandelt sich dann in das Ergebnis.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Der Service, der Toasts anzeigt. Du kannst ihn überall injizieren.',
+            members: {
+              toasts: 'Alle Toasts auf dem Bildschirm, die neuesten zuerst.',
+              show: 'Zeigt einen Toast. Übergib einen Titel oder Optionen mit Beschreibung, Farbton, Dauer, Aktion oder ID.',
+              success: 'Zeigt einen Erfolgs-Toast.',
+              warning: 'Zeigt einen Warn-Toast.',
+              danger:
+                'Zeigt einen Danger-Toast. Er bleibt 8 Sekunden und wird mit Vorrang angesagt.',
+              promise:
+                'Zeigt einen Lade-Toast, bis das Promise abgeschlossen ist, und dann die passende Meldung für Erfolg oder Fehler.',
+              dismiss: 'Schließt einen Toast oder alle.',
+            },
+          },
+          NuiToasterRegion: {
+            summary:
+              'Die Region, in der Toasts erscheinen. Platziere sie einmal, in der App-Shell.',
+            members: {
+              position: 'Ecke oder Rand des Viewports. Start und Ende folgen der Textrichtung.',
+              expanded: 'Hält den Stapel aufgefächert.',
+              label: 'Zugänglicher Name der Region. Sag darin, wie man sie erreicht.',
+              closeLabel: 'Zugänglicher Name der Schließen-Buttons.',
+              hotkey:
+                'Die Taste als <code>KeyboardEvent.code</code>, die zusammen mit Alt den Fokus auf den neuesten Toast setzt.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt + T', 'Setzt den Fokus auf den neuesten Toast.'],
+          ['Tab', 'Wechselt zwischen den Toasts, ihren Aktionen und Schließen-Buttons.'],
+          ['Esc', 'Schließt den fokussierten Toast.'],
+        ],
+        notes: [
+          'Jeder Toast wird angesagt, sobald er erscheint: höflich oder, bei danger, mit Vorrang. Toasts nehmen nie den Fokus.',
+          'Die Timer pausieren, solange der Mauszeiger auf dem Stapel liegt oder er den Fokus hat und solange die Seite verborgen ist, und Toasts, die auf ein Promise warten, laufen nie ab.',
+          'Alles, worauf reagiert werden muss, sollte auch außerhalb des Toasts verfügbar sein.',
+          'Bei reduzierter Bewegung sind Toasts nicht animiert und lassen sich nicht wegwischen, und die Timer-Linie ist ausgeblendet.',
         ],
       },
     },

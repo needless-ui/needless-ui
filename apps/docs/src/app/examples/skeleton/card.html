@@ -1,0 +1,19 @@
+<button nuiButton variant="soft" tone="neutral" (click)="loading.set(!loading())">
+  {{ loading() ? 'Show content' : 'Show loading' }}
+</button>
+<article class="profile" [attr.aria-busy]="loading()">
+  @if (loading()) {
+    <span nuiSkeleton shape="circle"></span>
+    <div class="lines">
+      <span nuiSkeleton style="inline-size: 40%"></span>
+      <span nuiSkeleton></span>
+      <span nuiSkeleton style="inline-size: 75%"></span>
+    </div>
+  } @else {
+    <span nuiAvatar name="Ada Lovelace" size="lg"></span>
+    <div class="lines">
+      <strong>Ada Lovelace</strong>
+      <span>Wrote the first published algorithm for a machine, in 1843.</span>
+    </div>
+  }
+</article>

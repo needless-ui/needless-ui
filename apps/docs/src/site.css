@@ -674,6 +674,53 @@
     inline-size: 12rem;
   }
 
+  .preview-link {
+    padding-inline: var(--nui-space-1);
+    color: var(--nui-color-text-muted);
+  }
+
+  .preview-empty {
+    padding: 0;
+  }
+
+  .preview-empty .nui-empty-media {
+    margin: 0;
+  }
+
+  .preview-empty .nui-empty-title {
+    font-size: var(--nui-font-size-md);
+  }
+
+  .preview .nui-otp {
+    --_slot: 2rem;
+  }
+
+  .preview-number {
+    display: grid;
+    place-items: center;
+    inline-size: 4ch;
+  }
+
+  .preview-skeleton {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-3);
+    inline-size: min(14rem, 100%);
+  }
+
+  .preview-lines {
+    display: grid;
+    flex: 1;
+    gap: var(--nui-space-1);
+  }
+
+  .preview-toast {
+    inline-size: min(17rem, 100%);
+    transform: none;
+    translate: none;
+    box-shadow: var(--nui-shadow-md);
+  }
+
   /* Card grid */
 
   .card-grid {
@@ -707,7 +754,11 @@
   }
 
   .card-preview {
-    min-block-size: 11rem;
+    display: grid;
+    place-items: center;
+    /* Fixed, so previews drawn after the page loads can't move anything. */
+    block-size: 11.5rem;
+    box-sizing: border-box;
     padding: var(--nui-space-6);
     border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
     background: var(--nui-color-bg-subtle);

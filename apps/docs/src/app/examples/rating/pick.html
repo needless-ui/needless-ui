@@ -1,0 +1,4 @@
+<div nuiRating aria-label="Rate this recipe" clearable [(value)]="stars"></div>
+<p>
+  {{ stars() === null ? 'Not rated yet.' : 'You gave it ' + stars() + ' out of 5.' }}
+</p>

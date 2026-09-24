@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: 'A gravidade agora é permanente. Recarregue a página para reconstruir o universo.',
       reduced: 'Seu sistema pede menos movimento, então a gravidade continua desligada. Que sorte.',
     },
+    toaster: { label: 'Notificações (Alt + T)', close: 'Fechar' },
   },
 
   home: {
@@ -387,6 +388,425 @@ export const messages: Messages = {
           'Itens marcáveis anunciam seu estado por meio de <code>aria-checked</code>.',
           'Escolher um item fecha o menu e devolve o foco ao gatilho. Mover o foco para fora do gatilho e do menu também o fecha.',
           'Os itens têm pelo menos 28 pixels de altura, acima do tamanho mínimo de alvo das WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Componente de avatar para Angular',
+        summary: 'A foto de uma pessoa, ou as iniciais dela sobre uma cor que é sempre a mesma.',
+        description:
+          'Avatar para Angular com iniciais quando não há foto, uma cor estável por nome, indicadores de status e grupos, legíveis em todos os temas.',
+        apiDescription:
+          'Referência da API do avatar do Needless UI: nuiAvatar com nome, foto, tamanho, formato e status, além de nuiAvatarGroup.',
+        a11yDescription:
+          'Acessibilidade do avatar do Needless UI: papel de imagem e nome, avatares decorativos e iniciais que mantêm um contraste de 4,5:1.',
+        overview: [
+          'O componente <code>nuiAvatar</code> mostra uma foto, ou as iniciais da pessoa quando não há foto ou ela não carrega. As iniciais ficam sobre uma cor calculada a partir do nome, então a mesma pessoa mantém a mesma cor em todo lugar.',
+          'Cada matiz é limitado a uma luminosidade e um croma que mantêm as iniciais brancas acima de uma relação de contraste de 4,5:1, sejam quais forem o nome e o tema.',
+        ],
+        examples: {
+          people: {
+            title: 'Iniciais, fotos e status',
+            text: 'Sem <code>src</code>, as iniciais e a cor vêm de <code>name</code>. <code>status</code> adiciona um ponto de presença.',
+          },
+          group: {
+            title: 'Grupos, tamanhos e formatos',
+            text: '<code>nuiAvatarGroup</code> sobrepõe uma fila de avatares. <code>size</code> aceita <code>sm</code>, <code>md</code> ou <code>lg</code>, e <code>shape="square"</code> combina com equipes e apps.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Uma foto ou iniciais, com o nome da pessoa.',
+            members: {
+              name: 'O nome da pessoa. O nome acessível, as iniciais e a cor vêm dele.',
+              src: 'URL da foto. Se ela não carregar, as iniciais aparecem no lugar.',
+              size: 'Tamanho: <code>sm</code>, <code>md</code> ou <code>lg</code>.',
+              shape: '<code>circle</code> ou <code>square</code>.',
+              status:
+                'Um ponto de presença: <code>online</code>, <code>away</code>, <code>busy</code> ou <code>offline</code>.',
+              label:
+                'Um nome acessível que diz mais do que o nome sozinho, como “Ada Lovelace, online”.',
+              decorative:
+                'Oculta o avatar das tecnologias assistivas, para avatares ao lado do nome visível.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary:
+              'Uma fila de avatares sobrepostos. Dê um nome a ela com <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Um avatar é uma imagem (<code>role="img"</code>) com o nome da pessoa. Ao lado do nome visível dela, defina <code>decorative</code> para que os leitores de tela não o anunciem duas vezes.',
+          'O ponto de status é apenas visual. Quando o status importar, inclua-o em <code>label</code>.',
+          'As iniciais mantêm uma relação de contraste de pelo menos 4,5:1 em todas as cores geradas.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Componente de breadcrumbs para Angular',
+        summary: 'A trilha de páginas que leva até a página atual.',
+        description:
+          'Breadcrumbs acessíveis para Angular sobre nav e lista nativos, com separadores CSS espelhados em textos da direita para a esquerda e trilhas longas roláveis.',
+        apiDescription:
+          'Referência da API dos breadcrumbs do Needless UI: a diretiva nuiBreadcrumbs e o rótulo da sua região de navegação.',
+        a11yDescription:
+          'Acessibilidade dos breadcrumbs do Needless UI: região de navegação, semântica de lista, a página atual e tamanhos de alvo.',
+        overview: [
+          'Os breadcrumbs mostram onde uma página fica dentro do site. A diretiva <code>nuiBreadcrumbs</code> estiliza um <code>&lt;nav&gt;</code> nativo e a lista dele; o último item é a página atual, marcada com <code>aria-current="page"</code>.',
+          'Uma trilha maior que o contêiner rola para o lado em vez de quebrar a linha. Ela começa rolada até o fim, e as pontas esmaecem onde há mais para ver.',
+        ],
+        examples: {
+          trail: {
+            title: 'Uma trilha',
+            text: 'Links para as páginas acima e, depois, a página atual como texto simples com <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Trilhas longas',
+            text: 'Em um contêiner estreito, a trilha rola, começando com a página atual à vista.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Estiliza um <code>&lt;nav&gt;</code> e a lista dele como breadcrumbs.',
+            members: { label: 'Nome acessível da região de navegação.' },
+          },
+        },
+        keyboard: [['Tab', 'Vai para o próximo link da trilha.']],
+        notes: [
+          'É uma região de navegação com uma lista simples, então os leitores de tela anunciam quantas páginas a trilha tem.',
+          'Os separadores são desenhados com CSS, então não são lidos em voz alta, e se espelham em textos da direita para a esquerda.',
+          'Cada link tem pelo menos 24 px de altura.',
+        ],
+      },
+
+      empty: {
+        name: 'Estado vazio',
+        title: 'Componente de estado vazio para Angular',
+        summary: 'O que mostrar quando não há nada para mostrar, e o que fazer a respeito.',
+        description:
+          'Estado vazio para Angular com imagem, título, uma explicação curta e ações, além de quatro ilustrações integradas que flutuam suavemente.',
+        apiDescription:
+          'Referência da API do estado vazio do Needless UI: nuiEmpty e as partes de imagem, título, descrição e ações.',
+        a11yDescription:
+          'Acessibilidade do estado vazio do Needless UI: imagens decorativas, títulos significativos e movimento reduzido.',
+        overview: [
+          'Um estado vazio substitui uma lista, tabela ou página que ainda não tem nada. Ele explica o motivo e oferece o próximo passo.',
+          'A parte de mídia recebe a sua própria imagem ou desenha uma integrada: <code>search</code>, <code>inbox</code>, <code>files</code> ou <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Nenhum resultado',
+            text: 'Um título que diz o que aconteceu, uma linha de ajuda e ações para seguir em frente.',
+          },
+          pictures: {
+            title: 'Imagens integradas',
+            text: 'Defina <code>illustration</code> em <code>nuiEmptyMedia</code>. As imagens seguem o tema e flutuam, a menos que o movimento esteja reduzido.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'O contêiner: uma coluna centralizada.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'A imagem, oculta das tecnologias assistivas.',
+            members: {
+              illustration:
+                'Uma imagem integrada: <code>search</code>, <code>inbox</code>, <code>files</code> ou <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'O título. Use o nível de heading que combina com a página.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Uma linha de explicação.', members: {} },
+          NuiEmptyActions: { summary: 'Uma linha de botões.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'A imagem é decorativa (<code>aria-hidden</code>): o título e a descrição transmitem a mensagem.',
+          'Use um heading para o título, no nível que combina com a estrutura da página.',
+          'As imagens integradas param de flutuar quando o usuário prefere movimento reduzido.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Campo numérico',
+        title: 'Componente de campo numérico para Angular',
+        summary: 'Uma entrada de números com botões de passo, formatada para cada localidade.',
+        description:
+          'Campo numérico acessível para Angular: spinbutton com botões de passo, teclado, mínimo e máximo, e formatos locais de moeda, porcentagem e unidades.',
+        apiDescription:
+          'Referência da API do campo numérico do Needless UI: nuiNumberField, nuiNumberInput com min, max, step e format, e nuiNumberStep.',
+        a11yDescription:
+          'Interação por teclado e acessibilidade do campo numérico do Needless UI: papel spinbutton, setas, teclas de página e botões de passo.',
+        overview: [
+          'O campo numérico é uma entrada de texto que guarda um número. Ele mostra o número formatado para a localidade, lê o texto digitado de volta no mesmo formato e, ao perder o foco, ajusta o valor ao <code>step</code> entre <code>min</code> e <code>max</code>.',
+          'Ele também lê dígitos e separadores nativos: números arábico-índicos, persas e devanágaris, espaços e pontos como separadores de milhar e todo tipo de sinal de menos. Manter um botão de passo pressionado repete a ação, cada vez mais rápido.',
+        ],
+        examples: {
+          guests: {
+            title: 'Botões de passo',
+            text: 'Botões dos dois lados, desativados em <code>min</code> e <code>max</code>. As setas do teclado também mudam o valor passo a passo.',
+          },
+          formats: {
+            title: 'Moeda e porcentagem',
+            text: 'Passe opções de <code>Intl.NumberFormat</code> para <code>format</code> e uma <code>locale</code>. O valor continua sendo um número simples.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Agrupa a entrada com os botões de passo.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Uma entrada de texto que guarda um número, como um spinbutton ARIA.',
+            members: {
+              value:
+                'O número, ou <code>null</code> quando vazio. Também funciona com formulários.',
+              min: 'Menor valor permitido.',
+              max: 'Maior valor permitido.',
+              step: 'Quanto um passo muda o valor. Ao perder o foco, o valor se ajusta a ele.',
+              format:
+                "Opções de <code>Intl.NumberFormat</code>, como <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Localidade usada para formatar e ler números.',
+              disabled: 'Desativa a entrada e os botões.',
+              stepBy: 'Sobe (positivo) ou desce (negativo) um número de passos.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Um botão de passo. Mantê-lo pressionado repete a ação.',
+            members: {
+              nuiNumberStep: '<code>1</code> sobe um passo e <code>-1</code> desce um passo.',
+              label: 'Nome acessível. O padrão é “Increase” ou “Decrease”.',
+            },
+          },
+        },
+        keyboard: [
+          ['Setas para cima e para baixo', 'Sobe ou desce o valor em um passo.'],
+          ['Page Up e Page Down', 'Avança ou recua dez passos.'],
+          ['Home e End', 'Vai para o mínimo ou o máximo.'],
+          ['Enter', 'Confirma o que foi digitado.'],
+        ],
+        notes: [
+          'A entrada é um <code>spinbutton</code> com <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code> e o valor formatado como <code>aria-valuetext</code>.',
+          'Os botões de passo ficam fora da ordem de tabulação, já que as teclas fazem o mesmo, mas têm nome e são vinculados à entrada com <code>aria-controls</code>.',
+          'Rotule a entrada com <code>aria-label</code> ou um <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'Campo OTP',
+        title: 'Campo de OTP e código de verificação para Angular',
+        summary: 'Códigos de verificação em caixas separadas, sobre uma única entrada real.',
+        description:
+          'Campo OTP acessível para Angular: um campo nativo sob as caixas, preenchimento automático por SMS, WebOTP, limpeza ao colar, grupos, máscara e tremida de erro.',
+        apiDescription:
+          'Referência da API do campo OTP do Needless UI: nuiOtp com comprimento, padrão, grupos e máscara, e nuiOtpInput com WebOTP.',
+        a11yDescription:
+          'Teclado e acessibilidade do campo OTP do Needless UI: um campo de texto rotulado, um anel de foco visível e preenchimento automático.',
+        overview: [
+          'O campo OTP parece uma fila de caixas, mas por baixo é um único <code>&lt;input&gt;</code> nativo. O preenchimento automático por SMS (<code>autocomplete="one-time-code"</code>), a colagem, os gerenciadores de senhas, os formulários e os leitores de tela veem um campo de texto comum.',
+          'Códigos colados são limpos, então “123-456” e “123 456” funcionam, e caracteres que o padrão não permite são recusados. No Android, <code>webOtp</code> preenche o código a partir do SMS assim que ele chega.',
+        ],
+        examples: {
+          verify: {
+            title: 'Verificação',
+            text: '<code>(completed)</code> dispara quando a última caixa é preenchida. Defina <code>aria-invalid</code> na entrada para rejeitar um código: as caixas ficam vermelhas e tremem.',
+          },
+          letters: {
+            title: 'Letras, grupos e máscara',
+            text: '<code>pattern="alphanumeric"</code> também aceita letras, <code>[groups]</code> adiciona separadores e <code>masked</code> desenha pontos.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Desenha as caixas e envolve a entrada.',
+            members: {
+              length: 'Número de caracteres.',
+              pattern: '<code>digits</code>, ou <code>alphanumeric</code> para letras e dígitos.',
+              groups:
+                'Tamanhos dos grupos, desenhados com um separador entre eles, como <code>[3, 3]</code>.',
+              masked: 'Desenha pontos em vez dos caracteres.',
+              completed: 'Emite o código sempre que a última caixa é preenchida.',
+            },
+          },
+          NuiOtpInput: {
+            summary:
+              'A entrada real. Ela recebe os atributos de que um código de uso único precisa.',
+            members: {
+              webOtp:
+                'Preenche o código a partir de um SMS recebido, pela API WebOTP, onde houver suporte.',
+            },
+          },
+        },
+        keyboard: [
+          ['Dígitos ou letras', 'Preenchem a caixa atual e passam para a próxima.'],
+          ['Backspace', 'Apaga o caractere antes do cursor.'],
+          [
+            'Setas para a esquerda e para a direita',
+            'Movem uma caixa; uma caixa preenchida fica selecionada, então digitar a substitui.',
+          ],
+          ['Colar', 'Preenche as caixas com um código copiado.'],
+        ],
+        notes: [
+          'Os leitores de tela encontram um único campo de texto. Rotule-o com <code>aria-label</code> ou um <code>&lt;label&gt;</code>.',
+          'As caixas ficam ocultas das tecnologias assistivas; a caixa em edição mostra o anel de foco.',
+          'Com movimento reduzido, o cursor não pisca e as caixas não pulam nem tremem.',
+        ],
+      },
+
+      rating: {
+        name: 'Avaliação',
+        title: 'Componente de avaliação por estrelas para Angular',
+        summary: 'Estrelas para avaliar, sobre botões de rádio de verdade.',
+        description:
+          'Avaliação por estrelas acessível para Angular sobre rádios nativos: teclado e formulários, prévia ao passar o mouse, limpeza e frações no modo somente leitura.',
+        apiDescription:
+          'Referência da API da avaliação do Needless UI: nuiRating com valor, máximo, modos somente leitura e limpável, e rótulos traduzíveis.',
+        a11yDescription:
+          'Interação por teclado e acessibilidade da avaliação do Needless UI: um grupo de rádio com nome, estrelas rotuladas e a imagem somente leitura.',
+        overview: [
+          'A avaliação é um grupo de botões de rádio nativos desenhados como estrelas. Setas, formulários e leitores de tela funcionam como em qualquer grupo de rádio; o CSS preenche as estrelas e mostra uma prévia da nova avaliação sob o ponteiro.',
+          'No modo somente leitura, ela mostra qualquer fração, como uma média de 4,3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Avaliar algo',
+            text: 'Vincule <code>[(value)]</code> ou um formulário. Com <code>clearable</code>, escolher a mesma estrela de novo limpa a avaliação.',
+          },
+          average: {
+            title: 'Mostrar uma média',
+            text: '<code>readonly</code> preenche as estrelas até qualquer fração e dá à imagem o nome “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary:
+              'Um grupo de rádio de estrelas, ou uma imagem somente leitura de uma avaliação.',
+            members: {
+              value: 'A avaliação, ou <code>null</code>. Também funciona com formulários.',
+              max: 'Número de estrelas.',
+              readonly: 'Mostra o valor, com qualquer fração, em vez de pedir um.',
+              disabled: 'Desativa todas as estrelas.',
+              clearable: 'Escolher a estrela atual de novo limpa a avaliação.',
+              name: 'Nome compartilhado pelos botões de rádio. Gerado por padrão.',
+              starLabel: 'Nome acessível de cada estrela, em função do valor dela.',
+              readonlyLabel: 'Nome acessível no modo somente leitura.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Entra no grupo, na estrela marcada.'],
+          ['Setas', 'Mudam a avaliação.'],
+          ['Espaço', 'Marca a estrela em foco.'],
+        ],
+        notes: [
+          'Cada estrela é um botão de rádio nativo com o nome “3 stars”. Dê um nome ao grupo com <code>aria-label</code>.',
+          'No modo somente leitura, a avaliação é uma imagem (<code>role="img"</code>) com o nome “Rated 4.3 out of 5”.',
+          'As estrelas são desenhadas com máscaras CSS, então seguem as cores forçadas.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Componente skeleton de carregamento para Angular',
+        summary: 'Espaços reservados que mantêm o layout enquanto o conteúdo carrega.',
+        description:
+          'Skeletons de carregamento para Angular em forma de texto, círculo e bloco, com um único brilho que percorre a página inteira e nenhum com movimento reduzido.',
+        apiDescription:
+          'Referência da API do skeleton do Needless UI: a diretiva nuiSkeleton e os formatos text, circle e block.',
+        a11yDescription:
+          'Acessibilidade do skeleton do Needless UI: espaços reservados ocultos, regiões com aria-busy, movimento reduzido e cores forçadas.',
+        overview: [
+          'Os skeletons mantêm a forma do conteúdo que ainda está carregando, para que a página não pule quando ele chegar. Defina o tamanho deles com CSS.',
+          'O brilho é fixo em relação ao viewport: um único reflexo percorre todos os skeletons da página ao mesmo tempo, sejam quais forem o tamanho e a posição deles.',
+        ],
+        examples: {
+          card: {
+            title: 'Carregando um card',
+            text: 'Linhas, um círculo e um bloco no lugar de um perfil. O card fica com <code>aria-busy</code> enquanto carrega.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Um espaço reservado, oculto das tecnologias assistivas.',
+            members: {
+              shape: '<code>text</code> (uma linha), <code>circle</code> ou <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Os skeletons ficam ocultos para leitores de tela. Defina <code>aria-busy="true"</code> na região que está carregando e remova-o quando o conteúdo chegar.',
+          'Não há brilho quando o usuário prefere movimento reduzido.',
+          'No modo de cores forçadas, cada skeleton ganha um contorno.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Notificações toast para Angular',
+        summary: 'Mensagens curtas que se empilham, saem com um deslize e nunca roubam o foco.',
+        description:
+          'Toasts acessíveis para Angular: pilha na top layer, toasts de promise, ações de desfazer, deslizar para dispensar e timers que pausam com hover e foco.',
+        apiDescription:
+          'Referência da API dos toasts do Needless UI: o serviço NuiToaster, as opções dele e os toasts de promise, e a região nui-toaster.',
+        a11yDescription:
+          'Interação por teclado e acessibilidade dos toasts do Needless UI: anúncios, o atalho Alt + T, Esc e timers que pausam.',
+        overview: [
+          'Os toasts confirmam o que acabou de acontecer, ou oferecem uma ação como “Desfazer”, sem interromper. Coloque um <code>&lt;nui-toaster&gt;</code> no shell da aplicação e chame <code>NuiToaster</code> de qualquer lugar.',
+          'Eles se empilham atrás do mais recente e se abrem em leque com hover ou foco, tudo com a mola escolhida. Um deslize para o lado descarta um toast. Os timers pausam enquanto a pilha está sob o mouse ou em foco, e enquanto a página está em segundo plano.',
+        ],
+        examples: {
+          tones: {
+            title: 'Tons',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> e <code>danger()</code>. Toasts de perigo ficam mais tempo e são anunciados com prioridade.',
+          },
+          actions: {
+            title: 'Ações e promises',
+            text: 'Uma <code>action</code> adiciona um botão como “Desfazer”. <code>promise()</code> mostra um spinner e depois se transforma no resultado.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'O serviço que mostra os toasts. Injete-o em qualquer lugar.',
+            members: {
+              toasts: 'Todos os toasts na tela, do mais recente para o mais antigo.',
+              show: 'Mostra um toast. Passe um título, ou opções com descrição, tom, duração, ação ou id.',
+              success: 'Mostra um toast de sucesso.',
+              warning: 'Mostra um toast de aviso.',
+              danger:
+                'Mostra um toast de perigo. Ele fica 8 segundos e é anunciado com prioridade.',
+              promise:
+                'Mostra um toast de carregamento até a promise ser resolvida ou rejeitada, e depois a mensagem de sucesso ou de perigo.',
+              dismiss: 'Dispensa um toast, ou todos.',
+            },
+          },
+          NuiToasterRegion: {
+            summary:
+              'A região onde os toasts aparecem. Coloque-a uma única vez, no shell da aplicação.',
+            members: {
+              position: 'Canto ou borda do viewport. Início e fim seguem a direção do texto.',
+              expanded: 'Mantém a pilha aberta em leque.',
+              label: 'Nome acessível da região. Diga como chegar até ela.',
+              closeLabel: 'Nome acessível dos botões de fechar.',
+              hotkey:
+                'A tecla, como <code>KeyboardEvent.code</code>, que junto com Alt move o foco para o toast mais recente.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt + T', 'Move o foco para o toast mais recente.'],
+          ['Tab', 'Percorre os toasts, as ações deles e os botões de fechar.'],
+          ['Esc', 'Dispensa o toast em foco.'],
+        ],
+        notes: [
+          'Cada toast é anunciado quando aparece: de forma educada, ou com prioridade nos de perigo. Os toasts nunca recebem o foco.',
+          'Os timers pausam enquanto a pilha está sob o mouse ou em foco e enquanto a página está oculta, e toasts que esperam uma promise nunca expiram.',
+          'Tudo em que o usuário precise agir também deve existir fora do toast.',
+          'Com movimento reduzido, os toasts não são animados nem deslizam, e a linha do timer fica oculta.',
         ],
       },
     },

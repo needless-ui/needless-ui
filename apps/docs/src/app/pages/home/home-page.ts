@@ -1,7 +1,7 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NuiButton } from '@needless-ui/angular/button';
-import { COMPONENT_IDS } from '../../docs/ids';
+import type { ComponentId } from '../../docs/ids';
 import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
@@ -66,7 +66,8 @@ import { ComponentPreview } from '../../shared/component-preview';
 })
 export class HomePage {
   protected readonly i18n = inject(I18n);
-  protected readonly components = COMPONENT_IDS;
+  /** Three previews: enough to show the look, light enough to paint in the first round trip. */
+  protected readonly components: readonly ComponentId[] = ['button', 'dialog', 'menu'];
 
   constructor() {
     const seo = inject(Seo);

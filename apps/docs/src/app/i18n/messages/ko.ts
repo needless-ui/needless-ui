@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: '이제 중력은 영구적입니다. 우주를 다시 세우려면 페이지를 새로 고치십시오.',
       reduced: '시스템에서 동작 줄이기를 요청하여 중력은 꺼진 상태로 유지됩니다. 운이 좋으시네요.',
     },
+    toaster: { label: '알림(Alt+T)', close: '닫기' },
   },
 
   home: {
@@ -386,6 +387,418 @@ export const messages: Messages = {
           '체크 가능한 항목은 <code>aria-checked</code>로 상태를 안내합니다.',
           '항목을 선택하면 메뉴가 닫히고 포커스가 트리거로 돌아갑니다. 포커스가 트리거와 메뉴 밖으로 이동해도 메뉴가 닫힙니다.',
           '항목의 높이는 최소 28픽셀로, WCAG 2.2의 최소 타깃 크기보다 큽니다.',
+        ],
+      },
+
+      avatar: {
+        name: '아바타',
+        title: 'Angular 아바타 컴포넌트',
+        summary: '사람의 사진을 보여 주거나, 그 사람만의 고유한 색 위에 이니셜을 표시합니다.',
+        description:
+          '사진이 없으면 이니셜로 대체되는 Angular 아바타입니다. 이름마다 정해지는 색상, 상태 점, 그룹을 지원하며 모든 테마에서 잘 읽힙니다.',
+        apiDescription:
+          'Needless UI 아바타의 API 레퍼런스입니다. 이름, 사진, 크기, 모양, 상태를 지정하는 nuiAvatar와 nuiAvatarGroup을 설명합니다.',
+        a11yDescription:
+          'Needless UI 아바타의 접근성을 다룹니다. 이미지 역할과 이름, 장식용 아바타, 4.5:1 명도 대비를 유지하는 이니셜을 설명합니다.',
+        overview: [
+          '<code>nuiAvatar</code> 컴포넌트는 사진을 보여 주며, 사진이 없거나 불러오지 못하면 그 사람의 이니셜을 표시합니다. 이니셜의 배경색은 이름으로 계산되므로, 같은 사람은 어디서나 같은 색상으로 표시됩니다.',
+          '모든 색상(hue)은 밝기와 채도에 상한을 두어, 이름이나 테마와 관계없이 흰색 이니셜이 항상 4.5:1보다 높은 명도 대비를 유지합니다.',
+        ],
+        examples: {
+          people: {
+            title: '이니셜, 사진, 상태',
+            text: '<code>src</code>가 없으면 이니셜과 색상은 <code>name</code>에서 정해집니다. <code>status</code>는 접속 상태를 나타내는 점을 추가합니다.',
+          },
+          group: {
+            title: '그룹, 크기, 모양',
+            text: '<code>nuiAvatarGroup</code>은 아바타를 한 줄로 겹쳐 놓습니다. <code>size</code>에는 <code>sm</code>, <code>md</code>, <code>lg</code>를 지정할 수 있으며, <code>shape="square"</code>는 팀이나 앱에 잘 어울립니다.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: '사진 또는 이니셜이며, 그 사람의 이름이 접근 가능한 이름이 됩니다.',
+            members: {
+              name: '사람의 이름입니다. 접근 가능한 이름, 이니셜, 색상이 모두 이 값에서 정해집니다.',
+              src: '사진 URL입니다. 불러오지 못하면 대신 이니셜이 표시됩니다.',
+              size: '크기: <code>sm</code>, <code>md</code>, <code>lg</code> 중 하나.',
+              shape: '<code>circle</code> 또는 <code>square</code>.',
+              status:
+                '접속 상태 점: <code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code> 중 하나.',
+              label:
+                '이름보다 많은 정보를 전달하는 접근 가능한 이름입니다. 예: ‘Ada Lovelace, 온라인’.',
+              decorative:
+                '보조 기술에서 아바타를 숨깁니다. 이름이 바로 옆에 보이는 아바타에 사용합니다.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: '서로 겹쳐진 아바타의 행입니다. <code>aria-label</code>로 이름을 지정합니다.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          '아바타는 그 사람의 이름이 붙은 이미지(<code>role="img"</code>)입니다. 이름이 옆에 보이는 경우에는 스크린 리더가 이름을 두 번 읽지 않도록 <code>decorative</code>를 지정합니다.',
+          '상태 점은 시각적으로만 표시됩니다. 상태가 중요하다면 <code>label</code>에 포함해야 합니다.',
+          '이니셜은 생성되는 모든 색상 위에서 4.5:1 이상의 명도 대비를 유지합니다.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: '브레드크럼',
+        title: 'Angular 브레드크럼 컴포넌트',
+        summary: '현재 페이지까지 이어지는 페이지 경로를 보여 줍니다.',
+        description:
+          '네이티브 nav와 목록으로 만든 접근성을 갖춘 Angular 브레드크럼입니다. CSS 구분자는 오른쪽에서 왼쪽으로 쓰는 언어에서 반전되고, 긴 경로는 스크롤됩니다.',
+        apiDescription:
+          'Needless UI 브레드크럼의 API 레퍼런스입니다. nuiBreadcrumbs 디렉티브와 랜드마크 레이블을 설명합니다.',
+        a11yDescription:
+          'Needless UI 브레드크럼의 접근성을 다룹니다. 탐색 랜드마크, 목록 시맨틱, 현재 페이지, 타깃 크기를 설명합니다.',
+        overview: [
+          '브레드크럼은 페이지가 사이트의 어디에 있는지 보여 줍니다. <code>nuiBreadcrumbs</code> 디렉티브는 네이티브 <code>&lt;nav&gt;</code>와 그 안의 목록에 스타일을 적용하며, 마지막 항목은 <code>aria-current="page"</code>로 표시된 현재 페이지입니다.',
+          '컨테이너보다 긴 경로는 줄 바꿈되지 않고 가로로 스크롤됩니다. 처음에는 끝까지 스크롤된 상태로 표시되며, 더 볼 내용이 있는 쪽 끝은 흐려집니다.',
+        ],
+        examples: {
+          trail: {
+            title: '기본 경로',
+            text: '상위 페이지들의 링크 다음에 현재 페이지를 <code>aria-current="page"</code>가 지정된 일반 텍스트로 표시합니다.',
+          },
+          long: {
+            title: '긴 경로',
+            text: '좁은 컨테이너에서는 경로가 스크롤되며, 처음부터 현재 페이지가 보이는 상태로 시작합니다.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: '<code>&lt;nav&gt;</code>와 그 안의 목록에 브레드크럼 스타일을 적용합니다.',
+            members: { label: '탐색 랜드마크의 접근 가능한 이름입니다.' },
+          },
+        },
+        keyboard: [['Tab', '경로의 다음 링크로 이동합니다.']],
+        notes: [
+          '일반 목록을 담은 탐색 랜드마크이므로, 스크린 리더가 경로에 페이지가 몇 개 있는지 안내합니다.',
+          '구분자는 CSS로 그려지므로 읽히지 않으며, 오른쪽에서 왼쪽으로 쓰는 언어에서는 반전됩니다.',
+          '모든 링크의 높이는 최소 24px입니다.',
+        ],
+      },
+
+      empty: {
+        name: '빈 상태',
+        title: 'Angular 빈 상태 컴포넌트',
+        summary: '보여 줄 것이 없을 때 무엇을 보여 주고 어떻게 하면 되는지 알려 줍니다.',
+        description:
+          '이미지, 제목, 짧은 설명, 작업 버튼으로 구성된 Angular 빈 상태 컴포넌트입니다. 부드럽게 떠다니는 기본 일러스트 네 가지도 제공합니다.',
+        apiDescription:
+          'Needless UI 빈 상태의 API 레퍼런스입니다. nuiEmpty와 미디어, 제목, 설명, 작업 파트를 설명합니다.',
+        a11yDescription:
+          'Needless UI 빈 상태의 접근성을 다룹니다. 장식용 이미지, 의미 있는 제목, 동작 줄이기 대응을 설명합니다.',
+        overview: [
+          '빈 상태는 아직 아무것도 없는 목록, 표, 페이지를 대신합니다. 그 이유를 설명하고 다음 단계를 제시합니다.',
+          '미디어 파트에는 직접 준비한 이미지를 넣거나, 기본 일러스트(<code>search</code>, <code>inbox</code>, <code>files</code>, <code>error</code>) 중 하나를 그릴 수 있습니다.',
+        ],
+        examples: {
+          search: {
+            title: '결과 없음',
+            text: '무슨 일이 있었는지 알려 주는 제목, 도움말 한 줄, 그리고 빠져나갈 방법을 제시하는 작업 버튼입니다.',
+          },
+          pictures: {
+            title: '기본 일러스트',
+            text: '<code>nuiEmptyMedia</code>에 <code>illustration</code>을 지정합니다. 일러스트는 테마를 따르며, 동작 줄이기 설정이 아니면 떠다닙니다.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: '컨테이너로, 가운데 정렬된 세로 열입니다.', members: {} },
+          NuiEmptyMedia: {
+            summary: '이미지로, 보조 기술에서는 숨겨집니다.',
+            members: {
+              illustration:
+                '기본 일러스트: <code>search</code>, <code>inbox</code>, <code>files</code>, <code>error</code> 중 하나.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: '제목입니다. 페이지에 맞는 제목 수준을 사용합니다.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: '한 줄 설명입니다.', members: {} },
+          NuiEmptyActions: { summary: '버튼 행입니다.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          '이미지는 장식용(<code>aria-hidden</code>)이며, 메시지는 제목과 설명이 전달합니다.',
+          '제목에는 페이지 구조에 맞는 수준의 제목 요소를 사용합니다.',
+          '사용자가 동작 줄이기를 선호하면 기본 일러스트는 떠다니지 않습니다.',
+        ],
+      },
+
+      'number-field': {
+        name: '숫자 필드',
+        title: 'Angular 숫자 필드 컴포넌트',
+        summary: '증감 버튼이 있는 숫자 입력으로, 모든 로케일에 맞는 서식으로 표시됩니다.',
+        description:
+          '접근성을 갖춘 Angular 숫자 필드입니다. 증감 버튼이 있는 스핀 버튼, 키보드 증감, 최솟값과 최댓값, 통화·백분율·단위의 로케일 서식을 지원합니다.',
+        apiDescription:
+          'Needless UI 숫자 필드의 API 레퍼런스입니다. nuiNumberField, min, max, step, format을 지원하는 nuiNumberInput, nuiNumberStep을 설명합니다.',
+        a11yDescription:
+          'Needless UI 숫자 필드의 키보드 상호작용과 접근성을 다룹니다. spinbutton 역할, 화살표 키와 Page 키, 증감 버튼을 설명합니다.',
+        overview: [
+          '숫자 필드는 숫자를 담는 텍스트 입력입니다. 숫자를 로케일에 맞는 서식으로 표시하고 입력된 텍스트도 같은 서식으로 읽으며, 포커스를 잃으면 값을 <code>min</code>과 <code>max</code> 사이에서 <code>step</code> 단위에 맞춥니다.',
+          '각 언어 고유의 숫자와 구분 기호도 읽습니다. 아랍-인도 숫자, 페르시아 숫자, 데바나가리 숫자, 자릿수 구분 기호로 쓰인 공백과 점, 모든 종류의 마이너스 기호를 인식합니다. 증감 버튼을 누르고 있으면 점점 더 빠르게 반복됩니다.',
+        ],
+        examples: {
+          guests: {
+            title: '증감 버튼',
+            text: '양쪽에 버튼이 있으며, <code>min</code>과 <code>max</code>에 도달하면 비활성화됩니다. 화살표 키로도 값을 바꿀 수 있습니다.',
+          },
+          formats: {
+            title: '통화와 백분율',
+            text: '<code>format</code>에 <code>Intl.NumberFormat</code> 옵션을 전달하고 <code>locale</code>을 지정합니다. 값은 일반 숫자로 유지됩니다.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: '입력과 증감 버튼을 하나로 묶습니다.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: '숫자를 담는 텍스트 입력으로, ARIA 스핀 버튼 역할을 합니다.',
+            members: {
+              value:
+                '숫자이며, 비어 있으면 <code>null</code>입니다. 폼과도 함께 사용할 수 있습니다.',
+              min: '허용되는 최솟값.',
+              max: '허용되는 최댓값.',
+              step: '한 단계에 값이 바뀌는 양. 포커스를 잃으면 값이 이 단위에 맞춰집니다.',
+              format:
+                "<code>Intl.NumberFormat</code> 옵션. 예: <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: '숫자의 서식 지정과 읽기에 사용하는 로케일.',
+              disabled: '입력과 버튼을 비활성화합니다.',
+              stepBy: '지정한 단계 수만큼 값을 올리거나(양수) 내립니다(음수).',
+            },
+          },
+          NuiNumberStep: {
+            summary: '증감 버튼입니다. 누르고 있으면 반복됩니다.',
+            members: {
+              nuiNumberStep: '<code>1</code>은 값을 올리고 <code>-1</code>은 값을 내립니다.',
+              label: '접근 가능한 이름. 기본값은 ‘Increase’ 또는 ‘Decrease’입니다.',
+            },
+          },
+        },
+        keyboard: [
+          ['위쪽 / 아래쪽 화살표', '값을 한 단계 올리거나 내립니다.'],
+          ['Page Up / Page Down', '열 단계만큼 올리거나 내립니다.'],
+          ['Home / End', '최솟값 또는 최댓값으로 이동합니다.'],
+          ['Enter', '입력한 내용을 확정합니다.'],
+        ],
+        notes: [
+          '입력은 <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>를 가진 <code>spinbutton</code>이며, 서식이 지정된 값이 <code>aria-valuetext</code>가 됩니다.',
+          '키로 같은 작업을 할 수 있으므로 증감 버튼은 탭 순서에서 빠져 있지만, 이름이 지정되어 있고 <code>aria-controls</code>로 입력과 연결되어 있습니다.',
+          '<code>aria-label</code> 또는 <code>&lt;label&gt;</code>로 입력에 레이블을 지정합니다.',
+        ],
+      },
+
+      otp: {
+        name: 'OTP 입력',
+        title: 'Angular OTP·인증 코드 입력 컴포넌트',
+        summary: '인증 코드를 칸마다 나눠 보여 주지만, 실제로는 진짜 입력 필드 하나입니다.',
+        description:
+          '접근성을 갖춘 Angular OTP 입력입니다. 칸 아래에 네이티브 입력 필드 하나를 두고 SMS 자동 완성, WebOTP, 붙여넣기 정리, 그룹, 마스킹, 오류 흔들림을 지원합니다.',
+        apiDescription:
+          'Needless UI OTP 입력의 API 레퍼런스입니다. 길이, 패턴, 그룹, 마스킹을 지원하는 nuiOtp와 WebOTP를 지원하는 nuiOtpInput을 설명합니다.',
+        a11yDescription:
+          'Needless UI OTP 입력의 키보드 동작과 접근성을 다룹니다. 레이블이 있는 텍스트 필드 하나, 눈에 보이는 포커스 링, 자동 완성을 설명합니다.',
+        overview: [
+          'OTP 입력은 여러 칸이 나란히 있는 것처럼 보이지만, 실제로는 네이티브 <code>&lt;input&gt;</code> 하나입니다. SMS 자동 완성(<code>autocomplete="one-time-code"</code>), 붙여넣기, 비밀번호 관리자, 폼, 스크린 리더 모두 이를 평범한 텍스트 필드로 인식합니다.',
+          '붙여 넣은 코드는 정리되므로 ‘123-456’과 ‘123 456’ 모두 입력되며, 패턴이 허용하지 않는 문자는 거부됩니다. Android에서는 <code>webOtp</code>가 SMS가 도착하는 즉시 코드를 채웁니다.',
+        ],
+        examples: {
+          verify: {
+            title: '인증',
+            text: '마지막 칸이 채워지면 <code>(completed)</code>가 발생합니다. 코드를 거부하려면 입력에 <code>aria-invalid</code>를 설정합니다. 그러면 칸이 빨갛게 바뀌고 흔들립니다.',
+          },
+          letters: {
+            title: '문자, 그룹, 마스킹',
+            text: '<code>pattern="alphanumeric"</code>은 문자도 받고, <code>[groups]</code>는 구분자를 추가하며, <code>masked</code>는 점을 그립니다.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: '칸을 그리고 입력을 감쌉니다.',
+            members: {
+              length: '문자 수.',
+              pattern: '<code>digits</code>, 또는 문자와 숫자를 받는 <code>alphanumeric</code>.',
+              groups: '그룹 크기. 그룹 사이에 구분자가 그려집니다. 예: <code>[3, 3]</code>.',
+              masked: '문자 대신 점을 그립니다.',
+              completed: '마지막 칸이 채워질 때마다 코드를 내보냅니다.',
+            },
+          },
+          NuiOtpInput: {
+            summary: '실제 입력입니다. 일회용 코드에 필요한 속성이 지정됩니다.',
+            members: {
+              webOtp: '지원되는 환경에서 WebOTP API로 수신한 SMS의 코드를 채웁니다.',
+            },
+          },
+        },
+        keyboard: [
+          ['숫자 또는 문자 키', '현재 칸을 채우고 다음 칸으로 이동합니다.'],
+          ['Backspace', '캐럿 앞의 문자를 삭제합니다.'],
+          [
+            '왼쪽 / 오른쪽 화살표',
+            '한 칸 이동합니다. 채워진 칸은 선택되므로 입력하면 그 문자가 바뀝니다.',
+          ],
+          ['붙여넣기', '복사한 코드로 칸을 채웁니다.'],
+        ],
+        notes: [
+          '스크린 리더는 텍스트 필드 하나로 인식합니다. <code>aria-label</code> 또는 <code>&lt;label&gt;</code>로 레이블을 지정합니다.',
+          '칸은 보조 기술에서 숨겨지며, 편집 중인 칸에 포커스 링이 표시됩니다.',
+          '동작 줄이기 설정에서는 캐럿이 깜박이지 않고 칸이 튀거나 흔들리지 않습니다.',
+        ],
+      },
+
+      rating: {
+        name: '별점',
+        title: 'Angular 별점 컴포넌트',
+        summary: '진짜 라디오 버튼으로 만든, 별로 평가하는 컴포넌트입니다.',
+        description:
+          '네이티브 라디오 버튼으로 만든 접근성을 갖춘 Angular 별점입니다. 키보드와 폼, 마우스를 올렸을 때의 미리 보기, 별점 지우기, 읽기 전용 소수점 표시를 지원합니다.',
+        apiDescription:
+          'Needless UI 별점의 API 레퍼런스입니다. 값, 최댓값, 읽기 전용 모드와 지우기 가능 모드를 지원하는 nuiRating과 번역 가능한 레이블을 설명합니다.',
+        a11yDescription:
+          'Needless UI 별점의 키보드 상호작용과 접근성을 다룹니다. 이름이 있는 라디오 그룹, 레이블이 있는 별, 읽기 전용 이미지를 설명합니다.',
+        overview: [
+          '별점은 별 모양으로 그린 네이티브 라디오 버튼 그룹입니다. 화살표 키, 폼, 스크린 리더는 일반 라디오 그룹과 똑같이 동작하며, CSS가 별을 채우고 포인터 아래에 새 별점을 미리 보여 줍니다.',
+          '읽기 전용일 때는 평균 4.3처럼 어떤 소수든 표시할 수 있습니다.',
+        ],
+        examples: {
+          pick: {
+            title: '별점 매기기',
+            text: '<code>[(value)]</code> 또는 폼에 바인딩합니다. <code>clearable</code>을 지정하면 같은 별을 다시 선택할 때 별점이 지워집니다.',
+          },
+          average: {
+            title: '평균 표시하기',
+            text: '<code>readonly</code>는 별을 어떤 비율로든 채우고, 이미지에 ‘Rated 4.3 out of 5’라는 이름을 붙입니다.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: '별로 이루어진 라디오 그룹, 또는 별점을 나타내는 읽기 전용 이미지입니다.',
+            members: {
+              value: '별점 값 또는 <code>null</code>. 폼과도 함께 사용할 수 있습니다.',
+              max: '별의 개수.',
+              readonly: '값을 입력받는 대신, 소수점까지 그대로 표시합니다.',
+              disabled: '모든 별을 비활성화합니다.',
+              clearable: '현재 별을 다시 선택하면 별점이 지워집니다.',
+              name: '라디오 버튼들이 공유하는 이름. 기본적으로 자동 생성됩니다.',
+              starLabel: '각 별의 접근 가능한 이름으로, 별의 값을 받는 함수로 지정합니다.',
+              readonlyLabel: '읽기 전용 모드의 접근 가능한 이름.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', '그룹 안의 선택된 별로 이동합니다.'],
+          ['화살표 키', '별점을 바꿉니다.'],
+          ['Space', '포커스된 별을 선택합니다.'],
+        ],
+        notes: [
+          '각 별은 ‘3 stars’라는 이름의 네이티브 라디오 버튼입니다. <code>aria-label</code>로 그룹의 이름을 지정합니다.',
+          '읽기 전용일 때 별점은 ‘Rated 4.3 out of 5’라는 이름의 이미지(<code>role="img"</code>)입니다.',
+          '별은 CSS 마스크로 그려지므로 강제 색상 모드를 따릅니다.',
+        ],
+      },
+
+      skeleton: {
+        name: '스켈레톤',
+        title: 'Angular 스켈레톤 로더 컴포넌트',
+        summary: '콘텐츠를 불러오는 동안 레이아웃을 유지하는 자리 표시자입니다.',
+        description:
+          '텍스트, 원, 블록 모양의 Angular 스켈레톤 로더입니다. 하나의 시머 효과가 페이지 전체를 가로지르며, 동작 줄이기 설정에서는 시머가 없습니다.',
+        apiDescription:
+          'Needless UI 스켈레톤의 API 레퍼런스입니다. nuiSkeleton 디렉티브와 텍스트, 원, 블록 모양을 설명합니다.',
+        a11yDescription:
+          'Needless UI 스켈레톤의 접근성을 다룹니다. 숨겨진 자리 표시자, aria-busy 영역, 동작 줄이기, 강제 색상 모드를 설명합니다.',
+        overview: [
+          '스켈레톤은 아직 불러오는 중인 콘텐츠의 모양을 유지하므로, 콘텐츠가 나타나도 페이지가 흔들리지 않습니다. 크기는 CSS로 지정합니다.',
+          '시머는 뷰포트에 고정되어 있습니다. 크기나 위치와 관계없이 하나의 하이라이트가 페이지의 모든 스켈레톤을 동시에 가로지릅니다.',
+        ],
+        examples: {
+          card: {
+            title: '카드 불러오기',
+            text: '줄, 원, 블록이 프로필 자리를 대신합니다. 불러오는 동안 카드에는 <code>aria-busy</code>가 지정됩니다.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: '자리 표시자로, 보조 기술에서는 숨겨집니다.',
+            members: {
+              shape: '<code>text</code>(한 줄), <code>circle</code>, <code>block</code> 중 하나.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          '스켈레톤은 스크린 리더에서 숨겨집니다. 불러오는 중인 영역에 <code>aria-busy="true"</code>를 지정하고, 콘텐츠가 나타나면 제거합니다.',
+          '사용자가 동작 줄이기를 선호하면 시머가 표시되지 않습니다.',
+          '강제 색상 모드에서는 각 스켈레톤에 윤곽선이 표시됩니다.',
+        ],
+      },
+
+      toast: {
+        name: '토스트',
+        title: 'Angular 토스트 알림',
+        summary: '쌓이고, 스와이프로 치울 수 있으며, 포커스를 빼앗지 않는 짧은 메시지입니다.',
+        description:
+          '접근성을 갖춘 Angular 토스트입니다. 최상위 레이어의 스택, 프로미스 토스트, 실행 취소, 스와이프로 닫기, 마우스를 올리거나 포커스하면 멈추는 타이머를 지원합니다.',
+        apiDescription:
+          'Needless UI 토스트의 API 레퍼런스입니다. NuiToaster 서비스와 옵션, 프로미스 토스트, nui-toaster 영역을 설명합니다.',
+        a11yDescription:
+          'Needless UI 토스트의 키보드 상호작용과 접근성을 다룹니다. 안내 방식, Alt+T 단축키, Esc 키, 일시 정지되는 타이머를 설명합니다.',
+        overview: [
+          '토스트는 흐름을 방해하지 않으면서 방금 일어난 일을 알려 주거나 실행 취소 같은 작업을 제안합니다. 앱 셸에 <code>&lt;nui-toaster&gt;</code>를 하나 두면, 어디서든 <code>NuiToaster</code>를 호출할 수 있습니다.',
+          '토스트는 가장 최근 토스트 뒤에 쌓이고, 마우스를 올리거나 포커스하면 부채꼴로 펼쳐지며, 모든 움직임에 motion 스프링이 적용됩니다. 옆으로 스와이프하면 토스트를 치울 수 있습니다. 스택에 마우스를 올리거나 포커스가 있는 동안, 그리고 페이지가 백그라운드에 있는 동안에는 타이머가 멈춥니다.',
+        ],
+        examples: {
+          tones: {
+            title: '톤',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code>, <code>danger()</code>가 있습니다. danger 토스트는 더 오래 머무르며 즉시 안내됩니다.',
+          },
+          actions: {
+            title: '작업과 프로미스',
+            text: '<code>action</code>은 실행 취소 같은 버튼을 추가합니다. <code>promise()</code>는 스피너를 보여 준 다음 결과로 바뀝니다.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: '토스트를 표시하는 서비스입니다. 어디서든 주입할 수 있습니다.',
+            members: {
+              toasts: '화면에 있는 모든 토스트. 최신 토스트가 먼저 옵니다.',
+              show: '토스트를 표시합니다. 제목을 전달하거나, 설명, 톤, 지속 시간, 작업, id가 담긴 옵션을 전달합니다.',
+              success: '성공 토스트를 표시합니다.',
+              warning: '경고 토스트를 표시합니다.',
+              danger: 'danger 토스트를 표시합니다. 8초 동안 머무르며 즉시 안내됩니다.',
+              promise:
+                '프로미스가 처리될 때까지 로딩 토스트를 표시한 다음, 성공 또는 danger 메시지를 표시합니다.',
+              dismiss: '토스트 하나 또는 전부를 닫습니다.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: '토스트가 나타나는 영역입니다. 앱 셸에 한 번만 배치합니다.',
+            members: {
+              position: '뷰포트의 모서리 또는 가장자리. 시작과 끝은 텍스트 방향을 따릅니다.',
+              expanded: '스택을 계속 펼쳐 둡니다.',
+              label: '영역의 접근 가능한 이름. 영역으로 이동하는 방법을 알려 줍니다.',
+              closeLabel: '닫기 버튼의 접근 가능한 이름.',
+              hotkey:
+                'Alt와 함께 눌러 최신 토스트로 포커스를 옮기는 키로, <code>KeyboardEvent.code</code> 값으로 지정합니다.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', '가장 최근 토스트로 포커스를 이동합니다.'],
+          ['Tab', '토스트와 그 작업 버튼, 닫기 버튼 사이를 이동합니다.'],
+          ['Esc', '포커스된 토스트를 닫습니다.'],
+        ],
+        notes: [
+          '모든 토스트는 나타날 때 안내됩니다. 평소에는 읽고 있던 내용을 끊지 않고, danger일 때는 즉시 안내됩니다. 토스트는 절대 포커스를 가져가지 않습니다.',
+          '스택에 마우스를 올리거나 포커스가 있는 동안, 그리고 페이지가 숨겨진 동안에는 타이머가 멈추며, 프로미스를 기다리는 토스트는 시간이 지나도 닫히지 않습니다.',
+          '사용자가 반드시 처리해야 하는 내용은 토스트 밖에도 있어야 합니다.',
+          '동작 줄이기 설정에서는 토스트에 애니메이션이 없고 스와이프도 되지 않으며, 타이머 선이 숨겨집니다.',
         ],
       },
     },

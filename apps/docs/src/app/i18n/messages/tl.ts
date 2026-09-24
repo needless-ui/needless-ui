@@ -34,6 +34,7 @@ export const messages: Messages = {
       reduced:
         'Humihingi ang system mo ng mas kaunting galaw, kaya naka-off pa rin ang gravity. Swerte mo.',
     },
+    toaster: { label: 'Mga notification (Alt+T)', close: 'Isara' },
   },
 
   home: {
@@ -399,6 +400,429 @@ export const messages: Messages = {
           'Ina-announce ng mga checkable item ang state nila sa pamamagitan ng <code>aria-checked</code>.',
           'Kapag pumili ng item, nagsasara ang menu at bumabalik ang focus sa trigger. Nagsasara rin ito kapag inilipat ang focus palabas ng trigger at ng menu.',
           'Hindi bababa sa 28 pixel ang taas ng mga item, lampas sa minimum na target size ng WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Avatar component para sa Angular',
+        summary: 'Larawan ng isang tao, o ang initials niya sa kulay na laging kanya.',
+        description:
+          'Angular avatar na may initials kapag walang larawan, iisang kulay bawat pangalan, mga status dot at grupo, at nababasa sa bawat tema.',
+        apiDescription:
+          'API reference ng Needless UI avatar: nuiAvatar na may pangalan, larawan, laki, hugis at status, pati ang nuiAvatarGroup.',
+        a11yDescription:
+          'Accessibility ng Needless UI avatar: image role at pangalan, mga decorative na avatar, at initials na may 4.5:1 na contrast.',
+        overview: [
+          'Nagpapakita ang <code>nuiAvatar</code> component ng larawan, o ng initials ng tao kapag wala itong larawan o hindi ito nag-load. Nakapatong ang initials sa kulay na kinukuwenta mula sa pangalan, kaya pareho ang kulay ng iisang tao saan man.',
+          'Nililimitahan ang lightness at chroma ng bawat hue para manatiling lampas sa 4.5:1 ang contrast ratio ng puting initials, anuman ang pangalan at ang tema.',
+        ],
+        examples: {
+          people: {
+            title: 'Initials, larawan at status',
+            text: 'Kapag walang <code>src</code>, galing sa <code>name</code> ang initials at ang kulay. Nagdadagdag ang <code>status</code> ng presence dot.',
+          },
+          group: {
+            title: 'Mga grupo, laki at hugis',
+            text: 'Pinagpapatong-patong ng <code>nuiAvatarGroup</code> ang isang hanay ng mga avatar. Tumatanggap ang <code>size</code> ng <code>sm</code>, <code>md</code> o <code>lg</code>, at bagay ang <code>shape="square"</code> sa mga team at app.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Isang larawan o initials, na ipinangalan sa tao.',
+            members: {
+              name: 'Ang pangalan ng tao. Dito nagmumula ang accessible name, ang initials at ang kulay.',
+              src: 'URL ng larawan. Kapag hindi ito nag-load, initials ang ipinapakita.',
+              size: 'Laki: <code>sm</code>, <code>md</code> o <code>lg</code>.',
+              shape: '<code>circle</code> o <code>square</code>.',
+              status:
+                'Isang presence dot: <code>online</code>, <code>away</code>, <code>busy</code> o <code>offline</code>.',
+              label:
+                'Accessible name na nagsasabi nang higit pa sa pangalan, gaya ng “Ada Lovelace, online”.',
+              decorative:
+                'Itinatago ang avatar sa assistive technology, para sa mga avatar na katabi ng nakikitang pangalan.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary:
+              'Isang hanay ng magkakapatong na avatar. Pangalanan ito gamit ang <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Isang image (<code>role="img"</code>) ang avatar na ipinangalan sa tao. Kapag katabi ito ng nakikitang pangalan niya, i-set ang <code>decorative</code> para hindi ito marinig nang dalawang beses ng mga gumagamit ng screen reader.',
+          'Visual lang ang status dot. Kapag mahalaga ito, ilagay ito sa <code>label</code>.',
+          'Hindi bababa sa 4.5:1 ang contrast ratio ng initials sa bawat nabuong kulay.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Breadcrumbs component para sa Angular',
+        summary: 'Ang trail ng mga page na humahantong sa kasalukuyang page.',
+        description:
+          'Accessible na Angular breadcrumbs sa native na nav at list, may CSS separator na bumabaligtad sa right-to-left na text at trail na nag-i-scroll kapag mahaba.',
+        apiDescription:
+          'API reference ng Needless UI breadcrumbs: ang nuiBreadcrumbs directive at ang label ng landmark nito.',
+        a11yDescription:
+          'Accessibility ng Needless UI breadcrumbs: navigation landmark, list semantics, ang kasalukuyang page at mga target size.',
+        overview: [
+          'Ipinapakita ng breadcrumbs kung nasaan ang isang page sa site. Sini-style ng <code>nuiBreadcrumbs</code> directive ang isang native na <code>&lt;nav&gt;</code> at ang list nito; ang huling item ang kasalukuyang page, na minarkahan ng <code>aria-current="page"</code>.',
+          'Kapag mas mahaba ang trail kaysa sa container nito, nag-i-scroll ito pahalang sa halip na mag-wrap. Nagsisimula itong naka-scroll sa dulo, at nagfe-fade ang mga gilid kung saan may makikita pa.',
+        ],
+        examples: {
+          trail: {
+            title: 'Isang trail',
+            text: 'Mga link para sa mga page sa itaas, tapos ang kasalukuyang page bilang plain text na may <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Mahahabang trail',
+            text: 'Sa makitid na container, nag-i-scroll ang trail, at kita agad ang kasalukuyang page sa simula.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary:
+              'Sini-style bilang breadcrumbs ang isang <code>&lt;nav&gt;</code> at ang list nito.',
+            members: { label: 'Accessible name ng navigation landmark.' },
+          },
+        },
+        keyboard: [['Tab', 'Lumilipat sa susunod na link sa trail.']],
+        notes: [
+          'Navigation landmark ito na may plain list, kaya ina-announce ng mga screen reader kung ilang page ang nasa trail.',
+          'Iginuguhit sa CSS ang mga separator, kaya hindi binabasa nang malakas ang mga ito, at bumabaligtad ang mga ito sa right-to-left na text.',
+          'Hindi bababa sa 24px ang taas ng bawat link.',
+        ],
+      },
+
+      empty: {
+        name: 'Empty state',
+        title: 'Empty state component para sa Angular',
+        summary: 'Kung ano ang ipapakita kapag walang maipakita, at kung ano ang puwedeng gawin.',
+        description:
+          'Angular empty state na may larawan, title, maikling paliwanag at mga aksyon, pati apat na built-in na illustration na marahang lumulutang.',
+        apiDescription:
+          'API reference ng Needless UI empty state: nuiEmpty at ang mga bahaging media, title, description at actions nito.',
+        a11yDescription:
+          'Accessibility ng Needless UI empty state: mga decorative na larawan, makabuluhang heading at reduced motion.',
+        overview: [
+          'Pinapalitan ng empty state ang isang list, table o page na wala pang laman. Ipinapaliwanag nito kung bakit, at nag-aalok ito ng susunod na hakbang.',
+          'Tumatanggap ang media part ng sarili mong larawan, o gumuguhit ito ng built-in na larawan: <code>search</code>, <code>inbox</code>, <code>files</code> o <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Walang resulta',
+            text: 'Isang title na nagsasabi kung ano ang nangyari, isang linya ng tulong, at mga aksyon para makaalis sa sitwasyon.',
+          },
+          pictures: {
+            title: 'Mga built-in na larawan',
+            text: 'I-set ang <code>illustration</code> sa <code>nuiEmptyMedia</code>. Sumusunod sa tema ang mga larawan at lumulutang ang mga ito maliban kung naka-reduced motion.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Ang container: isang column na nakagitna.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Ang larawan, nakatago sa assistive technology.',
+            members: {
+              illustration:
+                'Isang built-in na larawan: <code>search</code>, <code>inbox</code>, <code>files</code> o <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Ang title. Gamitin ang heading level na bagay sa page.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Isang linya ng paliwanag.', members: {} },
+          NuiEmptyActions: { summary: 'Isang hanay ng mga button.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Decorative ang larawan (<code>aria-hidden</code>): ang title at description ang nagdadala ng mensahe.',
+          'Gumamit ng heading para sa title, sa level na bagay sa outline ng page.',
+          'Humihinto sa paglutang ang mga built-in na larawan kapag reduced motion ang gusto ng user.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Number field',
+        title: 'Number field component para sa Angular',
+        summary: 'Isang number input na may mga stepper, naka-format para sa bawat locale.',
+        description:
+          'Accessible na Angular number field: spinbutton na may step button, pag-step gamit ang keyboard, min at max, at locale format para sa currency, percent at unit.',
+        apiDescription:
+          'API reference ng Needless UI number field: nuiNumberField, nuiNumberInput na may min, max, step at format, at nuiNumberStep.',
+        a11yDescription:
+          'Keyboard interaction at accessibility ng Needless UI number field: spinbutton role, mga arrow at page key, at mga step button.',
+        overview: [
+          'Text input na may hawak na numero ang number field. Ipinapakita nito ang numero na naka-format para sa locale, binabasa pabalik ang itinipang text sa parehong format, at sa blur ay ini-snap ito sa <code>step</code> sa pagitan ng <code>min</code> at <code>max</code>.',
+          'Nababasa rin nito ang mga native na digit at separator: mga numerong Arabic-Indic, Persian at Devanagari, mga space at tuldok bilang group separator, at bawat uri ng minus sign. Kapag pinindot nang matagal ang isang step button, umuulit ito, pabilis nang pabilis.',
+        ],
+        examples: {
+          guests: {
+            title: 'Mga stepper',
+            text: 'Mga button sa magkabilang gilid, na nadi-disable sa <code>min</code> at <code>max</code>. Nag-i-step din ang mga arrow key.',
+          },
+          formats: {
+            title: 'Currency at percent',
+            text: 'Ipasa ang mga opsyon ng <code>Intl.NumberFormat</code> sa <code>format</code> at magbigay ng <code>locale</code>. Nananatiling plain number ang value.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Pinagsasama ang input at ang mga step button nito.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Isang text input na may hawak na numero, bilang ARIA spinbutton.',
+            members: {
+              value:
+                'Ang numero, o <code>null</code> kapag walang laman. Gumagana rin sa mga form.',
+              min: 'Pinakamaliit na pinapayagang value.',
+              max: 'Pinakamalaking pinapayagang value.',
+              step: 'Kung gaano kalaki ang binabago ng isang step sa value. Ini-snap dito ang value sa blur.',
+              format:
+                "Mga opsyon ng <code>Intl.NumberFormat</code>, gaya ng <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Locale para sa pag-format at pagbasa ng mga numero.',
+              disabled: 'Dini-disable ang input at ang mga button nito.',
+              stepBy: 'Nag-i-step pataas (positive) o pababa (negative) nang ilang step.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Isang step button. Umuulit ito kapag pinindot nang matagal.',
+            members: {
+              nuiNumberStep: 'Nag-i-step pataas ang <code>1</code> at pababa ang <code>-1</code>.',
+              label: 'Accessible name. “Increase” o “Decrease” ang default.',
+            },
+          },
+        },
+        keyboard: [
+          ['Up at down arrow', 'Nag-i-step pataas o pababa ang value.'],
+          ['Page Up at Page Down', 'Nag-i-step nang sampung beses.'],
+          ['Home at End', 'Pumupunta sa minimum o maximum.'],
+          ['Enter', 'Kino-commit ang itinipa.'],
+        ],
+        notes: [
+          'Isang <code>spinbutton</code> ang input na may <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>, at ang naka-format na value bilang <code>aria-valuetext</code>.',
+          'Wala sa tab order ang mga step button, dahil pareho ang ginagawa ng mga key, pero may pangalan ang mga ito at naka-link sa input gamit ang <code>aria-controls</code>.',
+          'Lagyan ng label ang input gamit ang <code>aria-label</code> o isang <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'OTP input',
+        title: 'OTP at verification code input para sa Angular',
+        summary: 'Mga verification code sa magkakahiwalay na slot, sa iisang totoong input.',
+        description:
+          'Accessible na Angular OTP input: iisang native field sa ilalim ng mga slot, SMS autofill, WebOTP, paglilinis ng paste, grupo, masking at pag-alog sa error.',
+        apiDescription:
+          'API reference ng Needless UI OTP input: nuiOtp na may length, pattern, grupo at masking, at nuiOtpInput na may WebOTP.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI OTP input: iisang text field na may label, nakikitang focus ring at autofill.',
+        overview: [
+          'Mukhang hanay ng mga slot ang OTP input, pero sa ilalim nito ay iisang native na <code>&lt;input&gt;</code>. Ordinaryong text field ang nakikita ng SMS autofill (<code>autocomplete="one-time-code"</code>), ng paste, ng mga password manager, ng mga form at ng mga screen reader.',
+          'Nililinis ang mga ipinaste na code, kaya parehong gumagana ang “123-456” at “123 456”, at tinatanggihan ang mga character na hindi pinapayagan ng pattern. Sa Android, pinupunan ng <code>webOtp</code> ang code mula sa SMS pagdating nito.',
+        ],
+        examples: {
+          verify: {
+            title: 'Pag-verify',
+            text: 'Nagfa-fire ang <code>(completed)</code> kapag napuno ang huling slot. I-set ang <code>aria-invalid</code> sa input para tanggihan ang isang code: nagiging pula ang mga slot at umaalog.',
+          },
+          letters: {
+            title: 'Mga titik, grupo at masking',
+            text: 'Tumatanggap din ng mga titik ang <code>pattern="alphanumeric"</code>, nagdadagdag ng mga separator ang <code>[groups]</code>, at gumuguhit ng mga tuldok ang <code>masked</code>.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Iginuguhit ang mga slot at binabalot ang input.',
+            members: {
+              length: 'Bilang ng mga character.',
+              pattern:
+                '<code>digits</code>, o <code>alphanumeric</code> para sa mga titik at digit.',
+              groups:
+                'Mga laki ng grupo, na may separator sa pagitan nila, gaya ng <code>[3, 3]</code>.',
+              masked: 'Gumuguhit ng mga tuldok sa halip na ang mga character.',
+              completed: 'Inilalabas ang code tuwing napupuno ang huling slot.',
+            },
+          },
+          NuiOtpInput: {
+            summary:
+              'Ang totoong input. Nakukuha nito ang mga attribute na kailangan ng isang one-time code.',
+            members: {
+              webOtp:
+                'Pinupunan ang code mula sa papasok na SMS sa pamamagitan ng WebOTP API, kung suportado.',
+            },
+          },
+        },
+        keyboard: [
+          ['Mga digit o titik', 'Pinupunan ang kasalukuyang slot at lumilipat sa susunod.'],
+          ['Backspace', 'Binubura ang character bago ang caret.'],
+          [
+            'Left at right arrow',
+            'Lumilipat nang isang slot; napipili ang slot na may laman, kaya napapalitan ito kapag nag-type.',
+          ],
+          ['I-paste', 'Pinupunan ang mga slot mula sa kinopyang code.'],
+        ],
+        notes: [
+          'Iisang text field ang nakikita ng mga screen reader. Lagyan ito ng label gamit ang <code>aria-label</code> o isang <code>&lt;label&gt;</code>.',
+          'Nakatago ang mga slot sa assistive technology; ipinapakita ng slot na ine-edit ang focus ring.',
+          'Sa reduced motion, hindi kumukurap ang caret at hindi tumatalon o umaalog ang mga slot.',
+        ],
+      },
+
+      rating: {
+        name: 'Rating',
+        title: 'Star rating component para sa Angular',
+        summary: 'Mga bituin para mag-rate, sa totoong radio button.',
+        description:
+          'Accessible na Angular star rating sa native na radio button: suporta sa keyboard at form, preview sa hover, pag-clear, at fractional na read-only display.',
+        apiDescription:
+          'API reference ng Needless UI rating: nuiRating na may value, max, read-only at clearable na mode, at mga label na naisasalin.',
+        a11yDescription:
+          'Keyboard interaction at accessibility ng Needless UI rating: radio group na may pangalan, mga bituing may label at read-only na image.',
+        overview: [
+          'Grupo ng mga native na radio button na iginuhit bilang mga bituin ang rating. Gumagana ang mga arrow key, form at screen reader gaya ng sa kahit anong radio group; CSS ang nagkukulay sa mga bituin at nagpi-preview ng bagong rating sa ilalim ng pointer.',
+          'Kapag read-only, kaya nitong ipakita ang kahit anong fraction, gaya ng average na 4.3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Pag-rate ng isang bagay',
+            text: 'I-bind ang <code>[(value)]</code> o isang form. Kapag may <code>clearable</code>, nali-clear ang rating kapag pinili ulit ang parehong bituin.',
+          },
+          average: {
+            title: 'Pagpapakita ng average',
+            text: 'Kinukulayan ng <code>readonly</code> ang mga bituin hanggang sa kahit anong fraction at pinapangalanan ang larawan na “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: 'Isang radio group ng mga bituin, o read-only na larawan ng isang rating.',
+            members: {
+              value: 'Ang rating, o <code>null</code>. Gumagana rin sa mga form.',
+              max: 'Bilang ng mga bituin.',
+              readonly:
+                'Ipinapakita ang value, hanggang sa kahit anong fraction, sa halip na humingi nito.',
+              disabled: 'Dini-disable ang bawat bituin.',
+              clearable: 'Kapag pinili ulit ang kasalukuyang bituin, nali-clear ang rating.',
+              name: 'Pangalang pinagsasaluhan ng mga radio button. Awtomatikong nabubuo bilang default.',
+              starLabel: 'Accessible name ng bawat bituin, bilang function ng value nito.',
+              readonlyLabel: 'Accessible name sa read-only mode.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Pumapasok sa grupo, sa naka-check na bituin.'],
+          ['Mga arrow key', 'Binabago ang rating.'],
+          ['Space', 'Chine-check ang naka-focus na bituin.'],
+        ],
+        notes: [
+          'Native na radio ang bawat bituin na may pangalang gaya ng “3 stars”. Pangalanan ang grupo gamit ang <code>aria-label</code>.',
+          'Kapag read-only, image (<code>role="img"</code>) ang rating na may pangalang “Rated 4.3 out of 5”.',
+          'Iginuguhit ang mga bituin gamit ang CSS mask, kaya sumusunod sila sa forced colors.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Skeleton loader component para sa Angular',
+        summary: 'Mga placeholder na nagpapanatili ng layout habang naglo-load ang content.',
+        description:
+          'Mga Angular skeleton loader para sa text, bilog at block, may iisang shimmer na dumadaan sa buong page, at wala nito kapag reduced motion.',
+        apiDescription:
+          'API reference ng Needless UI skeleton: ang nuiSkeleton directive at ang mga hugis nitong text, circle at block.',
+        a11yDescription:
+          'Accessibility ng Needless UI skeleton: nakatagong placeholder, mga aria-busy region, reduced motion at forced colors.',
+        overview: [
+          'Pinapanatili ng mga skeleton ang hugis ng content na naglo-load pa, kaya hindi tumatalon ang page pagdating nito. I-size ang mga ito gamit ang CSS.',
+          'Nakapirmi sa viewport ang shimmer: iisang highlight ang dumadaan sa bawat skeleton sa page nang sabay-sabay, anuman ang laki o posisyon nito.',
+        ],
+        examples: {
+          card: {
+            title: 'Pag-load ng card',
+            text: 'Mga linya, isang bilog at isang block na pumapalit sa isang profile. <code>aria-busy</code> ang card habang naglo-load ito.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Isang placeholder, nakatago sa assistive technology.',
+            members: {
+              shape: '<code>text</code> (isang linya), <code>circle</code> o <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Nakatago sa mga screen reader ang mga skeleton. I-set ang <code>aria-busy="true"</code> sa region na naglo-load, at alisin ito pagdating ng content.',
+          'Walang shimmer kapag reduced motion ang gusto ng user.',
+          'Sa forced-colors mode, nagkakaroon ng outline ang bawat skeleton.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Mga toast notification para sa Angular',
+        summary:
+          'Maiikling mensahe na nagpapatong-patong, puwedeng i-swipe palayo at hindi kailanman nang-aagaw ng focus.',
+        description:
+          'Accessible na Angular toast: stack sa top layer, promise toast, undo action, swipe para i-dismiss, at mga timer na humihinto sa hover at focus.',
+        apiDescription:
+          'API reference ng Needless UI toast: ang NuiToaster service, ang mga opsyon nito at promise toast, at ang nui-toaster region.',
+        a11yDescription:
+          'Keyboard interaction at accessibility ng Needless UI toast: mga announcement, ang Alt+T hotkey, Escape at mga timer na humihinto.',
+        overview: [
+          'Kinukumpirma ng mga toast ang kakatapos lang na nangyari, o nag-aalok ng aksyon gaya ng Undo, nang hindi nakakaabala. Maglagay ng isang <code>&lt;nui-toaster&gt;</code> sa app shell, saka tawagin ang <code>NuiToaster</code> mula kahit saan.',
+          'Nagpapatong-patong sila sa likod ng pinakabago at bumubukas na parang pamaypay sa hover o focus, lahat sa motion spring. Itinatapon ng patagilid na swipe ang isang toast. Humihinto ang mga timer habang naka-hover o naka-focus ang stack, at habang nasa background ang page.',
+        ],
+        examples: {
+          tones: {
+            title: 'Mga tone',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code> at <code>danger()</code>. Mas matagal nananatili ang mga danger toast at ina-announce ang mga ito nang assertive.',
+          },
+          actions: {
+            title: 'Mga aksyon at promise',
+            text: 'Nagdadagdag ang isang <code>action</code> ng button gaya ng Undo. Nagpapakita ang <code>promise()</code> ng spinner, saka ito nagiging resulta.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Ang service na nagpapakita ng mga toast. I-inject ito kahit saan.',
+            members: {
+              toasts: 'Bawat toast na nasa screen, pinakabago muna.',
+              show: 'Nagpapakita ng toast. Magpasa ng title, o ng mga opsyon na may description, tone, duration, action o id.',
+              success: 'Nagpapakita ng success toast.',
+              warning: 'Nagpapakita ng warning toast.',
+              danger:
+                'Nagpapakita ng danger toast. Nananatili ito nang 8 segundo at ina-announce nang assertive.',
+              promise:
+                'Nagpapakita ng loading toast hanggang ma-settle ang promise, saka ang success o danger message nito.',
+              dismiss: 'Dini-dismiss ang isang toast, o lahat ng mga ito.',
+            },
+          },
+          NuiToasterRegion: {
+            summary:
+              'Ang region kung saan lumilitaw ang mga toast. Ilagay ito nang isang beses, sa app shell.',
+            members: {
+              position:
+                'Sulok o gilid ng viewport. Sumusunod sa direksyon ng text ang start at end.',
+              expanded: 'Pinapanatiling nakabukas ang stack.',
+              label: 'Accessible name ng region. Sabihin kung paano ito maaabot.',
+              closeLabel: 'Accessible name ng mga close button.',
+              hotkey:
+                'Ang key, bilang <code>KeyboardEvent.code</code>, na naglilipat ng focus sa pinakabagong toast kasabay ng Alt.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Inililipat ang focus sa pinakabagong toast.'],
+          ['Tab', 'Dumadaan sa mga toast, sa mga aksyon nila at sa mga close button.'],
+          ['Escape', 'Dini-dismiss ang naka-focus na toast.'],
+        ],
+        notes: [
+          'Ina-announce ang bawat toast paglitaw nito: nang polite, o nang assertive para sa danger. Hindi kailanman kumukuha ng focus ang mga toast.',
+          'Humihinto ang mga timer habang naka-hover o naka-focus ang stack at habang nakatago ang page, at hindi kailanman nagta-time out ang mga toast na naghihintay sa isang promise.',
+          'Anumang dapat aksyunan ng user ay dapat nasa labas din ng toast.',
+          'Sa reduced motion, hindi nag-a-animate at hindi puwedeng i-swipe ang mga toast, at nakatago ang timer line.',
         ],
       },
     },

@@ -1,0 +1,26 @@
+<button nuiButton variant="soft" tone="neutral" (click)="toaster.show('Draft saved')">
+  Neutral
+</button>
+<button
+  nuiButton
+  variant="soft"
+  (click)="toaster.success('Published', { description: 'Your post is live.' })"
+>
+  Success
+</button>
+<button
+  nuiButton
+  variant="soft"
+  tone="neutral"
+  (click)="toaster.warning('Storage almost full', { description: '92% of 10 GB used.' })"
+>
+  Warning
+</button>
+<button
+  nuiButton
+  variant="soft"
+  tone="danger"
+  (click)="toaster.danger('Payment failed', { description: 'The card was declined.' })"
+>
+  Danger
+</button>

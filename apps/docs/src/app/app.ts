@@ -5,11 +5,20 @@ import { LOCALE_INFO, LOCALES } from './i18n/locales';
 import { Emergency } from './layout/emergency';
 import { Logo } from './layout/logo';
 import { ThemeMenu } from './layout/theme-menu';
+import { NuiToasterRegion } from '@needless-ui/angular/toast';
 import { REPO_URL } from './site';
 
 @Component({
   selector: 'docs-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Emergency, Logo, ThemeMenu],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    Emergency,
+    Logo,
+    ThemeMenu,
+    NuiToasterRegion,
+  ],
   templateUrl: './app.html',
 })
 export class App {

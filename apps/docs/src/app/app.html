@@ -85,3 +85,8 @@
 </footer>
 
 <docs-emergency />
+
+<!-- Toasts from the examples. Nothing to prerender: the region is empty until someone asks for a toast. -->
+@defer (on idle) {
+  <nui-toaster [label]="t().site.toaster.label" [closeLabel]="t().site.toaster.close" />
+}

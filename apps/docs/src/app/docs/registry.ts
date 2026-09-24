@@ -1,3 +1,7 @@
+import { AvatarGroupExample } from '../examples/avatar/group';
+import { AvatarPeopleExample } from '../examples/avatar/people';
+import { BreadcrumbsLongExample } from '../examples/breadcrumbs/long';
+import { BreadcrumbsTrailExample } from '../examples/breadcrumbs/trail';
 import type { Type } from '@angular/core';
 import { ButtonLinksExample } from '../examples/button/links';
 import { ButtonPressesExample } from '../examples/button/presses';
@@ -8,11 +12,22 @@ import { ButtonVariantsExample } from '../examples/button/variants';
 import { DialogConfirmExample } from '../examples/dialog/confirm';
 import { DialogDismissibleExample } from '../examples/dialog/dismissible';
 import { DialogEntrancesExample } from '../examples/dialog/entrances';
+import { EmptyPicturesExample } from '../examples/empty/pictures';
+import { EmptySearchExample } from '../examples/empty/search';
 import { DialogFormExample } from '../examples/dialog/form';
 import { MenuActionsExample } from '../examples/menu/actions';
 import { MenuCheckableExample } from '../examples/menu/checkable';
 import { MenuEntrancesExample } from '../examples/menu/entrances';
 import { MenuSubmenuExample } from '../examples/menu/submenu';
+import { NumberFieldFormatsExample } from '../examples/number-field/formats';
+import { NumberFieldGuestsExample } from '../examples/number-field/guests';
+import { OtpLettersExample } from '../examples/otp/letters';
+import { OtpVerifyExample } from '../examples/otp/verify';
+import { RatingAverageExample } from '../examples/rating/average';
+import { RatingPickExample } from '../examples/rating/pick';
+import { SkeletonCardExample } from '../examples/skeleton/card';
+import { ToastActionsExample } from '../examples/toast/actions';
+import { ToastTonesExample } from '../examples/toast/tones';
 import type { ComponentId } from './ids';
 
 export interface ApiMember {
@@ -68,6 +83,45 @@ const customization = (...names: Customization[]): ApiMember[] =>
   }));
 
 export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
+  avatar: {
+    id: 'avatar',
+    importFile: 'snippets/import-avatar.ts',
+    api: [
+      {
+        name: 'NuiAvatar',
+        selector: '[nuiAvatar]',
+        members: [
+          { name: 'name', kind: 'input', type: 'string' },
+          { name: 'src', kind: 'input', type: 'string' },
+          { name: 'size', kind: 'input', type: SIZE, default: "'md'" },
+          { name: 'shape', kind: 'input', type: "'circle' | 'square'", default: "'circle'" },
+          { name: 'status', kind: 'input', type: "'online' | 'away' | 'busy' | 'offline'" },
+          { name: 'label', kind: 'input', type: 'string' },
+          { name: 'decorative', kind: 'input', type: 'boolean', default: 'false' },
+        ],
+      },
+      { name: 'NuiAvatarGroup', selector: '[nuiAvatarGroup]', members: [] },
+    ],
+    examples: [
+      { id: 'people', component: AvatarPeopleExample },
+      { id: 'group', component: AvatarGroupExample },
+    ],
+  },
+  breadcrumbs: {
+    id: 'breadcrumbs',
+    importFile: 'snippets/import-breadcrumbs.ts',
+    api: [
+      {
+        name: 'NuiBreadcrumbs',
+        selector: 'nav[nuiBreadcrumbs]',
+        members: [{ name: 'label', kind: 'input', type: 'string', default: "'Breadcrumb'" }],
+      },
+    ],
+    examples: [
+      { id: 'trail', component: BreadcrumbsTrailExample },
+      { id: 'long', component: BreadcrumbsLongExample },
+    ],
+  },
   button: {
     id: 'button',
     importFile: 'snippets/import-button.ts',
@@ -133,6 +187,27 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'entrances', component: DialogEntrancesExample },
     ],
   },
+  empty: {
+    id: 'empty',
+    importFile: 'snippets/import-empty.ts',
+    api: [
+      { name: 'NuiEmpty', selector: '[nuiEmpty]', members: [] },
+      {
+        name: 'NuiEmptyMedia',
+        selector: '[nuiEmptyMedia]',
+        members: [
+          { name: 'illustration', kind: 'input', type: "'search' | 'inbox' | 'files' | 'error'" },
+        ],
+      },
+      { name: 'NuiEmptyTitle', selector: '[nuiEmptyTitle]', members: [] },
+      { name: 'NuiEmptyDescription', selector: '[nuiEmptyDescription]', members: [] },
+      { name: 'NuiEmptyActions', selector: '[nuiEmptyActions]', members: [] },
+    ],
+    examples: [
+      { id: 'search', component: EmptySearchExample },
+      { id: 'pictures', component: EmptyPicturesExample },
+    ],
+  },
   menu: {
     id: 'menu',
     importFile: 'snippets/import-menu.ts',
@@ -182,6 +257,151 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { id: 'submenu', component: MenuSubmenuExample },
       { id: 'checkable', component: MenuCheckableExample },
       { id: 'entrances', component: MenuEntrancesExample },
+    ],
+  },
+  'number-field': {
+    id: 'number-field',
+    importFile: 'snippets/import-number-field.ts',
+    api: [
+      { name: 'NuiNumberField', selector: '[nuiNumberField]', members: [] },
+      {
+        name: 'NuiNumberInput',
+        selector: 'input[nuiNumberInput]',
+        members: [
+          { name: 'value', kind: 'model', type: 'number | null', default: 'null' },
+          { name: 'min', kind: 'input', type: 'number' },
+          { name: 'max', kind: 'input', type: 'number' },
+          { name: 'step', kind: 'input', type: 'number', default: '1' },
+          { name: 'format', kind: 'input', type: 'Intl.NumberFormatOptions', default: '{}' },
+          { name: 'locale', kind: 'input', type: 'string', default: 'LOCALE_ID' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'stepBy', kind: 'method', type: '(count: number) => void' },
+        ],
+      },
+      {
+        name: 'NuiNumberStep',
+        selector: 'button[nuiNumberStep]',
+        members: [
+          { name: 'nuiNumberStep', kind: 'input', type: 'number' },
+          { name: 'label', kind: 'input', type: 'string' },
+        ],
+      },
+    ],
+    examples: [
+      { id: 'guests', component: NumberFieldGuestsExample },
+      { id: 'formats', component: NumberFieldFormatsExample },
+    ],
+  },
+  otp: {
+    id: 'otp',
+    importFile: 'snippets/import-otp.ts',
+    api: [
+      {
+        name: 'NuiOtp',
+        selector: '[nuiOtp]',
+        members: [
+          { name: 'length', kind: 'input', type: 'number', default: '6' },
+          {
+            name: 'pattern',
+            kind: 'input',
+            type: "'digits' | 'alphanumeric'",
+            default: "'digits'",
+          },
+          { name: 'groups', kind: 'input', type: 'number[]', default: '[]' },
+          { name: 'masked', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'completed', kind: 'output', type: 'string' },
+        ],
+      },
+      {
+        name: 'NuiOtpInput',
+        selector: 'input[nuiOtpInput]',
+        members: [{ name: 'webOtp', kind: 'input', type: 'boolean', default: 'false' }],
+      },
+    ],
+    examples: [
+      { id: 'verify', component: OtpVerifyExample },
+      { id: 'letters', component: OtpLettersExample },
+    ],
+  },
+  rating: {
+    id: 'rating',
+    importFile: 'snippets/import-rating.ts',
+    api: [
+      {
+        name: 'NuiRating',
+        selector: '[nuiRating]',
+        members: [
+          { name: 'value', kind: 'model', type: 'number | null', default: 'null' },
+          { name: 'max', kind: 'input', type: 'number', default: '5' },
+          { name: 'readonly', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'clearable', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'name', kind: 'input', type: 'string' },
+          { name: 'starLabel', kind: 'input', type: '(value: number) => string' },
+          { name: 'readonlyLabel', kind: 'input', type: '(value: number, max: number) => string' },
+        ],
+      },
+    ],
+    examples: [
+      { id: 'pick', component: RatingPickExample },
+      { id: 'average', component: RatingAverageExample },
+    ],
+  },
+  skeleton: {
+    id: 'skeleton',
+    importFile: 'snippets/import-skeleton.ts',
+    api: [
+      {
+        name: 'NuiSkeleton',
+        selector: '[nuiSkeleton]',
+        members: [
+          { name: 'shape', kind: 'input', type: "'text' | 'circle' | 'block'", default: "'text'" },
+        ],
+      },
+    ],
+    examples: [{ id: 'card', component: SkeletonCardExample }],
+  },
+  toast: {
+    id: 'toast',
+    importFile: 'snippets/import-toast.ts',
+    api: [
+      {
+        name: 'NuiToaster',
+        selector: 'inject(NuiToaster)',
+        members: [
+          { name: 'toasts', kind: 'method', type: 'Signal<readonly NuiToast[]>' },
+          {
+            name: 'show',
+            kind: 'method',
+            type: '(options: NuiToastOptions | string) => NuiToastRef',
+          },
+          { name: 'success', kind: 'method', type: '(title, options?) => NuiToastRef' },
+          { name: 'warning', kind: 'method', type: '(title, options?) => NuiToastRef' },
+          { name: 'danger', kind: 'method', type: '(title, options?) => NuiToastRef' },
+          { name: 'promise', kind: 'method', type: '(promise, messages) => Promise' },
+          { name: 'dismiss', kind: 'method', type: '(id?: string) => void' },
+        ],
+      },
+      {
+        name: 'NuiToasterRegion',
+        selector: 'nui-toaster',
+        members: [
+          {
+            name: 'position',
+            kind: 'input',
+            type: "'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end'",
+            default: "'bottom-end'",
+          },
+          { name: 'expanded', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'label', kind: 'input', type: 'string', default: "'Notifications (Alt+T)'" },
+          { name: 'closeLabel', kind: 'input', type: 'string', default: "'Dismiss'" },
+          { name: 'hotkey', kind: 'input', type: 'string', default: "'KeyT'" },
+        ],
+      },
+    ],
+    examples: [
+      { id: 'tones', component: ToastTonesExample },
+      { id: 'actions', component: ToastActionsExample },
     ],
   },
 };

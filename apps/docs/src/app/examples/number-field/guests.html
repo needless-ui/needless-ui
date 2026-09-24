@@ -1,0 +1,6 @@
+<div nuiNumberField>
+  <button nuiNumberStep="-1" label="Fewer guests"></button>
+  <input nuiNumberInput aria-label="Guests" [min]="1" [max]="12" [(value)]="guests" />
+  <button nuiNumberStep="1" label="More guests"></button>
+</div>
+<p>A table for {{ guests() }}. Hold a button to count faster.</p>

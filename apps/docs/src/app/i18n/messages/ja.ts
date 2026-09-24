@@ -33,6 +33,7 @@ export const messages: Messages = {
       fallen: '重力はもう元に戻りません。ページを再読み込みして宇宙を再構築してください。',
       reduced: 'お使いのシステムは動きを減らす設定なので、重力はオフのままです。運がいいですね。',
     },
+    toaster: { label: '通知（Alt+T）', close: '閉じる' },
   },
 
   home: {
@@ -130,8 +131,10 @@ export const messages: Messages = {
       notes: 'アクセシビリティの注意点',
     },
     titles: {
-      api: (name) => `${name} の API`,
-      accessibility: (name) => `${name} のアクセシビリティ`,
+      // A space after a Latin name (Button の API), none after a Japanese one (アバターの API).
+      api: (name) => `${name}${/[぀-ヿ㐀-鿿豈-﫿]$/u.test(name) ? '' : ' '}の API`,
+      accessibility: (name) =>
+        `${name}${/[぀-ヿ㐀-鿿豈-﫿]$/u.test(name) ? '' : ' '}のアクセシビリティ`,
     },
     items: {
       button: {
@@ -392,6 +395,421 @@ export const messages: Messages = {
           'チェック可能な項目は、<code>aria-checked</code> で状態を伝えます。',
           '項目を選ぶとメニューが閉じ、フォーカスはトリガーに戻ります。トリガーとメニューの外にフォーカスが移った場合もメニューは閉じます。',
           '項目の高さは28ピクセル以上あり、WCAG 2.2 の最小ターゲットサイズを上回ります。',
+        ],
+      },
+
+      avatar: {
+        name: 'アバター',
+        title: 'Angular 用アバターコンポーネント',
+        summary: '人物の写真、またはその人だけの色を背景にしたイニシャル。',
+        description:
+          '写真がないときはイニシャルを表示する Angular のアバター。名前ごとに決まる色、ステータスドット、グループに対応し、どのテーマでも読みやすく表示します。',
+        apiDescription:
+          'Needless UI のアバターの API リファレンス。名前、写真、サイズ、形状、ステータスを指定する nuiAvatar と、nuiAvatarGroup を解説します。',
+        a11yDescription:
+          'Needless UI のアバターのアクセシビリティ。画像のロールと名前、装飾用のアバター、4.5:1 のコントラストを保つイニシャルを解説します。',
+        overview: [
+          '<code>nuiAvatar</code> コンポーネントは写真を表示し、写真がない場合や読み込みに失敗した場合は、その人のイニシャルを表示します。イニシャルの背景色は名前から計算されるため、同じ人はどこでも同じ色になります。',
+          'どの色相でも明度と彩度に上限を設けているため、名前やテーマにかかわらず、白いイニシャルのコントラスト比は常に 4.5:1 を上回ります。',
+        ],
+        examples: {
+          people: {
+            title: 'イニシャル、写真、ステータス',
+            text: '<code>src</code> がない場合、イニシャルと色は <code>name</code> から決まります。<code>status</code> を指定すると、在席状況を示すドットが付きます。',
+          },
+          group: {
+            title: 'グループ、サイズ、形状',
+            text: '<code>nuiAvatarGroup</code> は、アバターを1列に重ねて並べます。<code>size</code> には <code>sm</code>、<code>md</code>、<code>lg</code> を指定でき、<code>shape="square"</code> はチームやアプリに適しています。',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: '写真またはイニシャル。その人の名前がアクセシブルな名前になります。',
+            members: {
+              name: 'その人の名前。アクセシブルな名前、イニシャル、色はこの値から決まります。',
+              src: '写真の URL。読み込みに失敗した場合は、代わりにイニシャルが表示されます。',
+              size: 'サイズ：<code>sm</code>、<code>md</code>、<code>lg</code> のいずれか。',
+              shape: '<code>circle</code> または <code>square</code>。',
+              status:
+                '在席状況を示すドット：<code>online</code>、<code>away</code>、<code>busy</code>、<code>offline</code> のいずれか。',
+              label:
+                '名前よりも多くを伝えるアクセシブルな名前。たとえば「Ada Lovelace、オンライン」。',
+              decorative:
+                '支援技術からアバターを隠します。名前がすぐ横に表示されているアバターに使います。',
+            },
+          },
+          NuiAvatarGroup: {
+            summary: '重なり合うアバターの列。<code>aria-label</code> で名前を付けてください。',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'アバターは、その人の名前を持つ画像（<code>role="img"</code>）です。名前がすぐ横に表示されている場合は、スクリーンリーダーで二重に読み上げられないよう <code>decorative</code> を指定してください。',
+          'ステータスドットは見た目だけの表示です。重要な場合は <code>label</code> に含めてください。',
+          'イニシャルは、生成されるどの色の上でも 4.5:1 以上のコントラスト比を保ちます。',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'パンくずリスト',
+        title: 'Angular 用パンくずリストコンポーネント',
+        summary: '現在のページへと続く、ページの道筋。',
+        description:
+          'ネイティブの nav 要素とリストで構築したアクセシブルな Angular パンくずリスト。CSS の区切りは右から左に書く言語で反転し、長いリストはスクロールします。',
+        apiDescription:
+          'Needless UI のパンくずリストの API リファレンス。nuiBreadcrumbs ディレクティブと、ランドマークのラベルを解説します。',
+        a11yDescription:
+          'Needless UI のパンくずリストのアクセシビリティ。ナビゲーションランドマーク、リストのセマンティクス、現在のページ、ターゲットサイズを解説します。',
+        overview: [
+          'パンくずリストは、ページがサイト内のどこにあるかを示します。<code>nuiBreadcrumbs</code> ディレクティブは、ネイティブの <code>&lt;nav&gt;</code> とその中のリストにスタイルを適用します。最後の項目が現在のページで、<code>aria-current="page"</code> で示します。',
+          'コンテナーより長いパンくずリストは、折り返さずに横にスクロールします。最初は末尾までスクロールした状態で表示され、続きがある側の端はフェードします。',
+        ],
+        examples: {
+          trail: {
+            title: '基本',
+            text: '上位のページへのリンクを並べ、最後に現在のページを <code>aria-current="page"</code> 付きのプレーンテキストで表示します。',
+          },
+          long: {
+            title: '長いパンくずリスト',
+            text: '幅の狭いコンテナーではパンくずリストがスクロールし、最初から現在のページが見える状態で表示されます。',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary:
+              '<code>&lt;nav&gt;</code> とその中のリストを、パンくずリストとしてスタイリングします。',
+            members: { label: 'ナビゲーションランドマークのアクセシブルな名前。' },
+          },
+        },
+        keyboard: [['Tab', 'パンくずリスト内の次のリンクに移動します。']],
+        notes: [
+          'シンプルなリストを含むナビゲーションランドマークなので、スクリーンリーダーはパンくずリストのページ数を読み上げます。',
+          '区切りは CSS で描画されるため読み上げられず、右から左に書く言語では反転します。',
+          'どのリンクも高さが 24px 以上あります。',
+        ],
+      },
+
+      empty: {
+        name: 'エンプティステート',
+        title: 'Angular 用エンプティステートコンポーネント',
+        summary: '表示するものが何もないときに表示するもの、そして次にできること。',
+        description:
+          '画像、タイトル、短い説明、アクションで構成する Angular のエンプティステート。ゆっくりと浮遊する4種類の組み込みイラストも用意しています。',
+        apiDescription:
+          'Needless UI のエンプティステートの API リファレンス。nuiEmpty と、メディア、タイトル、説明、アクションの各パーツを解説します。',
+        a11yDescription:
+          'Needless UI のエンプティステートのアクセシビリティ。装飾的な画像、意味のある見出し、動きを減らす設定への対応を解説します。',
+        overview: [
+          'エンプティステートは、まだ何も入っていないリスト、テーブル、ページの代わりに表示します。その理由を説明し、次の一歩を示します。',
+          'メディアのパーツには独自の画像を入れることも、組み込みのイラスト（<code>search</code>、<code>inbox</code>、<code>files</code>、<code>error</code>）を描画することもできます。',
+        ],
+        examples: {
+          search: {
+            title: '検索結果なし',
+            text: '何が起きたかを伝えるタイトル、1行のヘルプ、そして抜け出すためのアクションで構成します。',
+          },
+          pictures: {
+            title: '組み込みのイラスト',
+            text: '<code>nuiEmptyMedia</code> に <code>illustration</code> を指定します。イラストはテーマに合わせて変わり、動きを減らす設定でなければ浮遊します。',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'コンテナー。中央揃えの縦1列のレイアウトです。', members: {} },
+          NuiEmptyMedia: {
+            summary: '画像。支援技術からは隠されます。',
+            members: {
+              illustration:
+                '組み込みのイラスト：<code>search</code>、<code>inbox</code>、<code>files</code>、<code>error</code> のいずれか。',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'タイトル。ページに合った見出しレベルを使ってください。',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: '1行の説明文。', members: {} },
+          NuiEmptyActions: { summary: '横に並んだボタン。', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          '画像は装飾的なもの（<code>aria-hidden</code>）で、メッセージはタイトルと説明が伝えます。',
+          'タイトルには見出しを使い、ページのアウトラインに合ったレベルにしてください。',
+          'ユーザーが動きを減らす設定にしている場合、組み込みのイラストは浮遊しません。',
+        ],
+      },
+
+      'number-field': {
+        name: '数値入力',
+        title: 'Angular 用数値入力コンポーネント',
+        summary: 'ステッパー付きの数値入力。どのロケールでも適切な書式で表示します。',
+        description:
+          'アクセシブルな Angular の数値入力。ステップボタン付きのスピンボタン、キーボードでの増減、最小値と最大値、通貨・パーセント・単位のロケール書式に対応します。',
+        apiDescription:
+          'Needless UI の数値入力の API リファレンス。nuiNumberField、min、max、step、format を持つ nuiNumberInput、nuiNumberStep を解説します。',
+        a11yDescription:
+          'Needless UI の数値入力のキーボード操作とアクセシビリティ。spinbutton ロール、矢印キーと Page キー、ステップボタンを解説します。',
+        overview: [
+          '数値入力は、数値を保持するテキスト入力です。数値をロケールに合わせた書式で表示し、入力されたテキストも同じ書式で読み取ります。フォーカスが外れると、値を <code>min</code> から <code>max</code> の範囲内で <code>step</code> の刻みに合わせます。',
+          'ネイティブの数字や区切り文字も読み取れます。アラビア・インド数字、ペルシア数字、デーヴァナーガリー数字、桁区切りとして使われるスペースやピリオド、あらゆる種類のマイナス記号に対応します。ステップボタンを押し続けると、だんだん速く繰り返します。',
+        ],
+        examples: {
+          guests: {
+            title: 'ステッパー',
+            text: '両側にボタンがあり、<code>min</code> と <code>max</code> に達すると無効になります。矢印キーでも増減できます。',
+          },
+          formats: {
+            title: '通貨とパーセント',
+            text: '<code>format</code> に <code>Intl.NumberFormat</code> のオプションを渡し、<code>locale</code> を指定します。値は普通の数値のままです。',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: '入力とそのステップボタンをまとめます。',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: '数値を保持するテキスト入力。ARIA のスピンボタンとして動作します。',
+            members: {
+              value: '数値。空の場合は <code>null</code>。フォームでも使えます。',
+              min: '許容される最小値。',
+              max: '許容される最大値。',
+              step: '1ステップで値がどれだけ変わるか。フォーカスが外れると、値はこの刻みに合わせられます。',
+              format:
+                "<code>Intl.NumberFormat</code> のオプション。たとえば <code>{ style: 'currency', currency: 'EUR' }</code>。",
+              locale: '数値の書式設定と読み取りに使うロケール。',
+              disabled: '入力とそのボタンを無効にします。',
+              stepBy: '指定したステップ数だけ値を増やします（正の数）または減らします（負の数）。',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'ステップボタン。押し続けると繰り返します。',
+            members: {
+              nuiNumberStep: '<code>1</code> で増やし、<code>-1</code> で減らします。',
+              label: 'アクセシブルな名前。デフォルトは「Increase」または「Decrease」です。',
+            },
+          },
+        },
+        keyboard: [
+          ['上下矢印キー', '値を1ステップ増減します。'],
+          ['Page Up / Page Down', '10ステップ分増減します。'],
+          ['Home / End', '最小値または最大値に移動します。'],
+          ['Enter', '入力した内容を確定します。'],
+        ],
+        notes: [
+          '入力は <code>spinbutton</code> で、<code>aria-valuenow</code>、<code>aria-valuemin</code>、<code>aria-valuemax</code> を持ち、書式設定された値が <code>aria-valuetext</code> になります。',
+          'キーで同じ操作ができるため、ステップボタンはタブ順序から外れていますが、名前が付いており、<code>aria-controls</code> で入力と関連付けられています。',
+          '入力には <code>aria-label</code> または <code>&lt;label&gt;</code> でラベルを付けてください。',
+        ],
+      },
+
+      otp: {
+        name: 'OTP 入力',
+        title: 'Angular 用 OTP・認証コード入力コンポーネント',
+        summary: 'マスに分けて表示する認証コード入力。実体は1つの本物の入力欄です。',
+        description:
+          'アクセシブルな Angular の OTP 入力。マスの下は1つのネイティブ入力欄で、SMS 自動入力、WebOTP、貼り付けの整形、グループ、マスク表示、エラー時の揺れに対応します。',
+        apiDescription:
+          'Needless UI の OTP 入力の API リファレンス。長さ、パターン、グループ、マスク表示を指定する nuiOtp と、WebOTP に対応した nuiOtpInput を解説します。',
+        a11yDescription:
+          'Needless UI の OTP 入力のキーボード操作とアクセシビリティ。ラベル付きのテキストフィールド1つ、見えるフォーカスリング、自動入力を解説します。',
+        overview: [
+          'OTP 入力はマスが並んでいるように見えますが、実体は1つのネイティブの <code>&lt;input&gt;</code> です。SMS の自動入力（<code>autocomplete="one-time-code"</code>）、貼り付け、パスワードマネージャー、フォーム、スクリーンリーダーからは、ごく普通のテキストフィールドに見えます。',
+          '貼り付けたコードは整形されるため、「123-456」でも「123 456」でも入力でき、パターンで許可されていない文字は受け付けません。Android では、<code>webOtp</code> が SMS の到着と同時にコードを入力します。',
+        ],
+        examples: {
+          verify: {
+            title: '認証',
+            text: '最後のマスが埋まると <code>(completed)</code> が発火します。コードを受け付けないときは、入力に <code>aria-invalid</code> を設定します。マスが赤くなって揺れます。',
+          },
+          letters: {
+            title: '英字、グループ、マスク表示',
+            text: '<code>pattern="alphanumeric"</code> で英字も入力でき、<code>[groups]</code> で区切りを追加し、<code>masked</code> で文字をドットで表示します。',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'マスを描画し、入力を包みます。',
+            members: {
+              length: '文字数。',
+              pattern:
+                '<code>digits</code>、または英字と数字を受け付ける <code>alphanumeric</code>。',
+              groups:
+                'グループごとの文字数。グループの間には区切りが描画されます。たとえば <code>[3, 3]</code>。',
+              masked: '文字の代わりにドットを表示します。',
+              completed: '最後のマスが埋まるたびに、コードを出力します。',
+            },
+          },
+          NuiOtpInput: {
+            summary: '実体となる入力。ワンタイムコードに必要な属性が設定されます。',
+            members: {
+              webOtp: '対応環境では、WebOTP API を使って受信した SMS からコードを入力します。',
+            },
+          },
+        },
+        keyboard: [
+          ['数字キーまたは文字キー', '現在のマスに入力し、次のマスに移動します。'],
+          ['Backspace', 'キャレットの前の文字を削除します。'],
+          [
+            '左右矢印キー',
+            '1マス移動します。入力済みのマスは選択されるので、入力すると置き換わります。',
+          ],
+          ['貼り付け', 'コピーしたコードでマスを埋めます。'],
+        ],
+        notes: [
+          'スクリーンリーダーからは、1つのテキストフィールドとして認識されます。<code>aria-label</code> または <code>&lt;label&gt;</code> でラベルを付けてください。',
+          'マスは支援技術から隠されており、編集中のマスにフォーカスリングが表示されます。',
+          '動きを減らす設定では、キャレットは点滅せず、マスも跳ねたり揺れたりしません。',
+        ],
+      },
+
+      rating: {
+        name: '評価',
+        title: 'Angular 用星評価コンポーネント',
+        summary: '評価に使う星。実体は本物のラジオボタンです。',
+        description:
+          'ネイティブのラジオボタンで構築したアクセシブルな Angular の星評価。キーボードとフォーム、ホバー時のプレビュー、評価の解除、読み取り専用での小数表示に対応します。',
+        apiDescription:
+          'Needless UI の評価の API リファレンス。値、最大値、読み取り専用モード、解除可能モードを持つ nuiRating と、翻訳できるラベルを解説します。',
+        a11yDescription:
+          'Needless UI の評価のキーボード操作とアクセシビリティ。名前付きのラジオグループ、ラベル付きの星、読み取り専用時の画像を解説します。',
+        overview: [
+          '評価は、星として描画したネイティブのラジオボタンのグループです。矢印キー、フォーム、スクリーンリーダーは通常のラジオグループと同じように動作します。CSS が星を塗りつぶし、ポインターの位置に新しい評価をプレビューします。',
+          '読み取り専用では、平均の 4.3 のような任意の小数も表示できます。',
+        ],
+        examples: {
+          pick: {
+            title: '評価する',
+            text: '<code>[(value)]</code> またはフォームにバインドします。<code>clearable</code> を指定すると、同じ星をもう一度選んだときに評価が解除されます。',
+          },
+          average: {
+            title: '平均を表示する',
+            text: '<code>readonly</code> は星を任意の割合まで塗りつぶし、画像に「Rated 4.3 out of 5」という名前を付けます。',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: '星のラジオグループ、または評価を表す読み取り専用の画像。',
+            members: {
+              value: '評価値、または <code>null</code>。フォームでも使えます。',
+              max: '星の数。',
+              readonly: '評価を入力させる代わりに、値を任意の小数まで表示します。',
+              disabled: 'すべての星を無効にします。',
+              clearable: '現在の星をもう一度選ぶと、評価が解除されます。',
+              name: 'ラジオボタンが共有する名前。デフォルトでは自動生成されます。',
+              starLabel: '各星のアクセシブルな名前。星の値を受け取る関数で指定します。',
+              readonlyLabel: '読み取り専用モードでのアクセシブルな名前。',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'グループ内の、チェックされている星に移動します。'],
+          ['矢印キー', '評価を変更します。'],
+          ['Space', 'フォーカスされている星をチェックします。'],
+        ],
+        notes: [
+          '各星は「3 stars」という名前のネイティブのラジオボタンです。グループには <code>aria-label</code> で名前を付けてください。',
+          '読み取り専用の評価は、「Rated 4.3 out of 5」という名前の画像（<code>role="img"</code>）です。',
+          '星は CSS マスクで描画されるため、強制カラーモードに従います。',
+        ],
+      },
+
+      skeleton: {
+        name: 'スケルトン',
+        title: 'Angular 用スケルトンローダーコンポーネント',
+        summary: 'コンテンツの読み込み中にレイアウトを保つプレースホルダー。',
+        description:
+          'テキスト、円、ブロックに使える Angular のスケルトンローダー。1本のシマーがページ全体を横切り、動きを減らす設定ではシマーを表示しません。',
+        apiDescription:
+          'Needless UI のスケルトンの API リファレンス。nuiSkeleton ディレクティブと、テキスト、円、ブロックの形状を解説します。',
+        a11yDescription:
+          'Needless UI のスケルトンのアクセシビリティ。隠されたプレースホルダー、aria-busy の領域、動きを減らす設定、強制カラーモードを解説します。',
+        overview: [
+          'スケルトンは読み込み中のコンテンツの形を保つので、コンテンツが表示されてもページがずれません。サイズは CSS で指定してください。',
+          'シマーはビューポートに固定されています。サイズや位置にかかわらず、1本のハイライトがページ上のすべてのスケルトンを同時に横切ります。',
+        ],
+        examples: {
+          card: {
+            title: 'カードの読み込み',
+            text: '行、円、ブロックがプロフィールの代わりに表示されます。読み込み中、カードは <code>aria-busy</code> になります。',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'プレースホルダー。支援技術からは隠されます。',
+            members: {
+              shape:
+                '<code>text</code>（1行）、<code>circle</code>、<code>block</code> のいずれか。',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'スケルトンはスクリーンリーダーから隠されています。読み込み中の領域に <code>aria-busy="true"</code> を設定し、コンテンツが表示されたら削除してください。',
+          'ユーザーが動きを減らす設定にしている場合、シマーは表示されません。',
+          '強制カラーモードでは、各スケルトンにアウトラインが付きます。',
+        ],
+      },
+
+      toast: {
+        name: 'トースト',
+        title: 'Angular 用トースト通知',
+        summary: '積み重なり、スワイプで消せて、フォーカスを奪わない短いメッセージ。',
+        description:
+          'アクセシブルな Angular のトースト。トップレイヤーでの重ね表示、Promise トースト、元に戻す操作、スワイプで閉じる操作、ホバーやフォーカスで止まるタイマーに対応します。',
+        apiDescription:
+          'Needless UI のトーストの API リファレンス。NuiToaster サービスとそのオプション、Promise トースト、nui-toaster 領域を解説します。',
+        a11yDescription:
+          'Needless UI のトーストのキーボード操作とアクセシビリティ。読み上げ、Alt+T のホットキー、Esc キー、一時停止するタイマーを解説します。',
+        overview: [
+          'トーストは、作業を中断させることなく、直前の出来事を知らせたり、「元に戻す」などのアクションを提示したりします。アプリシェルに <code>&lt;nui-toaster&gt;</code> を1つ置けば、どこからでも <code>NuiToaster</code> を呼び出せます。',
+          'トーストは最新のものの後ろに重なり、ホバーやフォーカスで扇状に広がります。動きはすべて motion のスプリングに従います。横にスワイプすると、そのトーストを払いのけられます。スタックにホバーまたはフォーカスしている間と、ページがバックグラウンドにある間は、タイマーが止まります。',
+        ],
+        examples: {
+          tones: {
+            title: 'トーン',
+            text: '<code>show()</code>、<code>success()</code>、<code>warning()</code>、<code>danger()</code> があります。danger のトーストは表示時間が長く、すぐに読み上げられます。',
+          },
+          actions: {
+            title: 'アクションと Promise',
+            text: '<code>action</code> は「元に戻す」などのボタンを追加します。<code>promise()</code> はスピナーを表示し、結果が出るとその内容に切り替わります。',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'トーストを表示するサービス。どこにでも注入できます。',
+            members: {
+              toasts: '画面上のすべてのトースト。新しいものから順に並びます。',
+              show: 'トーストを表示します。タイトル、または説明、トーン、表示時間、アクション、id を含むオプションを渡します。',
+              success: '成功のトーストを表示します。',
+              warning: '警告のトーストを表示します。',
+              danger: 'danger のトーストを表示します。8秒間表示され、すぐに読み上げられます。',
+              promise:
+                'Promise が確定するまで読み込み中のトーストを表示し、その後、成功または danger のメッセージを表示します。',
+              dismiss: 'トーストを1つ、またはすべて閉じます。',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'トーストが表示される領域。アプリシェルに1つだけ配置します。',
+            members: {
+              position: 'ビューポートの角または辺。先頭側と末尾側は、テキストの方向に従います。',
+              expanded: 'スタックを広げたままにします。',
+              label: '領域のアクセシブルな名前。そこへの移動方法も含めてください。',
+              closeLabel: '閉じるボタンのアクセシブルな名前。',
+              hotkey:
+                'Alt と組み合わせて、最新のトーストにフォーカスを移すキー。<code>KeyboardEvent.code</code> の値で指定します。',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', '最新のトーストにフォーカスを移動します。'],
+          ['Tab', 'トースト、そのアクション、閉じるボタンの間を移動します。'],
+          ['Esc', 'フォーカスされているトーストを閉じます。'],
+        ],
+        notes: [
+          'トーストは表示されるたびに読み上げられます。通常は読み上げ中の内容に割り込まず、danger の場合はすぐに読み上げられます。トーストがフォーカスを奪うことはありません。',
+          'スタックにホバーまたはフォーカスしている間と、ページが非表示の間はタイマーが止まります。Promise の結果を待っているトーストは、時間切れで消えることはありません。',
+          'ユーザーが対応しなければならない内容は、トースト以外の場所にも用意してください。',
+          '動きを減らす設定では、トーストはアニメーションもスワイプもせず、タイマーの線も表示されません。',
         ],
       },
     },

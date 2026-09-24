@@ -34,6 +34,7 @@ export const messages: Messages = {
       reduced:
         'Sistem Anda meminta gerakan dikurangi, jadi gravitasi tetap mati. Beruntung sekali.',
     },
+    toaster: { label: 'Notifikasi (Alt+T)', close: 'Tutup' },
   },
 
   home: {
@@ -389,6 +390,423 @@ export const messages: Messages = {
           'Item yang bisa dicentang mengumumkan statusnya melalui <code>aria-checked</code>.',
           'Memilih item akan menutup menu dan mengembalikan fokus ke pemicu. Memindahkan fokus ke luar pemicu dan menu juga akan menutupnya.',
           'Tinggi item minimal 28 piksel, di atas ukuran target minimum WCAG 2.2.',
+        ],
+      },
+
+      avatar: {
+        name: 'Avatar',
+        title: 'Komponen avatar untuk Angular',
+        summary: 'Foto seseorang, atau inisialnya di atas warna yang selalu menjadi miliknya.',
+        description:
+          'Avatar Angular dengan inisial sebagai pengganti foto, warna tetap untuk setiap nama, titik status, dan grup, semuanya terbaca jelas di setiap tema.',
+        apiDescription:
+          'Referensi API avatar Needless UI: nuiAvatar dengan nama, foto, ukuran, bentuk, dan status, serta nuiAvatarGroup.',
+        a11yDescription:
+          'Aksesibilitas avatar Needless UI: role dan nama gambar, avatar dekoratif, serta inisial yang menjaga kontras 4,5:1.',
+        overview: [
+          'Komponen <code>nuiAvatar</code> menampilkan foto, atau inisial orang tersebut jika fotonya tidak ada atau gagal dimuat. Inisial ditampilkan di atas warna yang dihitung dari nama, sehingga orang yang sama selalu mendapat warna yang sama di mana pun.',
+          'Kecerahan dan kroma setiap hue dibatasi agar inisial putih selalu memiliki rasio kontras di atas 4,5:1, apa pun nama dan temanya.',
+        ],
+        examples: {
+          people: {
+            title: 'Inisial, foto, dan status',
+            text: 'Tanpa <code>src</code>, inisial dan warna diambil dari <code>name</code>. <code>status</code> menambahkan titik status kehadiran.',
+          },
+          group: {
+            title: 'Grup, ukuran, dan bentuk',
+            text: '<code>nuiAvatarGroup</code> menyusun sederet avatar yang saling bertumpuk. <code>size</code> menerima <code>sm</code>, <code>md</code>, atau <code>lg</code>, dan <code>shape="square"</code> cocok untuk tim dan aplikasi.',
+          },
+        },
+        api: {
+          NuiAvatar: {
+            summary: 'Foto atau inisial, yang diberi nama sesuai orangnya.',
+            members: {
+              name: 'Nama orang tersebut. Nama aksesibel, inisial, dan warna diambil darinya.',
+              src: 'URL foto. Jika gagal dimuat, inisial ditampilkan sebagai gantinya.',
+              size: 'Ukuran: <code>sm</code>, <code>md</code>, atau <code>lg</code>.',
+              shape: '<code>circle</code> atau <code>square</code>.',
+              status:
+                'Titik status kehadiran: <code>online</code>, <code>away</code>, <code>busy</code>, atau <code>offline</code>.',
+              label:
+                'Nama aksesibel yang menyampaikan lebih dari sekadar nama, misalnya “Ada Lovelace, sedang online”.',
+              decorative:
+                'Menyembunyikan avatar dari teknologi bantu, untuk avatar yang berada di samping nama yang terlihat.',
+            },
+          },
+          NuiAvatarGroup: {
+            summary:
+              'Sederet avatar yang saling bertumpuk. Beri nama dengan <code>aria-label</code>.',
+            members: {},
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Avatar adalah gambar (<code>role="img"</code>) yang diberi nama sesuai orangnya. Jika namanya sudah terlihat di sampingnya, tetapkan <code>decorative</code> agar pengguna pembaca layar tidak mendengarnya dua kali.',
+          'Titik status hanya bersifat visual. Jika status itu penting, cantumkan di <code>label</code>.',
+          'Inisial menjaga rasio kontras minimal 4,5:1 pada setiap warna yang dihasilkan.',
+        ],
+      },
+
+      breadcrumbs: {
+        name: 'Breadcrumbs',
+        title: 'Komponen breadcrumb untuk Angular',
+        summary: 'Jejak halaman yang mengarah ke halaman saat ini.',
+        description:
+          'Breadcrumb Angular yang aksesibel dengan nav dan daftar native, pemisah CSS yang dicerminkan pada teks kanan-ke-kiri, dan jejak panjang yang bisa digulir.',
+        apiDescription:
+          'Referensi API breadcrumb Needless UI: direktif nuiBreadcrumbs dan label landmark navigasinya.',
+        a11yDescription:
+          'Aksesibilitas breadcrumb Needless UI: landmark navigasi, semantik daftar, halaman saat ini, dan ukuran target.',
+        overview: [
+          'Breadcrumb menunjukkan posisi sebuah halaman di dalam situs. Direktif <code>nuiBreadcrumbs</code> memberi gaya pada <code>&lt;nav&gt;</code> native beserta daftarnya; item terakhir adalah halaman saat ini, yang ditandai dengan <code>aria-current="page"</code>.',
+          'Jejak yang lebih panjang dari kontainernya bergulir ke samping alih-alih turun ke baris baru. Awalnya jejak sudah tergulir ke ujung, dan tepinya memudar di sisi yang masih menyimpan item lain.',
+        ],
+        examples: {
+          trail: {
+            title: 'Jejak halaman',
+            text: 'Tautan ke halaman-halaman di atasnya, lalu halaman saat ini sebagai teks biasa dengan <code>aria-current="page"</code>.',
+          },
+          long: {
+            title: 'Jejak panjang',
+            text: 'Di kontainer yang sempit, jejaknya bisa digulir, dan awalnya halaman saat ini sudah terlihat.',
+          },
+        },
+        api: {
+          NuiBreadcrumbs: {
+            summary: 'Memberi gaya breadcrumb pada <code>&lt;nav&gt;</code> beserta daftarnya.',
+            members: { label: 'Nama aksesibel untuk landmark navigasi.' },
+          },
+        },
+        keyboard: [['Tab', 'Pindah ke tautan berikutnya dalam jejak.']],
+        notes: [
+          'Komponen ini adalah landmark navigasi berisi daftar biasa, sehingga pembaca layar mengumumkan jumlah halaman dalam jejak.',
+          'Pemisah digambar dengan CSS, sehingga tidak dibacakan, dan dicerminkan pada teks kanan-ke-kiri.',
+          'Tinggi setiap tautan minimal 24px.',
+        ],
+      },
+
+      empty: {
+        name: 'Empty state',
+        title: 'Komponen empty state untuk Angular',
+        summary:
+          'Apa yang ditampilkan saat tidak ada yang bisa ditampilkan, dan apa yang bisa dilakukan.',
+        description:
+          'Empty state Angular dengan gambar, judul, penjelasan singkat, dan aksi, plus empat ilustrasi bawaan yang melayang dengan lembut.',
+        apiDescription:
+          'Referensi API empty state Needless UI: nuiEmpty beserta bagian media, judul, deskripsi, dan aksinya.',
+        a11yDescription:
+          'Aksesibilitas empty state Needless UI: gambar dekoratif, judul yang bermakna, dan pengurangan gerakan.',
+        overview: [
+          'Empty state menggantikan daftar, tabel, atau halaman yang belum berisi apa pun. Komponen ini menjelaskan alasannya dan menawarkan langkah berikutnya.',
+          'Bagian media bisa diisi gambar Anda sendiri, atau menampilkan salah satu gambar bawaan: <code>search</code>, <code>inbox</code>, <code>files</code>, atau <code>error</code>.',
+        ],
+        examples: {
+          search: {
+            title: 'Tidak ada hasil',
+            text: 'Judul yang menjelaskan apa yang terjadi, satu baris bantuan, dan aksi sebagai jalan keluar.',
+          },
+          pictures: {
+            title: 'Gambar bawaan',
+            text: 'Tetapkan <code>illustration</code> pada <code>nuiEmptyMedia</code>. Gambarnya mengikuti tema dan melayang, kecuali jika gerakan dikurangi.',
+          },
+        },
+        api: {
+          NuiEmpty: { summary: 'Kontainer: tumpukan vertikal yang rata tengah.', members: {} },
+          NuiEmptyMedia: {
+            summary: 'Gambar, yang disembunyikan dari teknologi bantu.',
+            members: {
+              illustration:
+                'Gambar bawaan: <code>search</code>, <code>inbox</code>, <code>files</code>, atau <code>error</code>.',
+            },
+          },
+          NuiEmptyTitle: {
+            summary: 'Judul. Gunakan level heading yang sesuai dengan halaman.',
+            members: {},
+          },
+          NuiEmptyDescription: { summary: 'Satu baris penjelasan.', members: {} },
+          NuiEmptyActions: { summary: 'Deretan tombol.', members: {} },
+        },
+        keyboard: [],
+        notes: [
+          'Gambarnya dekoratif (<code>aria-hidden</code>): pesan disampaikan oleh judul dan deskripsi.',
+          'Gunakan heading untuk judul, dengan level yang sesuai dengan struktur halaman.',
+          'Gambar bawaan berhenti melayang saat pengguna memilih pengurangan gerakan.',
+        ],
+      },
+
+      'number-field': {
+        name: 'Kolom angka',
+        title: 'Komponen kolom angka untuk Angular',
+        summary: 'Kolom input angka dengan tombol langkah, berformat sesuai setiap locale.',
+        description:
+          'Kolom angka Angular aksesibel: spinbutton dengan tombol langkah, langkah via keyboard, min dan max, serta format locale untuk mata uang, persen, dan satuan.',
+        apiDescription:
+          'Referensi API kolom angka Needless UI: nuiNumberField, nuiNumberInput dengan min, max, step, dan format, serta nuiNumberStep.',
+        a11yDescription:
+          'Interaksi keyboard dan aksesibilitas kolom angka Needless UI: role spinbutton, tombol panah dan Page, serta tombol langkah.',
+        overview: [
+          'Kolom angka adalah input teks yang menyimpan sebuah angka. Kolom ini menampilkan angka dalam format locale, membaca kembali teks yang diketik dengan format yang sama, dan saat kehilangan fokus membulatkan nilainya ke <code>step</code> terdekat di antara <code>min</code> dan <code>max</code>.',
+          'Kolom ini juga membaca digit dan pemisah dari aksara lain: angka Arab-India, Persia, dan Dewanagari, spasi dan titik sebagai pemisah ribuan, serta semua jenis tanda minus. Menahan tombol langkah akan mengulang langkahnya, makin lama makin cepat.',
+        ],
+        examples: {
+          guests: {
+            title: 'Tombol langkah',
+            text: 'Tombol di kedua sisi, yang nonaktif saat mencapai <code>min</code> dan <code>max</code>. Tombol panah juga menaikkan dan menurunkan nilai.',
+          },
+          formats: {
+            title: 'Mata uang dan persen',
+            text: 'Teruskan opsi <code>Intl.NumberFormat</code> ke <code>format</code> beserta sebuah <code>locale</code>. Nilainya tetap berupa angka biasa.',
+          },
+        },
+        api: {
+          NuiNumberField: {
+            summary: 'Mengelompokkan input dengan tombol langkahnya.',
+            members: {},
+          },
+          NuiNumberInput: {
+            summary: 'Input teks yang menyimpan angka, sebagai spinbutton ARIA.',
+            members: {
+              value: 'Angkanya, atau <code>null</code> jika kosong. Juga bekerja dengan formulir.',
+              min: 'Nilai terkecil yang diizinkan.',
+              max: 'Nilai terbesar yang diizinkan.',
+              step: 'Besar perubahan nilai dalam satu langkah. Saat kehilangan fokus, nilai dibulatkan ke langkah terdekat.',
+              format:
+                "Opsi <code>Intl.NumberFormat</code>, misalnya <code>{ style: 'currency', currency: 'EUR' }</code>.",
+              locale: 'Locale untuk memformat dan membaca angka.',
+              disabled: 'Menonaktifkan input beserta tombolnya.',
+              stepBy:
+                'Menaikkan (positif) atau menurunkan (negatif) nilai sebanyak sejumlah langkah.',
+            },
+          },
+          NuiNumberStep: {
+            summary: 'Tombol langkah. Jika ditahan, langkahnya berulang.',
+            members: {
+              nuiNumberStep: '<code>1</code> menaikkan nilai dan <code>-1</code> menurunkannya.',
+              label: 'Nama aksesibel. Default-nya “Increase” atau “Decrease”.',
+            },
+          },
+        },
+        keyboard: [
+          ['Panah atas dan bawah', 'Menaikkan atau menurunkan nilai satu langkah.'],
+          ['Page Up dan Page Down', 'Melangkah sepuluh kali sekaligus.'],
+          ['Home dan End', 'Menuju nilai minimum atau maksimum.'],
+          ['Enter', 'Menerapkan nilai yang diketik.'],
+        ],
+        notes: [
+          'Input-nya adalah <code>spinbutton</code> dengan <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>, serta nilai terformat sebagai <code>aria-valuetext</code>.',
+          'Tombol langkah tidak masuk urutan tab karena tombol keyboard melakukan hal yang sama, tetapi keduanya tetap diberi nama dan ditautkan ke input dengan <code>aria-controls</code>.',
+          'Beri label pada input dengan <code>aria-label</code> atau <code>&lt;label&gt;</code>.',
+        ],
+      },
+
+      otp: {
+        name: 'Input OTP',
+        title: 'Input OTP dan kode verifikasi untuk Angular',
+        summary: 'Kode verifikasi dalam slot terpisah, di atas satu input sungguhan.',
+        description:
+          'Input OTP Angular yang aksesibel: satu kolom native di balik slot, isi otomatis dari SMS, WebOTP, pembersihan tempelan, grup, penyamaran, dan getar saat error.',
+        apiDescription:
+          'Referensi API input OTP Needless UI: nuiOtp dengan panjang, pola, grup, dan penyamaran, serta nuiOtpInput dengan WebOTP.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas input OTP Needless UI: satu kolom teks berlabel, indikator fokus yang terlihat, dan isi otomatis.',
+        overview: [
+          'Input OTP terlihat seperti deretan slot, tetapi di baliknya hanya ada satu <code>&lt;input&gt;</code> native. Isi otomatis dari SMS (<code>autocomplete="one-time-code"</code>), tempel, pengelola kata sandi, formulir, dan pembaca layar semuanya melihat kolom teks biasa.',
+          'Kode yang ditempel akan dibersihkan, jadi “123-456” maupun “123 456” sama-sama berfungsi, dan karakter yang tidak diizinkan pola akan ditolak. Di Android, <code>webOtp</code> mengisi kode dari SMS begitu pesan itu masuk.',
+        ],
+        examples: {
+          verify: {
+            title: 'Verifikasi',
+            text: '<code>(completed)</code> terpicu saat slot terakhir terisi. Tetapkan <code>aria-invalid</code> pada input untuk menolak kode: slot berubah merah dan bergetar.',
+          },
+          letters: {
+            title: 'Huruf, grup, dan penyamaran',
+            text: '<code>pattern="alphanumeric"</code> juga menerima huruf, <code>[groups]</code> menambahkan pemisah, dan <code>masked</code> menampilkan titik.',
+          },
+        },
+        api: {
+          NuiOtp: {
+            summary: 'Menggambar slot dan membungkus input.',
+            members: {
+              length: 'Jumlah karakter.',
+              pattern: '<code>digits</code>, atau <code>alphanumeric</code> untuk huruf dan angka.',
+              groups: 'Ukuran grup, dengan pemisah di antaranya, misalnya <code>[3, 3]</code>.',
+              masked: 'Menampilkan titik alih-alih karakter.',
+              completed: 'Mengirimkan kode setiap kali slot terakhir terisi.',
+            },
+          },
+          NuiOtpInput: {
+            summary: 'Input yang sebenarnya. Mendapat atribut yang dibutuhkan kode sekali pakai.',
+            members: {
+              webOtp: 'Mengisi kode dari SMS yang masuk melalui WebOTP API, jika didukung.',
+            },
+          },
+        },
+        keyboard: [
+          ['Angka atau huruf', 'Mengisi slot saat ini dan pindah ke slot berikutnya.'],
+          ['Backspace', 'Menghapus karakter sebelum kursor.'],
+          [
+            'Panah kiri dan kanan',
+            'Pindah satu slot; slot yang sudah terisi akan dipilih, sehingga ketikan menggantikannya.',
+          ],
+          ['Tempel', 'Mengisi slot dari kode yang disalin.'],
+        ],
+        notes: [
+          'Pembaca layar hanya menemukan satu kolom teks. Beri label dengan <code>aria-label</code> atau <code>&lt;label&gt;</code>.',
+          'Slot disembunyikan dari teknologi bantu; slot yang sedang diedit menampilkan indikator fokus.',
+          'Saat gerakan dikurangi, kursor tidak berkedip dan slot tidak melompat atau bergetar.',
+        ],
+      },
+
+      rating: {
+        name: 'Rating',
+        title: 'Komponen rating bintang untuk Angular',
+        summary: 'Bintang untuk memberi rating, di atas tombol radio sungguhan.',
+        description:
+          'Rating bintang Angular yang aksesibel dengan tombol radio native: dukungan keyboard dan formulir, pratinjau saat hover, pengosongan, dan pecahan read-only.',
+        apiDescription:
+          'Referensi API rating Needless UI: nuiRating dengan value, max, mode read-only dan clearable, serta label yang bisa diterjemahkan.',
+        a11yDescription:
+          'Interaksi keyboard dan aksesibilitas rating Needless UI: grup radio bernama, bintang berlabel, dan gambar read-only.',
+        overview: [
+          'Rating adalah grup tombol radio native yang digambar sebagai bintang. Tombol panah, formulir, dan pembaca layar bekerja seperti pada grup radio mana pun; CSS mengisi bintang dan menampilkan pratinjau rating baru di bawah pointer.',
+          'Dalam mode read-only, komponen ini bisa menampilkan pecahan apa pun, misalnya rata-rata 4,3.',
+        ],
+        examples: {
+          pick: {
+            title: 'Memberi rating',
+            text: 'Hubungkan <code>[(value)]</code> atau formulir. Dengan <code>clearable</code>, memilih bintang yang sama sekali lagi akan mengosongkan rating.',
+          },
+          average: {
+            title: 'Menampilkan rata-rata',
+            text: '<code>readonly</code> mengisi bintang hingga pecahan apa pun dan menamai gambarnya “Rated 4.3 out of 5”.',
+          },
+        },
+        api: {
+          NuiRating: {
+            summary: 'Grup radio berisi bintang, atau gambar read-only dari sebuah rating.',
+            members: {
+              value: 'Nilai rating, atau <code>null</code>. Juga bekerja dengan formulir.',
+              max: 'Jumlah bintang.',
+              readonly: 'Menampilkan nilai, hingga pecahan apa pun, alih-alih memintanya.',
+              disabled: 'Menonaktifkan semua bintang.',
+              clearable: 'Memilih bintang saat ini sekali lagi akan mengosongkan rating.',
+              name: 'Nama yang dipakai bersama oleh tombol-tombol radio. Dibuat otomatis secara default.',
+              starLabel: 'Nama aksesibel setiap bintang, sebagai fungsi dari nilainya.',
+              readonlyLabel: 'Nama aksesibel dalam mode read-only.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Masuk ke grup, ke bintang yang terpilih.'],
+          ['Tombol panah', 'Mengubah rating.'],
+          ['Spasi', 'Memilih bintang yang sedang difokus.'],
+        ],
+        notes: [
+          'Setiap bintang adalah tombol radio native dengan nama seperti “3 stars”. Beri nama grupnya dengan <code>aria-label</code>.',
+          'Dalam mode read-only, rating adalah gambar (<code>role="img"</code>) bernama “Rated 4.3 out of 5”.',
+          'Bintang digambar dengan mask CSS, sehingga mengikuti forced colors.',
+        ],
+      },
+
+      skeleton: {
+        name: 'Skeleton',
+        title: 'Komponen skeleton loader untuk Angular',
+        summary: 'Placeholder yang menjaga tata letak selama konten dimuat.',
+        description:
+          'Skeleton loader Angular untuk teks, lingkaran, dan blok, dengan satu kilau yang menyapu seluruh halaman dan tidak muncul saat gerakan dikurangi.',
+        apiDescription:
+          'Referensi API skeleton Needless UI: direktif nuiSkeleton beserta bentuk teks, lingkaran, dan bloknya.',
+        a11yDescription:
+          'Aksesibilitas skeleton Needless UI: placeholder tersembunyi, region aria-busy, pengurangan gerakan, dan forced colors.',
+        overview: [
+          'Skeleton menjaga bentuk konten yang masih dimuat, sehingga halaman tidak melompat saat konten itu tiba. Atur ukurannya dengan CSS.',
+          'Kilaunya terkunci pada viewport: satu sorotan menyapu semua skeleton di halaman sekaligus, apa pun ukuran dan posisinya.',
+        ],
+        examples: {
+          card: {
+            title: 'Memuat kartu',
+            text: 'Garis, lingkaran, dan blok sebagai pengganti profil. Kartu diberi <code>aria-busy</code> selama dimuat.',
+          },
+        },
+        api: {
+          NuiSkeleton: {
+            summary: 'Placeholder yang disembunyikan dari teknologi bantu.',
+            members: {
+              shape:
+                '<code>text</code> (satu baris), <code>circle</code>, atau <code>block</code>.',
+            },
+          },
+        },
+        keyboard: [],
+        notes: [
+          'Skeleton disembunyikan dari pembaca layar. Tetapkan <code>aria-busy="true"</code> pada region yang sedang dimuat, lalu hapus saat kontennya tiba.',
+          'Tidak ada kilau saat pengguna memilih pengurangan gerakan.',
+          'Dalam mode forced colors, setiap skeleton mendapat outline.',
+        ],
+      },
+
+      toast: {
+        name: 'Toast',
+        title: 'Notifikasi toast untuk Angular',
+        summary:
+          'Pesan singkat yang bertumpuk, bisa digeser untuk ditutup, dan tidak pernah merebut fokus.',
+        description:
+          'Toast Angular yang aksesibel: tumpukan di top layer, toast untuk promise, aksi urungkan, geser untuk menutup, dan timer yang berhenti saat hover dan fokus.',
+        apiDescription:
+          'Referensi API toast Needless UI: service NuiToaster, opsi dan toast promise-nya, serta region nui-toaster.',
+        a11yDescription:
+          'Interaksi keyboard dan aksesibilitas toast Needless UI: pengumuman, pintasan Alt+T, Esc, dan timer yang bisa dijeda.',
+        overview: [
+          'Toast mengonfirmasi apa yang baru saja terjadi, atau menawarkan aksi seperti Urungkan, tanpa mengganggu. Pasang satu <code>&lt;nui-toaster&gt;</code> di shell aplikasi, lalu panggil <code>NuiToaster</code> dari mana saja.',
+          'Toast menumpuk di belakang toast terbaru dan terbuka seperti kipas saat di-hover atau difokus, semuanya dengan pegas motion. Geser ke samping untuk membuang satu toast. Timer berhenti sementara selama tumpukan di-hover atau difokus, dan selama halaman berada di latar belakang.',
+        ],
+        examples: {
+          tones: {
+            title: 'Tone',
+            text: '<code>show()</code>, <code>success()</code>, <code>warning()</code>, dan <code>danger()</code>. Toast danger tampil lebih lama dan diumumkan secara assertive.',
+          },
+          actions: {
+            title: 'Aksi dan promise',
+            text: '<code>action</code> menambahkan tombol seperti Urungkan. <code>promise()</code> menampilkan spinner, lalu berubah menjadi hasilnya.',
+          },
+        },
+        api: {
+          NuiToaster: {
+            summary: 'Service yang menampilkan toast. Inject di mana saja.',
+            members: {
+              toasts: 'Semua toast di layar, dari yang terbaru.',
+              show: 'Menampilkan toast. Teruskan judul, atau opsi berisi deskripsi, tone, durasi, aksi, atau id.',
+              success: 'Menampilkan toast sukses.',
+              warning: 'Menampilkan toast peringatan.',
+              danger:
+                'Menampilkan toast danger. Toast ini tampil selama 8 detik dan diumumkan secara assertive.',
+              promise:
+                'Menampilkan toast pemuatan sampai promise selesai, lalu pesan sukses atau danger-nya.',
+              dismiss: 'Menutup satu toast, atau semuanya.',
+            },
+          },
+          NuiToasterRegion: {
+            summary: 'Region tempat toast muncul. Pasang sekali saja, di shell aplikasi.',
+            members: {
+              position: 'Sudut atau tepi viewport. Sisi awal dan akhir mengikuti arah teks.',
+              expanded: 'Membuat tumpukan tetap terbentang.',
+              label: 'Nama aksesibel region. Sebutkan cara menjangkaunya.',
+              closeLabel: 'Nama aksesibel tombol tutup.',
+              hotkey:
+                'Tombol, sebagai <code>KeyboardEvent.code</code>, yang bersama Alt memindahkan fokus ke toast terbaru.',
+            },
+          },
+        },
+        keyboard: [
+          ['Alt+T', 'Memindahkan fokus ke toast terbaru.'],
+          ['Tab', 'Berpindah antar-toast, aksinya, dan tombol tutupnya.'],
+          ['Esc', 'Menutup toast yang sedang difokus.'],
+        ],
+        notes: [
+          'Setiap toast diumumkan saat muncul: secara polite, atau assertive untuk danger. Toast tidak pernah mengambil fokus.',
+          'Timer berhenti sementara selama tumpukan di-hover atau difokus dan selama halaman tersembunyi, dan toast yang menunggu promise tidak pernah kedaluwarsa.',
+          'Apa pun yang harus ditindaklanjuti pengguna sebaiknya juga tersedia di luar toast.',
+          'Saat gerakan dikurangi, toast tidak beranimasi dan tidak bisa digeser, dan garis timer disembunyikan.',
         ],
       },
     },
