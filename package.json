@@ -16,7 +16,7 @@
     "build:tokens": "pnpm --filter @needless-ui/tokens run build",
     "build:css": "pnpm --filter @needless-ui/css run build",
     "build:angular": "ng build @needless-ui/angular",
-    "test": "pnpm --filter @needless-ui/tokens --filter @needless-ui/css run test && ng test @needless-ui/angular --watch=false && ng test docs --watch=false",
+    "test": "pnpm --filter @needless-ui/tokens --filter @needless-ui/css run test && ng test @needless-ui/angular --watch=false && pnpm docs:generate && ng test docs --watch=false",
     "typecheck": "pnpm --filter @needless-ui/tokens --filter @needless-ui/css run typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
