@@ -1,5 +1,25 @@
 # @needless-ui/angular
 
+## 0.3.0
+
+### Minor Changes
+
+- [`4dba452`](https://github.com/needless-ui/needless-ui/commit/4dba4526e82eace539ffc2d9116c8bc3bba873ab) - Eight new components:
+
+  - **Toast:** a stack of toasts in the top layer, with promise toasts, actions, swipe to dismiss and timers that pause.
+  - **OTP input:** separate slots over one native input, with SMS autofill, WebOTP and paste cleanup.
+  - **Number field:** a spinbutton formatted for any locale, with step buttons that repeat when held.
+  - **Rating:** stars on native radio buttons, with a fractional read-only view.
+  - **Avatar:** initials on a stable, contrast-safe color per name, with pictures, status dots and groups.
+  - **Skeleton:** placeholders sharing one page-wide shimmer.
+  - **Breadcrumbs:** a trail that scrolls when it's too long.
+  - **Empty state:** built-in pictures that float.
+
+### Patch Changes
+
+- Updated dependencies [[`4dba452`](https://github.com/needless-ui/needless-ui/commit/4dba4526e82eace539ffc2d9116c8bc3bba873ab)]:
+  - @needless-ui/css@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@needless-ui/tokens",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Design tokens for Needless UI in W3C DTCG format, compiled to CSS custom properties.",
   "license": "MIT",
   "type": "module",
