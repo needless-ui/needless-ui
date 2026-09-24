@@ -26,6 +26,12 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # npm can only add a trusted publisher to a package that already exists, so the
+      # first release publishes with this token. Remove it once each package trusts
+      # this workflow. The file holds the variable name, never the token.
+      - name: Authenticate to npm
+        run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > "$HOME/.npmrc"
+
       # With pending changesets this opens a "release packages" PR; once that PR
       # is merged it publishes every package whose version is not on npm yet.
       - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
@@ -35,4 +41,6 @@ jobs:
           commit-message: 'chore: release packages'
           pr-title: 'chore: release packages'
         env:
-          NPM_CONFIG_PROVENANCE: 'true'
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # changesets publishes with pnpm, which reads its settings from PNPM_CONFIG_*.
+          PNPM_CONFIG_PROVENANCE: 'true'
