@@ -46,7 +46,9 @@ export class Seo {
     const url = absoluteUrl(localizePath(page.path, locale));
     const title = page.fullTitle ? page.title : `${page.title} · ${site.name}`;
 
-    this.document.documentElement.lang = locale;
+    const info = LOCALE_INFO[locale];
+    this.document.documentElement.lang = info.tag;
+    this.document.documentElement.dir = info.dir;
     this.title.setTitle(title);
 
     this.setMeta('name', 'description', page.description);
@@ -64,7 +66,7 @@ export class Seo {
     this.setMeta('property', 'og:image:width', '1200');
     this.setMeta('property', 'og:image:height', '630');
     this.setMeta('property', 'og:image:alt', `${site.name}: ${site.tagline}`);
-    this.setMeta('property', 'og:locale', LOCALE_INFO[locale].ogLocale);
+    this.setMeta('property', 'og:locale', info.ogLocale);
     this.setMeta('name', 'twitter:card', 'summary_large_image');
     this.setMeta('name', 'twitter:title', title);
     this.setMeta('name', 'twitter:description', page.description);
@@ -83,7 +85,7 @@ export class Seo {
             ...LOCALES.map((l) =>
               this.link({
                 rel: 'alternate',
-                hreflang: l,
+                hreflang: LOCALE_INFO[l].tag,
                 href: absoluteUrl(localizePath(page.path, l)),
               }),
             ),
@@ -134,7 +136,7 @@ export class Seo {
       name: site.name,
       alternateName: site.tagline,
       description: site.description,
-      inLanguage: locale,
+      inLanguage: LOCALE_INFO[locale].tag,
     };
     const crumbs = page.breadcrumbs ?? [];
     const nodes: object[] = [
@@ -146,7 +148,7 @@ export class Seo {
         name: title,
         headline: page.title,
         description: page.description,
-        inLanguage: locale,
+        inLanguage: LOCALE_INFO[locale].tag,
         isPartOf: { '@id': website['@id'] },
         ...(crumbs.length ? { breadcrumb: { '@id': `${url}#breadcrumb` } } : {}),
       },

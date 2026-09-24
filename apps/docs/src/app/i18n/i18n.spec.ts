@@ -39,4 +39,17 @@ describe('I18n', () => {
     expect(i18n.link('/guides/theming')).toBe('/it/guides/theming');
     expect(i18n.link('/guides/theming', 'en')).toBe('/guides/theming');
   });
+
+  it('points links in translated text at the same language', async () => {
+    const i18n = TestBed.inject(I18n);
+    await i18n.load('en');
+    await TestBed.inject(Router).navigateByUrl('/it/privacy');
+
+    const text = JSON.stringify(i18n.t());
+    expect(text).toContain('href=\\"/it/legal\\"');
+    expect(text).not.toContain('href=\\"/legal\\"');
+    expect(text).toContain(
+      'href=\\"https://github.com/needless-ui/needless-ui/blob/main/LICENSE\\"',
+    );
+  });
 });

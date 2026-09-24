@@ -1,6 +1,6 @@
 import type { Messages } from './types';
 
-export const it: Messages = {
+export const messages: Messages = {
   site: {
     name: 'Needless UI',
     tagline: 'The Needlessly Engineered Styling Toolkit',
@@ -387,7 +387,7 @@ export const it: Messages = {
           { kind: 'h2', id: 'next', text: 'Prossimi passi' },
           {
             kind: 'p',
-            html: 'Sfoglia i <a href="/it/components">componenti</a> per gli esempi dal vivo, oppure leggi la <a href="/it/guides/theming">guida ai temi</a> per adattarli al tuo brand.',
+            html: 'Sfoglia i <a href="/components">componenti</a> per gli esempi dal vivo, oppure leggi la <a href="/guides/theming">guida ai temi</a> per adattarli al tuo brand.',
           },
         ],
       },
@@ -434,6 +434,8 @@ export const it: Messages = {
   },
 
   legal: {
+    translationNote:
+      'Questa traduzione è fornita per comodità: in caso di differenze prevale la versione inglese.',
     labels: { name: 'Nome', address: 'Indirizzo', email: 'Email', uid: 'IDI', vat: 'Numero IVA' },
     notice: {
       title: 'Note legali',
@@ -471,7 +473,7 @@ export const it: Messages = {
         { kind: 'h2', id: 'controller', text: 'Titolare del trattamento' },
         {
           kind: 'p',
-          html: 'Il gestore indicato nelle <a href="/it/legal">note legali</a>, Angelo Lamonaca. Contatto: {email}.',
+          html: 'Il gestore indicato nelle <a href="/legal">note legali</a>, Angelo Lamonaca. Contatto: {email}.',
         },
         { kind: 'h2', id: 'hosting', text: 'Hosting' },
         {

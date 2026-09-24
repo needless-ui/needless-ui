@@ -8,31 +8,29 @@
 import { copyFile, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  DEFAULT_LOCALE,
+  LOCALE_INFO,
+  LOCALES,
+  type Locale,
+  localeOf,
+  localizePath,
+  stripLocale,
+} from '../src/app/i18n/locales.ts';
+import { textWidth } from './text-width.ts';
 
 const DIST = fileURLToPath(new URL('../../../dist/docs/browser/', import.meta.url));
 const SITE_URL = 'https://www.needlessui.com';
-const LOCALES = ['en', 'it'];
-const DEFAULT_LOCALE = 'en';
+/** Snippet limits, in rendered width (see text-width.ts), not code units. */
 const DESCRIPTION = { min: 50, max: 160 };
 const TITLE_MAX = 70;
 
 interface Page {
   path: string;
-  locale: string;
+  locale: Locale;
   html: string;
 }
 
-const localeOf = (p: string) => {
-  const first = p.split('/')[1] ?? '';
-  return LOCALES.includes(first) && first !== DEFAULT_LOCALE ? first : DEFAULT_LOCALE;
-};
-const stripLocale = (p: string) => {
-  const locale = localeOf(p);
-  if (locale === DEFAULT_LOCALE) return p;
-  return p.slice(locale.length + 1) || '/';
-};
-const localize = (p: string, locale: string) =>
-  locale === DEFAULT_LOCALE ? p : p === '/' ? `/${locale}` : `/${locale}${p}`;
 const absolute = (p: string) => (p === '/' ? `${SITE_URL}/` : `${SITE_URL}${p}`);
 const isNotFound = (p: string) => stripLocale(p) === '/404';
 
@@ -57,6 +55,9 @@ const decode = (s: string) =>
   s
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&#x27;/g, "'")
+    .replace(/&nbsp;/g, '\u00a0')
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&');
@@ -85,19 +86,21 @@ for (const page of pages) {
   const { html } = page;
   const noindex = isNotFound(page.path);
 
-  const lang = attr(tags(html, 'html')[0] ?? '', 'lang');
-  if (lang !== page.locale) fail(`<html lang="${lang}"> should be "${page.locale}"`);
+  const { tag, dir } = LOCALE_INFO[page.locale];
+  const htmlTag = tags(html, 'html')[0] ?? '';
+  if (attr(htmlTag, 'lang') !== tag)
+    fail(`<html lang="${attr(htmlTag, 'lang')}"> should be "${tag}"`);
+  if (attr(htmlTag, 'dir') !== dir) fail(`<html dir="${attr(htmlTag, 'dir')}"> should be "${dir}"`);
 
   const title = decode(/<title>([^<]*)<\/title>/.exec(html)?.[1]?.trim() ?? '');
   if (!title) fail('missing <title>');
-  else if (title.length > TITLE_MAX)
-    fail(`title is ${title.length} characters (max ${TITLE_MAX}): "${title}"`);
+  else if (textWidth(title) > TITLE_MAX)
+    fail(`title is ${textWidth(title)} wide (max ${TITLE_MAX}): "${title}"`);
 
   const description = meta(html, 'name', 'description') ?? '';
-  if (description.length < DESCRIPTION.min || description.length > DESCRIPTION.max) {
-    fail(
-      `description is ${description.length} characters (${DESCRIPTION.min}–${DESCRIPTION.max}): "${description}"`,
-    );
+  const width = textWidth(description);
+  if (width < DESCRIPTION.min || width > DESCRIPTION.max) {
+    fail(`description is ${width} wide (${DESCRIPTION.min}–${DESCRIPTION.max}): "${description}"`);
   }
 
   if ((html.match(/<h1\b/g) ?? []).length !== 1) fail('needs exactly one <h1>');
@@ -108,13 +111,15 @@ for (const page of pages) {
   } else {
     if (robots !== 'index, follow') fail(`robots is "${robots}"`);
 
+    // Unique within a language; translations of one page may share a title across languages.
     for (const [kind, value] of [
       ['title', title],
       ['description', description],
     ] as const) {
-      const other = seen[kind].get(value);
+      const key = `${page.locale} ${value}`;
+      const other = seen[kind].get(key);
       if (other) fail(`${kind} duplicates ${other}`);
-      seen[kind].set(value, page.path);
+      seen[kind].set(key, page.path);
     }
 
     const links = tags(html, 'link');
@@ -124,8 +129,8 @@ for (const page of pages) {
 
     const neutral = stripLocale(page.path);
     const expected = [
-      ...LOCALES.map((l) => [l, absolute(localize(neutral, l))]),
-      ['x-default', absolute(localize(neutral, DEFAULT_LOCALE))],
+      ...LOCALES.map((l) => [LOCALE_INFO[l].tag, absolute(localizePath(neutral, l))]),
+      ['x-default', absolute(localizePath(neutral, DEFAULT_LOCALE))],
     ];
     for (const [hreflang, href] of expected) {
       const link = links.find(
@@ -174,8 +179,8 @@ const indexable = pages
 const entries = indexable.map((page) => {
   const neutral = stripLocale(page.path);
   const alternates = [
-    ...LOCALES.map((l) => [l, absolute(localize(neutral, l))]),
-    ['x-default', absolute(localize(neutral, DEFAULT_LOCALE))],
+    ...LOCALES.map((l) => [LOCALE_INFO[l].tag, absolute(localizePath(neutral, l))]),
+    ['x-default', absolute(localizePath(neutral, DEFAULT_LOCALE))],
   ]
     .map(([l, href]) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${href}"/>`)
     .join('\n');

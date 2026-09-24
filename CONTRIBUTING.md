@@ -36,10 +36,10 @@ tokens (DTCG JSON) ──build──▶ tokens.css ──imported by──▶ @n
 
 ## The docs site
 
-`apps/docs` is the site at www.needlessui.com. Every page is prerendered to static HTML in every language: English at the root, Italian under `/it`.
+`apps/docs` is the site at www.needlessui.com. Every page is prerendered to static HTML in 30 languages: English at the root, the others under their id (`/it`, `/zh-hans`, `/ar`, …).
 
 - **A component page** needs its id in `src/app/docs/ids.ts`, its API and examples in `src/app/docs/registry.ts`, and example files in `src/app/examples/<name>/` (the code viewer shows them, highlighted at build time).
-- **Words** live in `src/app/i18n/messages/<locale>.ts`, one file per language, typed by `messages/types.ts`. A missing or misspelled key fails the build, so every language stays complete.
+- **Words** live in `src/app/i18n/messages/<locale>.ts`, one file per language, typed by `messages/types.ts`. `en.ts` is the source; a missing or misspelled key fails the build, so every language stays complete. Native speakers improving a translation are very welcome.
 - **SEO**: each page calls `Seo.set()` with its title and description. `pnpm build:docs` checks every prerendered page (title, description length, canonical and hreflang links, structured data, broken internal links) and fails on any problem. It then writes `sitemap.xml`.
 
 ## Conventions

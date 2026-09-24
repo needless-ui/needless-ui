@@ -16,10 +16,9 @@ export class App {
   protected readonly t = this.i18n.t;
 
   protected readonly repo = REPO_URL;
+  protected readonly locales = LOCALES;
   protected readonly localeInfo = LOCALE_INFO;
 
-  /** Links to the current page in every other language. */
-  protected readonly otherLocales = computed(() => LOCALES.filter((l) => l !== this.i18n.locale()));
   protected readonly inGuides = computed(() => this.i18n.path().startsWith('/guides'));
   protected readonly skipHref = computed(() => `${this.i18n.link(this.i18n.path())}#main`);
 }

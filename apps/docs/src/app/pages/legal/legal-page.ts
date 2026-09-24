@@ -13,6 +13,9 @@ import { OPERATOR } from '../../site';
     <div class="container page">
       <header class="page-header">
         <h1>{{ legal[doc()].title }}</h1>
+        @if (i18n.locale() !== 'en') {
+          <p class="legal-note">{{ legal.translationNote }}</p>
+        }
       </header>
       <article class="doc-article prose" docsInAppLinks>
         @if (doc() === 'notice') {

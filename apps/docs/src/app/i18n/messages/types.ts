@@ -3,6 +3,8 @@
  * missing or misspelled key fails the build.
  *
  * Strings marked `html` may contain inline markup (`<code>`, `<a>`, `<strong>`).
+ * Site links in them never carry a language prefix (`href="/legal"`): the page's
+ * language is added when the messages load.
  */
 export interface Messages {
   site: {
@@ -67,6 +69,8 @@ export interface Messages {
   };
   notFound: { title: string; description: string; text: string; home: string; components: string };
   legal: {
+    /** Shown on the legal pages in every language but English: the English text prevails. */
+    translationNote: string;
     labels: { name: string; address: string; email: string; uid: string; vat: string };
     notice: LegalText & {
       operator: string;

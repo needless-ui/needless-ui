@@ -1,6 +1,6 @@
 import type { Messages } from './types';
 
-export const en: Messages = {
+export const messages: Messages = {
   site: {
     name: 'Needless UI',
     tagline: 'The Needlessly Engineered Styling Toolkit',
@@ -431,6 +431,7 @@ export const en: Messages = {
   },
 
   legal: {
+    translationNote: '',
     labels: { name: 'Name', address: 'Address', email: 'Email', uid: 'UID', vat: 'VAT number' },
     notice: {
       title: 'Legal notice',
