@@ -11,5 +11,5 @@ Please don't open a public issue. Report it privately through [GitHub security a
 ## How releases are protected
 
 - Packages are published only from GitHub Actions with npm trusted publishing (OIDC), so no long-lived npm tokens exist.
-- Every release carries an npm provenance attestation that links the tarball to the commit and workflow that built it.
+- Every release after 0.1.0 carries an npm provenance attestation that links the tarball to the commit and workflow that built it. (0.1.0 went out with a temporary token, because npm only lets a package trust a workflow once the package exists.)
 - Runtime dependencies are kept to Angular peers plus our own packages.
