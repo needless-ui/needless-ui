@@ -11,5 +11,62 @@
     "standard": { "$value": [0.2, 0, 0, 1] },
     "enter": { "$value": [0, 0, 0.2, 1] },
     "exit": { "$value": [0.4, 0, 1, 1] }
+  },
+  "spring": {
+    "$type": "transition",
+    "$description": "Motion personalities. Each $value is the closest cubic-bezier, for other DTCG tools; the Needless UI compiler reads the physics in $extensions and emits the spring's settling time and exact curve, as linear(). Collapsed to near-zero when the user prefers reduced motion.",
+    "snappy": {
+      "$value": {
+        "duration": { "value": 290, "unit": "ms" },
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": [0.25, 0.16, 0.24, 1.27]
+      },
+      "$extensions": { "com.needlessui.spring": { "stiffness": 420, "damping": 30, "mass": 1 } }
+    },
+    "bouncy": {
+      "$value": {
+        "duration": { "value": 490, "unit": "ms" },
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": [0.62, 2.35, 0.21, 0.69]
+      },
+      "$extensions": { "com.needlessui.spring": { "stiffness": 300, "damping": 14, "mass": 1 } }
+    },
+    "jelly": {
+      "$value": {
+        "duration": { "value": 1080, "unit": "ms" },
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": [0.37, 2.61, 0, 0.48]
+      },
+      "$extensions": { "com.needlessui.spring": { "stiffness": 170, "damping": 7, "mass": 1 } }
+    },
+    "elastic": {
+      "$value": {
+        "duration": { "value": 970, "unit": "ms" },
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": [0.17, 2.33, 0, 0.54]
+      },
+      "$extensions": { "com.needlessui.spring": { "stiffness": 560, "damping": 8, "mass": 1 } }
+    },
+    "lazy": {
+      "$value": {
+        "duration": { "value": 980, "unit": "ms" },
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": [0.29, 0.25, 0.22, 1.42]
+      },
+      "$extensions": { "com.needlessui.spring": { "stiffness": 60, "damping": 12, "mass": 1.6 } }
+    },
+    "mechanical": {
+      "$value": {
+        "duration": { "value": 400, "unit": "ms" },
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": [0.25, 0.25, 0.15, 0.89]
+      },
+      "$extensions": { "com.needlessui.spring": { "stiffness": 320, "damping": 40, "mass": 1 } }
+    }
+  },
+  "motion": {
+    "$type": "transition",
+    "$value": "{spring.snappy}",
+    "$description": "The spring components move with: presses springing back, dialogs and menus arriving. data-nui-motion points it at another spring for a subtree."
   }
 }

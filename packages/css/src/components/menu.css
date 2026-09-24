@@ -10,16 +10,21 @@
  *
  * The highlighted item carries data-active="true" (set by Angular Aria) or has
  * keyboard focus. As a popover, the menu renders in the top layer; without the
- * popover attribute it sits in the page flow, which suits static examples.
+ * popover attribute it sits in the page flow, which suits static examples. A
+ * popover menu arrives from --nui-enter on the --nui-motion spring, growing out of
+ * the side it opens on (data-side: bottom, top, left or right), and leaves with a
+ * quick fade.
  */
 @layer nui.components {
   .nui-menu {
     box-sizing: border-box;
     min-inline-size: 11rem;
     max-inline-size: min(20rem, 100vw - 2 * var(--nui-space-2));
-    padding: var(--nui-space-1);
+    padding: calc(var(--nui-space-1) * var(--nui-density));
     border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
-    border-radius: var(--nui-radius-lg);
+    /* Capped, so a full radius doesn't cut into the items. */
+    border-radius: min(var(--nui-radius-lg) * var(--nui-radius-scale), 1.25rem);
+    corner-shape: var(--nui-corner-shape);
     background-color: var(--nui-color-bg-raised);
     color: var(--nui-color-text-default);
     box-shadow: var(--nui-shadow-md);
@@ -29,41 +34,70 @@
 
   /* As a popover: undo the UA centering; the trigger sets top, left and max height. */
   .nui-menu[popover] {
+    --_enter: var(--nui-enter);
+
     position: fixed;
     inset: auto;
     margin: 0;
     overflow-y: auto;
+    transform-origin: top;
+    /* The exit. */
     opacity: 0;
     transition-property: opacity, overlay, display;
     transition-duration: var(--nui-duration-fast);
-    transition-timing-function: var(--nui-easing-standard);
+    transition-timing-function: var(--nui-easing-exit);
     transition-behavior: allow-discrete;
   }
 
   .nui-menu[popover]:popover-open {
     opacity: 1;
+    transform: none;
+    /* The entry, from the @starting-style below. */
+    transition:
+      opacity var(--nui-duration-fast) var(--nui-easing-enter),
+      transform var(--nui-motion),
+      overlay var(--nui-duration-fast),
+      display var(--nui-duration-fast);
+    transition-behavior: allow-discrete;
   }
 
   @starting-style {
     .nui-menu[popover]:popover-open {
-      opacity: 0;
+      opacity: var(--nui-enter-opacity);
+      transform: var(--_enter);
     }
+  }
+
+  .nui-menu[data-side='top'] {
+    transform-origin: bottom;
+  }
+
+  .nui-menu[data-side='right'] {
+    transform-origin: left top;
+  }
+
+  .nui-menu[data-side='left'] {
+    transform-origin: right top;
   }
 
   .nui-menu-item {
     --_fg: var(--nui-color-text-default);
     --_bg-active: var(--nui-color-accent-solid);
     --_fg-active: var(--nui-color-accent-on-solid);
+    --_gap: calc(var(--nui-space-2) * var(--nui-density));
+    --_padding: calc(var(--nui-space-3) * var(--nui-density));
 
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--nui-space-2);
+    gap: var(--_gap);
     box-sizing: border-box;
-    min-block-size: var(--nui-control-height-sm);
-    padding-block: var(--nui-space-1);
-    padding-inline: var(--nui-space-3);
-    border-radius: var(--nui-radius-sm);
+    /* Density never takes an item below the 24px target size of WCAG 2.2. */
+    min-block-size: max(24px, var(--nui-control-height-sm) * var(--nui-density));
+    padding-block: calc(var(--nui-space-1) * var(--nui-density));
+    padding-inline: var(--_padding);
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
     color: var(--_fg);
     white-space: nowrap;
     cursor: pointer;
@@ -107,14 +141,14 @@
 
   /* Checkable items: once any item is checkable, every label shifts to line up. */
   .nui-menu:has(> [aria-checked]) > .nui-menu-item {
-    padding-inline-start: calc(var(--nui-space-3) + 1rem + var(--nui-space-2));
+    padding-inline-start: calc(var(--_padding) + 1rem + var(--_gap));
   }
 
   .nui-menu-item[aria-checked]::before {
     content: '';
     position: absolute;
     inset-block-start: 50%;
-    inset-inline-start: var(--nui-space-3);
+    inset-inline-start: var(--_padding);
     inline-size: 1rem;
     block-size: 1rem;
     translate: 0 -50%;
@@ -153,10 +187,16 @@
 
   .nui-menu-separator {
     block-size: var(--nui-border-width-thin);
-    margin-block: var(--nui-space-1);
-    margin-inline: calc(-1 * var(--nui-space-1));
+    margin-block: calc(var(--nui-space-1) * var(--nui-density));
+    margin-inline: calc(-1 * var(--nui-space-1) * var(--nui-density));
     border: 0;
     background-color: var(--nui-color-border-subtle);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-menu[popover] {
+      --_enter: none;
+    }
   }
 
   @media (forced-colors: active) {

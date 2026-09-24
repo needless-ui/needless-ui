@@ -28,6 +28,30 @@ describe('@needless-ui/css bundle', () => {
     assert.match(css, /@layer nui\.components\s*\{\s*\.nui-button\s*\{/);
   });
 
+  it('has a preset for every customization value the Angular types allow, and no others', async () => {
+    const types = await readFile(new URL('../../angular/src/types.ts', import.meta.url), 'utf8');
+    const union = (type: string) => {
+      const body = new RegExp(`export type ${type} =([^;]+);`).exec(types)?.[1] ?? '';
+      return [...body.matchAll(/'([a-z]+)'/g)].map((m) => m[1]).sort();
+    };
+    const presets = (attribute: string) => {
+      const selector = new RegExp(`\\[data-nui-${attribute}=["']([a-z]+)["']\\]`, 'g');
+      return [...new Set([...css.matchAll(selector)].map((m) => m[1]))].sort();
+    };
+    const pairs = [
+      ['motion', 'NuiMotion'],
+      ['press', 'NuiPress'],
+      ['enter', 'NuiEnter'],
+      ['corners', 'NuiCorners'],
+      ['radius', 'NuiRadius'],
+      ['density', 'NuiDensity'],
+    ];
+    for (const [attribute, type] of pairs) {
+      assert.notDeepEqual(union(type), [], `${type} not found`);
+      assert.deepEqual(presets(attribute), union(type), `data-nui-${attribute} vs ${type}`);
+    }
+  });
+
   it('only references tokens that exist', async () => {
     const defined = new Set([...css.matchAll(/(--nui-[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
     for (const file of await readdir(COMPONENTS)) {

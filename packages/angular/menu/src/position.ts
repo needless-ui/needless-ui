@@ -27,6 +27,8 @@ export interface MenuPosition {
   left: number;
   /** Height available on the chosen side; the menu scrolls beyond it. */
   maxHeight: number;
+  /** The side of the anchor the menu ended up on. It grows out of that side. */
+  side: 'top' | 'bottom' | 'left' | 'right';
 }
 
 const clamp = (value: number, min: number, max: number) =>
@@ -55,6 +57,7 @@ export function positionMenu(request: MenuPlacement): MenuPosition {
       top: below ? bottom + offset : anchor.top - offset - height,
       left: clamp(start, margin, viewport.width - margin - menu.width),
       maxHeight,
+      side: below ? 'bottom' : 'top',
     };
   }
 
@@ -74,5 +77,6 @@ export function positionMenu(request: MenuPlacement): MenuPosition {
       viewport.width - margin - menu.width,
     ),
     maxHeight,
+    side: toRight ? 'right' : 'left',
   };
 }

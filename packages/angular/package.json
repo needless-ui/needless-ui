@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Angular components for Needless UI: signal-based, zoneless-ready, styled by @needless-ui/css.",
   "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/needless-ui/needless-ui.git",

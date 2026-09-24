@@ -5,6 +5,18 @@
  *
  *   import { NuiButton } from '@needless-ui/angular/button';
  *
- * The primary entry point holds the types that components share.
+ * The primary entry point holds what components share: types, the customization
+ * inputs and the spring compiler.
  */
-export type { NuiSize, NuiTone } from './types';
+export { NuiPersonality } from './personality';
+export { springTransition, type NuiSpring } from './spring';
+export type {
+  NuiCorners,
+  NuiDensity,
+  NuiEnter,
+  NuiMotion,
+  NuiPress,
+  NuiRadius,
+  NuiSize,
+  NuiTone,
+} from './types';

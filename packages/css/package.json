@@ -29,6 +29,7 @@
     },
     "./needless-ui.min.css": "./dist/needless-ui.min.css",
     "./layers.css": "./src/layers.css",
+    "./presets.css": "./src/presets.css",
     "./components/*": "./src/components/*",
     "./package.json": "./package.json"
   },

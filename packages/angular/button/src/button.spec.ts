@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { springTransition, type NuiSpring } from '@needless-ui/angular';
 import { NuiButton, type NuiButtonVariant } from './button';
 
 @Component({
@@ -10,20 +11,32 @@ import { NuiButton, type NuiButtonVariant } from './button';
     </button>
     <a nuiButton href="#docs" [disabled]="disabled()">Docs</a>
     <button nuiButton>Defaults</button>
+    <button
+      nuiButton
+      motion="jelly"
+      press="squish"
+      corners="squircle"
+      radius="full"
+      density="roomy"
+      [spring]="spring()"
+    >
+      Custom
+    </button>
   `,
 })
 class Host {
   readonly variant = signal<NuiButtonVariant>('soft');
   readonly disabled = signal(false);
+  readonly spring = signal<NuiSpring | undefined>(undefined);
 }
 
 async function setup() {
   const fixture = TestBed.createComponent(Host);
   await fixture.whenStable();
   const root: HTMLElement = fixture.nativeElement;
-  const [button, defaults] = Array.from(root.querySelectorAll('button'));
+  const [button, defaults, custom] = Array.from(root.querySelectorAll('button'));
   const anchor = root.querySelector('a')!;
-  return { fixture, host: fixture.componentInstance, button, defaults, anchor };
+  return { fixture, host: fixture.componentInstance, button, defaults, custom, anchor };
 }
 
 function click(element: HTMLElement): MouseEvent {
@@ -46,6 +59,35 @@ describe('NuiButton', () => {
     host.variant.set('outline');
     await fixture.whenStable();
     expect(button.dataset['variant']).toBe('outline');
+  });
+
+  it('reflects customization inputs to the data-nui-* presets', async () => {
+    const { custom } = await setup();
+    expect({ ...custom.dataset }).toEqual({
+      variant: 'solid',
+      tone: 'accent',
+      size: 'md',
+      nuiMotion: 'jelly',
+      nuiPress: 'squish',
+      nuiCorners: 'squircle',
+      nuiRadius: 'full',
+      nuiDensity: 'roomy',
+    });
+  });
+
+  it('compiles a custom spring into its own --nui-motion', async () => {
+    const { fixture, host, custom } = await setup();
+    expect(custom.style.getPropertyValue('--nui-motion')).toBe('');
+
+    host.spring.set({ stiffness: 900, damping: 12 });
+    await fixture.whenStable();
+    expect(custom.style.getPropertyValue('--nui-motion')).toBe(
+      springTransition({ stiffness: 900, damping: 12 }),
+    );
+
+    host.spring.set(undefined);
+    await fixture.whenStable();
+    expect(custom.style.getPropertyValue('--nui-motion')).toBe('');
   });
 
   it('disables native buttons with the disabled attribute', async () => {

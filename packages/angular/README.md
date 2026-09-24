@@ -18,7 +18,7 @@ Import the styles once in `src/styles.css`:
 
 ## Use
 
-Each component has its own entry point, so your bundle only contains what you import.
+Each component has its own entry point, so your bundle only contains what you import. The primary entry point, `@needless-ui/angular`, holds what they share: types, the customization inputs and `springTransition()`.
 
 ```ts
 import { NuiButton } from '@needless-ui/angular/button';
@@ -74,6 +74,22 @@ export class ProjectActions {
 | `@needless-ui/angular`        | Shared types: `NuiTone`, `NuiSize`                                                          |
 
 Each component's full contract (API, keyboard, accessibility) lives in [`specs/`](https://github.com/needless-ui/needless-ui/tree/main/specs).
+
+## Customize
+
+Every component takes the customization presets as inputs. Leave one unset and it follows the nearest `data-nui-*` attribute, so a whole app can be set in one place:
+
+```html
+<body data-nui-motion="bouncy" data-nui-corners="squircle">
+  <button nuiButton press="rubber" motion="elastic">Boing</button>
+  <dialog nuiDialog enter="flip" [spring]="{ stiffness: 300, damping: 9 }">…</dialog>
+</body>
+```
+
+- `NuiButton`: `motion`, `spring`, `press`, `corners`, `radius`, `density`
+- `NuiDialog` and `NuiMenu`: `enter`, `motion`, `spring`, `corners`, `radius`, `density`
+
+`spring` takes any `{ stiffness, damping, mass }` and compiles it to CSS with `springTransition()`, the same solver that builds the spring tokens. `NuiPersonality` gives your own components the same inputs as a host directive.
 
 ## License
 

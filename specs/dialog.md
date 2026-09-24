@@ -29,6 +29,8 @@ Content between the description and the actions is free-form.
 | —           | `dismissible` | boolean: Escape and backdrop clicks close it  | `true`  |
 | —           | `(closed)`    | emits the return value (empty when dismissed) | —       |
 
+It also takes the [customization](customization.md) presets `enter`, `motion`, `spring`, `corners`, `radius` and `density`, as inputs or as `data-nui-*` attributes on it or any ancestor.
+
 ## Behavior
 
 - **Opening** uses `showModal()`: the rest of the page becomes inert, the dialog renders in the top layer above everything, and the page stops scrolling.
@@ -50,7 +52,7 @@ Content between the description and the actions is free-form.
 - `role="dialog"` and `aria-modal` come from the native element opened with `showModal()`.
 - The title and description are wired with generated ids, so screen readers announce both on open.
 - The raised surface and text meet WCAG 2.2 AA contrast in both modes. The border stays visible in forced-colors mode.
-- Entry and exit transitions use duration tokens, which collapse under `prefers-reduced-motion`.
+- It arrives from `--nui-enter` on the `--nui-motion` spring and leaves with a quick fade. Under `prefers-reduced-motion` the springs and durations collapse and the entrance transform is ignored, so nothing moves.
 
 ## Implementation notes
 

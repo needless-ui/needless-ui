@@ -12,6 +12,7 @@ import {
   output,
   PLATFORM_ID,
 } from '@angular/core';
+import { NuiPersonality } from '@needless-ui/angular';
 import { positionMenu } from './position';
 
 const VIEWPORT_MARGIN = 8;
@@ -45,6 +46,9 @@ export class NuiMenuTrigger {}
  * viewport while the page scrolls or resizes.
  *
  * The `ngMenu` export is the Angular Aria `Menu` that triggers and `[submenu]` take.
+ *
+ * `enter`, `motion` and `spring` set how it arrives, growing out of the side it
+ * opens on; `corners`, `radius` and `density` how it looks. Submenus inherit them.
  */
 @Directive({
   selector: '[nuiMenu]',
@@ -53,6 +57,10 @@ export class NuiMenuTrigger {}
       directive: Menu,
       inputs: ['wrap', 'typeaheadDelay', 'disabled'],
       outputs: ['itemSelected'],
+    },
+    {
+      directive: NuiPersonality,
+      inputs: ['enter', 'motion', 'spring', 'corners', 'radius', 'density'],
     },
   ],
   host: { class: 'nui-menu', popover: 'manual' },
@@ -129,7 +137,7 @@ export class NuiMenu {
     const style = getComputedStyle(element);
     // Shifting a submenu up by its border and padding lines up its first item with the parent item.
     const inset = parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop);
-    const { top, left, maxHeight } = positionMenu({
+    const { top, left, maxHeight, side } = positionMenu({
       anchor: { top: anchor.top, left: anchor.left, width: anchor.width, height: anchor.height },
       menu: { width: element.offsetWidth, height: element.offsetHeight },
       viewport: { width: root.clientWidth, height: root.clientHeight },
@@ -142,6 +150,7 @@ export class NuiMenu {
     element.style.top = `${top}px`;
     element.style.left = `${left}px`;
     element.style.maxHeight = `${maxHeight}px`;
+    element.dataset['side'] = side;
   }
 }
 

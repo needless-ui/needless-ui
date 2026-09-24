@@ -32,6 +32,7 @@ describe('positionMenu', () => {
         top: 140,
         left: 50,
         maxHeight: 800 - 136 - 4 - 8,
+        side: 'bottom',
       });
     });
 
@@ -39,6 +40,7 @@ describe('positionMenu', () => {
       const position = below({ top: 700, left: 50, width: 120, height: 36 });
       expect(position.top).toBe(700 - 4 - 300);
       expect(position.maxHeight).toBe(700 - 4 - 8);
+      expect(position.side).toBe('top');
     });
 
     it('stays below and scrolls when neither side fits but below is larger', () => {
@@ -68,11 +70,14 @@ describe('positionMenu', () => {
         top: 195,
         left: 282,
         maxHeight: 784,
+        side: 'right',
       });
     });
 
     it('flips to the start side when the end side is too narrow', () => {
-      expect(beside({ top: 200, left: 700, width: 180, height: 28 }).left).toBe(700 - 2 - 200);
+      const position = beside({ top: 200, left: 700, width: 180, height: 28 });
+      expect(position.left).toBe(700 - 2 - 200);
+      expect(position.side).toBe('left');
     });
 
     it('opens to the left in right-to-left text', () => {

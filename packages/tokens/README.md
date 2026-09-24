@@ -35,6 +35,21 @@ Each palette (neutral, accent, danger, success, warning) has 12 steps with fixed
 
 Components use the semantic aliases (`--nui-color-accent-solid`, `--nui-color-bg-canvas`, …), so overriding one alias restyles every component that uses it.
 
+## Springs
+
+Motion tokens are springs. Each `--nui-spring-*` is a DTCG `transition` with its physics in `$extensions["com.needlessui.spring"]`:
+
+```json
+"bouncy": {
+  "$value": { "duration": { "value": 490, "unit": "ms" }, "delay": { "value": 0, "unit": "ms" }, "timingFunction": [0.62, 2.35, 0.21, 0.69] },
+  "$extensions": { "com.needlessui.spring": { "stiffness": 300, "damping": 14, "mass": 1 } }
+}
+```
+
+The `$value` is the closest cubic-bezier, for other DTCG tools. This package's compiler solves the spring instead and emits its settling time and exact curve: `--nui-spring-bouncy: 889ms linear(0, 0.009 0.9%, …, 1)`. Use one in any transition, `transition: transform var(--nui-spring-bouncy)`, or point `--nui-motion` at it to change how every component moves. Springs, like durations, collapse to 0.01ms under `prefers-reduced-motion`.
+
+`--nui-radius-scale` and `--nui-density` multiply every component radius and every control size. The `data-nui-*` presets in `@needless-ui/css` set all three for a subtree.
+
 ## License
 
 MIT

@@ -67,6 +67,7 @@ describe('NuiMenu', () => {
     expect(menu.getBoundingClientRect().top).toBeGreaterThanOrEqual(
       trigger.getBoundingClientRect().bottom,
     );
+    expect(menu.dataset['side']).toBe('bottom');
   });
 
   it('moves with the arrow keys and selects with Enter', async () => {
