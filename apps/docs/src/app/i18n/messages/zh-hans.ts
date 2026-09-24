@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: '法律声明',
       privacy: '隐私政策',
     },
+    emergency: {
+      label: '请勿按下',
+      cover: '掀开安全罩',
+      button: '请勿按下',
+      armed: '安全罩已掀开。请三思。',
+      falling: '紧急协议已启动……',
+      fallen: '重力现在是永久的。刷新页面来重建宇宙。',
+      reduced: '你的系统要求减少动态效果，所以重力保持关闭。真走运。',
+    },
   },
 
   home: {

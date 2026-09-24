@@ -24,6 +24,16 @@ export const messages: Messages = {
       legal: 'Yasal bilgiler',
       privacy: 'Gizlilik politikası',
     },
+    emergency: {
+      label: 'BASMAYIN',
+      cover: 'Güvenlik kapağını kaldırın',
+      button: 'Basmayın',
+      armed: 'Kapak açık. Lütfen bir daha düşünün.',
+      falling: 'Acil durum protokolü devrede…',
+      fallen: 'Yerçekimi artık kalıcı. Evreni yeniden kurmak için sayfayı yenileyin.',
+      reduced:
+        'Sisteminiz daha az hareket istiyor, bu yüzden yerçekimi kapalı kalıyor. Şanslısınız.',
+    },
   },
 
   home: {

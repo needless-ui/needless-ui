@@ -24,6 +24,17 @@ export const messages: Messages = {
       legal: 'Impressum',
       privacy: 'Datenschutz',
     },
+    emergency: {
+      label: 'NICHT DRÜCKEN',
+      cover: 'Schutzkappe anheben',
+      button: 'Nicht drücken',
+      armed: 'Die Schutzkappe ist offen. Überleg es dir gut.',
+      falling: 'Notfallprotokoll aktiviert …',
+      fallen:
+        'Die Schwerkraft bleibt jetzt. Lade die Seite neu, um das Universum wieder aufzubauen.',
+      reduced:
+        'Dein System wünscht weniger Bewegung, also bleibt die Schwerkraft aus. Glück gehabt.',
+    },
   },
 
   home: {

@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: 'Taarifa za kisheria',
       privacy: 'Sera ya faragha',
     },
+    emergency: {
+      label: 'USIBONYEZE',
+      cover: 'Inua kifuniko cha usalama',
+      button: 'Usibonyeze',
+      armed: 'Kifuniko kimeinuliwa. Tafadhali fikiria tena.',
+      falling: 'Itifaki ya dharura imewashwa…',
+      fallen: 'Mvuto sasa ni wa kudumu. Pakia upya ukurasa ili kujenga upya ulimwengu.',
+      reduced: 'Mfumo wako unaomba mwendo mdogo, kwa hiyo mvuto unabaki umezimwa. Bahati njema.',
+    },
   },
 
   home: {

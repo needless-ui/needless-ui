@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: '법적 고지',
       privacy: '개인정보 처리방침',
     },
+    emergency: {
+      label: '누르지 마시오',
+      cover: '안전 덮개 열기',
+      button: '누르지 마시오',
+      armed: '덮개가 열렸습니다. 다시 생각해 보십시오.',
+      falling: '비상 프로토콜 작동 중…',
+      fallen: '이제 중력은 영구적입니다. 우주를 다시 세우려면 페이지를 새로 고치십시오.',
+      reduced: '시스템에서 동작 줄이기를 요청하여 중력은 꺼진 상태로 유지됩니다. 운이 좋으시네요.',
+    },
   },
 
   home: {

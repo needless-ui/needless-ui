@@ -24,6 +24,16 @@ export const messages: Messages = {
       legal: 'Note legali',
       privacy: 'Privacy',
     },
+    emergency: {
+      label: 'NON PREMERE',
+      cover: 'Solleva la protezione',
+      button: 'Non premere',
+      armed: 'La protezione è alzata. Ripensaci.',
+      falling: 'Protocollo di emergenza attivato…',
+      fallen: 'Ora la gravità è permanente. Ricarica la pagina per ricostruire l’universo.',
+      reduced:
+        'Il tuo sistema chiede meno animazioni, quindi la gravità resta spenta. Che fortuna.',
+    },
   },
 
   home: {

@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: 'Legal notice',
       privacy: 'Privacy policy',
     },
+    emergency: {
+      label: 'DO NOT PRESS',
+      cover: 'Lift the safety cover',
+      button: 'Do not press',
+      armed: 'The cover is up. Please reconsider.',
+      falling: 'Emergency protocol engaged…',
+      fallen: 'Gravity is permanent now. Refresh the page to rebuild the universe.',
+      reduced: 'Your system asks for reduced motion, so gravity stays off. Lucky.',
+    },
   },
 
   home: {

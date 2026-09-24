@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: 'Sanarwar doka',
       privacy: 'Manufar sirri',
     },
+    emergency: {
+      label: 'KADA KU DANNA',
+      cover: 'Ku ɗaga murfin kariya',
+      button: 'Kada ku danna',
+      armed: 'An ɗaga murfin. Don Allah ku sake tunani.',
+      falling: 'An kunna matakan gaggawa…',
+      fallen: 'Nauyi ya zama na dindindin yanzu. Ku sabunta shafin don sake gina sararin samaniya.',
+      reduced: 'Tsarinku yana son rage motsi, don haka nauyi zai ci gaba da kashe. Kun yi sa’a.',
+    },
   },
 
   home: {

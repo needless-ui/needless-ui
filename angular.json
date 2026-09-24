@@ -54,7 +54,8 @@
             ],
             "styles": ["apps/docs/src/styles.css"],
             "server": "apps/docs/src/main.server.ts",
-            "outputMode": "static"
+            "outputMode": "static",
+            "allowedCommonJsDependencies": ["matter-js"]
           },
           "configurations": {
             "production": {

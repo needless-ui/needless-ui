@@ -24,6 +24,16 @@ export const messages: Messages = {
       legal: 'Legal na abiso',
       privacy: 'Patakaran sa privacy',
     },
+    emergency: {
+      label: 'HUWAG PINDUTIN',
+      cover: 'Iangat ang safety cover',
+      button: 'Huwag pindutin',
+      armed: 'Nakaangat na ang cover. Pag-isipan mo ulit.',
+      falling: 'Naka-activate na ang emergency protocol…',
+      fallen: 'Permanente na ang gravity. I-refresh ang page para buuin muli ang uniberso.',
+      reduced:
+        'Humihingi ang system mo ng mas kaunting galaw, kaya naka-off pa rin ang gravity. Swerte mo.',
+    },
   },
 
   home: {

@@ -23,6 +23,16 @@ export interface Messages {
       themes: { system: string; light: string; dark: string };
     };
     footer: { license: string; source: string; built: string; legal: string; privacy: string };
+    /** The big red button: its label, accessible names and status messages. */
+    emergency: {
+      label: string;
+      cover: string;
+      button: string;
+      armed: string;
+      falling: string;
+      fallen: string;
+      reduced: string;
+    };
   };
   home: {
     title: string;

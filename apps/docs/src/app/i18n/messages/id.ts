@@ -24,6 +24,16 @@ export const messages: Messages = {
       legal: 'Informasi hukum',
       privacy: 'Kebijakan privasi',
     },
+    emergency: {
+      label: 'JANGAN DITEKAN',
+      cover: 'Angkat penutup pengaman',
+      button: 'Jangan ditekan',
+      armed: 'Penutupnya sudah terangkat. Pikirkan lagi.',
+      falling: 'Protokol darurat diaktifkan…',
+      fallen: 'Gravitasi kini permanen. Muat ulang halaman untuk membangun kembali alam semesta.',
+      reduced:
+        'Sistem Anda meminta gerakan dikurangi, jadi gravitasi tetap mati. Beruntung sekali.',
+    },
   },
 
   home: {

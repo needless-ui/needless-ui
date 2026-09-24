@@ -2,13 +2,14 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { I18n } from './i18n/i18n';
 import { LOCALE_INFO, LOCALES } from './i18n/locales';
+import { Emergency } from './layout/emergency';
 import { Logo } from './layout/logo';
 import { ThemeMenu } from './layout/theme-menu';
 import { REPO_URL } from './site';
 
 @Component({
   selector: 'docs-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo, ThemeMenu],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Emergency, Logo, ThemeMenu],
   templateUrl: './app.html',
 })
 export class App {

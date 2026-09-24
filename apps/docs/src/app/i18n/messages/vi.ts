@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: 'Thông tin pháp lý',
       privacy: 'Chính sách quyền riêng tư',
     },
+    emergency: {
+      label: 'ĐỪNG BẤM',
+      cover: 'Mở nắp an toàn',
+      button: 'Đừng bấm',
+      armed: 'Nắp đã mở. Hãy nghĩ lại.',
+      falling: 'Đã kích hoạt quy trình khẩn cấp…',
+      fallen: 'Trọng lực giờ là vĩnh viễn. Hãy tải lại trang để xây dựng lại vũ trụ.',
+      reduced: 'Hệ thống của bạn yêu cầu giảm chuyển động, nên trọng lực vẫn tắt. May mắn đấy.',
+    },
   },
 
   home: {

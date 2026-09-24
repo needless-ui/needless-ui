@@ -355,6 +355,128 @@
     margin: var(--nui-space-1) 0;
   }
 
+  /* The big red button (layout/emergency.ts) and the fall it causes (layout/gravity.ts) */
+
+  .emergency-unit {
+    position: fixed;
+    inset-block-end: var(--nui-space-4);
+    inset-inline-start: var(--nui-space-4);
+    z-index: 20;
+    display: grid;
+    justify-items: center;
+    gap: var(--nui-space-1);
+  }
+
+  .emergency-housing {
+    position: relative;
+    display: grid;
+    place-items: center;
+    inline-size: 3.5rem;
+    block-size: 3.5rem;
+    border-radius: 50%;
+    background: #2b2d2c;
+  }
+
+  .emergency-button {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border: 0;
+    border-radius: 50%;
+    background: var(--nui-color-danger-solid);
+    cursor: pointer;
+    transition: scale 120ms;
+  }
+
+  .emergency-button:active:not(:disabled) {
+    scale: 0.9;
+  }
+
+  .emergency-button:disabled {
+    cursor: default;
+  }
+
+  .emergency-cover {
+    position: absolute;
+    inset: 3px;
+    border: 1.5px solid rgb(255 255 255 / 0.6);
+    border-radius: 50%;
+    background: rgb(190 215 255 / 0.3);
+    transform-origin: 50% 0;
+    transition: transform 600ms cubic-bezier(0.3, 1.6, 0.5, 1);
+    cursor: pointer;
+  }
+
+  .armed .emergency-cover {
+    transform: perspective(10rem) rotateX(-125deg);
+  }
+
+  .emergency-label {
+    padding: 0 var(--nui-space-1);
+    border-radius: var(--nui-radius-sm);
+    background: var(--nui-color-bg-canvas);
+    color: var(--nui-color-danger-text);
+    font-size: 0.6875rem;
+    font-weight: var(--nui-font-weight-bold);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .emergency-status {
+    position: fixed;
+    inset-block-start: calc(var(--header-height) + var(--nui-space-3));
+    inset-inline: 0;
+    z-index: 30;
+    inline-size: fit-content;
+    max-inline-size: calc(100vw - 2 * var(--page-gutter));
+    margin: 0 auto;
+    padding: var(--nui-space-2) var(--nui-space-4);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--nui-radius-lg);
+    background: var(--nui-color-bg-raised);
+    box-shadow: var(--nui-shadow-md);
+    font-size: var(--nui-font-size-sm);
+    text-align: center;
+  }
+
+  .emergency-status:empty {
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  :root.gravity {
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+  }
+
+  :root.gravity :is(a, img) {
+    -webkit-user-drag: none;
+  }
+
+  :root.gravity-alarm body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    border: 6px solid var(--nui-color-danger-solid);
+    pointer-events: none;
+    animation: docs-alarm 300ms steps(1) 3;
+  }
+
+  @keyframes docs-alarm {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media print {
+    .emergency-unit,
+    .emergency-status {
+      display: none;
+    }
+  }
+
   /* Legal notice and privacy policy */
 
   .legal-facts {

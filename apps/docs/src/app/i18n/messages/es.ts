@@ -24,6 +24,16 @@ export const messages: Messages = {
       legal: 'Aviso legal',
       privacy: 'Política de privacidad',
     },
+    emergency: {
+      label: 'NO PULSAR',
+      cover: 'Levanta la tapa de seguridad',
+      button: 'No pulsar',
+      armed: 'La tapa está levantada. Piénsalo dos veces.',
+      falling: 'Protocolo de emergencia activado…',
+      fallen: 'La gravedad ya es permanente. Recarga la página para reconstruir el universo.',
+      reduced:
+        'Tu sistema pide reducir el movimiento, así que la gravedad sigue apagada. Qué suerte.',
+    },
   },
 
   home: {

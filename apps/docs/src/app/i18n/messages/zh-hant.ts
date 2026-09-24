@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: '法律聲明',
       privacy: '隱私權政策',
     },
+    emergency: {
+      label: '請勿按下',
+      cover: '掀開安全蓋',
+      button: '請勿按下',
+      armed: '安全蓋已掀開。請三思。',
+      falling: '緊急程序已啟動……',
+      fallen: '重力現在是永久的。重新整理頁面來重建宇宙。',
+      reduced: '你的系統要求減少動態效果，所以重力維持關閉。真幸運。',
+    },
   },
 
   home: {

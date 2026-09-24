@@ -24,6 +24,16 @@ export const messages: Messages = {
       legal: 'Katrangan legal',
       privacy: 'Kawicaksanan privasi',
     },
+    emergency: {
+      label: 'AJA DIPENCET',
+      cover: 'Angkat tutup pengaman',
+      button: 'Aja dipencet',
+      armed: 'Tutupe wis kebuka. Mangga dipikir maneh.',
+      falling: 'Protokol darurat diaktifake…',
+      fallen: 'Gravitasi saiki permanen. Muat ulang kaca kanggo mbangun alam semesta maneh.',
+      reduced:
+        'Sistem panjenengan nyuwun obah sing luwih sithik, dadi gravitasi tetep mati. Begja.',
+    },
   },
 
   home: {

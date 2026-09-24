@@ -24,6 +24,15 @@ export const messages: Messages = {
       legal: 'Aviso legal',
       privacy: 'Política de privacidade',
     },
+    emergency: {
+      label: 'NÃO APERTE',
+      cover: 'Levante a tampa de segurança',
+      button: 'Não aperte',
+      armed: 'A tampa está levantada. Pense bem.',
+      falling: 'Protocolo de emergência ativado…',
+      fallen: 'A gravidade agora é permanente. Recarregue a página para reconstruir o universo.',
+      reduced: 'Seu sistema pede menos movimento, então a gravidade continua desligada. Que sorte.',
+    },
   },
 
   home: {

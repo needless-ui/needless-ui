@@ -24,6 +24,17 @@ export const messages: Messages = {
       legal: 'Mentions légales',
       privacy: 'Politique de confidentialité',
     },
+    emergency: {
+      label: 'NE PAS APPUYER',
+      cover: 'Soulever le capot de sécurité',
+      button: 'Ne pas appuyer',
+      armed: 'Le capot est levé. Réfléchissez bien.',
+      falling: 'Protocole d’urgence enclenché…',
+      fallen:
+        'La gravité est désormais permanente. Actualisez la page pour reconstruire l’univers.',
+      reduced:
+        'Votre système demande moins d’animations, la gravité reste donc coupée. Quelle chance.',
+    },
   },
 
   home: {
