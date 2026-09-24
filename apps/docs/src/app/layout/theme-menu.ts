@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { type Menu, MenuTrigger } from '@angular/aria/menu';
+import { Component, computed, inject, viewChild } from '@angular/core';
 import { NuiButton } from '@needless-ui/angular/button';
 import { NuiMenu, NuiMenuItem, NuiMenuTrigger } from '@needless-ui/angular/menu';
 import { I18n } from '../i18n/i18n';
@@ -8,6 +9,11 @@ import { type ThemeChoice, ThemePreference } from '../theme/theme';
  * The header's theme switch. The header hydrates it lazily, so the trigger renders
  * every choice and CSS shows the one matching `<html data-nui-theme>`: the label is
  * right from the first paint, whether or not this component has hydrated yet.
+ *
+ * The menu itself is closed at first, so it isn't prerendered: it renders when the
+ * browser is idle, when the pointer or focus reaches the trigger, or once the trigger
+ * opens (a click replayed after hydration). That keeps it and its styles out of every
+ * page's first round trip; Aria's trigger opens it as soon as it exists.
  */
 @Component({
   selector: 'docs-theme-menu',
@@ -21,7 +27,8 @@ import { type ThemeChoice, ThemePreference } from '../theme/theme';
       tone="neutral"
       size="sm"
       class="theme-trigger"
-      [nuiMenuTrigger]="menu"
+      [nuiMenuTrigger]="menu()"
+      #trigger
     >
       <svg
         data-choice="system"
@@ -60,23 +67,28 @@ import { type ThemeChoice, ThemePreference } from '../theme/theme';
         <span class="theme-label" [attr.data-choice]="choice">{{ nav.themes[choice] }}</span>
       }
     </button>
-    <div nuiMenu #menu="ngMenu">
-      @for (choice of choices; track choice) {
-        <div
-          nuiMenuItem
-          role="menuitemradio"
-          [value]="choice"
-          [checked]="theme.choice() === choice"
-          (selected)="theme.choice.set(choice)"
-        >
-          {{ nav.themes[choice] }}
-        </div>
-      }
-    </div>
+    @defer (on idle; on hover(trigger); when opening()) {
+      <div nuiMenu #menu="ngMenu">
+        @for (choice of choices; track choice) {
+          <div
+            nuiMenuItem
+            role="menuitemradio"
+            [value]="choice"
+            [checked]="theme.choice() === choice"
+            (selected)="theme.choice.set(choice)"
+          >
+            {{ nav.themes[choice] }}
+          </div>
+        }
+      </div>
+    }
   `,
 })
 export class ThemeMenu {
   protected readonly t = inject(I18n).t;
   protected readonly theme = inject(ThemePreference);
   protected readonly choices: ThemeChoice[] = ['system', 'light', 'dark'];
+  protected readonly menu = viewChild<Menu<ThemeChoice>>('menu');
+  private readonly trigger = viewChild(MenuTrigger);
+  protected readonly opening = computed(() => this.trigger()?.expanded() ?? false);
 }

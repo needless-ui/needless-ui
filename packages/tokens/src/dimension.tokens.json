@@ -39,5 +39,15 @@
     "$type": "dimension",
     "width": { "$value": { "value": 2, "unit": "px" } },
     "offset": { "$value": { "value": 2, "unit": "px" } }
+  },
+  "radius-scale": {
+    "$type": "number",
+    "$value": 1,
+    "$description": "Multiplies every component radius. data-nui-radius sets it for a subtree: 0 (none), 0.5 (small), 2 (large) or 999 (full)."
+  },
+  "density": {
+    "$type": "number",
+    "$value": 1,
+    "$description": "Multiplies control heights, paddings and gaps. data-nui-density sets it for a subtree: 0.8 (compact) or 1.25 (roomy). Controls never shrink below the 24px target minimum."
   }
 }

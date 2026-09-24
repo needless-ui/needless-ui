@@ -1131,6 +1131,288 @@
     gap: var(--nui-space-2);
   }
 
+  /* Customization playground */
+
+  .playground-slot {
+    container-type: inline-size;
+    margin-block: var(--nui-space-6) var(--nui-space-10);
+  }
+
+  docs-playground {
+    display: block;
+  }
+
+  /* Roughly the playground's height in each layout. */
+  .playground-placeholder {
+    block-size: 74rem;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--nui-radius-xl);
+    background: var(--nui-color-bg-subtle);
+  }
+
+  .playground {
+    display: grid;
+    grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+    overflow: hidden;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--nui-radius-xl);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  /* The dialog inside lives in the article, so undo the article's text styles. */
+  .playground p {
+    margin: 0;
+  }
+
+  .playground .nui-dialog-title {
+    margin: 0;
+    font-size: var(--nui-font-size-lg);
+    letter-spacing: normal;
+  }
+
+  .playground-controls {
+    display: grid;
+    align-content: start;
+    gap: var(--nui-space-5);
+    padding: var(--nui-space-5);
+    border-inline-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    background: var(--nui-color-bg-subtle);
+  }
+
+  .playground-field {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .playground-field legend,
+  .playground-select > span,
+  .playground-slider label {
+    padding: 0;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .playground-field legend {
+    margin-block-end: var(--nui-space-2);
+  }
+
+  .playground-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-1);
+  }
+
+  .playground-chip {
+    position: relative;
+  }
+
+  /* The radio stays in the page for keyboards and screen readers; the pill is what shows. */
+  .playground-chip input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .playground-chip span {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 1.75rem;
+    padding-inline: var(--nui-space-3);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: var(--nui-radius-full);
+    background: var(--nui-color-bg-canvas);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .playground-chip input:checked + span {
+    border-color: transparent;
+    background: var(--nui-color-accent-solid);
+    color: var(--nui-color-accent-on-solid);
+  }
+
+  .playground-chip input:focus-visible + span {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  .playground-slider {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: var(--nui-space-2);
+    margin-block-start: calc(-1 * var(--nui-space-3));
+  }
+
+  .playground-slider output {
+    font-size: var(--nui-font-size-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .playground-slider input {
+    grid-column: 1 / -1;
+    inline-size: 100%;
+    block-size: 1.5rem;
+    margin: 0;
+    accent-color: var(--nui-color-accent-solid);
+  }
+
+  .playground-slider input:disabled {
+    opacity: 0.5;
+  }
+
+  .playground-selects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--nui-space-3);
+  }
+
+  .playground-select {
+    display: grid;
+    gap: var(--nui-space-1);
+  }
+
+  .playground-select select {
+    min-inline-size: 0;
+    min-block-size: 2rem;
+    padding-inline: var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: var(--nui-radius-md);
+    background: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font: inherit;
+  }
+
+  .playground-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-2);
+  }
+
+  /* Some translations are longer than the column: wrap them instead of overflowing. */
+  .playground-controls .nui-button {
+    max-inline-size: 100%;
+    block-size: auto;
+    min-block-size: var(--nui-control-height-md);
+    padding-block: var(--nui-space-1);
+    white-space: normal;
+  }
+
+  .playground-stage {
+    display: grid;
+    align-content: start;
+    gap: var(--nui-space-5);
+    padding: var(--nui-space-6);
+    background: var(--nui-color-bg-canvas);
+  }
+
+  .playground-hint,
+  .playground-note,
+  .playground-curve figcaption {
+    color: var(--nui-color-text-muted);
+  }
+
+  .playground-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--nui-space-3);
+  }
+
+  .playground-curve {
+    margin: 0;
+  }
+
+  .playground-curve svg {
+    inline-size: 100%;
+    block-size: auto;
+    max-block-size: 8rem;
+    overflow: visible;
+  }
+
+  .playground-target {
+    stroke: var(--nui-color-border-strong);
+    stroke-dasharray: 4 4;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .playground-line {
+    fill: none;
+    stroke: var(--nui-color-accent-solid);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .playground-curve figcaption {
+    margin-block-start: var(--nui-space-2);
+    font-size: var(--nui-font-size-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .playground-note {
+    font-size: var(--nui-font-size-xs);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .playground-note-motion {
+      display: none;
+    }
+  }
+
+  @supports (corner-shape: squircle) {
+    .playground-note-corners {
+      display: none;
+    }
+  }
+
+  .playground-code {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: var(--nui-space-2);
+    padding: var(--nui-space-5);
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    background: var(--nui-color-bg-subtle);
+  }
+
+  .playground-code p {
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .playground-code pre {
+    margin: 0 0 var(--nui-space-2);
+    overflow-x: auto;
+    font-size: var(--nui-font-size-xs);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  @container (width < 36rem) {
+    .playground-placeholder {
+      block-size: 92rem;
+    }
+
+    .playground {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .playground-controls {
+      border-inline-end: 0;
+      border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    }
+  }
+
+  .api-note {
+    margin: var(--nui-space-3) 0 0;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-sm);
+  }
+
   /* Not found */
 
   .not-found {

@@ -31,6 +31,9 @@ A submenu is a `nuiMenu` placed inside its parent menu and linked from an item w
 | —                    | `value`                           | Unique across the whole menu tree                      |
 | —                    | `(selected)` on the item          | Emits the item's value when it's chosen                |
 | —                    | `(itemSelected)` on the root menu | Emits the value of any chosen item, submenus included  |
+| `data-side`          | set by `nuiMenu`                  | The side of its anchor the menu opened on              |
+
+The menu also takes the [customization](customization.md) presets `enter`, `motion`, `spring`, `corners`, `radius` and `density`, as inputs or as `data-nui-*` attributes on it or any ancestor. Submenus inherit them.
 
 ## Keyboard
 
@@ -49,13 +52,14 @@ Choosing an item closes the menu and returns focus to the trigger. Moving focus 
 
 ## Positioning
 
-The menu renders as a popover in the top layer. It opens below the trigger, aligned to the start edge, and flips above when there's more room there. Submenus open toward the inline end and flip at the viewport edge. Everything stays at least 8px inside the viewport, and tall menus scroll. The position follows the trigger while the page scrolls or resizes.
+The menu renders as a popover in the top layer. It opens below the trigger, aligned to the start edge, and flips above when there's more room there. Submenus open toward the inline end and flip at the viewport edge. Everything stays at least 8px inside the viewport, and tall menus scroll. The position follows the trigger while the page scrolls or resizes. The menu grows out of the side it opened on, which it reports in `data-side`.
 
 ## Accessibility
 
 - The highlighted item uses a solid accent fill with at least 4.5:1 text contrast, which doubles as the focus indicator. In forced-colors mode it gets a `Highlight` outline instead.
 - Checkable items announce their state through `aria-checked`, and every label lines up once any item is checkable.
-- The smallest item height is 28px, above the WCAG 2.2 minimum of 24px.
+- The smallest item height is 28px, above the WCAG 2.2 minimum of 24px. Compact density never takes it below 24px.
+- Under `prefers-reduced-motion` the menu appears without moving.
 - Submenu chevrons mirror in right-to-left text.
 
 ## Implementation notes

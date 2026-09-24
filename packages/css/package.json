@@ -1,6 +1,6 @@
 {
   "name": "@needless-ui/css",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-free component styles for Needless UI. Works with Angular, React or plain HTML.",
   "license": "MIT",
   "type": "module",
@@ -29,6 +29,7 @@
     },
     "./needless-ui.min.css": "./dist/needless-ui.min.css",
     "./layers.css": "./src/layers.css",
+    "./presets.css": "./src/presets.css",
     "./components/*": "./src/components/*",
     "./package.json": "./package.json"
   },

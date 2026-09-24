@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'Mọi cặp màu đều được kiểm tra theo WCAG 2.2 AA khi tạo bảng màu. Focus, chế độ forced colors và giảm chuyển động đều đã được xử lý sẵn.',
       },
       {
-        title: 'Design token chuẩn',
-        text: 'Các tệp token W3C DTCG được biên dịch thành biến CSS, với theme sáng, tối và lồng nhau.',
+        title: 'Tùy biến đến mức thừa thãi',
+        text: 'Lò xo, hiệu ứng nhấn, hiệu ứng xuất hiện, hình dạng góc, bo góc và mật độ: <a href="/guides/customization">một thuộc tính</a> cho cả ứng dụng, hoặc một input cho mỗi component, dựa trên design token W3C chuẩn.',
       },
       {
         title: 'Angular hiện đại',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'Mặc định',
       description: 'Mô tả',
       kinds: { input: 'Input', model: 'Hai chiều', output: 'Output', method: 'Phương thức' },
+      customization: {
+        note: 'Các input tùy biến mà bạn không đặt sẽ lấy giá trị từ thuộc tính <code>data-nui-*</code> gần nhất. Xem <a href="/guides/customization">hướng dẫn tùy biến</a>.',
+        members: {
+          motion:
+            'Lò xo quyết định chuyển động của component: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> hoặc <code>none</code>.',
+          spring:
+            'Một lò xo bất kỳ, dạng <code>{ stiffness, damping, mass }</code>, được biên dịch sang CSS lúc runtime. Ghi đè <code>motion</code>.',
+          press:
+            'Hiệu ứng khi component được nhấn giữ: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> hoặc <code>none</code>.',
+          enter:
+            'Cách component xuất hiện: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> hoặc <code>none</code>.',
+          corners:
+            'Hình dạng các góc: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> hoặc <code>square</code>.',
+          radius:
+            'Mức bo góc: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> hoặc <code>full</code>.',
+          density:
+            'Lượng không gian mà component chiếm: <code>compact</code>, <code>regular</code> hoặc <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Tương tác bằng bàn phím',
@@ -145,6 +164,14 @@ export const messages: Messages = {
           links: {
             title: 'Liên kết và nút bị vô hiệu hóa',
             text: 'Thẻ a không thể vô hiệu hóa theo cách native, nên liên kết bị vô hiệu hóa sẽ nhận <code>aria-disabled="true"</code> và bị chặn cú nhấp, kể cả khi dùng <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Hiệu ứng nhấn',
+            text: 'Hãy nhấn giữ từng nút. <code>press</code> quyết định nút làm gì khi đang được nhấn giữ, còn <code>motion</code> quyết định lò xo đưa nút trở lại. <code>data-nui-press</code> trên bất kỳ phần tử nào sẽ áp dụng hiệu ứng cho mọi thứ bên trong.',
+          },
+          shapes: {
+            title: 'Góc, bo góc và mật độ',
+            text: '<code>corners</code> thay đổi hình dạng các góc, <code>radius</code> thay đổi mức bo góc, còn <code>density</code> thay đổi không gian mà nút chiếm, nhưng không bao giờ nhỏ hơn vùng nhấn 24px. Trình duyệt không hỗ trợ <code>corner-shape</code> sẽ vẽ góc bo tròn.',
           },
         },
         api: {
@@ -201,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Không thể đóng tùy ý',
             text: 'Với <code>[dismissible]="false"</code>, phím Esc và cú nhấp vào nền đều bị bỏ qua, nên người dùng buộc phải chọn một phương án.',
+          },
+          entrances: {
+            title: 'Hiệu ứng xuất hiện',
+            text: 'Mỗi nút mở cùng một hộp thoại với một preset <code>enter</code> khác nhau và lò xo <code>bouncy</code>. Dù xuất hiện theo cách nào, hộp thoại cũng biến mất bằng hiệu ứng mờ dần nhanh.',
           },
         },
         api: {
@@ -278,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Mục checkbox và radio',
             text: 'Đặt <code>role</code> và liên kết <code>[checked]</code>. Menu sẽ hiển thị dấu chỉ báo và thông báo trạng thái.',
+          },
+          entrances: {
+            title: 'Hiệu ứng xuất hiện và lò xo',
+            text: 'Mỗi menu kết hợp một preset <code>enter</code> với một lò xo <code>motion</code> và lớn dần từ phía mà nó mở ra. Menu con kế thừa cả hai.',
           },
         },
         api: {
@@ -426,6 +461,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Tùy biến',
+        description:
+          'Vật lý lò xo, hiệu ứng nhấn và xuất hiện, hình dạng và bo góc, mật độ: thay đổi chuyển động và cảm giác của Needless UI cho cả ứng dụng hoặc từng component.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Mỗi component đều có một cá tính mà bạn có thể thay đổi: lò xo quyết định chuyển động của nó, phản ứng của nút dưới ngón tay bạn, cách hộp thoại và menu xuất hiện, hình dạng và kích thước các góc, cũng như lượng không gian chúng chiếm. Mỗi yếu tố được đặt bằng một thuộc tính cho mọi thứ bên trong một phần tử, hoặc một input cho riêng một component.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Một thuộc tính, cả một cây con' },
+          {
+            kind: 'p',
+            html: 'Đặt các thuộc tính <code>data-nui-*</code> trên <code>&lt;body&gt;</code> cho toàn bộ ứng dụng, hoặc trên bất kỳ phần tử nào cho riêng một phần. Thuộc tính gần nhất sẽ được áp dụng, nên bạn có thể lồng chúng vào nhau. Chúng chỉ đặt biến CSS, nên hoạt động như nhau với mọi framework, hoặc khi không dùng framework nào.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Một component' },
+          {
+            kind: 'p',
+            html: 'Trong Angular, <code>nuiButton</code>, <code>nuiDialog</code> và <code>nuiMenu</code> nhận cùng các giá trị đó dưới dạng input. Những input bạn không đặt sẽ theo các thuộc tính ở phần tử bao ngoài.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Lò xo, biên dịch sang CSS' },
+          {
+            kind: 'p',
+            html: 'Chuyển động dựa trên vật lý lò xo: độ cứng, độ giảm chấn và khối lượng thay cho thời lượng và đường cong. Trình biên dịch token tính toán từng lò xo rồi ghi vào CSS dưới dạng thời gian cần để ổn định và một hàm easing <code>linear()</code>, nên chuyển động chạy trên compositor mà không cần JavaScript. Sáu lò xo có sẵn dưới dạng token, từ <code>--nui-spring-snappy</code> đến <code>--nui-spring-mechanical</code>, và <code>--nui-motion</code> giữ lò xo đang được dùng.',
+          },
+          {
+            kind: 'p',
+            html: 'Mọi lò xo khác chỉ cần một input. Angular biên dịch nó lúc runtime bằng cùng bộ giải đó, còn <code>springTransition()</code> cho bạn CSS để dùng với các phần tử của riêng bạn.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Mọi giá trị ở giữa' },
+          {
+            kind: 'p',
+            html: 'Preset chỉ là lối tắt. Với mọi thứ khác, hãy tự đặt các biến CSS: bất kỳ transform nào cho <code>--nui-press</code> và <code>--nui-enter</code>, bất kỳ số nào cho <code>--nui-radius-scale</code> và <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Khả năng tiếp cận' },
+          {
+            kind: 'p',
+            html: 'Khi hệ thống yêu cầu giảm chuyển động, lò xo hoàn tất ngay lập tức, còn hiệu ứng nhấn và hiệu ứng xuất hiện ngừng chuyển động. Mật độ không bao giờ khiến một phần tử điều khiển nhỏ hơn vùng nhấn 24px của WCAG 2.2, và không preset nào thay đổi màu sắc, nên mọi kiểm tra độ tương phản vẫn đạt. Trình duyệt không hỗ trợ <code>corner-shape</code> sẽ vẽ mọi góc bo tròn.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Khu thử nghiệm tùy biến',
+      motion: 'Chuyển động',
+      custom: 'tùy chỉnh',
+      stiffness: 'Độ cứng',
+      damping: 'Giảm chấn',
+      mass: 'Khối lượng',
+      press: 'Nhấn',
+      enter: 'Xuất hiện',
+      corners: 'Góc',
+      radius: 'Bo góc',
+      density: 'Mật độ',
+      surprise: 'Làm tôi bất ngờ',
+      reset: 'Về mặc định',
+      hint: 'Nhấn giữ một nút rồi thả ra. Mở hộp thoại và menu để xem cách chúng xuất hiện.',
+      save: 'Lưu',
+      cancel: 'Hủy',
+      delete: 'Xóa',
+      openDialog: 'Mở hộp thoại',
+      openMenu: 'Mở menu',
+      menu: ['Đổi tên', 'Nhân bản', 'Xóa'],
+      dialogTitle: 'Sinh động đến mức thừa thãi',
+      dialogText: 'Hộp thoại này xuất hiện đúng như cách bạn đã dặn.',
+      close: 'Đóng',
+      curve:
+        'Vị trí của lò xo theo thời gian. Đường cong bắt đầu từ dưới cùng và dừng lại trên đường nét đứt.',
+      settles: (ms, overshoot) => `Ổn định sau ${ms} ms · vượt quá ${overshoot}%`,
+      instant: 'Không có chuyển động: mọi thứ nhảy thẳng đến đích.',
+      stuck:
+        'Lò xo này không ổn định trong vòng 10 giây. Hãy tăng độ giảm chấn hoặc độ cứng; trong lúc đó, các component vẫn giữ lò xo gần nhất đã ổn định.',
+      reducedMotion:
+        'Hệ thống của bạn yêu cầu giảm chuyển động, nên ở đây không có gì chuyển động. Lò xo, hiệu ứng nhấn và hiệu ứng xuất hiện sẽ trở lại khi hệ thống không còn yêu cầu nữa.',
+      noCornerShape: 'Trình duyệt này chưa vẽ được hình dạng góc, nên mọi góc vẫn được bo tròn.',
+      everywhere: 'Trên bất kỳ phần tử nào, cho mọi thứ bên trong nó:',
+      oneComponent: 'Trên một component, trong Angular:',
     },
   },
 

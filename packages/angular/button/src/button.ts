@@ -1,5 +1,5 @@
 import { booleanAttribute, DestroyRef, Directive, ElementRef, inject, input } from '@angular/core';
-import type { NuiSize, NuiTone } from '@needless-ui/angular';
+import { NuiPersonality, type NuiSize, type NuiTone } from '@needless-ui/angular';
 
 /** How the button is filled. Mirrors `data-variant` in @needless-ui/css. */
 export type NuiButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
@@ -17,10 +17,19 @@ export type NuiButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
  * `disabled` works on both elements. Anchors can't be disabled natively, so a
  * disabled anchor gets `aria-disabled="true"` and its clicks are stopped before
  * any other listener on it (including `routerLink`) runs.
+ *
+ * `motion`, `spring`, `press`, `corners`, `radius` and `density` customize this
+ * button only; the matching `data-nui-*` attributes do it for a whole subtree.
  */
 @Directive({
   selector: 'button[nuiButton], a[nuiButton]',
   exportAs: 'nuiButton',
+  hostDirectives: [
+    {
+      directive: NuiPersonality,
+      inputs: ['motion', 'spring', 'press', 'corners', 'radius', 'density'],
+    },
+  ],
   host: {
     class: 'nui-button',
     '[attr.data-variant]': 'variant()',

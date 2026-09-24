@@ -68,6 +68,16 @@ export interface Messages {
       default: string;
       description: string;
       kinds: { input: string; model: string; output: string; method: string };
+      /** The customization inputs every component shares. */
+      customization: {
+        /** html, shown under each table that lists them */
+        note: string;
+        /** html */
+        members: Record<
+          'motion' | 'spring' | 'press' | 'enter' | 'corners' | 'radius' | 'density',
+          string
+        >;
+      };
     };
     a11y: { keyboard: string; key: string; action: string; notes: string };
     titles: { api: (name: string) => string; accessibility: (name: string) => string };
@@ -75,7 +85,8 @@ export interface Messages {
   };
   guides: {
     title: string;
-    items: Record<'getting-started' | 'theming', GuideText>;
+    items: Record<'getting-started' | 'theming' | 'customization', GuideText>;
+    playground: PlaygroundText;
   };
   notFound: { title: string; description: string; text: string; home: string; components: string };
   legal: {
@@ -118,7 +129,9 @@ export interface ComponentText {
 export type ProseBlock = { kind: 'p'; html: string } | { kind: 'h2'; id: string; text: string };
 
 export type GuideBlock =
-  ProseBlock | { kind: 'code'; file: string } | { kind: 'demo'; demo: 'nested-themes' };
+  | ProseBlock
+  | { kind: 'code'; file: string }
+  | { kind: 'demo'; demo: 'nested-themes' | 'playground' };
 
 export interface LegalText {
   title: string;
@@ -132,4 +145,46 @@ export interface GuideText {
   title: string;
   description: string;
   blocks: GuideBlock[];
+}
+
+/** The customization playground. Preset names (jelly, squish, …) stay in English: they're API values. */
+export interface PlaygroundText {
+  /** Accessible name of the whole playground. */
+  label: string;
+  motion: string;
+  /** The motion option for springs tuned with the sliders. */
+  custom: string;
+  stiffness: string;
+  damping: string;
+  mass: string;
+  press: string;
+  enter: string;
+  corners: string;
+  radius: string;
+  density: string;
+  surprise: string;
+  reset: string;
+  hint: string;
+  save: string;
+  cancel: string;
+  delete: string;
+  openDialog: string;
+  openMenu: string;
+  /** The demo menu's items: rename, duplicate, delete. */
+  menu: [string, string, string];
+  dialogTitle: string;
+  dialogText: string;
+  close: string;
+  /** Accessible name of the drawing of the spring's curve. */
+  curve: string;
+  settles: (ms: number, overshoot: number) => string;
+  /** Shown instead of `settles` for the motion preset none. */
+  instant: string;
+  /** Shown when the sliders make a spring that never settles. */
+  stuck: string;
+  reducedMotion: string;
+  noCornerShape: string;
+  /** Captions of the two code samples. */
+  everywhere: string;
+  oneComponent: string;
 }

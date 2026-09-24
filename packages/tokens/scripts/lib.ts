@@ -15,7 +15,8 @@ export type TokenType =
   | 'fontWeight'
   | 'number'
   | 'cubicBezier'
-  | 'shadow';
+  | 'shadow'
+  | 'transition';
 
 export interface Token {
   /** Dot path, e.g. `color.accent.9`. */
@@ -25,6 +26,8 @@ export interface Token {
   /** Raw `$value`: either a `{reference}` string or a literal. */
   value: unknown;
   description?: string;
+  /** Raw `$extensions`: vendor data, such as a spring for a transition. */
+  extensions?: Record<string, unknown>;
   /** File the token came from, used in error messages. */
   source: string;
 }
@@ -45,6 +48,9 @@ export interface ResolvedToken {
 export const CSS_PREFIX = 'nui';
 export const LAYER_ORDER = '@layer nui.tokens, nui.base, nui.components, nui.utilities;';
 const REDUCED_MOTION_DURATION = '0.01ms';
+const REDUCED_MOTION_TRANSITION = `${REDUCED_MOTION_DURATION} linear`;
+/** `$extensions` key that turns a transition into a spring. */
+export const SPRING_EXTENSION = 'com.needlessui.spring';
 
 const TYPES: ReadonlySet<string> = new Set<TokenType>([
   'color',
@@ -55,6 +61,7 @@ const TYPES: ReadonlySet<string> = new Set<TokenType>([
   'number',
   'cubicBezier',
   'shadow',
+  'transition',
 ]);
 const NAME_SEGMENT = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const REFERENCE = /^\{([^{}]+)\}$/;
@@ -92,6 +99,7 @@ export function flatten(tree: unknown, source: string): Token[] {
           type: readType(child, childPath, source) ?? groupType,
           value: child.$value,
           description: typeof child.$description === 'string' ? child.$description : undefined,
+          extensions: isGroup(child.$extensions) ? child.$extensions : undefined,
           source,
         });
       } else {
@@ -180,6 +188,8 @@ export function toCss(token: Token, reference: ReferenceResolver = liveReference
   switch (type) {
     case 'shadow':
       return shadowToCss(value, name, reference);
+    case 'transition':
+      return transitionToCss(token, reference);
     case 'color':
       return colorToCss(value, name);
     case 'dimension':
@@ -335,6 +345,132 @@ function cubicBezierToCss(value: unknown, name: string): string {
   return `cubic-bezier(${x1}, ${y1}, ${x2}, ${y2})`;
 }
 
+/**
+ * A DTCG transition becomes the time and easing part of a CSS `transition`
+ * (`200ms cubic-bezier(…)`), so it works as `transition: transform var(--nui-…)`.
+ *
+ * A transition can carry a spring in `$extensions["com.needlessui.spring"]`.
+ * Its `$value` stays a valid DTCG transition, a cubic-bezier stand-in for other
+ * tools, and this compiler replaces its duration and easing with the spring's
+ * own: the time it takes to settle and its exact curve as `linear()`.
+ */
+function transitionToCss(token: Token, reference: ReferenceResolver): string {
+  const { name, value } = token;
+  if (!isGroup(value)) {
+    throw new Error(`"${name}": a transition $value must be { duration, delay, timingFunction }`);
+  }
+  const part = (
+    key: string,
+    type: TokenType,
+    literal: (value: unknown, name: string) => string,
+  ) => {
+    const target = referenceOf(value[key]);
+    return target ? reference(target, type, name) : literal(value[key], `${name}.${key}`);
+  };
+  const time = (v: unknown, n: string) => measureToCss(v, n, ['ms', 's']);
+  const duration = part('duration', 'duration', time);
+  const delay = part('delay', 'duration', time);
+  const easing = part('timingFunction', 'cubicBezier', cubicBezierToCss);
+
+  const spring = token.extensions?.[SPRING_EXTENSION];
+  const motion =
+    spring === undefined ? `${duration} ${easing}` : springToCss(readSpring(spring, name));
+  return /^0m?s$/.test(delay) ? motion : `${motion} ${delay}`;
+}
+
+function readSpring(value: unknown, name: string): Spring {
+  const where = `"${name}": $extensions["${SPRING_EXTENSION}"]`;
+  if (!isGroup(value)) throw new Error(`${where} must be { stiffness, damping, mass? }`);
+  const positive = (key: string) => {
+    const n = expectNumber(value[key], `${name}.${key}`);
+    if (n <= 0) throw new Error(`${where}.${key} must be greater than 0`);
+    return n;
+  };
+  return {
+    stiffness: positive('stiffness'),
+    damping: positive('damping'),
+    mass: value.mass === undefined ? 1 : positive('mass'),
+  };
+}
+
+/** A damped spring pulling from 0 to 1. Mass defaults to 1. */
+export interface Spring {
+  stiffness: number;
+  damping: number;
+  mass?: number;
+}
+
+/** Settled means staying within this fraction of the distance for good. */
+const SPRING_REST = 0.001;
+/** Largest gap allowed between the spring and its `linear()` approximation. */
+const SPRING_TOLERANCE = 0.004;
+/** Springs that take longer than this are rejected rather than cut short. */
+const SPRING_MAX_MS = 10_000;
+
+/** Where a spring released at 0, at rest, is after `t` seconds on its way to 1. */
+export function springAt({ stiffness: k, damping: c, mass: m = 1 }: Spring, t: number): number {
+  const w0 = Math.sqrt(k / m);
+  const zeta = c / (2 * Math.sqrt(k * m));
+  if (Math.abs(zeta - 1) < 1e-9) return 1 - Math.exp(-w0 * t) * (1 + w0 * t);
+  if (zeta < 1) {
+    const wd = w0 * Math.sqrt(1 - zeta * zeta);
+    return (
+      1 - Math.exp(-zeta * w0 * t) * (Math.cos(wd * t) + ((zeta * w0) / wd) * Math.sin(wd * t))
+    );
+  }
+  const spread = w0 * Math.sqrt(zeta * zeta - 1);
+  const slow = -zeta * w0 + spread;
+  const fast = -zeta * w0 - spread;
+  return 1 - (fast * Math.exp(slow * t) - slow * Math.exp(fast * t)) / (fast - slow);
+}
+
+/**
+ * Compiles a spring to `<duration> linear(…)`. It samples the exact solution
+ * every millisecond until the spring settles, then keeps only the stops needed to
+ * stay within SPRING_TOLERANCE of it (Ramer–Douglas–Peucker, measured vertically).
+ * `springTransition` in @needless-ui/angular is the same function for runtime
+ * springs; a test keeps the two identical.
+ */
+export function springToCss(spring: Spring): string {
+  let unsettled = 0;
+  for (let ms = 0; ms <= SPRING_MAX_MS; ms++) {
+    if (Math.abs(springAt(spring, ms / 1000) - 1) >= SPRING_REST) unsettled = ms;
+  }
+  if (unsettled === SPRING_MAX_MS) {
+    throw new Error(
+      `The spring ${JSON.stringify(spring)} doesn't settle within ${SPRING_MAX_MS}ms`,
+    );
+  }
+  const end = unsettled + 1;
+  const samples = Array.from({ length: end + 1 }, (_, ms) => springAt(spring, ms / 1000));
+  samples[end] = 1;
+
+  const kept = [0, end];
+  const simplify = (from: number, to: number) => {
+    let worst = -1;
+    let error = SPRING_TOLERANCE;
+    for (let i = from + 1; i < to; i++) {
+      const line = samples[from] + ((samples[to] - samples[from]) * (i - from)) / (to - from);
+      if (Math.abs(samples[i] - line) > error) {
+        error = Math.abs(samples[i] - line);
+        worst = i;
+      }
+    }
+    if (worst < 0) return;
+    kept.push(worst);
+    simplify(from, worst);
+    simplify(worst, to);
+  };
+  simplify(0, end);
+  kept.sort((a, b) => a - b);
+
+  const round = (n: number, digits: number) => String(+n.toFixed(digits));
+  const stops = kept
+    .slice(1, -1)
+    .map((ms) => `${round(samples[ms], 3)} ${round((ms / end) * 100, 2)}%`);
+  return `${end}ms linear(${['0', ...stops, '1'].join(', ')})`;
+}
+
 function checkModeParity(modes: Record<Mode, Token[]>): void {
   const [[firstMode, firstTokens], ...others] = Object.entries(modes) as [Mode, Token[]][];
   const expected = new Set(firstTokens.map((t) => t.name));
@@ -394,12 +530,26 @@ export function buildCss(sources: TokenSources): string {
     [`${indent}${selector} {`, ...lines.map((l) => `${indent}  ${l}`), `${indent}}`].join('\n');
   const mode = (m: Mode): string[] => [`color-scheme: ${m};`, ...sources.modes[m].map(declare)];
 
-  // Anything that points at another token must be recomputed on themed subtrees.
-  const isLive = (t: Token) =>
-    referenceOf(t.value) !== undefined || nestedReferences(t.value).length > 0;
-  const literals = sources.base.filter((t) => !isLive(t));
-  const aliases = sources.base.filter(isLive);
-  const durations = literals.filter((t) => t.type === 'duration');
+  // A token that leads to a mode's value is recomputed on every themed subtree.
+  // The rest are declared once, so a subtree can still override them for its own
+  // descendants (the customization attributes rely on that).
+  const modal = new Set(sources.modes.light.map((t) => t.name));
+  const byName = index(sources.base);
+  const referencesOf = (t: Token) =>
+    [referenceOf(t.value), ...nestedReferences(t.value)].filter((r) => r !== undefined);
+  const followsMode = (t: Token, seen = new Set<string>()): boolean =>
+    referencesOf(t).some((target) => {
+      if (modal.has(target)) return true;
+      const next = byName.get(target);
+      if (!next || seen.has(target)) return false;
+      seen.add(target);
+      return followsMode(next, seen);
+    });
+  const themed = sources.base.filter((t) => followsMode(t));
+  const shared = sources.base.filter((t) => !followsMode(t));
+  const motion = shared.filter(
+    (t) => referencesOf(t).length === 0 && (t.type === 'duration' || t.type === 'transition'),
+  );
 
   const body = [
     rule(":root, [data-nui-theme='light']", mode('light'), '  '),
@@ -409,11 +559,14 @@ export function buildCss(sources: TokenSources): string {
       '  }',
     ].join('\n'),
     rule("[data-nui-theme='dark']", mode('dark'), '  '),
-    rule(':root', literals.map(declare), '  '),
-    rule(':root, [data-nui-theme]', aliases.map(declare), '  '),
+    rule(':root', shared.map(declare), '  '),
+    rule(':root, [data-nui-theme]', themed.map(declare), '  '),
   ];
-  if (durations.length) {
-    const collapsed = durations.map((t) => `${cssVar(t.name)}: ${REDUCED_MOTION_DURATION};`);
+  if (motion.length) {
+    const collapsed = motion.map(
+      (t) =>
+        `${cssVar(t.name)}: ${t.type === 'duration' ? REDUCED_MOTION_DURATION : REDUCED_MOTION_TRANSITION};`,
+    );
     body.push(
       ['  @media (prefers-reduced-motion: reduce) {', rule(':root', collapsed, '    '), '  }'].join(
         '\n',

@@ -1,10 +1,11 @@
 import { Component, computed, Directive, effect, inject, input } from '@angular/core';
 import { type ComponentId, isComponentId } from '../../docs/ids';
-import { COMPONENT_DOCS } from '../../docs/registry';
+import { type ApiEntry, COMPONENT_DOCS } from '../../docs/registry';
 import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
 import { ExampleViewer } from '../../shared/example-viewer';
+import { InAppLinks } from '../../shared/in-app-links';
 import { Toc } from '../../shared/toc';
 
 type Section = 'overview' | 'api' | 'accessibility';
@@ -87,11 +88,11 @@ export class OverviewSection extends ComponentSection {
 
 @Component({
   selector: 'docs-component-api',
-  imports: [CodeBlock, Toc],
+  imports: [CodeBlock, InAppLinks, Toc],
   template: `
     @let labels = i18n.t().components.api;
     <div class="doc-grid">
-      <article class="doc-article">
+      <article class="doc-article" docsInAppLinks>
         <h2 id="import">{{ labels.import }}</h2>
         <docs-code [key]="doc().importFile" />
 
@@ -153,12 +154,21 @@ export class OverviewSection extends ComponentSection {
                             <span aria-hidden="true">—</span>
                           }
                         </td>
-                        <td [innerHTML]="entryText.members[member.name]"></td>
+                        <td
+                          [innerHTML]="
+                            member.customization
+                              ? labels.customization.members[member.customization]
+                              : entryText.members[member.name]
+                          "
+                        ></td>
                       </tr>
                     }
                   </tbody>
                 </table>
               </div>
+              @if (hasCustomization(entry)) {
+                <p class="api-note" [innerHTML]="labels.customization.note"></p>
+              }
             }
           </section>
         }
@@ -169,6 +179,9 @@ export class OverviewSection extends ComponentSection {
 })
 export class ApiSection extends ComponentSection {
   protected readonly section = 'api';
+  protected hasCustomization(entry: ApiEntry): boolean {
+    return entry.members.some((member) => member.customization);
+  }
   protected readonly toc = computed(() => [
     { id: 'import', label: this.i18n.t().components.api.import },
     ...this.doc().api.map((entry) => ({ id: entry.name, label: entry.name })),

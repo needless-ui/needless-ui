@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'Kila jozi ya rangi hukaguliwa dhidi ya WCAG 2.2 AA paleti inapozalishwa. Focus, forced colors na mwendo uliopunguzwa vinashughulikiwa kwa ajili yako.',
       },
       {
-        title: 'Design token za kiwango',
-        text: 'Faili za token za W3C DTCG hukusanywa kuwa custom properties za CSS, zenye mandhari ya mwanga, ya giza na mandhari ndani ya mandhari.',
+        title: 'Inabinafsishika kupita kiasi',
+        text: 'Springi, athari za kubonyeza na kuingia, maumbo ya pembe, nusu kipenyo na msongamano: <a href="/guides/customization">attribute moja</a> kwa programu nzima, au input moja kwa kila kijenzi, juu ya design token za kiwango cha W3C.',
       },
       {
         title: 'Angular ya kisasa',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'Chaguomsingi',
       description: 'Maelezo',
       kinds: { input: 'Input', model: 'Pande mbili', output: 'Output', method: 'Mbinu' },
+      customization: {
+        note: 'Input za ubinafsishaji usizoweka hufuata attribute ya <code>data-nui-*</code> iliyo karibu zaidi. Tazama <a href="/guides/customization">mwongozo wa ubinafsishaji</a>.',
+        members: {
+          motion:
+            'Springi inayoendesha mwendo wake: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> au <code>none</code>.',
+          spring:
+            'Springi yoyote, kama <code>{ stiffness, damping, mass }</code>, inayokusanywa kuwa CSS wakati wa utekelezaji. Inabatilisha <code>motion</code>.',
+          press:
+            'Kinachofanya kikiwa kimebonyezwa: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> au <code>none</code>.',
+          enter:
+            'Jinsi kinavyowasili: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> au <code>none</code>.',
+          corners:
+            'Umbo la pembe zake: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> au <code>square</code>.',
+          radius:
+            'Ukubwa wa pembe zake: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> au <code>full</code>.',
+          density:
+            'Nafasi kinayochukua: <code>compact</code>, <code>regular</code> au <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Matumizi ya kibodi',
@@ -146,6 +165,14 @@ export const messages: Messages = {
           links: {
             title: 'Viungo na vitufe vilivyozimwa',
             text: 'Anchor haziwezi kuzimwa kiasili, kwa hivyo kiungo kilichozimwa hupewa <code>aria-disabled="true"</code> na mibofyo yake huzuiwa, hata kikiwa na <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Athari za kubonyeza',
+            text: 'Bonyeza na ushikilie kila kitufe. <code>press</code> huamua kile ambacho kitufe hufanya kikiwa kimebonyezwa, na <code>motion</code> huamua springi ambayo kitufe hurudi nayo. Ukiweka <code>data-nui-press</code> kwenye kipengele chochote, hutumika kwa kila kitu kilicho ndani yake.',
+          },
+          shapes: {
+            title: 'Pembe, nusu kipenyo na msongamano',
+            text: '<code>corners</code> hubadilisha umbo la pembe, <code>radius</code> ukubwa wa pembe hizo, na <code>density</code> nafasi ambayo kitufe huchukua, lakini kitufe hakishuki kamwe chini ya eneo la kubofya la 24px. Vivinjari visivyo na <code>corner-shape</code> huchora pembe kwa mviringo.',
           },
         },
         api: {
@@ -203,6 +230,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Kisichoweza kuondolewa',
             text: 'Ukiweka <code>[dismissible]="false"</code>, Escape na mibofyo kwenye mandharinyuma hupuuzwa, hivyo mtumiaji lazima achague mojawapo ya chaguo.',
+          },
+          entrances: {
+            title: 'Athari za kuingia',
+            text: 'Kila kitufe hufungua kidirisha kilekile kwa preset tofauti ya <code>enter</code>, kwa springi ya <code>bouncy</code>. Kwa namna yoyote kinavyowasili, huondoka kwa kufifia haraka.',
           },
         },
         api: {
@@ -282,6 +313,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Vipengee vya checkbox na radio',
             text: 'Weka <code>role</code> na uunganishe <code>[checked]</code>. Menyu huonyesha kiashiria na kutangaza hali.',
+          },
+          entrances: {
+            title: 'Athari za kuingia na springi',
+            text: 'Kila menyu huoanisha preset ya <code>enter</code> na springi ya <code>motion</code>, na hukua kutoka upande inakofunguka. Menyu ndogo hurithi vyote viwili.',
           },
         },
         api: {
@@ -436,6 +471,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Ubinafsishaji',
+        description:
+          'Fizikia ya springi, athari za kubonyeza na kuingia, umbo na ukubwa wa pembe, na msongamano: badilisha mwendo na hisia ya Needless UI, kote au kwa kila kijenzi.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Kila kijenzi kina haiba unayoweza kuibadilisha: springi inayoendesha mwendo wake, kitufe kinavyofanya chini ya kidole chako, jinsi vidirisha na menyu vinavyowasili, umbo na ukubwa wa pembe zake, na nafasi kinayochukua. Kila kimoja ni attribute moja kwa kila kitu kilicho ndani ya kipengele, au input moja kwa kijenzi kimoja.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Attribute moja, tawi zima' },
+          {
+            kind: 'p',
+            html: 'Weka attribute za <code>data-nui-*</code> kwenye <code>&lt;body&gt;</code> kwa programu nzima, au kwenye kipengele chochote kwa sehemu moja tu. Iliyo karibu zaidi ndiyo hushinda, kwa hivyo unaweza kuziweka moja ndani ya nyingine. Zinaweka custom properties za CSS pekee, kwa hivyo zinafanya kazi vivyo hivyo na framework yoyote, au bila framework.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Kijenzi kimoja' },
+          {
+            kind: 'p',
+            html: 'Katika Angular, <code>nuiButton</code>, <code>nuiDialog</code> na <code>nuiMenu</code> hupokea thamani hizo hizo kama input. Input usizoweka hufuata attribute zinazozizunguka.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Springi zinazokusanywa kuwa CSS' },
+          {
+            kind: 'p',
+            html: 'Mwendo ni fizikia ya springi: ukakamavu, ufifishaji na masi badala ya muda na mkunjo. Kikusanyaji cha token hutatua kila springi na kuiandika katika CSS kama muda wa kutulia pamoja na easing ya <code>linear()</code>, hivyo huendeshwa kwenye compositor bila JavaScript. Springi sita huja kama token, kuanzia <code>--nui-spring-snappy</code> hadi <code>--nui-spring-mechanical</code>, na <code>--nui-motion</code> hushikilia ile inayotumika.',
+          },
+          {
+            kind: 'p',
+            html: 'Springi nyingine yoyote iko umbali wa input moja tu. Angular huikusanya wakati wa utekelezaji kwa hesabu zilezile, na <code>springTransition()</code> hukupa CSS kwa ajili ya vipengele vyako mwenyewe.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Chochote katikati' },
+          {
+            kind: 'p',
+            html: 'Preset ni njia za mkato tu. Kwa chochote kingine, weka custom properties mwenyewe: transform yoyote kwa <code>--nui-press</code> na <code>--nui-enter</code>, na namba yoyote kwa <code>--nui-radius-scale</code> na <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Ufikivu' },
+          {
+            kind: 'p',
+            html: 'Mfumo unapoomba mwendo mdogo, springi hugeuka kuwa badiliko la papo hapo, na athari za kubonyeza na za kuingia huacha kusogea. Msongamano haushushi kamwe kidhibiti chini ya eneo la kubofya la 24px linalotakiwa na WCAG 2.2, na hakuna preset inayogusa rangi, kwa hivyo kila ukaguzi wa utofautishaji bado ni halali. Vivinjari visivyo na <code>corner-shape</code> huchora kila pembe kwa mviringo.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Uwanja wa kujaribu ubinafsishaji',
+      motion: 'Mwendo',
+      custom: 'maalum',
+      stiffness: 'Ukakamavu',
+      damping: 'Ufifishaji',
+      mass: 'Masi',
+      press: 'Kubonyeza',
+      enter: 'Kuingia',
+      corners: 'Pembe',
+      radius: 'Nusu kipenyo',
+      density: 'Msongamano',
+      surprise: 'Nishangaze',
+      reset: 'Rudi kwenye chaguomsingi',
+      hint: 'Bonyeza kitufe na ukishikilie, kisha ukiachilie. Fungua kidirisha na menyu uone jinsi vinavyowasili.',
+      save: 'Hifadhi',
+      cancel: 'Ghairi',
+      delete: 'Futa',
+      openDialog: 'Fungua kidirisha',
+      openMenu: 'Fungua menyu',
+      menu: ['Badilisha jina', 'Rudufu', 'Futa'],
+      dialogTitle: 'Imehuishwa bila sababu',
+      dialogText: 'Kidirisha hiki kimefika sawasawa na ulivyokiagiza.',
+      close: 'Funga',
+      curve:
+        'Mahali pa springi kadiri muda unavyopita. Huanzia chini na kutulia kwenye mstari wa vistari.',
+      settles: (ms, overshoot) => `Hutulia ndani ya ${ms} ms · huzidi lengo kwa ${overshoot}%`,
+      instant: 'Hakuna mwendo: kila kitu huruka moja kwa moja hadi kinakokwenda.',
+      stuck:
+        'Springi hii haitulii ndani ya sekunde 10. Ongeza ufifishaji au ukakamavu; kwa sasa vijenzi vinabaki na springi ya mwisho iliyotulia.',
+      reducedMotion:
+        'Mfumo wako unaomba mwendo mdogo, kwa hiyo hakuna kinachosogea hapa. Springi, athari za kubonyeza na za kuingia hurudi mfumo usipoomba hivyo.',
+      noCornerShape:
+        'Kivinjari hiki bado hakiwezi kuchora maumbo ya pembe, kwa hiyo kila pembe hubaki ya mviringo.',
+      everywhere: 'Kwenye kipengele chochote, kwa kila kitu kilicho ndani yake:',
+      oneComponent: 'Kwenye kijenzi kimoja, katika Angular:',
     },
   },
 

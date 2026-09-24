@@ -64,8 +64,8 @@ export const messages: Messages = {
         text: 'Sinusuri ang bawat pares ng kulay laban sa WCAG 2.2 AA kapag binubuo ang palette. Asikaso na ang focus, forced colors at reduced motion.',
       },
       {
-        title: 'Standard na design token',
-        text: 'Kino-compile ang mga W3C DTCG token file sa mga CSS custom property, may light, dark at nested na tema.',
+        title: 'Sobrang customizable',
+        text: 'Mga spring, press effect, paglitaw, hugis ng sulok, radius at density: <a href="/guides/customization">isang attribute</a> para sa buong app, o isang input bawat component, nakabatay sa mga standard na W3C design token.',
       },
       {
         title: 'Modernong Angular',
@@ -104,6 +104,25 @@ export const messages: Messages = {
       default: 'Default',
       description: 'Paglalarawan',
       kinds: { input: 'Input', model: 'Two-way', output: 'Output', method: 'Method' },
+      customization: {
+        note: 'Sinusunod ng mga customization input na hindi mo sine-set ang pinakamalapit na <code>data-nui-*</code> attribute. Tingnan ang <a href="/guides/customization">gabay sa pag-customize</a>.',
+        members: {
+          motion:
+            'Ang spring na nagpapagalaw sa component: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> o <code>none</code>.',
+          spring:
+            'Kahit anong spring, bilang <code>{ stiffness, damping, mass }</code>, na kino-compile sa CSS sa runtime. Ino-override nito ang <code>motion</code>.',
+          press:
+            'Ang ginagawa nito habang nakapindot: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> o <code>none</code>.',
+          enter:
+            'Kung paano ito lumilitaw: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> o <code>none</code>.',
+          corners:
+            'Ang hugis ng mga sulok nito: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> o <code>square</code>.',
+          radius:
+            'Kung gaano kabilog ang mga sulok nito: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> o <code>full</code>.',
+          density:
+            'Kung gaano kalaking espasyo ang kinukuha nito: <code>compact</code>, <code>regular</code> o <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Paggamit ng keyboard',
@@ -146,6 +165,14 @@ export const messages: Messages = {
           links: {
             title: 'Mga link at naka-disable na button',
             text: 'Hindi puwedeng i-disable nang native ang mga anchor, kaya nilalagyan ng <code>aria-disabled="true"</code> ang naka-disable na link at hinaharangan ang mga click dito, kahit may <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Mga press effect',
+            text: 'Pindutin nang matagal ang bawat isa. Itinatakda ng <code>press</code> ang ginagawa ng button habang nakapindot, at ng <code>motion</code> ang spring na nagbabalik dito. Sa kahit anong element, itinatakda ng <code>data-nui-press</code> ang effect para sa lahat ng nasa loob nito.',
+          },
+          shapes: {
+            title: 'Mga sulok, radius at density',
+            text: 'Binabago ng <code>corners</code> ang hugis ng mga sulok, ng <code>radius</code> ang laki nila at ng <code>density</code> ang espasyong kinukuha ng button, pero hindi ito lumiliit nang lampas sa 24px na target size. Bilog ang mga sulok na iginuguhit ng mga browser na walang <code>corner-shape</code>.',
           },
         },
         api: {
@@ -206,6 +233,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Hindi basta maisasara',
             text: 'Kapag <code>[dismissible]="false"</code>, binabalewala ang Escape at ang mga click sa backdrop, kaya kailangang pumili ng user ng isang opsyon.',
+          },
+          entrances: {
+            title: 'Mga paglitaw',
+            text: 'Binubuksan ng bawat button ang parehong dialog gamit ang ibang <code>enter</code> preset at ang <code>bouncy</code> na spring. Paano man ito lumitaw, mabilis na fade ang pag-alis nito.',
           },
         },
         api: {
@@ -285,6 +316,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Mga checkbox at radio item',
             text: 'I-set ang <code>role</code> at i-bind ang <code>[checked]</code>. Ipinapakita ng menu ang indicator at ina-announce ang state.',
+          },
+          entrances: {
+            title: 'Mga paglitaw at spring',
+            text: 'Ipinapares ng bawat menu ang isang <code>enter</code> preset sa isang <code>motion</code> spring, at lumalaki ito mula sa gilid kung saan ito bumubukas. Minamana ng mga submenu ang dalawa.',
           },
         },
         api: {
@@ -440,6 +475,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Pag-customize',
+        description:
+          'Spring physics, press effect, paglitaw, hugis at radius ng sulok, at density: baguhin ang galaw at dating ng Needless UI, sa buong app o sa bawat component.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'May personalidad ang bawat component na puwede mong baguhin: ang spring na nagpapagalaw dito, ang ginagawa ng button sa ilalim ng daliri mo, kung paano lumilitaw ang mga dialog at menu, ang hugis at laki ng kanilang mga sulok, at kung gaano kalaking espasyo ang kinukuha nila. Bawat isa ay isang attribute para sa lahat ng nasa loob ng isang element, o isang input para sa iisang component.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Isang attribute, buong subtree' },
+          {
+            kind: 'p',
+            html: 'Ilagay ang mga <code>data-nui-*</code> attribute sa <code>&lt;body&gt;</code> para sa buong app, o sa kahit anong element para sa isang bahagi lang nito. Ang pinakamalapit ang nasusunod, kaya puwede silang i-nest. CSS custom property lang ang sine-set nila, kaya pareho ang paggana nila sa kahit anong framework, o kahit walang framework.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Iisang component' },
+          {
+            kind: 'p',
+            html: 'Sa Angular, tumatanggap ang <code>nuiButton</code>, <code>nuiDialog</code> at <code>nuiMenu</code> ng parehong mga value bilang input. Sinusunod ng mga input na hindi mo sine-set ang mga attribute na nakapaligid sa kanila.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Mga spring na kino-compile sa CSS' },
+          {
+            kind: 'p',
+            html: 'Spring physics ang galaw: tigas, damping at masa sa halip na duration at curve. Kinakalkula ng token compiler ang bawat spring at isinusulat ito sa CSS bilang tagal bago ito tumigil at isang <code>linear()</code> easing, kaya tumatakbo ito sa compositor nang walang JavaScript. Anim na spring ang kasama bilang mga token, mula <code>--nui-spring-snappy</code> hanggang <code>--nui-spring-mechanical</code>, at hawak ng <code>--nui-motion</code> ang kasalukuyang ginagamit.',
+          },
+          {
+            kind: 'p',
+            html: 'Isang input lang ang kailangan para sa kahit anong ibang spring. Kino-compile ito ng Angular sa runtime gamit ang parehong solver, at ibinibigay sa iyo ng <code>springTransition()</code> ang CSS para sa sarili mong mga element.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Lahat ng nasa pagitan' },
+          {
+            kind: 'p',
+            html: 'Mga shortcut lang ang mga preset. Para sa iba pa, ikaw na mismo ang mag-set ng mga CSS custom property: kahit anong transform para sa <code>--nui-press</code> at <code>--nui-enter</code>, kahit anong numero para sa <code>--nui-radius-scale</code> at <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Accessibility' },
+          {
+            kind: 'p',
+            html: 'Kapag humiling ang system ng reduced motion, agad na natatapos ang mga spring, at hindi na gumagalaw ang mga press effect at paglitaw. Hindi kailanman pinapaliit ng density ang isang control nang lampas sa 24px na target size ng WCAG 2.2, at walang preset na nagbabago ng kulay, kaya pasado pa rin ang bawat contrast check. Ginagawang bilog ng mga browser na walang <code>corner-shape</code> ang bawat sulok.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Playground para sa pag-customize',
+      motion: 'Galaw',
+      custom: 'custom',
+      stiffness: 'Tigas',
+      damping: 'Damping',
+      mass: 'Masa',
+      press: 'Pindot',
+      enter: 'Paglitaw',
+      corners: 'Mga sulok',
+      radius: 'Radius',
+      density: 'Density',
+      surprise: 'Sorpresahin mo ako',
+      reset: 'Ibalik sa default',
+      hint: 'Pindutin nang matagal ang isang button, saka bitawan. Buksan ang dialog at ang menu para makita kung paano sila lumilitaw.',
+      save: 'I-save',
+      cancel: 'Kanselahin',
+      delete: 'Burahin',
+      openDialog: 'Buksan ang dialog',
+      openMenu: 'Buksan ang menu',
+      menu: ['Palitan ang pangalan', 'I-duplicate', 'Burahin'],
+      dialogTitle: 'Sobra-sobrang animated',
+      dialogText: 'Lumitaw ang dialog na ito nang eksaktong gaya ng sinabi mo.',
+      close: 'Isara',
+      curve:
+        'Ang posisyon ng spring sa paglipas ng oras. Nagsisimula ito sa ibaba at tumitigil sa putol-putol na linya.',
+      settles: (ms, overshoot) => `Tumitigil sa loob ng ${ms} ms · lumalampas nang ${overshoot}%`,
+      instant: 'Walang galaw: diretsong tumatalon ang lahat sa pupuntahan nito.',
+      stuck:
+        'Hindi tumitigil ang spring na ito sa loob ng 10 segundo. Dagdagan ang damping o ang tigas; samantala, ginagamit ng mga component ang huling spring na tumigil.',
+      reducedMotion:
+        'Humihingi ang system mo ng mas kaunting galaw, kaya walang gumagalaw dito. Babalik ang mga spring, pindot at paglitaw kapag hindi na ito humihingi.',
+      noCornerShape:
+        'Hindi pa kayang iguhit ng browser na ito ang mga hugis ng sulok, kaya bilog pa rin ang bawat sulok.',
+      everywhere: 'Sa kahit anong element, para sa lahat ng nasa loob nito:',
+      oneComponent: 'Sa iisang component, sa Angular:',
     },
   },
 

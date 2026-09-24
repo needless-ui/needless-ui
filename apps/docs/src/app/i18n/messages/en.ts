@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'Every color pair is checked against WCAG 2.2 AA when the palette is generated. Focus, forced colors and reduced motion are handled for you.',
       },
       {
-        title: 'Standard design tokens',
-        text: 'W3C DTCG token files compile to CSS custom properties with light, dark and nested themes.',
+        title: 'Needlessly customizable',
+        text: 'Springs, press effects, entrances, corner shapes, radius and density: <a href="/guides/customization">one attribute</a> for the whole app, or one input per component, on standard W3C design tokens.',
       },
       {
         title: 'Modern Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'Default',
       description: 'Description',
       kinds: { input: 'Input', model: 'Two-way', output: 'Output', method: 'Method' },
+      customization: {
+        note: 'Customization inputs you leave unset follow the nearest <code>data-nui-*</code> attribute. See the <a href="/guides/customization">customization guide</a>.',
+        members: {
+          motion:
+            'The spring it moves with: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> or <code>none</code>.',
+          spring:
+            'Any spring, as <code>{ stiffness, damping, mass }</code>, compiled to CSS at runtime. It overrides <code>motion</code>.',
+          press:
+            'What it does while held down: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> or <code>none</code>.',
+          enter:
+            'How it arrives: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> or <code>none</code>.',
+          corners:
+            'The shape of its corners: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> or <code>square</code>.',
+          radius:
+            'How big its corners are: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> or <code>full</code>.',
+          density:
+            'How much room it takes: <code>compact</code>, <code>regular</code> or <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Keyboard interaction',
@@ -145,6 +164,14 @@ export const messages: Messages = {
           links: {
             title: 'Links and disabled buttons',
             text: 'Anchors can’t be disabled natively, so a disabled link gets <code>aria-disabled="true"</code> and its clicks are blocked, even with <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Press effects',
+            text: 'Press and hold each one. <code>press</code> sets what a button does while held down, and <code>motion</code> the spring it comes back on. <code>data-nui-press</code> on any element sets it for everything inside.',
+          },
+          shapes: {
+            title: 'Corners, radius and density',
+            text: '<code>corners</code> changes the shape of the corners, <code>radius</code> their size and <code>density</code> the room a button takes, never below the 24px target size. Browsers without <code>corner-shape</code> draw round corners.',
           },
         },
         api: {
@@ -201,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Not dismissible',
             text: 'With <code>[dismissible]="false"</code>, Escape and backdrop clicks are ignored, so the user has to pick an option.',
+          },
+          entrances: {
+            title: 'Entrances',
+            text: 'Each button opens the same dialog with another <code>enter</code> preset, on the <code>bouncy</code> spring. However it arrives, it leaves with a quick fade.',
           },
         },
         api: {
@@ -278,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Checkbox and radio items',
             text: 'Set <code>role</code> and bind <code>[checked]</code>. The menu shows the indicator and announces the state.',
+          },
+          entrances: {
+            title: 'Entrances and springs',
+            text: 'Each menu pairs an <code>enter</code> preset with a <code>motion</code> spring and grows out of the side it opens on. Submenus inherit both.',
           },
         },
         api: {
@@ -427,6 +462,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Customization',
+        description:
+          'Spring physics, press effects, entrances, corner shapes, radius and density: change how Needless UI moves and feels, app-wide or per component.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Every component has a personality you can change: the spring it moves with, what a button does under your finger, how dialogs and menus arrive, the shape and size of their corners, and how much room they take. Each is one attribute for everything inside an element, or one input for a single component.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'One attribute, a whole subtree' },
+          {
+            kind: 'p',
+            html: 'Put the <code>data-nui-*</code> attributes on <code>&lt;body&gt;</code> for the whole app, or on any element for one part of it. The nearest one wins, so they nest. They only set CSS custom properties, so they work the same with any framework, or none.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'One component' },
+          {
+            kind: 'p',
+            html: 'In Angular, <code>nuiButton</code>, <code>nuiDialog</code> and <code>nuiMenu</code> take the same values as inputs. The inputs you leave unset follow the attributes around them.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Springs, compiled to CSS' },
+          {
+            kind: 'p',
+            html: 'Motion is spring physics: stiffness, damping and mass instead of a duration and a curve. The token compiler solves each spring and writes it into CSS as the time it takes to settle and a <code>linear()</code> easing, so it runs on the compositor without JavaScript. Six springs ship as tokens, from <code>--nui-spring-snappy</code> to <code>--nui-spring-mechanical</code>, and <code>--nui-motion</code> holds the one in use.',
+          },
+          {
+            kind: 'p',
+            html: 'Any other spring is one input away. Angular compiles it at runtime with the same solver, and <code>springTransition()</code> gives you the CSS for your own elements.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Anything in between' },
+          {
+            kind: 'p',
+            html: 'The presets are shortcuts. Set the custom properties yourself for anything else: any transform for <code>--nui-press</code> and <code>--nui-enter</code>, any number for <code>--nui-radius-scale</code> and <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Accessibility' },
+          {
+            kind: 'p',
+            html: 'When the system asks for reduced motion, springs collapse to an instant, and presses and entrances stop moving. Density never takes a control below the 24px target size of WCAG 2.2, and no preset touches colors, so every contrast check still holds. Browsers without <code>corner-shape</code> draw every corner round.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Customization playground',
+      motion: 'Motion',
+      custom: 'custom',
+      stiffness: 'Stiffness',
+      damping: 'Damping',
+      mass: 'Mass',
+      press: 'Press',
+      enter: 'Entrance',
+      corners: 'Corners',
+      radius: 'Radius',
+      density: 'Density',
+      surprise: 'Surprise me',
+      reset: 'Back to defaults',
+      hint: 'Press and hold a button, then let go. Open the dialog and the menu to watch them arrive.',
+      save: 'Save',
+      cancel: 'Cancel',
+      delete: 'Delete',
+      openDialog: 'Open dialog',
+      openMenu: 'Open menu',
+      menu: ['Rename', 'Duplicate', 'Delete'],
+      dialogTitle: 'Needlessly animated',
+      dialogText: 'This dialog arrived exactly the way you told it to.',
+      close: 'Close',
+      curve:
+        'The spring’s position over time. It starts at the bottom and comes to rest on the dashed line.',
+      settles: (ms, overshoot) => `Settles in ${ms} ms · overshoots by ${overshoot}%`,
+      instant: 'No motion: everything jumps straight to where it’s going.',
+      stuck:
+        'This spring doesn’t settle within 10 seconds. Add damping or stiffness; meanwhile the components keep the last one that did.',
+      reducedMotion:
+        'Your system asks for reduced motion, so nothing here moves. Springs, presses and entrances come back when it doesn’t.',
+      noCornerShape: 'This browser can’t draw corner shapes yet, so every corner stays round.',
+      everywhere: 'On any element, for everything inside it:',
+      oneComponent: 'On one component, in Angular:',
     },
   },
 

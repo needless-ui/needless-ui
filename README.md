@@ -14,6 +14,7 @@
 - **One stylesheet for every framework.** Components are styled by a framework-free CSS package. Angular and React bindings only set classes and `data-*` attributes, so both frameworks look and behave the same.
 - **Your CSS always wins.** Everything ships inside `@layer nui.*`, so plain CSS in your app overrides it without `!important` or specificity battles.
 - **Accessible by construction.** Every color pair is checked against WCAG 2.2 AA when the palette is generated. Controls clear the 24px target minimum, and focus rings, forced colors and reduced motion are handled.
+- **Needlessly customizable.** Springs, press effects, entrances, corner shapes, radius and density: one attribute for a whole subtree, or one input per component. The springs are real physics, solved at build time and shipped as CSS `linear()` easings.
 - **Standard design tokens.** Tokens are W3C DTCG 2025.10 files, compiled to CSS custom properties with light and dark modes, including nested themes.
 - **Modern Angular.** Signal inputs, zoneless, OnPush, SSR- and hydration-safe, with one entry point per component so apps only ship what they import.
 
@@ -71,6 +72,18 @@ export class App {
   It works without a framework
 </button>
 ```
+
+## Customization
+
+Any element can give everything inside it a personality, and components take the same values as inputs:
+
+```html
+<body data-nui-motion="jelly" data-nui-press="squish" data-nui-corners="squircle">
+  <button nuiButton press="rubber" [spring]="{ stiffness: 900, damping: 12 }">Boing</button>
+</body>
+```
+
+See the [customization spec](specs/customization.md), or play with it at [needlessui.com/guides/customization](https://www.needlessui.com/guides/customization).
 
 ## Theming
 

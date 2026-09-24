@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'パレットの生成時に、すべての色の組み合わせを WCAG 2.2 AA の基準でチェックしています。フォーカス、強制カラーモード、動きを減らす設定にも対応済みです。',
       },
       {
-        title: '標準のデザイントークン',
-        text: 'W3C DTCG 形式のトークンファイルを CSS カスタムプロパティにコンパイルし、ライト、ダーク、入れ子のテーマに対応します。',
+        title: '無駄なほどカスタマイズ可能',
+        text: 'スプリング、押下エフェクト、登場アニメーション、角の形、角丸、密度。アプリ全体なら<a href="/guides/customization">属性1つ</a>、コンポーネントごとなら入力1つで設定でき、標準の W3C デザイントークンをベースにしています。',
       },
       {
         title: 'モダンな Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'デフォルト',
       description: '説明',
       kinds: { input: '入力', model: '双方向', output: '出力', method: 'メソッド' },
+      customization: {
+        note: 'カスタマイズ用の入力のうち、設定しなかったものは最も近い <code>data-nui-*</code> 属性に従います。詳しくは<a href="/guides/customization">カスタマイズガイド</a>をご覧ください。',
+        members: {
+          motion:
+            '動きに使うスプリング：<code>snappy</code>、<code>bouncy</code>、<code>jelly</code>、<code>elastic</code>、<code>lazy</code>、<code>mechanical</code>、<code>none</code> のいずれか。',
+          spring:
+            '任意のスプリング。<code>{ stiffness, damping, mass }</code> の形で指定し、実行時に CSS にコンパイルされます。<code>motion</code> より優先されます。',
+          press:
+            '押している間の動き：<code>sink</code>、<code>squish</code>、<code>pop</code>、<code>wobble</code>、<code>rubber</code>、<code>tilt</code>、<code>none</code> のいずれか。',
+          enter:
+            '登場のしかた：<code>zoom</code>、<code>fade</code>、<code>drop</code>、<code>rise</code>、<code>unfold</code>、<code>flip</code>、<code>swing</code>、<code>slide</code>、<code>none</code> のいずれか。',
+          corners:
+            '角の形：<code>round</code>、<code>squircle</code>、<code>bevel</code>、<code>scoop</code>、<code>notch</code>、<code>square</code> のいずれか。',
+          radius:
+            '角の大きさ：<code>none</code>、<code>small</code>、<code>medium</code>、<code>large</code>、<code>full</code> のいずれか。',
+          density:
+            '占めるスペースの広さ：<code>compact</code>、<code>regular</code>、<code>roomy</code> のいずれか。',
+        },
+      },
     },
     a11y: {
       keyboard: 'キーボード操作',
@@ -146,6 +165,14 @@ export const messages: Messages = {
           links: {
             title: 'リンクと無効なボタン',
             text: 'a 要素はネイティブには無効化できないため、無効なリンクには <code>aria-disabled="true"</code> を設定し、<code>routerLink</code> を使っている場合でもクリックをブロックします。',
+          },
+          presses: {
+            title: '押下エフェクト',
+            text: 'ボタンを1つずつ長押ししてみてください。<code>press</code> は押している間のボタンの動きを、<code>motion</code> は元に戻るときのスプリングを設定します。任意の要素に <code>data-nui-press</code> を指定すると、その中のすべてに適用されます。',
+          },
+          shapes: {
+            title: '角の形、角丸、密度',
+            text: '<code>corners</code> は角の形を、<code>radius</code> は角の大きさを、<code>density</code> はボタンが占めるスペースの広さを変えます。ただし、ボタンが 24px のターゲットサイズを下回ることはありません。<code>corner-shape</code> に対応していないブラウザーでは、角は丸く描画されます。',
           },
         },
         api: {
@@ -206,6 +233,10 @@ export const messages: Messages = {
           dismissible: {
             title: '閉じ方を限定したダイアログ',
             text: '<code>[dismissible]="false"</code> を指定すると Esc キーと背景のクリックが無視されるため、ユーザーはいずれかの選択肢を選ぶ必要があります。',
+          },
+          entrances: {
+            title: '登場アニメーション',
+            text: 'どのボタンも同じダイアログを開きますが、<code>enter</code> プリセットはボタンごとに異なり、スプリングはすべて <code>bouncy</code> です。どのように登場しても、閉じるときはすばやくフェードアウトします。',
           },
         },
         api: {
@@ -284,6 +315,10 @@ export const messages: Messages = {
           checkable: {
             title: 'チェックボックス項目とラジオ項目',
             text: '<code>role</code> を設定し、<code>[checked]</code> をバインドします。メニューがインジケーターを表示し、状態を読み上げます。',
+          },
+          entrances: {
+            title: '登場アニメーションとスプリング',
+            text: '各メニューは <code>enter</code> プリセットと <code>motion</code> のスプリングを組み合わせ、開く側から広がるように現れます。サブメニューはその両方を継承します。',
           },
         },
         api: {
@@ -433,6 +468,86 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'カスタマイズ',
+        description:
+          'スプリングの物理、押下エフェクト、登場アニメーション、角の形と大きさ、密度。Needless UI の動きと手触りを、アプリ全体またはコンポーネントごとに変えられます。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'どのコンポーネントにも、変更できる個性があります。動きを決めるスプリング、指で押したときのボタンの反応、ダイアログやメニューの登場のしかた、角の形と大きさ、そして占めるスペースの広さです。いずれも、要素内のすべてには属性1つで、1つのコンポーネントには入力1つで指定できます。',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: '属性1つでサブツリー全体に' },
+          {
+            kind: 'p',
+            html: '<code>data-nui-*</code> 属性は、アプリ全体に適用するなら <code>&lt;body&gt;</code> に、一部だけに適用するなら任意の要素に指定します。最も近い属性が優先されるため、入れ子にできます。これらの属性は CSS カスタムプロパティを設定するだけなので、どのフレームワークでも、フレームワークがなくても同じように動作します。',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: '1つのコンポーネントに' },
+          {
+            kind: 'p',
+            html: 'Angular では、<code>nuiButton</code>、<code>nuiDialog</code>、<code>nuiMenu</code> が同じ値を入力として受け取ります。設定しなかった入力は、周囲の属性に従います。',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'CSS にコンパイルされるスプリング' },
+          {
+            kind: 'p',
+            html: 'モーションはスプリングの物理に基づいています。時間とカーブの代わりに、剛性、減衰、質量で動きを定義します。トークンコンパイラーが各スプリングの運動方程式を解き、静止するまでの時間と <code>linear()</code> イージングとして CSS に書き出すので、JavaScript なしでコンポジター上で動作します。<code>--nui-spring-snappy</code> から <code>--nui-spring-mechanical</code> まで6種類のスプリングがトークンとして用意されており、使用中のスプリングは <code>--nui-motion</code> が保持します。',
+          },
+          {
+            kind: 'p',
+            html: 'ほかのスプリングも、入力1つで使えます。Angular が同じソルバーを使って実行時にコンパイルします。独自の要素には、<code>springTransition()</code> で CSS を生成できます。',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'プリセットの中間も自由に' },
+          {
+            kind: 'p',
+            html: 'プリセットはショートカットです。それ以外の値にしたい場合は、カスタムプロパティを直接設定してください。<code>--nui-press</code> と <code>--nui-enter</code> には任意の transform を、<code>--nui-radius-scale</code> と <code>--nui-density</code> には任意の数値を指定できます。',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'アクセシビリティ' },
+          {
+            kind: 'p',
+            html: 'システムが動きを減らすよう求めている場合、スプリングは一瞬で完了し、押下と登場の動きも止まります。密度をどう設定しても、コントロールが WCAG 2.2 のターゲットサイズである 24px を下回ることはありません。また、どのプリセットも色を変えないため、コントラストのチェックはすべて有効なままです。<code>corner-shape</code> に対応していないブラウザーでは、角はすべて丸く描画されます。',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'カスタマイズのプレイグラウンド',
+      motion: 'モーション',
+      custom: 'カスタム',
+      stiffness: '剛性',
+      damping: '減衰',
+      mass: '質量',
+      press: '押下',
+      enter: '登場',
+      corners: '角の形',
+      radius: '角丸',
+      density: '密度',
+      surprise: 'おまかせ',
+      reset: 'デフォルトに戻す',
+      hint: 'ボタンを長押ししてから離してみてください。ダイアログとメニューを開くと、登場する様子を見られます。',
+      save: '保存',
+      cancel: 'キャンセル',
+      delete: '削除',
+      openDialog: 'ダイアログを開く',
+      openMenu: 'メニューを開く',
+      menu: ['名前を変更', '複製', '削除'],
+      dialogTitle: '無駄によく動く',
+      dialogText: 'このダイアログは、指定したとおりに登場しました。',
+      close: '閉じる',
+      curve: 'スプリングの位置の時間変化。下から動き出し、破線の上で静止します。',
+      settles: (ms, overshoot) => `${ms}ミリ秒で静止 · オーバーシュート ${overshoot}%`,
+      instant: 'モーションなし：すべてが行き先へ一瞬で移動します。',
+      stuck:
+        'このスプリングは10秒以内に静止しません。減衰か剛性を上げてください。それまでの間、コンポーネントは最後に静止できたスプリングを使い続けます。',
+      reducedMotion:
+        'お使いのシステムは動きを減らす設定になっているため、ここでは何も動きません。この設定がオフになると、スプリング、押下、登場の動きが戻ります。',
+      noCornerShape: 'このブラウザーはまだ角の形を描画できないため、角はすべて丸いままです。',
+      everywhere: '任意の要素に指定して、その中のすべてに適用：',
+      oneComponent: 'Angular で、1つのコンポーネントだけに適用：',
     },
   },
 

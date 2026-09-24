@@ -5,11 +5,12 @@ import { COMPONENT_IDS } from '../../docs/ids';
 import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
+import { InAppLinks } from '../../shared/in-app-links';
 import { ComponentPreview } from '../../shared/component-preview';
 
 @Component({
   selector: 'docs-home-page',
-  imports: [RouterLink, NuiButton, CodeBlock, ComponentPreview],
+  imports: [RouterLink, NuiButton, CodeBlock, ComponentPreview, InAppLinks],
   template: `
     @let home = i18n.t().home;
     <div class="home">
@@ -42,7 +43,7 @@ import { ComponentPreview } from '../../shared/component-preview';
 
       <section class="container home-section" aria-labelledby="features-title">
         <h2 id="features-title">{{ home.featuresTitle }}</h2>
-        <ul class="features">
+        <ul class="features" docsInAppLinks>
           @for (feature of home.features; track feature.title) {
             <li class="feature">
               <h3>{{ feature.title }}</h3>

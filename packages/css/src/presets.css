@@ -1,0 +1,203 @@
+/*
+ * Customization presets. Put any of these attributes on an element, and it and
+ * every Needless UI component inside it follow:
+ *
+ *   <body data-nui-motion="jelly" data-nui-press="squish" data-nui-enter="flip"
+ *         data-nui-corners="squircle" data-nui-radius="large" data-nui-density="roomy">
+ *
+ * A preset only sets inherited custom properties, so presets nest (the nearest
+ * one wins), and plain CSS can set the same properties to anything else:
+ *
+ *   .checkout { --nui-press: scale(0.9) rotate(2deg); --nui-radius-scale: 1.5; }
+ */
+@layer nui.tokens {
+  :root {
+    /* The transform of a button while it's held down: sink. */
+    --nui-press: translateY(1px) scale(0.97);
+    /* Where dialogs and menus arrive from, and the opacity they fade in from: zoom. */
+    --nui-enter: scale(0.94);
+    --nui-enter-opacity: 0;
+    /* The shape of rounded corners. Browsers without corner-shape draw them round. */
+    --nui-corner-shape: round;
+    /* 1 in left-to-right text and -1 in right-to-left, for things that come in from a side. */
+    --nui-dir: 1;
+  }
+
+  [dir='rtl'] {
+    --nui-dir: -1;
+  }
+
+  [dir='ltr'] {
+    --nui-dir: 1;
+  }
+
+  /* Motion: the spring that presses bounce back with and that dialogs and menus arrive on. */
+
+  [data-nui-motion='snappy'] {
+    --nui-motion: var(--nui-spring-snappy);
+  }
+
+  [data-nui-motion='bouncy'] {
+    --nui-motion: var(--nui-spring-bouncy);
+  }
+
+  [data-nui-motion='jelly'] {
+    --nui-motion: var(--nui-spring-jelly);
+  }
+
+  [data-nui-motion='elastic'] {
+    --nui-motion: var(--nui-spring-elastic);
+  }
+
+  [data-nui-motion='lazy'] {
+    --nui-motion: var(--nui-spring-lazy);
+  }
+
+  [data-nui-motion='mechanical'] {
+    --nui-motion: var(--nui-spring-mechanical);
+  }
+
+  [data-nui-motion='none'] {
+    --nui-motion: 0.01ms linear;
+  }
+
+  /* Press: what a button does while it's held down. */
+
+  [data-nui-press='sink'] {
+    --nui-press: translateY(1px) scale(0.97);
+  }
+
+  [data-nui-press='squish'] {
+    --nui-press: scale(1.06, 0.9);
+  }
+
+  [data-nui-press='pop'] {
+    --nui-press: scale(1.08);
+  }
+
+  [data-nui-press='wobble'] {
+    --nui-press: rotate(-4deg);
+  }
+
+  [data-nui-press='rubber'] {
+    --nui-press: scale(1.18, 0.82);
+  }
+
+  [data-nui-press='tilt'] {
+    --nui-press: perspective(12em) rotateX(24deg);
+  }
+
+  [data-nui-press='none'] {
+    --nui-press: none;
+  }
+
+  /* Enter: how dialogs and menus arrive. They all leave with a quick fade. */
+
+  [data-nui-enter='zoom'] {
+    --nui-enter: scale(0.94);
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='fade'] {
+    --nui-enter: none;
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='drop'] {
+    --nui-enter: translateY(-1.5rem);
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='rise'] {
+    --nui-enter: translateY(1.5rem);
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='unfold'] {
+    --nui-enter: scaleY(0.1);
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='flip'] {
+    --nui-enter: perspective(50em) rotateX(-50deg);
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='swing'] {
+    --nui-enter: perspective(50em) rotateY(45deg);
+    --nui-enter-opacity: 0;
+  }
+
+  /* From the end of the line: the right in left-to-right text, the left in right-to-left. */
+  [data-nui-enter='slide'] {
+    --nui-enter: translateX(calc(2rem * var(--nui-dir)));
+    --nui-enter-opacity: 0;
+  }
+
+  [data-nui-enter='none'] {
+    --nui-enter: none;
+    --nui-enter-opacity: 1;
+  }
+
+  /* Corners: the shape of every rounded corner. */
+
+  [data-nui-corners='round'] {
+    --nui-corner-shape: round;
+  }
+
+  [data-nui-corners='squircle'] {
+    --nui-corner-shape: squircle;
+  }
+
+  [data-nui-corners='bevel'] {
+    --nui-corner-shape: bevel;
+  }
+
+  [data-nui-corners='scoop'] {
+    --nui-corner-shape: scoop;
+  }
+
+  [data-nui-corners='notch'] {
+    --nui-corner-shape: notch;
+  }
+
+  [data-nui-corners='square'] {
+    --nui-corner-shape: square;
+  }
+
+  /* Radius: how big those corners are. Dialogs and menus stop growing before their content gets cut. */
+
+  [data-nui-radius='none'] {
+    --nui-radius-scale: 0;
+  }
+
+  [data-nui-radius='small'] {
+    --nui-radius-scale: 0.5;
+  }
+
+  [data-nui-radius='medium'] {
+    --nui-radius-scale: 1;
+  }
+
+  [data-nui-radius='large'] {
+    --nui-radius-scale: 2;
+  }
+
+  [data-nui-radius='full'] {
+    --nui-radius-scale: 999;
+  }
+
+  /* Density: how much room controls take. */
+
+  [data-nui-density='compact'] {
+    --nui-density: 0.8;
+  }
+
+  [data-nui-density='regular'] {
+    --nui-density: 1;
+  }
+
+  [data-nui-density='roomy'] {
+    --nui-density: 1.25;
+  }
+}

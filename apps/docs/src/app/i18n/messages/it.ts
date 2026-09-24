@@ -64,8 +64,8 @@ export const messages: Messages = {
         text: 'Ogni coppia di colori viene verificata rispetto alle WCAG 2.2 AA quando si genera la palette. Focus, forced colors e riduzione del movimento sono già gestiti.',
       },
       {
-        title: 'Design token standard',
-        text: 'I token in formato W3C DTCG diventano custom property CSS, con temi chiaro, scuro e annidati.',
+        title: 'Inutilmente personalizzabile',
+        text: 'Molle, effetti alla pressione, animazioni di entrata, forme degli angoli, raggio e densità: <a href="/guides/customization">un attributo</a> per tutta l’app o un input per componente, su design token W3C standard.',
       },
       {
         title: 'Angular moderno',
@@ -104,6 +104,25 @@ export const messages: Messages = {
       default: 'Predefinito',
       description: 'Descrizione',
       kinds: { input: 'Input', model: 'Bidirezionale', output: 'Output', method: 'Metodo' },
+      customization: {
+        note: 'Gli input di personalizzazione che non imposti seguono l’attributo <code>data-nui-*</code> più vicino. Vedi la <a href="/guides/customization">guida alla personalizzazione</a>.',
+        members: {
+          motion:
+            'La molla con cui si muove: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> o <code>none</code>.',
+          spring:
+            'Qualsiasi molla, nella forma <code>{ stiffness, damping, mass }</code>, compilata in CSS a runtime. Ha la precedenza su <code>motion</code>.',
+          press:
+            'Cosa fa mentre è tenuto premuto: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> o <code>none</code>.',
+          enter:
+            'Come entra in scena: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> o <code>none</code>.',
+          corners:
+            'La forma degli angoli: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> o <code>square</code>.',
+          radius:
+            'Quanto sono grandi gli angoli: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> o <code>full</code>.',
+          density:
+            'Quanto spazio occupa: <code>compact</code>, <code>regular</code> o <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Interazione da tastiera',
@@ -146,6 +165,14 @@ export const messages: Messages = {
           links: {
             title: 'Link e pulsanti disattivati',
             text: 'Gli anchor non si possono disattivare nativamente: un link disattivato riceve <code>aria-disabled="true"</code> e i suoi clic vengono bloccati, anche con <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Effetti alla pressione',
+            text: 'Tieni premuto ciascun pulsante. <code>press</code> stabilisce cosa fa un pulsante mentre resta premuto, e <code>motion</code> la molla con cui torna in posizione. <code>data-nui-press</code> su qualsiasi elemento imposta l’effetto per tutto ciò che contiene.',
+          },
+          shapes: {
+            title: 'Angoli, raggio e densità',
+            text: '<code>corners</code> cambia la forma degli angoli, <code>radius</code> la loro dimensione e <code>density</code> lo spazio che occupa un pulsante, senza mai scendere sotto l’area di tocco minima di 24px. I browser senza <code>corner-shape</code> disegnano angoli arrotondati.',
           },
         },
         api: {
@@ -203,6 +230,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Non chiudibile',
             text: 'Con <code>[dismissible]="false"</code>, Esc e i clic sullo sfondo vengono ignorati: bisogna scegliere un’opzione.',
+          },
+          entrances: {
+            title: 'Animazioni di entrata',
+            text: 'Ogni pulsante apre lo stesso dialog con un preset <code>enter</code> diverso e la molla <code>bouncy</code>. Comunque entri in scena, esce con una rapida dissolvenza.',
           },
         },
         api: {
@@ -281,6 +312,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Voci checkbox e radio',
             text: 'Imposta <code>role</code> e collega <code>[checked]</code>. Il menu mostra l’indicatore e annuncia lo stato.',
+          },
+          entrances: {
+            title: 'Animazioni di entrata e molle',
+            text: 'Ogni menu abbina un preset <code>enter</code> a una molla <code>motion</code> e cresce dal lato in cui si apre. I sottomenu ereditano entrambi.',
           },
         },
         api: {
@@ -431,6 +466,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Personalizzazione',
+        description:
+          'Fisica delle molle, effetti alla pressione, animazioni di entrata, forme degli angoli, raggio e densità: regola Needless UI in tutta l’app o per componente.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Ogni componente ha una personalità che puoi cambiare: la molla con cui si muove, cosa fa un pulsante sotto il tuo dito, come entrano in scena dialog e menu, la forma e la dimensione degli angoli e quanto spazio occupa. Ognuno di questi tratti è un attributo per tutto ciò che sta dentro un elemento, o un input per un singolo componente.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Un attributo, un intero sottoalbero' },
+          {
+            kind: 'p',
+            html: 'Metti gli attributi <code>data-nui-*</code> su <code>&lt;body&gt;</code> per tutta l’app, o su un elemento qualsiasi per una sola parte. Vince il più vicino, perciò si possono annidare. Impostano solo custom property CSS, quindi funzionano allo stesso modo con qualsiasi framework, o anche senza.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Un solo componente' },
+          {
+            kind: 'p',
+            html: 'In Angular, <code>nuiButton</code>, <code>nuiDialog</code> e <code>nuiMenu</code> accettano gli stessi valori come input. Gli input che non imposti seguono gli attributi intorno al componente.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Molle compilate in CSS' },
+          {
+            kind: 'p',
+            html: 'Il movimento è fisica delle molle: rigidezza, smorzamento e massa al posto di una durata e di una curva. Il compilatore dei token risolve ogni molla e la scrive nel CSS come tempo di assestamento più un easing <code>linear()</code>, così gira sul compositor senza JavaScript. Sei molle sono incluse come token, da <code>--nui-spring-snappy</code> a <code>--nui-spring-mechanical</code>, e <code>--nui-motion</code> contiene quella in uso.',
+          },
+          {
+            kind: 'p',
+            html: 'Qualsiasi altra molla è a un input di distanza. Angular la compila a runtime con lo stesso risolutore, e <code>springTransition()</code> ti dà il CSS per i tuoi elementi.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Tutte le vie di mezzo' },
+          {
+            kind: 'p',
+            html: 'I preset sono scorciatoie. Per tutto il resto imposta tu le custom property: qualsiasi trasformazione per <code>--nui-press</code> e <code>--nui-enter</code>, qualsiasi numero per <code>--nui-radius-scale</code> e <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Accessibilità' },
+          {
+            kind: 'p',
+            html: 'Quando il sistema chiede meno animazioni, le molle diventano istantanee, mentre effetti alla pressione e animazioni di entrata restano fermi. La densità non porta mai un controllo sotto l’area di tocco minima di 24px delle WCAG 2.2, e nessun preset tocca i colori, quindi ogni verifica di contrasto resta valida. I browser senza <code>corner-shape</code> disegnano tutti gli angoli arrotondati.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Area di prova per la personalizzazione',
+      motion: 'Movimento',
+      custom: 'personalizzato',
+      stiffness: 'Rigidezza',
+      damping: 'Smorzamento',
+      mass: 'Massa',
+      press: 'Pressione',
+      enter: 'Entrata',
+      corners: 'Angoli',
+      radius: 'Raggio',
+      density: 'Densità',
+      surprise: 'Sorprendimi',
+      reset: 'Ripristina predefiniti',
+      hint: 'Tieni premuto un pulsante, poi rilascialo. Apri il dialog e il menu per vederli entrare in scena.',
+      save: 'Salva',
+      cancel: 'Annulla',
+      delete: 'Elimina',
+      openDialog: 'Apri il dialog',
+      openMenu: 'Apri il menu',
+      menu: ['Rinomina', 'Duplica', 'Elimina'],
+      dialogTitle: 'Inutilmente animato',
+      dialogText: 'Questo dialog è arrivato esattamente come gli hai chiesto.',
+      close: 'Chiudi',
+      curve:
+        'La posizione della molla nel tempo. Parte dal basso e si ferma sulla linea tratteggiata.',
+      settles: (ms, overshoot) => `Si assesta in ${ms} ms · sfora del ${overshoot}%`,
+      instant: 'Nessun movimento: tutto salta subito dove deve andare.',
+      stuck:
+        'Questa molla non si assesta entro 10 secondi. Aumenta lo smorzamento o la rigidezza; nel frattempo i componenti tengono l’ultima che ci è riuscita.',
+      reducedMotion:
+        'Il tuo sistema chiede meno animazioni, quindi qui non si muove niente. Molle, effetti alla pressione e animazioni di entrata tornano quando smette di chiederlo.',
+      noCornerShape:
+        'Questo browser non sa ancora disegnare le forme degli angoli, quindi tutti gli angoli restano arrotondati.',
+      everywhere: 'Su qualsiasi elemento, per tutto ciò che contiene:',
+      oneComponent: 'Su un singolo componente, in Angular:',
     },
   },
 

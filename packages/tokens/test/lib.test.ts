@@ -6,7 +6,11 @@ import {
   flatten,
   index,
   resolve,
+  SPRING_EXTENSION,
+  springAt,
+  springToCss,
   toCss,
+  type Spring,
   type Token,
   type TokenSources,
 } from '../scripts/lib.ts';
@@ -36,9 +40,24 @@ describe('flatten', () => {
         type: 'dimension',
         value: { value: 4, unit: 'px' },
         description: 'one',
+        extensions: undefined,
         source: 'test',
       },
     ]);
+  });
+
+  it('keeps $extensions', () => {
+    const [spring] = flatten(
+      {
+        s: {
+          $type: 'number',
+          $value: 1,
+          $extensions: { [SPRING_EXTENSION]: { stiffness: 1, damping: 1 } },
+        },
+      },
+      'test',
+    );
+    assert.deepEqual(spring.extensions, { [SPRING_EXTENSION]: { stiffness: 1, damping: 1 } });
   });
 
   it('rejects names that are not kebab-case', () => {
@@ -152,6 +171,114 @@ describe('toCss', () => {
   });
 });
 
+const ms = (value: number) => ({ value, unit: 'ms' });
+const transition = (value: unknown, spring?: Spring): Token => ({
+  ...token('motion.x', 'transition', value),
+  extensions: spring ? { [SPRING_EXTENSION]: spring } : undefined,
+});
+const standIn = { duration: ms(200), delay: ms(0), timingFunction: [0.2, 0, 0, 1] };
+const BOUNCY = { stiffness: 300, damping: 14 };
+const MECHANICAL = { stiffness: 320, damping: 40 };
+
+/** Parses `<n>ms linear(…)` into its duration and [progress, value] stops. */
+function parseSpring(css: string): { duration: number; stops: [number, number][] } {
+  const match = /^(\d+)ms linear\((.*)\)$/.exec(css);
+  assert.ok(match, `not a spring: ${css}`);
+  const parts = match[2].split(', ');
+  const stops = parts.map((part, i): [number, number] => {
+    const [value, percent] = part.split(' ');
+    const at = percent === undefined ? i / (parts.length - 1) : parseFloat(percent) / 100;
+    return [at, Number(value)];
+  });
+  return { duration: Number(match[1]), stops };
+}
+
+function valueAt(stops: [number, number][], at: number): number {
+  const next = stops.findIndex(([x]) => x >= at);
+  if (next <= 0) return stops[Math.max(next, 0)][1];
+  const [[x0, y0], [x1, y1]] = [stops[next - 1], stops[next]];
+  return y0 + ((y1 - y0) * (at - x0)) / (x1 - x0);
+}
+
+describe('transitions', () => {
+  it('format as the time and easing of a CSS transition', () => {
+    assert.equal(toCss(transition(standIn)), '200ms cubic-bezier(0.2, 0, 0, 1)');
+    assert.equal(
+      toCss(transition({ ...standIn, delay: ms(50) })),
+      '200ms cubic-bezier(0.2, 0, 0, 1) 50ms',
+    );
+    assert.equal(
+      toCss(
+        transition({
+          duration: '{duration.fast}',
+          delay: ms(0),
+          timingFunction: '{easing.standard}',
+        }),
+      ),
+      'var(--nui-duration-fast) var(--nui-easing-standard)',
+    );
+    assert.throws(
+      () => toCss(transition('200ms')),
+      /must be \{ duration, delay, timingFunction \}/,
+    );
+  });
+});
+
+describe('springs', () => {
+  it('compile to the time they take to settle and their exact curve', () => {
+    const { duration, stops } = parseSpring(springToCss(BOUNCY));
+    // Within the simplification tolerance (0.004) plus rounding, at every millisecond…
+    for (let t = 0; t <= duration; t++) {
+      const error = Math.abs(valueAt(stops, t / duration) - springAt(BOUNCY, t / 1000));
+      assert.ok(error < 0.005, `off by ${error} at ${t}ms`);
+    }
+    // …and settled for good once it ends.
+    for (let t = duration; t < duration + 2000; t += 10) {
+      assert.ok(Math.abs(springAt(BOUNCY, t / 1000) - 1) < 0.001);
+    }
+  });
+
+  it('overshoot when underdamped, and never when overdamped', () => {
+    const peak = (spring: Spring) =>
+      Math.max(...parseSpring(springToCss(spring)).stops.map(([, y]) => y));
+    assert.ok(peak(BOUNCY) > 1.2);
+    assert.equal(peak(MECHANICAL), 1);
+  });
+
+  it('replace the stand-in of a transition that carries one', () => {
+    assert.equal(toCss(transition(standIn, BOUNCY)), springToCss(BOUNCY));
+    assert.equal(
+      toCss(transition({ ...standIn, delay: ms(50) }, BOUNCY)),
+      `${springToCss(BOUNCY)} 50ms`,
+    );
+  });
+
+  it('reject physics that cannot settle', () => {
+    assert.throws(
+      () => toCss(transition(standIn, { stiffness: 100, damping: 0 })),
+      /damping must be greater than 0/,
+    );
+    assert.throws(() => springToCss({ stiffness: 1, damping: 0.01 }), /doesn't settle within/);
+  });
+
+  it('match springTransition in @needless-ui/angular exactly', async () => {
+    // Imported by URL: that package is compiled by Angular, not by this tsconfig.
+    const angular = new URL('../../angular/src/spring.ts', import.meta.url);
+    const { springTransition }: { springTransition: (spring: Spring) => string } = await import(
+      angular.href
+    );
+    const springs: Spring[] = [
+      BOUNCY,
+      MECHANICAL,
+      { stiffness: 170, damping: 7 },
+      { stiffness: 60, damping: 12, mass: 1.6 },
+      { stiffness: 100, damping: 20 }, // critically damped
+      { stiffness: 900, damping: 5, mass: 0.5 },
+    ];
+    for (const spring of springs) assert.equal(springTransition(spring), springToCss(spring));
+  });
+});
+
 describe('composite tokens', () => {
   const px = (value: number) => ({ value, unit: 'px' });
   const shadow = (color: string) =>
@@ -198,6 +325,8 @@ describe('buildCss', () => {
       token('space.1', 'dimension', { value: 4, unit: 'px' }),
       token('duration.fast', 'duration', { value: 100, unit: 'ms' }),
       token('color.bg', 'color', '{color.gray.1}'),
+      { ...transition(standIn, BOUNCY), name: 'spring.bouncy' },
+      token('motion', 'transition', '{spring.bouncy}'),
     ],
     modes: {
       light: [token('color.gray.1', 'color', { colorSpace: 'oklch', components: [1, 0, 0] })],
@@ -228,10 +357,18 @@ describe('buildCss', () => {
     );
   });
 
-  it('collapses durations when reduced motion is preferred', () => {
+  it('declares aliases that no mode affects once, on :root', () => {
     assert.match(
       css,
-      /prefers-reduced-motion: reduce\) \{\n\s+:root \{\n\s+--nui-duration-fast: 0\.01ms;/,
+      /\n {2}:root \{\n(?: {4}.+\n)*? {4}--nui-motion: var\(--nui-spring-bouncy\);/,
+    );
+    assert.doesNotMatch(css, /\[data-nui-theme\] \{\n(?: {4}.+\n)*? {4}--nui-motion:/);
+  });
+
+  it('collapses durations and springs when reduced motion is preferred', () => {
+    assert.match(
+      css,
+      /prefers-reduced-motion: reduce\) \{\n\s+:root \{\n\s+--nui-duration-fast: 0\.01ms;\n\s+--nui-spring-bouncy: 0\.01ms linear;\n\s+\}/,
     );
   });
 
@@ -252,5 +389,7 @@ describe('Needless UI token files', () => {
       assert.match(solid.value, /^oklch\(/);
     }
     assert.notEqual(json.light['color.bg.canvas'].value, json.dark['color.bg.canvas'].value);
+    assert.equal(json.light.motion.value, json.light['spring.snappy'].value);
+    assert.match(json.light['spring.jelly'].value, /^\d+ms linear\(0, .+, 1\)$/);
   });
 });

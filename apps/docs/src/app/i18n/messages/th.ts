@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'ทุกคู่สีผ่านการตรวจตาม WCAG 2.2 AA ตั้งแต่ตอนสร้างชุดสี ส่วนโฟกัส โหมด forced colors และการลดการเคลื่อนไหวก็จัดการไว้ให้แล้ว',
       },
       {
-        title: 'Design token มาตรฐาน',
-        text: 'ไฟล์ token รูปแบบ W3C DTCG คอมไพล์เป็นตัวแปร CSS พร้อมธีมสว่าง ธีมมืด และธีมซ้อนกัน',
+        title: 'ปรับแต่งได้เกินความจำเป็น',
+        text: 'สปริง เอฟเฟกต์การกดและการปรากฏ รูปทรงมุม รัศมีมุม และความหนาแน่น ใช้ <a href="/guides/customization">attribute เดียว</a>กับทั้งแอป หรือ input เดียวต่อคอมโพเนนต์ บน design token มาตรฐานของ W3C',
       },
       {
         title: 'Angular ยุคใหม่',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'ค่าเริ่มต้น',
       description: 'คำอธิบาย',
       kinds: { input: 'Input', model: 'สองทาง', output: 'Output', method: 'เมธอด' },
+      customization: {
+        note: 'Input สำหรับการปรับแต่งที่ไม่ได้กำหนดค่าไว้ จะใช้ค่าตาม attribute <code>data-nui-*</code> ที่อยู่ใกล้ที่สุด ดู<a href="/guides/customization">คู่มือการปรับแต่ง</a>',
+        members: {
+          motion:
+            'สปริงที่ใช้ในการเคลื่อนไหว: <code>snappy</code> <code>bouncy</code> <code>jelly</code> <code>elastic</code> <code>lazy</code> <code>mechanical</code> หรือ <code>none</code>',
+          spring:
+            'สปริงแบบใดก็ได้ในรูป <code>{ stiffness, damping, mass }</code> ซึ่งจะคอมไพล์เป็น CSS ขณะรันไทม์ และใช้แทน <code>motion</code>',
+          press:
+            'สิ่งที่เกิดขึ้นขณะกดค้างไว้: <code>sink</code> <code>squish</code> <code>pop</code> <code>wobble</code> <code>rubber</code> <code>tilt</code> หรือ <code>none</code>',
+          enter:
+            'ลักษณะการปรากฏ: <code>zoom</code> <code>fade</code> <code>drop</code> <code>rise</code> <code>unfold</code> <code>flip</code> <code>swing</code> <code>slide</code> หรือ <code>none</code>',
+          corners:
+            'รูปทรงของมุม: <code>round</code> <code>squircle</code> <code>bevel</code> <code>scoop</code> <code>notch</code> หรือ <code>square</code>',
+          radius:
+            'ขนาดของมุม: <code>none</code> <code>small</code> <code>medium</code> <code>large</code> หรือ <code>full</code>',
+          density:
+            'พื้นที่ที่ใช้: <code>compact</code> <code>regular</code> หรือ <code>roomy</code>',
+        },
+      },
     },
     a11y: {
       keyboard: 'การใช้งานด้วยคีย์บอร์ด',
@@ -145,6 +164,14 @@ export const messages: Messages = {
           links: {
             title: 'ลิงก์และปุ่มที่ปิดใช้งาน',
             text: 'เอลิเมนต์ a ไม่มีสถานะปิดใช้งานแบบเนทีฟ ลิงก์ที่ปิดใช้งานจึงได้รับ <code>aria-disabled="true"</code> และการคลิกจะถูกบล็อก แม้จะใช้ <code>routerLink</code> ก็ตาม',
+          },
+          presses: {
+            title: 'เอฟเฟกต์การกด',
+            text: 'ลองกดค้างไว้ทีละปุ่ม <code>press</code> กำหนดสิ่งที่ปุ่มทำขณะถูกกดค้างไว้ และ <code>motion</code> กำหนดสปริงที่ใช้ตอนปุ่มเด้งกลับ ใส่ <code>data-nui-press</code> ที่เอลิเมนต์ใดก็ได้เพื่อกำหนดให้กับทุกอย่างที่อยู่ข้างใน',
+          },
+          shapes: {
+            title: 'รูปทรงมุม รัศมีมุม และความหนาแน่น',
+            text: '<code>corners</code> เปลี่ยนรูปทรงของมุม <code>radius</code> เปลี่ยนขนาดของมุม และ <code>density</code> เปลี่ยนพื้นที่ที่ปุ่มใช้ แต่ปุ่มจะไม่เล็กกว่าขนาดพื้นที่กด 24px เบราว์เซอร์ที่ไม่รองรับ <code>corner-shape</code> จะวาดมุมเป็นมุมโค้ง',
           },
         },
         api: {
@@ -201,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'ปิดทิ้งไม่ได้',
             text: 'เมื่อตั้งค่า <code>[dismissible]="false"</code> การกด Esc และการคลิกพื้นหลังจะไม่มีผล ผู้ใช้จึงต้องเลือกตัวเลือกใดตัวเลือกหนึ่ง',
+          },
+          entrances: {
+            title: 'เอฟเฟกต์การปรากฏ',
+            text: 'แต่ละปุ่มเปิดไดอะล็อกเดียวกันด้วยพรีเซ็ต <code>enter</code> ที่ต่างกัน โดยใช้สปริง <code>bouncy</code> ไม่ว่าจะปรากฏขึ้นแบบใด ตอนปิดก็จะจางหายไปอย่างรวดเร็ว',
           },
         },
         api: {
@@ -277,6 +308,10 @@ export const messages: Messages = {
           checkable: {
             title: 'รายการแบบ checkbox และ radio',
             text: 'ตั้งค่า <code>role</code> และผูก <code>[checked]</code> เมนูจะแสดงเครื่องหมายและประกาศสถานะให้',
+          },
+          entrances: {
+            title: 'เอฟเฟกต์การปรากฏและสปริง',
+            text: 'แต่ละเมนูจับคู่พรีเซ็ต <code>enter</code> กับสปริง <code>motion</code> และขยายตัวออกมาจากด้านที่เมนูเปิด เมนูย่อยจะสืบทอดทั้งสองอย่าง',
           },
         },
         api: {
@@ -419,6 +454,86 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'การปรับแต่ง',
+        description:
+          'ฟิสิกส์สปริง เอฟเฟกต์การกดและการปรากฏ รูปทรงมุม รัศมีมุม และความหนาแน่น ปรับการเคลื่อนไหวและความรู้สึกของ Needless UI ได้ทั้งแอปหรือทีละคอมโพเนนต์',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'คอมโพเนนต์ทุกตัวมีบุคลิกที่คุณเปลี่ยนได้ ทั้งสปริงที่ใช้เคลื่อนไหว ปฏิกิริยาของปุ่มเมื่อถูกนิ้วกด วิธีที่ไดอะล็อกและเมนูปรากฏขึ้น รูปทรงและขนาดของมุม และพื้นที่ที่ใช้ แต่ละอย่างกำหนดได้ด้วย attribute เดียวสำหรับทุกอย่างภายในเอลิเมนต์ หรือ input เดียวสำหรับคอมโพเนนต์ตัวเดียว',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Attribute เดียว ครอบคลุมทั้ง subtree' },
+          {
+            kind: 'p',
+            html: 'ใส่ attribute <code>data-nui-*</code> ไว้ที่ <code>&lt;body&gt;</code> เพื่อใช้กับทั้งแอป หรือที่เอลิเมนต์ใดก็ได้เพื่อใช้เฉพาะส่วนนั้น ตัวที่อยู่ใกล้ที่สุดจะมีผล จึงซ้อนกันได้ Attribute เหล่านี้แค่กำหนดตัวแปร CSS จึงทำงานเหมือนกันไม่ว่าจะใช้เฟรมเวิร์กใด หรือไม่ใช้เฟรมเวิร์กเลยก็ตาม',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'คอมโพเนนต์เดียว' },
+          {
+            kind: 'p',
+            html: 'ใน Angular นั้น <code>nuiButton</code> <code>nuiDialog</code> และ <code>nuiMenu</code> รับค่าเดียวกันนี้ผ่าน input ส่วน input ที่ไม่ได้กำหนดจะใช้ค่าตาม attribute ที่ครอบอยู่',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'สปริงที่คอมไพล์เป็น CSS' },
+          {
+            kind: 'p',
+            html: 'การเคลื่อนไหวใช้ฟิสิกส์ของสปริง คือความแข็งเกร็ง การหน่วง และมวล แทนระยะเวลาและเส้นโค้ง คอมไพเลอร์ token จะแก้สมการของสปริงแต่ละตัว แล้วเขียนลง CSS เป็นเวลาที่ใช้จนหยุดนิ่งกับ easing แบบ <code>linear()</code> จึงทำงานบน compositor ได้โดยไม่ต้องใช้ JavaScript มีสปริงหกแบบมาในรูป token ตั้งแต่ <code>--nui-spring-snappy</code> ถึง <code>--nui-spring-mechanical</code> และ <code>--nui-motion</code> เก็บสปริงที่ใช้อยู่',
+          },
+          {
+            kind: 'p',
+            html: 'สปริงแบบอื่นใช้ได้ด้วย input เพียงตัวเดียว Angular จะคอมไพล์ขณะรันไทม์ด้วยตัวแก้สมการเดียวกัน และ <code>springTransition()</code> ให้ CSS สำหรับเอลิเมนต์ของคุณเอง',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'ทุกค่าที่อยู่ระหว่างนั้น' },
+          {
+            kind: 'p',
+            html: 'พรีเซ็ตเป็นเพียงทางลัด สำหรับค่าอื่น ๆ ให้กำหนดตัวแปร CSS เอง: transform ใดก็ได้สำหรับ <code>--nui-press</code> และ <code>--nui-enter</code> และตัวเลขใดก็ได้สำหรับ <code>--nui-radius-scale</code> และ <code>--nui-density</code>',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'การเข้าถึง' },
+          {
+            kind: 'p',
+            html: 'เมื่อระบบขอให้ลดการเคลื่อนไหว สปริงจะจบลงทันที ส่วนการกดและการปรากฏจะไม่ขยับ ความหนาแน่นจะไม่ทำให้ตัวควบคุมเล็กกว่าขนาดพื้นที่กด 24px ตาม WCAG 2.2 และไม่มีพรีเซ็ตใดแตะต้องสี การตรวจคอนทราสต์ทุกรายการจึงยังใช้ได้ เบราว์เซอร์ที่ไม่รองรับ <code>corner-shape</code> จะวาดทุกมุมเป็นมุมโค้ง',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'พื้นที่ทดลองการปรับแต่ง',
+      motion: 'การเคลื่อนไหว',
+      custom: 'กำหนดเอง',
+      stiffness: 'ความแข็งเกร็ง',
+      damping: 'การหน่วง',
+      mass: 'มวล',
+      press: 'การกด',
+      enter: 'การปรากฏ',
+      corners: 'รูปทรงมุม',
+      radius: 'รัศมีมุม',
+      density: 'ความหนาแน่น',
+      surprise: 'ลองสุ่มดู',
+      reset: 'กลับเป็นค่าเริ่มต้น',
+      hint: 'กดปุ่มค้างไว้แล้วปล่อย จากนั้นเปิดไดอะล็อกและเมนูเพื่อดูว่าปรากฏขึ้นอย่างไร',
+      save: 'บันทึก',
+      cancel: 'ยกเลิก',
+      delete: 'ลบ',
+      openDialog: 'เปิดไดอะล็อก',
+      openMenu: 'เปิดเมนู',
+      menu: ['เปลี่ยนชื่อ', 'ทำสำเนา', 'ลบ'],
+      dialogTitle: 'เคลื่อนไหวเกินความจำเป็น',
+      dialogText: 'ไดอะล็อกนี้ปรากฏขึ้นมาตรงตามที่คุณกำหนดไว้ทุกอย่าง',
+      close: 'ปิด',
+      curve: 'ตำแหน่งของสปริงตามเวลา เริ่มจากด้านล่างแล้วมาหยุดนิ่งที่เส้นประ',
+      settles: (ms, overshoot) => `หยุดนิ่งใน ${ms} มิลลิวินาที · พุ่งเกิน ${overshoot}%`,
+      instant: 'ไม่มีการเคลื่อนไหว: ทุกอย่างกระโดดไปยังปลายทางทันที',
+      stuck:
+        'สปริงนี้ไม่หยุดนิ่งภายใน 10 วินาที ลองเพิ่มการหน่วงหรือความแข็งเกร็ง ระหว่างนี้คอมโพเนนต์จะใช้สปริงตัวล่าสุดที่หยุดนิ่งได้ไปก่อน',
+      reducedMotion:
+        'ระบบของคุณขอให้ลดการเคลื่อนไหว ทุกอย่างในนี้จึงไม่ขยับ สปริง การกด และการปรากฏจะกลับมาเมื่อระบบไม่ได้ขอแล้ว',
+      noCornerShape: 'เบราว์เซอร์นี้ยังวาดรูปทรงมุมไม่ได้ ทุกมุมจึงยังคงโค้งมน',
+      everywhere: 'บนเอลิเมนต์ใดก็ได้ สำหรับทุกอย่างที่อยู่ข้างใน:',
+      oneComponent: 'บนคอมโพเนนต์เดียว ใน Angular:',
     },
   },
 

@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'هنگام تولید پالت، کنتراست هر جفت رنگ با WCAG 2.2 AA سنجیده می‌شود. فوکوس، حالت رنگ‌های اجباری (forced colors) و کاهش حرکت از پیش مدیریت شده‌اند.',
       },
       {
-        title: 'توکن‌های طراحی استاندارد',
-        text: 'فایل‌های توکن در قالب W3C DTCG به متغیر‌های CSS (custom properties) کامپایل می‌شوند، با تم‌های روشن، تیره و تودرتو.',
+        title: 'سفارشی‌سازی بیش از حد لازم',
+        text: 'فنرها، جلوه‌های فشردن، انیمیشن‌های ورود، شکل و شعاع گوشه‌ها و تراکم: <a href="/guides/customization">یک اتریبیوت</a> برای کل اپ یا یک ورودی برای هر کامپوننت، بر پایهٔ توکن‌های طراحی استاندارد W3C.',
       },
       {
         title: 'Angular مدرن',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'پیش‌فرض',
       description: 'توضیح',
       kinds: { input: 'ورودی', model: 'دوطرفه', output: 'خروجی', method: 'متد' },
+      customization: {
+        note: 'ورودی‌های سفارشی‌سازی که تنظیمشان نکنید، از نزدیک‌ترین اتریبیوت <code>data-nui-*</code> پیروی می‌کنند. <a href="/guides/customization">راهنمای سفارشی‌سازی</a> را ببینید.',
+        members: {
+          motion:
+            'فنری که با آن حرکت می‌کند: <code>snappy</code>، <code>bouncy</code>، <code>jelly</code>، <code>elastic</code>، <code>lazy</code>، <code>mechanical</code> یا <code>none</code>.',
+          spring:
+            'هر فنر دلخواه، به‌صورت <code>{ stiffness, damping, mass }</code>، که در زمان اجرا به CSS کامپایل می‌شود. جایگزین <code>motion</code> می‌شود.',
+          press:
+            'رفتارش وقتی فشرده نگه داشته می‌شود: <code>sink</code>، <code>squish</code>، <code>pop</code>، <code>wobble</code>، <code>rubber</code>، <code>tilt</code> یا <code>none</code>.',
+          enter:
+            'نحوهٔ ظاهر شدنش: <code>zoom</code>، <code>fade</code>، <code>drop</code>، <code>rise</code>، <code>unfold</code>، <code>flip</code>، <code>swing</code>، <code>slide</code> یا <code>none</code>.',
+          corners:
+            'شکل گوشه‌هایش: <code>round</code>، <code>squircle</code>، <code>bevel</code>، <code>scoop</code>، <code>notch</code> یا <code>square</code>.',
+          radius:
+            'اندازهٔ گوشه‌هایش: <code>none</code>، <code>small</code>، <code>medium</code>، <code>large</code> یا <code>full</code>.',
+          density:
+            'فضایی که اشغال می‌کند: <code>compact</code>، <code>regular</code> یا <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'تعامل با صفحه‌کلید',
@@ -145,6 +164,14 @@ export const messages: Messages = {
           links: {
             title: 'لینک‌ها و دکمه‌های غیرفعال',
             text: 'لینک‌ها را نمی‌توان به‌صورت بومی غیرفعال کرد؛ برای همین لینک غیرفعال <code>aria-disabled="true"</code> می‌گیرد و کلیک‌هایش مسدود می‌شود، حتی با <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'جلوه‌های فشردن',
+            text: 'هر کدام را فشار دهید و نگه دارید. <code>press</code> تعیین می‌کند دکمه وقتی فشرده نگه داشته می‌شود چه کند، و <code>motion</code> فنری را تعیین می‌کند که دکمه با آن برمی‌گردد. <code>data-nui-press</code> را روی هر عنصری بگذارید تا برای همهٔ محتوای درون آن اعمال شود.',
+          },
+          shapes: {
+            title: 'گوشه‌ها، شعاع و تراکم',
+            text: '<code>corners</code> شکل گوشه‌ها را تغییر می‌دهد، <code>radius</code> اندازهٔ آن‌ها را و <code>density</code> فضایی را که دکمه اشغال می‌کند، بی‌آنکه دکمه هرگز از اندازهٔ هدف ۲۴ پیکسلی کوچک‌تر شود. مرورگرهایی که از <code>corner-shape</code> پشتیبانی نمی‌کنند، گوشه‌ها را گرد رسم می‌کنند.',
           },
         },
         api: {
@@ -201,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'انتخاب اجباری',
             text: 'با <code>[dismissible]="false"</code>، کلید Esc و کلیک روی پس‌زمینه نادیده گرفته می‌شوند؛ پس کاربر باید یکی از گزینه‌ها را انتخاب کند.',
+          },
+          entrances: {
+            title: 'انیمیشن‌های ورود',
+            text: 'هر دکمه همان دیالوگ را با یک پیش‌تنظیم متفاوت برای <code>enter</code> و با فنر <code>bouncy</code> باز می‌کند. دیالوگ هر طور که ظاهر شود، هنگام بسته شدن به‌سرعت محو می‌شود.',
           },
         },
         api: {
@@ -279,6 +310,10 @@ export const messages: Messages = {
           checkable: {
             title: 'گزینه‌های checkbox و radio',
             text: '<code>role</code> را تنظیم کنید و <code>[checked]</code> را متصل کنید. منو علامت انتخاب را نشان می‌دهد و وضعیت را اعلام می‌کند.',
+          },
+          entrances: {
+            title: 'انیمیشن‌های ورود و فنرها',
+            text: 'هر منو یک پیش‌تنظیم <code>enter</code> را با یک فنر <code>motion</code> جفت می‌کند و از همان سمتی که باز می‌شود، بیرون می‌آید و بزرگ می‌شود. زیرمنوها هر دو را به ارث می‌برند.',
           },
         },
         api: {
@@ -428,6 +463,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'سفارشی‌سازی',
+        description:
+          'فیزیک فنر، جلوه‌های فشردن، انیمیشن‌های ورود، شکل و شعاع گوشه‌ها و تراکم: حرکت و حس Needless UI را در کل اپ یا برای هر کامپوننت تغییر دهید.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'هر کامپوننت شخصیتی دارد که می‌توانید تغییرش دهید: فنری که با آن حرکت می‌کند، کاری که دکمه زیر انگشت شما انجام می‌دهد، نحوهٔ ظاهر شدن دیالوگ‌ها و منوها، شکل و اندازهٔ گوشه‌هایشان و فضایی که اشغال می‌کنند. هر کدام از این‌ها یا یک اتریبیوت است برای همهٔ محتوای درون یک عنصر، یا یک ورودی برای یک کامپوننت خاص.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'یک اتریبیوت، یک زیردرخت کامل' },
+          {
+            kind: 'p',
+            html: 'اتریبیوت‌های <code>data-nui-*</code> را برای کل اپ روی <code>&lt;body&gt;</code> بگذارید، یا برای بخشی از آن روی هر عنصر دلخواه. نزدیک‌ترین اتریبیوت برنده است؛ پس می‌توانید آن‌ها را تودرتو کنید. این اتریبیوت‌ها فقط متغیرهای CSS را تنظیم می‌کنند؛ برای همین با هر فریم‌ورکی، یا حتی بدون فریم‌ورک، یکسان کار می‌کنند.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'یک کامپوننت' },
+          {
+            kind: 'p',
+            html: 'در Angular، دایرکتیوهای <code>nuiButton</code>، <code>nuiDialog</code> و <code>nuiMenu</code> همین مقادیر را به‌صورت ورودی می‌گیرند. ورودی‌هایی که تنظیمشان نکنید، از اتریبیوت‌های پیرامونشان پیروی می‌کنند.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'فنرها، کامپایل‌شده به CSS' },
+          {
+            kind: 'p',
+            html: 'حرکت در اینجا فیزیک فنر است: سختی، میرایی و جرم به‌جای مدت‌زمان و منحنی. کامپایلر توکن‌ها معادلهٔ هر فنر را حل می‌کند و آن را به شکل زمان لازم برای آرام گرفتن و یک تابع زمان‌بندی <code>linear()</code> در CSS می‌نویسد؛ به این ترتیب حرکت بدون JavaScript روی کامپوزیتور (compositor) اجرا می‌شود. شش فنر به‌صورت توکن ارائه می‌شوند، از <code>--nui-spring-snappy</code> تا <code>--nui-spring-mechanical</code>، و <code>--nui-motion</code> فنری را که در حال استفاده است نگه می‌دارد.',
+          },
+          {
+            kind: 'p',
+            html: 'هر فنر دیگری هم فقط با یک ورودی در دسترس است. Angular آن را در زمان اجرا با همان حل‌کننده کامپایل می‌کند و <code>springTransition()</code> کد CSS لازم را برای عناصر خودتان در اختیارتان می‌گذارد.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'هر چیزی در این میان' },
+          {
+            kind: 'p',
+            html: 'پیش‌تنظیم‌ها فقط میان‌بر هستند. برای هر چیز دیگری، متغیرهای CSS را خودتان تنظیم کنید: هر transform دلخواه برای <code>--nui-press</code> و <code>--nui-enter</code>، و هر عددی برای <code>--nui-radius-scale</code> و <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'دسترس‌پذیری' },
+          {
+            kind: 'p',
+            html: 'وقتی سیستم درخواست کاهش حرکت می‌کند، فنرها آنی می‌شوند و جلوه‌های فشردن و انیمیشن‌های ورود دیگر حرکتی ندارند. تراکم هرگز یک کنترل را کوچک‌تر از اندازهٔ هدف ۲۴ پیکسلی WCAG 2.2 نمی‌کند و هیچ پیش‌تنظیمی به رنگ‌ها دست نمی‌زند؛ پس همهٔ بررسی‌های کنتراست همچنان معتبرند. مرورگرهایی که از <code>corner-shape</code> پشتیبانی نمی‌کنند، همهٔ گوشه‌ها را گرد رسم می‌کنند.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'محیط آزمایش سفارشی‌سازی',
+      motion: 'حرکت',
+      custom: 'سفارشی',
+      stiffness: 'سختی',
+      damping: 'میرایی',
+      mass: 'جرم',
+      press: 'فشردن',
+      enter: 'ورود',
+      corners: 'گوشه‌ها',
+      radius: 'شعاع',
+      density: 'تراکم',
+      surprise: 'غافلگیرم کنید',
+      reset: 'بازگشت به پیش‌فرض‌ها',
+      hint: 'یک دکمه را فشار دهید و نگه دارید، سپس رها کنید. دیالوگ و منو را باز کنید تا ببینید چطور ظاهر می‌شوند.',
+      save: 'ذخیره',
+      cancel: 'انصراف',
+      delete: 'حذف',
+      openDialog: 'باز کردن دیالوگ',
+      openMenu: 'باز کردن منو',
+      menu: ['تغییر نام', 'تکثیر', 'حذف'],
+      dialogTitle: 'متحرک‌تر از حد لازم',
+      dialogText: 'این دیالوگ دقیقاً همان‌طور که خواسته بودید ظاهر شد.',
+      close: 'بستن',
+      curve: 'موقعیت فنر در طول زمان. از پایین شروع می‌شود و روی خط‌چین آرام می‌گیرد.',
+      settles: (ms, overshoot) => `در ${ms} میلی‌ثانیه آرام می‌گیرد · فراجهش ${overshoot}٪`,
+      instant: 'بدون حرکت: همه‌چیز یکراست به مقصدش می‌پرد.',
+      stuck:
+        'این فنر در ۱۰ ثانیه آرام نمی‌گیرد. میرایی یا سختی را بیشتر کنید؛ تا آن موقع کامپوننت‌ها آخرین فنری را که آرام می‌گرفت نگه می‌دارند.',
+      reducedMotion:
+        'سیستم شما حرکت کمتری می‌خواهد، پس اینجا هیچ‌چیز حرکت نمی‌کند. فنرها، جلوه‌های فشردن و انیمیشن‌های ورود وقتی برمی‌گردند که سیستم دیگر این را نخواهد.',
+      noCornerShape:
+        'این مرورگر هنوز نمی‌تواند شکل گوشه‌ها را رسم کند، پس همهٔ گوشه‌ها گرد می‌مانند.',
+      everywhere: 'روی هر عنصری، برای همهٔ محتوای درون آن:',
+      oneComponent: 'روی یک کامپوننت، در Angular:',
     },
   },
 

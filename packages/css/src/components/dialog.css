@@ -8,34 +8,37 @@
  *   </dialog>
  *
  * Built on the native <dialog>: showModal() gives the backdrop, the inert page,
- * focus containment and Escape to close. These styles only dress it.
+ * focus containment and Escape to close. These styles only dress it. It arrives
+ * from --nui-enter on the --nui-motion spring, and leaves with a quick fade.
  */
 @layer nui.components {
   .nui-dialog {
     --_width: 32rem;
+    --_enter: var(--nui-enter);
 
     box-sizing: border-box;
     inline-size: min(var(--_width), 100% - 2 * var(--nui-space-4));
     max-inline-size: none;
     max-block-size: min(85dvh, 100% - 2 * var(--nui-space-4));
     margin: auto;
-    padding: var(--nui-space-6);
+    padding: calc(var(--nui-space-6) * var(--nui-density));
     overflow: auto;
     border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
-    border-radius: var(--nui-radius-xl);
+    /* Capped, so a full radius doesn't cut into the content. */
+    border-radius: min(var(--nui-radius-xl) * var(--nui-radius-scale), 1.5rem);
+    corner-shape: var(--nui-corner-shape);
     background-color: var(--nui-color-bg-raised);
     color: var(--nui-color-text-default);
     box-shadow: var(--nui-shadow-lg);
     font-size: var(--nui-font-size-sm);
     line-height: var(--nui-line-height-normal);
 
-    /* Entry and exit transitions. Browsers without @starting-style skip them. */
+    /* The exit. Browsers without @starting-style skip both transitions. */
     opacity: 0;
-    translate: 0 var(--nui-space-2);
     scale: 0.98;
-    transition-property: opacity, translate, scale, overlay, display;
-    transition-duration: var(--nui-duration-normal);
-    transition-timing-function: var(--nui-easing-standard);
+    transition-property: opacity, scale, overlay, display;
+    transition-duration: var(--nui-duration-fast);
+    transition-timing-function: var(--nui-easing-exit);
     transition-behavior: allow-discrete;
   }
 
@@ -43,30 +46,37 @@
   .nui-dialog[open] {
     display: flex;
     flex-direction: column;
-    gap: var(--nui-space-4);
+    gap: calc(var(--nui-space-4) * var(--nui-density));
     opacity: 1;
-    translate: 0 0;
     scale: 1;
+    transform: none;
+    /* The entry, from the @starting-style below. */
+    transition:
+      opacity var(--nui-duration-normal) var(--nui-easing-enter),
+      transform var(--nui-motion),
+      overlay var(--nui-duration-normal),
+      display var(--nui-duration-normal);
+    transition-behavior: allow-discrete;
   }
 
   @starting-style {
     .nui-dialog[open] {
-      opacity: 0;
-      translate: 0 var(--nui-space-2);
-      scale: 0.98;
+      opacity: var(--nui-enter-opacity);
+      transform: var(--_enter);
     }
   }
 
   .nui-dialog::backdrop {
     background-color: transparent;
     transition-property: background-color, overlay, display;
-    transition-duration: var(--nui-duration-normal);
+    transition-duration: var(--nui-duration-fast);
     transition-timing-function: var(--nui-easing-standard);
     transition-behavior: allow-discrete;
   }
 
   .nui-dialog[open]::backdrop {
     background-color: var(--nui-color-backdrop);
+    transition-duration: var(--nui-duration-normal);
   }
 
   @starting-style {
@@ -113,5 +123,11 @@
     justify-content: flex-end;
     gap: var(--nui-space-3);
     margin-block-start: var(--nui-space-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-dialog {
+      --_enter: none;
+    }
   }
 }

@@ -18,6 +18,7 @@ Or pick components:
 ```css
 @import '@needless-ui/css/layers.css';
 @import '@needless-ui/tokens/tokens.css';
+@import '@needless-ui/css/presets.css';
 @import '@needless-ui/css/components/button.css';
 ```
 
@@ -53,6 +54,29 @@ From a CDN:
 ```
 
 The CSS only styles these components. Without a framework package, open the dialog with `showModal()`, and give the menu its keyboard behavior yourself, following the [menu button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/).
+
+## Customization presets
+
+Attributes on any element set how everything inside it moves and looks. The nearest one wins:
+
+```html
+<body data-nui-motion="jelly" data-nui-press="squish" data-nui-enter="flip">
+  <section data-nui-corners="squircle" data-nui-radius="large" data-nui-density="compact">
+    …
+  </section>
+</body>
+```
+
+| Attribute          | Presets                                                                    |
+| ------------------ | -------------------------------------------------------------------------- |
+| `data-nui-motion`  | `snappy`, `bouncy`, `jelly`, `elastic`, `lazy`, `mechanical`, `none`       |
+| `data-nui-press`   | `sink`, `squish`, `pop`, `wobble`, `rubber`, `tilt`, `none`                |
+| `data-nui-enter`   | `zoom`, `fade`, `drop`, `rise`, `unfold`, `flip`, `swing`, `slide`, `none` |
+| `data-nui-corners` | `round`, `squircle`, `bevel`, `scoop`, `notch`, `square`                   |
+| `data-nui-radius`  | `none`, `small`, `medium`, `large`, `full`                                 |
+| `data-nui-density` | `compact`, `regular`, `roomy`                                              |
+
+They only set custom properties (`--nui-motion`, `--nui-press`, `--nui-enter`, `--nui-corner-shape`, `--nui-radius-scale`, `--nui-density`), so CSS can set those to anything else. When picking components one by one, import `@needless-ui/css/presets.css` after the tokens.
 
 ## Cascade layers
 

@@ -64,8 +64,8 @@ export const messages: Messages = {
         text: 'Saben pasangan werna dicek miturut WCAG 2.2 AA nalika palet digawe. Fokus, forced colors lan reduced motion wis diurus kanggo panjenengan.',
       },
       {
-        title: 'Design token standar',
-        text: 'Berkas token W3C DTCG dikompilasi dadi CSS custom property kanthi tema padhang, peteng lan tema susun.',
+        title: 'Bisa diatur ngluwihi perlu',
+        text: 'Pegas, efek pencetan, animasi mlebu, wangun pojok, jari-jari lan kapadhetan: <a href="/guides/customization">siji attribute</a> kanggo kabeh aplikasi, utawa siji input saben komponen, adhedhasar design token standar W3C.',
       },
       {
         title: 'Angular modern',
@@ -104,6 +104,25 @@ export const messages: Messages = {
       default: 'Gawan',
       description: 'Katrangan',
       kinds: { input: 'Input', model: 'Rong arah', output: 'Output', method: 'Metode' },
+      customization: {
+        note: 'Input kustomisasi sing ora panjenengan setel bakal ngetutake attribute <code>data-nui-*</code> sing paling cedhak. Pirsani <a href="/guides/customization">pandhuan kustomisasi</a>.',
+        members: {
+          motion:
+            'Pegas sing dienggo obah: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> utawa <code>none</code>.',
+          spring:
+            'Pegas apa wae, awujud <code>{ stiffness, damping, mass }</code>, sing dikompilasi dadi CSS nalika runtime. Nimpa <code>motion</code>.',
+          press:
+            'Apa sing ditindakake nalika dipencet lan ditahan: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> utawa <code>none</code>.',
+          enter:
+            'Kepriye tekane: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> utawa <code>none</code>.',
+          corners:
+            'Wangun pojoke: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> utawa <code>square</code>.',
+          radius:
+            'Sepira gedhene pojoke: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> utawa <code>full</code>.',
+          density:
+            'Sepira akehe papan sing dienggo: <code>compact</code>, <code>regular</code> utawa <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Interaksi keyboard',
@@ -146,6 +165,14 @@ export const messages: Messages = {
           links: {
             title: 'Pranala lan tombol sing dipateni',
             text: 'Anchor ora bisa dipateni kanthi native, mula pranala sing dipateni oleh <code>aria-disabled="true"</code> lan klik-e diblokir, sanajan nganggo <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Efek pencetan',
+            text: 'Pencet lan tahan saben tombol. <code>press</code> nemtokake apa sing ditindakake tombol nalika dipencet lan ditahan, lan <code>motion</code> pegas sing dienggo bali. <code>data-nui-press</code> ing elemen apa wae nyetel efek iki kanggo kabeh sing ana ing njerone.',
+          },
+          shapes: {
+            title: 'Pojok, jari-jari lan kapadhetan',
+            text: '<code>corners</code> ngowahi wangun pojok, <code>radius</code> ukurane, lan <code>density</code> papan sing dienggo tombol, nanging ora tau kurang saka ukuran target 24px. Browser tanpa <code>corner-shape</code> nggambar pojok bunder.',
           },
         },
         api: {
@@ -202,6 +229,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Ora bisa diilangi',
             text: 'Kanthi <code>[dismissible]="false"</code>, Escape lan klik ing backdrop ora digubris, dadi pangguna kudu milih salah siji pilihan.',
+          },
+          entrances: {
+            title: 'Animasi mlebu',
+            text: 'Saben tombol mbukak dialog sing padha nganggo preset <code>enter</code> sing beda, kanthi pegas <code>bouncy</code>. Kepriye wae tekane, dialog iki tansah lunga kanthi fade sing cepet.',
           },
         },
         api: {
@@ -278,6 +309,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Item checkbox lan radio',
             text: 'Setel <code>role</code> lan bind <code>[checked]</code>. Menu nampilake indikator lan ngumumake statuse.',
+          },
+          entrances: {
+            title: 'Animasi mlebu lan pegas',
+            text: 'Saben menu masangake preset <code>enter</code> karo pegas <code>motion</code>, lan mekar saka sisih ngendi menu kasebut kabukak. Submenu oleh loro-lorone saka menu induke.',
           },
         },
         api: {
@@ -426,6 +461,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Kustomisasi',
+        description:
+          'Fisika pegas, efek pencetan, animasi mlebu, wangun pojok, jari-jari lan kapadhetan: owahi obah lan rasane Needless UI ing kabeh aplikasi utawa saben komponen.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Saben komponen nduweni watak sing bisa panjenengan owahi: pegas sing dienggo obah, apa sing ditindakake tombol ing sangisore driji, kepriye dialog lan menu teka, wangun lan ukuran pojoke, sarta sepira akehe papan sing dienggo. Saben-saben iku siji attribute kanggo kabeh sing ana ing njero sawijining elemen, utawa siji input kanggo siji komponen.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Siji attribute, sak pang wutuh' },
+          {
+            kind: 'p',
+            html: 'Pasang attribute <code>data-nui-*</code> ing <code>&lt;body&gt;</code> kanggo kabeh aplikasi, utawa ing elemen apa wae kanggo sabagean wae. Sing paling cedhak sing menang, mula attribute-attribute iki bisa disusun. Attribute iki mung nyetel CSS custom property, dadi lakune padha wae karo framework apa wae, utawa tanpa framework.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Siji komponen' },
+          {
+            kind: 'p',
+            html: 'Ing Angular, <code>nuiButton</code>, <code>nuiDialog</code> lan <code>nuiMenu</code> nampa nilai sing padha minangka input. Input sing ora panjenengan setel bakal ngetutake attribute ing sakubenge.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Pegas, dikompilasi dadi CSS' },
+          {
+            kind: 'p',
+            html: 'Obah iku fisika pegas: kekakuan, redaman lan massa, dudu durasi lan kurva. Compiler token ngrampungake persamaan saben pegas lan nulis menyang CSS minangka wektu sing dibutuhake nganti anteng sarta easing <code>linear()</code>, dadi lakune ana ing compositor tanpa JavaScript. Enem pegas kalebu minangka token, saka <code>--nui-spring-snappy</code> nganti <code>--nui-spring-mechanical</code>, lan <code>--nui-motion</code> nyimpen pegas sing lagi dienggo.',
+          },
+          {
+            kind: 'p',
+            html: 'Pegas liyane apa wae mung butuh siji input. Angular ngompilasi pegas kasebut nalika runtime nganggo solver sing padha, lan <code>springTransition()</code> menehi CSS kanggo elemen panjenengan dhewe.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Apa wae ing antarane' },
+          {
+            kind: 'p',
+            html: 'Preset iku mung trabasan. Kanggo liyane, setel dhewe custom property-ne: transform apa wae kanggo <code>--nui-press</code> lan <code>--nui-enter</code>, angka apa wae kanggo <code>--nui-radius-scale</code> lan <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Aksesibilitas' },
+          {
+            kind: 'p',
+            html: 'Yen sistem nyuwun obah sing luwih sithik, pegas dadi owah-owahan sanalika, lan efek pencetan sarta animasi mlebu mandheg obah. Kapadhetan ora tau ndadekake kontrol luwih cilik tinimbang ukuran target 24px saka WCAG 2.2, lan ora ana preset sing ndemek werna, dadi saben pamriksan kontras tetep laku. Browser tanpa <code>corner-shape</code> nggambar saben pojok bunder.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Papan dolanan kustomisasi',
+      motion: 'Obah',
+      custom: 'kustom',
+      stiffness: 'Kekakuan',
+      damping: 'Redaman',
+      mass: 'Massa',
+      press: 'Pencetan',
+      enter: 'Mlebu',
+      corners: 'Pojok',
+      radius: 'Jari-jari',
+      density: 'Kapadhetan',
+      surprise: 'Kagetana aku',
+      reset: 'Bali menyang gawan',
+      hint: 'Pencet lan tahan salah siji tombol, banjur uculna. Bukak dialog lan menu supaya panjenengan bisa mirsani tekane.',
+      save: 'Simpen',
+      cancel: 'Batal',
+      delete: 'Busak',
+      openDialog: 'Bukak dialog',
+      openMenu: 'Bukak menu',
+      menu: ['Ganti jeneng', 'Duplikat', 'Busak'],
+      dialogTitle: 'Dianimasi ngluwihi perlu',
+      dialogText: 'Dialog iki teka persis kaya sing panjenengan dhawuhake.',
+      close: 'Tutup',
+      curve: 'Posisi pegas sajroning wektu. Wiwit saka ngisor lan leren ing garis putus-putus.',
+      settles: (ms, overshoot) => `Anteng sajroning ${ms} ms · ngluwihi target ${overshoot}%`,
+      instant: 'Ora ana obah: kabeh langsung mlumpat menyang panggonan tujuane.',
+      stuck:
+        'Pegas iki ora anteng sajroning 10 detik. Tambahi redaman utawa kekakuan; sauntara iku komponen tetep nganggo pegas pungkasan sing bisa anteng.',
+      reducedMotion:
+        'Sistem panjenengan nyuwun obah sing luwih sithik, dadi ing kene ora ana sing obah. Pegas, efek pencetan lan animasi mlebu bakal bali yen sistem wis ora nyuwun maneh.',
+      noCornerShape:
+        'Browser iki durung bisa nggambar wangun pojok, dadi saben pojok tetep bunder.',
+      everywhere: 'Ing elemen apa wae, kanggo kabeh sing ana ing njerone:',
+      oneComponent: 'Ing siji komponen, nganggo Angular:',
     },
   },
 

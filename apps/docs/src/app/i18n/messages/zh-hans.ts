@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: '生成调色板时，每一组颜色搭配都会按照 WCAG 2.2 AA 进行校验。焦点、强制颜色模式和减弱动态效果也都已为你处理好。',
       },
       {
-        title: '标准 Design Token',
-        text: 'W3C DTCG 格式的 token 文件会编译为 CSS 自定义属性，支持浅色、深色和嵌套主题。',
+        title: '可定制到近乎多余',
+        text: '弹簧、按压效果、入场动画、边角形状、圆角半径和密度：整个应用只需<a href="/guides/customization">一个属性</a>，单个组件也只需一个输入属性，全部基于标准的 W3C Design Token。',
       },
       {
         title: '现代 Angular',
@@ -101,6 +101,24 @@ export const messages: Messages = {
       default: '默认值',
       description: '说明',
       kinds: { input: '输入', model: '双向绑定', output: '输出', method: '方法' },
+      customization: {
+        note: '用于自定义的输入属性如果未设置，会沿用最近的 <code>data-nui-*</code> 属性。详见<a href="/guides/customization">自定义指南</a>。',
+        members: {
+          motion:
+            '运动时使用的弹簧：<code>snappy</code>、<code>bouncy</code>、<code>jelly</code>、<code>elastic</code>、<code>lazy</code>、<code>mechanical</code> 或 <code>none</code>。',
+          spring:
+            '任意弹簧，以 <code>{ stiffness, damping, mass }</code> 的形式指定，在运行时编译为 CSS。它会覆盖 <code>motion</code>。',
+          press:
+            '按住时的效果：<code>sink</code>、<code>squish</code>、<code>pop</code>、<code>wobble</code>、<code>rubber</code>、<code>tilt</code> 或 <code>none</code>。',
+          enter:
+            '入场方式：<code>zoom</code>、<code>fade</code>、<code>drop</code>、<code>rise</code>、<code>unfold</code>、<code>flip</code>、<code>swing</code>、<code>slide</code> 或 <code>none</code>。',
+          corners:
+            '边角的形状：<code>round</code>、<code>squircle</code>、<code>bevel</code>、<code>scoop</code>、<code>notch</code> 或 <code>square</code>。',
+          radius:
+            '边角的大小：<code>none</code>、<code>small</code>、<code>medium</code>、<code>large</code> 或 <code>full</code>。',
+          density: '占用的空间：<code>compact</code>、<code>regular</code> 或 <code>roomy</code>。',
+        },
+      },
     },
     a11y: {
       keyboard: '键盘交互',
@@ -143,6 +161,14 @@ export const messages: Messages = {
           links: {
             title: '链接与禁用按钮',
             text: '原生链接无法禁用，因此禁用的链接会获得 <code>aria-disabled="true"</code>，其点击也会被拦截，即使使用了 <code>routerLink</code> 也是如此。',
+          },
+          presses: {
+            title: '按压效果',
+            text: '依次按住每个按钮试试。<code>press</code> 决定按钮被按住时的效果，<code>motion</code> 决定它回弹时使用的弹簧。在任意元素上设置 <code>data-nui-press</code>，即可作用于其中的所有内容。',
+          },
+          shapes: {
+            title: '边角、圆角与密度',
+            text: '<code>corners</code> 改变边角的形状，<code>radius</code> 改变边角的大小，<code>density</code> 改变按钮占用的空间，但按钮绝不会小于 24px 的目标尺寸。不支持 <code>corner-shape</code> 的浏览器会把边角绘制成圆角。',
           },
         },
         api: {
@@ -198,6 +224,10 @@ export const messages: Messages = {
           dismissible: {
             title: '不可随意关闭',
             text: '设置 <code>[dismissible]="false"</code> 后，按 Esc 键和点击遮罩都会被忽略，用户必须选择其中一个选项。',
+          },
+          entrances: {
+            title: '入场动画',
+            text: '每个按钮打开的都是同一个对话框，只是 <code>enter</code> 预设各不相同，弹簧则都是 <code>bouncy</code>。无论以哪种方式入场，离场时都是快速淡出。',
           },
         },
         api: {
@@ -272,6 +302,10 @@ export const messages: Messages = {
           checkable: {
             title: '复选与单选菜单项',
             text: '设置 <code>role</code> 并绑定 <code>[checked]</code>，菜单就会显示选中标记并播报状态。',
+          },
+          entrances: {
+            title: '入场动画与弹簧',
+            text: '每个菜单都把一个 <code>enter</code> 预设和一个 <code>motion</code> 弹簧搭配使用，并从它弹出的那一侧展开。子菜单会继承这两项设置。',
           },
         },
         api: {
@@ -406,6 +440,86 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: '自定义',
+        description:
+          '弹簧物理、按压效果、入场动画、边角形状、圆角半径和密度：调整 Needless UI 的动效与手感，可作用于整个应用，也可只作用于单个组件。',
+        blocks: [
+          {
+            kind: 'p',
+            html: '每个组件都有你可以改变的个性：驱动它运动的弹簧、按钮在你指尖下的反应、对话框和菜单的入场方式、边角的形状和大小，以及它们占用的空间。每一项都可以用一个属性作用于某个元素内的所有内容，也可以用一个输入属性只作用于单个组件。',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: '一个属性，作用于整棵子树' },
+          {
+            kind: 'p',
+            html: '把 <code>data-nui-*</code> 属性加在 <code>&lt;body&gt;</code> 上会作用于整个应用，加在任意元素上则只作用于其中一部分。离得最近的属性优先生效，因此可以嵌套使用。它们只设置 CSS 自定义属性，所以无论使用哪种框架，甚至不用框架，效果都完全一样。',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: '单个组件' },
+          {
+            kind: 'p',
+            html: '在 Angular 中，<code>nuiButton</code>、<code>nuiDialog</code> 和 <code>nuiMenu</code> 以输入属性的形式接受相同的值。未设置的输入属性会沿用外层元素上的属性。',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: '编译为 CSS 的弹簧' },
+          {
+            kind: 'p',
+            html: '动效基于弹簧物理：用刚度、阻尼和质量取代时长和曲线。token 编译器会求解每个弹簧，并将其写入 CSS，表示为稳定所需的时长和一个 <code>linear()</code> 缓动函数，因此动画在合成器线程上运行，无需 JavaScript。内置六种弹簧 token，从 <code>--nui-spring-snappy</code> 到 <code>--nui-spring-mechanical</code>，<code>--nui-motion</code> 则保存当前使用的那一种。',
+          },
+          {
+            kind: 'p',
+            html: '想用其他弹簧，只需设置一个输入属性。Angular 会在运行时用同一个求解器编译它，而 <code>springTransition()</code> 能为你自己的元素生成对应的 CSS。',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: '预设之外的任意值' },
+          {
+            kind: 'p',
+            html: '预设只是快捷方式。其他任何效果，都可以自己设置 CSS 自定义属性来实现：<code>--nui-press</code> 和 <code>--nui-enter</code> 可以使用任意 transform，<code>--nui-radius-scale</code> 和 <code>--nui-density</code> 可以使用任意数值。',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: '无障碍' },
+          {
+            kind: 'p',
+            html: '当系统要求减少动态效果时，弹簧会瞬间完成，按压和入场效果也不再运动。无论密度如何设置，控件都不会小于 WCAG 2.2 规定的 24px 目标尺寸；而且没有任何预设会改动颜色，因此所有对比度检查依然成立。不支持 <code>corner-shape</code> 的浏览器会把所有边角都绘制成圆角。',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: '自定义演练场',
+      motion: '动效',
+      custom: '自定义',
+      stiffness: '刚度',
+      damping: '阻尼',
+      mass: '质量',
+      press: '按压',
+      enter: '入场',
+      corners: '边角',
+      radius: '圆角',
+      density: '密度',
+      surprise: '给我个惊喜',
+      reset: '恢复默认',
+      hint: '按住一个按钮，然后松开。打开对话框和菜单，看看它们如何入场。',
+      save: '保存',
+      cancel: '取消',
+      delete: '删除',
+      openDialog: '打开对话框',
+      openMenu: '打开菜单',
+      menu: ['重命名', '创建副本', '删除'],
+      dialogTitle: '动得毫无必要',
+      dialogText: '这个对话框完全按照你指定的方式入场了。',
+      close: '关闭',
+      curve: '弹簧位置随时间的变化。它从底部出发，最终静止在虚线上。',
+      settles: (ms, overshoot) => `${ms} 毫秒内稳定 · 过冲 ${overshoot}%`,
+      instant: '无动效：一切都直接跳到终点。',
+      stuck:
+        '这个弹簧在 10 秒内无法稳定。请增加阻尼或刚度；在此期间，组件会继续使用上一个能够稳定的弹簧。',
+      reducedMotion:
+        '你的系统要求减少动态效果，所以这里的一切都不会动。系统不再有此要求时，弹簧、按压和入场效果就会恢复。',
+      noCornerShape: '此浏览器还无法绘制边角形状，因此所有边角都保持圆角。',
+      everywhere: '设置在任意元素上，作用于其中的所有内容：',
+      oneComponent: '在 Angular 中，只作用于单个组件：',
     },
   },
 

@@ -13,7 +13,7 @@ import {
   signal,
   type WritableSignal,
 } from '@angular/core';
-import type { NuiSize } from '@needless-ui/angular';
+import { NuiPersonality, type NuiSize } from '@needless-ui/angular';
 
 /**
  * Turns a native `<dialog>` into a Needless UI dialog. The browser provides the
@@ -32,10 +32,19 @@ import type { NuiSize } from '@needless-ui/angular';
  *   </div>
  * </dialog>
  * ```
+ *
+ * `enter`, `motion` and `spring` set how it arrives; `corners`, `radius` and
+ * `density` how it looks. The matching `data-nui-*` attributes do it for a subtree.
  */
 @Directive({
   selector: 'dialog[nuiDialog]',
   exportAs: 'nuiDialog',
+  hostDirectives: [
+    {
+      directive: NuiPersonality,
+      inputs: ['enter', 'motion', 'spring', 'corners', 'radius', 'density'],
+    },
+  ],
   host: {
     class: 'nui-dialog',
     '[attr.data-size]': 'size()',

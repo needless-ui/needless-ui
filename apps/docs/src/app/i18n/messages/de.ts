@@ -65,8 +65,8 @@ export const messages: Messages = {
         text: 'Beim Generieren der Palette wird jedes Farbpaar gegen WCAG 2.2 AA geprüft. Fokus, Forced Colors und reduzierte Bewegung sind bereits berücksichtigt.',
       },
       {
-        title: 'Standardisierte Design-Tokens',
-        text: 'Token-Dateien im W3C-DTCG-Format werden zu CSS Custom Properties kompiliert, mit hellen, dunklen und verschachtelten Themes.',
+        title: 'Unnötig anpassbar',
+        text: 'Federn, Druckeffekte, Eingangsanimationen, Eckenformen, Radius und Dichte: <a href="/guides/customization">ein Attribut</a> für die ganze App oder ein Input pro Komponente, auf Basis standardisierter W3C-Design-Tokens.',
       },
       {
         title: 'Modernes Angular',
@@ -105,6 +105,25 @@ export const messages: Messages = {
       default: 'Standardwert',
       description: 'Beschreibung',
       kinds: { input: 'Input', model: 'Two-Way', output: 'Output', method: 'Methode' },
+      customization: {
+        note: 'Anpassungs-Inputs, die du nicht setzt, richten sich nach dem nächstgelegenen <code>data-nui-*</code>-Attribut. Mehr dazu in der <a href="/guides/customization">Anleitung zur Anpassung</a>.',
+        members: {
+          motion:
+            'Die Feder, mit der sich die Komponente bewegt: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> oder <code>none</code>.',
+          spring:
+            'Eine beliebige Feder als <code>{ stiffness, damping, mass }</code>, zur Laufzeit zu CSS kompiliert. Hat Vorrang vor <code>motion</code>.',
+          press:
+            'Was beim Gedrückthalten passiert: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> oder <code>none</code>.',
+          enter:
+            'Wie die Komponente erscheint: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> oder <code>none</code>.',
+          corners:
+            'Die Form der Ecken: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> oder <code>square</code>.',
+          radius:
+            'Wie groß die Ecken sind: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> oder <code>full</code>.',
+          density:
+            'Wie viel Platz die Komponente einnimmt: <code>compact</code>, <code>regular</code> oder <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Tastaturbedienung',
@@ -147,6 +166,14 @@ export const messages: Messages = {
           links: {
             title: 'Links und deaktivierte Buttons',
             text: 'Links lassen sich nicht nativ deaktivieren. Ein deaktivierter Link erhält daher <code>aria-disabled="true"</code>, und seine Klicks werden blockiert, auch mit <code>routerLink</code>.',
+          },
+          presses: {
+            title: 'Druckeffekte',
+            text: 'Halte jeden Button gedrückt. <code>press</code> bestimmt, was ein Button beim Gedrückthalten macht, und <code>motion</code> die Feder, mit der er zurückkehrt. <code>data-nui-press</code> auf einem beliebigen Element setzt den Effekt für alles darin.',
+          },
+          shapes: {
+            title: 'Ecken, Radius und Dichte',
+            text: '<code>corners</code> ändert die Form der Ecken, <code>radius</code> ihre Größe und <code>density</code> den Platz, den ein Button einnimmt – ohne je unter die Mindestzielgröße von 24 px zu fallen. Browser ohne <code>corner-shape</code> zeichnen runde Ecken.',
           },
         },
         api: {
@@ -207,6 +234,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'Erzwungene Auswahl',
             text: 'Mit <code>[dismissible]="false"</code> werden Esc und Klicks auf den Backdrop ignoriert: Es muss eine Option gewählt werden.',
+          },
+          entrances: {
+            title: 'Eingangsanimationen',
+            text: 'Jeder Button öffnet denselben Dialog mit einem anderen <code>enter</code>-Preset und der Feder <code>bouncy</code>. Egal, wie er erscheint: Er verschwindet mit einem schnellen Ausblenden.',
           },
         },
         api: {
@@ -286,6 +317,10 @@ export const messages: Messages = {
           checkable: {
             title: 'Checkbox- und Radio-Einträge',
             text: 'Setze <code>role</code> und binde <code>[checked]</code>. Das Menü stellt die Markierung dar und sagt den Zustand an.',
+          },
+          entrances: {
+            title: 'Eingangsanimationen und Federn',
+            text: 'Jedes Menü kombiniert ein <code>enter</code>-Preset mit einer <code>motion</code>-Feder und wächst von der Seite aus, an der es sich öffnet. Untermenüs erben beides.',
           },
         },
         api: {
@@ -440,6 +475,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Anpassung',
+        description:
+          'Federphysik, Druckeffekte, Eingangsanimationen, Eckenformen, Radius und Dichte: Bestimme, wie sich Needless UI bewegt und anfühlt – global oder pro Komponente.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Jede Komponente hat eine Persönlichkeit, die du ändern kannst: die Feder, mit der sie sich bewegt, was ein Button unter deinem Finger macht, wie Dialoge und Menüs erscheinen, Form und Größe ihrer Ecken und wie viel Platz sie einnimmt. Jede dieser Eigenschaften ist ein Attribut für alles innerhalb eines Elements oder ein Input für eine einzelne Komponente.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Ein Attribut, ein ganzer Teilbaum' },
+          {
+            kind: 'p',
+            html: 'Setze die <code>data-nui-*</code>-Attribute für die ganze App auf <code>&lt;body&gt;</code> oder für einen Teil davon auf ein beliebiges Element. Es gilt jeweils das nächstgelegene, deshalb lassen sie sich verschachteln. Sie setzen nur CSS Custom Properties und funktionieren daher mit jedem Framework gleich – oder ganz ohne.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Eine einzelne Komponente' },
+          {
+            kind: 'p',
+            html: 'In Angular nehmen <code>nuiButton</code>, <code>nuiDialog</code> und <code>nuiMenu</code> dieselben Werte als Inputs entgegen. Inputs, die du nicht setzt, richten sich nach den Attributen der umgebenden Elemente.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Federn, zu CSS kompiliert' },
+          {
+            kind: 'p',
+            html: 'Bewegung ist Federphysik: Steifigkeit, Dämpfung und Masse statt einer Dauer und einer Kurve. Der Token-Compiler berechnet jede Feder und schreibt sie als Dauer bis zum Stillstand und <code>linear()</code>-Easing ins CSS, sodass sie ohne JavaScript auf dem Compositor läuft. Sechs Federn werden als Tokens mitgeliefert, von <code>--nui-spring-snappy</code> bis <code>--nui-spring-mechanical</code>, und <code>--nui-motion</code> enthält die jeweils verwendete.',
+          },
+          {
+            kind: 'p',
+            html: 'Jede andere Feder ist nur einen Input entfernt. Angular kompiliert sie zur Laufzeit mit demselben Solver, und <code>springTransition()</code> liefert dir das CSS für deine eigenen Elemente.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Alles dazwischen' },
+          {
+            kind: 'p',
+            html: 'Die Presets sind nur Abkürzungen. Für alles andere setzt du die Custom Properties selbst: beliebige Transformationen für <code>--nui-press</code> und <code>--nui-enter</code>, beliebige Zahlen für <code>--nui-radius-scale</code> und <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Barrierefreiheit' },
+          {
+            kind: 'p',
+            html: 'Wünscht das System reduzierte Bewegung, schrumpfen Federn auf einen Augenblick zusammen, und Druckeffekte und Eingangsanimationen bewegen sich nicht mehr. Die Dichte drückt kein Bedienelement unter die Mindestzielgröße der WCAG 2.2 von 24 px, und kein Preset verändert Farben, sodass jede Kontrastprüfung weiterhin gilt. Browser ohne <code>corner-shape</code> zeichnen alle Ecken rund.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Spielwiese für Anpassungen',
+      motion: 'Bewegung',
+      custom: 'benutzerdefiniert',
+      stiffness: 'Steifigkeit',
+      damping: 'Dämpfung',
+      mass: 'Masse',
+      press: 'Drücken',
+      enter: 'Erscheinen',
+      corners: 'Ecken',
+      radius: 'Radius',
+      density: 'Dichte',
+      surprise: 'Überrasch mich',
+      reset: 'Zurück zum Standard',
+      hint: 'Halte einen Button gedrückt und lass dann los. Öffne den Dialog und das Menü, um zu sehen, wie sie erscheinen.',
+      save: 'Speichern',
+      cancel: 'Abbrechen',
+      delete: 'Löschen',
+      openDialog: 'Dialog öffnen',
+      openMenu: 'Menü öffnen',
+      menu: ['Umbenennen', 'Duplizieren', 'Löschen'],
+      dialogTitle: 'Unnötig animiert',
+      dialogText: 'Dieser Dialog ist genau so aufgetaucht, wie du es ihm gesagt hast.',
+      close: 'Schließen',
+      curve:
+        'Die Position der Feder im Zeitverlauf. Sie startet unten und kommt auf der gestrichelten Linie zur Ruhe.',
+      settles: (ms, overshoot) => `Kommt nach ${ms} ms zur Ruhe · überschwingt um ${overshoot} %`,
+      instant: 'Keine Bewegung: Alles springt sofort dorthin, wo es hinsoll.',
+      stuck:
+        'Diese Feder kommt nicht innerhalb von 10 Sekunden zur Ruhe. Erhöhe Dämpfung oder Steifigkeit; bis dahin behalten die Komponenten die letzte Feder, die zur Ruhe kam.',
+      reducedMotion:
+        'Dein System wünscht weniger Bewegung, deshalb bewegt sich hier nichts. Federn, Druckeffekte und Eingangsanimationen kommen zurück, sobald es das nicht mehr wünscht.',
+      noCornerShape:
+        'Dieser Browser kann noch keine Eckenformen zeichnen, deshalb bleiben alle Ecken rund.',
+      everywhere: 'Auf einem beliebigen Element, für alles darin:',
+      oneComponent: 'Auf einer einzelnen Komponente, in Angular:',
     },
   },
 

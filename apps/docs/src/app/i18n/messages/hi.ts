@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'पैलेट बनाते समय हर रंग-जोड़ी को WCAG 2.2 AA पर जाँचा जाता है। फ़ोकस, फ़ोर्स्ड कलर्स और रिड्यूस्ड मोशन का ध्यान अपने-आप रखा जाता है।',
       },
       {
-        title: 'मानक डिज़ाइन टोकन',
-        text: 'W3C DTCG टोकन फ़ाइलें CSS कस्टम प्रॉपर्टी में कंपाइल होती हैं, जिनमें लाइट, डार्क और नेस्टेड थीम शामिल हैं।',
+        title: 'बेवजह इतना कस्टमाइज़ेबल',
+        text: 'स्प्रिंग, दबाने के इफ़ेक्ट, एंट्री एनिमेशन, कोनों की आकृति, रेडियस और डेंसिटी: पूरी ऐप के लिए <a href="/guides/customization">एक एट्रिब्यूट</a>, या हर कंपोनेंट के लिए एक इनपुट, मानक W3C डिज़ाइन टोकन पर आधारित।',
       },
       {
         title: 'आधुनिक Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'डिफ़ॉल्ट',
       description: 'विवरण',
       kinds: { input: 'इनपुट', model: 'दो-तरफ़ा', output: 'आउटपुट', method: 'मेथड' },
+      customization: {
+        note: 'कस्टमाइज़ेशन के जो इनपुट आप सेट नहीं करते, वे सबसे नज़दीकी <code>data-nui-*</code> एट्रिब्यूट से अपनी वैल्यू लेते हैं। <a href="/guides/customization">कस्टमाइज़ेशन गाइड</a> देखें।',
+        members: {
+          motion:
+            'इसकी हरकत तय करने वाली स्प्रिंग: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> या <code>none</code>।',
+          spring:
+            'कोई भी स्प्रिंग, <code>{ stiffness, damping, mass }</code> के रूप में, जो रनटाइम पर CSS में कंपाइल होती है। यह <code>motion</code> को ओवरराइड करती है।',
+          press:
+            'दबाकर रखने पर यह क्या करता है: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> या <code>none</code>।',
+          enter:
+            'यह स्क्रीन पर कैसे आता है: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> या <code>none</code>।',
+          corners:
+            'इसके कोनों की आकृति: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> या <code>square</code>।',
+          radius:
+            'इसके कोने कितने बड़े हों: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> या <code>full</code>।',
+          density:
+            'यह कितनी जगह घेरता है: <code>compact</code>, <code>regular</code> या <code>roomy</code>।',
+        },
+      },
     },
     a11y: {
       keyboard: 'कीबोर्ड इंटरैक्शन',
@@ -145,6 +164,14 @@ export const messages: Messages = {
           links: {
             title: 'लिंक और अक्षम बटन',
             text: 'ऐंकर को नेटिव तरीके से अक्षम नहीं किया जा सकता, इसलिए अक्षम लिंक को <code>aria-disabled="true"</code> मिलता है और उसके क्लिक रोक दिए जाते हैं, <code>routerLink</code> होने पर भी।',
+          },
+          presses: {
+            title: 'दबाने के इफ़ेक्ट',
+            text: 'हर बटन को दबाकर रखें। <code>press</code> तय करता है कि दबाए रखने पर बटन क्या करे, और <code>motion</code> यह कि वह किस स्प्रिंग से वापस आए। किसी भी एलिमेंट पर लगा <code>data-nui-press</code> उसके अंदर की हर चीज़ पर लागू होता है।',
+          },
+          shapes: {
+            title: 'कोने, रेडियस और डेंसिटी',
+            text: '<code>corners</code> कोनों की आकृति बदलता है, <code>radius</code> उनका साइज़, और <code>density</code> यह कि बटन कितनी जगह घेरे, पर यह जगह कभी 24px के टारगेट साइज़ से कम नहीं होती। जो ब्राउज़र <code>corner-shape</code> सपोर्ट नहीं करते, वे कोने गोल बनाते हैं।',
           },
         },
         api: {
@@ -201,6 +228,10 @@ export const messages: Messages = {
           dismissible: {
             title: 'बिना चुने बंद नहीं होता',
             text: '<code>[dismissible]="false"</code> होने पर Esc और बैकड्रॉप पर क्लिक को अनदेखा किया जाता है, इसलिए उपयोगकर्ता को कोई विकल्प चुनना ही पड़ता है।',
+          },
+          entrances: {
+            title: 'एंट्री एनिमेशन',
+            text: 'हर बटन वही डायलॉग एक अलग <code>enter</code> प्रीसेट के साथ खोलता है, और स्प्रिंग हर बार <code>bouncy</code> रहती है। डायलॉग चाहे जैसे भी आए, जाते समय जल्दी से फ़ेड हो जाता है।',
           },
         },
         api: {
@@ -279,6 +310,10 @@ export const messages: Messages = {
           checkable: {
             title: 'चेकबॉक्स और रेडियो आइटम',
             text: '<code>role</code> सेट करें और <code>[checked]</code> बाइंड करें। मेन्यू संकेतक दिखाता है और स्थिति की घोषणा करता है।',
+          },
+          entrances: {
+            title: 'एंट्री और स्प्रिंग',
+            text: 'हर मेन्यू एक <code>enter</code> प्रीसेट को एक <code>motion</code> स्प्रिंग के साथ जोड़ता है, और जिस तरफ़ खुलता है, उसी तरफ़ से फैलता हुआ सामने आता है। सबमेन्यू को ये दोनों सेटिंग विरासत में मिलती हैं।',
           },
         },
         api: {
@@ -428,6 +463,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'कस्टमाइज़ेशन',
+        description:
+          'स्प्रिंग फ़िज़िक्स, दबाने के इफ़ेक्ट, एंट्री एनिमेशन, कोनों की आकृति, रेडियस और डेंसिटी: पूरी ऐप में या हर कंपोनेंट के लिए तय करें कि Needless UI कैसे चले और कैसा लगे।',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'हर कंपोनेंट का एक मिज़ाज होता है, जिसे आप बदल सकते हैं: वह किस स्प्रिंग से हरकत करता है, आपकी उँगली के नीचे बटन क्या करता है, डायलॉग और मेन्यू कैसे सामने आते हैं, उनके कोनों की आकृति और साइज़ क्या है, और वे कितनी जगह घेरते हैं। हर सेटिंग या तो एक एट्रिब्यूट है, जो किसी एलिमेंट के अंदर की हर चीज़ पर लागू होता है, या एक इनपुट, जो सिर्फ़ एक कंपोनेंट पर लागू होता है।',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'एक एट्रिब्यूट, पूरा सबट्री' },
+          {
+            kind: 'p',
+            html: 'पूरी ऐप के लिए <code>data-nui-*</code> एट्रिब्यूट <code>&lt;body&gt;</code> पर लगाएँ, या उसके किसी एक हिस्से के लिए किसी भी एलिमेंट पर। सबसे नज़दीकी एट्रिब्यूट लागू होता है, इसलिए इन्हें नेस्ट किया जा सकता है। ये सिर्फ़ CSS कस्टम प्रॉपर्टी सेट करते हैं, इसलिए किसी भी फ़्रेमवर्क के साथ, या बिना फ़्रेमवर्क के भी, एक जैसे काम करते हैं।',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'सिर्फ़ एक कंपोनेंट' },
+          {
+            kind: 'p',
+            html: 'Angular में <code>nuiButton</code>, <code>nuiDialog</code> और <code>nuiMenu</code> यही वैल्यू इनपुट के रूप में लेते हैं। जो इनपुट आप सेट नहीं करते, वे अपने आसपास के एट्रिब्यूट से वैल्यू लेते हैं।',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'CSS में कंपाइल होने वाली स्प्रिंग' },
+          {
+            kind: 'p',
+            html: 'गति स्प्रिंग फ़िज़िक्स से तय होती है: अवधि और कर्व की जगह कठोरता, अवमंदन और द्रव्यमान। टोकन कंपाइलर हर स्प्रिंग को हल करके उसे CSS में लिखता है: थमने में लगने वाला समय और एक <code>linear()</code> ईज़िंग। इसलिए वह JavaScript के बिना कंपोज़िटर पर चलती है। छह स्प्रिंग टोकन के रूप में साथ आती हैं, <code>--nui-spring-snappy</code> से <code>--nui-spring-mechanical</code> तक, और <code>--nui-motion</code> में वह स्प्रिंग रहती है जो इस्तेमाल हो रही है।',
+          },
+          {
+            kind: 'p',
+            html: 'कोई भी दूसरी स्प्रिंग बस एक इनपुट की दूरी पर है। Angular उसे रनटाइम पर उसी सॉल्वर से कंपाइल करता है, और <code>springTransition()</code> आपके अपने एलिमेंट के लिए CSS देता है।',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'बीच की कोई भी वैल्यू' },
+          {
+            kind: 'p',
+            html: 'प्रीसेट बस शॉर्टकट हैं। बाक़ी किसी भी चीज़ के लिए कस्टम प्रॉपर्टी ख़ुद सेट करें: <code>--nui-press</code> और <code>--nui-enter</code> के लिए कोई भी ट्रांसफ़ॉर्म, <code>--nui-radius-scale</code> और <code>--nui-density</code> के लिए कोई भी संख्या।',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'सुलभता' },
+          {
+            kind: 'p',
+            html: 'जब सिस्टम कम एनिमेशन माँगता है, तो स्प्रिंग तुरंत पूरी हो जाती हैं, और दबाने व एंट्री के इफ़ेक्ट हिलना बंद कर देते हैं। डेंसिटी किसी भी कंट्रोल को WCAG 2.2 के 24px टारगेट साइज़ से छोटा नहीं होने देती, और कोई भी प्रीसेट रंगों को नहीं छूता, इसलिए कंट्रास्ट की हर जाँच पहले की तरह खरी उतरती है। जो ब्राउज़र <code>corner-shape</code> सपोर्ट नहीं करते, वे हर कोना गोल बनाते हैं।',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'कस्टमाइज़ेशन प्लेग्राउंड',
+      motion: 'गति',
+      custom: 'कस्टम',
+      stiffness: 'कठोरता',
+      damping: 'अवमंदन',
+      mass: 'द्रव्यमान',
+      press: 'दबाने पर',
+      enter: 'एंट्री',
+      corners: 'कोने',
+      radius: 'रेडियस',
+      density: 'डेंसिटी',
+      surprise: 'मुझे चौंकाएँ',
+      reset: 'डिफ़ॉल्ट पर लौटें',
+      hint: 'किसी बटन को दबाकर रखें, फिर छोड़ दें। डायलॉग और मेन्यू खोलकर देखें कि वे कैसे सामने आते हैं।',
+      save: 'सहेजें',
+      cancel: 'रद्द करें',
+      delete: 'हटाएँ',
+      openDialog: 'डायलॉग खोलें',
+      openMenu: 'मेन्यू खोलें',
+      menu: ['नाम बदलें', 'डुप्लिकेट बनाएँ', 'हटाएँ'],
+      dialogTitle: 'बेवजह एनिमेटेड',
+      dialogText: 'यह डायलॉग ठीक उसी तरह आया, जैसा आपने कहा था।',
+      close: 'बंद करें',
+      curve:
+        'समय के साथ स्प्रिंग की स्थिति। यह नीचे से शुरू होती है और डैश वाली रेखा पर आकर थम जाती है।',
+      settles: (ms, overshoot) => `${ms} ms में थमती है · ${overshoot}% ओवरशूट`,
+      instant: 'कोई गति नहीं: हर चीज़ सीधे अपनी जगह पर पहुँच जाती है।',
+      stuck:
+        'यह स्प्रिंग 10 सेकंड में नहीं थमती। अवमंदन या कठोरता बढ़ाएँ; तब तक कंपोनेंट वही आख़िरी स्प्रिंग इस्तेमाल करते रहेंगे जो थम गई थी।',
+      reducedMotion:
+        'आपका सिस्टम कम एनिमेशन चाहता है, इसलिए यहाँ कुछ भी नहीं हिलता। यह सेटिंग हटते ही स्प्रिंग, दबाने और एंट्री के इफ़ेक्ट लौट आएँगे।',
+      noCornerShape:
+        'यह ब्राउज़र अभी कोनों की आकृतियाँ नहीं बना सकता, इसलिए हर कोना गोल ही रहता है।',
+      everywhere: 'किसी भी एलिमेंट पर, उसके अंदर की हर चीज़ के लिए:',
+      oneComponent: 'Angular में, किसी एक कंपोनेंट पर:',
     },
   },
 

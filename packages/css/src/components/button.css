@@ -5,7 +5,8 @@
  *
  * Every data attribute is optional; the defaults are solid, accent and md.
  * Variants and tones only reassign the private `--_*` properties below, so each
- * visual rule lives in exactly one place.
+ * visual rule lives in exactly one place. The customization presets (presets.css)
+ * set how it presses, springs back, rounds its corners and how dense it is.
  */
 @layer nui.components {
   .nui-button {
@@ -35,19 +36,25 @@
     --_font-size: var(--nui-font-size-sm);
     --_radius: var(--nui-radius-md);
 
+    /* Press: the transform while held, and the motion it gets there and back with. */
+    --_press: var(--nui-press);
+    --_press-motion: var(--nui-motion);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--_gap);
+    gap: calc(var(--_gap) * var(--nui-density));
     box-sizing: border-box;
-    block-size: var(--_height);
-    min-inline-size: var(--_height);
+    /* Density never takes a button below the 24px target size of WCAG 2.2. */
+    block-size: max(24px, var(--_height) * var(--nui-density));
+    min-inline-size: max(24px, var(--_height) * var(--nui-density));
     margin: 0;
     padding-block: 0;
-    padding-inline: var(--_padding);
+    padding-inline: calc(var(--_padding) * var(--nui-density));
     /* The transparent border becomes visible in forced-colors mode. */
     border: var(--nui-border-width-thin) solid var(--_border);
-    border-radius: var(--_radius);
+    border-radius: calc(var(--_radius) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
     background-color: var(--_bg);
     color: var(--_fg);
     font-family: inherit;
@@ -62,9 +69,11 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     appearance: none;
-    transition-property: background-color, border-color, color;
-    transition-duration: var(--nui-duration-fast);
-    transition-timing-function: var(--nui-easing-standard);
+    transition:
+      background-color var(--nui-duration-fast) var(--nui-easing-standard),
+      border-color var(--nui-duration-fast) var(--nui-easing-standard),
+      color var(--nui-duration-fast) var(--nui-easing-standard),
+      transform var(--_press-motion);
   }
 
   @media (hover: hover) {
@@ -74,8 +83,12 @@
     }
   }
 
+  /* Pressed quickly; released on the spring. */
   .nui-button:active:not(:disabled, [aria-disabled='true']) {
+    --_press-motion: var(--nui-duration-fast) var(--nui-easing-standard);
+
     background-color: var(--_bg-active);
+    transform: var(--_press);
   }
 
   .nui-button:focus-visible {
@@ -160,6 +173,12 @@
     --_padding: var(--nui-space-5);
     --_font-size: var(--nui-font-size-md);
     --_radius: var(--nui-radius-lg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-button {
+      --_press: none;
+    }
   }
 
   @media (forced-colors: active) {
