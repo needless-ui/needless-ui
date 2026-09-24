@@ -64,8 +64,8 @@ export const messages: Messages = {
         text: 'Palet oluşturulurken her renk çifti WCAG 2.2 AA ölçütlerine göre denetlenir. Odak, forced colors ve azaltılmış hareket sizin için halledilir.',
       },
       {
-        title: 'Standart tasarım token’ları',
-        text: 'W3C DTCG biçimindeki token dosyaları, açık, koyu ve iç içe temalarla birlikte CSS değişkenlerine derlenir.',
+        title: 'Gereğinden fazla özelleştirilebilir',
+        text: 'Yaylar, basma efektleri, giriş animasyonları, köşe şekilleri, yarıçap ve yoğunluk: standart W3C tasarım token’ları üzerinde, tüm uygulama için <a href="/guides/customization">tek bir nitelik</a> ya da bileşen başına tek bir girdi.',
       },
       {
         title: 'Modern Angular',
@@ -104,6 +104,25 @@ export const messages: Messages = {
       default: 'Varsayılan',
       description: 'Açıklama',
       kinds: { input: 'Girdi', model: 'Çift yönlü', output: 'Çıktı', method: 'Metot' },
+      customization: {
+        note: 'Ayarlamadığınız özelleştirme girdileri, değerlerini en yakın <code>data-nui-*</code> niteliğinden alır. Ayrıntılar için <a href="/guides/customization">özelleştirme kılavuzuna</a> bakın.',
+        members: {
+          motion:
+            'Bileşenin hareketini belirleyen yay: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> veya <code>none</code>.',
+          spring:
+            '<code>{ stiffness, damping, mass }</code> biçiminde tanımlanan ve çalışma zamanında CSS’e derlenen herhangi bir yay. <code>motion</code> girdisini geçersiz kılar.',
+          press:
+            'Bileşen basılı tutulurken ne yaptığı: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> veya <code>none</code>.',
+          enter:
+            'Bileşenin ekranda nasıl belirdiği: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> veya <code>none</code>.',
+          corners:
+            'Köşelerin şekli: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> veya <code>square</code>.',
+          radius:
+            'Köşelerin ne kadar yuvarlatıldığı: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> veya <code>full</code>.',
+          density:
+            'Bileşenin ne kadar yer kapladığı: <code>compact</code>, <code>regular</code> veya <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Klavye etkileşimi',
@@ -419,6 +438,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Özelleştirme',
+        description:
+          'Yay fiziği, basma ve giriş efektleri, köşe şekli, yarıçap ve yoğunluk: Needless UI bileşenlerinin hareketini ve hissini tüm uygulamada ya da tek tek ayarlayın.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Her bileşenin değiştirebileceğiniz bir kişiliği vardır: hareketini belirleyen yay, bir düğmenin parmağınızın altında ne yaptığı, diyalogların ve menülerin ekranda nasıl belirdiği, köşelerinin şekli ve boyutu, bir de ne kadar yer kapladıkları. Her biri, bir öğenin içindeki her şey için tek bir nitelikle ya da tek bir bileşen için tek bir girdiyle ayarlanır.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Tek nitelik, bütün bir alt ağaç' },
+          {
+            kind: 'p',
+            html: 'Tüm uygulama için <code>data-nui-*</code> niteliklerini <code>&lt;body&gt;</code> öğesine, uygulamanın bir bölümü içinse herhangi bir öğeye ekleyin. En yakındaki nitelik geçerli olur, bu yüzden nitelikler iç içe kullanılabilir. Yalnızca CSS değişkenlerini ayarladıkları için her framework’le, hatta hiç framework olmadan da aynı şekilde çalışırlar.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Tek bir bileşen' },
+          {
+            kind: 'p',
+            html: 'Angular’da <code>nuiButton</code>, <code>nuiDialog</code> ve <code>nuiMenu</code> aynı değerleri girdi olarak alır. Ayarlamadığınız girdiler, üst öğelerdeki niteliklere uyar.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'CSS’e derlenen yaylar' },
+          {
+            kind: 'p',
+            html: 'Hareket, yay fiziğine dayanır: süre ve eğri yerine sertlik, sönümleme ve kütle. Token derleyicisi her yayı hesaplar ve CSS’e, yayın durulması için gereken süre ile bir <code>linear()</code> easing fonksiyonu olarak yazar; böylece animasyon JavaScript olmadan compositor üzerinde çalışır. Altı hazır yay token olarak gelir; liste <code>--nui-spring-snappy</code> ile başlayıp <code>--nui-spring-mechanical</code> ile biter. Kullanımdaki yayı <code>--nui-motion</code> tutar.',
+          },
+          {
+            kind: 'p',
+            html: 'Başka herhangi bir yay için tek bir girdi yeterlidir. Angular onu çalışma zamanında aynı çözücüyle derler; <code>springTransition()</code> ise kendi öğeleriniz için gereken CSS’i verir.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Aradaki her şey' },
+          {
+            kind: 'p',
+            html: 'Hazır ayarlar yalnızca birer kısayoldur. Geri kalan her şey için CSS değişkenlerini kendiniz ayarlayın: <code>--nui-press</code> ve <code>--nui-enter</code> için herhangi bir transform, <code>--nui-radius-scale</code> ve <code>--nui-density</code> için herhangi bir sayı.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Erişilebilirlik' },
+          {
+            kind: 'p',
+            html: 'Sistem azaltılmış hareket istediğinde yaylar anında tamamlanır; basma ve giriş efektleri de hareketsiz kalır. Yoğunluk hiçbir kontrolü WCAG 2.2’nin 24px hedef boyutunun altına indirmez ve hiçbir hazır ayar renklere dokunmaz; bu sayede tüm kontrast denetimleri geçerliliğini korur. <code>corner-shape</code> desteği olmayan tarayıcılar tüm köşeleri yuvarlak çizer.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Özelleştirme deneme alanı',
+      motion: 'Hareket',
+      custom: 'özel',
+      stiffness: 'Sertlik',
+      damping: 'Sönümleme',
+      mass: 'Kütle',
+      press: 'Basma',
+      enter: 'Giriş',
+      corners: 'Köşeler',
+      radius: 'Yarıçap',
+      density: 'Yoğunluk',
+      surprise: 'Beni şaşırt',
+      reset: 'Varsayılanlara dön',
+      hint: 'Bir düğmeyi basılı tutun, sonra bırakın. Diyaloğu ve menüyü açıp nasıl belirdiklerini izleyin.',
+      save: 'Kaydet',
+      cancel: 'İptal',
+      delete: 'Sil',
+      openDialog: 'Diyaloğu aç',
+      openMenu: 'Menüyü aç',
+      menu: ['Yeniden adlandır', 'Çoğalt', 'Sil'],
+      dialogTitle: 'Gereğinden fazla animasyonlu',
+      dialogText: 'Bu diyalog tam da istediğiniz gibi belirdi.',
+      close: 'Kapat',
+      curve: 'Yayın zaman içindeki konumu. Alttan başlar ve sonunda kesikli çizgide durur.',
+      settles: (ms, overshoot) => `${ms} ms’de durulur · hedefi %${overshoot} aşar`,
+      instant: 'Hareket yok: her şey doğrudan gideceği yere atlar.',
+      stuck:
+        'Bu yay 10 saniye içinde durulmuyor. Sönümlemeyi veya sertliği artırın; bu sırada bileşenler, durulan son yayı kullanmaya devam eder.',
+      reducedMotion:
+        'Sisteminiz daha az hareket istiyor, bu yüzden burada hiçbir şey hareket etmiyor. Sistem artık bunu istemediğinde yaylar, basma ve giriş efektleri geri gelir.',
+      noCornerShape:
+        'Bu tarayıcı henüz köşe şekillerini çizemiyor, bu yüzden tüm köşeler yuvarlak kalıyor.',
+      everywhere: 'Herhangi bir öğede, içindeki her şey için:',
+      oneComponent: 'Tek bir bileşende, Angular’da:',
     },
   },
 

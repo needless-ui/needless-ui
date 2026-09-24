@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'પૅલેટ જનરેટ થાય ત્યારે જ દરેક રંગ-જોડીને WCAG 2.2 AA મુજબ ચકાસવામાં આવે છે. ફોકસ, forced colors અને ઘટાડેલી ગતિ તમારા માટે પહેલેથી સંભાળી લેવાયાં છે.',
       },
       {
-        title: 'પ્રમાણભૂત ડિઝાઇન ટોકન્સ',
-        text: 'W3C DTCG ટોકન ફાઇલો લાઇટ, ડાર્ક અને નેસ્ટેડ થીમ્સ સાથે CSS કસ્ટમ પ્રોપર્ટીઝમાં કમ્પાઇલ થાય છે.',
+        title: 'જરૂર કરતાં વધુ કસ્ટમાઇઝેબલ',
+        text: 'સ્પ્રિંગ્સ, દબાવવાની ઇફેક્ટ્સ, એન્ટ્રી ઍનિમેશન, ખૂણાના આકાર, રેડિયસ અને ડેન્સિટી: આખી ઍપ માટે <a href="/guides/customization">એક એટ્રિબ્યુટ</a>, અથવા દરેક કમ્પોનન્ટ માટે એક ઇનપુટ, પ્રમાણભૂત W3C ડિઝાઇન ટોકન્સ પર આધારિત.',
       },
       {
         title: 'આધુનિક Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'ડિફૉલ્ટ',
       description: 'વર્ણન',
       kinds: { input: 'ઇનપુટ', model: 'દ્વિમાર્ગી', output: 'આઉટપુટ', method: 'મેથડ' },
+      customization: {
+        note: 'તમે સેટ ન કરેલાં કસ્ટમાઇઝેશન ઇનપુટ્સ સૌથી નજીકના <code>data-nui-*</code> એટ્રિબ્યુટમાંથી મૂલ્ય લે છે. <a href="/guides/customization">કસ્ટમાઇઝેશન માર્ગદર્શિકા</a> જુઓ.',
+        members: {
+          motion:
+            'તેની હિલચાલ નક્કી કરતી સ્પ્રિંગ: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> અથવા <code>none</code>.',
+          spring:
+            'કોઈ પણ સ્પ્રિંગ, <code>{ stiffness, damping, mass }</code> સ્વરૂપે, જે રનટાઇમ પર CSS માં કમ્પાઇલ થાય છે. તે <code>motion</code> ને ઓવરરાઇડ કરે છે.',
+          press:
+            'દબાવી રાખતાં તે શું કરે છે: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> અથવા <code>none</code>.',
+          enter:
+            'તે સ્ક્રીન પર કેવી રીતે આવે છે: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> અથવા <code>none</code>.',
+          corners:
+            'તેના ખૂણાઓનો આકાર: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> અથવા <code>square</code>.',
+          radius:
+            'તેના ખૂણા કેટલા મોટા હોય: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> અથવા <code>full</code>.',
+          density:
+            'તે કેટલી જગ્યા રોકે છે: <code>compact</code>, <code>regular</code> અથવા <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'કીબોર્ડ ક્રિયાપ્રતિક્રિયા',
@@ -426,6 +445,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'કસ્ટમાઇઝેશન',
+        description:
+          'સ્પ્રિંગ ફિઝિક્સ, દબાવવાની ઇફેક્ટ્સ, એન્ટ્રી ઍનિમેશન, ખૂણાના આકાર, રેડિયસ અને ડેન્સિટી: આખી ઍપમાં કે દરેક કમ્પોનન્ટ માટે નક્કી કરો કે Needless UI કેવી રીતે હલે અને કેવું લાગે.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'દરેક કમ્પોનન્ટનો એક મિજાજ હોય છે, જે તમે બદલી શકો છો: તે કઈ સ્પ્રિંગથી હલે છે, તમારી આંગળી નીચે બટન શું કરે છે, ડાયલૉગ અને મેનૂ કેવી રીતે પ્રગટ થાય છે, તેમના ખૂણાનો આકાર અને કદ, અને તેઓ કેટલી જગ્યા રોકે છે. દરેક સેટિંગ કાં તો એક એટ્રિબ્યુટ છે, જે કોઈ એલિમેન્ટની અંદરની દરેક વસ્તુને લાગુ પડે છે, અથવા એક ઇનપુટ, જે ફક્ત એક કમ્પોનન્ટને લાગુ પડે છે.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'એક એટ્રિબ્યુટ, આખું સબટ્રી' },
+          {
+            kind: 'p',
+            html: 'આખી ઍપ માટે <code>data-nui-*</code> એટ્રિબ્યુટ્સ <code>&lt;body&gt;</code> પર મૂકો, અથવા તેના કોઈ એક ભાગ માટે કોઈ પણ એલિમેન્ટ પર. સૌથી નજીકનો એટ્રિબ્યુટ લાગુ પડે છે, તેથી તેમને નેસ્ટ કરી શકાય છે. તે ફક્ત CSS કસ્ટમ પ્રોપર્ટીઝ સેટ કરે છે, તેથી કોઈ પણ ફ્રેમવર્ક સાથે, કે ફ્રેમવર્ક વિના પણ, એકસરખું કામ કરે છે.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'ફક્ત એક કમ્પોનન્ટ' },
+          {
+            kind: 'p',
+            html: 'Angular માં <code>nuiButton</code>, <code>nuiDialog</code> અને <code>nuiMenu</code> આ જ મૂલ્યો ઇનપુટ્સ તરીકે લે છે. તમે સેટ ન કરેલાં ઇનપુટ્સ તેમની આસપાસના એટ્રિબ્યુટ્સમાંથી મૂલ્ય લે છે.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'CSS માં કમ્પાઇલ થતી સ્પ્રિંગ્સ' },
+          {
+            kind: 'p',
+            html: 'હિલચાલ એટલે સ્પ્રિંગ ફિઝિક્સ: અવધિ અને કર્વને બદલે દૃઢતા, અવમંદન અને દળ. ટોકન કમ્પાઇલર દરેક સ્પ્રિંગને ઉકેલીને CSS માં લખે છે: સ્થિર થવામાં લાગતો સમય અને એક <code>linear()</code> ઇઝિંગ. તેથી તે JavaScript વિના કમ્પોઝિટર પર ચાલે છે. છ સ્પ્રિંગ્સ ટોકન્સ તરીકે સાથે આવે છે, <code>--nui-spring-snappy</code> થી <code>--nui-spring-mechanical</code> સુધી, અને વપરાશમાં રહેલી સ્પ્રિંગ <code>--nui-motion</code> માં રહે છે.',
+          },
+          {
+            kind: 'p',
+            html: 'બીજી કોઈ પણ સ્પ્રિંગ બસ એક ઇનપુટ દૂર છે. Angular તેને રનટાઇમ પર એ જ સૉલ્વર વડે કમ્પાઇલ કરે છે, અને <code>springTransition()</code> તમારા પોતાના એલિમેન્ટ્સ માટે CSS આપે છે.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'વચ્ચેનું કંઈ પણ' },
+          {
+            kind: 'p',
+            html: 'પ્રીસેટ્સ ફક્ત શૉર્ટકટ છે. બાકી કંઈ પણ માટે કસ્ટમ પ્રોપર્ટીઝ જાતે સેટ કરો: <code>--nui-press</code> અને <code>--nui-enter</code> માટે કોઈ પણ ટ્રાન્સફૉર્મ, <code>--nui-radius-scale</code> અને <code>--nui-density</code> માટે કોઈ પણ સંખ્યા.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'ઍક્સેસિબિલિટી' },
+          {
+            kind: 'p',
+            html: 'સિસ્ટમ ઓછી હિલચાલ માગે ત્યારે સ્પ્રિંગ્સ પળવારમાં પૂરી થઈ જાય છે, અને દબાવવાની તથા એન્ટ્રીની ઇફેક્ટ્સ હલવાનું બંધ કરે છે. ડેન્સિટી કોઈ પણ કંટ્રોલને WCAG 2.2 ના 24px ટાર્ગેટ કદથી ક્યારેય નાનો થવા દેતી નથી, અને કોઈ પ્રીસેટ રંગોને અડતો નથી, તેથી દરેક કૉન્ટ્રાસ્ટ ચકાસણી હજી પણ માન્ય રહે છે. <code>corner-shape</code> ને સપોર્ટ ન કરતાં બ્રાઉઝર દરેક ખૂણો ગોળ દોરે છે.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'કસ્ટમાઇઝેશન પ્લેગ્રાઉન્ડ',
+      motion: 'હિલચાલ',
+      custom: 'કસ્ટમ',
+      stiffness: 'દૃઢતા',
+      damping: 'અવમંદન',
+      mass: 'દળ',
+      press: 'દબાવતાં',
+      enter: 'એન્ટ્રી',
+      corners: 'ખૂણા',
+      radius: 'રેડિયસ',
+      density: 'ડેન્સિટી',
+      surprise: 'મને ચોંકાવો',
+      reset: 'ડિફૉલ્ટ પર પાછા જાઓ',
+      hint: 'કોઈ બટન દબાવી રાખો, પછી છોડી દો. ડાયલૉગ અને મેનૂ કેવી રીતે આવે છે તે જોવા માટે તેમને ખોલો.',
+      save: 'સેવ કરો',
+      cancel: 'રદ કરો',
+      delete: 'ડિલીટ કરો',
+      openDialog: 'ડાયલૉગ ખોલો',
+      openMenu: 'મેનૂ ખોલો',
+      menu: ['નામ બદલો', 'ડુપ્લિકેટ બનાવો', 'ડિલીટ કરો'],
+      dialogTitle: 'જરૂર કરતાં વધુ ઍનિમેટેડ',
+      dialogText: 'આ ડાયલૉગ બરાબર એ જ રીતે આવ્યો, જે રીતે તમે કહ્યું હતું.',
+      close: 'બંધ કરો',
+      curve:
+        'સમય સાથે સ્પ્રિંગની સ્થિતિ. તે તળિયેથી શરૂ થાય છે અને તૂટક રેખા પર આવીને સ્થિર થાય છે.',
+      settles: (ms, overshoot) => `${ms} ms માં સ્થિર થાય છે · ${overshoot}% ઓવરશૂટ`,
+      instant: 'કોઈ હિલચાલ નહીં: બધું સીધું પોતાની જગ્યાએ પહોંચી જાય છે.',
+      stuck:
+        'આ સ્પ્રિંગ 10 સેકન્ડમાં સ્થિર થતી નથી. અવમંદન કે દૃઢતા વધારો; ત્યાં સુધી કમ્પોનન્ટ્સ છેલ્લે સ્થિર થયેલી સ્પ્રિંગ જ વાપરતા રહેશે.',
+      reducedMotion:
+        'તમારી સિસ્ટમ ઓછી હિલચાલ માગે છે, તેથી અહીં કશું હલતું નથી. એ સેટિંગ બંધ થતાં જ સ્પ્રિંગ્સ, દબાવવાની અને એન્ટ્રીની ઇફેક્ટ્સ પાછી આવશે.',
+      noCornerShape: 'આ બ્રાઉઝર હજી ખૂણાના આકાર દોરી શકતું નથી, તેથી દરેક ખૂણો ગોળ જ રહે છે.',
+      everywhere: 'કોઈ પણ એલિમેન્ટ પર, તેની અંદરની દરેક વસ્તુ માટે:',
+      oneComponent: 'Angular માં, એક કમ્પોનન્ટ પર:',
     },
   },
 

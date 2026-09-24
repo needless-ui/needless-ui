@@ -1,0 +1,7 @@
+.checkout {
+  --nui-motion: var(--nui-spring-jelly);
+  --nui-press: scale(0.92) rotate(-2deg);
+  --nui-enter: translateY(100%);
+  --nui-radius-scale: 1.5;
+  --nui-density: 1.1;
+}

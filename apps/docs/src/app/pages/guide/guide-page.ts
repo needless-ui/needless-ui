@@ -6,6 +6,7 @@ import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
 import { InAppLinks } from '../../shared/in-app-links';
 import { NestedThemesDemo } from '../../shared/nested-themes-demo';
+import { Playground } from '../../shared/playground';
 import { Toc } from '../../shared/toc';
 import { NotFoundPage } from '../not-found/not-found-page';
 
@@ -17,6 +18,7 @@ import { NotFoundPage } from '../not-found/not-found-page';
     CodeBlock,
     InAppLinks,
     NestedThemesDemo,
+    Playground,
     Toc,
     NotFoundPage,
   ],
@@ -59,7 +61,22 @@ import { NotFoundPage } from '../not-found/not-found-page';
                     <docs-code [key]="block.file" />
                   }
                   @case ('demo') {
-                    <docs-nested-themes />
+                    @if (block.demo === 'playground') {
+                      <!--
+                        Rendered in the browser only: prerendered, it would push the page
+                        past the first network round trip. The placeholder holds its
+                        place, taller than a screen, so nothing below it visibly moves.
+                      -->
+                      <div class="playground-slot">
+                        @defer (on viewport; prefetch on idle) {
+                          <docs-playground />
+                        } @placeholder {
+                          <div class="playground-placeholder"></div>
+                        }
+                      </div>
+                    } @else {
+                      <docs-nested-themes />
+                    }
                   }
                 }
               }

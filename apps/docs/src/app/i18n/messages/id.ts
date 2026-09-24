@@ -64,8 +64,8 @@ export const messages: Messages = {
         text: 'Setiap pasangan warna diperiksa terhadap WCAG 2.2 AA saat palet dibuat. Fokus, forced colors, dan pengurangan gerakan sudah ditangani untuk Anda.',
       },
       {
-        title: 'Design token standar',
-        text: 'File token W3C DTCG dikompilasi menjadi variabel CSS dengan tema terang, gelap, dan bersarang.',
+        title: 'Kustomisasi berlebihan',
+        text: 'Pegas, efek tekan, animasi masuk, bentuk sudut, radius, dan kepadatan: <a href="/guides/customization">satu atribut</a> untuk seluruh aplikasi, atau satu input per komponen, di atas design token W3C standar.',
       },
       {
         title: 'Angular modern',
@@ -104,6 +104,25 @@ export const messages: Messages = {
       default: 'Default',
       description: 'Deskripsi',
       kinds: { input: 'Input', model: 'Dua arah', output: 'Output', method: 'Metode' },
+      customization: {
+        note: 'Input kustomisasi yang tidak Anda atur akan mengikuti atribut <code>data-nui-*</code> terdekat. Lihat <a href="/guides/customization">panduan kustomisasi</a>.',
+        members: {
+          motion:
+            'Pegas yang menggerakkan komponen: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code>, atau <code>none</code>.',
+          spring:
+            'Pegas apa pun, dalam bentuk <code>{ stiffness, damping, mass }</code>, yang dikompilasi menjadi CSS saat runtime. Menimpa <code>motion</code>.',
+          press:
+            'Efek saat komponen ditekan dan ditahan: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code>, atau <code>none</code>.',
+          enter:
+            'Cara komponen muncul: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code>, atau <code>none</code>.',
+          corners:
+            'Bentuk sudut: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code>, atau <code>square</code>.',
+          radius:
+            'Seberapa bulat sudutnya: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code>, atau <code>full</code>.',
+          density:
+            'Seberapa banyak ruang yang digunakan komponen: <code>compact</code>, <code>regular</code>, atau <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Interaksi keyboard',
@@ -430,6 +449,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Kustomisasi',
+        description:
+          'Fisika pegas, efek tekan, animasi masuk, bentuk sudut, radius, dan kepadatan: ubah cara Needless UI bergerak dan terasa, di seluruh aplikasi atau per komponen.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Setiap komponen punya kepribadian yang bisa Anda ubah: pegas yang menggerakkannya, apa yang dilakukan tombol di bawah jari Anda, cara dialog dan menu muncul, bentuk dan ukuran sudutnya, serta seberapa banyak ruang yang digunakannya. Masing-masing cukup diatur dengan satu atribut untuk semua yang ada di dalam sebuah elemen, atau satu input untuk satu komponen saja.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Satu atribut untuk seluruh subpohon' },
+          {
+            kind: 'p',
+            html: 'Pasang atribut <code>data-nui-*</code> di <code>&lt;body&gt;</code> untuk seluruh aplikasi, atau di elemen mana pun untuk sebagian saja. Atribut terdekat yang berlaku, jadi atribut ini bisa disarangkan. Karena hanya menetapkan variabel CSS, atribut ini bekerja dengan cara yang sama di framework apa pun, bahkan tanpa framework.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Satu komponen' },
+          {
+            kind: 'p',
+            html: 'Di Angular, <code>nuiButton</code>, <code>nuiDialog</code>, dan <code>nuiMenu</code> menerima nilai yang sama sebagai input. Input yang tidak Anda atur akan mengikuti atribut pada elemen induknya.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Pegas yang dikompilasi menjadi CSS' },
+          {
+            kind: 'p',
+            html: 'Gerakan memakai fisika pegas: kekakuan, redaman, dan massa, bukan durasi dan kurva. Kompiler token menghitung setiap pegas dan menuliskannya ke CSS sebagai waktu yang dibutuhkan pegas untuk diam dan sebuah easing <code>linear()</code>, sehingga animasinya berjalan di compositor tanpa JavaScript. Enam pegas tersedia sebagai token, dari <code>--nui-spring-snappy</code> hingga <code>--nui-spring-mechanical</code>, dan <code>--nui-motion</code> menyimpan pegas yang sedang dipakai.',
+          },
+          {
+            kind: 'p',
+            html: 'Pegas lain cukup diatur lewat satu input. Angular mengompilasinya saat runtime dengan solver yang sama, dan <code>springTransition()</code> memberi Anda CSS untuk elemen Anda sendiri.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Apa pun di antaranya' },
+          {
+            kind: 'p',
+            html: 'Preset hanyalah jalan pintas. Untuk hal lainnya, atur sendiri variabel CSS-nya: transform apa pun untuk <code>--nui-press</code> dan <code>--nui-enter</code>, angka apa pun untuk <code>--nui-radius-scale</code> dan <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Aksesibilitas' },
+          {
+            kind: 'p',
+            html: 'Saat sistem meminta gerakan dikurangi, pegas selesai seketika, sedangkan efek tekan dan animasi masuk berhenti bergerak. Kepadatan tidak pernah membuat kontrol lebih kecil dari ukuran target 24px WCAG 2.2, dan tidak ada preset yang mengubah warna, sehingga semua pemeriksaan kontras tetap terpenuhi. Browser tanpa dukungan <code>corner-shape</code> menggambar semua sudut membulat.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Playground kustomisasi',
+      motion: 'Gerakan',
+      custom: 'kustom',
+      stiffness: 'Kekakuan',
+      damping: 'Redaman',
+      mass: 'Massa',
+      press: 'Efek tekan',
+      enter: 'Animasi masuk',
+      corners: 'Sudut',
+      radius: 'Radius',
+      density: 'Kepadatan',
+      surprise: 'Kejutkan saya',
+      reset: 'Kembalikan ke default',
+      hint: 'Tekan dan tahan sebuah tombol, lalu lepaskan. Buka dialog dan menu untuk melihat cara keduanya muncul.',
+      save: 'Simpan',
+      cancel: 'Batal',
+      delete: 'Hapus',
+      openDialog: 'Buka dialog',
+      openMenu: 'Buka menu',
+      menu: ['Ganti nama', 'Duplikat', 'Hapus'],
+      dialogTitle: 'Dianimasikan berlebihan',
+      dialogText: 'Dialog ini muncul persis seperti yang Anda minta.',
+      close: 'Tutup',
+      curve:
+        'Posisi pegas dari waktu ke waktu. Kurvanya dimulai dari bawah dan berhenti di garis putus-putus.',
+      settles: (ms, overshoot) => `Stabil dalam ${ms} ms · melampaui target ${overshoot}%`,
+      instant: 'Tanpa gerakan: semuanya langsung melompat ke tujuannya.',
+      stuck:
+        'Pegas ini tidak stabil dalam 10 detik. Tambah redaman atau kekakuan; sementara itu, komponen tetap memakai pegas terakhir yang stabil.',
+      reducedMotion:
+        'Sistem Anda meminta gerakan dikurangi, jadi tidak ada yang bergerak di sini. Pegas, efek tekan, dan animasi masuk akan kembali saat sistem tidak lagi memintanya.',
+      noCornerShape:
+        'Browser ini belum bisa menggambar bentuk sudut, jadi semua sudut tetap membulat.',
+      everywhere: 'Di elemen mana pun, untuk semua yang ada di dalamnya:',
+      oneComponent: 'Di satu komponen, dengan Angular:',
     },
   },
 

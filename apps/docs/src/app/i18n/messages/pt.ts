@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'Cada par de cores é verificado segundo as WCAG 2.2 AA quando a paleta é gerada. Foco, cores forçadas e movimento reduzido já vêm resolvidos.',
       },
       {
-        title: 'Design tokens padronizados',
-        text: 'Arquivos de tokens no formato W3C DTCG são compilados em propriedades personalizadas CSS, com temas claro, escuro e aninhados.',
+        title: 'Desnecessariamente personalizável',
+        text: 'Molas, efeitos ao pressionar, animações de entrada, formatos de canto, raio e densidade: <a href="/guides/customization">um atributo</a> para a aplicação inteira ou um input por componente, sobre design tokens W3C padronizados.',
       },
       {
         title: 'Angular moderno',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'Padrão',
       description: 'Descrição',
       kinds: { input: 'Input', model: 'Bidirecional', output: 'Output', method: 'Método' },
+      customization: {
+        note: 'Os inputs de personalização que você não definir seguem o atributo <code>data-nui-*</code> mais próximo. Veja o <a href="/guides/customization">guia de personalização</a>.',
+        members: {
+          motion:
+            'A mola com que ele se move: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> ou <code>none</code>.',
+          spring:
+            'Qualquer mola, no formato <code>{ stiffness, damping, mass }</code>, compilada para CSS em tempo de execução. Tem prioridade sobre <code>motion</code>.',
+          press:
+            'O que ele faz enquanto fica pressionado: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> ou <code>none</code>.',
+          enter:
+            'Como ele entra em cena: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> ou <code>none</code>.',
+          corners:
+            'O formato dos cantos: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> ou <code>square</code>.',
+          radius:
+            'O tamanho dos cantos: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> ou <code>full</code>.',
+          density:
+            'Quanto espaço ele ocupa: <code>compact</code>, <code>regular</code> ou <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Interação por teclado',
@@ -428,6 +447,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Personalização',
+        description:
+          'Física de molas, efeitos ao pressionar, animações de entrada, formatos de canto, raio e densidade: ajuste o Needless UI na aplicação toda ou por componente.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Cada componente tem uma personalidade que você pode mudar: a mola com que ele se move, o que um botão faz sob o seu dedo, como diálogos e menus entram em cena, o formato e o tamanho dos cantos e quanto espaço ele ocupa. Cada traço é um atributo para tudo o que está dentro de um elemento, ou um input para um único componente.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Um atributo, uma subárvore inteira' },
+          {
+            kind: 'p',
+            html: 'Coloque os atributos <code>data-nui-*</code> no <code>&lt;body&gt;</code> para a aplicação inteira, ou em qualquer elemento para uma parte dela. O mais próximo vence, por isso eles podem ser aninhados. Eles só definem propriedades personalizadas CSS, então funcionam do mesmo jeito com qualquer framework, ou sem nenhum.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Um único componente' },
+          {
+            kind: 'p',
+            html: 'No Angular, <code>nuiButton</code>, <code>nuiDialog</code> e <code>nuiMenu</code> aceitam os mesmos valores como inputs. Os inputs que você não definir seguem os atributos ao redor do componente.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Molas compiladas para CSS' },
+          {
+            kind: 'p',
+            html: 'O movimento é física de molas: rigidez, amortecimento e massa em vez de uma duração e uma curva. O compilador de tokens resolve cada mola e a escreve no CSS como o tempo que ela leva para se estabilizar e uma função de easing <code>linear()</code>, então ela roda no compositor sem JavaScript. Seis molas vêm como tokens, de <code>--nui-spring-snappy</code> a <code>--nui-spring-mechanical</code>, e <code>--nui-motion</code> guarda a que está em uso.',
+          },
+          {
+            kind: 'p',
+            html: 'Qualquer outra mola está a um input de distância. O Angular a compila em tempo de execução com o mesmo solver, e <code>springTransition()</code> entrega o CSS para os seus próprios elementos.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Qualquer meio-termo' },
+          {
+            kind: 'p',
+            html: 'Os presets são atalhos. Para qualquer outra coisa, defina você mesmo as propriedades personalizadas: qualquer transformação para <code>--nui-press</code> e <code>--nui-enter</code>, qualquer número para <code>--nui-radius-scale</code> e <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Acessibilidade' },
+          {
+            kind: 'p',
+            html: 'Quando o sistema pede menos movimento, as molas se tornam instantâneas, e os efeitos ao pressionar e as animações de entrada param de se mover. A densidade nunca deixa um controle abaixo do tamanho mínimo de alvo de 24 px das WCAG 2.2, e nenhum preset mexe nas cores, então todas as verificações de contraste continuam valendo. Navegadores sem <code>corner-shape</code> desenham todos os cantos arredondados.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Playground de personalização',
+      motion: 'Movimento',
+      custom: 'personalizado',
+      stiffness: 'Rigidez',
+      damping: 'Amortecimento',
+      mass: 'Massa',
+      press: 'Ao pressionar',
+      enter: 'Entrada',
+      corners: 'Cantos',
+      radius: 'Raio',
+      density: 'Densidade',
+      surprise: 'Surpreenda-me',
+      reset: 'Restaurar padrões',
+      hint: 'Mantenha um botão pressionado e depois solte. Abra o diálogo e o menu para ver como eles entram em cena.',
+      save: 'Salvar',
+      cancel: 'Cancelar',
+      delete: 'Excluir',
+      openDialog: 'Abrir diálogo',
+      openMenu: 'Abrir menu',
+      menu: ['Renomear', 'Duplicar', 'Excluir'],
+      dialogTitle: 'Desnecessariamente animado',
+      dialogText: 'Este diálogo chegou exatamente do jeito que você pediu.',
+      close: 'Fechar',
+      curve:
+        'A posição da mola ao longo do tempo. Ela começa embaixo e termina em repouso na linha tracejada.',
+      settles: (ms, overshoot) => `Estabiliza em ${ms} ms · ultrapassa o alvo em ${overshoot}%`,
+      instant: 'Sem movimento: tudo pula direto para o destino.',
+      stuck:
+        'Esta mola não se estabiliza em menos de 10 segundos. Aumente o amortecimento ou a rigidez; enquanto isso, os componentes mantêm a última mola que se estabilizou.',
+      reducedMotion:
+        'Seu sistema pede menos movimento, então nada se move aqui. Molas, efeitos ao pressionar e animações de entrada voltam quando ele deixar de pedir.',
+      noCornerShape:
+        'Este navegador ainda não consegue desenhar formatos de canto, então todos os cantos continuam arredondados.',
+      everywhere: 'Em qualquer elemento, para tudo o que ele contém:',
+      oneComponent: 'Em um único componente, no Angular:',
     },
   },
 

@@ -65,8 +65,8 @@ export const messages: Messages = {
         text: 'Chaque paire de couleurs est vérifiée selon les WCAG 2.2 AA lors de la génération de la palette. Focus, couleurs forcées et réduction des animations sont gérés pour vous.',
       },
       {
-        title: 'Des design tokens standard',
-        text: 'Les fichiers de tokens au format W3C DTCG sont compilés en propriétés personnalisées CSS, avec des thèmes clair, sombre et imbriqués.',
+        title: 'Inutilement personnalisable',
+        text: 'Ressorts, effets d’appui, animations d’entrée, formes des coins, rayon et densité : <a href="/guides/customization">un attribut</a> pour toute l’application, ou un input par composant, sur des design tokens W3C standard.',
       },
       {
         title: 'Un Angular moderne',
@@ -105,6 +105,25 @@ export const messages: Messages = {
       default: 'Par défaut',
       description: 'Description',
       kinds: { input: 'Input', model: 'Bidirectionnel', output: 'Output', method: 'Méthode' },
+      customization: {
+        note: 'Les inputs de personnalisation que vous ne définissez pas suivent l’attribut <code>data-nui-*</code> le plus proche. Consultez le <a href="/guides/customization">guide de personnalisation</a>.',
+        members: {
+          motion:
+            'Le ressort qui l’anime : <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> ou <code>none</code>.',
+          spring:
+            'N’importe quel ressort, sous la forme <code>{ stiffness, damping, mass }</code>, compilé en CSS à l’exécution. Il a priorité sur <code>motion</code>.',
+          press:
+            'Ce qu’il fait tant qu’on le maintient enfoncé : <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> ou <code>none</code>.',
+          enter:
+            'Son entrée en scène : <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> ou <code>none</code>.',
+          corners:
+            'La forme de ses coins : <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> ou <code>square</code>.',
+          radius:
+            'La taille de ses coins : <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> ou <code>full</code>.',
+          density:
+            'La place qu’il occupe : <code>compact</code>, <code>regular</code> ou <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Interaction au clavier',
@@ -435,6 +454,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Personnalisation',
+        description:
+          'Physique des ressorts, effets d’appui, animations d’entrée, formes des coins, rayon et densité : réglez Needless UI pour toute l’application ou par composant.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Chaque composant a une personnalité que vous pouvez changer : le ressort qui l’anime, ce que fait un bouton sous votre doigt, la façon dont les boîtes de dialogue et les menus entrent en scène, la forme et la taille de leurs coins, et la place qu’ils occupent. Chaque trait se règle avec un attribut pour tout ce que contient un élément, ou avec un input pour un seul composant.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Un attribut, tout un sous-arbre' },
+          {
+            kind: 'p',
+            html: 'Placez les attributs <code>data-nui-*</code> sur <code>&lt;body&gt;</code> pour toute l’application, ou sur n’importe quel élément pour une partie seulement. Le plus proche l’emporte, ils peuvent donc s’imbriquer. Comme ils ne font que définir des propriétés personnalisées CSS, ils fonctionnent de la même façon avec n’importe quel framework, et même sans.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Un seul composant' },
+          {
+            kind: 'p',
+            html: 'En Angular, <code>nuiButton</code>, <code>nuiDialog</code> et <code>nuiMenu</code> acceptent les mêmes valeurs sous forme d’inputs. Les inputs que vous ne définissez pas suivent les attributs qui entourent le composant.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Des ressorts compilés en CSS' },
+          {
+            kind: 'p',
+            html: 'Le mouvement repose sur la physique des ressorts : raideur, amortissement et masse, au lieu d’une durée et d’une courbe. Le compilateur de tokens résout chaque ressort et l’écrit en CSS sous la forme d’un temps de stabilisation et d’une fonction d’easing <code>linear()</code> : l’animation tourne ainsi sur le compositeur, sans JavaScript. Six ressorts sont fournis sous forme de tokens, de <code>--nui-spring-snappy</code> à <code>--nui-spring-mechanical</code>, et <code>--nui-motion</code> contient celui qui est actif.',
+          },
+          {
+            kind: 'p',
+            html: 'Tout autre ressort n’est qu’à un input de distance. Angular le compile à l’exécution avec le même solveur, et <code>springTransition()</code> vous fournit le CSS pour vos propres éléments.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Tout ce qu’il y a entre les deux' },
+          {
+            kind: 'p',
+            html: 'Les préréglages sont des raccourcis. Pour tout le reste, définissez vous-même les propriétés personnalisées : n’importe quelle transformation pour <code>--nui-press</code> et <code>--nui-enter</code>, n’importe quel nombre pour <code>--nui-radius-scale</code> et <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Accessibilité' },
+          {
+            kind: 'p',
+            html: 'Quand le système demande moins d’animations, les ressorts deviennent instantanés, et les effets d’appui et les animations d’entrée ne bougent plus. La densité ne fait jamais passer un élément interactif sous la taille de cible minimale de 24 px des WCAG 2.2, et aucun préréglage ne touche aux couleurs : toutes les vérifications de contraste restent valables. Les navigateurs qui ne prennent pas en charge <code>corner-shape</code> dessinent tous les coins arrondis.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Bac à sable de personnalisation',
+      motion: 'Mouvement',
+      custom: 'personnalisé',
+      stiffness: 'Raideur',
+      damping: 'Amortissement',
+      mass: 'Masse',
+      press: 'Appui',
+      enter: 'Entrée',
+      corners: 'Coins',
+      radius: 'Rayon',
+      density: 'Densité',
+      surprise: 'Surprenez-moi',
+      reset: 'Réinitialiser',
+      hint: 'Maintenez un bouton enfoncé, puis relâchez-le. Ouvrez la boîte de dialogue et le menu pour les voir entrer en scène.',
+      save: 'Enregistrer',
+      cancel: 'Annuler',
+      delete: 'Supprimer',
+      openDialog: 'Ouvrir la boîte de dialogue',
+      openMenu: 'Ouvrir le menu',
+      menu: ['Renommer', 'Dupliquer', 'Supprimer'],
+      dialogTitle: 'Inutilement animée',
+      dialogText: 'Cette boîte de dialogue est arrivée exactement comme vous le lui avez demandé.',
+      close: 'Fermer',
+      curve:
+        'La position du ressort au fil du temps. Il part du bas et s’immobilise sur la ligne en pointillés.',
+      settles: (ms, overshoot) => `Se stabilise en ${ms} ms · dépassement de ${overshoot} %`,
+      instant: 'Aucun mouvement : tout saute directement à destination.',
+      stuck:
+        'Ce ressort ne se stabilise pas en moins de 10 secondes. Augmentez l’amortissement ou la raideur ; en attendant, les composants conservent le dernier ressort qui se stabilisait.',
+      reducedMotion:
+        'Votre système demande moins d’animations : rien ne bouge ici. Les ressorts, les effets d’appui et les animations d’entrée reviendront dès qu’il ne le demandera plus.',
+      noCornerShape:
+        'Ce navigateur ne sait pas encore dessiner de formes de coins : tous les coins restent arrondis.',
+      everywhere: 'Sur n’importe quel élément, pour tout ce qu’il contient :',
+      oneComponent: 'Sur un seul composant, en Angular :',
     },
   },
 

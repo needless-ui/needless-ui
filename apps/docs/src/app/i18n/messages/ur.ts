@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'پیلیٹ بناتے وقت رنگوں کے ہر جوڑے کو WCAG 2.2 AA کے معیار پر پرکھا جاتا ہے۔ فوکس، forced colors اور کم حرکت (reduced motion) کا خیال پہلے ہی رکھا گیا ہے۔',
       },
       {
-        title: 'معیاری ڈیزائن ٹوکنز',
-        text: 'W3C DTCG ٹوکن فائلیں CSS کسٹم پراپرٹیز میں کمپائل ہوتی ہیں، جن میں لائٹ، ڈارک اور نیسٹڈ تھیمز شامل ہیں۔',
+        title: 'ضرورت سے زیادہ کسٹمائزیشن',
+        text: 'اسپرنگز، دبانے کے اثرات، آمد کی اینیمیشنز، کونوں کی شکلیں، ریڈیس اور ڈینسٹی: پوری ایپ کے لیے <a href="/guides/customization">ایک ایٹریبیوٹ</a>، یا ہر کمپوننٹ کے لیے ایک ان پٹ، اور سب کچھ معیاری W3C ڈیزائن ٹوکنز پر مبنی۔',
       },
       {
         title: 'جدید Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'ڈیفالٹ',
       description: 'تفصیل',
       kinds: { input: 'ان پٹ', model: 'دو طرفہ', output: 'آؤٹ پٹ', method: 'میتھڈ' },
+      customization: {
+        note: 'کسٹمائزیشن کے جو ان پٹس آپ سیٹ نہ کریں، وہ قریب ترین <code>data-nui-*</code> ایٹریبیوٹ کی پیروی کرتے ہیں۔ <a href="/guides/customization">کسٹمائزیشن گائیڈ</a> دیکھیں۔',
+        members: {
+          motion:
+            'وہ اسپرنگ جس کے ساتھ یہ حرکت کرتا ہے: <code>snappy</code>، <code>bouncy</code>، <code>jelly</code>، <code>elastic</code>، <code>lazy</code>، <code>mechanical</code> یا <code>none</code>۔',
+          spring:
+            'کوئی بھی اسپرنگ، <code>{ stiffness, damping, mass }</code> کی صورت میں، جو رن ٹائم پر CSS میں کمپائل ہوتا ہے۔ یہ <code>motion</code> کو اوور رائیڈ کرتا ہے۔',
+          press:
+            'دبائے رکھنے کے دوران یہ کیا کرتا ہے: <code>sink</code>، <code>squish</code>، <code>pop</code>، <code>wobble</code>، <code>rubber</code>، <code>tilt</code> یا <code>none</code>۔',
+          enter:
+            'یہ کیسے نمودار ہوتا ہے: <code>zoom</code>، <code>fade</code>، <code>drop</code>، <code>rise</code>، <code>unfold</code>، <code>flip</code>، <code>swing</code>، <code>slide</code> یا <code>none</code>۔',
+          corners:
+            'اس کے کونوں کی شکل: <code>round</code>، <code>squircle</code>، <code>bevel</code>، <code>scoop</code>، <code>notch</code> یا <code>square</code>۔',
+          radius:
+            'اس کے کونے کتنے بڑے ہیں: <code>none</code>، <code>small</code>، <code>medium</code>، <code>large</code> یا <code>full</code>۔',
+          density:
+            'یہ کتنی جگہ لیتا ہے: <code>compact</code>، <code>regular</code> یا <code>roomy</code>۔',
+        },
+      },
     },
     a11y: {
       keyboard: 'کی بورڈ سے استعمال',
@@ -428,6 +447,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'کسٹمائزیشن',
+        description:
+          'اسپرنگ فزکس، دبانے کے اثرات، آمد کی اینیمیشنز، کونوں کی شکلیں، ریڈیس اور ڈینسٹی: پوری ایپ یا ہر کمپوننٹ میں Needless UI کی حرکت اور احساس بدلیں۔',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'ہر کمپوننٹ کی ایک شخصیت ہے جسے آپ بدل سکتے ہیں: وہ اسپرنگ جس کے ساتھ وہ حرکت کرتا ہے، آپ کی انگلی کے نیچے بٹن کیا کرتا ہے، ڈائیلاگ اور مینو کیسے نمودار ہوتے ہیں، ان کے کونوں کی شکل اور سائز، اور وہ کتنی جگہ لیتے ہیں۔ ان میں سے ہر ایک یا تو کسی ایلیمنٹ کے اندر موجود ہر چیز کے لیے ایک ایٹریبیوٹ ہے، یا کسی ایک کمپوننٹ کے لیے ایک ان پٹ۔',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'ایک ایٹریبیوٹ، پورا سب ٹری' },
+          {
+            kind: 'p',
+            html: '<code>data-nui-*</code> ایٹریبیوٹس پوری ایپ کے لیے <code>&lt;body&gt;</code> پر لگائیں، یا اس کے کسی ایک حصے کے لیے کسی بھی ایلیمنٹ پر۔ سب سے قریبی ایٹریبیوٹ غالب رہتا ہے، اس لیے انہیں ایک دوسرے کے اندر رکھا جا سکتا ہے۔ یہ صرف CSS کسٹم پراپرٹیز سیٹ کرتے ہیں، اس لیے کسی بھی فریم ورک کے ساتھ، یا بغیر کسی فریم ورک کے، ایک جیسا کام کرتے ہیں۔',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'ایک کمپوننٹ' },
+          {
+            kind: 'p',
+            html: 'Angular میں <code>nuiButton</code>، <code>nuiDialog</code> اور <code>nuiMenu</code> یہی ویلیوز ان پٹس کے طور پر لیتے ہیں۔ جو ان پٹس آپ سیٹ نہ کریں، وہ اپنے اردگرد کے ایٹریبیوٹس کی پیروی کرتے ہیں۔',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'اسپرنگز، CSS میں کمپائل شدہ' },
+          {
+            kind: 'p',
+            html: 'حرکت دراصل اسپرنگ فزکس ہے: دورانیے اور منحنی کے بجائے سختی، ڈیمپنگ اور کمیت۔ ٹوکن کمپائلر ہر اسپرنگ کی مساوات حل کرتا ہے اور اسے CSS میں ٹھہرنے میں لگنے والے وقت اور ایک <code>linear()</code> ایزنگ کی صورت میں لکھتا ہے، اس لیے یہ JavaScript کے بغیر کمپوزیٹر پر چلتا ہے۔ چھ اسپرنگز ٹوکنز کی صورت میں ساتھ آتے ہیں، <code>--nui-spring-snappy</code> سے <code>--nui-spring-mechanical</code> تک، اور <code>--nui-motion</code> میں وہ اسپرنگ ہوتا ہے جو اس وقت استعمال ہو رہا ہے۔',
+          },
+          {
+            kind: 'p',
+            html: 'کوئی اور اسپرنگ چاہیے تو بس ایک ان پٹ کافی ہے۔ Angular اسی سولور سے اسے رن ٹائم پر کمپائل کرتا ہے، اور <code>springTransition()</code> آپ کو اپنے ایلیمنٹس کے لیے CSS دیتا ہے۔',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'درمیان میں کچھ بھی' },
+          {
+            kind: 'p',
+            html: 'پری سیٹس محض شارٹ کٹس ہیں۔ باقی ہر چیز کے لیے کسٹم پراپرٹیز خود سیٹ کریں: <code>--nui-press</code> اور <code>--nui-enter</code> کے لیے کوئی بھی transform، اور <code>--nui-radius-scale</code> اور <code>--nui-density</code> کے لیے کوئی بھی عدد۔',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'رسائی' },
+          {
+            kind: 'p',
+            html: 'جب سسٹم کم حرکت چاہتا ہے تو اسپرنگز فوری ہو جاتے ہیں، اور دبانے اور آمد کی حرکتیں رک جاتی ہیں۔ ڈینسٹی کسی بھی کنٹرول کو WCAG 2.2 کے 24 پکسل ٹارگٹ سائز سے کبھی چھوٹا نہیں کرتی، اور کوئی پری سیٹ رنگوں کو نہیں چھیڑتا، اس لیے کنٹراسٹ کی ہر جانچ برقرار رہتی ہے۔ جو براؤزرز <code>corner-shape</code> سپورٹ نہیں کرتے، وہ ہر کونا گول بناتے ہیں۔',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'کسٹمائزیشن پلے گراؤنڈ',
+      motion: 'حرکت',
+      custom: 'کسٹم',
+      stiffness: 'سختی',
+      damping: 'ڈیمپنگ',
+      mass: 'کمیت',
+      press: 'دبانے پر',
+      enter: 'آمد',
+      corners: 'کونے',
+      radius: 'ریڈیس',
+      density: 'ڈینسٹی',
+      surprise: 'مجھے حیران کریں',
+      reset: 'ڈیفالٹ پر واپس جائیں',
+      hint: 'کسی بٹن کو دبا کر رکھیں، پھر چھوڑ دیں۔ ڈائیلاگ اور مینو کھول کر دیکھیں کہ وہ کیسے نمودار ہوتے ہیں۔',
+      save: 'محفوظ کریں',
+      cancel: 'منسوخ کریں',
+      delete: 'حذف کریں',
+      openDialog: 'ڈائیلاگ کھولیں',
+      openMenu: 'مینو کھولیں',
+      menu: ['نام بدلیں', 'نقل بنائیں', 'حذف کریں'],
+      dialogTitle: 'ضرورت سے زیادہ اینیمیٹڈ',
+      dialogText: 'یہ ڈائیلاگ بالکل ویسے ہی آیا جیسے آپ نے کہا تھا۔',
+      close: 'بند کریں',
+      curve:
+        'وقت کے ساتھ اسپرنگ کی پوزیشن۔ یہ نیچے سے شروع ہوتی ہے اور ڈیش والی لکیر پر آ کر رک جاتی ہے۔',
+      settles: (ms, overshoot) =>
+        `${ms} ملی سیکنڈ میں ٹھہر جاتا ہے · ہدف سے ${overshoot}% آگے نکلتا ہے`,
+      instant: 'کوئی حرکت نہیں: ہر چیز سیدھی اپنی منزل پر جا پہنچتی ہے۔',
+      stuck:
+        'یہ اسپرنگ 10 سیکنڈ میں نہیں ٹھہرتا۔ ڈیمپنگ یا سختی بڑھائیں؛ تب تک کمپوننٹس وہی آخری اسپرنگ استعمال کرتے رہیں گے جو ٹھہر گیا تھا۔',
+      reducedMotion:
+        'آپ کا سسٹم کم حرکت چاہتا ہے، اس لیے یہاں کچھ بھی حرکت نہیں کرتا۔ جب سسٹم یہ نہیں چاہے گا تو اسپرنگز، دبانے کے اثرات اور آمد کی اینیمیشنز واپس آ جائیں گی۔',
+      noCornerShape: 'یہ براؤزر ابھی کونوں کی شکلیں نہیں بنا سکتا، اس لیے ہر کونا گول ہی رہتا ہے۔',
+      everywhere: 'کسی بھی ایلیمنٹ پر، اس کے اندر موجود ہر چیز کے لیے:',
+      oneComponent: 'ایک کمپوننٹ پر، Angular میں:',
     },
   },
 

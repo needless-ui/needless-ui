@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'يُفحَص تباين كل زوج ألوان وفق WCAG 2.2 AA عند توليد لوحة الألوان. أما التركيز ووضع الألوان المفروضة وتقليل الحركة فتُعالَج نيابةً عنك.',
       },
       {
-        title: 'رموز تصميم قياسية',
-        text: 'تُحوَّل ملفات الرموز بصيغة W3C DTCG إلى خصائص CSS مخصصة، مع مظاهر فاتحة وداكنة ومتداخلة.',
+        title: 'قابلة للتخصيص أكثر مما يلزم',
+        text: 'النوابض، وتأثيرات الضغط، وحركات الظهور، وأشكال الزوايا ونصف قطرها، والكثافة: <a href="/guides/customization">سمة واحدة</a> للتطبيق كله، أو مُدخَل واحد لكل مكوّن، وكل ذلك مبني على رموز تصميم W3C القياسية.',
       },
       {
         title: 'Angular الحديث',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'القيمة الافتراضية',
       description: 'الوصف',
       kinds: { input: 'مُدخَل', model: 'ثنائي الاتجاه', output: 'مُخرَج', method: 'دالة' },
+      customization: {
+        note: 'مُدخلات التخصيص التي تتركها دون ضبط تتبع أقرب سمة <code>data-nui-*</code>. راجع <a href="/guides/customization">دليل التخصيص</a>.',
+        members: {
+          motion:
+            'النابض الذي يتحرك به: <code>snappy</code> أو <code>bouncy</code> أو <code>jelly</code> أو <code>elastic</code> أو <code>lazy</code> أو <code>mechanical</code> أو <code>none</code>.',
+          spring:
+            'أي نابض تريده بصيغة <code>{ stiffness, damping, mass }</code>، ويُحوَّل إلى CSS أثناء التشغيل. وله الأولوية على <code>motion</code>.',
+          press:
+            'ما يفعله ما دام مضغوطًا: <code>sink</code> أو <code>squish</code> أو <code>pop</code> أو <code>wobble</code> أو <code>rubber</code> أو <code>tilt</code> أو <code>none</code>.',
+          enter:
+            'طريقة ظهوره: <code>zoom</code> أو <code>fade</code> أو <code>drop</code> أو <code>rise</code> أو <code>unfold</code> أو <code>flip</code> أو <code>swing</code> أو <code>slide</code> أو <code>none</code>.',
+          corners:
+            'شكل زواياه: <code>round</code> أو <code>squircle</code> أو <code>bevel</code> أو <code>scoop</code> أو <code>notch</code> أو <code>square</code>.',
+          radius:
+            'حجم زواياه: <code>none</code> أو <code>small</code> أو <code>medium</code> أو <code>large</code> أو <code>full</code>.',
+          density:
+            'المساحة التي يشغلها: <code>compact</code> أو <code>regular</code> أو <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'التفاعل عبر لوحة المفاتيح',
@@ -427,6 +446,86 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'التخصيص',
+        description:
+          'فيزياء النوابض وتأثيرات الضغط وحركات الظهور وأشكال الزوايا ونصف قطرها والكثافة: غيّر حركة Needless UI وإحساسها، في التطبيق كله أو لكل مكوّن.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'لكل مكوّن شخصية يمكنك تغييرها: النابض الذي يتحرك به، وما يفعله الزر تحت إصبعك، وطريقة ظهور مربعات الحوار والقوائم، وشكل زواياها وحجمها، والمساحة التي تشغلها. وكلٌّ منها سمة واحدة تسري على كل ما بداخل عنصر، أو مُدخَل واحد لمكوّن بعينه.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'سمة واحدة لشجرة فرعية كاملة' },
+          {
+            kind: 'p',
+            html: 'ضع سمات <code>data-nui-*</code> على <code>&lt;body&gt;</code> لتشمل التطبيق كله، أو على أي عنصر لتقتصر على جزء منه. والغلبة للسمة الأقرب، لذا يمكن تضمين بعضها داخل بعض. وهي لا تفعل سوى ضبط خصائص CSS مخصصة، لذا تعمل بالطريقة نفسها مع أي إطار عمل أو من دونه.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'مكوّن واحد' },
+          {
+            kind: 'p',
+            html: 'في Angular، تقبل التوجيهات <code>nuiButton</code> و<code>nuiDialog</code> و<code>nuiMenu</code> القيم نفسها على هيئة مُدخلات. أما المُدخلات التي تتركها دون ضبط فتتبع السمات المحيطة بها.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'نوابض مُحوَّلة إلى CSS' },
+          {
+            kind: 'p',
+            html: 'تعتمد الحركة على فيزياء النوابض: الصلابة والتخميد والكتلة بدلًا من المدة والمنحنى. يحلّ مُحوِّل الرموز معادلة كل نابض، ويكتبه في CSS على هيئة الزمن الذي يستغرقه حتى يستقر ودالة توقيت <code>linear()</code>، فتعمل الحركة على المُركِّب (compositor) دون JavaScript. وتأتي ستة نوابض جاهزة على هيئة رموز، من <code>--nui-spring-snappy</code> إلى <code>--nui-spring-mechanical</code>، ويحمل <code>--nui-motion</code> النابض المستخدَم حاليًا.',
+          },
+          {
+            kind: 'p',
+            html: 'وأي نابض آخر لا يتطلب سوى مُدخَل واحد. يُحوِّله Angular أثناء التشغيل بأداة الحل نفسها، ويمنحك <code>springTransition()</code> شيفرة CSS لعناصرك الخاصة.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'أي شيء بين هذا وذاك' },
+          {
+            kind: 'p',
+            html: 'الإعدادات المسبقة مجرد اختصارات. ولأي شيء آخر، اضبط الخصائص المخصصة بنفسك: أي تحويل (transform) لـ <code>--nui-press</code> و<code>--nui-enter</code>، وأي رقم لـ <code>--nui-radius-scale</code> و<code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'إمكانية الوصول' },
+          {
+            kind: 'p',
+            html: 'عندما يطلب النظام تقليل الحركة، تتحول النوابض إلى انتقال فوري، وتتوقف حركة الضغط والظهور. ولا تُصغِّر الكثافة أي عنصر تحكم أبدًا إلى ما دون حجم الهدف البالغ 24 بكسل في WCAG 2.2، ولا يمسّ أي إعداد مسبق الألوان، لذا تبقى كل فحوص التباين صالحة. أما المتصفحات التي لا تدعم <code>corner-shape</code> فترسم كل الزوايا مستديرة.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'مساحة تجريبية للتخصيص',
+      motion: 'الحركة',
+      custom: 'مخصّص',
+      stiffness: 'الصلابة',
+      damping: 'التخميد',
+      mass: 'الكتلة',
+      press: 'الضغط',
+      enter: 'الظهور',
+      corners: 'الزوايا',
+      radius: 'نصف القطر',
+      density: 'الكثافة',
+      surprise: 'فاجئني',
+      reset: 'استعادة الإعدادات الافتراضية',
+      hint: 'اضغط مطولًا على أحد الأزرار ثم أفلته. وافتح مربع الحوار والقائمة لترى كيف يظهران.',
+      save: 'حفظ',
+      cancel: 'إلغاء',
+      delete: 'حذف',
+      openDialog: 'فتح مربع الحوار',
+      openMenu: 'فتح القائمة',
+      menu: ['إعادة تسمية', 'تكرار', 'حذف'],
+      dialogTitle: 'متحرّك أكثر مما يلزم',
+      dialogText: 'ظهر مربع الحوار هذا تمامًا كما طلبت.',
+      close: 'إغلاق',
+      curve: 'موضع النابض بمرور الوقت. يبدأ من الأسفل ثم يستقر عند الخط المتقطع.',
+      settles: (ms, overshoot) => `يستقر خلال ${ms} مللي ثانية · يتجاوز هدفه بنسبة ${overshoot}%`,
+      instant: 'بلا حركة: يقفز كل شيء مباشرةً إلى وجهته.',
+      stuck:
+        'لا يستقر هذا النابض خلال 10 ثوانٍ. زِد التخميد أو الصلابة؛ وإلى أن تفعل، تحتفظ المكونات بآخر نابض استقر.',
+      reducedMotion:
+        'نظامك يطلب تقليل الحركة، لذا لا يتحرك شيء هنا. وستعود النوابض وتأثيرات الضغط وحركات الظهور حين يتوقف عن ذلك.',
+      noCornerShape: 'لا يستطيع هذا المتصفح رسم أشكال الزوايا بعد، لذا تبقى كل الزوايا مستديرة.',
+      everywhere: 'على أي عنصر، لكل ما بداخله:',
+      oneComponent: 'على مكوّن واحد، في Angular:',
     },
   },
 

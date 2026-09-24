@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'Ana duba kowane haɗin launuka biyu da WCAG 2.2 AA a lokacin samar da palette. An riga an kula muku da focus, forced colors da rage motsi.',
       },
       {
-        title: 'Daidaitattun design tokens',
-        text: 'Fayilolin token na W3C DTCG suna zama CSS custom properties, tare da jigon haske, jigon duhu da jigo a cikin jigo.',
+        title: 'Keɓancewa fiye da kima',
+        text: 'Springs, tasirin dannawa, yanayin shigowa, siffa da girman kusurwoyi, da sarari: <a href="/guides/customization">attribute ɗaya</a> ga dukan manhaja, ko input ɗaya ga kowane component, duka a kan daidaitattun design tokens na W3C.',
       },
       {
         title: 'Angular na zamani',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'Na asali',
       description: 'Bayani',
       kinds: { input: 'Input', model: 'Hanya biyu', output: 'Output', method: 'Method' },
+      customization: {
+        note: 'Inputs na keɓancewa da ba ku saita ba suna bin attribute na <code>data-nui-*</code> mafi kusa. Ku duba <a href="/guides/customization">jagorar keɓancewa</a>.',
+        members: {
+          motion:
+            'Spring ɗin da yake motsi da shi: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> ko <code>none</code>.',
+          spring:
+            'Kowane spring, a matsayin <code>{ stiffness, damping, mass }</code>, da ake mayar da shi CSS a lokacin aiki. Yana rinjayar <code>motion</code>.',
+          press:
+            'Abin da yake yi yayin da aka danna shi aka riƙe: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> ko <code>none</code>.',
+          enter:
+            'Yadda yake bayyana: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> ko <code>none</code>.',
+          corners:
+            'Siffar kusurwoyinsa: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> ko <code>square</code>.',
+          radius:
+            'Girman kusurwoyinsa: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> ko <code>full</code>.',
+          density:
+            'Yawan sararin da yake ɗauka: <code>compact</code>, <code>regular</code> ko <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Aiki da allon madannai',
@@ -435,6 +454,89 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Keɓancewa',
+        description:
+          'Physics na spring, tasirin dannawa, shigowa, siffa da girman kusurwoyi, da sarari: ku sauya motsi da yanayin Needless UI a dukan manhajar ko ga component ɗaya.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Kowane component yana da hali da za ku iya canzawa: spring ɗin da yake motsi da shi, abin da maɓalli ke yi a ƙarƙashin yatsanku, yadda dialogs da menus ke bayyana, siffa da girman kusurwoyinsu, da yawan sararin da suke ɗauka. Kowanne daga cikinsu attribute ɗaya ne ga duk abin da ke cikin element, ko input ɗaya ga component guda.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Attribute ɗaya ga dukan reshe' },
+          {
+            kind: 'p',
+            html: 'Ku sa attributes na <code>data-nui-*</code> a kan <code>&lt;body&gt;</code> don dukan manhajar, ko a kan kowane element don wani sashe nata kawai. Mafi kusa ne ke rinjaye, don haka ana iya sa su a cikin juna. CSS custom properties kawai suke saitawa, don haka suna aiki iri ɗaya da kowane framework, ko ba tare da framework ba.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Component ɗaya' },
+          {
+            kind: 'p',
+            html: 'A Angular, <code>nuiButton</code>, <code>nuiDialog</code> da <code>nuiMenu</code> suna karɓar waɗannan ƙimomin a matsayin inputs. Inputs ɗin da ba ku saita ba suna bin attributes da ke kewaye da su.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Springs da ake mayarwa CSS' },
+          {
+            kind: 'p',
+            html: 'Motsi a nan physics ne na spring: tauri, rage girgiza da nauyi, maimakon tsawon lokaci da lanƙwasa. Compiler na tokens yana warware kowane spring, kuma yana rubuta shi a CSS a matsayin lokacin da yake ɗauka kafin ya tsaya da kuma easing na <code>linear()</code>, don haka yana aiki a kan compositor ba tare da JavaScript ba. Springs shida suna zuwa a matsayin tokens, daga <code>--nui-spring-snappy</code> zuwa <code>--nui-spring-mechanical</code>, kuma <code>--nui-motion</code> yana riƙe da wanda ake amfani da shi.',
+          },
+          {
+            kind: 'p',
+            html: 'Duk wani spring kuma input ɗaya kawai yake buƙata. Angular yana mayar da shi CSS a lokacin aiki da mai warware lissafi iri ɗaya, kuma <code>springTransition()</code> yana ba ku CSS ɗin don elements ɗinku.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Duk abin da ke tsakani' },
+          {
+            kind: 'p',
+            html: 'Presets gajerun hanyoyi ne kawai. Don duk wani abu dabam, ku saita custom properties da kanku: kowane transform ga <code>--nui-press</code> da <code>--nui-enter</code>, da kowace lamba ga <code>--nui-radius-scale</code> da <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Sauƙin amfani ga kowa' },
+          {
+            kind: 'p',
+            html: 'Idan tsarin ya nemi rage motsi, springs suna zama nan take, kuma tasirin dannawa da shigowa suna daina motsi. Saitin sarari ba ya taɓa sa wani control ya yi ƙasa da girman wurin taɓawa na pixels 24 na WCAG 2.2, kuma babu preset da ke taɓa launuka, don haka duk gwajin bambancin launi yana nan daram. Burauzoji marasa <code>corner-shape</code> suna zana kowace kusurwa a zagaye.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Filin gwajin keɓancewa',
+      motion: 'Motsi',
+      custom: 'na musamman',
+      stiffness: 'Tauri',
+      damping: 'Rage girgiza',
+      mass: 'Nauyi',
+      press: 'Dannawa',
+      enter: 'Shigowa',
+      corners: 'Siffar kusurwoyi',
+      radius: 'Girman kusurwoyi',
+      density: 'Sarari',
+      surprise: 'Ba ni mamaki',
+      reset: 'Koma zuwa na asali',
+      hint: 'Ku danna maɓalli ku riƙe, sannan ku sake shi. Ku buɗe dialog da menu don ku ga yadda suke isowa.',
+      save: 'Ajiye',
+      cancel: 'Soke',
+      delete: 'Goge',
+      openDialog: 'Buɗe dialog',
+      openMenu: 'Buɗe menu',
+      menu: ['Sake suna', 'Yi kwafi', 'Goge'],
+      dialogTitle: 'Motsi fiye da kima',
+      dialogText: 'Wannan dialog ɗin ya iso daidai yadda kuka umarta.',
+      close: 'Rufe',
+      curve:
+        'Matsayin spring ɗin a tsawon lokaci. Yana farawa daga ƙasa kuma yana tsayawa a kan layi mai tsinke-tsinke.',
+      settles: (ms, overshoot) =>
+        `Yana tsayawa cikin ${ms} ms · yana wuce gona da iri da ${overshoot}%`,
+      instant: 'Babu motsi: komai yana tsallakawa kai tsaye zuwa inda zai je.',
+      stuck:
+        'Wannan spring ɗin ba ya tsayawa cikin daƙiƙa 10. Ku ƙara yawan rage girgiza ko tauri; kafin nan, components suna riƙe da na ƙarshe da ya tsaya.',
+      reducedMotion:
+        'Tsarinku yana son rage motsi, don haka babu abin da ke motsi a nan. Springs, dannawa da shigowa za su dawo idan ya daina nema.',
+      noCornerShape:
+        'Wannan burauza ba za ta iya zana siffofin kusurwoyi ba tukuna, don haka kowace kusurwa tana zama a zagaye.',
+      everywhere: 'A kan kowane element, don duk abin da ke cikinsa:',
+      oneComponent: 'A kan component ɗaya, a Angular:',
     },
   },
 

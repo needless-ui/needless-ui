@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: 'প্যালেট তৈরির সময় প্রতিটি রঙের জোড়া WCAG 2.2 AA অনুযায়ী যাচাই করা হয়। ফোকাস, ফোর্সড কালার্স ও রিডিউসড মোশন সামলানো হয় আপনাআপনিই।',
       },
       {
-        title: 'প্রমিত ডিজাইন টোকেন',
-        text: 'W3C DTCG টোকেন ফাইল কম্পাইল হয়ে CSS কাস্টম প্রপার্টি হয়, সঙ্গে থাকে হালকা, গাঢ় ও নেস্টেড থিম।',
+        title: 'অকারণ এতটা কাস্টমাইজযোগ্য',
+        text: 'স্প্রিং, চাপ দেওয়ার ইফেক্ট, প্রবেশের অ্যানিমেশন, কোণের আকৃতি, রেডিয়াস ও ডেনসিটি: পুরো অ্যাপের জন্য <a href="/guides/customization">একটি অ্যাট্রিবিউট</a>, অথবা প্রতিটি কম্পোনেন্টের জন্য একটি ইনপুট, প্রমিত W3C ডিজাইন টোকেনের ওপর।',
       },
       {
         title: 'আধুনিক Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: 'ডিফল্ট',
       description: 'বিবরণ',
       kinds: { input: 'ইনপুট', model: 'দ্বিমুখী', output: 'আউটপুট', method: 'মেথড' },
+      customization: {
+        note: 'যে কাস্টমাইজেশন ইনপুট আপনি সেট করেন না, সেগুলো সবচেয়ে কাছের <code>data-nui-*</code> অ্যাট্রিবিউট থেকে ভ্যালু নেয়। <a href="/guides/customization">কাস্টমাইজেশন গাইড</a> দেখুন।',
+        members: {
+          motion:
+            'যে স্প্রিং অনুযায়ী এটি নড়াচড়া করে: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> বা <code>none</code>।',
+          spring:
+            'যেকোনো স্প্রিং, <code>{ stiffness, damping, mass }</code> হিসেবে, যা রানটাইমে CSS-এ কম্পাইল হয়। এটি <code>motion</code>-কে ওভাররাইড করে।',
+          press:
+            'চেপে ধরে রাখলে এটি কী করে: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> বা <code>none</code>।',
+          enter:
+            'এটি কীভাবে হাজির হয়: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> বা <code>none</code>।',
+          corners:
+            'এর কোণগুলোর আকৃতি: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> বা <code>square</code>।',
+          radius:
+            'এর কোণগুলো কত বড়: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> বা <code>full</code>।',
+          density:
+            'এটি কতটা জায়গা নেয়: <code>compact</code>, <code>regular</code> বা <code>roomy</code>।',
+        },
+      },
     },
     a11y: {
       keyboard: 'কীবোর্ড দিয়ে ব্যবহার',
@@ -421,6 +440,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'কাস্টমাইজেশন',
+        description:
+          'স্প্রিং ফিজিক্স, চাপ দেওয়ার ইফেক্ট, প্রবেশের অ্যানিমেশন, কোণের আকৃতি, রেডিয়াস ও ডেনসিটি: পুরো অ্যাপে বা প্রতিটি কম্পোনেন্টে Needless UI-এর চলন ও অনুভূতি বদলান।',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'প্রতিটি কম্পোনেন্টের একটা মেজাজ আছে, যা আপনি বদলাতে পারেন: কোন স্প্রিং অনুযায়ী সেটি নড়ে, আপনার আঙুলের নিচে বাটন কী করে, ডায়ালগ ও মেনু কীভাবে হাজির হয়, তাদের কোণের আকৃতি ও সাইজ, আর তারা কতটা জায়গা নেয়। প্রতিটি সেটিং হয় একটি অ্যাট্রিবিউট, যা কোনো এলিমেন্টের ভেতরের সবকিছুতে খাটে, নয়তো একটি ইনপুট, যা শুধু একটি কম্পোনেন্টে খাটে।',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'একটি অ্যাট্রিবিউট, পুরো সাবট্রি' },
+          {
+            kind: 'p',
+            html: 'পুরো অ্যাপের জন্য <code>data-nui-*</code> অ্যাট্রিবিউটগুলো <code>&lt;body&gt;</code>-এ দিন, অথবা কোনো একটি অংশের জন্য যেকোনো এলিমেন্টে। সবচেয়ে কাছেরটিই কার্যকর হয়, তাই এগুলো নেস্ট করা যায়। এগুলো শুধু CSS কাস্টম প্রপার্টি সেট করে, তাই যেকোনো ফ্রেমওয়ার্কে, এমনকি ফ্রেমওয়ার্ক ছাড়াও, একইভাবে কাজ করে।',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'শুধু একটি কম্পোনেন্ট' },
+          {
+            kind: 'p',
+            html: 'Angular-এ <code>nuiButton</code>, <code>nuiDialog</code> ও <code>nuiMenu</code> একই ভ্যালুগুলো ইনপুট হিসেবে নেয়। যে ইনপুট আপনি সেট করেন না, সেগুলো চারপাশের অ্যাট্রিবিউট থেকে ভ্যালু নেয়।',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'CSS-এ কম্পাইল করা স্প্রিং' },
+          {
+            kind: 'p',
+            html: 'গতি মানে স্প্রিং ফিজিক্স: সময়কাল আর কার্ভের বদলে দৃঢ়তা, অবমন্দন ও ভর। টোকেন কম্পাইলার প্রতিটি স্প্রিং সমাধান করে সেটিকে CSS-এ লেখে: থিতু হতে যত সময় লাগে, আর একটি <code>linear()</code> ইজিং। তাই এটি JavaScript ছাড়াই কম্পোজিটরে চলে। ছয়টি স্প্রিং টোকেন হিসেবে আসে, <code>--nui-spring-snappy</code> থেকে <code>--nui-spring-mechanical</code> পর্যন্ত, আর যেটি ব্যবহার হচ্ছে সেটি থাকে <code>--nui-motion</code>-এ।',
+          },
+          {
+            kind: 'p',
+            html: 'অন্য যেকোনো স্প্রিং মাত্র একটি ইনপুট দূরে। Angular একই সলভার দিয়ে রানটাইমে সেটি কম্পাইল করে, আর <code>springTransition()</code> আপনার নিজের এলিমেন্টের জন্য CSS দেয়।',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'মাঝামাঝি যেকোনো কিছু' },
+          {
+            kind: 'p',
+            html: 'প্রিসেটগুলো শুধু শর্টকাট। অন্য যেকোনো কিছুর জন্য কাস্টম প্রপার্টি নিজেই সেট করুন: <code>--nui-press</code> ও <code>--nui-enter</code>-এর জন্য যেকোনো ট্রান্সফর্ম, <code>--nui-radius-scale</code> ও <code>--nui-density</code>-এর জন্য যেকোনো সংখ্যা।',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'অ্যাক্সেসিবিলিটি' },
+          {
+            kind: 'p',
+            html: 'সিস্টেম কম অ্যানিমেশন চাইলে স্প্রিং মুহূর্তেই শেষ হয়ে যায়, আর চাপ ও প্রবেশের ইফেক্ট নড়াচড়া থামিয়ে দেয়। ডেনসিটি কোনো কন্ট্রোলকে কখনো WCAG 2.2-এর 24px টার্গেট সাইজের চেয়ে ছোট করে না, আর কোনো প্রিসেট রঙে হাত দেয় না, তাই কনট্রাস্টের প্রতিটি যাচাই আগের মতোই খাটে। যেসব ব্রাউজার <code>corner-shape</code> সাপোর্ট করে না, সেগুলো সব কোণ গোল করে আঁকে।',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'কাস্টমাইজেশন প্লেগ্রাউন্ড',
+      motion: 'গতি',
+      custom: 'কাস্টম',
+      stiffness: 'দৃঢ়তা',
+      damping: 'অবমন্দন',
+      mass: 'ভর',
+      press: 'চাপ দিলে',
+      enter: 'প্রবেশ',
+      corners: 'কোণ',
+      radius: 'রেডিয়াস',
+      density: 'ডেনসিটি',
+      surprise: 'চমকে দিন',
+      reset: 'ডিফল্টে ফিরুন',
+      hint: 'একটি বাটন চেপে ধরে রাখুন, তারপর ছেড়ে দিন। ডায়ালগ আর মেনু খুলে দেখুন সেগুলো কীভাবে হাজির হয়।',
+      save: 'সংরক্ষণ করুন',
+      cancel: 'বাতিল করুন',
+      delete: 'মুছে ফেলুন',
+      openDialog: 'ডায়ালগ খুলুন',
+      openMenu: 'মেনু খুলুন',
+      menu: ['নাম বদলান', 'ডুপ্লিকেট করুন', 'মুছে ফেলুন'],
+      dialogTitle: 'অকারণ অ্যানিমেটেড',
+      dialogText: 'ঠিক যেভাবে বলেছিলেন, এই ডায়ালগটি সেভাবেই এসেছে।',
+      close: 'বন্ধ করুন',
+      curve:
+        'সময়ের সঙ্গে স্প্রিংয়ের অবস্থান। এটি নিচ থেকে শুরু হয় এবং ড্যাশ দেওয়া রেখায় এসে থিতু হয়।',
+      settles: (ms, overshoot) => `${ms} ms-এ থিতু হয় · ${overshoot}% ওভারশুট`,
+      instant: 'কোনো গতি নেই: সবকিছু সরাসরি গন্তব্যে লাফিয়ে যায়।',
+      stuck:
+        'এই স্প্রিং 10 সেকেন্ডের মধ্যে থিতু হয় না। অবমন্দন বা দৃঢ়তা বাড়ান; ততক্ষণ কম্পোনেন্টগুলো সর্বশেষ থিতু হওয়া স্প্রিংটিই ব্যবহার করবে।',
+      reducedMotion:
+        'আপনার সিস্টেম কম অ্যানিমেশন চায়, তাই এখানে কিছুই নড়ে না। সেটিং বন্ধ করলে স্প্রিং, চাপ ও প্রবেশের ইফেক্ট ফিরে আসবে।',
+      noCornerShape: 'এই ব্রাউজার এখনো কোণের আকৃতি আঁকতে পারে না, তাই সব কোণ গোলই থাকে।',
+      everywhere: 'যেকোনো এলিমেন্টে, তার ভেতরের সবকিছুর জন্য:',
+      oneComponent: 'Angular-এ, একটি কম্পোনেন্টে:',
     },
   },
 

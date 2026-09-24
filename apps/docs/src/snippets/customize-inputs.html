@@ -1,0 +1,6 @@
+<button nuiButton press="rubber" motion="elastic">Boing</button>
+
+<dialog nuiDialog [(open)]="editing" enter="flip" corners="squircle">…</dialog>
+
+<button nuiButton [nuiMenuTrigger]="actions">Actions</button>
+<div nuiMenu #actions="ngMenu" enter="unfold" motion="mechanical">…</div>

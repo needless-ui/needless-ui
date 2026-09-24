@@ -64,8 +64,8 @@ export const messages: Messages = {
         text: 'Al generar la paleta, cada par de colores se comprueba según las WCAG 2.2 AA. El foco, los colores forzados y el movimiento reducido ya vienen resueltos.',
       },
       {
-        title: 'Tokens de diseño estándar',
-        text: 'Los archivos de tokens en formato W3C DTCG se compilan en propiedades personalizadas de CSS, con temas claro, oscuro y anidados.',
+        title: 'Innecesariamente personalizable',
+        text: 'Resortes, efectos al pulsar, animaciones de entrada, formas de esquina, radio y densidad: <a href="/guides/customization">un atributo</a> para toda la aplicación o un input por componente, sobre tokens de diseño W3C estándar.',
       },
       {
         title: 'Angular moderno',
@@ -104,6 +104,25 @@ export const messages: Messages = {
       default: 'Predeterminado',
       description: 'Descripción',
       kinds: { input: 'Input', model: 'Bidireccional', output: 'Output', method: 'Método' },
+      customization: {
+        note: 'Los inputs de personalización que no definas siguen el atributo <code>data-nui-*</code> más cercano. Consulta la <a href="/guides/customization">guía de personalización</a>.',
+        members: {
+          motion:
+            'El resorte con el que se mueve: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code> o <code>none</code>.',
+          spring:
+            'Cualquier resorte, en forma de <code>{ stiffness, damping, mass }</code>, compilado a CSS en tiempo de ejecución. Tiene prioridad sobre <code>motion</code>.',
+          press:
+            'Qué hace mientras se mantiene pulsado: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code> o <code>none</code>.',
+          enter:
+            'Cómo entra en escena: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code> o <code>none</code>.',
+          corners:
+            'La forma de sus esquinas: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code> o <code>square</code>.',
+          radius:
+            'El tamaño de sus esquinas: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code> o <code>full</code>.',
+          density:
+            'Cuánto espacio ocupa: <code>compact</code>, <code>regular</code> o <code>roomy</code>.',
+        },
+      },
     },
     a11y: {
       keyboard: 'Interacción con el teclado',
@@ -437,6 +456,88 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: 'Personalización',
+        description:
+          'Física de resortes, efectos al pulsar, animaciones de entrada, formas de esquina, radio y densidad: ajusta Needless UI en toda la aplicación o por componente.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Cada componente tiene una personalidad que puedes cambiar: el resorte con el que se mueve, lo que hace un botón bajo tu dedo, cómo entran en escena los diálogos y los menús, la forma y el tamaño de sus esquinas, y cuánto espacio ocupa. Cada rasgo es un atributo para todo lo que hay dentro de un elemento, o un input para un solo componente.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: 'Un atributo, todo un subárbol' },
+          {
+            kind: 'p',
+            html: 'Pon los atributos <code>data-nui-*</code> en <code>&lt;body&gt;</code> para toda la aplicación, o en cualquier elemento para una parte de ella. Gana el más cercano, por lo que se pueden anidar. Solo definen propiedades personalizadas de CSS, así que funcionan igual con cualquier framework, o sin ninguno.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: 'Un solo componente' },
+          {
+            kind: 'p',
+            html: 'En Angular, <code>nuiButton</code>, <code>nuiDialog</code> y <code>nuiMenu</code> aceptan los mismos valores como inputs. Los inputs que no definas toman el valor de los atributos que rodean al componente.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'Resortes compilados a CSS' },
+          {
+            kind: 'p',
+            html: 'El movimiento es física de resortes: rigidez, amortiguamiento y masa en lugar de una duración y una curva. El compilador de tokens resuelve cada resorte y lo escribe en CSS como el tiempo que tarda en estabilizarse y una función de easing <code>linear()</code>, así que se ejecuta en el compositor sin JavaScript. Seis resortes vienen incluidos como tokens, de <code>--nui-spring-snappy</code> a <code>--nui-spring-mechanical</code>, y <code>--nui-motion</code> contiene el que está en uso.',
+          },
+          {
+            kind: 'p',
+            html: 'Cualquier otro resorte está a un input de distancia. Angular lo compila en tiempo de ejecución con el mismo solucionador, y <code>springTransition()</code> te da el CSS para tus propios elementos.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: 'Cualquier punto intermedio' },
+          {
+            kind: 'p',
+            html: 'Los valores predefinidos son atajos. Para todo lo demás, define tú mismo las propiedades personalizadas: cualquier transformación para <code>--nui-press</code> y <code>--nui-enter</code>, cualquier número para <code>--nui-radius-scale</code> y <code>--nui-density</code>.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: 'Accesibilidad' },
+          {
+            kind: 'p',
+            html: 'Cuando el sistema pide reducir el movimiento, los resortes se vuelven instantáneos, y ni los efectos al pulsar ni las animaciones de entrada se mueven. La densidad nunca deja un control por debajo del tamaño mínimo de objetivo de 24 px de las WCAG 2.2, y ningún valor predefinido toca los colores, así que todas las comprobaciones de contraste se siguen cumpliendo. Los navegadores sin <code>corner-shape</code> dibujan todas las esquinas redondeadas.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: 'Zona de pruebas de personalización',
+      motion: 'Movimiento',
+      custom: 'personalizado',
+      stiffness: 'Rigidez',
+      damping: 'Amortiguamiento',
+      mass: 'Masa',
+      press: 'Pulsación',
+      enter: 'Entrada',
+      corners: 'Esquinas',
+      radius: 'Radio',
+      density: 'Densidad',
+      surprise: 'Sorpréndeme',
+      reset: 'Restablecer',
+      hint: 'Mantén pulsado un botón y luego suéltalo. Abre el diálogo y el menú para ver cómo entran en escena.',
+      save: 'Guardar',
+      cancel: 'Cancelar',
+      delete: 'Eliminar',
+      openDialog: 'Abrir diálogo',
+      openMenu: 'Abrir menú',
+      menu: ['Cambiar nombre', 'Duplicar', 'Eliminar'],
+      dialogTitle: 'Innecesariamente animado',
+      dialogText: 'Este diálogo apareció exactamente como le indicaste.',
+      close: 'Cerrar',
+      curve:
+        'La posición del resorte a lo largo del tiempo. Empieza abajo y se detiene en la línea discontinua.',
+      settles: (ms, overshoot) => `Se estabiliza en ${ms} ms · sobrepasa un ${overshoot} %`,
+      instant: 'Sin movimiento: todo salta directamente a su destino.',
+      stuck:
+        'Este resorte no se estabiliza en menos de 10 segundos. Aumenta el amortiguamiento o la rigidez; mientras tanto, los componentes conservan el último que sí lo hizo.',
+      reducedMotion:
+        'Tu sistema pide reducir el movimiento, así que aquí nada se mueve. Los resortes, los efectos al pulsar y las animaciones de entrada vuelven cuando deja de pedirlo.',
+      noCornerShape:
+        'Este navegador aún no puede dibujar formas de esquina, así que todas las esquinas siguen redondeadas.',
+      everywhere: 'En cualquier elemento, para todo lo que contiene:',
+      oneComponent: 'En un solo componente, con Angular:',
     },
   },
 

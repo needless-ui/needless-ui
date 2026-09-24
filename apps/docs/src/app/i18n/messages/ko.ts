@@ -63,8 +63,8 @@ export const messages: Messages = {
         text: '팔레트를 생성할 때 모든 색상 조합을 WCAG 2.2 AA 기준으로 검사합니다. 포커스, 강제 색상 모드, 동작 줄이기 설정도 알아서 처리됩니다.',
       },
       {
-        title: '표준 디자인 토큰',
-        text: 'W3C DTCG 형식의 토큰 파일을 CSS 사용자 지정 속성으로 컴파일하며, 라이트·다크 테마와 중첩 테마를 지원합니다.',
+        title: '쓸데없이 세밀한 커스터마이징',
+        text: '스프링, 누르기 효과, 등장 효과, 모서리 모양과 반경, 밀도. 앱 전체는 <a href="/guides/customization">속성 하나</a>로, 개별 컴포넌트는 입력 하나로 바꿀 수 있으며, 모두 표준 W3C 디자인 토큰을 기반으로 합니다.',
       },
       {
         title: '모던 Angular',
@@ -103,6 +103,25 @@ export const messages: Messages = {
       default: '기본값',
       description: '설명',
       kinds: { input: '입력', model: '양방향', output: '출력', method: '메서드' },
+      customization: {
+        note: '설정하지 않은 커스터마이징 입력은 가장 가까운 <code>data-nui-*</code> 속성을 따릅니다. 자세한 내용은 <a href="/guides/customization">커스터마이징 가이드</a>를 참고하시기 바랍니다.',
+        members: {
+          motion:
+            '움직일 때 사용하는 스프링: <code>snappy</code>, <code>bouncy</code>, <code>jelly</code>, <code>elastic</code>, <code>lazy</code>, <code>mechanical</code>, <code>none</code> 중 하나.',
+          spring:
+            '임의의 스프링을 <code>{ stiffness, damping, mass }</code> 형식으로 지정하며, 런타임에 CSS로 컴파일됩니다. <code>motion</code>보다 우선합니다.',
+          press:
+            '누르고 있는 동안의 동작: <code>sink</code>, <code>squish</code>, <code>pop</code>, <code>wobble</code>, <code>rubber</code>, <code>tilt</code>, <code>none</code> 중 하나.',
+          enter:
+            '등장하는 방식: <code>zoom</code>, <code>fade</code>, <code>drop</code>, <code>rise</code>, <code>unfold</code>, <code>flip</code>, <code>swing</code>, <code>slide</code>, <code>none</code> 중 하나.',
+          corners:
+            '모서리 모양: <code>round</code>, <code>squircle</code>, <code>bevel</code>, <code>scoop</code>, <code>notch</code>, <code>square</code> 중 하나.',
+          radius:
+            '모서리 크기: <code>none</code>, <code>small</code>, <code>medium</code>, <code>large</code>, <code>full</code> 중 하나.',
+          density:
+            '차지하는 공간: <code>compact</code>, <code>regular</code>, <code>roomy</code> 중 하나.',
+        },
+      },
     },
     a11y: {
       keyboard: '키보드 상호작용',
@@ -427,6 +446,87 @@ export const messages: Messages = {
           { kind: 'code', file: 'snippets/palette.sh' },
         ],
       },
+      customization: {
+        title: '커스터마이징',
+        description:
+          '스프링 물리, 누르기 효과, 등장 효과, 모서리 모양과 반경, 밀도를 조절해 Needless UI의 움직임과 느낌을 앱 전체 또는 컴포넌트별로 바꿀 수 있습니다.',
+        blocks: [
+          {
+            kind: 'p',
+            html: '모든 컴포넌트에는 바꿀 수 있는 개성이 있습니다. 움직임을 결정하는 스프링, 손가락으로 눌렀을 때 버튼의 반응, 다이얼로그와 메뉴가 등장하는 방식, 모서리의 모양과 크기, 그리고 차지하는 공간입니다. 각각 속성 하나로 요소 안의 모든 것에, 또는 입력 하나로 컴포넌트 하나에 적용할 수 있습니다.',
+          },
+          { kind: 'demo', demo: 'playground' },
+          { kind: 'h2', id: 'attributes', text: '속성 하나로 하위 트리 전체에' },
+          {
+            kind: 'p',
+            html: '<code>data-nui-*</code> 속성을 <code>&lt;body&gt;</code>에 지정하면 앱 전체에, 다른 요소에 지정하면 그 부분에만 적용됩니다. 가장 가까운 속성이 우선하므로 중첩할 수 있습니다. 이 속성들은 CSS 사용자 지정 속성만 설정하므로 어떤 프레임워크에서든, 프레임워크 없이도 똑같이 동작합니다.',
+          },
+          { kind: 'code', file: 'snippets/customize.html' },
+          { kind: 'h2', id: 'inputs', text: '컴포넌트 하나에' },
+          {
+            kind: 'p',
+            html: 'Angular에서는 <code>nuiButton</code>, <code>nuiDialog</code>, <code>nuiMenu</code>가 같은 값을 입력으로 받습니다. 설정하지 않은 입력은 주변 속성을 따릅니다.',
+          },
+          { kind: 'code', file: 'snippets/customize-inputs.html' },
+          { kind: 'h2', id: 'springs', text: 'CSS로 컴파일되는 스프링' },
+          {
+            kind: 'p',
+            html: '모션은 스프링 물리로 정의합니다. 지속 시간과 곡선 대신 강성, 감쇠, 질량을 사용합니다. 토큰 컴파일러가 각 스프링의 방정식을 풀어 멈출 때까지 걸리는 시간과 <code>linear()</code> 이징으로 CSS에 기록하므로, JavaScript 없이 컴포지터에서 실행됩니다. <code>--nui-spring-snappy</code>부터 <code>--nui-spring-mechanical</code>까지 여섯 가지 스프링이 토큰으로 제공되며, 사용 중인 스프링은 <code>--nui-motion</code>에 담깁니다.',
+          },
+          {
+            kind: 'p',
+            html: '다른 스프링도 입력 하나면 됩니다. Angular가 같은 솔버로 런타임에 컴파일하며, <code>springTransition()</code>을 사용하면 직접 만든 요소에 쓸 CSS를 얻을 수 있습니다.',
+          },
+          { kind: 'code', file: 'snippets/customize-spring.ts' },
+          { kind: 'h2', id: 'css', text: '그 사이의 모든 값' },
+          {
+            kind: 'p',
+            html: '프리셋은 지름길일 뿐입니다. 그 밖의 값은 사용자 지정 속성을 직접 설정하면 됩니다. <code>--nui-press</code>와 <code>--nui-enter</code>에는 어떤 transform이든, <code>--nui-radius-scale</code>과 <code>--nui-density</code>에는 어떤 숫자든 지정할 수 있습니다.',
+          },
+          { kind: 'code', file: 'snippets/customize.css' },
+          { kind: 'h2', id: 'accessibility', text: '접근성' },
+          {
+            kind: 'p',
+            html: '시스템에서 동작 줄이기를 요청하면 스프링은 즉시 끝나고, 누르기와 등장 효과도 움직이지 않습니다. 밀도를 어떻게 설정해도 컨트롤이 WCAG 2.2의 타깃 크기인 24px보다 작아지지 않으며, 어떤 프리셋도 색상을 건드리지 않으므로 모든 명도 대비 검사가 그대로 유효합니다. <code>corner-shape</code>를 지원하지 않는 브라우저에서는 모든 모서리가 둥글게 그려집니다.',
+          },
+        ],
+      },
+    },
+    playground: {
+      label: '커스터마이징 플레이그라운드',
+      motion: '모션',
+      custom: '사용자 지정',
+      stiffness: '강성',
+      damping: '감쇠',
+      mass: '질량',
+      press: '누르기',
+      enter: '등장',
+      corners: '모서리 모양',
+      radius: '모서리 반경',
+      density: '밀도',
+      surprise: '운에 맡기기',
+      reset: '기본값으로 되돌리기',
+      hint: '버튼을 길게 눌렀다가 떼 보십시오. 다이얼로그와 메뉴를 열면 등장하는 모습을 볼 수 있습니다.',
+      save: '저장',
+      cancel: '취소',
+      delete: '삭제',
+      openDialog: '다이얼로그 열기',
+      openMenu: '메뉴 열기',
+      menu: ['이름 바꾸기', '복제', '삭제'],
+      dialogTitle: '쓸데없이 공들인 애니메이션',
+      dialogText: '이 다이얼로그는 지정한 방식 그대로 등장했습니다.',
+      close: '닫기',
+      curve: '시간에 따른 스프링의 위치입니다. 아래에서 출발해 점선에서 멈춥니다.',
+      settles: (ms, overshoot) => `${ms}ms 만에 정지 · 오버슈트 ${overshoot}%`,
+      instant: '모션 없음: 모든 것이 목적지로 곧바로 이동합니다.',
+      stuck:
+        '이 스프링은 10초 안에 멈추지 않습니다. 감쇠나 강성을 높이십시오. 그동안 컴포넌트는 마지막으로 제대로 멈췄던 스프링을 계속 사용합니다.',
+      reducedMotion:
+        '시스템에서 동작 줄이기를 요청하여 여기서는 아무것도 움직이지 않습니다. 이 설정을 끄면 스프링, 누르기, 등장 효과가 다시 나타납니다.',
+      noCornerShape:
+        '이 브라우저는 아직 모서리 모양을 그릴 수 없어 모든 모서리가 둥근 상태로 유지됩니다.',
+      everywhere: '어떤 요소에든 지정해 그 안의 모든 것에 적용:',
+      oneComponent: 'Angular에서 컴포넌트 하나에만 적용:',
     },
   },
 
