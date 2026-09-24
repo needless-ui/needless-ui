@@ -1,0 +1,224 @@
+/*
+ * Command palette: see specs/command.md for the contract. Builds on dialog.css
+ * and select.css (the list, its options and the empty and loading rows).
+ *
+ *   <dialog class="nui-dialog nui-command" aria-label="Command palette" open>
+ *     <div class="nui-command-field">
+ *       <button class="nui-command-back" aria-label="Back"></button>
+ *       <span class="nui-command-page">Theme</span>
+ *       <input class="nui-command-input" role="combobox" aria-expanded="true" …>
+ *     </div>
+ *     <div class="nui-select-list" role="listbox">
+ *       <div class="nui-select-option" role="option" data-active>
+ *         <span class="nui-select-option-text">…</span>
+ *         <span class="nui-command-shortcut"><kbd>⌘</kbd><kbd>K</kbd></span>
+ *         <span class="nui-command-more"></span>
+ *       </div>
+ *     </div>
+ *     <div class="nui-command-hints"><span><kbd>↵</kbd> Choose</span>…</div>
+ *   </dialog>
+ *
+ * It sits high on the screen, not centered, so it doesn't jump as results come
+ * and go.
+ */
+@layer nui.components {
+  .nui-command {
+    --_width: 40rem;
+    --_icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='7' cy='7' r='4.5' fill='none' stroke='black' stroke-width='1.6'/%3E%3Cpath d='M10.5 10.5 14 14' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+    --_icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 4l4 4-4 4' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    margin-block: min(12dvh, 8rem) auto;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .nui-command[open] {
+    gap: 0;
+  }
+
+  .nui-command-field {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-2);
+    padding: calc(var(--nui-space-3) * var(--nui-density)) var(--nui-space-4);
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  }
+
+  .nui-command-field::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    background-color: var(--nui-color-text-muted);
+    mask: var(--_icon-search) center / contain no-repeat;
+  }
+
+  /* On a page, the back button stands where the search icon was. */
+  .nui-command-field:has(.nui-command-back)::before {
+    display: none;
+  }
+
+  .nui-command-input {
+    flex: 1;
+    min-inline-size: 0;
+    block-size: 2rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: var(--nui-font-size-md);
+    /* Typed text keeps its own direction and lines up with the page (see select.css). */
+    unicode-bidi: plaintext;
+    text-align: left;
+  }
+
+  .nui-command-input:dir(rtl) {
+    text-align: right;
+  }
+
+  .nui-command-input::placeholder {
+    color: var(--nui-color-text-muted);
+    opacity: 1;
+  }
+
+  .nui-command-back {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    margin: 0;
+    margin-inline-start: calc(-1 * var(--nui-space-1));
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-command-back::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-chevron) center / contain no-repeat;
+    rotate: 180deg;
+  }
+
+  .nui-command-back:dir(rtl)::before {
+    rotate: none;
+  }
+
+  @media (hover: hover) {
+    .nui-command-back:hover {
+      background-color: var(--nui-color-neutral-soft);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-command-back:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 0;
+  }
+
+  .nui-command-page {
+    flex-shrink: 0;
+    max-inline-size: 40%;
+    padding: 0.125rem var(--nui-space-2);
+    overflow: hidden;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-neutral-soft);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The list: inset from the edges, as tall as there's room for. */
+  .nui-command .nui-select-list {
+    max-block-size: min(24rem, 60dvh);
+    margin: calc(var(--nui-space-2) * var(--nui-density));
+  }
+
+  .nui-command .nui-select-option {
+    min-block-size: max(24px, var(--nui-control-height-md) * var(--nui-density));
+  }
+
+  .nui-command-shortcut {
+    display: flex;
+    flex-shrink: 0;
+    gap: 0.25rem;
+    margin-inline-start: auto;
+  }
+
+  .nui-command-more {
+    flex-shrink: 0;
+    inline-size: 1rem;
+    block-size: 1rem;
+    margin-inline-start: auto;
+    background-color: currentColor;
+    opacity: 0.6;
+    mask: var(--_icon-chevron) center / contain no-repeat;
+  }
+
+  .nui-command-shortcut + .nui-command-more {
+    margin-inline-start: 0;
+  }
+
+  .nui-command-more:dir(rtl) {
+    rotate: 180deg;
+  }
+
+  .nui-command kbd {
+    display: inline-grid;
+    place-items: center;
+    box-sizing: border-box;
+    min-inline-size: 1.375rem;
+    block-size: 1.375rem;
+    padding: 0 0.25rem;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-block-end-width: 2px;
+    border-radius: 0.25rem;
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-muted);
+    font: inherit;
+    font-size: var(--nui-font-size-xs);
+    line-height: 1;
+  }
+
+  .nui-select-option[data-active] kbd {
+    border-color: currentColor;
+    background-color: transparent;
+    color: inherit;
+  }
+
+  .nui-command-hints {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-2) var(--nui-space-4);
+    padding: var(--nui-space-2) var(--nui-space-4);
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .nui-command-hints span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  @media (forced-colors: active) {
+    .nui-command-field::before,
+    .nui-command-back::before,
+    .nui-command-more {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

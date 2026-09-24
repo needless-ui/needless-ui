@@ -13,3 +13,6 @@
 @import './components/breadcrumbs.css';
 @import './components/empty.css';
 @import './components/number-field.css';
+@import './components/popover.css';
+@import './components/select.css';
+@import './components/command.css';

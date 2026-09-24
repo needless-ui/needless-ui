@@ -54,6 +54,8 @@ describe('@needless-ui/css bundle', () => {
 
   it('only references tokens that exist', async () => {
     const defined = new Set([...css.matchAll(/(--nui-[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+    // Set inline at runtime: nuiFollow() writes where the anchor's center is.
+    defined.add('--nui-anchor-center');
     for (const file of await readdir(COMPONENTS)) {
       const source = await readFile(new URL(file, COMPONENTS), 'utf8');
       const used = [...source.matchAll(/var\((--nui-[a-z0-9-]+)/g)].map((m) => m[1]);

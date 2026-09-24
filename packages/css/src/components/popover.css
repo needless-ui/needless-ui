@@ -1,0 +1,143 @@
+/*
+ * Popover and hovercard: see specs/popover.md for the contract.
+ *
+ *   <button popovertarget="info">Details</button>
+ *   <div class="nui-popover" id="info" popover="auto" role="dialog" data-arrow>…</div>
+ *
+ *   <a aria-describedby="card">@ada</a>
+ *   <div class="nui-hovercard" id="card" popover="manual" role="tooltip">…</div>
+ *
+ * Native popovers in the top layer. The script places them next to their anchor
+ * and sets data-side (the side of the anchor they're on) and --nui-anchor-center
+ * (where the anchor's middle falls along the facing edge), which aims the arrow.
+ * They arrive from --nui-enter on the --nui-motion spring and leave with a quick fade.
+ */
+@layer nui.components {
+  .nui-popover,
+  .nui-hovercard {
+    --_enter: var(--nui-enter);
+    --_arrow: 0.625rem;
+
+    position: fixed;
+    inset: auto;
+    box-sizing: border-box;
+    max-inline-size: min(24rem, 100vw - 2 * var(--nui-space-2));
+    margin: 0;
+    padding: calc(var(--nui-space-4) * var(--nui-density));
+    overflow: auto;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: min(var(--nui-radius-lg) * var(--nui-radius-scale), 1.25rem);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-text-default);
+    box-shadow: var(--nui-shadow-md);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+    transform-origin: top;
+    opacity: 0;
+    transition-property: opacity, overlay, display;
+    transition-duration: var(--nui-duration-fast);
+    transition-timing-function: var(--nui-easing-exit);
+    transition-behavior: allow-discrete;
+  }
+
+  .nui-hovercard {
+    max-inline-size: min(20rem, 100vw - 2 * var(--nui-space-2));
+    padding: calc(var(--nui-space-3) * var(--nui-density));
+  }
+
+  .nui-popover:popover-open,
+  .nui-hovercard:popover-open {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--nui-duration-fast) var(--nui-easing-enter),
+      transform var(--nui-motion),
+      overlay var(--nui-duration-fast),
+      display var(--nui-duration-fast);
+    transition-behavior: allow-discrete;
+  }
+
+  @starting-style {
+    .nui-popover:popover-open,
+    .nui-hovercard:popover-open {
+      opacity: var(--nui-enter-opacity);
+      transform: var(--_enter);
+    }
+  }
+
+  /* Grow out of the anchor's side. */
+  :is(.nui-popover, .nui-hovercard)[data-side='top'] {
+    transform-origin: bottom;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-side='left'] {
+    transform-origin: right;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-side='right'] {
+    transform-origin: left;
+  }
+
+  /*
+   * The arrow, a rotated square on the edge that faces the anchor. It needs overflow.
+   * Physical properties on purpose: data-side and --nui-anchor-center are physical.
+   */
+  :is(.nui-popover, .nui-hovercard)[data-arrow] {
+    overflow: visible;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-arrow]::before {
+    content: '';
+    position: absolute;
+    box-sizing: border-box;
+    inline-size: var(--_arrow);
+    block-size: var(--_arrow);
+    border: inherit;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    background-color: inherit;
+    rotate: 45deg;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-arrow][data-side='bottom']::before {
+    top: calc(var(--_arrow) / -2);
+    left: clamp(12px, var(--nui-anchor-center, 50%), 100% - 12px);
+    translate: -50% 0;
+    rotate: -135deg;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-arrow][data-side='top']::before {
+    bottom: calc(var(--_arrow) / -2);
+    left: clamp(12px, var(--nui-anchor-center, 50%), 100% - 12px);
+    translate: -50% 0;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-arrow][data-side='right']::before {
+    left: calc(var(--_arrow) / -2);
+    top: clamp(12px, var(--nui-anchor-center, 50%), 100% - 12px);
+    translate: 0 -50%;
+    rotate: 135deg;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-arrow][data-side='left']::before {
+    right: calc(var(--_arrow) / -2);
+    top: clamp(12px, var(--nui-anchor-center, 50%), 100% - 12px);
+    translate: 0 -50%;
+    rotate: -45deg;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-popover,
+    .nui-hovercard {
+      --_enter: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-popover,
+    .nui-hovercard {
+      border-color: CanvasText;
+    }
+  }
+}
