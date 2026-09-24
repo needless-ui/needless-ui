@@ -5,3 +5,11 @@
 @import './components/button.css';
 @import './components/dialog.css';
 @import './components/menu.css';
+@import './components/toast.css';
+@import './components/otp.css';
+@import './components/skeleton.css';
+@import './components/avatar.css';
+@import './components/rating.css';
+@import './components/breadcrumbs.css';
+@import './components/empty.css';
+@import './components/number-field.css';

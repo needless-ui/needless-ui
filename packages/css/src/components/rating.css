@@ -1,0 +1,126 @@
+/*
+ * Rating: see specs/rating.md for the contract.
+ *
+ *   <div class="nui-rating" role="radiogroup" aria-label="Rate this recipe">
+ *     <label class="nui-rating-item">
+ *       <input class="nui-rating-input" type="radio" name="r" value="1" aria-label="1 star">
+ *       <span class="nui-rating-star" aria-hidden="true"></span>
+ *     </label>
+ *     …
+ *   </div>
+ *
+ *   <span class="nui-rating" data-readonly role="img" aria-label="Rated 4.3 out of 5"
+ *         style="--_value: 4.3; --_max: 5"><span class="nui-rating-display"></span></span>
+ *
+ * Native radios do the work: arrow keys, forms, screen readers. CSS fills every
+ * star up to the checked one, and previews up to the hovered one. Read-only, a
+ * single strip of stars is filled to any fraction.
+ */
+@layer nui.components {
+  .nui-rating {
+    --_size: max(24px, 1.5rem * var(--nui-density));
+    --_empty: var(--nui-color-border-default);
+    --_full: var(--nui-color-warning-solid);
+    --_star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z' stroke='black' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
+  .nui-rating-item {
+    position: relative;
+    display: inline-grid;
+    cursor: pointer;
+  }
+
+  .nui-rating-input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  .nui-rating-star {
+    display: block;
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    background-color: var(--_empty);
+    mask: var(--_star) center / 88% no-repeat;
+    transition:
+      background-color var(--nui-duration-fast) var(--nui-easing-standard),
+      scale var(--nui-motion);
+  }
+
+  /* Filled: the checked star and every star before it. */
+  .nui-rating-item:has(.nui-rating-input:checked) .nui-rating-star,
+  .nui-rating-item:has(~ .nui-rating-item .nui-rating-input:checked) .nui-rating-star {
+    background-color: var(--_full);
+  }
+
+  /* Hovering previews a new rating: stars up to the pointer, and none after it. */
+  @media (hover: hover) {
+    .nui-rating:not(:has(:disabled)):has(.nui-rating-item:hover) .nui-rating-star {
+      background-color: var(--_empty);
+    }
+
+    .nui-rating:not(:has(:disabled)) .nui-rating-item:hover .nui-rating-star,
+    .nui-rating:not(:has(:disabled))
+      .nui-rating-item:has(~ .nui-rating-item:hover)
+      .nui-rating-star {
+      background-color: var(--nui-color-warning-solid-hover);
+    }
+
+    .nui-rating:not(:has(:disabled)) .nui-rating-item:hover .nui-rating-star {
+      scale: 1.15;
+    }
+  }
+
+  .nui-rating-item:active .nui-rating-star {
+    scale: 0.9;
+  }
+
+  .nui-rating-input:focus-visible + .nui-rating-star {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+  }
+
+  .nui-rating:has(:disabled) {
+    opacity: 0.5;
+  }
+
+  .nui-rating:has(:disabled) .nui-rating-item {
+    cursor: not-allowed;
+  }
+
+  /* Read-only: one strip of stars, filled to --_value out of --_max. */
+  .nui-rating-display {
+    display: block;
+    inline-size: calc(var(--_size) * var(--_max, 5));
+    block-size: var(--_size);
+    background: linear-gradient(
+        to right,
+        var(--_full) calc(var(--_value, 0) / var(--_max, 5) * 100%),
+        var(--_empty) 0
+      )
+      no-repeat;
+    mask: var(--_star) 0 50% / var(--_size) var(--_size) repeat-x;
+  }
+
+  .nui-rating-display:dir(rtl) {
+    scale: -1 1;
+  }
+
+  @media (forced-colors: active) {
+    .nui-rating {
+      --_empty: GrayText;
+      --_full: CanvasText;
+    }
+
+    .nui-rating-star,
+    .nui-rating-display {
+      forced-color-adjust: none;
+    }
+  }
+}

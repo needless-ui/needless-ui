@@ -1,0 +1,153 @@
+/*
+ * Breadcrumbs: see specs/breadcrumbs.md for the contract.
+ *
+ *   <nav class="nui-breadcrumbs" aria-label="Breadcrumb">
+ *     <ol>
+ *       <li><a href="/">Home</a></li>
+ *       <li><a href="/docs">Docs</a></li>
+ *       <li><span aria-current="page">Button</span></li>
+ *     </ol>
+ *   </nav>
+ *
+ * Separators are drawn by CSS, so screen readers read a plain list. A trail too
+ * long for its container scrolls sideways instead of wrapping, with the ends
+ * fading out where there is more to scroll to; the script starts it at the end,
+ * on the current page.
+ */
+@property --_fade-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0rem;
+}
+
+@property --_fade-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0rem;
+}
+
+@layer nui.components {
+  .nui-breadcrumbs {
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-breadcrumbs ol {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-1);
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    list-style: none;
+    white-space: nowrap;
+  }
+
+  /* Fade the ends that have more to scroll to, where scroll timelines are supported. */
+  @supports (animation-timeline: scroll()) {
+    /* No fades when nothing overflows: the scroll timeline is inactive, so these stay. */
+    .nui-breadcrumbs ol {
+      --_fade-start: 0rem;
+      --_fade-end: 0rem;
+
+      mask-image: linear-gradient(
+        to right,
+        transparent,
+        #000 var(--_fade-start),
+        #000 calc(100% - var(--_fade-end)),
+        transparent
+      );
+      animation: nui-breadcrumbs-fade linear both;
+      animation-timeline: scroll(self inline);
+    }
+
+    .nui-breadcrumbs ol:dir(rtl) {
+      mask-image: linear-gradient(
+        to left,
+        transparent,
+        #000 var(--_fade-start),
+        #000 calc(100% - var(--_fade-end)),
+        transparent
+      );
+    }
+  }
+
+  @keyframes nui-breadcrumbs-fade {
+    from {
+      --_fade-start: 0rem;
+      --_fade-end: 1.5rem;
+    }
+
+    10% {
+      --_fade-start: 1.5rem;
+    }
+
+    90% {
+      --_fade-end: 1.5rem;
+    }
+
+    to {
+      --_fade-start: 1.5rem;
+      --_fade-end: 0rem;
+    }
+  }
+
+  .nui-breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nui-space-1);
+  }
+
+  .nui-breadcrumbs li + li::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: var(--nui-color-text-muted);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 3.5l4.5 4.5L6 12.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  .nui-breadcrumbs li:dir(rtl) + li::before {
+    scale: -1 1;
+  }
+
+  .nui-breadcrumbs a,
+  .nui-breadcrumbs [aria-current] {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 24px;
+    padding-inline: var(--nui-space-1);
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+  }
+
+  .nui-breadcrumbs a {
+    color: var(--nui-color-text-muted);
+    text-decoration: none;
+  }
+
+  @media (hover: hover) {
+    .nui-breadcrumbs a:hover {
+      color: var(--nui-color-text-default);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  .nui-breadcrumbs a:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .nui-breadcrumbs [aria-current] {
+    color: var(--nui-color-text-default);
+    font-weight: var(--nui-font-weight-medium);
+  }
+
+  @media (forced-colors: active) {
+    .nui-breadcrumbs li + li::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

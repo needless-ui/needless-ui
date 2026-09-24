@@ -1,0 +1,170 @@
+/*
+ * OTP input: see specs/otp.md for the contract.
+ *
+ *   <div class="nui-otp">
+ *     <input class="nui-otp-input" autocomplete="one-time-code" inputmode="numeric" maxlength="6" aria-label="Code">
+ *     <div class="nui-otp-slots" aria-hidden="true">
+ *       <span class="nui-otp-slot" data-filled>4</span>
+ *       <span class="nui-otp-slot" data-active data-caret></span>
+ *       <span class="nui-otp-separator"></span>
+ *       …
+ *     </div>
+ *   </div>
+ *
+ * The real, invisible input lies over the slots, so typing, pasting, autofill
+ * from SMS, forms and screen readers all work on a native text field. The slots
+ * only draw its value: data-filled, data-active (the slot being edited) and
+ * data-caret (a blinking caret in an empty active slot).
+ */
+@layer nui.components {
+  .nui-otp {
+    --_slot: max(24px, var(--nui-control-height-lg) * var(--nui-density));
+
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
+  .nui-otp-input {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    /* At 16px or more, iOS doesn't zoom in on focus. */
+    font-size: 16px;
+    letter-spacing: -0.5em;
+    cursor: text;
+    z-index: 1;
+  }
+
+  .nui-otp-input::selection {
+    background: transparent;
+  }
+
+  .nui-otp-input:disabled {
+    cursor: not-allowed;
+  }
+
+  .nui-otp-slots {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--nui-space-2) * var(--nui-density));
+  }
+
+  .nui-otp-slot {
+    --_border: var(--nui-color-border-default);
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    inline-size: calc(var(--_slot) * 0.9);
+    block-size: var(--_slot);
+    border: var(--nui-border-width-thin) solid var(--_border);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-lg);
+    font-weight: var(--nui-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    transition:
+      border-color var(--nui-duration-fast) var(--nui-easing-standard),
+      box-shadow var(--nui-duration-fast) var(--nui-easing-standard),
+      scale var(--nui-motion);
+  }
+
+  .nui-otp-slot[data-filled] {
+    --_border: var(--nui-color-border-strong);
+  }
+
+  /* The slot being edited carries the focus ring, since the real input is invisible. */
+  .nui-otp:has(.nui-otp-input:focus) .nui-otp-slot[data-active] {
+    --_border: var(--nui-color-focus-ring);
+
+    box-shadow: 0 0 0 calc(var(--nui-focus-ring-width) - var(--nui-border-width-thin))
+      var(--nui-color-focus-ring);
+  }
+
+  .nui-otp-slot[data-caret]::after {
+    content: '';
+    inline-size: 2px;
+    block-size: 1.2em;
+    background-color: currentColor;
+    animation: nui-otp-caret 1.1s steps(1) infinite;
+  }
+
+  @keyframes nui-otp-caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .nui-otp-separator {
+    inline-size: var(--nui-space-3);
+    block-size: 2px;
+    border-radius: 1px;
+    background-color: var(--nui-color-border-strong);
+  }
+
+  /* Filled in: each slot gives a small hop, one after another. */
+  .nui-otp[data-complete] .nui-otp-slot {
+    animation: nui-otp-hop 0.36s var(--nui-easing-standard) calc(var(--_i, 0) * 35ms) both;
+  }
+
+  @keyframes nui-otp-hop {
+    40% {
+      translate: 0 -12%;
+    }
+  }
+
+  /* Rejected: red slots and a shake, the universal "try again". */
+  .nui-otp:has(.nui-otp-input[aria-invalid='true']) .nui-otp-slot {
+    --_border: var(--nui-color-danger-border-hover);
+
+    color: var(--nui-color-danger-text);
+  }
+
+  .nui-otp:has(.nui-otp-input[aria-invalid='true']) .nui-otp-slots {
+    animation: nui-otp-shake 0.42s var(--nui-easing-standard);
+  }
+
+  @keyframes nui-otp-shake {
+    20%,
+    60% {
+      translate: -6px 0;
+    }
+
+    40%,
+    80% {
+      translate: 6px 0;
+    }
+  }
+
+  .nui-otp:has(.nui-otp-input:disabled) .nui-otp-slots {
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-otp-slot[data-caret]::after,
+    .nui-otp[data-complete] .nui-otp-slot,
+    .nui-otp:has(.nui-otp-input[aria-invalid='true']) .nui-otp-slots {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-otp:has(.nui-otp-input:focus) .nui-otp-slot[data-active] {
+      outline: var(--nui-focus-ring-width) solid Highlight;
+    }
+  }
+}

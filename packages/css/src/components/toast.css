@@ -1,0 +1,325 @@
+/*
+ * Toast: see specs/toast.md for the contract.
+ *
+ *   <section class="nui-toaster" data-position="bottom-end" aria-label="Notifications" popover="manual">
+ *     <ol class="nui-toaster-list">
+ *       <li class="nui-toast" data-tone="success" style="--_index: 0; --_offset: 0px">
+ *         <div class="nui-toast-body">
+ *           <p class="nui-toast-title">Saved</p>
+ *           <p class="nui-toast-description">Your changes are live.</p>
+ *         </div>
+ *         <button class="nui-button" data-size="sm" data-variant="soft">Undo</button>
+ *         <button class="nui-toast-close" aria-label="Dismiss"></button>
+ *         <span class="nui-toast-timer"></span>
+ *       </li>
+ *     </ol>
+ *   </section>
+ *
+ * Toasts pile up behind the newest one and fan out while the pointer or focus is on
+ * the stack (or data-expanded is set). The script sets --_index (0 is the newest),
+ * --_offset (the height of the newer toasts, plus gaps) and --_duration on each
+ * toast, and --_front (the newest toast's height) and --_stack (all of them, fanned
+ * out) on the list. Everything moves on the --nui-motion spring; --_swipe drags a
+ * toast sideways.
+ */
+@layer nui.components {
+  .nui-toaster {
+    --_edge: var(--nui-space-4);
+    --_gap: var(--nui-space-3);
+    /* Which way newer toasts push older ones: up from the bottom, down from the top. */
+    --_dir: -1;
+
+    position: fixed;
+    inset: auto;
+    box-sizing: border-box;
+    inline-size: min(24rem, 100vw - 2 * var(--_edge));
+    max-block-size: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: none;
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+  }
+
+  .nui-toaster:not(:has(.nui-toast)) {
+    pointer-events: none;
+  }
+
+  .nui-toaster[data-position^='top'] {
+    --_dir: 1;
+
+    inset-block-start: var(--_edge);
+  }
+
+  .nui-toaster:not([data-position^='top']) {
+    inset-block-end: var(--_edge);
+  }
+
+  .nui-toaster[data-position$='start'] {
+    inset-inline-start: var(--_edge);
+  }
+
+  .nui-toaster:is(:not([data-position]), [data-position$='end']) {
+    inset-inline-end: var(--_edge);
+  }
+
+  .nui-toaster[data-position$='center'] {
+    inset-inline: 0;
+    margin-inline: auto;
+  }
+
+  .nui-toaster-list {
+    display: grid;
+    /* Not a gap between rows (toasts share one cell): the script reads it to space them out. */
+    row-gap: var(--_gap);
+    align-items: end;
+    block-size: var(--_front, auto);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: block-size var(--nui-motion);
+  }
+
+  .nui-toaster[data-position^='top'] .nui-toaster-list {
+    align-items: start;
+  }
+
+  /* Fanned out, the list grows to hold every toast, so the pointer never falls into a gap. */
+  .nui-toaster:is(:hover, :focus-within, [data-expanded]) .nui-toaster-list {
+    block-size: var(--_stack, auto);
+  }
+
+  .nui-toast {
+    --_accent: var(--nui-color-neutral-solid);
+    --_lift: calc(var(--_index, 0) * var(--nui-space-3));
+    --_shrink: calc(1 - min(var(--_index, 0), 3) * 0.05);
+
+    position: relative;
+    display: flex;
+    grid-area: 1 / 1;
+    align-items: center;
+    gap: var(--nui-space-3);
+    box-sizing: border-box;
+    min-block-size: calc(var(--nui-control-height-lg) + var(--nui-space-4));
+    padding: var(--nui-space-3) var(--nui-space-3) var(--nui-space-3) var(--nui-space-4);
+    overflow: hidden;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: min(var(--nui-radius-lg) * var(--nui-radius-scale), 1.25rem);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+    box-shadow: var(--nui-shadow-lg);
+    transform: translateY(calc(var(--_dir) * var(--_lift))) scale(var(--_shrink));
+    transform-origin: 50% calc(50% - var(--_dir) * 50%);
+    translate: var(--_swipe, 0) 0;
+    /* The newest toast is first in the DOM, so it has to be lifted above the others. */
+    z-index: calc(100 - var(--_index, 0));
+    touch-action: pan-y;
+    transition:
+      transform var(--nui-motion),
+      opacity var(--nui-duration-normal) var(--nui-easing-standard),
+      translate var(--nui-motion);
+  }
+
+  /* Only the newest three peek out from behind each other. */
+  .nui-toast:nth-child(n + 4 of :not(.nui-toast-leave)) {
+    opacity: 0;
+  }
+
+  .nui-toaster:is(:hover, :focus-within, [data-expanded]) .nui-toast {
+    transform: translateY(calc(var(--_dir) * var(--_offset, 0px)));
+    opacity: 1;
+  }
+
+  /* Hidden behind the front toast, its content stays out of reach until the stack fans out. */
+  .nui-toaster:not(:hover, :focus-within, [data-expanded]) .nui-toast:not(:first-child) > * {
+    visibility: hidden;
+  }
+
+  .nui-toast[data-swiping] {
+    transition: none;
+  }
+
+  @starting-style {
+    .nui-toast {
+      transform: translateY(calc(var(--_dir) * -100%)) scale(0.9);
+      opacity: 0;
+    }
+  }
+
+  .nui-toast.nui-toast-leave {
+    transform: translateY(calc(var(--_dir) * var(--_lift))) scale(calc(var(--_shrink) - 0.08));
+    opacity: 0;
+    transition:
+      transform var(--nui-duration-fast) var(--nui-easing-exit),
+      opacity var(--nui-duration-fast) var(--nui-easing-exit),
+      translate var(--nui-duration-fast) var(--nui-easing-exit);
+  }
+
+  .nui-toast[data-swiped].nui-toast-leave {
+    translate: calc(var(--_swipe, 0px) * 3) 0;
+  }
+
+  /* Tone: an icon in the tone's color, drawn with a mask. */
+
+  .nui-toast::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    background-color: var(--_accent);
+    mask: var(--_icon) center / contain no-repeat;
+  }
+
+  .nui-toast:not([data-tone], [data-loading])::before {
+    display: none;
+  }
+
+  .nui-toast[data-tone='accent'] {
+    --_accent: var(--nui-color-accent-solid);
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8.5' fill='none' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M10 9v5' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='6.25' r='1.1'/%3E%3C/svg%3E");
+  }
+
+  .nui-toast[data-tone='success'] {
+    --_accent: var(--nui-color-success-solid);
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8.5' fill='none' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M6.5 10.25l2.4 2.4 4.6-5' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .nui-toast[data-tone='warning'] {
+    --_accent: var(--nui-color-warning-solid);
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 2.75 1.9 16.5h16.2z' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3Cpath d='M10 8v4' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='14.2' r='1.05'/%3E%3C/svg%3E");
+  }
+
+  .nui-toast[data-tone='danger'] {
+    --_accent: var(--nui-color-danger-solid);
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8.5' fill='none' stroke='black' stroke-width='1.8'/%3E%3Cpath d='M7.2 7.2l5.6 5.6m0-5.6-5.6 5.6' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  /* While a promise is pending: a spinner in the icon's place. */
+  .nui-toast[data-loading]::before {
+    --_accent: var(--nui-color-text-muted);
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 2a8 8 0 1 0 8 8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    animation: nui-toast-spin 0.8s linear infinite;
+  }
+
+  @keyframes nui-toast-spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  .nui-toast-body {
+    display: grid;
+    flex: 1;
+    gap: var(--nui-space-1);
+    min-inline-size: 0;
+  }
+
+  .nui-toast-title {
+    margin: 0;
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: var(--nui-line-height-tight);
+  }
+
+  .nui-toast-description {
+    margin: 0;
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-toast-close {
+    flex-shrink: 0;
+    align-self: flex-start;
+    box-sizing: border-box;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background-color: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-toast-close::before {
+    content: '';
+    display: block;
+    inline-size: 1rem;
+    block-size: 1rem;
+    margin: auto;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8m0-8-8 8' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  @media (hover: hover) {
+    .nui-toast-close:hover {
+      background-color: var(--nui-color-neutral-soft);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-toast-close:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 0;
+  }
+
+  /* Time left, as a line along the bottom edge. It stops whenever the timers do. */
+  .nui-toast-timer {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 2px;
+    background-color: var(--_accent);
+    opacity: 0.6;
+    transform-origin: 0 50%;
+    animation: nui-toast-timer var(--_duration, 5s) linear forwards;
+  }
+
+  .nui-toast-timer:dir(rtl) {
+    transform-origin: 100% 50%;
+  }
+
+  .nui-toaster[data-paused] .nui-toast-timer {
+    animation-play-state: paused;
+  }
+
+  @keyframes nui-toast-timer {
+    from {
+      scale: 1 1;
+    }
+
+    to {
+      scale: 0 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-toast {
+      translate: none;
+    }
+
+    .nui-toast[data-loading]::before {
+      animation-duration: 3s;
+    }
+
+    .nui-toast-timer {
+      display: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-toast {
+      border-color: CanvasText;
+    }
+
+    .nui-toast::before,
+    .nui-toast-close::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

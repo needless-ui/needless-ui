@@ -1,0 +1,140 @@
+/*
+ * Number field: see specs/number-field.md for the contract.
+ *
+ *   <div class="nui-number-field">
+ *     <button class="nui-number-step" data-step="down" tabindex="-1" aria-label="Decrease"></button>
+ *     <input class="nui-number-input" role="spinbutton" inputmode="decimal" aria-label="Quantity"
+ *            aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">
+ *     <button class="nui-number-step" data-step="up" tabindex="-1" aria-label="Increase"></button>
+ *   </div>
+ *
+ * A text input that holds a number, formatted for the reader's locale (currency,
+ * percent, units), with a button on each side. Keys, not buttons, are the way in
+ * for keyboards, so the buttons stay out of the tab order.
+ */
+@layer nui.components {
+  .nui-number-field {
+    --_height: max(24px, var(--nui-control-height-md) * var(--nui-density));
+
+    display: inline-flex;
+    align-items: stretch;
+    box-sizing: border-box;
+    block-size: var(--_height);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    vertical-align: middle;
+    transition: border-color var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  @media (hover: hover) {
+    .nui-number-field:hover:not(:has(:disabled)) {
+      border-color: var(--nui-color-border-strong);
+    }
+  }
+
+  .nui-number-field:has(.nui-number-input:focus-visible) {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  .nui-number-field:has(.nui-number-input[aria-invalid='true']) {
+    border-color: var(--nui-color-danger-border-hover);
+  }
+
+  .nui-number-input {
+    box-sizing: border-box;
+    inline-size: 6ch;
+    min-inline-size: 0;
+    flex: 1;
+    margin: 0;
+    padding-inline: var(--nui-space-2);
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
+  .nui-number-input:disabled {
+    cursor: not-allowed;
+  }
+
+  .nui-number-step {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--_height);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    transition:
+      background-color var(--nui-duration-fast) var(--nui-easing-standard),
+      color var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  .nui-number-step:first-child {
+    border-start-start-radius: inherit;
+    border-end-start-radius: inherit;
+  }
+
+  .nui-number-step:last-child {
+    border-start-end-radius: inherit;
+    border-end-end-radius: inherit;
+  }
+
+  .nui-number-step::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8h9' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  .nui-number-step[data-step='up']::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8h9M8 3.5v9' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  @media (hover: hover) {
+    .nui-number-step:hover:not(:disabled) {
+      background-color: var(--nui-color-neutral-soft);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-number-step:active:not(:disabled) {
+    background-color: var(--nui-color-neutral-soft-hover);
+  }
+
+  .nui-number-step:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .nui-number-field:has(.nui-number-input:disabled) {
+    opacity: 0.5;
+  }
+
+  @media (forced-colors: active) {
+    .nui-number-step::before {
+      forced-color-adjust: none;
+      background-color: ButtonText;
+    }
+
+    .nui-number-step:disabled::before {
+      background-color: GrayText;
+    }
+  }
+}

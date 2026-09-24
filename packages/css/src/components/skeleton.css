@@ -1,0 +1,76 @@
+/*
+ * Skeleton: see specs/skeleton.md for the contract.
+ *
+ *   <div aria-busy="true">
+ *     <span class="nui-skeleton" data-shape="circle" aria-hidden="true"></span>
+ *     <span class="nui-skeleton" aria-hidden="true"></span>
+ *     <span class="nui-skeleton" style="inline-size: 60%" aria-hidden="true"></span>
+ *   </div>
+ *
+ * Placeholders for content that is still loading. The shimmer is fixed to the
+ * viewport, so one highlight sweeps across every skeleton on the page at once,
+ * whatever its size or position.
+ */
+@layer nui.components {
+  .nui-skeleton {
+    display: block;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 1lh;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-muted);
+    background-image: linear-gradient(
+      100deg,
+      transparent 0 35%,
+      color-mix(in oklch, var(--nui-color-bg-canvas) 70%, transparent) 50%,
+      transparent 65% 100%
+    );
+    background-repeat: no-repeat;
+    background-size: 200vw 100%;
+    background-attachment: fixed;
+    animation: nui-skeleton-sweep 1.8s var(--nui-easing-standard) infinite;
+  }
+
+  /* Text lines are a little shorter than a line, so stacked lines don't touch. */
+  .nui-skeleton:not([data-shape]) {
+    background-clip: content-box;
+    padding-block: 0.2lh;
+  }
+
+  .nui-skeleton[data-shape='circle'] {
+    flex-shrink: 0;
+    inline-size: var(--nui-control-height-lg);
+    block-size: auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  .nui-skeleton[data-shape='block'] {
+    block-size: 6rem;
+    border-radius: calc(var(--nui-radius-lg) * var(--nui-radius-scale));
+  }
+
+  @keyframes nui-skeleton-sweep {
+    from {
+      background-position-x: -150vw;
+    }
+
+    to {
+      background-position-x: 50vw;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-skeleton {
+      background-image: none;
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-skeleton {
+      border: var(--nui-border-width-thin) solid GrayText;
+    }
+  }
+}

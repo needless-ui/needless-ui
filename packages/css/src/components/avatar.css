@@ -1,0 +1,108 @@
+/*
+ * Avatar: see specs/avatar.md for the contract.
+ *
+ *   <span class="nui-avatar" data-size="md" role="img" aria-label="Ada Lovelace" style="--_hue: 212">
+ *     <img class="nui-avatar-image" src="ada.jpg" alt="">
+ *     <span class="nui-avatar-status" data-status="online"></span>
+ *   </span>
+ *   <span class="nui-avatar" role="img" aria-label="Grace Hopper" style="--_hue: 34">
+ *     <span class="nui-avatar-initials" aria-hidden="true">GH</span>
+ *   </span>
+ *
+ * Without a picture, the initials sit on a color picked from the name (--_hue),
+ * so a person keeps the same color everywhere. Every hue is capped to a lightness
+ * and chroma that keep white initials above 4.5:1.
+ */
+@layer nui.components {
+  .nui-avatar {
+    --_size: max(24px, var(--nui-control-height-md) * var(--nui-density));
+
+    position: relative;
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    border-radius: 50%;
+    corner-shape: var(--nui-corner-shape);
+    background-color: oklch(
+      from var(--nui-color-accent-solid) min(l, 0.52) min(c, 0.12) var(--_hue, 264)
+    );
+    color: var(--nui-color-accent-on-solid);
+    font-size: calc(var(--_size) * 0.4);
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: 1;
+    vertical-align: middle;
+    user-select: none;
+  }
+
+  .nui-avatar[data-shape='square'] {
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+  }
+
+  .nui-avatar[data-size='sm'] {
+    --_size: max(24px, var(--nui-control-height-sm) * var(--nui-density));
+  }
+
+  .nui-avatar[data-size='lg'] {
+    --_size: max(24px, var(--nui-control-height-lg) * var(--nui-density) * 1.3);
+  }
+
+  .nui-avatar-image {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    corner-shape: inherit;
+  }
+
+  .nui-avatar-status {
+    --_status: var(--nui-color-success-solid);
+
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    box-sizing: border-box;
+    inline-size: max(8px, 30%);
+    block-size: max(8px, 30%);
+    border: 2px solid var(--nui-color-bg-canvas);
+    border-radius: 50%;
+    background-color: var(--_status);
+  }
+
+  .nui-avatar-status[data-status='away'] {
+    --_status: var(--nui-color-warning-solid);
+  }
+
+  .nui-avatar-status[data-status='busy'] {
+    --_status: var(--nui-color-danger-solid);
+  }
+
+  .nui-avatar-status[data-status='offline'] {
+    --_status: var(--nui-color-bg-canvas);
+
+    box-shadow: inset 0 0 0 2px var(--nui-color-border-strong);
+  }
+
+  /* A row of overlapping avatars, each ringed in the page color. */
+  .nui-avatar-group {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
+  .nui-avatar-group > .nui-avatar {
+    box-shadow: 0 0 0 2px var(--nui-color-bg-canvas);
+  }
+
+  .nui-avatar-group > .nui-avatar + .nui-avatar {
+    margin-inline-start: calc(var(--_size) * -0.3);
+  }
+
+  @media (forced-colors: active) {
+    .nui-avatar {
+      border: var(--nui-border-width-thin) solid CanvasText;
+    }
+  }
+}

@@ -1,0 +1,117 @@
+/*
+ * Empty state: see specs/empty.md for the contract.
+ *
+ *   <div class="nui-empty">
+ *     <div class="nui-empty-media" data-illustration="search" aria-hidden="true"></div>
+ *     <h3 class="nui-empty-title">No results</h3>
+ *     <p class="nui-empty-description">Try another search, or clear the filters.</p>
+ *     <div class="nui-empty-actions"><button class="nui-button">Clear filters</button></div>
+ *   </div>
+ *
+ * What a list, table or page shows when there is nothing in it yet. The media
+ * slot takes your own picture, or draws a built-in one (search, inbox, files,
+ * error) that floats gently unless motion is reduced.
+ */
+@layer nui.components {
+  .nui-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--nui-space-3) * var(--nui-density));
+    box-sizing: border-box;
+    max-inline-size: 28rem;
+    margin-inline: auto;
+    padding: calc(var(--nui-space-8) * var(--nui-density)) var(--nui-space-4);
+    color: var(--nui-color-text-default);
+    text-align: center;
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+  }
+
+  .nui-empty-media {
+    display: grid;
+    place-items: center;
+    margin-block-end: var(--nui-space-2);
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-empty-media[data-illustration] {
+    --_art: none;
+
+    inline-size: 4rem;
+    block-size: 4rem;
+    border-radius: calc(var(--nui-radius-xl) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-accent-soft);
+  }
+
+  .nui-empty-media[data-illustration]::before {
+    content: '';
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+    background-color: var(--nui-color-accent-text);
+    mask: var(--_art) center / contain no-repeat;
+    animation: nui-empty-float 3.2s var(--nui-easing-standard) infinite alternate;
+  }
+
+  .nui-empty-media[data-illustration='search'] {
+    --_art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21M8 10.5h5'/%3E%3C/svg%3E");
+  }
+
+  .nui-empty-media[data-illustration='inbox'] {
+    --_art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M3 13.5 5.5 5h13l2.5 8.5V19H3z'/%3E%3Cpath d='M3 13.5h5l1.5 2.5h5l1.5-2.5h5'/%3E%3C/svg%3E");
+  }
+
+  .nui-empty-media[data-illustration='files'] {
+    --_art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M6 3h8l4 4v14H6z'/%3E%3Cpath d='M14 3v4h4M9 12h6M9 16h4'/%3E%3C/svg%3E");
+  }
+
+  .nui-empty-media[data-illustration='error'] {
+    background-color: var(--nui-color-danger-soft);
+    --_art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M12 3 2.5 20h19z' stroke-linejoin='round'/%3E%3Cpath d='M12 10v4.5'/%3E%3Ccircle cx='12' cy='17.25' r='.6' fill='black'/%3E%3C/svg%3E");
+  }
+
+  .nui-empty-media[data-illustration='error']::before {
+    background-color: var(--nui-color-danger-text);
+  }
+
+  @keyframes nui-empty-float {
+    to {
+      translate: 0 -8%;
+      rotate: -4deg;
+    }
+  }
+
+  .nui-empty-title {
+    margin: 0;
+    font-size: var(--nui-font-size-lg);
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: var(--nui-line-height-tight);
+  }
+
+  .nui-empty-description {
+    margin: 0;
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--nui-space-2);
+    margin-block-start: var(--nui-space-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-empty-media[data-illustration]::before {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-empty-media[data-illustration]::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

@@ -29,7 +29,7 @@
 
 ## Components
 
-[Button](specs/button.md), [Dialog](specs/dialog.md) and [Menu](specs/menu.md) so far. Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
+[Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Dialog](specs/dialog.md), [Empty state](specs/empty.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Rating](specs/rating.md), [Skeleton](specs/skeleton.md) and [Toast](specs/toast.md) so far, with a data grid, an AI chat, date pickers and a scheduler on the way. Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
 
 ## Quick start (Angular)
 
