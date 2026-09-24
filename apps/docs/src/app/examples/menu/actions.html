@@ -1,0 +1,13 @@
+<button nuiButton variant="outline" tone="neutral" [nuiMenuTrigger]="actions">Actions</button>
+<div nuiMenu #actions="ngMenu" (itemSelected)="lastAction.set($event)">
+  <div nuiMenuItem value="edit">Edit <span nuiMenuShortcut>⌘E</span></div>
+  <div nuiMenuItem value="duplicate">Duplicate <span nuiMenuShortcut>⌘D</span></div>
+  <div nuiMenuItem value="share">Share…</div>
+  <div nuiMenuSeparator></div>
+  <div nuiMenuItem value="delete" tone="danger">Delete</div>
+</div>
+@if (lastAction()) {
+  <p>
+    Last action: <code>{{ lastAction() }}</code>
+  </p>
+}

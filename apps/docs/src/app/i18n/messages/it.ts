@@ -1,0 +1,433 @@
+import type { Messages } from './types';
+
+export const it: Messages = {
+  site: {
+    name: 'Needless UI',
+    tagline: 'The Needlessly Engineered Styling Toolkit',
+    description:
+      'Componenti Angular accessibili e personalizzabili, basati su elementi nativi, design token W3C e un unico foglio di stile. Open source, licenza MIT.',
+    skipToContent: 'Vai al contenuto principale',
+    nav: {
+      label: 'Principale',
+      home: 'Home di Needless UI',
+      components: 'Componenti',
+      guides: 'Guide',
+      github: 'GitHub',
+      language: 'Lingua',
+      theme: 'Tema',
+      themes: { system: 'Sistema', light: 'Chiaro', dark: 'Scuro' },
+    },
+    footer: {
+      license: 'Distribuito con licenza MIT.',
+      source: 'Codice sorgente',
+      built: 'Progettato in modo inutilmente accurato.',
+    },
+  },
+
+  home: {
+    title: 'Needless UI · Componenti Angular accessibili e inutilmente curati',
+    description:
+      'Needless UI è una libreria open source di componenti Angular: elementi nativi, un unico foglio di stile, design token W3C e WCAG 2.2 AA integrati.',
+    eyebrow: 'Open source · Angular 22 · MIT',
+    heading: 'Componenti UI, progettati con una cura inutilmente accurata.',
+    lead: 'Needless UI dà stile agli <strong>elementi nativi</strong> con un unico foglio di stile indipendente dal framework e design token W3C. Le direttive Angular aggiungono il comportamento di Angular Aria, così ogni componente è accessibile fin dal primo render.',
+    getStarted: 'Inizia',
+    browse: 'Sfoglia i componenti',
+    featuresTitle: 'Perché esiste',
+    features: [
+      {
+        title: 'Prima gli elementi nativi',
+        text: '<code>&lt;button nuiButton&gt;</code> è un vero pulsante. Moduli, tastiera e screen reader funzionano perché niente lo avvolge.',
+      },
+      {
+        title: 'Un foglio di stile per ogni framework',
+        text: 'I componenti sono CSS puro in cascade layer: Angular oggi, React domani, HTML semplice sempre.',
+      },
+      {
+        title: 'Il tuo CSS vince sempre',
+        text: 'Tutto è dentro <code>@layer nui</code>, quindi i tuoi stili lo sovrascrivono senza <code>!important</code> né battaglie di specificità.',
+      },
+      {
+        title: 'Accessibile per costruzione',
+        text: 'Ogni coppia di colori viene verificata rispetto alle WCAG 2.2 AA quando si genera la palette. Focus, forced colors e riduzione del movimento sono già gestiti.',
+      },
+      {
+        title: 'Design token standard',
+        text: 'I token in formato W3C DTCG diventano custom property CSS, con temi chiaro, scuro e annidati.',
+      },
+      {
+        title: 'Angular moderno',
+        text: 'Input signal, zoneless, rendering lato server e un entry point per componente: le app includono solo ciò che importano.',
+      },
+    ],
+    codeTitle: 'Due import e hai finito',
+    codeText:
+      'Aggiungi il pacchetto, importa il foglio di stile una volta e usa i componenti in qualsiasi componente standalone.',
+  },
+
+  components: {
+    title: 'Componenti',
+    description:
+      'Sfoglia i componenti Needless UI per Angular: pulsanti, dialoghi e menu accessibili, con esempi dal vivo, riferimento API e supporto da tastiera.',
+    intro:
+      'Ogni componente si basa su elementi nativi ed è documentato con esempi dal vivo, la sua API e il suo comportamento da tastiera.',
+    tabsLabel: 'Sezioni della documentazione',
+    tabs: { overview: 'Panoramica', api: 'API', accessibility: 'Accessibilità' },
+    sidenavLabel: 'Componenti',
+    onThisPage: 'In questa pagina',
+    example: {
+      showCode: 'Mostra il codice',
+      hideCode: 'Nascondi il codice',
+      copy: 'Copia',
+      copied: 'Copiato',
+      files: 'File sorgente',
+    },
+    api: {
+      import: 'Import',
+      selector: 'Selettore',
+      exportAs: 'Esportato come',
+      members: 'Proprietà',
+      name: 'Nome',
+      type: 'Tipo',
+      default: 'Predefinito',
+      description: 'Descrizione',
+      kinds: { input: 'Input', model: 'Bidirezionale', output: 'Output', method: 'Metodo' },
+    },
+    a11y: {
+      keyboard: 'Interazione da tastiera',
+      key: 'Tasto',
+      action: 'Azione',
+      notes: 'Note sull’accessibilità',
+    },
+    titles: {
+      api: (name) => `API di ${name}`,
+      accessibility: (name) => `Accessibilità di ${name}`,
+    },
+    items: {
+      button: {
+        name: 'Button',
+        title: 'Componente pulsante per Angular',
+        summary: 'Azioni e link, con lo stile applicato a elementi button e anchor nativi.',
+        description:
+          'Direttiva Angular accessibile per pulsanti su elementi button e anchor nativi, con quattro varianti, tre toni, tre dimensioni e supporto ai link.',
+        apiDescription:
+          'Riferimento API del pulsante Needless UI: la direttiva nuiButton, il suo selettore e gli input variant, tone, size e disabled.',
+        a11yDescription:
+          'Comportamento da tastiera e accessibilità del pulsante Needless UI: semantica nativa, anello di focus, contrasto, area di tocco e link disattivati.',
+        overview: [
+          'La direttiva <code>nuiButton</code> dà stile a un <code>&lt;button&gt;</code> o a un <code>&lt;a&gt;</code> nativo. L’elemento conserva semantica, comportamento da tastiera e partecipazione ai moduli; la direttiva si limita a riflettere i suoi input negli attributi data usati dal foglio di stile.',
+          'Usa un <code>&lt;button&gt;</code> per le azioni e un <code>&lt;a&gt;</code> per la navigazione. Hanno lo stesso aspetto ed entrambi supportano <code>disabled</code>.',
+        ],
+        examples: {
+          variants: {
+            title: 'Varianti',
+            text: 'Quattro stili di riempimento, dal più evidente al più discreto. Usa un solo pulsante pieno per vista, per l’azione principale.',
+          },
+          tones: {
+            title: 'Toni',
+            text: 'I toni cambiano la palette: accent per il percorso principale, neutral per le azioni secondarie, danger per quelle distruttive.',
+          },
+          sizes: {
+            title: 'Dimensioni',
+            text: 'Tre altezze: 28, 36 e 44 pixel. Anche la più piccola supera l’area di tocco minima delle WCAG 2.2.',
+          },
+          links: {
+            title: 'Link e pulsanti disattivati',
+            text: 'Gli anchor non si possono disattivare nativamente: un link disattivato riceve <code>aria-disabled="true"</code> e i suoi clic vengono bloccati, anche con <code>routerLink</code>.',
+          },
+        },
+        api: {
+          NuiButton: {
+            summary:
+              'Dà stile di pulsante a un <code>&lt;button&gt;</code> o a un <code>&lt;a&gt;</code> nativo.',
+            members: {
+              variant:
+                'Stile di riempimento: <code>solid</code>, <code>soft</code>, <code>outline</code> o <code>ghost</code>.',
+              tone: 'Palette di colori: <code>accent</code>, <code>neutral</code> o <code>danger</code>.',
+              size: 'Altezza, padding e dimensione del testo: <code>sm</code>, <code>md</code> o <code>lg</code>.',
+              disabled:
+                'Disattiva il pulsante. Sugli anchor imposta <code>aria-disabled</code> e blocca l’attivazione.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Sposta il focus sul pulsante o sul link.'],
+          ['Invio', 'Attiva il pulsante o segue il link.'],
+          ['Spazio', 'Attiva il pulsante. Sui link scorre la pagina (comportamento nativo).'],
+        ],
+        notes: [
+          'Il nome accessibile è il testo dell’elemento. I pulsanti con sola icona richiedono un <code>aria-label</code>.',
+          'Il testo raggiunge un contrasto di 4,5:1 per ogni variante, tono e tema; lo garantisce il generatore della palette.',
+          'L’anello di focus è un contorno di 2px con un contrasto di almeno 3:1 rispetto alla pagina, in entrambi i temi.',
+          'Un <code>&lt;button&gt;</code> disattivato esce dall’ordine di tabulazione. Un link disattivato resta raggiungibile, così chi usa uno screen reader può trovarlo, e viene annunciato come disattivato.',
+          'In modalità forced colors il bordo trasparente diventa un contorno visibile con i colori di sistema.',
+        ],
+      },
+
+      dialog: {
+        name: 'Dialog',
+        title: 'Finestra di dialogo per Angular',
+        summary:
+          'Una finestra modale sull’elemento dialog nativo, con il focus gestito dal browser.',
+        description:
+          'Dialog Angular accessibile basato sull’elemento dialog nativo: focus modale, chiusura con Esc, valori di ritorno e chiusura dallo sfondo.',
+        apiDescription:
+          'Riferimento API del dialog Needless UI: nuiDialog con binding bidirezionale di open, dimensioni, valori di ritorno e le parti titolo, descrizione e chiusura.',
+        a11yDescription:
+          'Comportamento da tastiera e accessibilità del dialog Needless UI: focus modale, tasto Esc, ripristino del focus e contenuto etichettato.',
+        overview: [
+          'La direttiva <code>nuiDialog</code> trasforma un <code>&lt;dialog&gt;</code> nativo in un dialog Needless UI. Il comportamento modale lo fornisce il browser: la pagina dietro diventa inerte, il focus resta all’interno, Esc lo chiude e il focus torna all’elemento che l’ha aperto.',
+          'Collega <code>[(open)]</code> a un signal e assegna un valore ai pulsanti di chiusura con <code>nuiDialogClose="…"</code> per sapere come è stato chiuso il dialog.',
+        ],
+        examples: {
+          confirm: {
+            title: 'Conferma',
+            text: 'Una conferma distruttiva. La scelta sicura ha <code>autofocus</code> e il valore scelto arriva tramite <code>(closed)</code>.',
+          },
+          form: {
+            title: 'Modulo in un dialog',
+            text: 'Un dialog può contenere qualsiasi cosa. Qui il primo campo riceve il focus quando il dialog si apre.',
+          },
+          dismissible: {
+            title: 'Non chiudibile',
+            text: 'Con <code>[dismissible]="false"</code>, Esc e i clic sullo sfondo vengono ignorati: bisogna scegliere un’opzione.',
+          },
+        },
+        api: {
+          NuiDialog: {
+            summary: 'Trasforma un <code>&lt;dialog&gt;</code> nativo in un dialog Needless UI.',
+            members: {
+              open: 'Indica se il dialog è aperto. Collegalo con <code>[(open)]</code>.',
+              modal: 'Apre il dialog come modale, con uno sfondo e la pagina dietro resa inerte.',
+              dismissible: 'Indica se Esc e i clic sullo sfondo chiudono il dialog.',
+              size: 'Larghezza massima: <code>sm</code> (24rem), <code>md</code> (32rem) o <code>lg</code> (44rem).',
+              closed:
+                'Emette il valore di ritorno a ogni chiusura. È vuoto se il dialog è stato chiuso senza scegliere.',
+              close: 'Chiude il dialog con un valore di ritorno facoltativo.',
+            },
+          },
+          NuiDialogTitle: {
+            summary:
+              'Il titolo del dialog. Riceve un id e diventa l’<code>aria-labelledby</code> del dialog.',
+            members: {},
+          },
+          NuiDialogDescription: {
+            summary:
+              'Una breve descrizione, collegata tramite l’<code>aria-describedby</code> del dialog.',
+            members: {},
+          },
+          NuiDialogActions: {
+            summary: 'Una riga di pulsanti in fondo al dialog, allineata alla fine.',
+            members: {},
+          },
+          NuiDialogClose: {
+            summary: 'Chiude il dialog che lo contiene quando viene cliccato.',
+            members: {
+              nuiDialogClose:
+                'Il valore con cui si chiude il dialog, emesso da <code>(closed)</code>.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Sposta il focus all’elemento successivo nel dialog.'],
+          ['Maiusc + Tab', 'Sposta il focus all’elemento precedente nel dialog.'],
+          ['Esc', 'Chiude il dialog, salvo che sia impostato come non chiudibile.'],
+        ],
+        notes: [
+          'L’apertura con <code>showModal()</code> dà al dialog <code>role="dialog"</code> e la semantica modale, e rende inerte il resto della pagina.',
+          'Titolo e descrizione sono collegati tramite id generati, quindi gli screen reader li annunciano entrambi all’apertura.',
+          'Il focus iniziale va all’elemento con <code>autofocus</code> o al primo elemento focalizzabile. Nelle conferme distruttive, metti <code>autofocus</code> sulla scelta sicura.',
+          'Alla chiusura, il focus torna all’elemento che ha aperto il dialog.',
+          'I browser potrebbero comunque chiudere un dialog non chiudibile dopo più pressioni di Esc senza altre interazioni: offri sempre una via d’uscita esplicita.',
+        ],
+      },
+
+      menu: {
+        name: 'Menu',
+        title: 'Componente menu per Angular',
+        summary:
+          'Un elenco di azioni a comparsa, con sottomenu, voci selezionabili e pieno supporto da tastiera.',
+        description:
+          'Menu Angular accessibile basato su Angular Aria: navigazione da tastiera, ricerca per digitazione, sottomenu, voci checkbox e radio e posizionamento automatico.',
+        apiDescription:
+          'Riferimento API del menu Needless UI: nuiMenuTrigger, nuiMenu e nuiMenuItem, con valori, toni, sottomenu e stato selezionato.',
+        a11yDescription:
+          'Interazione da tastiera e accessibilità del menu Needless UI: frecce, ricerca per digitazione, sottomenu, tasto Esc e ritorno del focus.',
+        overview: [
+          'Un menu mostra un elenco di azioni quando si attiva il suo trigger. Il comportamento viene dal pattern menu di Angular Aria; Needless UI aggiunge gli stili, mostra il menu come popover sopra la pagina e lo mantiene dentro il viewport.',
+          'Passa il riferimento <code>ngMenu</code> del menu a <code>[nuiMenuTrigger]</code>, assegna a ogni voce un <code>value</code> univoco e reagisci con <code>(selected)</code> sulla voce o con <code>(itemSelected)</code> sul menu.',
+        ],
+        examples: {
+          actions: {
+            title: 'Azioni',
+            text: 'Un menu di azioni con suggerimenti delle scorciatoie, un separatore e una voce distruttiva.',
+          },
+          submenu: {
+            title: 'Sottomenu',
+            text: 'Collega una voce a un <code>nuiMenu</code> annidato con <code>[submenu]</code>. Si apre al passaggio del mouse o con la freccia destra.',
+          },
+          checkable: {
+            title: 'Voci checkbox e radio',
+            text: 'Imposta <code>role</code> e collega <code>[checked]</code>. Il menu mostra l’indicatore e annuncia lo stato.',
+          },
+        },
+        api: {
+          NuiMenuTrigger: {
+            summary: 'Apre un menu. Di solito si applica a un <code>nuiButton</code>.',
+            members: {
+              nuiMenuTrigger:
+                'Il menu da aprire: il riferimento <code>ngMenu</code> di un <code>nuiMenu</code>.',
+            },
+          },
+          NuiMenu: {
+            summary:
+              'Un menu di voci, mostrato come popover accanto al suo trigger. L’export <code>ngMenu</code> è il menu di Angular Aria che trigger e sottomenu si aspettano.',
+            members: {
+              wrap: 'Indica se le frecce passano dall’ultima voce alla prima.',
+              typeaheadDelay: 'Millisecondi prima che la ricerca per digitazione si azzeri.',
+              disabled: 'Disattiva l’intero menu.',
+              itemSelected:
+                'Emette il valore della voce scelta. Sul menu principale scatta anche per le voci dei sottomenu.',
+            },
+          },
+          NuiMenuItem: {
+            summary: 'Una voce di un <code>nuiMenu</code>.',
+            members: {
+              value: 'Identifica la voce. Deve essere univoco in tutto il menu, sottomenu inclusi.',
+              disabled:
+                'Disattiva la voce. Resta raggiungibile con le frecce ma non si può scegliere.',
+              submenu: 'Un <code>nuiMenu</code> annidato che questa voce apre.',
+              role: '<code>menuitem</code>, <code>menuitemcheckbox</code> o <code>menuitemradio</code>.',
+              checked: 'Stato selezionato di una voce checkbox o radio.',
+              tone: '<code>danger</code> per le azioni distruttive.',
+              searchTerm:
+                'Testo usato dalla ricerca per digitazione. Di default è l’etichetta della voce.',
+              selected:
+                'Emette il valore della voce quando viene scelta con il mouse o con la tastiera.',
+            },
+          },
+          NuiMenuSeparator: { summary: 'Una linea tra gruppi di voci.', members: {} },
+          NuiMenuShortcut: {
+            summary: 'Un suggerimento di scorciatoia da tastiera, allineato alla fine della voce.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Invio o Spazio',
+            'Sul trigger: apre il menu sulla prima voce. Su una voce: la sceglie o apre il suo sottomenu.',
+          ],
+          [
+            'Freccia giù',
+            'Sul trigger: apre il menu sulla prima voce. Nel menu: passa alla voce successiva.',
+          ],
+          [
+            'Freccia su',
+            'Sul trigger: apre il menu sull’ultima voce. Nel menu: passa alla voce precedente.',
+          ],
+          ['Home e Fine', 'Passa alla prima o all’ultima voce.'],
+          [
+            'Freccia destra',
+            'Apre un sottomenu e passa alla sua prima voce (freccia sinistra nel testo da destra a sinistra).',
+          ],
+          [
+            'Freccia sinistra',
+            'Chiude un sottomenu e torna alla voce che l’ha aperto (freccia destra nel testo da destra a sinistra).',
+          ],
+          ['Esc', 'Chiude il menu e riporta il focus sul trigger.'],
+          ['Lettere', 'Passa alla voce successiva la cui etichetta inizia con il testo digitato.'],
+        ],
+        notes: [
+          'Il trigger riceve <code>aria-haspopup</code>, <code>aria-expanded</code> e <code>aria-controls</code>; menu e voci ricevono i ruoli ARIA da Angular Aria.',
+          'La voce evidenziata usa un riempimento pieno con un contrasto del testo di almeno 4,5:1 e fa anche da indicatore di focus. In modalità forced colors riceve un contorno di evidenziazione di sistema.',
+          'Le voci selezionabili annunciano il loro stato tramite <code>aria-checked</code>.',
+          'Scegliere una voce chiude il menu e riporta il focus sul trigger. Anche spostare il focus fuori dal trigger e dal menu lo chiude.',
+          'Le voci sono alte almeno 28 pixel, oltre l’area di tocco minima delle WCAG 2.2.',
+        ],
+      },
+    },
+  },
+
+  guides: {
+    title: 'Guide',
+    items: {
+      'getting-started': {
+        title: 'Per iniziare',
+        description:
+          'Installa Needless UI in un’app Angular 22: aggiungi i pacchetti, importa il foglio di stile e usa il tuo primo componente accessibile in pochi minuti.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI funziona con Angular 22. I componenti sono direttive standalone, quindi non ci sono moduli da importare.',
+          },
+          { kind: 'h2', id: 'install', text: 'Installazione' },
+          {
+            kind: 'p',
+            html: 'Aggiungi il pacchetto Angular insieme ad Angular Aria e al CDK, che forniscono il comportamento da tastiera e l’accessibilità. Il foglio di stile arriva con esso.',
+          },
+          { kind: 'code', file: 'snippets/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Importa gli stili' },
+          {
+            kind: 'p',
+            html: 'Importa il foglio di stile una volta in <code>src/styles.css</code>. Include i design token e tutti i componenti.',
+          },
+          { kind: 'code', file: 'snippets/styles.css' },
+          {
+            kind: 'p',
+            html: 'Tutto è dentro <code>@layer nui</code>. Se la tua app ha reset globali come <code>a { color: inherit }</code>, mettili in un layer dichiarato prima di <code>nui</code>, così non sovrascrivono i componenti.',
+          },
+          { kind: 'h2', id: 'use', text: 'Usa un componente' },
+          {
+            kind: 'p',
+            html: 'Importa le direttive che ti servono dai loro entry point e aggiungile agli <code>imports</code> del tuo componente.',
+          },
+          { kind: 'code', file: 'snippets/usage.ts' },
+          { kind: 'h2', id: 'next', text: 'Prossimi passi' },
+          {
+            kind: 'p',
+            html: 'Sfoglia i <a href="/it/components">componenti</a> per gli esempi dal vivo, oppure leggi la <a href="/it/guides/theming">guida ai temi</a> per adattarli al tuo brand.',
+          },
+        ],
+      },
+      theming: {
+        title: 'Temi',
+        description:
+          'Personalizza Needless UI con le custom property CSS: modalità chiara e scura, temi annidati, override dei token e una palette di brand dal contrasto verificato.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Ogni scelta visiva è una custom property CSS generata dai design token W3C. I componenti usano solo token semantici come <code>--nui-color-accent-solid</code>, quindi cambiare un token cambia lo stile di ogni componente che lo usa.',
+          },
+          { kind: 'h2', id: 'modes', text: 'Chiaro e scuro' },
+          {
+            kind: 'p',
+            html: 'Di default la modalità segue la preferenza del sistema operativo. Puoi fissarla su qualsiasi elemento con <code>data-nui-theme</code> e annidare i temi liberamente.',
+          },
+          { kind: 'code', file: 'snippets/theme-attribute.html' },
+          { kind: 'demo', demo: 'nested-themes' },
+          { kind: 'h2', id: 'tokens', text: 'Sovrascrivi i token' },
+          {
+            kind: 'p',
+            html: 'I token vivono in <code>@layer nui</code>, quindi il CSS della tua app li sovrascrive. Impostali su <code>:root</code> per tutta l’app o su un elemento per una sola parte.',
+          },
+          { kind: 'code', file: 'snippets/override.css' },
+          { kind: 'h2', id: 'palette', text: 'Una palette per il tuo brand' },
+          {
+            kind: 'p',
+            html: 'Le scale di colore sono generate. Cambia una tonalità in <code>packages/tokens/scripts/palette.ts</code> e rigenera: lo script riadatta ogni colore allo spazio sRGB e ricontrolla il contrasto di ogni coppia di testo e sfondo.',
+          },
+          { kind: 'code', file: 'snippets/palette.sh' },
+        ],
+      },
+    },
+  },
+
+  notFound: {
+    title: 'Pagina non trovata',
+    description:
+      'Questa pagina non esiste. Sfoglia i componenti Needless UI o riparti dalla home page.',
+    text: 'Questa pagina non esiste o è stata spostata.',
+    home: 'Vai alla home page',
+    components: 'Sfoglia i componenti',
+  },
+};

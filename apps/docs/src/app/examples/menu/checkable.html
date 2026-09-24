@@ -1,0 +1,36 @@
+<button nuiButton variant="outline" tone="neutral" [nuiMenuTrigger]="view">View</button>
+<div nuiMenu #view="ngMenu">
+  <div
+    nuiMenuItem
+    value="grid"
+    role="menuitemcheckbox"
+    [checked]="showGrid()"
+    (selected)="showGrid.set(!showGrid())"
+  >
+    Show grid
+  </div>
+  <div
+    nuiMenuItem
+    value="rulers"
+    role="menuitemcheckbox"
+    [checked]="showRulers()"
+    (selected)="showRulers.set(!showRulers())"
+  >
+    Show rulers
+  </div>
+  <div nuiMenuSeparator></div>
+  @for (option of densities; track option) {
+    <div
+      nuiMenuItem
+      [value]="option"
+      role="menuitemradio"
+      [checked]="density() === option"
+      (selected)="density.set(option)"
+    >
+      {{ option }}
+    </div>
+  }
+</div>
+<p>
+  Grid {{ showGrid() ? 'on' : 'off' }} · rulers {{ showRulers() ? 'on' : 'off' }} · {{ density() }}
+</p>

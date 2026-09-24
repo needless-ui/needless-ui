@@ -1,0 +1,17 @@
+<button nuiButton variant="soft" tone="danger" (click)="open.set(true)">Delete project…</button>
+@if (result()) {
+  <p>
+    Result: <code>{{ result() }}</code>
+  </p>
+}
+
+<dialog nuiDialog size="sm" [(open)]="open" (closed)="result.set($event || 'dismissed')">
+  <h2 nuiDialogTitle>Delete “needless-ui”?</h2>
+  <p nuiDialogDescription>This deletes the project and its 3 environments. It can’t be undone.</p>
+  <div nuiDialogActions>
+    <button nuiButton variant="soft" tone="neutral" nuiDialogClose="cancel" autofocus>
+      Cancel
+    </button>
+    <button nuiButton tone="danger" nuiDialogClose="delete">Delete project</button>
+  </div>
+</dialog>

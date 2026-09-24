@@ -1,0 +1,106 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "pnpm"
+  },
+  "newProjectRoot": "packages",
+  "projects": {
+    "@needless-ui/angular": {
+      "projectType": "library",
+      "root": "packages/angular",
+      "sourceRoot": "packages/angular",
+      "prefix": "nui",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/angular/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "packages/angular/tsconfig.spec.json",
+            "browsers": ["chromium"],
+            "headless": true
+          }
+        }
+      }
+    },
+    "docs": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/docs",
+      "sourceRoot": "apps/docs/src",
+      "prefix": "docs",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "apps/docs/src/main.ts",
+            "tsConfig": "tsconfig.docs.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/docs/public"
+              }
+            ],
+            "styles": ["apps/docs/src/styles.css"],
+            "server": "apps/docs/src/main.server.ts",
+            "outputMode": "static"
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "docs:build:production"
+            },
+            "development": {
+              "buildTarget": "docs:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "apps/docs/tsconfig.spec.json",
+            "browsers": ["chromium"],
+            "headless": true
+          }
+        }
+      }
+    }
+  }
+}

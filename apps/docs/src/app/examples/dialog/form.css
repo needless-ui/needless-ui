@@ -1,0 +1,22 @@
+.field {
+  display: grid;
+  gap: var(--nui-space-1);
+  font-weight: var(--nui-font-weight-medium);
+}
+
+.field input {
+  box-sizing: border-box;
+  block-size: var(--nui-control-height-md);
+  padding-inline: var(--nui-space-3);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-strong);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-canvas);
+  color: inherit;
+  font: inherit;
+  font-weight: var(--nui-font-weight-regular);
+}
+
+.field input:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+  outline-offset: var(--nui-focus-ring-offset);
+}

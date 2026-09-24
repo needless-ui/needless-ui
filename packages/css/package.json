@@ -1,0 +1,54 @@
+{
+  "name": "@needless-ui/css",
+  "version": "0.0.0",
+  "description": "Framework-free component styles for Needless UI. Works with Angular, React or plain HTML.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/needless-ui/needless-ui.git",
+    "directory": "packages/css"
+  },
+  "homepage": "https://github.com/needless-ui/needless-ui/tree/main/packages/css#readme",
+  "bugs": "https://github.com/needless-ui/needless-ui/issues",
+  "keywords": [
+    "css",
+    "components",
+    "design-system",
+    "cascade-layers",
+    "needless-ui"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "style": "./dist/needless-ui.css",
+  "exports": {
+    ".": {
+      "style": "./dist/needless-ui.css",
+      "default": "./dist/needless-ui.css"
+    },
+    "./needless-ui.min.css": "./dist/needless-ui.min.css",
+    "./layers.css": "./src/layers.css",
+    "./components/*": "./src/components/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@needless-ui/tokens": "workspace:^"
+  },
+  "devDependencies": {
+    "lightningcss": "^1.33.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

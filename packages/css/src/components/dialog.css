@@ -1,0 +1,117 @@
+/*
+ * Dialog: see specs/dialog.md for the contract.
+ *
+ *   <dialog class="nui-dialog" data-size="sm" aria-labelledby="t" aria-describedby="d">
+ *     <h2 class="nui-dialog-title" id="t">Delete project?</h2>
+ *     <p class="nui-dialog-description" id="d">This can't be undone.</p>
+ *     <div class="nui-dialog-actions">…</div>
+ *   </dialog>
+ *
+ * Built on the native <dialog>: showModal() gives the backdrop, the inert page,
+ * focus containment and Escape to close. These styles only dress it.
+ */
+@layer nui.components {
+  .nui-dialog {
+    --_width: 32rem;
+
+    box-sizing: border-box;
+    inline-size: min(var(--_width), 100% - 2 * var(--nui-space-4));
+    max-inline-size: none;
+    max-block-size: min(85dvh, 100% - 2 * var(--nui-space-4));
+    margin: auto;
+    padding: var(--nui-space-6);
+    overflow: auto;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--nui-radius-xl);
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-text-default);
+    box-shadow: var(--nui-shadow-lg);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+
+    /* Entry and exit transitions. Browsers without @starting-style skip them. */
+    opacity: 0;
+    translate: 0 var(--nui-space-2);
+    scale: 0.98;
+    transition-property: opacity, translate, scale, overlay, display;
+    transition-duration: var(--nui-duration-normal);
+    transition-timing-function: var(--nui-easing-standard);
+    transition-behavior: allow-discrete;
+  }
+
+  /* Only open dialogs get a display value, so closed ones stay hidden. */
+  .nui-dialog[open] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nui-space-4);
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+
+  @starting-style {
+    .nui-dialog[open] {
+      opacity: 0;
+      translate: 0 var(--nui-space-2);
+      scale: 0.98;
+    }
+  }
+
+  .nui-dialog::backdrop {
+    background-color: transparent;
+    transition-property: background-color, overlay, display;
+    transition-duration: var(--nui-duration-normal);
+    transition-timing-function: var(--nui-easing-standard);
+    transition-behavior: allow-discrete;
+  }
+
+  .nui-dialog[open]::backdrop {
+    background-color: var(--nui-color-backdrop);
+  }
+
+  @starting-style {
+    .nui-dialog[open]::backdrop {
+      background-color: transparent;
+    }
+  }
+
+  /* The page behind a modal dialog doesn't scroll. */
+  :root:has(.nui-dialog:modal) {
+    overflow: hidden;
+  }
+
+  .nui-dialog[data-size='sm'] {
+    --_width: 24rem;
+  }
+
+  .nui-dialog[data-size='lg'] {
+    --_width: 44rem;
+  }
+
+  /* Parts */
+
+  .nui-dialog-title {
+    margin: 0;
+    font-size: var(--nui-font-size-lg);
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: var(--nui-line-height-tight);
+  }
+
+  .nui-dialog-description {
+    margin: 0;
+    color: var(--nui-color-text-muted);
+  }
+
+  /* A title and its description read as one block. */
+  .nui-dialog-title + .nui-dialog-description {
+    margin-block-start: calc(var(--nui-space-2) - var(--nui-space-4));
+  }
+
+  .nui-dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--nui-space-3);
+    margin-block-start: var(--nui-space-2);
+  }
+}

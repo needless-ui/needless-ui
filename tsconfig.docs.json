@@ -1,0 +1,14 @@
+/*
+ * The docs app. It sits at the workspace root on purpose: Angular matches each lazy
+ * route to its build chunk by a path relative to this file, while the chunk paths are
+ * relative to the workspace root. From apps/docs the two never match, and prerendered
+ * pages silently lose their route preload hints (<link rel="modulepreload">).
+ */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["apps/docs/src/**/*.ts"],
+  "exclude": ["apps/docs/src/**/*.spec.ts"]
+}

@@ -1,0 +1,174 @@
+/*
+ * Menu: see specs/menu.md for the contract.
+ *
+ *   <div class="nui-menu" role="menu" popover="manual">
+ *     <div class="nui-menu-item" role="menuitem" tabindex="-1">Rename</div>
+ *     <div class="nui-menu-item" role="menuitemcheckbox" aria-checked="true">Show grid</div>
+ *     <div class="nui-menu-separator" role="separator"></div>
+ *     <div class="nui-menu-item" role="menuitem" data-tone="danger">Delete</div>
+ *   </div>
+ *
+ * The highlighted item carries data-active="true" (set by Angular Aria) or has
+ * keyboard focus. As a popover, the menu renders in the top layer; without the
+ * popover attribute it sits in the page flow, which suits static examples.
+ */
+@layer nui.components {
+  .nui-menu {
+    box-sizing: border-box;
+    min-inline-size: 11rem;
+    max-inline-size: min(20rem, 100vw - 2 * var(--nui-space-2));
+    padding: var(--nui-space-1);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--nui-radius-lg);
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-text-default);
+    box-shadow: var(--nui-shadow-md);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-tight);
+  }
+
+  /* As a popover: undo the UA centering; the trigger sets top, left and max height. */
+  .nui-menu[popover] {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    overflow-y: auto;
+    opacity: 0;
+    transition-property: opacity, overlay, display;
+    transition-duration: var(--nui-duration-fast);
+    transition-timing-function: var(--nui-easing-standard);
+    transition-behavior: allow-discrete;
+  }
+
+  .nui-menu[popover]:popover-open {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .nui-menu[popover]:popover-open {
+      opacity: 0;
+    }
+  }
+
+  .nui-menu-item {
+    --_fg: var(--nui-color-text-default);
+    --_bg-active: var(--nui-color-accent-solid);
+    --_fg-active: var(--nui-color-accent-on-solid);
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-2);
+    box-sizing: border-box;
+    min-block-size: var(--nui-control-height-sm);
+    padding-block: var(--nui-space-1);
+    padding-inline: var(--nui-space-3);
+    border-radius: var(--nui-radius-sm);
+    color: var(--_fg);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+  }
+
+  .nui-menu-item[data-tone='danger'] {
+    --_fg: var(--nui-color-danger-text);
+    --_bg-active: var(--nui-color-danger-solid);
+    --_fg-active: var(--nui-color-danger-on-solid);
+  }
+
+  /* The highlight is the focus indicator, so it uses a solid fill. */
+  .nui-menu-item:is([data-active='true'], :focus-visible):not([aria-disabled='true']) {
+    background-color: var(--_bg-active);
+    color: var(--_fg-active);
+  }
+
+  .nui-menu-item[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .nui-menu-item > svg {
+    flex-shrink: 0;
+    inline-size: 1em;
+    block-size: 1em;
+  }
+
+  .nui-menu-shortcut {
+    margin-inline-start: auto;
+    padding-inline-start: var(--nui-space-4);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .nui-menu-item:is([data-active='true'], :focus-visible) .nui-menu-shortcut {
+    color: inherit;
+  }
+
+  /* Checkable items: once any item is checkable, every label shifts to line up. */
+  .nui-menu:has(> [aria-checked]) > .nui-menu-item {
+    padding-inline-start: calc(var(--nui-space-3) + 1rem + var(--nui-space-2));
+  }
+
+  .nui-menu-item[aria-checked]::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: var(--nui-space-3);
+    inline-size: 1rem;
+    block-size: 1rem;
+    translate: 0 -50%;
+    background-color: currentColor;
+    mask: var(--_indicator) center / contain no-repeat;
+    opacity: 0;
+  }
+
+  .nui-menu-item[aria-checked='true']::before {
+    opacity: 1;
+  }
+
+  .nui-menu-item[role='menuitemcheckbox'] {
+    --_indicator: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .nui-menu-item[role='menuitemradio'] {
+    --_indicator: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3'/%3E%3C/svg%3E");
+  }
+
+  /* Items that open a submenu get a chevron, mirrored in right-to-left text. */
+  .nui-menu-item:is([aria-haspopup='true'], [aria-haspopup='menu'])::after {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 1rem;
+    block-size: 1rem;
+    margin-inline-start: auto;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M6 3.5l4.5 4.5L6 12.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  .nui-menu-item:dir(rtl)::after {
+    scale: -1 1;
+  }
+
+  .nui-menu-separator {
+    block-size: var(--nui-border-width-thin);
+    margin-block: var(--nui-space-1);
+    margin-inline: calc(-1 * var(--nui-space-1));
+    border: 0;
+    background-color: var(--nui-color-border-subtle);
+  }
+
+  @media (forced-colors: active) {
+    .nui-menu-item:is([data-active='true'], :focus-visible) {
+      outline: var(--nui-focus-ring-width) solid Highlight;
+      outline-offset: calc(-1 * var(--nui-focus-ring-width));
+    }
+
+    .nui-menu-item::before,
+    .nui-menu-item::after {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

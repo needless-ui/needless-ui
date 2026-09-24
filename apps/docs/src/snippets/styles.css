@@ -1,0 +1,3 @@
+/* src/styles.css */
+@layer reset, nui, app;
+@import '@needless-ui/css';

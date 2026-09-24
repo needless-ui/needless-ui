@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "changelog": ["@changesets/changelog-github", { "repo": "needless-ui/needless-ui" }],
+  "commit": false,
+  "access": "public",
+  "baseBranch": "main",
+  "fixed": [["@needless-ui/*"]],
+  "linked": [],
+  "ignore": [],
+  "updateInternalDependencies": "patch",
+  "bumpVersionsWithWorkspaceProtocolOnly": true
+}

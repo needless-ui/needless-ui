@@ -1,0 +1,6 @@
+dist
+node_modules
+coverage
+.angular
+pnpm-lock.yaml
+packages/tokens/src/color/*.tokens.json

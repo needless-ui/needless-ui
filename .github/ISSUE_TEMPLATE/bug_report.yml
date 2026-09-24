@@ -1,0 +1,41 @@
+name: Bug report
+description: Something renders, behaves or builds incorrectly.
+labels: [bug, triage]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A link to a StackBlitz or a minimal repository.
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      multiple: true
+      options:
+        - '@needless-ui/angular'
+        - '@needless-ui/css'
+        - '@needless-ui/tokens'
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions
+      description: Package versions, framework version, browser and OS.
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: accessibility
+    attributes:
+      label: Accessibility
+      options:
+        - label: This affects keyboard, screen reader, contrast or other accessibility behavior.

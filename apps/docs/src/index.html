@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Needless UI</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fbfcfc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111212" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+      // Apply the stored theme before first paint, so dark-mode readers never see a light flash.
+      try {
+        var theme = localStorage.getItem('nui-theme');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.setAttribute('data-nui-theme', theme);
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <docs-root></docs-root>
+  </body>
+</html>

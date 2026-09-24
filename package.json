@@ -1,0 +1,62 @@
+{
+  "name": "needless-ui-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Needless UI: the Needlessly Engineered Styling Toolkit.",
+  "license": "MIT",
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
+  "scripts": {
+    "ng": "ng",
+    "dev": "pnpm build:tokens && pnpm docs:generate && ng serve docs",
+    "build": "pnpm build:tokens && pnpm build:css && pnpm build:angular",
+    "build:tokens": "pnpm --filter @needless-ui/tokens run build",
+    "build:css": "pnpm --filter @needless-ui/css run build",
+    "build:angular": "ng build @needless-ui/angular",
+    "test": "pnpm --filter @needless-ui/tokens --filter @needless-ui/css run test && ng test @needless-ui/angular --watch=false && ng test docs --watch=false",
+    "typecheck": "pnpm --filter @needless-ui/tokens --filter @needless-ui/css run typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "pnpm build && changeset publish",
+    "docs:generate": "node apps/docs/scripts/generate-code.ts",
+    "build:docs": "pnpm build:tokens && pnpm docs:generate && ng build docs && node apps/docs/scripts/seo-check.ts && node apps/docs/scripts/paint-first.ts"
+  },
+  "dependencies": {
+    "@angular/aria": "^22.2.0",
+    "@angular/cdk": "^22.2.0",
+    "@angular/common": "^22.2.0",
+    "@angular/compiler": "^22.2.0",
+    "@angular/core": "^22.2.0",
+    "@angular/forms": "^22.2.0",
+    "@angular/platform-browser": "^22.2.0",
+    "@angular/platform-server": "^22.2.0",
+    "@angular/router": "^22.2.0",
+    "@angular/ssr": "^22.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.2.0",
+    "@angular/cli": "^22.2.0",
+    "@angular/compiler-cli": "^22.2.0",
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@needless-ui/css": "workspace:*",
+    "@needless-ui/tokens": "workspace:*",
+    "@shikijs/transformers": "4.4.3",
+    "@types/node": "^22.12.0",
+    "@vitest/browser-playwright": "5.0.1",
+    "jsdom": "^30.0.0",
+    "ng-packagr": "^22.2.0",
+    "playwright": "1.63.0",
+    "prettier": "^3.8.1",
+    "shiki": "4.4.3",
+    "typescript": "~6.0.2",
+    "vitest": "^5.0.0"
+  }
+}

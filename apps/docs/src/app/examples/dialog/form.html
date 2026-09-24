@@ -1,0 +1,20 @@
+<button nuiButton variant="outline" tone="neutral" (click)="open.set(true)">Edit profile…</button>
+@if (saved()) {
+  <p>
+    Saved as <strong>{{ name() }}</strong
+    >.
+  </p>
+}
+
+<dialog nuiDialog [(open)]="open" (closed)="onClosed($event, nameInput.value)">
+  <h2 nuiDialogTitle>Edit profile</h2>
+  <p nuiDialogDescription>Your name appears on projects you share.</p>
+  <label class="field">
+    <span>Name</span>
+    <input #nameInput [value]="name()" autocomplete="name" autofocus />
+  </label>
+  <div nuiDialogActions>
+    <button nuiButton variant="soft" tone="neutral" nuiDialogClose="cancel">Cancel</button>
+    <button nuiButton nuiDialogClose="save">Save</button>
+  </div>
+</dialog>

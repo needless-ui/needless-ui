@@ -1,0 +1,6 @@
+/*
+ * Cascade layer order for Needless UI. Everything ships inside `nui.*` layers, so
+ * any unlayered CSS you write wins without specificity battles. Put your own
+ * resets in a layer declared before `nui`, e.g. `@layer reset, nui;`.
+ */
+@layer nui.tokens, nui.base, nui.components, nui.utilities;

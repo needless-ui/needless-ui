@@ -1,0 +1,15 @@
+{
+  "duration": {
+    "$type": "duration",
+    "$description": "Collapsed to near-zero when the user prefers reduced motion.",
+    "fast": { "$value": { "value": 120, "unit": "ms" } },
+    "normal": { "$value": { "value": 200, "unit": "ms" } },
+    "slow": { "$value": { "value": 320, "unit": "ms" } }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "standard": { "$value": [0.2, 0, 0, 1] },
+    "enter": { "$value": [0, 0, 0.2, 1] },
+    "exit": { "$value": [0.4, 0, 1, 1] }
+  }
+}

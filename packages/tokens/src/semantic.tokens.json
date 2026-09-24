@@ -1,0 +1,82 @@
+{
+  "$description": "Semantic aliases. Components use these, never the numbered scales, so a mode switch only has to swap the scales.",
+  "color": {
+    "$type": "color",
+    "bg": {
+      "canvas": { "$value": "{color.neutral.1}", "$description": "Page background." },
+      "subtle": {
+        "$value": "{color.neutral.2}",
+        "$description": "Slightly raised or recessed areas."
+      },
+      "muted": { "$value": "{color.neutral.3}", "$description": "Wells and quiet fills." }
+    },
+    "text": {
+      "default": { "$value": "{color.neutral.12}" },
+      "muted": { "$value": "{color.neutral.11}" }
+    },
+    "border": {
+      "subtle": { "$value": "{color.neutral.6}" },
+      "default": { "$value": "{color.neutral.7}" },
+      "strong": { "$value": "{color.neutral.8}" }
+    },
+    "focus-ring": {
+      "$value": "{color.accent.11}",
+      "$description": "Keyboard focus outline. At least 3:1 against the canvas in both modes."
+    },
+    "accent": {
+      "solid": { "$value": "{color.accent.9}" },
+      "solid-hover": { "$value": "{color.accent.10}" },
+      "on-solid": { "$value": "{color.static.white}" },
+      "soft": { "$value": "{color.accent.3}" },
+      "soft-hover": { "$value": "{color.accent.4}" },
+      "soft-active": { "$value": "{color.accent.5}" },
+      "border": { "$value": "{color.accent.7}" },
+      "border-hover": { "$value": "{color.accent.8}" },
+      "text": { "$value": "{color.accent.11}" }
+    },
+    "neutral": {
+      "solid": { "$value": "{color.neutral.12}" },
+      "solid-hover": { "$value": "{color.neutral.11}" },
+      "on-solid": { "$value": "{color.neutral.1}" },
+      "soft": { "$value": "{color.neutral.3}" },
+      "soft-hover": { "$value": "{color.neutral.4}" },
+      "soft-active": { "$value": "{color.neutral.5}" },
+      "border": { "$value": "{color.neutral.7}" },
+      "border-hover": { "$value": "{color.neutral.8}" },
+      "text": { "$value": "{color.neutral.12}" }
+    },
+    "danger": {
+      "solid": { "$value": "{color.danger.9}" },
+      "solid-hover": { "$value": "{color.danger.10}" },
+      "on-solid": { "$value": "{color.static.white}" },
+      "soft": { "$value": "{color.danger.3}" },
+      "soft-hover": { "$value": "{color.danger.4}" },
+      "soft-active": { "$value": "{color.danger.5}" },
+      "border": { "$value": "{color.danger.7}" },
+      "border-hover": { "$value": "{color.danger.8}" },
+      "text": { "$value": "{color.danger.11}" }
+    },
+    "success": {
+      "solid": { "$value": "{color.success.9}" },
+      "solid-hover": { "$value": "{color.success.10}" },
+      "on-solid": { "$value": "{color.static.white}" },
+      "soft": { "$value": "{color.success.3}" },
+      "soft-hover": { "$value": "{color.success.4}" },
+      "soft-active": { "$value": "{color.success.5}" },
+      "border": { "$value": "{color.success.7}" },
+      "border-hover": { "$value": "{color.success.8}" },
+      "text": { "$value": "{color.success.11}" }
+    },
+    "warning": {
+      "solid": { "$value": "{color.warning.9}" },
+      "solid-hover": { "$value": "{color.warning.10}" },
+      "on-solid": { "$value": "{color.static.ink}" },
+      "soft": { "$value": "{color.warning.3}" },
+      "soft-hover": { "$value": "{color.warning.4}" },
+      "soft-active": { "$value": "{color.warning.5}" },
+      "border": { "$value": "{color.warning.7}" },
+      "border-hover": { "$value": "{color.warning.8}" },
+      "text": { "$value": "{color.warning.11}" }
+    }
+  }
+}

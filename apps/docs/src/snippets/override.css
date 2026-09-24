@@ -1,0 +1,10 @@
+/* The whole app */
+:root {
+  --nui-color-accent-solid: oklch(0.52 0.16 150);
+  --nui-radius-md: 0.75rem;
+}
+
+/* One part of it */
+.checkout {
+  --nui-color-accent-solid: var(--nui-color-success-solid);
+}

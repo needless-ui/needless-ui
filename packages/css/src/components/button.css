@@ -1,0 +1,172 @@
+/*
+ * Button: see specs/button.md for the contract.
+ *
+ *   <button class="nui-button" data-variant="soft" data-tone="danger" data-size="sm">
+ *
+ * Every data attribute is optional; the defaults are solid, accent and md.
+ * Variants and tones only reassign the private `--_*` properties below, so each
+ * visual rule lives in exactly one place.
+ */
+@layer nui.components {
+  .nui-button {
+    /* Tone: the palette the variant paints with. */
+    --_solid: var(--nui-color-accent-solid);
+    --_solid-hover: var(--nui-color-accent-solid-hover);
+    --_on-solid: var(--nui-color-accent-on-solid);
+    --_soft: var(--nui-color-accent-soft);
+    --_soft-hover: var(--nui-color-accent-soft-hover);
+    --_soft-active: var(--nui-color-accent-soft-active);
+    --_line: var(--nui-color-accent-border);
+    --_line-hover: var(--nui-color-accent-border-hover);
+    --_ink: var(--nui-color-accent-text);
+
+    /* Variant: solid by default. */
+    --_bg: var(--_solid);
+    --_bg-hover: var(--_solid-hover);
+    --_bg-active: var(--_solid-hover);
+    --_fg: var(--_on-solid);
+    --_border: transparent;
+    --_border-hover: transparent;
+
+    /* Size: md by default. */
+    --_height: var(--nui-control-height-md);
+    --_padding: var(--nui-space-4);
+    --_gap: var(--nui-space-2);
+    --_font-size: var(--nui-font-size-sm);
+    --_radius: var(--nui-radius-md);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--_gap);
+    box-sizing: border-box;
+    block-size: var(--_height);
+    min-inline-size: var(--_height);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--_padding);
+    /* The transparent border becomes visible in forced-colors mode. */
+    border: var(--nui-border-width-thin) solid var(--_border);
+    border-radius: var(--_radius);
+    background-color: var(--_bg);
+    color: var(--_fg);
+    font-family: inherit;
+    font-size: var(--_font-size);
+    font-weight: var(--nui-font-weight-medium);
+    line-height: var(--nui-line-height-tight);
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    transition-property: background-color, border-color, color;
+    transition-duration: var(--nui-duration-fast);
+    transition-timing-function: var(--nui-easing-standard);
+  }
+
+  @media (hover: hover) {
+    .nui-button:hover:not(:disabled, [aria-disabled='true']) {
+      background-color: var(--_bg-hover);
+      border-color: var(--_border-hover);
+    }
+  }
+
+  .nui-button:active:not(:disabled, [aria-disabled='true']) {
+    background-color: var(--_bg-active);
+  }
+
+  .nui-button:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  .nui-button:is(:disabled, [aria-disabled='true']) {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .nui-button > svg {
+    flex-shrink: 0;
+    inline-size: 1.25em;
+    block-size: 1.25em;
+  }
+
+  /* Variants */
+
+  .nui-button[data-variant='soft'] {
+    --_bg: var(--_soft);
+    --_bg-hover: var(--_soft-hover);
+    --_bg-active: var(--_soft-active);
+    --_fg: var(--_ink);
+  }
+
+  .nui-button[data-variant='outline'] {
+    --_bg: transparent;
+    --_bg-hover: var(--_soft);
+    --_bg-active: var(--_soft-hover);
+    --_fg: var(--_ink);
+    --_border: var(--_line);
+    --_border-hover: var(--_line-hover);
+  }
+
+  .nui-button[data-variant='ghost'] {
+    --_bg: transparent;
+    --_bg-hover: var(--_soft);
+    --_bg-active: var(--_soft-hover);
+    --_fg: var(--_ink);
+  }
+
+  /* Tones */
+
+  .nui-button[data-tone='neutral'] {
+    --_solid: var(--nui-color-neutral-solid);
+    --_solid-hover: var(--nui-color-neutral-solid-hover);
+    --_on-solid: var(--nui-color-neutral-on-solid);
+    --_soft: var(--nui-color-neutral-soft);
+    --_soft-hover: var(--nui-color-neutral-soft-hover);
+    --_soft-active: var(--nui-color-neutral-soft-active);
+    --_line: var(--nui-color-neutral-border);
+    --_line-hover: var(--nui-color-neutral-border-hover);
+    --_ink: var(--nui-color-neutral-text);
+  }
+
+  .nui-button[data-tone='danger'] {
+    --_solid: var(--nui-color-danger-solid);
+    --_solid-hover: var(--nui-color-danger-solid-hover);
+    --_on-solid: var(--nui-color-danger-on-solid);
+    --_soft: var(--nui-color-danger-soft);
+    --_soft-hover: var(--nui-color-danger-soft-hover);
+    --_soft-active: var(--nui-color-danger-soft-active);
+    --_line: var(--nui-color-danger-border);
+    --_line-hover: var(--nui-color-danger-border-hover);
+    --_ink: var(--nui-color-danger-text);
+  }
+
+  /* Sizes */
+
+  .nui-button[data-size='sm'] {
+    --_height: var(--nui-control-height-sm);
+    --_padding: var(--nui-space-3);
+    --_gap: var(--nui-space-1);
+    --_font-size: var(--nui-font-size-xs);
+    --_radius: var(--nui-radius-sm);
+  }
+
+  .nui-button[data-size='lg'] {
+    --_height: var(--nui-control-height-lg);
+    --_padding: var(--nui-space-5);
+    --_font-size: var(--nui-font-size-md);
+    --_radius: var(--nui-radius-lg);
+  }
+
+  @media (forced-colors: active) {
+    .nui-button:is(:disabled, [aria-disabled='true']) {
+      border-color: GrayText;
+      color: GrayText;
+      opacity: 1;
+    }
+  }
+}

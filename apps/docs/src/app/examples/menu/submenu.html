@@ -1,0 +1,19 @@
+<button nuiButton variant="outline" tone="neutral" [nuiMenuTrigger]="file">File</button>
+<div nuiMenu #file="ngMenu" (itemSelected)="opened.set($event)">
+  <div nuiMenuItem value="new">New file</div>
+  <div nuiMenuItem value="open">Open…</div>
+  <div nuiMenuItem value="recent" [submenu]="recent">Open recent</div>
+  <div nuiMenuSeparator></div>
+  <div nuiMenuItem value="close">Close</div>
+
+  <div nuiMenu #recent="ngMenu">
+    <div nuiMenuItem value="tokens.json">tokens.json</div>
+    <div nuiMenuItem value="button.css">button.css</div>
+    <div nuiMenuItem value="menu.ts">menu.ts</div>
+  </div>
+</div>
+@if (opened()) {
+  <p>
+    Chose <code>{{ opened() }}</code>
+  </p>
+}

@@ -1,0 +1,4 @@
+{
+  "extends": "../tokens/tsconfig.json",
+  "include": ["scripts", "test"]
+}

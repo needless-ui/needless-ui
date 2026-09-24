@@ -1,0 +1,23 @@
+name: Component or feature request
+description: Propose a new component, variant or API.
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to build?
+      description: Describe the interface you need, not the implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: Markup, inputs and states you'd expect. Links to prior art (WAI-ARIA APG patterns, other libraries) help.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: I checked the existing issues and specs/ for a similar proposal.
+          required: true

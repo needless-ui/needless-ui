@@ -1,0 +1,18 @@
+<button nuiButton variant="outline" tone="neutral" (click)="open.set(true)">Review terms…</button>
+@if (answer()) {
+  <p>
+    You chose <code>{{ answer() }}</code
+    >.
+  </p>
+}
+
+<dialog nuiDialog size="sm" [dismissible]="false" [(open)]="open" (closed)="answer.set($event)">
+  <h2 nuiDialogTitle>Updated terms</h2>
+  <p nuiDialogDescription>
+    Escape and backdrop clicks are ignored here. Choose an option to continue.
+  </p>
+  <div nuiDialogActions>
+    <button nuiButton variant="soft" tone="neutral" nuiDialogClose="decline">Decline</button>
+    <button nuiButton nuiDialogClose="accept">Accept</button>
+  </div>
+</dialog>
