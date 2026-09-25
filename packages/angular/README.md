@@ -72,14 +72,16 @@ export class ProjectActions {
 | `@needless-ui/angular/breadcrumbs`  | `NuiBreadcrumbs`                                                                                        |
 | `@needless-ui/angular/button`       | `NuiButton`                                                                                             |
 | `@needless-ui/angular/calendar`     | `NuiCalendar`                                                                                           |
+| `@needless-ui/angular/carousel`     | `NuiCarousel`, `NuiCarouselSlide`                                                                       |
 | `@needless-ui/angular/chat`         | `NuiChat`, `NuiChatThread`, `NuiChatComposer`, `NuiChatSession`                                         |
 | `@needless-ui/angular/color-picker` | `NuiColorPicker`, `nuiParseColor`, `nuiFormatColor`, `nuiContrast`                                      |
 | `@needless-ui/angular/command`      | `NuiCommandPalette`, `NuiCommand`                                                                       |
 | `@needless-ui/angular/date-picker`  | `NuiDateField`, `NuiTimeField`, `NuiDatePicker`, `NuiDateRangePicker`                                   |
 | `@needless-ui/angular/dialog`       | `NuiDialog`, `NuiDialogTitle`, `NuiDialogDescription`, `NuiDialogActions`, `NuiDialogClose`             |
 | `@needless-ui/angular/dropzone`     | `NuiDropzone`, `NuiUploadQueue`                                                                         |
+| `@needless-ui/angular/editor`       | `NuiEditor`, `nuiEditorToHtml`, `nuiEditorToMarkdown`                                                   |
 | `@needless-ui/angular/empty`        | `NuiEmpty` and its parts                                                                                |
-| `@needless-ui/angular/grid`         | `NuiGrid`, `NuiGridCell`, `NuiGridEngine`                                                               |
+| `@needless-ui/angular/grid`         | `NuiGrid`, `NuiGridCell`, `NuiGridDetail`, `NuiGridEngine`, `nuiXlsx`                                   |
 | `@needless-ui/angular/markdown`     | `NuiMarkdown`                                                                                           |
 | `@needless-ui/angular/mask`         | `NuiMask`, `nuiCardMask`, `nuiIbanMask`, `nuiLuhn`, `nuiIbanValid`                                      |
 | `@needless-ui/angular/menu`         | `NuiMenuTrigger`, `NuiMenu`, `NuiMenuItem`, `NuiMenuSeparator`, `NuiMenuShortcut`                       |

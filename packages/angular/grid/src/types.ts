@@ -42,7 +42,49 @@ export interface NuiGridColumn<T = any, V = any> {
   validate?: (value: V, row: T) => string | null | undefined;
   /** Makes the edited row. Defaults to a copy with the new value under `value`'s key (or `id`). */
   set?: (row: T, value: V) => T;
+  /** What the column shows on group rows and the totals row: a sum, an average… */
+  aggregate?: NuiGridAggregate<T, V>;
 }
+
+/**
+ * How a column sums up rows, on group rows and the totals row: `sum`, `avg`,
+ * `min`, `max`, `count` (of values that aren't empty), or a function of the
+ * values (empty ones left out) and the rows.
+ */
+export type NuiGridAggregate<T = any, V = any> =
+  'sum' | 'avg' | 'min' | 'max' | 'count' | ((values: readonly V[], rows: readonly T[]) => unknown);
+
+/**
+ * A line the grid draws: a row (with its depth, in tree data or under groups), a
+ * group of rows, or a row's details.
+ */
+export type NuiGridItem<T> =
+  | {
+      kind: 'row';
+      key: unknown;
+      row: T;
+      /** Depth, from 0. */
+      level: number;
+      expandable: boolean;
+      expanded: boolean;
+      /** Rows at this depth under the same parent, and this one's place among them, from 1. */
+      size: number;
+      position: number;
+    }
+  | {
+      kind: 'group';
+      key: string;
+      level: number;
+      /** The column the rows are grouped by, and their value in it. */
+      column: string;
+      value: unknown;
+      /** Every row in the group, nested groups included. */
+      rows: readonly T[];
+      expanded: boolean;
+      size: number;
+      position: number;
+    }
+  | { kind: 'detail'; key: string; row: T; level: number };
 
 export type NuiGridSortDirection = 'asc' | 'desc';
 
@@ -112,7 +154,17 @@ export interface NuiGridEdit<T> {
 export interface NuiGridLabels {
   selectAll: string;
   selectRow: string;
+  /** Selects every row of a group. */
+  selectGroup: string;
   showDetail: string;
+  /** The toggle of a group or a row with children. */
+  expand: string;
+  /** A group's row: its column, its value, and how many rows it has. */
+  group: (header: string, value: string, count: number) => string;
+  /** The totals row's first cell. */
+  total: string;
+  /** Read before an aggregate's value. */
+  aggregates: Record<'sum' | 'avg' | 'min' | 'max' | 'count' | 'custom', string>;
   columnOptions: (header: string) => string;
   sort: string;
   ascending: string;
@@ -154,7 +206,19 @@ export interface NuiGridLabels {
 export const NUI_GRID_LABELS: NuiGridLabels = {
   selectAll: 'Select all rows',
   selectRow: 'Select row',
+  selectGroup: 'Select the rows of this group',
   showDetail: 'Show details',
+  expand: 'Expand',
+  group: (header, value, count) => `${header}: ${value} (${count.toLocaleString('en')})`,
+  total: 'Total',
+  aggregates: {
+    sum: 'Sum',
+    avg: 'Average',
+    min: 'Minimum',
+    max: 'Maximum',
+    count: 'Count',
+    custom: 'Summary',
+  },
   columnOptions: (header) => `${header} column options`,
   sort: 'Sort',
   ascending: 'Ascending',

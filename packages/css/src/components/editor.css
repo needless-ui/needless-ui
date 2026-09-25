@@ -1,0 +1,390 @@
+/*
+ * Rich text editor: see specs/editor.md for the contract.
+ *
+ *   <nui-editor class="nui-editor">
+ *     <div class="nui-editor-toolbar" role="toolbar" aria-label="Formatting" aria-controls="editor-1">
+ *       <button class="nui-editor-tool" data-tool="h2" aria-pressed="false"><span>H2</span></button>
+ *       <span class="nui-editor-separator"></span>
+ *       <button class="nui-editor-tool" data-tool="bold" aria-label="Bold" aria-pressed="true"></button>…
+ *     </div>
+ *     <div class="nui-editor-content" id="editor-1" role="textbox" aria-multiline="true" contenteditable="true"
+ *          data-empty data-placeholder="Write something…">
+ *       <p data-nui-block="1">Text with <strong>bold</strong> and <a href="…">a link</a></p>
+ *       <ul data-depth="0"><li data-nui-block="2">An item</li></ul>
+ *     </div>
+ *     <div class="nui-popover nui-editor-link" popover role="dialog">…</div>
+ *   </nui-editor>
+ *
+ * The content's markup is the editor's own: blocks and formats only, so the
+ * styles below cover all of it. List items at every depth sit in flat lists
+ * with `data-depth`; the HTML the editor gives out nests them.
+ */
+@layer nui.components {
+  .nui-editor {
+    --_radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    --_icon: none;
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    transition: border-color var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  @media (hover: hover) {
+    .nui-editor:not([data-disabled], [data-readonly]):hover {
+      border-color: var(--nui-color-border-strong);
+    }
+  }
+
+  .nui-editor:has(.nui-editor-content:focus-visible) {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  .nui-editor:has(.nui-editor-content[aria-invalid='true']) {
+    border-color: var(--nui-color-danger-border-hover);
+  }
+
+  .nui-editor[data-disabled] {
+    opacity: 0.5;
+  }
+
+  .nui-editor[data-readonly] {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .nui-editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+    padding: calc(var(--nui-space-1) * var(--nui-density));
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  }
+
+  .nui-editor-separator {
+    inline-size: 1px;
+    block-size: 1.25rem;
+    margin-inline: var(--nui-space-1);
+    background-color: var(--nui-color-border-subtle);
+  }
+
+  .nui-editor-tool {
+    display: inline-grid;
+    place-items: center;
+    min-inline-size: 2rem;
+    block-size: 2rem;
+    margin: 0;
+    padding: 0 var(--nui-space-1);
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    font: inherit;
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-semibold);
+    cursor: pointer;
+  }
+
+  .nui-editor-tool:not(:has(span))::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon) center / contain no-repeat;
+  }
+
+  @media (hover: hover) {
+    .nui-editor-tool:not([aria-disabled='true']):hover {
+      background-color: var(--nui-color-neutral-soft);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-editor-tool[aria-pressed='true'] {
+    background-color: var(--nui-color-accent-soft);
+    color: var(--nui-color-accent-text);
+  }
+
+  .nui-editor-tool[aria-disabled='true'] {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .nui-editor-tool:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: -1px;
+  }
+
+  .nui-editor-tool[data-tool='bold'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M5 2.8h3.7a2.6 2.6 0 0 1 0 5.2H5zM5 8h4.3a2.6 2.6 0 0 1 0 5.2H5z'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='italic'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M7 3h5M4 13h5M9.5 3l-3 10'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='underline'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4.5 2.5V7a3.5 3.5 0 0 0 7 0V2.5M3.5 13.5h9'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='strike'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M3 8h10M11 4.3C10.4 3.4 9.3 3 8 3 6.3 3 5 4 5 5.3c0 .6.2 1.1.6 1.5M5 11c.5 1.2 1.6 2 3.2 2 1.8 0 3-1 3-2.3 0-.4-.1-.8-.3-1.1'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='code'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 4.5 2 8l3.5 3.5m5-7L14 8l-3.5 3.5'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='link'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M7 9a3 3 0 0 0 4.2.2l2-2A3 3 0 0 0 9 3l-1 1m1 3a3 3 0 0 0-4.2-.2l-2 2A3 3 0 0 0 7 13l1-1'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='bullet'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M6.5 4H14M6.5 8H14M6.5 12H14M2.8 4h.1M2.8 8h.1M2.8 12h.1' /%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='ordered'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4h7M7 8h7M7 12h7M2.5 2.8 3.6 2v3.6M2.4 9.2c0-.6.5-1 1.1-1s1.1.4 1.1.9c0 .9-2.2 1.3-2.2 2.2h2.3'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='quote'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='round'%3E%3Cpath d='M3 7.5C3 5.3 4 4 6 3.5M3 7.5h3V11H3zm6 0C9 5.3 10 4 12 3.5M9 7.5h3V11H9z'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='codeblock'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2.5' width='12' height='11' rx='2'/%3E%3Cpath d='M6.5 6 4.8 8l1.7 2m3-4 1.7 2-1.7 2'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='rule'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M2 8h12'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='clear'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M5 3h7M9 3l-2.5 10M3 3l10 10'/%3E%3C/svg%3E");
+  }
+
+  .nui-editor-tool[data-tool='undo'],
+  .nui-editor-tool[data-tool='redo'] {
+    --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 3.5 2.5 6.5l3 3M2.5 6.5H10a3.5 3.5 0 0 1 0 7H8'/%3E%3C/svg%3E");
+  }
+
+  /* Redo is undo the other way round; both turn with right-to-left text, as lists and quotes do. */
+  .nui-editor-tool[data-tool='redo']::before,
+  :is(
+      .nui-editor-tool[data-tool='undo'],
+      .nui-editor-tool[data-tool='bullet'],
+      .nui-editor-tool[data-tool='ordered'],
+      .nui-editor-tool[data-tool='quote']
+    ):dir(rtl)::before {
+    scale: -1 1;
+  }
+
+  .nui-editor-tool[data-tool='redo']:dir(rtl)::before {
+    scale: 1;
+  }
+
+  /* The content: the editor's own markup only. */
+  .nui-editor-content {
+    position: relative;
+    flex: 1;
+    min-block-size: calc(6rem * var(--nui-density));
+    padding: calc(var(--nui-space-3) * var(--nui-density))
+      calc(var(--nui-space-4) * var(--nui-density));
+    overflow-wrap: anywhere;
+    outline: none;
+    font-size: var(--nui-font-size-md);
+    line-height: var(--nui-line-height-normal);
+    white-space: pre-wrap;
+  }
+
+  .nui-editor[data-readonly] .nui-editor-content {
+    padding: 0;
+  }
+
+  .nui-editor-content[data-empty]::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    color: var(--nui-color-text-muted);
+    pointer-events: none;
+  }
+
+  .nui-editor-content > * {
+    margin-block: 0 var(--nui-space-3);
+  }
+
+  .nui-editor-content > :last-child {
+    margin-block-end: 0;
+  }
+
+  .nui-editor-content :is(h1, h2, h3) {
+    margin-block-start: var(--nui-space-4);
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: var(--nui-line-height-tight);
+  }
+
+  .nui-editor-content > :is(h1, h2, h3):first-child {
+    margin-block-start: 0;
+  }
+
+  .nui-editor-content h1 {
+    font-size: var(--nui-font-size-2xl);
+  }
+
+  .nui-editor-content h2 {
+    font-size: var(--nui-font-size-xl);
+  }
+
+  .nui-editor-content h3 {
+    font-size: var(--nui-font-size-lg);
+  }
+
+  .nui-editor-content blockquote {
+    padding-inline-start: var(--nui-space-3);
+    border-inline-start: 3px solid var(--nui-color-border-strong);
+    color: var(--nui-color-text-muted);
+  }
+
+  /* Quotes that follow each other read as one. */
+  .nui-editor-content > blockquote:has(+ blockquote) {
+    margin-block-end: 0;
+    padding-block-end: var(--nui-space-2);
+  }
+
+  .nui-editor-content :is(ul, ol) {
+    padding-inline-start: calc(1.5rem + var(--_depth, 0) * 1.5rem);
+  }
+
+  .nui-editor-content > :is(ul, ol):has(+ :is(ul, ol)) {
+    margin-block-end: 0;
+  }
+
+  .nui-editor-content ul[data-depth='1'],
+  .nui-editor-content ul[data-depth='4'] {
+    list-style-type: circle;
+  }
+
+  .nui-editor-content ul[data-depth='2'],
+  .nui-editor-content ul[data-depth='5'] {
+    list-style-type: square;
+  }
+
+  .nui-editor-content ol[data-depth='1'],
+  .nui-editor-content ol[data-depth='4'] {
+    list-style-type: lower-alpha;
+  }
+
+  .nui-editor-content ol[data-depth='2'],
+  .nui-editor-content ol[data-depth='5'] {
+    list-style-type: lower-roman;
+  }
+
+  .nui-editor-content li + li {
+    margin-block-start: var(--nui-space-1);
+  }
+
+  .nui-editor-content pre {
+    padding: var(--nui-space-3);
+    overflow-x: auto;
+    border-radius: var(--_radius);
+    background-color: var(--nui-color-bg-subtle);
+    font-family: var(--nui-font-family-mono);
+    font-size: var(--nui-font-size-sm);
+    white-space: pre;
+  }
+
+  .nui-editor-content :not(pre) > code {
+    padding: 0.1em 0.3em;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background-color: var(--nui-color-neutral-soft);
+    font-family: var(--nui-font-family-mono);
+    font-size: 0.875em;
+  }
+
+  .nui-editor-content a {
+    color: var(--nui-color-accent-text);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .nui-editor-content hr {
+    block-size: 0;
+    margin-block: var(--nui-space-4);
+    border: 0;
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+  }
+
+  /* The link popover. */
+  .nui-editor-link {
+    inline-size: min(20rem, 100vw - 2 * var(--nui-space-4));
+  }
+
+  .nui-editor-link-form {
+    display: grid;
+    gap: var(--nui-space-2);
+  }
+
+  .nui-editor-link-label {
+    font-size: var(--nui-font-size-sm);
+    font-weight: var(--nui-font-weight-medium);
+  }
+
+  .nui-editor-link-input {
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: var(--nui-control-height-md);
+    padding-inline: var(--nui-space-3);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-strong);
+    border-radius: var(--_radius, var(--nui-radius-md));
+    background-color: var(--nui-color-bg-canvas);
+    color: inherit;
+    font: inherit;
+    direction: ltr;
+  }
+
+  .nui-editor-link-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--nui-space-2);
+  }
+
+  :is(.nui-editor-link-apply, .nui-editor-link-remove) {
+    min-block-size: var(--nui-control-height-sm);
+    padding-inline: var(--nui-space-3);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font: inherit;
+    font-size: var(--nui-font-size-sm);
+    cursor: pointer;
+  }
+
+  .nui-editor-link-apply {
+    border-color: transparent;
+    background-color: var(--nui-color-accent-solid);
+    color: var(--nui-color-accent-on-solid);
+  }
+
+  :is(.nui-editor-link-input, .nui-editor-link-apply, .nui-editor-link-remove):focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  @media (forced-colors: active) {
+    .nui-editor-tool::before {
+      forced-color-adjust: none;
+      background-color: ButtonText;
+    }
+
+    .nui-editor-tool[aria-pressed='true'] {
+      outline: 2px solid Highlight;
+    }
+  }
+}

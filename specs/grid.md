@@ -8,11 +8,12 @@
 
 ## Anatomy
 
-A native `<table role="grid">` inside a scroll container (`nui-grid-scroll`), so the header stays in view and pinned columns stay put while the rest scrolls:
+A native `<table role="grid">` (a `treegrid` when rows are grouped or nest) inside a scroll container (`nui-grid-scroll`), so the header stays in view and pinned columns stay put while the rest scrolls:
 
 - **Header row:** one `nui-grid-header` per column. Each has its label, a sort mark with its priority when several columns sort, a filter mark, a button for the column panel (`nui-grid-menu-button`) and a resize handle (`nui-grid-resize`).
 - **Rows** (`nui-grid-row`) of cells (`nui-grid-cell`). A checkbox column (`nui-grid-select`) comes first when rows can be selected. A cell being edited holds an editor (`nui-grid-editor`) and, when the value isn't valid, a message (`nui-grid-error`).
 - **The column panel** (`nui-grid-panel`), a popover. It holds sorting, the filter for the column, pinning, moving, fitting and hiding, and the list of every column to show or hide.
+- **Groups** (`nui-grid-group`): a row per group of rows, with its toggle (`nui-grid-toggle`), its column's value and count, and each column's aggregate. **Tree data** indents rows by depth (`nui-grid-tree`) with a toggle for the ones with children. **Details** (`nui-grid-detail`) open under a row from a column of toggles, and a **totals row** (in `tfoot`) sums up every row that passes the filters.
 - **The pager** (`nui-grid-pager`), when rows come in pages: rows per page, the range shown, and first, previous, next and last buttons.
 - **States:** a progress bar and skeleton rows while `loading`, and a message row when there are no rows (`nui-grid-empty`).
 
@@ -38,8 +39,15 @@ The grid's model (`NuiGridEngine`: filtering, sorting, paging, selection, column
 | —                            | `label`, `labels`                              | the grid's accessible name; every text it shows or announces, for translation           | —                   |
 | —                            | `(rowActivate)`, `(cellEdit)`, `(queryChange)` | Enter or double click on a row; a committed edit; sort, filters, search or page changed | —                   |
 | —                            | `exportCsv()`, `focusCell()`, `clearFilters()` | the filtered, sorted rows as CSV; focus a cell from code                                | —                   |
+| `nui-grid-group`             | `[(groupBy)]`, `[(collapsed)]`                 | column ids to group by, outermost first; keys of the groups closed                      | `[]`, `[]`          |
+| `nui-grid-tree`              | `children`, `[(expanded)]`                     | `(row) => rows`: tree data; keys of the rows open                                       | none, `[]`          |
+| `nui-grid-detail`            | `nuiGridDetail`, `[(details)]`                 | a row's details, as a template; keys of the rows whose details are open                 | none, `[]`          |
+| `tfoot`                      | `totals`                                       | a row with each column's aggregate over every filtered row                              | false               |
+| `data-flash`                 | `flash`                                        | cells whose text changes when `rows` change flash                                       | false               |
+| `data-cards`                 | `layout`                                       | `table`; `list` shows rows as cards; `auto` does below 36rem                            | `table`             |
+| —                            | `exportXlsx()`, `print()`, `expandAll()`       | a spreadsheet (.xlsx) of the filtered, sorted rows; print every row; open or close all  | —                   |
 
-Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header) and `nuiGridEmpty` (the empty message). Personality inputs: `corners`, `radius` and `density`.
+Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header), `nuiGridEmpty` (the empty message) and `nuiGridDetail` (a row's details). Personality inputs: `corners`, `radius` and `density`.
 
 ### Columns
 
@@ -55,6 +63,7 @@ Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header)
 | `sortable`, `filterable`, `resizable`, `reorderable`, `hideable` | All true unless set to false                                                         |
 | `compare`                                                        | A custom sort                                                                        |
 | `editable`, `validate`, `set`                                    | Whether cells can be edited, how a value is checked, and how the new row is made     |
+| `aggregate`                                                      | `sum`, `avg`, `min`, `max`, `count` or a function: what group rows and totals show   |
 
 ## Behavior
 
@@ -65,27 +74,38 @@ Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header)
 - Columns resize by dragging the handle (a double click fits the content), and move by dragging the header; the panel and keys do both too. Pinned columns stick to their edge. The column state records all of it.
 - Only the rows in view are rendered when rows don't come in pages. The active cell always stays rendered, and `aria-rowcount` and `aria-rowindex` give the true positions.
 - In `server` mode the grid shows `rows` as they come and uses `total` for counts. It still keeps the sort, filters, search and page, and emits `queryChange`, so you can fetch.
+- **Groups:** rows group by the `groupBy` columns in turn, groups in the order of their column's sort (ascending otherwise), empty last. Each group row shows its value, its count, and the aggregate of every column that has one; groups start open. Paging and virtual scrolling count group rows too. A group's checkbox selects its rows.
+- **Tree data:** with `children`, each row can open to show its own; rows sort among their siblings. A search or filter keeps the rows above a match, open, so the match shows where it is.
+- **Details** open under their row, from a column of toggles, and render the `nuiGridDetail` template.
+- **Totals** aggregate every row that passes the filters (in tree data, the top-level ones), in a row that sticks to the bottom.
+- **Live data:** with `flash`, cells whose text changes when `rows` do flash for a moment (a ring under reduced motion). Rows need a key that lasts across updates (`rowId`), so the grid can tell a row changed rather than came new.
+- **Export and print:** `exportXlsx()` writes a real spreadsheet: typed cells (numbers, dates, booleans), the columns' number formats, a bold, frozen header with filters. `print()`, and the browser's own print, lay out every row with nothing sticky or virtual.
+- **Cards:** with `layout="list"`, or `auto` below 36rem, rows show as cards, each cell with its column's name.
 
 ## Keyboard
 
 The grid is one tab stop, and the arrow keys move between cells (header cells included).
 
-| Key                            | Behavior                                                      |
-| ------------------------------ | ------------------------------------------------------------- |
-| Arrows                         | Move one cell (← and → are mirrored in right-to-left text)    |
-| Home / End                     | First or last cell in the row                                 |
-| Ctrl + Home / Ctrl + End       | First or last cell in the grid                                |
-| Page Down / Page Up            | One screen of rows down or up                                 |
-| Enter, Space (header)          | Sort by the column; with Shift, add it to the sort            |
-| Alt + ↓ (header)               | Open the column panel                                         |
-| Alt + ← / → (header)           | Make the column narrower or wider                             |
-| Alt + Shift + ← / → (header)   | Move the column                                               |
-| Enter (cell)                   | Edit the cell if it can be edited, otherwise activate the row |
-| F2, or typing (cell)           | Edit the cell                                                 |
-| Enter / Escape / Tab (editing) | Commit / cancel / commit and move to the next cell            |
-| Space                          | Select or unselect the row                                    |
-| Shift + Space                  | Select the rows from the last one selected                    |
-| Ctrl + A                       | Select every row                                              |
+| Key                                                 | Behavior                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------- |
+| Arrows                                              | Move one cell (← and → are mirrored in right-to-left text)    |
+| Home / End                                          | First or last cell in the row                                 |
+| Ctrl + Home / Ctrl + End                            | First or last cell in the grid                                |
+| Page Down / Page Up                                 | One screen of rows down or up                                 |
+| Enter, Space (header)                               | Sort by the column; with Shift, add it to the sort            |
+| Alt + ↓ (header)                                    | Open the column panel                                         |
+| Alt + ← / → (header)                                | Make the column narrower or wider                             |
+| Alt + Shift + ← / → (header)                        | Move the column                                               |
+| Enter (cell)                                        | Edit the cell if it can be edited, otherwise activate the row |
+| F2, or typing (cell)                                | Edit the cell                                                 |
+| Enter / Escape / Tab (editing)                      | Commit / cancel / commit and move to the next cell            |
+| Space                                               | Select or unselect the row                                    |
+| Shift + Space                                       | Select the rows from the last one selected                    |
+| Ctrl + A                                            | Select every row                                              |
+| → / ← (group, or first cell of a row with children) | Open / close it; ← again goes up to its parent                |
+| Enter (group)                                       | Open or close the group                                       |
+| Space (group)                                       | Select or unselect the group's rows                           |
+| Enter (details column)                              | Open or close the row's details                               |
 
 ## Accessibility
 
@@ -93,4 +113,5 @@ The grid is one tab stop, and the arrow keys move between cells (header cells in
 - Focus moves with a roving `tabindex`, so screen readers follow the cell with its row and column headers. A cell being edited holds a labeled field; `aria-invalid` and the message it's described by show what's wrong.
 - `aria-rowcount`, `aria-rowindex` and `aria-colindex` are right while rows are virtualized, paged or hidden.
 - The column panel is a dialog named after the column, and closing it returns focus to the header. Sort changes, row counts and paging are announced through a polite status region.
+- Grouped or nested rows make the table a `treegrid`: rows carry `aria-level`, `aria-setsize`, `aria-posinset`, and `aria-expanded` when they open. Toggles and the details' buttons are named and say whether they're open. Aggregates are read with their kind ("Sum: 475").
 - Angular Aria's grid moves through the cells that are rendered. This grid moves through the data, so it can render only what's in view.

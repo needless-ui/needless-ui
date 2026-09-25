@@ -48,3 +48,26 @@ export class NuiGridHeader {
 export class NuiGridEmpty {
   readonly template = inject<TemplateRef<{ $implicit: boolean }>>(TemplateRef);
 }
+
+/**
+ * A row's details, shown under it when opened: the grid adds a column of
+ * toggles. The context holds the row.
+ *
+ * ```html
+ * <ng-template nuiGridDetail let-order>
+ *   <ul>@for (line of order.lines; track line.sku) { <li>{{ line.name }}</li> }</ul>
+ * </ng-template>
+ * ```
+ */
+@Directive({ selector: 'ng-template[nuiGridDetail]' })
+// `any` so templates can read the row's fields.
+export class NuiGridDetail<T = any> {
+  readonly template = inject<TemplateRef<{ $implicit: T }>>(TemplateRef);
+
+  static ngTemplateContextGuard<T>(
+    _directive: NuiGridDetail<T>,
+    context: unknown,
+  ): context is { $implicit: T } {
+    return true;
+  }
+}

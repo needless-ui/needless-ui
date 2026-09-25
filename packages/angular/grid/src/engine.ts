@@ -14,6 +14,7 @@ import type {
   NuiGridColumn,
   NuiGridColumnState,
   NuiGridFilter,
+  NuiGridItem,
   NuiGridQuery,
   NuiGridSort,
   NuiGridType,
@@ -65,6 +66,20 @@ export interface NuiGridSources<T> {
   leading?: Signal<number>;
   /** How many of those columns there are. */
   leadingCount?: Signal<number>;
+  /** Columns to group rows by, outermost first. */
+  groupBy?: WritableSignal<readonly string[]>;
+  /** Keys of the groups closed; groups start open. */
+  collapsed?: WritableSignal<readonly string[]>;
+  /** Keys of the rows with children that are open; they start closed. */
+  expanded?: WritableSignal<readonly unknown[]>;
+  /** Keys of the rows whose details are open. */
+  details?: WritableSignal<readonly unknown[]>;
+  /** A row's children, for tree data. */
+  children?: Signal<((row: T) => readonly T[] | null | undefined) | null>;
+  /** Rows have details to open. */
+  hasDetails?: Signal<boolean>;
+  /** Rows drawn after the data that the keyboard reaches too, such as totals. */
+  footerRows?: Signal<number>;
 }
 
 const defaultId = (row: unknown) => (row as { id?: unknown } | null)?.id ?? row;
@@ -93,6 +108,13 @@ export class NuiGridEngine<T> {
 
   readonly leading: Signal<number>;
   readonly leadingCount: Signal<number>;
+  readonly groupBy: WritableSignal<readonly string[]>;
+  readonly collapsed: WritableSignal<readonly string[]>;
+  readonly expanded: WritableSignal<readonly unknown[]>;
+  readonly details: WritableSignal<readonly unknown[]>;
+  readonly children: Signal<((row: T) => readonly T[] | null | undefined) | null>;
+  readonly hasDetails: Signal<boolean>;
+  readonly footerRows: Signal<number>;
   /** Width of the scroll container, which `flex` columns share. */
   readonly containerWidth = signal(0);
   /** The active cell. Row -1 is the header; columns count the leading ones. */
@@ -116,6 +138,13 @@ export class NuiGridEngine<T> {
     this.words = from.words ?? signal({ yes: 'Yes', no: 'No' });
     this.leading = from.leading ?? signal(0);
     this.leadingCount = from.leadingCount ?? signal(0);
+    this.groupBy = from.groupBy ?? signal([]);
+    this.collapsed = from.collapsed ?? signal([]);
+    this.expanded = from.expanded ?? signal([]);
+    this.details = from.details ?? signal([]);
+    this.children = from.children ?? signal(null);
+    this.hasDetails = from.hasDetails ?? signal(false);
+    this.footerRows = from.footerRows ?? signal(0);
   }
 
   // Columns ------------------------------------------------------------------
@@ -270,37 +299,84 @@ export class NuiGridEngine<T> {
     );
   });
 
-  /** The rows that pass the search and the filters. */
-  readonly filtered = computed<readonly T[]>(() => {
-    const rows = this.rows();
-    if (this.mode() === 'server') return rows;
+  /** The search words and active filters, or null when nothing narrows the rows. */
+  private readonly narrowing = computed(() => {
     const words = nuiGridNormalize(this.search()).split(/\s+/).filter(Boolean);
     const filters = Object.entries(this.filters()).filter(
       ([id, filter]) => this.byId().has(id) && nuiGridFilterActive(filter),
     );
-    if (!words.length && !filters.length) return rows;
-    const haystacks = words.length ? this.haystacks() : null;
-    const byId = this.byId();
-    return rows.filter((row, i) => {
-      if (haystacks && !words.every((word) => haystacks[i].includes(word))) return false;
-      return filters.every(([id, filter]) => {
-        const column = byId.get(id)!;
-        return nuiGridMatches(column, filter, nuiGridValue(column, row), this.text(column, row));
-      });
-    });
+    return words.length || filters.length ? { words, filters } : null;
   });
 
-  /** Filtered rows in sort order. Sorting is stable, and empty values go last. */
-  readonly sorted = computed<readonly T[]>(() => {
-    const rows = this.filtered();
+  /** Whether a row passes the search and the filters; `haystack` is its searchable text, if known. */
+  private passes(row: T, haystack?: string): boolean {
+    const narrowing = this.narrowing();
+    if (!narrowing) return true;
+    const { words, filters } = narrowing;
+    if (words.length) {
+      const text =
+        haystack ??
+        nuiGridNormalize(
+          this.searchable()
+            .map((column) => this.text(column, row))
+            .join('\n'),
+        );
+      if (!words.every((word) => text.includes(word))) return false;
+    }
     const byId = this.byId();
-    const keys = this.sort()
+    return filters.every(([id, filter]) => {
+      const column = byId.get(id)!;
+      return nuiGridMatches(column, filter, nuiGridValue(column, row), this.text(column, row));
+    });
+  }
+
+  /** The rows that pass the search and the filters (in tree data, the top-level ones). */
+  readonly filtered = computed<readonly T[]>(() => {
+    const rows = this.rows();
+    if (this.mode() === 'server') return rows;
+    const forest = this.forest();
+    if (forest) return forest.roots;
+    const narrowing = this.narrowing();
+    if (!narrowing) return rows;
+    const haystacks = narrowing.words.length ? this.haystacks() : null;
+    return rows.filter((row, i) => this.passes(row, haystacks?.[i]));
+  });
+
+  /**
+   * Tree data, filtered: a row stays when it passes, or when a row under it does.
+   * Its children are the ones that stay.
+   */
+  private readonly forest = computed(() => {
+    const children = this.children();
+    if (!children || this.mode() === 'server') return null;
+    const narrowed = !!this.narrowing();
+    const kept = new Map<T, readonly T[]>();
+    const keep = (row: T): boolean => {
+      const under = (children(row) ?? []).filter(keep);
+      kept.set(row, under);
+      return !narrowed || under.length > 0 || this.passes(row);
+    };
+    return { roots: this.rows().filter(keep), kept, narrowed };
+  });
+
+  /** The sort's columns, ready to compare with. */
+  private readonly sortKeys = computed(() => {
+    const byId = this.byId();
+    return this.sort()
       .map((sort) => ({
         column: byId.get(sort.column),
         direction: sort.direction === 'desc' ? -1 : 1,
         compare: this.comparators().get(sort.column),
       }))
       .filter((key) => key.column && key.column.sortable !== false && key.compare);
+  });
+
+  /** Filtered rows in sort order. Sorting is stable, and empty values go last. */
+  readonly sorted = computed<readonly T[]>(() => this.sortRows(this.filtered()));
+
+  /** Rows in sort order: the data, or the children of a row in tree data. */
+  private sortRows(rows: readonly T[]): readonly T[] {
+    const keys = this.sortKeys();
     if (this.mode() === 'server' || !keys.length) return rows;
     const decorated = rows.map((row, index) => ({
       row,
@@ -321,11 +397,242 @@ export class NuiGridEngine<T> {
       return a.index - b.index;
     });
     return decorated.map((item) => item.row);
+  }
+
+  // Groups, trees and details ----------------------------------------------------
+
+  /** The columns rows are grouped by, that exist; none in tree data or server mode. */
+  readonly grouping = computed(() => {
+    if (this.children() || this.mode() === 'server') return [];
+    const byId = this.byId();
+    return this.groupBy().filter((id) => byId.has(id));
   });
 
-  /** How many rows there are in all: filtered here, or as the server says. */
+  /** Rows nest: grouped, or tree data. The table is a treegrid then. */
+  readonly nested = computed(() => this.grouping().length > 0 || !!this.children());
+
+  private readonly collapsedKeys = computed(() => new Set(this.collapsed()));
+  private readonly expandedKeys = computed(() => new Set(this.expanded()));
+  private readonly detailKeys = computed(() => new Set(this.details()));
+
+  /** Every line to draw, before paging: groups, rows and details, in order. */
+  readonly display = computed<readonly NuiGridItem<T>[]>(() => {
+    const out: NuiGridItem<T>[] = [];
+    const details = this.hasDetails() ? this.detailKeys() : null;
+    const children = this.children();
+    const forest = this.forest();
+    const expanded = this.expandedKeys();
+    const push = (row: T, level: number, size: number, position: number, under: readonly T[]) => {
+      const key = this.key(row);
+      // While a search or filter narrows tree data, rows open to show what matched.
+      const open = under.length > 0 && (expanded.has(key) || !!forest?.narrowed);
+      out.push({
+        kind: 'row',
+        key,
+        row,
+        level,
+        expandable: under.length > 0,
+        expanded: open,
+        size,
+        position,
+      });
+      if (details?.has(key)) out.push({ kind: 'detail', key: `detail:${String(key)}`, row, level });
+      if (open) {
+        const sorted = this.sortRows(under);
+        sorted.forEach((child, i) =>
+          push(child, level + 1, sorted.length, i + 1, forest?.kept.get(child) ?? []),
+        );
+      }
+    };
+    const grouping = this.grouping();
+    if (grouping.length) {
+      this.groupRows(this.sorted(), grouping, 0, [], out, push);
+      return out;
+    }
+    const rows = this.sorted();
+    rows.forEach((row, i) =>
+      push(
+        row,
+        0,
+        rows.length,
+        i + 1,
+        children ? (forest?.kept.get(row) ?? children(row) ?? []) : [],
+      ),
+    );
+    return out;
+  });
+
+  /** Groups rows by a column, then by the next, adding each group's line and, if it's open, its rows. */
+  private groupRows(
+    rows: readonly T[],
+    grouping: readonly string[],
+    level: number,
+    path: readonly [string, string][],
+    out: NuiGridItem<T>[],
+    push: (row: T, level: number, size: number, position: number, under: readonly T[]) => void,
+  ): void {
+    const id = grouping[level];
+    const column = this.byId().get(id)!;
+    const buckets = new Map<string, { value: unknown; rows: T[] }>();
+    for (const row of rows) {
+      const value = nuiGridValue(column, row);
+      const key = valueKey(value);
+      const bucket = buckets.get(key);
+      if (bucket) bucket.rows.push(row);
+      else buckets.set(key, { value, rows: [row] });
+    }
+    // Groups in the column's sort order (ascending unless the sort says otherwise); empty last.
+    const compare = this.comparators().get(id)!;
+    const direction = this.sort().find((sort) => sort.column === id)?.direction === 'desc' ? -1 : 1;
+    const groups = [...buckets.entries()].sort(([, a], [, b]) => {
+      const [emptyA, emptyB] = [nuiGridEmpty(a.value), nuiGridEmpty(b.value)];
+      if (emptyA || emptyB) return emptyA === emptyB ? 0 : emptyA ? 1 : -1;
+      return compare(a.value, b.value) * direction;
+    });
+    const collapsed = this.collapsedKeys();
+    groups.forEach(([valueId, group], i) => {
+      const at: [string, string][] = [...path, [id, valueId]];
+      const key = JSON.stringify(at);
+      const expanded = !collapsed.has(key);
+      out.push({
+        kind: 'group',
+        key,
+        level,
+        column: id,
+        value: group.value,
+        rows: group.rows,
+        expanded,
+        size: groups.length,
+        position: i + 1,
+      });
+      if (!expanded) return;
+      if (level + 1 < grouping.length) {
+        this.groupRows(group.rows, grouping, level + 1, at, out, push);
+      } else {
+        group.rows.forEach((row, j) => push(row, level + 1, group.rows.length, j + 1, []));
+      }
+    });
+  }
+
+  /** Opens or closes a group, a row's children or a row's details. */
+  toggleItem(item: NuiGridItem<T>, open?: boolean): void {
+    if (item.kind === 'group') {
+      const now = open ?? !item.expanded;
+      this.collapsed.update((keys) =>
+        now ? keys.filter((k) => k !== item.key) : [...keys, item.key],
+      );
+    } else if (item.kind === 'row' && item.expandable) {
+      const now = open ?? !item.expanded;
+      this.expanded.update((keys) =>
+        now
+          ? [...keys.filter((k) => k !== item.key), item.key]
+          : keys.filter((k) => k !== item.key),
+      );
+    }
+  }
+
+  /** Opens or closes a row's details. */
+  toggleDetails(row: T, open?: boolean): void {
+    const key = this.key(row);
+    const now = open ?? !this.detailKeys().has(key);
+    this.details.update((keys) =>
+      now ? [...keys.filter((k) => k !== key), key] : keys.filter((k) => k !== key),
+    );
+  }
+
+  detailsOpen(row: T): boolean {
+    return this.detailKeys().has(this.key(row));
+  }
+
+  /** Opens every group and every row with children, or closes them all. */
+  expandAll(open = true): void {
+    if (this.grouping().length) {
+      if (open) this.collapsed.set([]);
+      else {
+        this.collapsed.set(this.allGroupKeys());
+      }
+      return;
+    }
+    const children = this.children();
+    if (!children) return;
+    if (!open) {
+      this.expanded.set([]);
+      return;
+    }
+    const keys: unknown[] = [];
+    const walk = (rows: readonly T[]) => {
+      for (const row of rows) {
+        const under = children(row) ?? [];
+        if (under.length) {
+          keys.push(this.key(row));
+          walk(under);
+        }
+      }
+    };
+    walk(this.rows());
+    this.expanded.set(keys);
+  }
+
+  private allGroupKeys(): string[] {
+    const keys: string[] = [];
+    const grouping = this.grouping();
+    const walk = (rows: readonly T[], level: number, path: [string, string][]) => {
+      const id = grouping[level];
+      const column = this.byId().get(id)!;
+      const seen = new Map<string, T[]>();
+      for (const row of rows) {
+        const valueId = valueKey(nuiGridValue(column, row));
+        (seen.get(valueId) ?? seen.set(valueId, []).get(valueId)!).push(row);
+      }
+      for (const [valueId, group] of seen) {
+        const at: [string, string][] = [...path, [id, valueId]];
+        keys.push(JSON.stringify(at));
+        if (level + 1 < grouping.length) walk(group, level + 1, at);
+      }
+    };
+    if (grouping.length) walk(this.sorted(), 0, []);
+    return keys;
+  }
+
+  /** A column's aggregate over rows, as the column shows it; empty when it has none. */
+  aggregate(column: NuiGridColumn<T>, rows: readonly T[]): string {
+    const kind = column.aggregate;
+    if (!kind) return '';
+    const values = rows.map((row) => nuiGridValue(column, row)).filter((v) => !nuiGridEmpty(v));
+    let result: unknown;
+    if (typeof kind === 'function') result = kind(values, rows);
+    else if (kind === 'count') {
+      return new Intl.NumberFormat(this.locale()).format(values.length);
+    } else if (!values.length) return '';
+    else if (kind === 'sum' || kind === 'avg') {
+      const sum = values.reduce<number>((total, value) => total + Number(value), 0);
+      result = kind === 'sum' ? sum : sum / values.length;
+    } else {
+      const compare = this.comparators().get(column.id)!;
+      result = values.reduce((best, value) =>
+        (kind === 'min' ? compare(value, best) < 0 : compare(value, best) > 0) ? value : best,
+      );
+    }
+    if (nuiGridEmpty(result)) return '';
+    const format = this.formatters().get(column.id);
+    return format &&
+      (typeof result === 'number' || result instanceof Date || typeof kind !== 'function')
+      ? format(result, rows[0])
+      : String(result);
+  }
+
+  /** Every aggregate over every row that passes the filters: the totals row. */
+  readonly totals = computed(() => {
+    const rows = this.sorted();
+    return new Map(this.layout().map((column) => [column.id, this.aggregate(column.column, rows)]));
+  });
+
+  /** Whether any visible column sums up rows. */
+  readonly aggregated = computed(() => this.layout().some((column) => !!column.column.aggregate));
+
+  /** How many lines there are in all (rows, groups, details): filtered here, or as the server says. */
   readonly total = computed(() =>
-    this.mode() === 'server' ? (this.totalRows() ?? this.rows().length) : this.sorted().length,
+    this.mode() === 'server' ? (this.totalRows() ?? this.rows().length) : this.display().length,
   );
 
   readonly paged = computed(() => this.pageSize() > 0);
@@ -335,13 +642,18 @@ export class NuiGridEngine<T> {
   /** The page shown: the model's, kept inside the pages there are. */
   readonly currentPage = computed(() => Math.min(Math.max(0, this.page()), this.pageCount() - 1));
 
-  /** The rows to render: one page, or all of them. */
-  readonly view = computed<readonly T[]>(() => {
-    const rows = this.sorted();
-    if (this.mode() === 'server' || !this.paged()) return rows;
+  /** The lines to draw: one page, or all of them. */
+  readonly shown = computed<readonly NuiGridItem<T>[]>(() => {
+    const items = this.display();
+    if (this.mode() === 'server' || !this.paged()) return items;
     const start = this.currentPage() * this.pageSize();
-    return rows.slice(start, start + this.pageSize());
+    return items.slice(start, start + this.pageSize());
   });
+
+  /** The rows drawn, without groups or details. */
+  readonly view = computed<readonly T[]>(() =>
+    this.shown().flatMap((item) => (item.kind === 'row' ? [item.row] : [])),
+  );
 
   /** The index of the first row shown among all of them, for `aria-rowindex`. */
   readonly firstIndex = computed(() => (this.paged() ? this.currentPage() * this.pageSize() : 0));
@@ -422,6 +734,24 @@ export class NuiGridEngine<T> {
     }
     const keys = this.selected().filter((k) => k !== key);
     this.selected.set(selected ? [...keys, key] : keys);
+  }
+
+  /** Selects every row of a group, or clears them. */
+  toggleGroupRows(rows: readonly T[], selected?: boolean): void {
+    if (this.selection() !== 'multiple') return;
+    const keys = rows.map((row) => this.key(row));
+    const now = selected ?? !keys.every((key) => this.selectedKeys().has(key));
+    const inGroup = new Set(keys);
+    const rest = this.selected().filter((key) => !inGroup.has(key));
+    this.selected.set(now ? [...rest, ...keys] : rest);
+  }
+
+  /** Whether all of a group's rows are selected, some, or none. */
+  groupSelection(rows: readonly T[]): 'all' | 'some' | 'none' {
+    const selected = this.selectedKeys();
+    let count = 0;
+    for (const row of rows) if (selected.has(this.key(row))) count++;
+    return count === 0 ? 'none' : count === rows.length ? 'all' : 'some';
   }
 
   /** Selects the rows from the last one toggled to this one, as they're shown. */
@@ -571,7 +901,7 @@ export class NuiGridEngine<T> {
   }
 
   setActive(row: number, col: number): void {
-    const lastRow = this.view().length - 1;
+    const lastRow = this.shown().length - 1 + (this.shown().length ? this.footerRows() : 0);
     const lastCol = this.colCount() - 1;
     this.active.set({
       row: Math.max(-1, Math.min(lastRow, row)),
@@ -598,4 +928,11 @@ export class NuiGridEngine<T> {
       columns.map((column) => (column.type ?? 'text') === 'text' || column.type === 'enum'),
     );
   }
+}
+
+/** A value as a group's key: dates by their time, empty ones as one. */
+function valueKey(value: unknown): string {
+  if (nuiGridEmpty(value)) return '\u0000';
+  if (value instanceof Date) return value.toISOString();
+  return typeof value === 'object' ? JSON.stringify(value) : String(value);
 }

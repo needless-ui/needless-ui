@@ -3,6 +3,7 @@ import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
   afterNextRender,
   afterRenderEffect,
+  ApplicationRef,
   booleanAttribute,
   Component,
   computed,
@@ -12,6 +13,7 @@ import {
   effect,
   ElementRef,
   inject,
+  Injector,
   input,
   LOCALE_ID,
   model,
@@ -27,17 +29,19 @@ import { NuiPopover } from '@needless-ui/angular/popover';
 import { NuiGridEngine, type NuiGridLayoutColumn } from './engine';
 import { nuiGridDate, nuiGridEmpty, nuiGridFilterActive } from './format';
 import { NuiGridPanel } from './panel';
-import { NuiGridCell, NuiGridEmpty, NuiGridHeader } from './templates';
+import { NuiGridCell, NuiGridDetail, NuiGridEmpty, NuiGridHeader } from './templates';
 import {
   NUI_GRID_LABELS,
   type NuiGridColumn,
   type NuiGridColumnState,
   type NuiGridEdit,
   type NuiGridFilter,
+  type NuiGridItem,
   type NuiGridLabels,
   type NuiGridQuery,
   type NuiGridSort,
 } from './types';
+import { nuiXlsx } from './xlsx';
 import type { NuiCsvOptions } from './format';
 
 /** Width of the checkbox column, in pixels; the CSS draws it the same. */
@@ -58,8 +62,8 @@ interface Editing<T> {
   error: string | null;
 }
 
-/** A row to render, or the gap left by rows that aren't. */
-type Item<T> = { key: unknown; row: T; index: number } | { key: string; gap: number };
+/** A line to render, or the gap left by lines that aren't. */
+type Item<T> = { key: unknown; line: NuiGridItem<T>; index: number } | { key: string; gap: number };
 
 const defaultId = (row: unknown) => (row as { id?: unknown } | null)?.id ?? row;
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -81,7 +85,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   selector: 'nui-grid',
   imports: [NgTemplateOutlet, NuiPopover, NuiGridPanel],
   hostDirectives: [{ directive: NuiPersonality, inputs: ['density', 'corners', 'radius'] }],
-  host: { class: 'nui-grid' },
+  host: { class: 'nui-grid', '[attr.data-cards]': 'cards() || null' },
   templateUrl: './grid.html',
 })
 export class NuiGrid<T> {
@@ -126,6 +130,22 @@ export class NuiGrid<T> {
   readonly cellEdit = output<NuiGridEdit<T>>();
   /** The sort, filters, search or page changed (and once at the start), for fetching. */
   readonly queryChange = output<NuiGridQuery>();
+  /** Columns to group rows by, outermost first. Groups are rows of their own, with totals. */
+  readonly groupBy = model<readonly string[]>([]);
+  /** Keys of the groups closed; groups start open. */
+  readonly collapsed = model<readonly string[]>([]);
+  /** A row's children: the grid shows tree data, rows open to show theirs. */
+  readonly children = input<((row: T) => readonly T[] | null | undefined) | null>(null);
+  /** Keys of the rows open in tree data; they start closed. */
+  readonly expanded = model<readonly unknown[]>([]);
+  /** Keys of the rows whose details are open, with an `nuiGridDetail` template. */
+  readonly details = model<readonly unknown[]>([]);
+  /** A row after the data with each column's aggregate over every row that passes the filters. */
+  readonly totals = input(false, { transform: booleanAttribute });
+  /** Cells whose text changes when `rows` do flash for a moment. */
+  readonly flash = input(false, { transform: booleanAttribute });
+  /** `table`; `list` shows each row as a card; `auto` does below a width. */
+  readonly layout = input<'table' | 'list' | 'auto'>('table');
 
   protected readonly text = computed<NuiGridLabels>(() => {
     const labels = this.labels();
@@ -136,8 +156,21 @@ export class NuiGrid<T> {
     };
   });
   protected readonly selectable = computed(() => this.selection() !== 'none');
-  /** How many columns come before the data: the checkboxes. */
-  protected readonly lead = computed(() => (this.selectable() ? 1 : 0));
+  protected readonly detailDef = contentChild(NuiGridDetail);
+  protected readonly hasDetails = computed(() => !!this.detailDef());
+  /** How many columns come before the data: the checkboxes and the details' toggles. */
+  protected readonly lead = computed(
+    () => (this.selectable() ? 1 : 0) + (this.hasDetails() ? 1 : 0),
+  );
+  protected readonly showTotals = computed(() => this.totals() && this.engine.aggregated());
+  /** Rows show as cards: always with `list`, and below 36rem with `auto`. */
+  protected readonly cards = computed(() => {
+    const layout = this.layout();
+    return (
+      layout === 'list' ||
+      (layout === 'auto' && this.engine.containerWidth() > 0 && this.engine.containerWidth() < 576)
+    );
+  });
 
   /** The model: filtering, sorting, paging, selection, columns and the active cell. */
   readonly engine: NuiGridEngine<T> = new NuiGridEngine<T>({
@@ -156,8 +189,15 @@ export class NuiGrid<T> {
     total: this.total,
     locale: this.locale,
     words: computed(() => ({ yes: this.text().yes, no: this.text().no })),
-    leading: computed(() => (this.selectable() ? LEAD : 0)),
+    leading: computed(() => this.lead() * LEAD),
     leadingCount: this.lead,
+    groupBy: this.groupBy,
+    collapsed: this.collapsed,
+    expanded: this.expanded,
+    details: this.details,
+    children: this.children,
+    hasDetails: this.hasDetails,
+    footerRows: computed(() => (this.showTotals() ? 1 : 0)),
   });
 
   private readonly cellDefs = contentChildren(NuiGridCell);
@@ -171,6 +211,7 @@ export class NuiGrid<T> {
   );
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly injector = inject(Injector);
   private readonly scrollRef = viewChild.required<ElementRef<HTMLElement>>('scroll');
   private readonly headRef = viewChild.required<ElementRef<HTMLElement>>('head');
   private readonly panelRef = viewChild.required(NuiPopover);
@@ -186,32 +227,38 @@ export class NuiGrid<T> {
   private readonly headerHeight = signal(0);
   private readonly measured = signal(0);
 
+  /** Printing: every line, on one page, with nothing virtual. */
+  protected readonly printing = signal(false);
+
   protected readonly virtualized = computed(() => {
+    if (this.printing()) return false;
     const virtual = this.virtual();
     if (virtual !== 'auto') return virtual;
-    return !this.engine.paged() && this.engine.view().length > AUTO_VIRTUAL;
+    return !this.engine.paged() && this.engine.shown().length > AUTO_VIRTUAL;
   });
 
   private readonly virtualizer = computed(
-    () => new NuiVirtualizer({ count: this.engine.view().length, estimate: ESTIMATE }),
+    () => new NuiVirtualizer({ count: this.engine.shown().length, estimate: ESTIMATE }),
   );
 
-  /** The rows in view (and the active one wherever it is), with gaps for the rest. */
+  /** The lines in view (and the active one wherever it is), with gaps for the rest. */
   protected readonly items = computed<Item<T>[]>(() => {
-    const rows = this.engine.view();
-    const key = (row: T) => this.engine.key(row);
-    if (!this.virtualized()) return rows.map((row, index) => ({ key: key(row), row, index }));
+    const lines = this.printing() ? this.engine.display() : this.engine.shown();
+    if (!this.virtualized()) return lines.map((line, index) => ({ key: line.key, line, index }));
     this.measured();
     const active = this.engine.active().row;
     const top = Math.max(0, this.scrollTop() - this.headerHeight());
     return this.virtualizer()
-      .slice(top, this.viewport() || 480, active >= 0 ? [active] : [])
+      .slice(top, this.viewport() || 480, active >= 0 && active < lines.length ? [active] : [])
       .map((item) =>
         'gap' in item
           ? { key: `gap:${item.at}`, gap: item.gap }
-          : { key: key(rows[item.index]), row: rows[item.index], index: item.index },
+          : { key: lines[item.index].key, line: lines[item.index], index: item.index },
       );
   });
+
+  /** Cells flashing after their text changed, by row key and column. */
+  protected readonly flashing = signal<ReadonlyMap<unknown, ReadonlySet<string>>>(new Map());
 
   /** A virtual list needs a bounded height: 32rem unless `height` says otherwise. */
   protected readonly maxHeight = computed(
@@ -267,7 +314,7 @@ export class NuiGrid<T> {
 
     // Keep the active cell inside the grid when rows or columns go.
     effect(() => {
-      engine.view();
+      engine.shown();
       engine.colCount();
       untracked(() => engine.setActive(engine.active().row, engine.active().col));
     });
@@ -293,6 +340,65 @@ export class NuiGrid<T> {
       if (!pending) return;
       this.pendingFocus = null;
       untracked(() => this.applyFocus(pending));
+    });
+
+    // Printing, from the page's menu too: every line, rendered before the page is laid out.
+    const appRef = inject(ApplicationRef);
+    afterNextRender(() => {
+      const view = this.host.ownerDocument.defaultView!;
+      const before = () => {
+        this.printing.set(true);
+        appRef.tick();
+      };
+      const after = () => this.printing.set(false);
+      view.addEventListener('beforeprint', before);
+      view.addEventListener('afterprint', after);
+      destroyRef.onDestroy(() => {
+        view.removeEventListener('beforeprint', before);
+        view.removeEventListener('afterprint', after);
+      });
+    });
+
+    // Cells that changed in new rows flash, among the ones drawn.
+    let previous = new Map<unknown, T>();
+    effect(() => {
+      const rows = this.rows();
+      const on = this.flash();
+      untracked(() => {
+        const before = previous;
+        previous = new Map(rows.map((row) => [engine.key(row), row]));
+        if (!on || !before.size || !this.browser) return;
+        const changed = new Map<unknown, Set<string>>();
+        for (const item of this.items()) {
+          if ('gap' in item || item.line.kind !== 'row') continue;
+          const key = item.line.key;
+          const now = previous.get(key);
+          const old = before.get(key);
+          if (!now || !old || now === old) continue;
+          for (const column of engine.layout()) {
+            if (engine.text(column.column, old) === engine.text(column.column, now)) continue;
+            (changed.get(key) ?? changed.set(key, new Set()).get(key)!).add(column.id);
+          }
+        }
+        if (!changed.size) return;
+        this.flashing.update((current) => {
+          const next = new Map(current);
+          for (const [key, ids] of changed)
+            next.set(key, new Set([...(next.get(key) ?? []), ...ids]));
+          return next;
+        });
+        setTimeout(() => {
+          this.flashing.update((current) => {
+            const next = new Map(current);
+            for (const [key, ids] of changed) {
+              const left = [...(next.get(key) ?? [])].filter((id) => !ids.has(id));
+              if (left.length) next.set(key, new Set(left));
+              else next.delete(key);
+            }
+            return next;
+          });
+        }, 1200);
+      });
     });
 
     afterNextRender(() => {
@@ -332,6 +438,68 @@ export class NuiGrid<T> {
     return this.engine.csv(options);
   }
 
+  /**
+   * The filtered, sorted rows (every page) of the visible columns, as a
+   * spreadsheet (.xlsx): typed cells (numbers, dates, booleans) with the
+   * columns' number formats, and a bold, frozen header with filters.
+   */
+  exportXlsx(options: { sheet?: string } = {}): Blob {
+    const engine = this.engine;
+    const layout = engine.layout();
+    const rows = this.mode() === 'server' ? this.rows() : engine.sorted();
+    const cell = (column: NuiGridColumn<T>, row: T): unknown => {
+      const value = engine.value(column, row);
+      switch (column.type ?? 'text') {
+        case 'number':
+          return typeof value === 'number' ? value : null;
+        case 'date':
+          return nuiGridDate(value);
+        case 'boolean':
+          return nuiGridEmpty(value) ? null : !!value;
+        default:
+          return engine.text(column, row);
+      }
+    };
+    const format = (column: NuiGridColumn<T>): string | undefined => {
+      const options =
+        typeof column.format === 'object' ? (column.format as Intl.NumberFormatOptions) : null;
+      if (column.type === 'date') return 'yyyy-mm-dd';
+      if (column.type !== 'number') return undefined;
+      if (options?.style === 'percent') return '0%';
+      const digits = options?.maximumFractionDigits ?? options?.minimumFractionDigits;
+      return digits ? `#,##0.${'0'.repeat(digits)}` : '#,##0.##';
+    };
+    const bytes = nuiXlsx({
+      name: options.sheet ?? (this.label() || 'Sheet1'),
+      columns: layout.map((column) => ({
+        header: column.column.header,
+        width: Math.max(8, Math.round(column.width / 7)),
+        format: format(column.column),
+      })),
+      rows: rows.map((row) => layout.map((column) => cell(column.column, row))),
+    });
+    return new Blob([bytes as BlobPart], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+  }
+
+  /** Prints the grid: every row that passes the filters, on as many pages as it takes. */
+  print(): void {
+    if (!this.browser) return;
+    this.printing.set(true);
+    afterNextRender(
+      () => {
+        this.host.ownerDocument.defaultView!.print();
+      },
+      { injector: this.injector },
+    );
+  }
+
+  /** Opens every group and every row with children, or closes them all. */
+  expandAll(open = true): void {
+    this.engine.expandAll(open);
+  }
+
   /** Focuses a cell: `row` -1 is the header, `col` counts the checkbox column. */
   focusCell(row: number, col: number): void {
     this.go(row, col);
@@ -349,6 +517,11 @@ export class NuiGrid<T> {
     return active.row === row && active.col === col ? 0 : -1;
   }
 
+  /** A detail row's one cell takes the tab stop on any column of its row. */
+  protected tabRow(row: number): number {
+    return this.engine.active().row === row ? 0 : -1;
+  }
+
   protected columnAt(col: number): NuiGridLayoutColumn<T> | null {
     return this.engine.layout()[col - this.lead()] ?? null;
   }
@@ -357,6 +530,37 @@ export class NuiGrid<T> {
   protected ariaSort(column: NuiGridLayoutColumn<T>): string | null {
     if (!column.sort || column.sort.priority !== 1) return null;
     return column.sort.direction === 'asc' ? 'ascending' : 'descending';
+  }
+
+  protected isFlashing(key: unknown, column: string): boolean {
+    return !!this.flashing().get(key)?.has(column);
+  }
+
+  /** The words read before an aggregate. */
+  protected aggregateLabel(column: NuiGridColumn<T>): string {
+    const kind = column.aggregate;
+    return this.text().aggregates[typeof kind === 'function' ? 'custom' : (kind ?? 'custom')];
+  }
+
+  protected groupHeader(line: NuiGridItem<T> & { kind: 'group' }): string {
+    const column = this.engine.byId().get(line.column)!;
+    const text = line.rows.length ? this.engine.text(column, line.rows[0]) : '';
+    return this.text().group(column.header, text || '—', line.rows.length);
+  }
+
+  protected onToggle(line: NuiGridItem<T>, event: Event): void {
+    event.stopPropagation();
+    this.engine.toggleItem(line);
+  }
+
+  protected onDetailToggle(row: T, event: Event): void {
+    event.stopPropagation();
+    this.engine.toggleDetails(row);
+  }
+
+  protected onGroupCheck(line: NuiGridItem<T> & { kind: 'group' }, event: Event): void {
+    event.stopPropagation();
+    this.engine.toggleGroupRows(line.rows);
   }
 
   protected isEditing(row: T, column: string): boolean {
@@ -527,8 +731,15 @@ export class NuiGrid<T> {
     const column = this.columnAt(col);
     const header = row < 0;
     const mod = event.ctrlKey || event.metaKey;
-    const rows = engine.view();
-    const data = rows[row];
+    const lines = engine.shown();
+    const line = lines[row] as NuiGridItem<T> | undefined;
+    const data = line?.kind === 'row' ? line.row : undefined;
+    const last = lines.length - 1 + (lines.length && this.showTotals() ? 1 : 0);
+    // Groups and rows with children open and close from their first data cell.
+    const toggles =
+      !!line &&
+      (line.kind === 'group' || (line.kind === 'row' && line.expandable)) &&
+      col <= this.lead();
     switch (event.key) {
       case 'ArrowDown':
         if (header && event.altKey) {
@@ -554,6 +765,29 @@ export class NuiGrid<T> {
           }
           break;
         }
+        if (!header && line && (line.kind === 'group' || toggles)) {
+          const expandable = line.kind === 'group' || (line.kind === 'row' && line.expandable);
+          const open = line.expanded;
+          if (forward && expandable && !open) {
+            engine.toggleItem(line, true);
+            break;
+          }
+          if (!forward && expandable && open) {
+            engine.toggleItem(line, false);
+            break;
+          }
+          if (!forward && line.level > 0 && col <= this.lead()) {
+            // Left again: up to the group or row this one is in.
+            for (let i = row - 1; i >= 0; i--) {
+              const above = lines[i];
+              if (above.kind !== 'detail' && above.level < line.level) {
+                this.go(i, col);
+                break;
+              }
+            }
+            break;
+          }
+        }
         this.go(row, col + (forward ? 1 : -1));
         break;
       }
@@ -561,10 +795,10 @@ export class NuiGrid<T> {
         this.go(mod ? -1 : row, 0);
         break;
       case 'End':
-        this.go(mod ? rows.length - 1 : row, engine.colCount() - 1);
+        this.go(mod ? last : row, engine.colCount() - 1);
         break;
       case 'PageDown':
-        this.go(Math.min(rows.length - 1, row + this.pageRows()), col);
+        this.go(Math.min(last, row + this.pageRows()), col);
         break;
       case 'PageUp':
         this.go(header ? -1 : Math.max(0, row - this.pageRows()), col);
@@ -574,6 +808,21 @@ export class NuiGrid<T> {
         if (header) {
           if (column) this.sortColumn(column, event.shiftKey);
           else if (this.selection() === 'multiple') engine.toggleAll();
+          break;
+        }
+        if (line?.kind === 'group') {
+          if (event.key === ' ' && this.selection() === 'multiple')
+            engine.toggleGroupRows(line.rows);
+          else engine.toggleItem(line);
+          break;
+        }
+        if (
+          data &&
+          this.hasDetails() &&
+          col === (this.selectable() ? 1 : 0) &&
+          event.key === 'Enter'
+        ) {
+          engine.toggleDetails(data);
           break;
         }
         if (!data) return;
@@ -618,7 +867,8 @@ export class NuiGrid<T> {
   /** Starts editing a cell; a boolean cell just flips. Returns whether it could. */
   private startEdit(index: number, col: number, typed?: string): boolean {
     const column = this.columnAt(col);
-    const row = this.engine.view()[index];
+    const line = this.engine.shown()[index];
+    const row = line?.kind === 'row' ? line.row : null;
     if (!column || !row || !this.engine.editable(column.column, row)) return false;
     if (column.type === 'boolean') {
       if (typed !== undefined) return false;
@@ -799,9 +1049,11 @@ export class NuiGrid<T> {
       return;
     }
     const { row, col } = this.engine.active();
-    const cell = this.scrollRef().nativeElement.querySelector<HTMLElement>(
-      `[data-row="${row}"][data-col="${col}"]`,
-    );
+    const scroller = this.scrollRef().nativeElement;
+    // A detail row has one cell: whatever the column, focus goes there.
+    const cell =
+      scroller.querySelector<HTMLElement>(`[data-row="${row}"][data-col="${col}"]`) ??
+      scroller.querySelector<HTMLElement>(`[data-row="${row}"][data-col]`);
     if (!cell) return;
     cell.focus({ preventScroll: true });
     this.reveal(cell);

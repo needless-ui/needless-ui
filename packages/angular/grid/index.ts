@@ -10,14 +10,23 @@ export {
   nuiGridOperators,
   nuiGridValue,
 } from './src/format';
-export { NuiGridCell, type NuiGridCellContext, NuiGridEmpty, NuiGridHeader } from './src/templates';
+export {
+  NuiGridCell,
+  type NuiGridCellContext,
+  NuiGridDetail,
+  NuiGridEmpty,
+  NuiGridHeader,
+} from './src/templates';
+export { nuiXlsx, type NuiXlsxColumn, type NuiXlsxSheet, nuiZip } from './src/xlsx';
 export {
   NUI_GRID_LABELS,
+  type NuiGridAggregate,
   type NuiGridColumn,
   type NuiGridColumnState,
   type NuiGridEdit,
   type NuiGridFilter,
   type NuiGridFilterOp,
+  type NuiGridItem,
   type NuiGridLabels,
   type NuiGridQuery,
   type NuiGridSort,

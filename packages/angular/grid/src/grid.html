@@ -1,7 +1,9 @@
 @let t = text();
 @let layout = engine.layout();
-@let rows = engine.view();
+@let lines = engine.shown();
 @let lead = this.lead();
+@let nested = engine.nested();
+@let detailCol = selectable() ? 1 : 0;
 
 @if (loading()) {
   <div class="nui-grid-progress" role="progressbar" [attr.aria-label]="t.loading"></div>
@@ -10,9 +12,11 @@
 <div #scroll class="nui-grid-scroll" [style.--_height]="maxHeight()" (scroll)="onScroll()">
   <table
     class="nui-grid-table"
-    role="grid"
+    [attr.role]="nested ? 'treegrid' : 'grid'"
     [attr.aria-label]="label() || null"
-    [attr.aria-rowcount]="loading() && !rows.length ? -1 : engine.total() + 1"
+    [attr.aria-rowcount]="
+      loading() && !lines.length ? -1 : engine.total() + 1 + (showTotals() && lines.length ? 1 : 0)
+    "
     [attr.aria-colcount]="engine.colCount()"
     [attr.aria-multiselectable]="selection() === 'multiple' || null"
     [attr.aria-busy]="loading() || null"
@@ -22,6 +26,9 @@
   >
     <colgroup>
       @if (selectable()) {
+        <col class="nui-grid-col-select" [style.inline-size.px]="44" />
+      }
+      @if (hasDetails()) {
         <col class="nui-grid-col-select" [style.inline-size.px]="44" />
       }
       @for (column of layout; track column.id) {
@@ -53,6 +60,20 @@
             } @else {
               <span class="nui-grid-hidden">{{ t.selectRow }}</span>
             }
+          </th>
+        }
+        @if (hasDetails()) {
+          <th
+            role="columnheader"
+            class="nui-grid-select"
+            data-row="-1"
+            data-pinned="start"
+            [attr.data-col]="detailCol"
+            [attr.aria-colindex]="detailCol + 1"
+            [style.--_offset.px]="detailCol * 44"
+            [tabindex]="tab(-1, detailCol)"
+          >
+            <span class="nui-grid-hidden">{{ t.showDetail }}</span>
           </th>
         }
         @for (column of layout; track column.id; let c = $index) {
@@ -115,7 +136,7 @@
     </thead>
 
     <tbody>
-      @if (loading() && !rows.length) {
+      @if (loading() && !lines.length) {
         <!-- Placeholders while the first rows load; the progress bar speaks for them. -->
         @for (i of [0, 1, 2, 3, 4]; track i) {
           <tr class="nui-grid-row" aria-hidden="true">
@@ -124,7 +145,7 @@
             }
           </tr>
         }
-      } @else if (!rows.length) {
+      } @else if (!lines.length) {
         <tr role="row" aria-rowindex="2">
           <td role="gridcell" class="nui-grid-empty" [attr.colspan]="engine.colCount()">
             @if (emptyDef(); as empty) {
@@ -147,16 +168,126 @@
           <tr class="nui-grid-gap" aria-hidden="true">
             <td [attr.colspan]="engine.colCount()" [style.block-size.px]="item.gap"></td>
           </tr>
+        } @else if (item.line.kind === 'detail') {
+          @let r = item.index;
+          <tr role="row" class="nui-grid-detail" [attr.aria-rowindex]="engine.firstIndex() + r + 2">
+            <td
+              role="gridcell"
+              class="nui-grid-detail-cell"
+              [attr.colspan]="engine.colCount()"
+              [attr.aria-colindex]="1"
+              [attr.data-row]="r"
+              data-col="0"
+              [tabindex]="tabRow(r)"
+            >
+              <ng-container
+                *ngTemplateOutlet="detailDef()!.template; context: { $implicit: item.line.row }"
+              />
+            </td>
+          </tr>
+        } @else if (item.line.kind === 'group') {
+          @let group = item.line;
+          @let r = item.index;
+          @let groupSelected =
+            selection() === 'multiple' ? engine.groupSelection(group.rows) : 'none';
+          <tr
+            role="row"
+            class="nui-grid-row nui-grid-group"
+            [attr.data-index]="r"
+            [attr.data-level]="group.level"
+            [attr.aria-rowindex]="engine.firstIndex() + r + 2"
+            [attr.aria-level]="group.level + 1"
+            [attr.aria-expanded]="group.expanded"
+            [attr.aria-setsize]="group.size"
+            [attr.aria-posinset]="group.position"
+            [style.--_level]="group.level"
+            (click)="onToggle(group, $event)"
+          >
+            @if (selectable()) {
+              <td
+                role="gridcell"
+                class="nui-grid-select"
+                aria-colindex="1"
+                data-col="0"
+                data-pinned="start"
+                [attr.data-row]="r"
+                [tabindex]="tab(r, 0)"
+              >
+                @if (selection() === 'multiple') {
+                  <input
+                    type="checkbox"
+                    tabindex="-1"
+                    [checked]="groupSelected === 'all'"
+                    [indeterminate]="groupSelected === 'some'"
+                    [attr.aria-label]="t.selectGroup"
+                    (click)="onGroupCheck(group, $event)"
+                  />
+                }
+              </td>
+            }
+            @if (hasDetails()) {
+              <td
+                role="gridcell"
+                class="nui-grid-select"
+                data-pinned="start"
+                [attr.aria-colindex]="detailCol + 1"
+                [attr.data-col]="detailCol"
+                [attr.data-row]="r"
+                [style.--_offset.px]="detailCol * 44"
+                [tabindex]="tab(r, detailCol)"
+              ></td>
+            }
+            @for (column of layout; track column.id; let c = $index) {
+              <td
+                role="gridcell"
+                class="nui-grid-cell"
+                [attr.data-row]="r"
+                [attr.data-col]="lead + c"
+                [attr.data-type]="column.type"
+                [attr.data-align]="c === 0 ? 'start' : column.align"
+                [attr.data-pinned]="column.pinned"
+                [attr.data-edge]="column.edge || null"
+                [attr.data-label]="column.column.header"
+                [attr.aria-colindex]="lead + c + 1"
+                [style.--_offset.px]="column.pinned ? column.offset : null"
+                [tabindex]="tab(r, lead + c)"
+              >
+                @if (c === 0) {
+                  <span class="nui-grid-tree">
+                    <button
+                      type="button"
+                      class="nui-grid-toggle"
+                      tabindex="-1"
+                      [attr.aria-label]="t.expand"
+                      [attr.aria-expanded]="group.expanded"
+                      (click)="onToggle(group, $event)"
+                    ></button>
+                    <span class="nui-grid-group-label">{{ groupHeader(group) }}</span>
+                  </span>
+                } @else if (engine.aggregate(column.column, group.rows); as value) {
+                  <span class="nui-grid-hidden">{{ aggregateLabel(column.column) }}: </span
+                  >{{ value }}
+                }
+              </td>
+            }
+          </tr>
         } @else {
-          @let row = item.row;
+          @let line = item.line;
+          @let row = line.row;
           @let r = item.index;
           @let selected = selectable() && engine.isSelected(row);
           <tr
             role="row"
             class="nui-grid-row"
             [attr.data-index]="r"
+            [attr.data-level]="nested ? line.level : null"
             [attr.aria-rowindex]="engine.firstIndex() + r + 2"
             [attr.aria-selected]="selectable() ? selected : null"
+            [attr.aria-level]="nested ? line.level + 1 : null"
+            [attr.aria-expanded]="line.expandable ? line.expanded : null"
+            [attr.aria-setsize]="nested ? line.size : null"
+            [attr.aria-posinset]="nested ? line.position : null"
+            [style.--_level]="nested ? line.level : null"
             (click)="onRowClick(row, $event)"
           >
             @if (selectable()) {
@@ -178,6 +309,27 @@
                 />
               </td>
             }
+            @if (hasDetails()) {
+              <td
+                role="gridcell"
+                class="nui-grid-select"
+                data-pinned="start"
+                [attr.aria-colindex]="detailCol + 1"
+                [attr.data-col]="detailCol"
+                [attr.data-row]="r"
+                [style.--_offset.px]="detailCol * 44"
+                [tabindex]="tab(r, detailCol)"
+              >
+                <button
+                  type="button"
+                  class="nui-grid-toggle"
+                  tabindex="-1"
+                  [attr.aria-label]="t.showDetail"
+                  [attr.aria-expanded]="engine.detailsOpen(row)"
+                  (click)="onDetailToggle(row, $event)"
+                ></button>
+              </td>
+            }
             @for (column of layout; track column.id; let c = $index) {
               <td
                 role="gridcell"
@@ -188,66 +340,35 @@
                 [attr.data-align]="column.align"
                 [attr.data-pinned]="column.pinned"
                 [attr.data-edge]="column.edge || null"
+                [attr.data-label]="column.column.header"
+                [attr.data-flash]="isFlashing(line.key, column.id) || null"
                 [attr.aria-colindex]="lead + c + 1"
                 [style.--_offset.px]="column.pinned ? column.offset : null"
                 [tabindex]="tab(r, lead + c)"
                 (dblclick)="onCellDblclick(row, r, lead + c)"
               >
-                @if (isEditing(row, column.id)) {
-                  @let edit = editing()!;
-                  @if (column.type === 'enum') {
-                    <select
-                      class="nui-grid-editor"
-                      [attr.aria-label]="column.column.header"
-                      (change)="onEditorInput($any($event.target).value)"
-                      (keydown)="onEditorKeydown($event)"
-                      (blur)="onEditorBlur()"
-                    >
-                      @for (option of column.column.options ?? []; track $index) {
-                        <option [value]="$index" [selected]="edit.text === '' + $index">
-                          {{ option.label }}
-                        </option>
-                      }
-                    </select>
-                  } @else {
-                    <input
-                      class="nui-grid-editor"
-                      [type]="column.type === 'date' ? 'date' : 'text'"
-                      [attr.inputmode]="column.type === 'number' ? 'decimal' : null"
-                      [attr.aria-label]="column.column.header"
-                      [attr.aria-invalid]="edit.error ? true : null"
-                      [attr.aria-describedby]="edit.error ? errorId : null"
-                      [value]="edit.text"
-                      (input)="onEditorInput($any($event.target).value)"
-                      (keydown)="onEditorKeydown($event)"
-                      (blur)="onEditorBlur()"
+                @if (c === 0 && nested) {
+                  <span class="nui-grid-tree">
+                    @if (line.expandable) {
+                      <button
+                        type="button"
+                        class="nui-grid-toggle"
+                        tabindex="-1"
+                        [attr.aria-label]="t.expand"
+                        [attr.aria-expanded]="line.expanded"
+                        (click)="onToggle(line, $event)"
+                      ></button>
+                    } @else {
+                      <span class="nui-grid-toggle-space" aria-hidden="true"></span>
+                    }
+                    <ng-container
+                      *ngTemplateOutlet="cellContent; context: { $implicit: column, row, r, c }"
                     />
-                  }
-                  @if (edit.error) {
-                    <span class="nui-grid-error" [id]="errorId">{{ edit.error }}</span>
-                  }
-                } @else if (cellTemplates().get(column.id); as template) {
-                  <ng-container
-                    *ngTemplateOutlet="
-                      template;
-                      context: {
-                        $implicit: row,
-                        value: engine.value(column.column, row),
-                        text: engine.text(column.column, row),
-                        column: column.column,
-                      }
-                    "
-                  />
-                } @else if (column.type === 'boolean') {
-                  @let value = engine.value(column.column, row);
-                  <span
-                    class="nui-grid-check"
-                    aria-hidden="true"
-                    [attr.data-checked]="value ? '' : null"
-                  ></span>
-                  <span class="nui-grid-hidden">{{ engine.text(column.column, row) }}</span>
+                  </span>
                 } @else {
-                  {{ engine.text(column.column, row) }}
+                  <ng-container
+                    *ngTemplateOutlet="cellContent; context: { $implicit: column, row, r, c }"
+                  />
                 }
               </td>
             }
@@ -255,6 +376,67 @@
         }
       }
     </tbody>
+
+    @if (showTotals() && lines.length) {
+      @let r = lines.length;
+      @let totals = engine.totals();
+      <tfoot>
+        <tr
+          role="row"
+          class="nui-grid-row nui-grid-totals"
+          [attr.aria-rowindex]="engine.total() + 2"
+        >
+          @if (selectable()) {
+            <td
+              role="gridcell"
+              class="nui-grid-select"
+              aria-colindex="1"
+              data-col="0"
+              data-pinned="start"
+              [attr.data-row]="r"
+              [tabindex]="tab(r, 0)"
+            ></td>
+          }
+          @if (hasDetails()) {
+            <td
+              role="gridcell"
+              class="nui-grid-select"
+              data-pinned="start"
+              [attr.aria-colindex]="detailCol + 1"
+              [attr.data-col]="detailCol"
+              [attr.data-row]="r"
+              [style.--_offset.px]="detailCol * 44"
+              [tabindex]="tab(r, detailCol)"
+            ></td>
+          }
+          @for (column of layout; track column.id; let c = $index) {
+            @let value = totals.get(column.id);
+            <td
+              role="gridcell"
+              class="nui-grid-cell"
+              [attr.data-row]="r"
+              [attr.data-col]="lead + c"
+              [attr.data-type]="column.type"
+              [attr.data-align]="c === 0 && !value ? 'start' : column.align"
+              [attr.data-pinned]="column.pinned"
+              [attr.data-edge]="column.edge || null"
+              [attr.data-label]="column.column.header"
+              [attr.aria-colindex]="lead + c + 1"
+              [style.--_offset.px]="column.pinned ? column.offset : null"
+              [tabindex]="tab(r, lead + c)"
+            >
+              @if (c === 0 && !value) {
+                {{ t.total }}
+              } @else if (value) {
+                <span class="nui-grid-hidden"
+                  >{{ c === 0 ? t.total + ', ' : '' }}{{ aggregateLabel(column.column) }}: </span
+                >{{ value }}
+              }
+            </td>
+          }
+        </tr>
+      </tfoot>
+    }
   </table>
 </div>
 
@@ -326,3 +508,59 @@
 </div>
 
 <div class="nui-grid-hidden" role="status">{{ status() }}</div>
+
+<!-- A cell's content: its editor while it's edited, a template, a check or its text. -->
+<ng-template #cellContent let-column let-row="row">
+  @if (isEditing(row, column.id)) {
+    @let edit = editing()!;
+    @if (column.type === 'enum') {
+      <select
+        class="nui-grid-editor"
+        [attr.aria-label]="column.column.header"
+        (change)="onEditorInput($any($event.target).value)"
+        (keydown)="onEditorKeydown($event)"
+        (blur)="onEditorBlur()"
+      >
+        @for (option of column.column.options ?? []; track $index) {
+          <option [value]="$index" [selected]="edit.text === '' + $index">
+            {{ option.label }}
+          </option>
+        }
+      </select>
+    } @else {
+      <input
+        class="nui-grid-editor"
+        [type]="column.type === 'date' ? 'date' : 'text'"
+        [attr.inputmode]="column.type === 'number' ? 'decimal' : null"
+        [attr.aria-label]="column.column.header"
+        [attr.aria-invalid]="edit.error ? true : null"
+        [attr.aria-describedby]="edit.error ? errorId : null"
+        [value]="edit.text"
+        (input)="onEditorInput($any($event.target).value)"
+        (keydown)="onEditorKeydown($event)"
+        (blur)="onEditorBlur()"
+      />
+    }
+    @if (edit.error) {
+      <span class="nui-grid-error" [id]="errorId">{{ edit.error }}</span>
+    }
+  } @else if (cellTemplates().get(column.id); as template) {
+    <ng-container
+      *ngTemplateOutlet="
+        template;
+        context: {
+          $implicit: row,
+          value: engine.value(column.column, row),
+          text: engine.text(column.column, row),
+          column: column.column,
+        }
+      "
+    />
+  } @else if (column.type === 'boolean') {
+    @let value = engine.value(column.column, row);
+    <span class="nui-grid-check" aria-hidden="true" [attr.data-checked]="value ? '' : null"></span>
+    <span class="nui-grid-hidden">{{ engine.text(column.column, row) }}</span>
+  } @else {
+    {{ engine.text(column.column, row) }}
+  }
+</ng-template>
