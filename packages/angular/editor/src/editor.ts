@@ -79,6 +79,8 @@ export type NuiEditorTool =
   | 'h3'
   | 'bullet'
   | 'ordered'
+  | 'indent'
+  | 'outdent'
   | 'quote'
   | 'codeblock'
   | 'rule'
@@ -101,6 +103,8 @@ export interface NuiEditorLabels {
   h3: string;
   bullet: string;
   ordered: string;
+  indent: string;
+  outdent: string;
   quote: string;
   codeblock: string;
   rule: string;
@@ -125,6 +129,8 @@ export const NUI_EDITOR_LABELS: NuiEditorLabels = {
   h3: 'Heading 3',
   bullet: 'Bulleted list',
   ordered: 'Numbered list',
+  indent: 'Indent',
+  outdent: 'Outdent',
   quote: 'Quote',
   codeblock: 'Code block',
   rule: 'Divider',
@@ -136,6 +142,10 @@ export const NUI_EDITOR_LABELS: NuiEditorLabels = {
   linkRemove: 'Remove link',
 };
 
+/**
+ * The default toolbar. Its `outdent` and `indent` show on touch screens only,
+ * which have no Tab key; listed in other `tools`, they show everywhere.
+ */
 export const NUI_EDITOR_TOOLS: readonly NuiEditorTool[] = [
   'h2',
   'h3',
@@ -149,12 +159,22 @@ export const NUI_EDITOR_TOOLS: readonly NuiEditorTool[] = [
   '|',
   'bullet',
   'ordered',
+  'outdent',
+  'indent',
   'quote',
   'codeblock',
   '|',
   'undo',
   'redo',
 ];
+
+/**
+ * A touch screen with nothing that hovers: a phone, or a tablet on its own. It has
+ * no Tab key to indent with, so the default toolbar shows these tools there. The
+ * CSS has the same query, and hides them elsewhere until the editor drops them.
+ */
+const TOUCH_FIRST = '(hover: none) and (pointer: coarse)';
+const TOUCH_TOOLS: readonly NuiEditorTool[] = ['outdent', 'indent'];
 
 /** Shortcuts, as `aria-keyshortcuts` writes them; `Mod` is Meta on Apple devices and Control elsewhere. */
 const SHORTCUTS: Partial<Record<NuiEditorTool, string>> = {
@@ -169,6 +189,8 @@ const SHORTCUTS: Partial<Record<NuiEditorTool, string>> = {
   h3: 'Mod+Alt+3',
   ordered: 'Mod+Shift+7',
   bullet: 'Mod+Shift+8',
+  indent: 'Tab',
+  outdent: 'Shift+Tab',
   quote: 'Mod+Shift+9',
   codeblock: 'Mod+Alt+C',
   undo: 'Mod+Z',
@@ -176,6 +198,10 @@ const SHORTCUTS: Partial<Record<NuiEditorTool, string>> = {
 };
 
 const MARKS: readonly NuiEditorMark[] = ['bold', 'italic', 'underline', 'strike', 'code'];
+
+/** Whether an edit left every block as it was. */
+const unchanged = (before: NuiEditorDoc, after: NuiEditorDoc) =>
+  before.length === after.length && before.every((block, i) => block === after[i]);
 
 interface State {
   doc: NuiEditorDoc;
@@ -220,25 +246,27 @@ let nextId = 0;
         [attr.aria-label]="words().toolbar"
         [attr.aria-controls]="contentId"
         [disabled]="isDisabled()"
+        (click)="onToolClick($event)"
       >
-        @for (tool of toolList(); track $index) {
+        <!-- Buttons follow their tool, so the toolbar keeps its tab stop as tools come and go. -->
+        @for (tool of toolList(); track tool === '|' ? $index : tool) {
           @if (tool === '|') {
             <span class="nui-editor-separator" aria-hidden="true"></span>
           } @else {
+            <!-- [disabled] is the toolbar's: a tool that can't act stays focusable, aria-disabled. -->
             <button
-              #button
               ngToolbarWidget
               type="button"
               class="nui-editor-tool"
               [attr.data-tool]="tool"
+              [attr.data-touch]="touchOnly(tool) || null"
               [attr.aria-label]="words()[tool]"
               [attr.title]="hint(tool)"
               [attr.aria-keyshortcuts]="keys(tool)"
               [attr.aria-pressed]="pressable(tool) ? active(tool) : null"
-              [attr.aria-disabled]="unavailable(tool) || null"
+              [disabled]="unavailable(tool)"
               [attr.aria-haspopup]="tool === 'link' ? 'dialog' : null"
               (mousedown)="$event.preventDefault()"
-              (click)="run(tool, button)"
             >
               @if (tool === 'h1' || tool === 'h2' || tool === 'h3') {
                 <span aria-hidden="true">H{{ tool[1] }}</span>
@@ -346,7 +374,17 @@ export class NuiEditor implements ControlValueAccessor {
   private readonly url = viewChild<ElementRef<HTMLInputElement>>('url');
 
   protected readonly words = computed(() => ({ ...NUI_EDITOR_LABELS, ...this.labels() }));
-  protected readonly toolList = computed(() => this.tools());
+  /**
+   * Whether the screen is touch first, once the editor runs. Until then the
+   * default toolbar keeps its touch tools and CSS shows them only there, so the
+   * page looks the same before it starts and after.
+   */
+  private readonly touchFirst = signal<boolean | null>(null);
+  protected readonly toolList = computed(() => {
+    const tools = this.tools();
+    if (tools !== NUI_EDITOR_TOOLS || this.touchFirst() !== false) return tools;
+    return tools.filter((tool) => !TOUCH_TOOLS.includes(tool));
+  });
   private readonly formDisabled = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly editable = computed(() => !this.readonly() && !this.isDisabled());
@@ -393,8 +431,14 @@ export class NuiEditor implements ControlValueAccessor {
     afterNextRender(() => {
       const onSelection = () => this.syncSelection();
       this.document.addEventListener('selectionchange', onSelection);
+      // Follows the screen, as when a tablet takes a keyboard and a trackpad.
+      const touch = this.document.defaultView?.matchMedia?.(TOUCH_FIRST);
+      const onTouch = () => this.touchFirst.set(!!touch?.matches);
+      onTouch();
+      touch?.addEventListener('change', onTouch);
       destroyRef.onDestroy(() => {
         this.document.removeEventListener('selectionchange', onSelection);
+        touch?.removeEventListener('change', onTouch);
         this.stopFollow?.();
       });
     });
@@ -489,7 +533,12 @@ export class NuiEditor implements ControlValueAccessor {
   // Toolbar state.
 
   protected pressable(tool: NuiEditorTool): boolean {
-    return !['link', 'rule', 'clear', 'undo', 'redo', '|'].includes(tool);
+    return !['link', 'indent', 'outdent', 'rule', 'clear', 'undo', 'redo', '|'].includes(tool);
+  }
+
+  /** Whether a button is one the default toolbar shows on touch screens only. */
+  protected touchOnly(tool: NuiEditorTool): boolean {
+    return this.tools() === NUI_EDITOR_TOOLS && TOUCH_TOOLS.includes(tool);
   }
 
   protected active(tool: NuiEditorTool): boolean {
@@ -521,6 +570,11 @@ export class NuiEditor implements ControlValueAccessor {
     this.history();
     if (tool === 'undo') return !this.undoStack.length;
     if (tool === 'redo') return !this.redoStack.length;
+    if (tool === 'indent' || tool === 'outdent') {
+      // Only in a list, and Indent above the deepest level.
+      const doc = this.doc();
+      return unchanged(doc, indent(doc, this.selection(), tool === 'indent' ? 1 : -1));
+    }
     return false;
   }
 
@@ -539,6 +593,23 @@ export class NuiEditor implements ControlValueAccessor {
   }
 
   // Commands.
+
+  /**
+   * A click on a tool. The toolbar directive's own click listener, which runs
+   * before this one on the same element, has just focused the button for its
+   * arrow keys; the command runs after it, and takes focus back to the text (or
+   * on to the link form). Left on the button, focus would take a phone's
+   * on-screen keyboard away.
+   */
+  protected onToolClick(event: MouseEvent): void {
+    const button = (event.target as Element).closest<HTMLElement>('.nui-editor-tool');
+    if (!button || !this.editable()) return;
+    const tool = button.getAttribute('data-tool') as NuiEditorTool;
+    if (!this.unavailable(tool)) this.run(tool, button);
+    // A tool that can't act does nothing: a tap or a click leaves the text as it
+    // was, and a key press (detail 0) stays on the tool.
+    else if (event.detail > 0) this.focus();
+  }
 
   /** Runs a toolbar command, as its button does. */
   run(tool: NuiEditorTool, button?: HTMLElement): void {
@@ -576,6 +647,10 @@ export class NuiEditor implements ControlValueAccessor {
         this.commit({ doc: setBlockType(doc, selection, on ? 'paragraph' : type), selection });
         break;
       }
+      case 'indent':
+      case 'outdent':
+        this.indentBy(selection, tool === 'indent' ? 1 : -1);
+        break;
       case 'rule':
         this.commit(insertRule(doc, ordered(selection)[1]));
         break;
@@ -606,6 +681,14 @@ export class NuiEditor implements ControlValueAccessor {
       return;
     }
     this.commit({ doc: toggleMark(this.doc(), selection, mark), selection });
+  }
+
+  /** Moves the selection's list items a level in or out: Tab, Shift+Tab, and their buttons. */
+  private indentBy(selection: NuiEditorSelection, step: 1 | -1): void {
+    const doc = this.doc();
+    const next = indent(doc, selection, step);
+    // At the deepest level there's nothing to do, and nothing to undo.
+    if (!unchanged(doc, next)) this.commit({ doc: next, selection });
   }
 
   undo(): void {
@@ -761,7 +844,9 @@ export class NuiEditor implements ControlValueAccessor {
       }
       case 'formatIndent':
       case 'formatOutdent':
-        return handle({ doc: indent(doc, selection, type === 'formatIndent' ? 1 : -1), selection });
+        handle(null);
+        this.indentBy(selection, type === 'formatIndent' ? 1 : -1);
+        return;
       case 'insertOrderedList':
       case 'insertUnorderedList': {
         const list = type === 'insertOrderedList' ? 'ordered' : 'bullet';
@@ -922,7 +1007,7 @@ export class NuiEditor implements ControlValueAccessor {
       const [from, to] = ordered(selection);
       if (doc.slice(from.block, to.block + 1).some((block) => list(block.type))) {
         event.preventDefault();
-        this.commit({ doc: indent(doc, selection, event.shiftKey ? -1 : 1), selection });
+        this.indentBy(selection, event.shiftKey ? -1 : 1);
       }
       return;
     }

@@ -2320,6 +2320,10 @@ export const messages: Messages = {
             title: 'Markdown mlebu lan metu',
             text: 'Kanthi <code>format="markdown"</code>, nilaine yaiku Markdown: diwaca kalebu dhaptar susun, kutipan lan kode, lan ditulis maneh sinambi panjenengan nyunting.',
           },
+          lists: {
+            title: 'Dhaptar susun',
+            text: 'Tombol nambah indentasi lan ngurangi indentasi mindhah item dhaptar mlebu utawa metu siji level, kaya Tab lan Shift + Tab. Ing toolbar gawan, tombol-tombol iki mung ana ing layar sentuh, sing ora duwe tombol Tab; lebokna ing <code>tools</code> supaya katon ing ngendi wae.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2357,7 +2361,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 utawa 8', 'Dhaptar angka utawa dhaptar bullet.'],
           [
             'Tab lan Shift + Tab ing dhaptar',
-            'Nambah utawa ngurangi indentasi; ing panggonan liya, Tab metu saka panyunting.',
+            'Nambah utawa ngurangi indentasi; Shift + Tab ngowahi item ing level paling ndhuwur dadi paragraf. Ing panggonan liya, Tab metu saka panyunting.',
           ],
           ['Ctrl + Z lan Ctrl + Shift + Z', 'Mbatalake lan mbaleni suntingan.'],
           ['Panah kiwa lan tengen ing toolbar', 'Pindhah antarane tombol-tombole.'],
@@ -2366,6 +2370,7 @@ export const messages: Messages = {
           'Isine yaiku <code>textbox</code> kanthi <code>aria-multiline</code>, dijenengi dening <code>label</code>, lan placeholder-e ana ing <code>aria-placeholder</code>.',
           'Toolbar-e yaiku toolbar WAI-ARIA, siji tab stop: format-format yaiku tombol toggle kanthi <code>aria-pressed</code>, lan saben tombol nyebutake shortcut-e ing <code>aria-keyshortcuts</code> lan ing tooltip-e.',
           'Printah toolbar mbalekake fokus menyang teks, lan dialog pranala uga bali menyang teks nalika Escape dipencet. Tab ora tau macet: ing njaba dhaptar, Tab metu saka panyunting.',
+          'Layar sentuh ora duwe tombol Tab: ing kono, toolbar gawan duwe tombol nambah indentasi lan ngurangi indentasi, sing aktif ing dhaptar. Yen tombol toolbar dipencet, fokus tetep ana ing teks, dadi keyboard ing layar tetep mbukak.',
         ],
       },
     },

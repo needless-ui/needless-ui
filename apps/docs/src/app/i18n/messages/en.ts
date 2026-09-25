@@ -2258,6 +2258,10 @@ export const messages: Messages = {
             title: 'Markdown in and out',
             text: 'With <code>format="markdown"</code>, the value is Markdown: read in with nested lists, quotes and code, and written back as you edit.',
           },
+          lists: {
+            title: 'Nested lists',
+            text: 'Indent and Outdent nest list items, as Tab and Shift + Tab do. The default toolbar has them only on touch screens, which have no Tab key; list them in <code>tools</code> to show them everywhere.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2289,7 +2293,10 @@ export const messages: Messages = {
           ['Ctrl + K', 'Add or edit a link.'],
           ['Ctrl + Alt + 1, 2 or 3', 'A heading; Ctrl + Alt + 0 turns it back into a paragraph.'],
           ['Ctrl + Shift + 7 or 8', 'A numbered or bulleted list.'],
-          ['Tab and Shift + Tab in a list', 'Indent or outdent; elsewhere, Tab leaves the editor.'],
+          [
+            'Tab and Shift + Tab in a list',
+            'Indent or outdent; Shift + Tab turns a top-level item into a paragraph. Elsewhere, Tab leaves the editor.',
+          ],
           ['Ctrl + Z, Ctrl + Shift + Z', 'Undo and redo.'],
           ['Left and right arrows in the toolbar', 'Move between its buttons.'],
         ],
@@ -2297,6 +2304,7 @@ export const messages: Messages = {
           'The content is a <code>textbox</code> with <code>aria-multiline</code>, named by <code>label</code>, with its placeholder in <code>aria-placeholder</code>.',
           'The toolbar is a WAI-ARIA toolbar, one tab stop: formats are toggle buttons with <code>aria-pressed</code>, and each button names its shortcut in <code>aria-keyshortcuts</code> and its tooltip.',
           'A toolbar command sends focus back to the text, and the link dialog returns to it on Escape. Tab never gets stuck: outside lists it leaves the editor.',
+          'Touch screens have no Tab key: there, the default toolbar has Indent and Outdent buttons, enabled in lists. A tap on a toolbar button keeps focus in the text, so the on-screen keyboard stays open.',
         ],
       },
     },

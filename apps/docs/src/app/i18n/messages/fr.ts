@@ -2384,6 +2384,10 @@ export const messages: Messages = {
             title: 'Markdown en entrée et en sortie',
             text: 'Avec <code>format="markdown"</code>, la valeur est du Markdown : lue avec ses listes imbriquées, citations et code, et réécrite au fil de vos modifications.',
           },
+          lists: {
+            title: 'Listes imbriquées',
+            text: 'Les boutons « Augmenter le retrait » et « Diminuer le retrait » imbriquent les éléments de liste, comme le font Tab et Maj + Tab. La barre d’outils par défaut ne les affiche que sur les écrans tactiles, qui n’ont pas de touche Tab ; ajoutez-les à <code>tools</code> pour les afficher partout.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2422,7 +2426,7 @@ export const messages: Messages = {
           ['Ctrl + Maj + 7 ou 8', 'Une liste numérotée ou à puces.'],
           [
             'Tab et Maj + Tab dans une liste',
-            'Augmentent ou diminuent le retrait ; ailleurs, Tab quitte l’éditeur.',
+            'Augmentent ou diminuent le retrait ; Maj + Tab transforme un élément de premier niveau en paragraphe. Ailleurs, Tab quitte l’éditeur.',
           ],
           ['Ctrl + Z, Ctrl + Maj + Z', 'Annuler et rétablir.'],
           ['Flèches gauche et droite dans la barre d’outils', 'Passent d’un bouton à l’autre.'],
@@ -2431,6 +2435,7 @@ export const messages: Messages = {
           'Le contenu est une <code>textbox</code> avec <code>aria-multiline</code>, nommée par <code>label</code>, et son texte indicatif figure dans <code>aria-placeholder</code>.',
           'La barre d’outils suit le modèle toolbar de WAI-ARIA, avec un seul arrêt de tabulation : les formats sont des boutons bascules avec <code>aria-pressed</code>, et chaque bouton indique son raccourci dans <code>aria-keyshortcuts</code> et dans son infobulle.',
           'Une commande de la barre d’outils rend le focus au texte, et la boîte de dialogue de lien l’y ramène avec Échap. Tab ne reste jamais bloqué : hors des listes, il quitte l’éditeur.',
+          'Les écrans tactiles n’ont pas de touche Tab : la barre d’outils par défaut y propose les boutons « Augmenter le retrait » et « Diminuer le retrait », actifs dans les listes. Un appui sur un bouton de la barre d’outils laisse le focus dans le texte, si bien que le clavier virtuel reste ouvert.',
         ],
       },
     },

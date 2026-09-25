@@ -2284,6 +2284,10 @@ export const messages: Messages = {
             title: 'Markdown 읽기와 쓰기',
             text: '<code>format="markdown"</code>을 지정하면 값이 Markdown이 됩니다. 중첩 목록, 인용문, 코드까지 읽어 들이고, 편집할 때마다 다시 Markdown으로 씁니다.',
           },
+          lists: {
+            title: '중첩 목록',
+            text: '‘들여쓰기’와 ‘내어쓰기’는 Tab과 Shift + Tab처럼 목록 항목을 한 단계 안으로 넣거나 밖으로 뺍니다. 기본 툴바는 Tab 키가 없는 터치스크린에서만 이 두 버튼을 보여 줍니다. 모든 기기에서 보이게 하려면 <code>tools</code>에 넣으십시오.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2321,7 +2325,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 또는 8', '번호 매기기 목록 또는 글머리 기호 목록으로 바꿉니다.'],
           [
             '목록에서 Tab과 Shift + Tab',
-            '들여쓰기 또는 내어쓰기. 목록 밖에서는 Tab을 누르면 편집기를 벗어납니다.',
+            '들여쓰기 또는 내어쓰기. 최상위 항목은 Shift + Tab을 누르면 단락이 됩니다. 목록 밖에서는 Tab을 누르면 편집기를 벗어납니다.',
           ],
           ['Ctrl + Z / Ctrl + Shift + Z', '실행 취소와 다시 실행.'],
           ['툴바에서 왼쪽 / 오른쪽 화살표', '버튼 사이를 이동합니다.'],
@@ -2330,6 +2334,7 @@ export const messages: Messages = {
           '내용은 <code>aria-multiline</code>을 가진 <code>textbox</code>이며, <code>label</code>로 이름이 지정되고, 자리 표시자는 <code>aria-placeholder</code>에 들어갑니다.',
           '툴바는 탭 순서에서 한 번만 멈추는 WAI-ARIA 툴바입니다. 서식 버튼은 <code>aria-pressed</code>를 가진 토글 버튼이며, 각 버튼은 <code>aria-keyshortcuts</code>와 툴팁에 단축키를 밝힙니다.',
           '툴바 명령을 실행하면 포커스가 텍스트로 돌아가고, 링크 다이얼로그에서 Esc를 누르면 텍스트로 돌아갑니다. Tab 키가 갇히는 일은 없으며, 목록 밖에서는 편집기를 벗어납니다.',
+          'Tab 키가 없는 터치스크린에서는 기본 툴바에 ‘들여쓰기’와 ‘내어쓰기’ 버튼이 있으며, 목록 안에서 활성화됩니다. 툴바 버튼을 터치해도 포커스가 텍스트에 그대로 남으므로, 터치 키보드가 열린 채로 유지됩니다.',
         ],
       },
     },

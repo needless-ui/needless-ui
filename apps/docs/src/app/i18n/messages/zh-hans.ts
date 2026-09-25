@@ -2174,6 +2174,10 @@ export const messages: Messages = {
             title: 'Markdown 的读入与写出',
             text: '设置 <code>format="markdown"</code> 后，值就是 Markdown：读入时支持嵌套列表、引用和代码，编辑时再写回 Markdown。',
           },
+          lists: {
+            title: '嵌套列表',
+            text: '“增加缩进”和“减少缩进”会像 Tab 和 Shift + Tab 一样，调整列表项的嵌套层级。默认工具栏只在没有 Tab 键的触摸屏上显示这两个按钮；要在所有设备上显示，请把它们加入 <code>tools</code>。',
+          },
         },
         api: {
           NuiEditor: {
@@ -2204,7 +2208,10 @@ export const messages: Messages = {
           ['Ctrl + K', '添加或编辑链接。'],
           ['Ctrl + Alt + 1、2 或 3', '设为标题；Ctrl + Alt + 0 则恢复为段落。'],
           ['Ctrl + Shift + 7 或 8', '有序列表或无序列表。'],
-          ['在列表中按 Tab 和 Shift + Tab', '增加或减少缩进；在列表外，Tab 会离开编辑器。'],
+          [
+            '在列表中按 Tab 和 Shift + Tab',
+            '增加或减少缩进；Shift + Tab 会把顶层列表项变为段落。在列表外，Tab 会离开编辑器。',
+          ],
           ['Ctrl + Z、Ctrl + Shift + Z', '撤销和重做。'],
           ['在工具栏中按向左 / 向右箭头键', '在按钮之间移动。'],
         ],
@@ -2212,6 +2219,7 @@ export const messages: Messages = {
           '内容区是带有 <code>aria-multiline</code> 的 <code>textbox</code>，以 <code>label</code> 命名，占位文字放在 <code>aria-placeholder</code> 中。',
           '工具栏是 WAI-ARIA 工具栏，在 Tab 键顺序中只占一个位置：格式按钮是带有 <code>aria-pressed</code> 的切换按钮，每个按钮都在 <code>aria-keyshortcuts</code> 和工具提示中注明快捷键。',
           '执行工具栏命令后，焦点会回到文本中；在链接对话框中按 Esc 也会回到文本。Tab 键永远不会被困住：在列表外，它会离开编辑器。',
+          '在没有 Tab 键的触摸屏上，默认工具栏有“增加缩进”和“减少缩进”按钮，在列表中可用。点按工具栏按钮时，焦点仍留在文本中，因此触摸屏键盘会保持打开。',
         ],
       },
     },

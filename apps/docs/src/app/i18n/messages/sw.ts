@@ -2349,6 +2349,10 @@ export const messages: Messages = {
             title: 'Markdown ndani na nje',
             text: 'Kwa <code>format="markdown"</code>, thamani ni Markdown: husomwa pamoja na orodha ndani ya orodha, manukuu na msimbo, na huandikwa upya unapohariri.',
           },
+          lists: {
+            title: 'Orodha ndani ya orodha',
+            text: 'Vitufe vya “Ongeza ujongezaji” na “Punguza ujongezaji” husogeza vipengee vya orodha ngazi moja ndani au nje, kama Tab na Shift + Tab. Upau wa zana wa chaguomsingi huvionyesha kwenye skrini za kugusa tu, ambazo hazina kitufe cha Tab; viorodheshe katika <code>tools</code> ili vionekane kila mahali.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2385,7 +2389,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 au 8', 'Orodha ya namba au ya vitone.'],
           [
             'Tab na Shift + Tab kwenye orodha',
-            'Huongeza au hupunguza ujongezaji; kwingineko, Tab hutoka kwenye kihariri.',
+            'Huongeza au hupunguza ujongezaji; Shift + Tab hugeuza kipengee cha ngazi ya juu kuwa aya. Kwingineko, Tab hutoka kwenye kihariri.',
           ],
           ['Ctrl + Z na Ctrl + Shift + Z', 'Kutendua na kurudia.'],
           ['Mishale ya kushoto na kulia kwenye upau wa zana', 'Husogea kati ya vitufe vyake.'],
@@ -2394,6 +2398,7 @@ export const messages: Messages = {
           'Maudhui ni <code>textbox</code> yenye <code>aria-multiline</code>, inayopewa jina na <code>label</code>, na kishika nafasi chake kiko katika <code>aria-placeholder</code>.',
           'Upau wa zana ni upau wa zana wa WAI-ARIA, kituo kimoja cha Tab: mitindo ni vitufe vya kugeuza vyenye <code>aria-pressed</code>, na kila kitufe hutaja njia yake ya mkato katika <code>aria-keyshortcuts</code> na katika tooltip yake.',
           'Amri ya upau wa zana hurudisha focus kwenye maandishi, na kidirisha cha kiungo huirudisha huko kwa Escape. Tab haikwami kamwe: nje ya orodha hutoka kwenye kihariri.',
+          'Skrini za kugusa hazina kitufe cha Tab: kwenye skrini hizo, upau wa zana wa chaguomsingi una vitufe vya “Ongeza ujongezaji” na “Punguza ujongezaji”, vinavyofanya kazi ndani ya orodha. Kugusa kitufe cha upau wa zana huacha focus kwenye maandishi, hivyo kibodi ya skrini hubaki wazi.',
         ],
       },
     },

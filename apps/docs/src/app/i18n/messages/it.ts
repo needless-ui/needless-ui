@@ -2327,6 +2327,10 @@ export const messages: Messages = {
             title: 'Markdown in entrata e in uscita',
             text: 'Con <code>format="markdown"</code>, il valore è Markdown: letto con elenchi annidati, citazioni e codice, e riscritto mentre modifichi.',
           },
+          lists: {
+            title: 'Elenchi annidati',
+            text: 'I pulsanti «Aumenta rientro» e «Riduci rientro» annidano le voci dell’elenco, come fanno Tab e Maiusc + Tab. La barra degli strumenti predefinita li mostra solo sugli schermi touch, che non hanno il tasto Tab; inseriscili in <code>tools</code> per mostrarli ovunque.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2364,7 +2368,7 @@ export const messages: Messages = {
           ['Ctrl + Maiusc + 7 o 8', 'Un elenco numerato o puntato.'],
           [
             'Tab e Maiusc + Tab in un elenco',
-            'Aumentano o riducono il rientro; altrove, Tab esce dall’editor.',
+            'Aumentano o riducono il rientro; Maiusc + Tab trasforma una voce di primo livello in un paragrafo. Altrove, Tab esce dall’editor.',
           ],
           ['Ctrl + Z, Ctrl + Maiusc + Z', 'Annulla e ripeti.'],
           [
@@ -2376,6 +2380,7 @@ export const messages: Messages = {
           'Il contenuto è una <code>textbox</code> con <code>aria-multiline</code>, con il nome dato da <code>label</code> e il segnaposto in <code>aria-placeholder</code>.',
           'La barra degli strumenti è una toolbar WAI-ARIA con un solo tab stop: i formati sono pulsanti toggle con <code>aria-pressed</code>, e ogni pulsante indica la sua scorciatoia in <code>aria-keyshortcuts</code> e nel suo tooltip.',
           'Un comando della barra degli strumenti riporta il focus al testo, e anche il dialog dei link lo fa con Esc. Tab non resta mai bloccato: fuori dagli elenchi esce dall’editor.',
+          'Gli schermi touch non hanno il tasto Tab: lì la barra degli strumenti predefinita ha i pulsanti «Aumenta rientro» e «Riduci rientro», attivi negli elenchi. Un tocco su un pulsante della barra degli strumenti lascia il focus nel testo, così la tastiera virtuale resta aperta.',
         ],
       },
     },

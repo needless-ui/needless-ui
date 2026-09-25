@@ -2172,6 +2172,10 @@ export const messages: Messages = {
             title: 'Markdown 的讀入與寫出',
             text: '設定 <code>format="markdown"</code> 後，值就是 Markdown：讀入時支援巢狀清單、引言和程式碼，編輯時會再寫回 Markdown。',
           },
+          lists: {
+            title: '巢狀清單',
+            text: '「增加縮排」和「減少縮排」會像 Tab 和 Shift + Tab 一樣，調整清單項目的巢狀層級。預設工具列只在沒有 Tab 鍵的觸控螢幕上顯示這兩個按鈕；若要在所有裝置上顯示，請把它們加入 <code>tools</code>。',
+          },
         },
         api: {
           NuiEditor: {
@@ -2202,7 +2206,10 @@ export const messages: Messages = {
           ['Ctrl + K', '新增或編輯連結。'],
           ['Ctrl + Alt + 1、2 或 3', '設為標題；Ctrl + Alt + 0 則改回段落。'],
           ['Ctrl + Shift + 7 或 8', '編號清單或項目符號清單。'],
-          ['在清單中按 Tab 和 Shift + Tab', '增加或減少縮排；在清單外，Tab 會離開編輯器。'],
+          [
+            '在清單中按 Tab 和 Shift + Tab',
+            '增加或減少縮排；Shift + Tab 會把最上層的清單項目變成段落。在清單外，Tab 會離開編輯器。',
+          ],
           ['Ctrl + Z、Ctrl + Shift + Z', '復原和重做。'],
           ['在工具列中按向左 / 向右鍵', '在按鈕之間移動。'],
         ],
@@ -2210,6 +2217,7 @@ export const messages: Messages = {
           '內容區是帶有 <code>aria-multiline</code> 的 <code>textbox</code>，以 <code>label</code> 命名，預留位置文字則放在 <code>aria-placeholder</code> 中。',
           '工具列是 WAI-ARIA 工具列，在 Tab 鍵順序中只佔一個位置：格式按鈕是帶有 <code>aria-pressed</code> 的切換按鈕，每個按鈕都會在 <code>aria-keyshortcuts</code> 和工具提示中註明快速鍵。',
           '執行工具列命令後，焦點會回到文字中；在連結對話框中按 Esc 也會回到文字。Tab 鍵絕不會被困住：在清單外，它會離開編輯器。',
+          '在沒有 Tab 鍵的觸控螢幕上，預設工具列有「增加縮排」和「減少縮排」按鈕，在清單中可用。點一下工具列按鈕時，焦點仍會留在文字中，因此觸控鍵盤會保持開啟。',
         ],
       },
     },

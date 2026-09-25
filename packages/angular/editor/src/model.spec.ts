@@ -92,6 +92,22 @@ describe('editor model', () => {
     expect(texts(pasted.doc)).toEqual(['paragraph:Hello big', 'paragraph:wide world']);
     expect(pasted.selection.focus).toEqual(point(1, 5));
   });
+
+  it('outdents list items a level, and top-level ones out of the list', () => {
+    const bold = { text: 'b', marks: { bold: true as const } };
+    const top = nuiEditorBlock('ordered', [bold]);
+    const nested = nuiEditorBlock('bullet', [{ text: 'c', marks: {} }], { depth: 2 });
+    const doc = [p('a'), top, nested];
+    const out = indent(doc, { anchor: point(0, 0), focus: point(2, 1) }, -1);
+    expect(texts(out)).toEqual(['paragraph:a', 'paragraph:b', 'bullet1:c']);
+    // The item keeps its id and formats, as Backspace leaves them.
+    expect(out[1].id).toBe(top.id);
+    expect(out[1].runs).toEqual([bold]);
+    // What doesn't change stays the same: text outside lists, items at the deepest level.
+    expect(out[0]).toBe(doc[0]);
+    const deepest = [nuiEditorBlock('bullet', [], { depth: 7 })];
+    expect(indent(deepest, caret(point(0, 0)), 1)[0]).toBe(deepest[0]);
+  });
 });
 
 describe('editor HTML and Markdown', () => {

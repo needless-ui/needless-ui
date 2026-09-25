@@ -2354,6 +2354,10 @@ export const messages: Messages = {
             title: 'Karanta da rubuta Markdown',
             text: 'Da <code>format="markdown"</code>, ƙimar Markdown ce: ana karanta ta tare da jeri a cikin jeri, ambato da code, kuma ana sake rubuta ta yayin da kuke gyarawa.',
           },
+          lists: {
+            title: 'Jeri a cikin jeri',
+            text: 'Maɓallan Indent da Outdent suna tura abubuwan jeri ciki ko fitar da su, kamar yadda Tab da Shift + Tab ke yi. Toolbar na asali yana nuna su ne kawai a allon taɓawa, wanda ba shi da maɓallin Tab; ku sa su a cikin <code>tools</code> don su bayyana a ko’ina.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2391,7 +2395,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 ko 8', 'Jeri mai lambobi ko mai ɗigo.'],
           [
             'Tab da Shift + Tab a cikin jeri',
-            'Suna tura abu ciki ko fitar da shi; a wani wuri, Tab yana fita daga editor ɗin.',
+            'Suna tura abu ciki ko fitar da shi; Shift + Tab yana mayar da abu na matakin farko sakin layi. A wani wuri, Tab yana fita daga editor ɗin.',
           ],
           ['Ctrl + Z da Ctrl + Shift + Z', 'Undo da redo.'],
           ['Kibiyar hagu da ta dama a toolbar', 'Suna matsawa tsakanin maɓallansa.'],
@@ -2400,6 +2404,7 @@ export const messages: Messages = {
           'Abun ciki <code>textbox</code> ne mai <code>aria-multiline</code>, mai suna daga <code>label</code>, kuma rubutun riƙe wurinsa yana cikin <code>aria-placeholder</code>.',
           'Toolbar ɗin toolbar ne na WAI-ARIA, mai ɗaukar wuri ɗaya a jerin Tab: salon rubutu maɓallan toggle ne masu <code>aria-pressed</code>, kuma kowane maɓalli yana faɗin gajeriyar hanyarsa a <code>aria-keyshortcuts</code> da kuma a tooltip ɗinsa.',
           'Umarnin toolbar yana mayar da focus kan rubutun, kuma dialog na mahaɗa yana komawa gare shi da Escape. Tab ba ya taɓa maƙalewa: a wajen jeri, yana fita daga editor ɗin.',
+          'Allon taɓawa ba shi da maɓallin Tab: a kansa, toolbar na asali yana da maɓallan Indent da Outdent, masu aiki a cikin jeri. Taɓa maɓalli a toolbar yana barin focus a cikin rubutun, don haka allon madannai na taɓawa yana nan a buɗe.',
         ],
       },
     },
