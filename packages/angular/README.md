@@ -66,12 +66,35 @@ export class ProjectActions {
 
 ## Components
 
-| Entry point                   | Exports                                                                                     |
-| ----------------------------- | ------------------------------------------------------------------------------------------- |
-| `@needless-ui/angular/button` | `NuiButton`, `NuiButtonVariant`                                                             |
-| `@needless-ui/angular/dialog` | `NuiDialog`, `NuiDialogTitle`, `NuiDialogDescription`, `NuiDialogActions`, `NuiDialogClose` |
-| `@needless-ui/angular/menu`   | `NuiMenuTrigger`, `NuiMenu`, `NuiMenuItem`, `NuiMenuSeparator`, `NuiMenuShortcut`           |
-| `@needless-ui/angular`        | Shared types: `NuiTone`, `NuiSize`                                                          |
+| Entry point                         | Exports                                                                                                 |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `@needless-ui/angular/avatar`       | `NuiAvatar`, `NuiAvatarGroup`                                                                           |
+| `@needless-ui/angular/breadcrumbs`  | `NuiBreadcrumbs`                                                                                        |
+| `@needless-ui/angular/button`       | `NuiButton`                                                                                             |
+| `@needless-ui/angular/calendar`     | `NuiCalendar`                                                                                           |
+| `@needless-ui/angular/chat`         | `NuiChat`, `NuiChatThread`, `NuiChatComposer`, `NuiChatSession`                                         |
+| `@needless-ui/angular/color-picker` | `NuiColorPicker`, `nuiParseColor`, `nuiFormatColor`, `nuiContrast`                                      |
+| `@needless-ui/angular/command`      | `NuiCommandPalette`, `NuiCommand`                                                                       |
+| `@needless-ui/angular/date-picker`  | `NuiDateField`, `NuiTimeField`, `NuiDatePicker`, `NuiDateRangePicker`                                   |
+| `@needless-ui/angular/dialog`       | `NuiDialog`, `NuiDialogTitle`, `NuiDialogDescription`, `NuiDialogActions`, `NuiDialogClose`             |
+| `@needless-ui/angular/dropzone`     | `NuiDropzone`, `NuiUploadQueue`                                                                         |
+| `@needless-ui/angular/empty`        | `NuiEmpty` and its parts                                                                                |
+| `@needless-ui/angular/grid`         | `NuiGrid`, `NuiGridCell`, `NuiGridEngine`                                                               |
+| `@needless-ui/angular/markdown`     | `NuiMarkdown`                                                                                           |
+| `@needless-ui/angular/mask`         | `NuiMask`, `nuiCardMask`, `nuiIbanMask`, `nuiLuhn`, `nuiIbanValid`                                      |
+| `@needless-ui/angular/menu`         | `NuiMenuTrigger`, `NuiMenu`, `NuiMenuItem`, `NuiMenuSeparator`, `NuiMenuShortcut`                       |
+| `@needless-ui/angular/number-field` | `NuiNumberField`, `NuiNumberInput`                                                                      |
+| `@needless-ui/angular/otp`          | `NuiOtp`, `NuiOtpInput`                                                                                 |
+| `@needless-ui/angular/phone-field`  | `NuiPhoneField`, `nuiParsePhone`, `nuiFormatPhone`                                                      |
+| `@needless-ui/angular/popover`      | `NuiPopover`, `NuiPopoverTrigger`, `NuiHovercard`, `NuiHovercardTrigger`                                |
+| `@needless-ui/angular/rating`       | `NuiRating`                                                                                             |
+| `@needless-ui/angular/scheduler`    | `NuiScheduler`, `NuiSchedulerEventTemplate`                                                             |
+| `@needless-ui/angular/select`       | `NuiSelect`, `NuiCombobox`, `NuiOptionTemplate`                                                         |
+| `@needless-ui/angular/skeleton`     | `NuiSkeleton`                                                                                           |
+| `@needless-ui/angular/splitter`     | `NuiSplitter`, `NuiSplitterPane`, `NuiSplitterHandle`                                                   |
+| `@needless-ui/angular/toast`        | `NuiToaster`, `NuiToasterRegion`                                                                        |
+| `@needless-ui/angular/tour`         | `NuiTour`                                                                                               |
+| `@needless-ui/angular`              | Shared types, `NuiPersonality`, `springTransition()`, `nuiFollow`, `NuiVirtualizer`, plain-date helpers |
 
 Each component's full contract (API, keyboard, accessibility) lives in [`specs/`](https://github.com/needless-ui/needless-ui/tree/main/specs).
 

@@ -22,3 +22,8 @@
 @import './components/calendar.css';
 @import './components/date-picker.css';
 @import './components/scheduler.css';
+@import './components/splitter.css';
+@import './components/tour.css';
+@import './components/dropzone.css';
+@import './components/phone-field.css';
+@import './components/color-picker.css';

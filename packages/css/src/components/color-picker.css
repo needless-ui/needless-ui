@@ -1,0 +1,423 @@
+/*
+ * Color picker: see specs/color-picker.md for the contract.
+ *
+ *   <nui-color-picker class="nui-color-picker" style="--_value: oklch(…); --_opaque: oklch(…)">
+ *     <div class="nui-color-area">
+ *       <canvas class="nui-color-canvas" aria-hidden="true"></canvas>
+ *       <svg class="nui-color-gamut" aria-hidden="true"><path d="…"/></svg>
+ *       <div class="nui-color-thumb" role="slider" tabindex="0" aria-valuetext="Lightness 60%, chroma 75%"
+ *            style="inset-inline-start: 75%; inset-block-start: 40%"></div>
+ *     </div>
+ *     <div class="nui-color-row">
+ *       <span class="nui-color-preview"></span>
+ *       <div class="nui-color-sliders">
+ *         <input type="range" class="nui-color-slider" data-channel="hue">
+ *         <input type="range" class="nui-color-slider" data-channel="alpha">
+ *       </div>
+ *       <button class="nui-color-button" data-action="eyedropper"></button>
+ *     </div>
+ *     <div class="nui-color-field"><input class="nui-color-input"><button class="nui-color-format">HEX</button></div>
+ *     <div class="nui-color-swatches" role="group"><button class="nui-color-swatch" style="--_swatch: #e11d48" aria-pressed="false"></button></div>
+ *     <div class="nui-color-contrast">
+ *       <span class="nui-color-sample"></span> Contrast 4.52:1
+ *       <span class="nui-color-grade" data-pass="true">AA</span> <span class="nui-color-grade" data-pass="false">AAA</span>
+ *     </div>
+ *   </nui-color-picker>
+ *
+ * The area and the sliders are pictures of color, not text: they run left to
+ * right in every language.
+ */
+@layer nui.components {
+  .nui-color-picker {
+    --_radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    --_checks: repeating-conic-gradient(
+        var(--nui-color-neutral-soft-active) 0 25%,
+        var(--nui-color-bg-canvas) 0 50%
+      )
+      0 0 / 0.75rem 0.75rem;
+    --_icon-eyedropper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9.5 4.5 2 2M11 2.5a1.4 1.4 0 0 1 2 0l.5.5a1.4 1.4 0 0 1 0 2L12 6.5 9.5 4Z'/%3E%3Cpath d='M10.5 5.5 4 12v1.5h1.5l6.5-6.5'/%3E%3C/svg%3E");
+    --_icon-pass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E");
+    --_icon-fail: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m4.5 4.5 7 7m0-7-7 7'/%3E%3C/svg%3E");
+
+    display: inline-grid;
+    gap: var(--nui-space-3);
+    box-sizing: border-box;
+    inline-size: 16rem;
+    max-inline-size: 100%;
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-color-picker[data-disabled] {
+    opacity: 0.5;
+  }
+
+  /* The area: lightness down, chroma across. */
+  .nui-color-area {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    direction: ltr;
+    cursor: crosshair;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .nui-color-picker[data-disabled] .nui-color-area {
+    cursor: not-allowed;
+  }
+
+  .nui-color-canvas {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  }
+
+  /* Where sRGB ends, in a Display P3 area. */
+  .nui-color-gamut {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .nui-color-gamut path {
+    fill: none;
+    stroke: white;
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+    filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.6));
+  }
+
+  /* White and black rings: the thumb shows on any color. */
+  .nui-color-thumb {
+    position: absolute;
+    box-sizing: border-box;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: var(--_opaque);
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.35),
+      inset 0 0 0 1px rgb(0 0 0 / 0.2);
+    translate: -50% -50%;
+    transition: scale var(--nui-motion);
+  }
+
+  .nui-color-area[data-dragging] .nui-color-thumb {
+    scale: 1.15;
+  }
+
+  .nui-color-thumb:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .nui-color-row {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-3);
+  }
+
+  /* The color over checks, so opacity shows. */
+  .nui-color-preview {
+    flex: none;
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+    border-radius: 50%;
+    background: linear-gradient(var(--_value), var(--_value)), var(--_checks);
+    box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  }
+
+  .nui-color-sliders {
+    display: grid;
+    flex: 1;
+    gap: var(--nui-space-1);
+    min-inline-size: 0;
+    direction: ltr;
+  }
+
+  /* Native range inputs: the track is the channel's gradient. */
+  .nui-color-slider {
+    --_track: linear-gradient(
+      to right,
+      oklch(0.7 0.15 0),
+      oklch(0.7 0.15 30),
+      oklch(0.7 0.15 60),
+      oklch(0.7 0.15 90),
+      oklch(0.7 0.15 120),
+      oklch(0.7 0.15 150),
+      oklch(0.7 0.15 180),
+      oklch(0.7 0.15 210),
+      oklch(0.7 0.15 240),
+      oklch(0.7 0.15 270),
+      oklch(0.7 0.15 300),
+      oklch(0.7 0.15 330),
+      oklch(0.7 0.15 360)
+    );
+
+    appearance: none;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 1.5rem;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .nui-color-slider[data-channel='alpha'] {
+    --_track: linear-gradient(to right, transparent, var(--_opaque)), var(--_checks);
+  }
+
+  .nui-color-slider::-webkit-slider-runnable-track {
+    block-size: 0.75rem;
+    border-radius: var(--nui-radius-full);
+    background: var(--_track);
+    box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  }
+
+  .nui-color-slider::-moz-range-track {
+    block-size: 0.75rem;
+    border-radius: var(--nui-radius-full);
+    background: var(--_track);
+    box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  }
+
+  .nui-color-slider::-webkit-slider-thumb {
+    appearance: none;
+    box-sizing: border-box;
+    inline-size: 1rem;
+    block-size: 1rem;
+    margin-block-start: -0.125rem;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.35),
+      inset 0 0 0 1px rgb(0 0 0 / 0.2);
+  }
+
+  .nui-color-slider::-moz-range-thumb {
+    box-sizing: border-box;
+    inline-size: 1rem;
+    block-size: 1rem;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.35),
+      inset 0 0 0 1px rgb(0 0 0 / 0.2);
+  }
+
+  .nui-color-slider:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+    border-radius: var(--nui-radius-full);
+  }
+
+  .nui-color-slider:disabled {
+    cursor: not-allowed;
+  }
+
+  .nui-color-button,
+  .nui-color-format {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    box-sizing: border-box;
+    min-inline-size: 2rem;
+    block-size: 2rem;
+    margin: 0;
+    padding: 0 var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font: inherit;
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    cursor: pointer;
+  }
+
+  .nui-color-button::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-eyedropper) center / contain no-repeat;
+  }
+
+  @media (hover: hover) {
+    :is(.nui-color-button, .nui-color-format):not(:disabled):hover {
+      border-color: var(--nui-color-border-strong);
+      background-color: var(--nui-color-neutral-soft);
+    }
+  }
+
+  :is(.nui-color-button, .nui-color-format, .nui-color-input):focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  .nui-color-field {
+    display: flex;
+    gap: var(--nui-space-2);
+  }
+
+  .nui-color-input {
+    flex: 1;
+    min-inline-size: 0;
+    box-sizing: border-box;
+    block-size: 2rem;
+    margin: 0;
+    padding-inline: var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: inherit;
+    font-family: var(--nui-font-family-mono);
+    font-size: var(--nui-font-size-xs);
+    direction: ltr;
+  }
+
+  .nui-color-format {
+    min-inline-size: 3.5rem;
+  }
+
+  .nui-color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-1);
+  }
+
+  .nui-color-swatch {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background: linear-gradient(var(--_swatch), var(--_swatch)), var(--_checks);
+    box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+    cursor: pointer;
+    transition: scale var(--nui-motion);
+  }
+
+  @media (hover: hover) {
+    .nui-color-swatch:not(:disabled):hover {
+      scale: 1.1;
+    }
+  }
+
+  .nui-color-swatch[aria-pressed='true'] {
+    outline: 2px solid var(--nui-color-text-default);
+    outline-offset: 2px;
+  }
+
+  .nui-color-swatch:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .nui-color-contrast {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--nui-space-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* "Aa" in the color on the background, drawn by CSS: a picture, not text. */
+  .nui-color-sample {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  }
+
+  .nui-color-sample::before {
+    content: 'Aa';
+    color: var(--_value);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .nui-color-grade {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+    padding: 0 var(--nui-space-2);
+    border-radius: var(--nui-radius-full);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    line-height: 1.5rem;
+  }
+
+  .nui-color-grade::after {
+    content: '';
+    inline-size: 0.75rem;
+    block-size: 0.75rem;
+    background-color: currentColor;
+    mask: var(--_icon-fail) center / contain no-repeat;
+  }
+
+  .nui-color-grade[data-pass='true'] {
+    background-color: var(--nui-color-success-soft);
+    color: var(--nui-color-success-text);
+  }
+
+  .nui-color-grade[data-pass='true']::after {
+    mask-image: var(--_icon-pass);
+  }
+
+  .nui-color-grade[data-pass='false'] {
+    background-color: var(--nui-color-danger-soft);
+    color: var(--nui-color-danger-text);
+  }
+
+  .nui-color-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-color-area[data-dragging] .nui-color-thumb {
+      scale: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    /* Colors are what this component is about: they stay. */
+    .nui-color-canvas,
+    .nui-color-thumb,
+    .nui-color-preview,
+    .nui-color-slider,
+    .nui-color-swatch,
+    .nui-color-sample {
+      forced-color-adjust: none;
+    }
+
+    .nui-color-button::before,
+    .nui-color-grade::after {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
+    .nui-color-swatch[aria-pressed='true'] {
+      outline-color: Highlight;
+    }
+  }
+}

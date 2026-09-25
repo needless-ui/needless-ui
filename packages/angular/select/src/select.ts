@@ -130,6 +130,8 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
   readonly selectAllLabel = input('Select all');
   readonly clearAllLabel = input('Clear all');
   readonly emptyLabel = input('No options');
+  /** What the trigger shows for the chosen options. Their labels, joined, by default. */
+  readonly triggerText = input<((chosen: readonly NuiOption<V>[]) => string) | null>(null);
   /** Emits when the list opens or closes. */
   readonly openChange = output<boolean>();
 
@@ -164,11 +166,11 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
     ),
   );
 
-  protected readonly display = computed(() =>
-    this.chosen()
-      .map((option) => option.label)
-      .join(', '),
-  );
+  protected readonly display = computed(() => {
+    const chosen = this.chosen();
+    const custom = this.triggerText();
+    return custom ? custom(chosen) : chosen.map((option) => option.label).join(', ');
+  });
 
   protected readonly isSelected = (option: NuiOption<V>): boolean =>
     this.current().some((value) => this.compareWith()(value, option.value));

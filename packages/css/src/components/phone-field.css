@@ -1,0 +1,134 @@
+/*
+ * Phone field: see specs/phone-field.md for the contract.
+ *
+ *   <nui-phone-field class="nui-phone">
+ *     <nui-select class="nui-select nui-phone-country">
+ *       <button class="nui-select-trigger" role="combobox" aria-label="Country code">🇮🇹 +39</button>
+ *       <div class="nui-select-popup" popover>
+ *         …<div class="nui-select-option" role="option">
+ *           <span class="nui-phone-flag" aria-hidden="true">🇮🇹</span>
+ *           <span class="nui-select-option-text">Italy</span>
+ *           <span class="nui-phone-code">+39</span>
+ *         </div>…
+ *       </div>
+ *     </nui-select>
+ *     <input class="nui-phone-input" type="tel" dir="ltr" value="333 123 4567">
+ *   </nui-phone-field>
+ *
+ * One box: the country picker's trigger sits inside it, before the number. Numbers
+ * read left to right with their code first in every language, so the box keeps
+ * that order on right-to-left pages too; the list of countries doesn't.
+ */
+@layer nui.components {
+  .nui-phone {
+    --_height: max(24px, var(--nui-control-height-md) * var(--nui-density));
+
+    display: inline-flex;
+    align-items: stretch;
+    box-sizing: border-box;
+    min-block-size: var(--_height);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    vertical-align: middle;
+    direction: ltr;
+    transition: border-color var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  @media (hover: hover) {
+    .nui-phone:not([data-disabled]):hover {
+      border-color: var(--nui-color-border-strong);
+    }
+  }
+
+  .nui-phone:has(.nui-phone-input:focus-visible) {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-focus-ring-offset);
+  }
+
+  .nui-phone[data-invalid] {
+    border-color: var(--nui-color-danger-border-hover);
+  }
+
+  .nui-phone[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .nui-phone-country {
+    display: flex;
+    flex: none;
+  }
+
+  /* The trigger: part of the box, a line between it and the number. */
+  .nui-phone .nui-select-trigger {
+    inline-size: auto;
+    min-block-size: 100%;
+    padding-inline: calc(var(--nui-space-2) * var(--nui-density)) var(--nui-space-1);
+    border: 0;
+    border-inline-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    background: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nui-phone .nui-select-trigger:disabled {
+    opacity: 1;
+  }
+
+  .nui-phone .nui-select-trigger:focus-visible {
+    outline-offset: calc(-1 * var(--nui-focus-ring-width));
+  }
+
+  .nui-phone:dir(rtl) .nui-select-popup {
+    direction: rtl;
+  }
+
+  .nui-phone .nui-select-popup {
+    inline-size: 20rem;
+  }
+
+  .nui-phone-flag {
+    flex: none;
+    font-size: 1.125em;
+    line-height: 1;
+  }
+
+  .nui-phone-code {
+    flex: none;
+    color: var(--nui-color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nui-select-option[data-active] .nui-phone-code {
+    color: inherit;
+  }
+
+  .nui-phone-input {
+    flex: 1;
+    min-inline-size: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding-inline: calc(var(--nui-space-3) * var(--nui-density));
+    border: 0;
+    border-start-end-radius: inherit;
+    border-end-end-radius: inherit;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+  }
+
+  .nui-phone-input::placeholder {
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-phone-input:disabled {
+    cursor: not-allowed;
+  }
+}

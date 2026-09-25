@@ -28,6 +28,7 @@ The list model (`NuiOptionEngine`) and the list (`nui-option-list`) are exported
 | —                               | `create` (combobox)                     | `(text) => value`: offers to add typed text                                   | none        |
 | `nui-combobox-clear`            | `clearable` (combobox)                  | boolean                                                                       | false       |
 | —                               | `displayWith` (combobox)                | text for a value that isn't among the options                                 | `String`    |
+| —                               | `triggerText` (select)                  | `(chosen) => text`: what the trigger shows                                    | the labels  |
 | `nui-select-option-text`        | `nuiOptionTemplate`, `nuiOptionText`    | custom rows that keep the highlighting                                        | —           |
 
 Every visible string (`placeholder`, `emptyLabel`, `removeLabel`, …) is an input, for translation.

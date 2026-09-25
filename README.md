@@ -29,7 +29,7 @@
 
 ## Components
 
-[AI chat](specs/chat.md), [Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Combobox](specs/select.md), [Command palette](specs/command.md), [Data grid](specs/grid.md), [Dialog](specs/dialog.md), [Empty state](specs/empty.md), [Markdown](specs/markdown.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Popover and hovercard](specs/popover.md), [Rating](specs/rating.md), [Select](specs/select.md), [Skeleton](specs/skeleton.md) and [Toast](specs/toast.md) so far, with date pickers and a scheduler on the way. Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
+[AI chat](specs/chat.md), [Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Calendar](specs/calendar.md), [Color picker](specs/color-picker.md), [Combobox](specs/select.md), [Command palette](specs/command.md), [Data grid](specs/grid.md), [Date and time pickers](specs/date-picker.md), [Dialog](specs/dialog.md), [Dropzone](specs/dropzone.md), [Empty state](specs/empty.md), [Input mask](specs/mask.md), [Markdown](specs/markdown.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Phone field](specs/phone-field.md), [Popover and hovercard](specs/popover.md), [Rating](specs/rating.md), [Scheduler](specs/scheduler.md), [Select](specs/select.md), [Skeleton](specs/skeleton.md), [Splitter](specs/splitter.md), [Toast](specs/toast.md) and [Tour](specs/tour.md) so far, with a carousel and a rich text editor on the way. Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
 
 ## Quick start (Angular)
 

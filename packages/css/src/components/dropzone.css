@@ -1,0 +1,296 @@
+/*
+ * Dropzone: see specs/dropzone.md for the contract.
+ *
+ *   <nui-dropzone class="nui-dropzone" data-dragging>
+ *     <div class="nui-dropzone-area">
+ *       <button class="nui-dropzone-button">
+ *         <span class="nui-dropzone-icon"></span>
+ *         <span class="nui-dropzone-label">Drop files here, or choose them</span>
+ *         <span class="nui-dropzone-hint">Images, up to 5 MB</span>
+ *       </button>
+ *       <button class="nui-dropzone-folder">Choose a folder</button>
+ *     </div>
+ *     <ul class="nui-dropzone-problems"><li>big.png is larger than 5 MB.</li></ul>
+ *     <ul class="nui-dropzone-files">
+ *       <li class="nui-dropzone-file" data-status="uploading">
+ *         <img class="nui-dropzone-preview">
+ *         <span class="nui-dropzone-name">beach.jpg</span>
+ *         <span class="nui-dropzone-meta">40%</span>
+ *         <span class="nui-dropzone-progress" role="progressbar" style="--_progress: 0.4"></span>
+ *         <span class="nui-dropzone-actions"><button class="nui-dropzone-action" data-action="cancel"></button></span>
+ *       </li>
+ *     </ul>
+ *   </nui-dropzone>
+ */
+@layer nui.components {
+  .nui-dropzone {
+    --_icon-upload: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5'/%3E%3Cpath d='M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4'/%3E%3C/svg%3E");
+    --_icon-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='round'%3E%3Cpath d='M6 3h8l4 4v14H6z'/%3E%3Cpath d='M14 3v4h4'/%3E%3C/svg%3E");
+    --_icon-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m4.5 4.5 7 7m0-7-7 7'/%3E%3C/svg%3E");
+    --_icon-retry: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 8a5 5 0 1 1-1.5-3.55'/%3E%3Cpath d='M12 2v2.75H9.25'/%3E%3C/svg%3E");
+    --_radius: calc(var(--nui-radius-lg) * var(--nui-radius-scale));
+
+    display: grid;
+    gap: var(--nui-space-3);
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-dropzone-area {
+    display: grid;
+    gap: var(--nui-space-2);
+    justify-items: center;
+  }
+
+  .nui-dropzone-button {
+    display: grid;
+    gap: var(--nui-space-1);
+    justify-items: center;
+    box-sizing: border-box;
+    inline-size: 100%;
+    margin: 0;
+    padding: calc(var(--nui-space-8) * var(--nui-density)) var(--nui-space-6);
+    border: 2px dashed var(--nui-color-border-default);
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-subtle);
+    color: inherit;
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      border-color var(--nui-duration-fast) var(--nui-easing-standard),
+      background-color var(--nui-duration-fast) var(--nui-easing-standard),
+      transform var(--nui-motion);
+  }
+
+  .nui-dropzone-icon {
+    inline-size: 2rem;
+    block-size: 2rem;
+    margin-block-end: var(--nui-space-1);
+    background-color: var(--nui-color-text-muted);
+    mask: var(--_icon-upload) center / contain no-repeat;
+    transition: translate var(--nui-motion);
+  }
+
+  .nui-dropzone-label {
+    font-weight: var(--nui-font-weight-medium);
+  }
+
+  .nui-dropzone-hint {
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  @media (hover: hover) {
+    .nui-dropzone-button:not(:disabled):hover {
+      border-color: var(--nui-color-border-strong);
+      background-color: var(--nui-color-neutral-soft);
+    }
+  }
+
+  .nui-dropzone-button:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Files held over it: the zone lights up, and the arrow lifts. */
+  .nui-dropzone[data-dragging] .nui-dropzone-button {
+    border-color: var(--nui-color-accent-solid);
+    background-color: var(--nui-color-accent-soft);
+    transform: scale(1.01);
+  }
+
+  .nui-dropzone[data-dragging] .nui-dropzone-icon {
+    background-color: var(--nui-color-accent-text);
+    translate: 0 -0.25rem;
+  }
+
+  .nui-dropzone[data-disabled] .nui-dropzone-button {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .nui-dropzone-folder {
+    margin: 0;
+    padding: var(--nui-space-1) var(--nui-space-2);
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background: transparent;
+    color: var(--nui-color-accent-text);
+    font: inherit;
+    font-size: var(--nui-font-size-sm);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    cursor: pointer;
+  }
+
+  .nui-dropzone-folder:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  .nui-dropzone-problems {
+    display: grid;
+    gap: var(--nui-space-1);
+    margin: 0;
+    padding: 0;
+    color: var(--nui-color-danger-text);
+    list-style: none;
+  }
+
+  /* The list of files. */
+  .nui-dropzone-files {
+    display: grid;
+    gap: var(--nui-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nui-dropzone-file {
+    display: grid;
+    grid-template:
+      'preview name actions' auto 'preview meta actions' auto / 2.5rem minmax(0, 1fr)
+      auto;
+    column-gap: var(--nui-space-3);
+    align-items: center;
+    padding: var(--nui-space-2) var(--nui-space-3);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+  }
+
+  .nui-dropzone-file:has(.nui-dropzone-progress) {
+    grid-template:
+      'preview name actions' auto 'preview meta actions' auto 'preview progress actions' auto
+      / 2.5rem minmax(0, 1fr) auto;
+  }
+
+  .nui-dropzone-preview {
+    grid-area: preview;
+    box-sizing: border-box;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    object-fit: cover;
+  }
+
+  span.nui-dropzone-preview {
+    background-color: var(--nui-color-text-muted);
+    mask: var(--_icon-file) center / 1.75rem no-repeat;
+  }
+
+  .nui-dropzone-name {
+    grid-area: name;
+    overflow: hidden;
+    font-weight: var(--nui-font-weight-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nui-dropzone-meta {
+    grid-area: meta;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nui-dropzone-file[data-status='done'] .nui-dropzone-meta {
+    color: var(--nui-color-success-text);
+  }
+
+  .nui-dropzone-file[data-status='error'] .nui-dropzone-meta {
+    color: var(--nui-color-danger-text);
+  }
+
+  .nui-dropzone-progress {
+    position: relative;
+    grid-area: progress;
+    block-size: 0.25rem;
+    margin-block-start: var(--nui-space-1);
+    overflow: hidden;
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    background-color: var(--nui-color-neutral-soft);
+  }
+
+  .nui-dropzone-progress::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: calc(var(--_progress, 0) * 100%);
+    border-radius: inherit;
+    background-color: var(--nui-color-accent-solid);
+    transition: inline-size var(--nui-duration-normal) var(--nui-easing-standard);
+  }
+
+  .nui-dropzone-actions {
+    grid-area: actions;
+    display: flex;
+    gap: 0.125rem;
+  }
+
+  .nui-dropzone-action {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-dropzone-action::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-close) center / contain no-repeat;
+  }
+
+  .nui-dropzone-action[data-action='retry']::before {
+    mask-image: var(--_icon-retry);
+  }
+
+  @media (hover: hover) {
+    .nui-dropzone-action:hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-dropzone-action:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-dropzone[data-dragging] .nui-dropzone-button {
+      transform: none;
+    }
+
+    .nui-dropzone[data-dragging] .nui-dropzone-icon {
+      translate: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-dropzone-icon,
+    span.nui-dropzone-preview,
+    .nui-dropzone-action::before,
+    .nui-dropzone-progress::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
+    .nui-dropzone[data-dragging] .nui-dropzone-button {
+      border-color: Highlight;
+    }
+  }
+}
