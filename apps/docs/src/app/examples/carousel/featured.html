@@ -1,0 +1,10 @@
+<nui-carousel label="Featured trips" [autoplay]="6000" loop>
+  @for (trip of trips; track trip.name) {
+    <div class="trip" [nuiCarouselSlide]="trip.name" [style.--hue]="trip.hue">
+      <p class="caption">
+        <strong>{{ trip.name }}</strong>
+        <span>{{ trip.text }}</span>
+      </p>
+    </div>
+  }
+</nui-carousel>

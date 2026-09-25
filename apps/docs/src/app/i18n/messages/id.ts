@@ -1195,6 +1195,7 @@ export const messages: Messages = {
           'Data grid adalah tabel native dengan pengurutan, penyaringan, paginasi, dan pengeditan. Definisikan <code>columns</code>, teruskan <code>rows</code>, dan setiap sel diformat menurut tipenya sesuai locale: angka, mata uang, tanggal, ya dan tidak, serta label untuk nilai <code>enum</code>.',
           'Statusnya ada di model yang bisa Anda hubungkan, simpan, dan kirim ke server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, serta <code>columnState</code> untuk lebar, urutan, penyematan, dan kolom tersembunyi pilihan pengguna. Tanpa paginasi, hanya baris yang terlihat yang dirender, sehingga 100.000 baris bergulir semulus sepuluh baris.',
           'Setiap sel bisa dijangkau dengan keyboard, dan panel setiap kolom bisa mengurutkan, menyaring, menyematkan, memindahkan, menyesuaikan lebar, dan menyembunyikan kolom tersebut.',
+          'Baris juga bisa bertingkat. <code>groupBy</code> mengelompokkannya menurut kolom, dengan <code>aggregate</code> tiap kolom di baris grup dan di baris <code>totals</code>; <code>children</code> menampilkan data pohon; dan template <code>nuiGridDetail</code> terbuka di bawah sebuah baris. Saat dikelompokkan atau bertingkat, tabelnya menjadi <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1216,6 +1217,22 @@ export const messages: Messages = {
           server: {
             title: 'Data dari server',
             text: 'Dalam mode <code>server</code>, grid menampilkan baris apa adanya dan melaporkan setiap perubahan lewat <code>queryChange</code>. Tetapkan <code>loading</code> selama mengambil data.',
+          },
+          groups: {
+            title: 'Grup dan total',
+            text: 'Kelompokkan menurut satu atau dua kolom. Baris grup menghitung pesanannya serta menjumlahkan dan merata-ratakan totalnya, dan <code>totals</code> menambahkan hal yang sama untuk semua baris. Panah kiri menutup grup.',
+          },
+          tree: {
+            title: 'Data pohon',
+            text: '<code>children</code> memberi setiap folder file-filenya. Baris terbuka dengan panah kanan atau toggle-nya, dan <code>[(expanded)]</code> menyimpan baris mana yang terbuka. Pencarian membuat folder di atas hasil yang cocok tetap terbuka.',
+          },
+          details: {
+            title: 'Detail baris',
+            text: 'Template <code>nuiGridDetail</code> menampilkan item sebuah pesanan di bawahnya, dibuka dari kolom berisi toggle, dan <code>[(details)]</code> menyimpan detail mana yang terbuka.',
+          },
+          live: {
+            title: 'Data real-time, ekspor, dan cetak',
+            text: 'Harga berubah setiap dua detik, dan <code>flash</code> menunjukkan sel mana yang berubah. <code>exportXlsx()</code> mengunduh spreadsheet sungguhan, <code>print()</code> mencetak semua baris, dan <code>layout="auto"</code> menampilkan kartu di layar sempit.',
           },
         },
         api: {
@@ -1251,6 +1268,17 @@ export const messages: Messages = {
               exportCsv: 'Baris yang tersaring dan terurut dari kolom yang terlihat, sebagai CSV.',
               focusCell: 'Memfokuskan sel; baris <code>-1</code> adalah header.',
               clearFilters: 'Mengosongkan semua filter dan pencarian.',
+              'groupBy, collapsed':
+                'Kolom untuk mengelompokkan baris, mulai dari yang terluar, dan kunci grup yang tertutup.',
+              children: 'Baris-baris anak dari sebuah baris: grid menampilkan data pohon.',
+              'expanded, details':
+                'Kunci baris yang terbuka di data pohon, dan kunci baris yang detailnya terbuka.',
+              'totals, flash':
+                'Baris agregat atas semua baris yang tersaring; sel yang berkedip saat teksnya berubah, pada baris dengan <code>rowId</code> yang tetap.',
+              layout:
+                '<code>list</code> menampilkan baris sebagai kartu, dan <code>auto</code> melakukannya di layar sempit.',
+              'exportXlsx, print':
+                'Baris yang tersaring dan terurut sebagai spreadsheet; mencetak semua baris.',
             },
           },
           NuiGridColumn: {
@@ -1272,6 +1300,8 @@ export const messages: Messages = {
               compare: 'Pengurutan kustom.',
               'editable, validate': 'Apakah sel bisa diedit, dan pesan saat nilai tidak valid.',
               set: 'Membuat baris hasil edit. Default-nya salinan dengan nilai baru.',
+              aggregate:
+                'Yang ditampilkan baris grup dan baris total: jumlah, rata-rata, minimum, maksimum, hitungan, atau fungsi.',
             },
           },
           NuiGridCell: {
@@ -1285,6 +1315,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Yang ditampilkan saat tidak ada baris. Konteksnya memberi tahu apakah filter menyembunyikannya.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Detail sebuah baris, ditampilkan di bawahnya saat dibuka. Konteksnya berisi baris tersebut.',
             members: {},
           },
         },
@@ -1309,12 +1344,19 @@ export const messages: Messages = {
           ],
           ['Spasi', 'Memilih baris; dengan Shift, semua baris dari yang terakhir dipilih.'],
           ['Ctrl + A', 'Memilih semua baris.'],
+          [
+            'Panah kanan dan kiri pada grup',
+            'Membuka atau menutupnya; juga pada sel pertama baris yang memiliki anak.',
+          ],
+          ['Enter pada grup', 'Membuka atau menutupnya; Spasi memilih baris-barisnya.'],
+          ['Enter pada toggle detail', 'Menampilkan atau menyembunyikan detail baris.'],
         ],
         notes: [
           '<code>&lt;table&gt;</code> native dengan <code>role="grid"</code>, yang diberi nama lewat <code>label</code>. Header memiliki <code>aria-sort</code>, dan baris yang bisa dipilih memiliki <code>aria-selected</code>.',
           'Grid hanya satu perhentian tab. Fokus berpindah dari sel ke sel dengan roving <code>tabindex</code>, sehingga pembaca layar membacakan setiap sel beserta header baris dan kolomnya.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code>, dan <code>aria-colindex</code> tetap benar saat baris dipaginasi atau divirtualisasi.',
           'Pengurutan, penyaringan, perpindahan halaman, dan error pengeditan diumumkan secara polite di region status.',
+          'Baris yang dikelompokkan atau bertingkat menjadikan tabel sebuah <code>treegrid</code>: baris memiliki <code>aria-level</code>, <code>aria-setsize</code>, dan <code>aria-posinset</code>, serta <code>aria-expanded</code> jika bisa dibuka. Agregat dibacakan beserta jenisnya, misalnya “Sum: 475”.',
         ],
       },
       chat: {
@@ -2197,6 +2239,140 @@ export const messages: Messages = {
           'Penanda area adalah <code>slider</code> bernama “Color” yang menyebutkan kedua nilainya, misalnya “Lightness 62%, chroma 75%”. Hue dan opasitas memakai input range native.',
           'Contoh warna adalah tombol yang dinamai sesuai labelnya, dan tampil tertekan saat cocok dengan warna yang dipilih.',
           'AA dan AAA menyatakan “passes” atau “fails” dengan kata-kata, bukan hanya dengan warna, dan dalam mode forced colors, warnanya sendiri tetap dipertahankan.',
+        ],
+      },
+      carousel: {
+        name: 'Carousel',
+        title: 'Komponen carousel dan slider untuk Angular',
+        summary:
+          'Deretan slide yang bergulir dan berhenti tepat di tempatnya, dengan tombol, titik, dan rotasi.',
+        description:
+          'Carousel Angular yang aksesibel: scroll snapping dan geser native, beberapa slide sekaligus, titik, loop, dan rotasi yang dijeda dan dihentikan sesuai WCAG.',
+        apiDescription:
+          'Referensi API carousel Needless UI: slide per tampilan, indeks, loop, dan rotasi nui-carousel, metodenya, serta direktif nuiCarouselSlide.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas carousel Needless UI: pola carousel WAI-ARIA, kontrol rotasi, slide bernama, dan perpindahan yang diumumkan.',
+        overview: [
+          'Carousel menampilkan slide dalam satu deret yang bergulir dan berhenti tepat di setiap slide: gestur geser, trackpad, dan tombol panah menggerakkannya secara native, begitu pula tombol sebelumnya dan berikutnya serta titik-titiknya. Tandai setiap slide dengan <code>nuiCarouselSlide</code>, yang dinamai sesuai judulnya.',
+          'Tampilkan satu slide sekaligus atau beberapa dengan <code>perView</code>, atau biarkan slide mempertahankan lebarnya sendiri dengan <code>perView="auto"</code>. <code>[(index)]</code> menghubungkan slide pertama yang terlihat, dan <code>loop</code> kembali ke awal.',
+          'Dengan <code>autoplay</code>, carousel berputar sendiri, dikendalikan oleh kontrol rotasi. Rotasi dijeda saat pointer berada di atasnya, dan berhenti sepenuhnya saat fokus keyboard masuk, sesuai tuntutan pola WAI-ARIA.',
+        ],
+        examples: {
+          featured: {
+            title: 'Perjalanan pilihan',
+            text: 'Slide baru setiap enam detik, dengan cincin pada kontrol rotasi yang terisi hingga slide berikutnya. Arahkan pointer untuk menjeda rotasi, atau masuk dengan Tab untuk menghentikannya.',
+          },
+          shelf: {
+            title: 'Rak kartu',
+            text: '<code>perView="auto"</code> mempertahankan lebar setiap kartu dan menampilkan sebanyak yang muat. Titik-titiknya mengikuti geseran, dan <code>[(index)]</code> memberi tahu posisinya.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Carousel berisi slide.',
+            members: {
+              label: 'Menamai carousel.',
+              index: 'Slide pertama yang terlihat, mulai dari 0.',
+              perView:
+                'Jumlah slide yang terlihat sekaligus, atau <code>auto</code> untuk slide yang menentukan lebarnya sendiri.',
+              gap: 'Jarak antar-slide, dalam panjang CSS apa pun.',
+              loop: 'Melewati slide terakhir akan kembali ke slide pertama, begitu pula sebaliknya.',
+              autoplay:
+                'Milidetik antar-slide saat carousel berputar sendiri; 0 berarti tidak berputar.',
+              'controls, indicators': 'Tombol sebelumnya dan berikutnya, serta titik-titiknya.',
+              labels: 'Semua teks yang disampaikan carousel, untuk diterjemahkan.',
+              'next, previous': 'Maju atau mundur satu slide.',
+              goTo: 'Menggulir sebuah slide ke dalam tampilan.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Sebuah slide.',
+            members: { nuiCarouselSlide: 'Judulnya, yang dibacakan sebagai ganti posisinya.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Kontrol rotasi, tombol-tombol, slide, lalu titik-titik.'],
+          ['Panah kiri dan kanan pada slide', 'Menggulir ke slide sebelumnya atau berikutnya.'],
+          ['Enter atau Spasi', 'Menekan tombol atau titik yang difokus.'],
+        ],
+        notes: [
+          'Carousel adalah <code>region</code> dengan <code>aria-roledescription="carousel"</code>, dan setiap slide adalah <code>group</code> dengan <code>aria-roledescription="slide"</code> yang dinamai seperti “Lake Como, 2 of 4”.',
+          'Kontrol rotasi berada paling depan dan menyebutkan apa yang akan dilakukannya. Rotasi dijeda di bawah pointer dan berhenti saat fokus keyboard masuk, sehingga tidak pernah menggeser apa yang sedang dibaca seseorang.',
+          'Posisi carousel setelah geseran, tombol, atau titik diumumkan; rotasi tetap senyap.',
+        ],
+      },
+      editor: {
+        name: 'Editor teks kaya',
+        title: 'Komponen editor teks kaya untuk Angular',
+        summary: 'Heading, daftar, tautan, dan format, dengan toolbar dan Markdown saat mengetik.',
+        description:
+          'Editor teks kaya Angular yang aksesibel: toolbar, pintasan, Markdown saat mengetik, tempel yang bersih, tautan, dan urungkan, dengan nilai HTML atau Markdown.',
+        apiDescription:
+          'Referensi API editor teks kaya Needless UI: nilai dan format nui-editor, alat toolbar, teks, perintah, serta konverter HTML dan Markdown.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas editor teks kaya Needless UI: kotak teks multibaris, toolbar WAI-ARIA, pintasan, dan dialog tautan.',
+        overview: [
+          'Editor ini menulis paragraf, heading, kutipan, daftar, blok kode, dan pembatas, dengan teks tebal, miring, bergaris bawah, dicoret, kode, dan tautan. Nilainya berupa HTML, atau Markdown dengan <code>format="markdown"</code>, dan editor ini bekerja dengan formulir.',
+          'Editor menyimpan dokumennya sendiri dan menangani setiap pengeditan, sehingga apa pun yang ditempel atau di-drop hanya sampai ke halaman sebagai dokumen itu: struktur dan format tetap ada, termasuk dari Google Docs dan Word, sedangkan skrip, gaya, dan tautan yang tidak aman dibuang.',
+          'Ketik Markdown dan teks berubah menjadi format: <code># </code> memulai heading, <code>- </code> memulai daftar, dan <code>**bold**</code> serta <code>`code`</code> terformat begitu Anda menutupnya. Setiap format punya pintasan dan tombol toolbar sendiri.',
+        ],
+        examples: {
+          comment: {
+            title: 'Komentar',
+            text: '<code>tools</code> memilih tombol-tombol toolbar. Ketik Markdown, tempel dari mana saja, lalu lihat HTML yang disimpan editor.',
+          },
+          markdown: {
+            title: 'Markdown masuk dan keluar',
+            text: 'Dengan <code>format="markdown"</code>, nilainya adalah Markdown: dibaca beserta daftar bertingkat, kutipan, dan kode, lalu ditulis kembali saat Anda mengedit.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Editor teks kaya.',
+            members: {
+              value: 'Kontennya, sebagai HTML atau Markdown; kosong jika tidak ada teks.',
+              format: 'Cara nilai ditulis.',
+              tools: 'Tombol-tombol toolbar sesuai urutan, dengan <code>|</code> di antara grup.',
+              'label, labelledBy, describedBy': 'Menamai dan mendeskripsikan konten.',
+              placeholder: 'Ditampilkan selama konten kosong.',
+              'readonly, disabled, invalid':
+                'Menampilkan konten tanpa bisa diedit; menonaktifkan editor; menandainya tidak valid.',
+              labels: 'Semua teks yang disampaikan editor, untuk diterjemahkan.',
+              run: 'Menjalankan perintah toolbar.',
+              'undo, redo, focus': 'Mengurungkan, mengulangi, dan memindahkan fokus ke teks.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi untuk mengonversi dokumen.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': 'Menulis dokumen sebagai HTML atau Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Membaca HTML atau Markdown menjadi dokumen, dengan mempertahankan apa yang bisa ditampilkan editor.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I, atau U',
+            'Tebal, miring, atau garis bawah. Di perangkat Apple, ⌘ sebagai ganti Ctrl.',
+          ],
+          ['Ctrl + K', 'Menambahkan atau mengedit tautan.'],
+          [
+            'Ctrl + Alt + 1, 2, atau 3',
+            'Heading; Ctrl + Alt + 0 mengembalikannya menjadi paragraf.',
+          ],
+          ['Ctrl + Shift + 7 atau 8', 'Daftar bernomor atau berbutir.'],
+          [
+            'Tab dan Shift + Tab dalam daftar',
+            'Menambah atau mengurangi indentasi; di tempat lain, Tab keluar dari editor.',
+          ],
+          ['Ctrl + Z dan Ctrl + Shift + Z', 'Mengurungkan dan mengulangi.'],
+          ['Panah kiri dan kanan di toolbar', 'Berpindah di antara tombol-tombolnya.'],
+        ],
+        notes: [
+          'Kontennya adalah <code>textbox</code> dengan <code>aria-multiline</code>, yang dinamai oleh <code>label</code>, dengan placeholder-nya di <code>aria-placeholder</code>.',
+          'Toolbar-nya adalah toolbar WAI-ARIA dengan satu perhentian tab: format berupa tombol toggle dengan <code>aria-pressed</code>, dan setiap tombol menyebutkan pintasannya di <code>aria-keyshortcuts</code> dan di tooltip-nya.',
+          'Perintah toolbar mengembalikan fokus ke teks, dan dialog tautan kembali ke teks dengan Esc. Tab tidak pernah terjebak: di luar daftar, Tab keluar dari editor.',
         ],
       },
     },

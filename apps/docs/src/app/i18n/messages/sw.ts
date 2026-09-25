@@ -1193,6 +1193,7 @@ export const messages: Messages = {
           'Gridi ya data ni jedwali asilia linalopanga, kuchuja, kugawa kurasa na kuhariri. Eleza <code>columns</code>, pitisha <code>rows</code>, na kila kisanduku huumbizwa kwa aina yake kulingana na locale: namba, sarafu, tarehe, ndiyo na hapana, na lebo za thamani za <code>enum</code>.',
           'Hali yake iko kwenye model unazoweza kuunganisha, kuhifadhi na kutuma kwa seva: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, na <code>columnState</code> kwa upana, mpangilio, ubandikaji na ufichaji wa safu wima ambao watu huchagua. Bila kurasa, ni safu zinazoonekana tu zinazochorwa, hivyo safu 100,000 husogezwa kama kumi.',
           'Kila kisanduku kinafikika kwa kibodi, na paneli ya kila safu wima huipanga, huichuja, huibandika, huihamisha, hurekebisha upana wake na huificha.',
+          'Safu zinaweza pia kukaa ndani ya safu nyingine. <code>groupBy</code> huzipanga katika makundi kwa safu wima, na <code>aggregate</code> ya kila safu wima huonekana kwenye safu za makundi na kwenye safu ya <code>totals</code>; <code>children</code> huonyesha data ya mti; na template ya <code>nuiGridDetail</code> hufunguka chini ya safu. Safu zikiwa katika makundi au ndani ya nyingine, jedwali ni <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1214,6 +1215,22 @@ export const messages: Messages = {
           server: {
             title: 'Data ya seva',
             text: 'Katika hali ya <code>server</code>, gridi huonyesha safu jinsi zinavyofika na huripoti kila badiliko katika <code>queryChange</code>. Weka <code>loading</code> unapoleta data.',
+          },
+          groups: {
+            title: 'Makundi na jumla',
+            text: 'Panga katika makundi kwa safu wima moja au mbili. Safu za makundi huhesabu oda zao na hutoa jumla na wastani wa kiasi cha oda hizo, na <code>totals</code> huongeza hayo hayo kwa safu zote. Mshale wa kushoto hufunga kundi.',
+          },
+          tree: {
+            title: 'Data ya mti',
+            text: '<code>children</code> huipa kila folda faili zake. Safu hufunguka kwa mshale wa kulia au kwa kitufe chake cha kugeuza, na <code>[(expanded)]</code> hukumbuka zipi ziko wazi. Utafutaji huacha wazi folda zilizo juu ya kinacholingana.',
+          },
+          details: {
+            title: 'Maelezo ya safu',
+            text: 'Template ya <code>nuiGridDetail</code> huonyesha bidhaa za oda chini yake, kutoka safu wima ya vitufe vya kugeuza, na <code>[(details)]</code> hukumbuka zipi ziko wazi.',
+          },
+          live: {
+            title: 'Data hai, kuhamisha na kuchapisha',
+            text: 'Bei hubadilika kila sekunde mbili, na <code>flash</code> huonyesha visanduku vilivyobadilika. <code>exportXlsx()</code> hupakua lahajedwali halisi, <code>print()</code> huchapisha safu zote, na <code>layout="auto"</code> huonyesha kadi kwenye skrini nyembamba.',
           },
         },
         api: {
@@ -1248,6 +1265,17 @@ export const messages: Messages = {
               exportCsv: 'Safu zilizochujwa na kupangwa, za safu wima zinazoonekana, kama CSV.',
               focusCell: 'Huweka focus kwenye kisanduku; safu <code>-1</code> ni kichwa.',
               clearFilters: 'Hufuta kila kichujio na utafutaji.',
+              'groupBy, collapsed':
+                'Safu wima za kupanga safu katika makundi, ya nje kabisa kwanza, na funguo za makundi yaliyofungwa.',
+              children: 'Safu tanzu za safu: gridi huonyesha data ya mti.',
+              'expanded, details':
+                'Funguo za safu zilizo wazi katika data ya mti, na za safu ambazo maelezo yake yako wazi.',
+              'totals, flash':
+                'Safu ya thamani za muhtasari za safu zote zilizochujwa; visanduku vinavyomweka maandishi yake yanapobadilika, katika safu zenye <code>rowId</code> ya kudumu.',
+              layout:
+                '<code>list</code> huonyesha safu kama kadi, na <code>auto</code> hufanya hivyo kwenye skrini nyembamba.',
+              'exportXlsx, print':
+                'Safu zilizochujwa na kupangwa, kama lahajedwali; huchapisha safu zote.',
             },
           },
           NuiGridColumn: {
@@ -1272,6 +1300,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Kama visanduku vinaweza kuhaririwa, na ujumbe thamani isipokuwa sahihi.',
               set: 'Huunda safu iliyohaririwa. Chaguomsingi ni nakala yenye thamani mpya.',
+              aggregate:
+                'Kile ambacho safu za makundi na safu ya jumla huonyesha: jumla, wastani, kiwango cha chini, kiwango cha juu, idadi, au function.',
             },
           },
           NuiGridCell: {
@@ -1286,6 +1316,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Kinachoonyeshwa wakati hakuna safu. Muktadha husema kama vichujio vimezificha.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Maelezo ya safu, yanayoonyeshwa chini yake yakifunguliwa. Muktadha una safu hiyo.',
             members: {},
           },
         },
@@ -1316,12 +1351,19 @@ export const messages: Messages = {
           ],
           ['Space', 'Huchagua safu; kwa Shift, safu zote tangu ile ya mwisho.'],
           ['Ctrl + A', 'Huchagua safu zote.'],
+          [
+            'Mishale ya kulia na kushoto kwenye kundi',
+            'Hulifungua au hulifunga; pia kwenye kisanduku cha kwanza cha safu yenye safu tanzu.',
+          ],
+          ['Enter kwenye kundi', 'Hulifungua au hulifunga; Space huchagua safu zake.'],
+          ['Enter kwenye kitufe cha kugeuza maelezo', 'Huonyesha au huficha maelezo ya safu.'],
         ],
         notes: [
           '<code>&lt;table&gt;</code> asilia yenye <code>role="grid"</code>, inayopewa jina na <code>label</code>. Vichwa hubeba <code>aria-sort</code>, na safu zinazoweza kuchaguliwa hubeba <code>aria-selected</code>.',
           'Gridi ni kituo kimoja cha Tab. Focus huhama kutoka kisanduku hadi kisanduku kwa roving <code>tabindex</code>, hivyo visoma skrini husoma kila kisanduku pamoja na vichwa vya safu na safu wima yake.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> na <code>aria-colindex</code> hubaki sahihi safu zikigawanywa kwa kurasa au kwa virtual scrolling.',
           'Mabadiliko ya upangaji, uchujaji na kurasa, pamoja na makosa ya uhariri, hutangazwa kwa upole (polite) katika eneo la hali.',
+          'Safu zilizo katika makundi au ndani ya safu nyingine hufanya jedwali kuwa <code>treegrid</code>: safu hubeba <code>aria-level</code>, <code>aria-setsize</code> na <code>aria-posinset</code>, na <code>aria-expanded</code> zinapoweza kufunguka. Thamani za muhtasari husomwa pamoja na aina yake, kama “Sum: 475”.',
         ],
       },
       chat: {
@@ -2217,6 +2259,140 @@ export const messages: Messages = {
           'Kishikio cha eneo ni <code>slider</code> inayoitwa “Color” inayotaja thamani zake zote mbili, kama “Lightness 62%, chroma 75%”. Hue na opacity ni input asilia za range.',
           'Sampuli za rangi ni vitufe vinavyopewa jina kwa lebo zake, na huwa vimebonyezwa vinapolingana na rangi.',
           'AA na AAA husema “passes” au “fails” kwa maneno, si kwa rangi pekee, na katika hali ya forced colors rangi zenyewe hubaki.',
+        ],
+      },
+      carousel: {
+        name: 'Onyesho la slaidi',
+        title: 'Kijenzi cha onyesho la slaidi (carousel) kwa Angular',
+        summary:
+          'Slaidi kwa mstari zinazosogezwa na kutua mahali pake, zenye vitufe, vitone na mzunguko.',
+        description:
+          'Onyesho la slaidi la Angular linalofikika: scroll snapping, kutelezesha, slaidi kadhaa pamoja, vitone, kitanzi, na mzunguko unaositishwa kama WCAG inavyotaka.',
+        apiDescription:
+          'Marejeleo ya API ya onyesho la slaidi la Needless UI: slaidi kwa mwonekano, index, kitanzi na mzunguko wa nui-carousel, mbinu, na directive nuiCarouselSlide.',
+        a11yDescription:
+          'Kibodi na ufikivu wa onyesho la slaidi la Needless UI: muundo wa carousel wa WAI-ARIA, kidhibiti cha mzunguko, slaidi zenye majina na mienendo inayotangazwa.',
+        overview: [
+          'Onyesho la slaidi huonyesha slaidi kwa mstari unaosogezwa na kutua mahali pake: kutelezesha, trackpad na vitufe vya mishale hulisogeza kiasili, kama vile vitufe vyake vya nyuma na mbele na vitone vyake. Weka <code>nuiCarouselSlide</code> kwenye kila slaidi, na uipe jina kwa kichwa chake.',
+          'Onyesha slaidi moja kwa wakati mmoja au kadhaa kwa <code>perView</code>, au acha slaidi zibaki na upana wao kwa <code>perView="auto"</code>. <code>[(index)]</code> huunganisha slaidi ya kwanza inayoonekana, na <code>loop</code> hurudi mwanzo.',
+          'Kwa <code>autoplay</code>, huzunguka lenyewe chini ya kidhibiti cha mzunguko. Mzunguko husita kielekezi kikiwa juu yake, na husimama kabisa focus ya kibodi inapoingia, kama muundo wa WAI-ARIA unavyotaka.',
+        ],
+        examples: {
+          featured: {
+            title: 'Safari maalum',
+            text: 'Slaidi mpya kila sekunde sita, huku pete kwenye kidhibiti cha mzunguko ikijaa hadi slaidi hiyo ifike. Fanya hover ili kusitisha mzunguko kwa muda, au ingia kwa Tab ili kuusimamisha.',
+          },
+          shelf: {
+            title: 'Rafu ya kadi',
+            text: '<code>perView="auto"</code> huhifadhi upana wa kila kadi na huonyesha kadi nyingi kadiri zinavyotosha. Vitone hufuata kutelezesha, na <code>[(index)]</code> husema onyesho liko wapi.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Onyesho la slaidi.',
+            members: {
+              label: 'Hulipa onyesho la slaidi jina.',
+              index: 'Slaidi ya kwanza inayoonekana, kuanzia 0.',
+              perView:
+                'Slaidi zinazoonekana kwa wakati mmoja, au <code>auto</code> kwa slaidi zinazoweka upana wao wenyewe.',
+              gap: 'Nafasi kati ya slaidi, kama urefu wowote wa CSS.',
+              loop: 'Kupita slaidi ya mwisho hurudi kwenye ya kwanza, na kinyume chake.',
+              autoplay: 'Milisekunde kati ya slaidi linapozunguka lenyewe; 0 huzima mzunguko.',
+              'controls, indicators': 'Vitufe vya nyuma na mbele, na vitone.',
+              labels: 'Kila maandishi ambayo onyesho husema, ili kuyatafsiri.',
+              'next, previous': 'Husogeza slaidi moja mbele au nyuma.',
+              goTo: 'Huleta slaidi ionekane.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Slaidi moja.',
+            members: { nuiCarouselSlide: 'Kichwa chake, kinachosomwa badala ya nafasi yake.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Kidhibiti cha mzunguko, vitufe, slaidi, kisha vitone.'],
+          [
+            'Mishale ya kushoto na kulia kwenye slaidi',
+            'Husogeza hadi slaidi iliyotangulia au inayofuata.',
+          ],
+          ['Enter au Space', 'Hubonyeza kitufe au kitone chenye focus.'],
+        ],
+        notes: [
+          'Onyesho la slaidi ni <code>region</code> yenye <code>aria-roledescription="carousel"</code>, na kila slaidi ni <code>group</code> yenye <code>aria-roledescription="slide"</code>, inayopewa jina kama “Lake Como, 2 of 4”.',
+          'Kidhibiti cha mzunguko huja kwanza na husema kitakachofanya. Mzunguko husita kielekezi kikiwa juu yake na husimama focus ya kibodi inapoingia, hivyo hausogezi kamwe kile ambacho mtu anasoma.',
+          'Mahali onyesho linapotua baada ya kutelezesha, kitufe au kitone hutangazwa; mzunguko hubaki kimya.',
+        ],
+      },
+      editor: {
+        name: 'Kihariri cha maandishi yenye mitindo',
+        title: 'Kihariri cha maandishi yenye mitindo kwa Angular',
+        summary:
+          'Vichwa, orodha, viungo na mitindo, pamoja na upau wa zana na Markdown unapoandika.',
+        description:
+          'Kihariri cha maandishi cha Angular kinachofikika: upau wa zana, njia za mkato, Markdown ukiandika, ubandikaji safi, viungo na kutendua, kwa HTML au Markdown.',
+        apiDescription:
+          'Marejeleo ya API ya kihariri cha maandishi cha Needless UI: thamani na umbizo la nui-editor, zana za upau, maandishi, amri, na vigeuzi vya HTML na Markdown.',
+        a11yDescription:
+          'Kibodi na ufikivu wa kihariri cha maandishi cha Needless UI: textbox ya mistari mingi, upau wa zana wa WAI-ARIA, njia za mkato na kidirisha cha kiungo.',
+        overview: [
+          'Kihariri huandika aya, vichwa, manukuu, orodha, bloku za msimbo na mistari ya kutenganisha, pamoja na herufi nzito, italiki, mstari chini, mstari katikati, msimbo na viungo. Thamani yake ni HTML, au Markdown kwa <code>format="markdown"</code>, na hufanya kazi na fomu.',
+          'Huhifadhi hati yake yenyewe na hushughulikia kila uhariri, hivyo kinachobandikwa au kudondoshwa hufika kwenye ukurasa kama hati hiyo tu: muundo na mitindo hubaki, hata kutoka Google Docs na Word, na script, style na viungo visivyo salama huondolewa.',
+          'Andika Markdown nayo hugeuka kuwa mitindo: <code># </code> huanzisha kichwa, <code>- </code> orodha, na <code>**bold**</code> na <code>`code`</code> huumbizwa unapozifunga. Kila mtindo una njia yake ya mkato na kitufe chake kwenye upau wa zana.',
+        ],
+        examples: {
+          comment: {
+            title: 'Maoni',
+            text: '<code>tools</code> huchagua vitufe vya upau wa zana. Andika Markdown, bandika kutoka popote, na uone HTML ambayo kihariri huhifadhi.',
+          },
+          markdown: {
+            title: 'Markdown ndani na nje',
+            text: 'Kwa <code>format="markdown"</code>, thamani ni Markdown: husomwa pamoja na orodha ndani ya orodha, manukuu na msimbo, na huandikwa upya unapohariri.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Kihariri cha maandishi yenye mitindo.',
+            members: {
+              value: 'Maudhui, kama HTML au Markdown; tupu kama hakuna maandishi.',
+              format: 'Jinsi thamani inavyoandikwa.',
+              tools: 'Vitufe vya upau wa zana kwa mpangilio, <code>|</code> kati ya makundi.',
+              'label, labelledBy, describedBy': 'Hupa maudhui jina na maelezo.',
+              placeholder: 'Huonyeshwa wakati kihariri ni tupu.',
+              'readonly, disabled, invalid':
+                'Huonyesha maudhui bila kuruhusu kuhariri; hukizima; hukitia alama kuwa si sahihi.',
+              labels: 'Kila maandishi ambayo kihariri husema, ili kuyatafsiri.',
+              run: 'Hutekeleza amri ya upau wa zana.',
+              'undo, redo, focus': 'Hutendua, hurudia, na huhamishia focus kwenye maandishi.',
+            },
+          },
+          Helpers: {
+            summary: 'Function za kugeuza hati.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': 'Huandika hati kama HTML au Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Husoma HTML au Markdown kuwa hati, zikibakiza kile ambacho kihariri kinaweza kuonyesha.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I au U',
+            'Herufi nzito, italiki au mstari chini. Kwenye vifaa vya Apple, ⌘ badala ya Ctrl.',
+          ],
+          ['Ctrl + K', 'Huongeza au huhariri kiungo.'],
+          ['Ctrl + Alt + 1, 2 au 3', 'Kichwa; Ctrl + Alt + 0 hukirudisha kuwa aya.'],
+          ['Ctrl + Shift + 7 au 8', 'Orodha ya namba au ya vitone.'],
+          [
+            'Tab na Shift + Tab kwenye orodha',
+            'Huongeza au hupunguza ujongezaji; kwingineko, Tab hutoka kwenye kihariri.',
+          ],
+          ['Ctrl + Z na Ctrl + Shift + Z', 'Kutendua na kurudia.'],
+          ['Mishale ya kushoto na kulia kwenye upau wa zana', 'Husogea kati ya vitufe vyake.'],
+        ],
+        notes: [
+          'Maudhui ni <code>textbox</code> yenye <code>aria-multiline</code>, inayopewa jina na <code>label</code>, na kishika nafasi chake kiko katika <code>aria-placeholder</code>.',
+          'Upau wa zana ni upau wa zana wa WAI-ARIA, kituo kimoja cha Tab: mitindo ni vitufe vya kugeuza vyenye <code>aria-pressed</code>, na kila kitufe hutaja njia yake ya mkato katika <code>aria-keyshortcuts</code> na katika tooltip yake.',
+          'Amri ya upau wa zana hurudisha focus kwenye maandishi, na kidirisha cha kiungo huirudisha huko kwa Escape. Tab haikwami kamwe: nje ya orodha hutoka kwenye kihariri.',
         ],
       },
     },

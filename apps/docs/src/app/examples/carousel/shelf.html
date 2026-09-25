@@ -1,0 +1,11 @@
+<nui-carousel label="Recently viewed" perView="auto" gap="0.75rem" [(index)]="index">
+  @for (item of items; track item.name) {
+    <div class="card" [nuiCarouselSlide]="item.name">
+      <span class="swatch" [style.--hue]="item.hue" aria-hidden="true"></span>
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.price }}</p>
+      <button nuiButton size="sm" variant="soft">Add to cart</button>
+    </div>
+  }
+</nui-carousel>
+<p>First in view: {{ items[index()].name }}</p>

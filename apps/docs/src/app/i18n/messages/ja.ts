@@ -1190,6 +1190,7 @@ export const messages: Messages = {
           'データグリッドは、並べ替え、絞り込み、ページング、編集ができるネイティブのテーブルです。<code>columns</code> を定義して <code>rows</code> を渡すと、各セルは型に応じてロケールの書式で表示されます。数値、通貨、日付、はい・いいえ、<code>enum</code> の値のラベルに対応しています。',
           '状態はモデルに保持され、バインド、保存、サーバーへの送信ができます。モデルは <code>sort</code>、<code>filters</code>、<code>search</code>、<code>page</code>、<code>selected</code>、そしてユーザーが選んだ列の幅、順序、固定、非表示を保持する <code>columnState</code> です。ページングしない場合は表示範囲の行だけがレンダリングされるため、10万行でも10行と同じようにスクロールできます。',
           'すべてのセルにキーボードで移動できます。各列のパネルからは、その列の並べ替え、絞り込み、固定、移動、幅の自動調整、非表示ができます。',
+          '行は入れ子にもできます。<code>groupBy</code> は行を列ごとにグループ化し、各列の <code>aggregate</code> をグループ行と <code>totals</code> の集計行に表示します。<code>children</code> はツリーデータを表示し、<code>nuiGridDetail</code> テンプレートは行の下に開きます。グループ化または入れ子にすると、テーブルは <code>treegrid</code> になります。',
         ],
         examples: {
           orders: {
@@ -1211,6 +1212,22 @@ export const messages: Messages = {
           server: {
             title: 'サーバーのデータ',
             text: '<code>server</code> モードでは、グリッドは受け取った行をそのまま表示し、変更のたびに <code>queryChange</code> で知らせます。データの取得中は <code>loading</code> を設定します。',
+          },
+          groups: {
+            title: 'グループと集計',
+            text: '1つまたは2つの列でグループ化します。グループ行には注文の件数と、金額の合計と平均が表示され、<code>totals</code> はすべての行について同じ集計を加えます。左矢印キーでグループを閉じます。',
+          },
+          tree: {
+            title: 'ツリーデータ',
+            text: '<code>children</code> で、各フォルダーにそのファイルを持たせます。行は右矢印キーかトグルで開き、<code>[(expanded)]</code> は開いている行を保持します。検索すると、一致した行の上にあるフォルダーは開いたままになります。',
+          },
+          details: {
+            title: '行の詳細',
+            text: '<code>nuiGridDetail</code> テンプレートは、トグルの列から開いた注文の下に、その明細を表示します。<code>[(details)]</code> は開いている詳細を保持します。',
+          },
+          live: {
+            title: 'ライブデータ、エクスポート、印刷',
+            text: '価格は2秒ごとに変わり、<code>flash</code> は変わったセルを一瞬光らせて示します。<code>exportXlsx()</code> は本物のスプレッドシートをダウンロードし、<code>print()</code> はすべての行を印刷し、<code>layout="auto"</code> は狭い画面で行をカードとして表示します。',
           },
         },
         api: {
@@ -1244,6 +1261,16 @@ export const messages: Messages = {
               exportCsv: '絞り込みと並べ替えを適用した行の、表示中の列を CSV で返します。',
               focusCell: 'セルにフォーカスします。行 <code>-1</code> はヘッダーです。',
               clearFilters: 'すべてのフィルターと検索をクリアします。',
+              'groupBy, collapsed':
+                '行をグループ化する列（外側から順に）と、閉じているグループのキー。',
+              children: '行の子。指定すると、グリッドはツリーデータを表示します。',
+              'expanded, details': 'ツリーデータで開いている行のキーと、詳細を開いている行のキー。',
+              'totals, flash':
+                '絞り込まれたすべての行を集計する行と、テキストが変わると一瞬光るセル。後者は、更新後も変わらない <code>rowId</code> を持つ行が対象です。',
+              layout:
+                '<code>list</code> は行をカードとして表示し、<code>auto</code> は狭い画面でだけそうします。',
+              'exportXlsx, print':
+                '前者は絞り込みと並べ替えを適用した行をスプレッドシートとして書き出し、後者はすべての行を印刷します。',
             },
           },
           NuiGridColumn: {
@@ -1265,6 +1292,8 @@ export const messages: Messages = {
               compare: '独自の並べ替え。',
               'editable, validate': 'セルを編集できるかどうかと、値が無効なときのメッセージ。',
               set: '編集後の行を作ります。デフォルトでは、新しい値を入れたコピーです。',
+              aggregate:
+                'グループ行と集計行に表示する値。合計、平均、最小値、最大値、件数、または関数。',
             },
           },
           NuiGridCell: {
@@ -1278,6 +1307,10 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               '行がないときに表示する内容。コンテキストから、フィルターで行が隠れたかどうかがわかります。',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary: '行の詳細。開くとその行の下に表示されます。コンテキストには行が入っています。',
             members: {},
           },
         },
@@ -1305,12 +1338,19 @@ export const messages: Messages = {
             '行を選択します。Shift を併用すると、最後に選択した行からここまでを選択します。',
           ],
           ['Ctrl + A', 'すべての行を選択します。'],
+          [
+            'グループ上で右 / 左矢印キー',
+            'グループを開くか閉じます。子を持つ行の最初のセルでも同様です。',
+          ],
+          ['グループ上で Enter', 'グループを開くか閉じます。Space ではその行を選択します。'],
+          ['詳細のトグル上で Enter', '行の詳細を表示するか、非表示にします。'],
         ],
         notes: [
           '<code>role="grid"</code> を持つネイティブの <code>&lt;table&gt;</code> で、<code>label</code> で名前を付けます。ヘッダーには <code>aria-sort</code>、選択できる行には <code>aria-selected</code> が付きます。',
           'グリッドのタブストップは1つだけです。フォーカスはロービング <code>tabindex</code> でセルからセルへ移動するため、スクリーンリーダーは各セルを行と列のヘッダーとともに読み上げます。',
           'ページングや仮想化の最中も、<code>aria-rowcount</code>、<code>aria-rowindex</code>、<code>aria-colindex</code> は正しい値を保ちます。',
           '並べ替え、絞り込み、ページの切り替え、編集エラーは、読み上げ中の内容に割り込まないステータス領域で読み上げられます。',
+          'グループ化または入れ子にした行があると、テーブルは <code>treegrid</code> になります。行には <code>aria-level</code>、<code>aria-setsize</code>、<code>aria-posinset</code> が付き、開閉できる行には <code>aria-expanded</code> も付きます。集計値は「Sum: 475」のように種類とともに読み上げられます。',
         ],
       },
       chat: {
@@ -2192,6 +2232,139 @@ export const messages: Messages = {
           'エリアのつまみは「Color」という名前の <code>slider</code> で、「Lightness 62%, chroma 75%」のように両方の値を読み上げます。色相と不透明度は、ネイティブの range 入力です。',
           'スウォッチはラベルを名前に持つボタンで、色と一致するときは押された状態になります。',
           'AA と AAA は、色だけでなく「passes」や「fails」という言葉でも結果を伝えます。強制カラーモードでも、色そのものは保たれます。',
+        ],
+      },
+      carousel: {
+        name: 'カルーセル',
+        title: 'Angular 用カルーセル・スライダーコンポーネント',
+        summary: 'スクロールしてスナップする1列のスライド。ボタン、ドット、自動再生に対応します。',
+        description:
+          'アクセシブルな Angular のカルーセル。ネイティブのスクロールスナップとスワイプ、複数枚表示、ドット、ループ、WCAG に沿って一時停止・停止する自動再生に対応します。',
+        apiDescription:
+          'Needless UI のカルーセルの API リファレンス。nui-carousel の表示枚数、インデックス、ループ、自動再生、メソッド、nuiCarouselSlide ディレクティブを解説します。',
+        a11yDescription:
+          'Needless UI のカルーセルのキーボード操作とアクセシビリティ。WAI-ARIA のカルーセルパターン、自動再生ボタン、名前付きのスライド、移動の読み上げを解説します。',
+        overview: [
+          'カルーセルは、スライドを1列に並べて表示します。この列はスクロールしてスライドごとにスナップし、スワイプ、トラックパッド、矢印キーでネイティブに動くほか、前へ・次へのボタンやドットでも移動できます。各スライドには <code>nuiCarouselSlide</code> を付け、そのタイトルで名前を付けます。',
+          '<code>perView</code> で、一度に表示するスライドを1枚にするか複数枚にするかを決めます。<code>perView="auto"</code> なら、各スライドは自身の幅を保ちます。<code>[(index)]</code> は表示中の最初のスライドをバインドし、<code>loop</code> を指定すると最後から最初に戻ります。',
+          '<code>autoplay</code> を指定すると自動再生ボタンが付き、スライドが自動で切り替わります。自動再生はポインターを重ねている間は一時停止し、キーボードフォーカスが入ると、WAI-ARIA のパターンに従って完全に停止します。',
+        ],
+        examples: {
+          featured: {
+            title: 'おすすめの旅行',
+            text: '6秒ごとに次のスライドに切り替わり、自動再生ボタンのリングがそれまでの時間に合わせて満ちていきます。ポインターを重ねると自動再生が一時停止し、Tab キーでフォーカスを移すと停止します。',
+          },
+          shelf: {
+            title: 'カードを並べた棚',
+            text: '<code>perView="auto"</code> は各カードの幅を保ち、収まるだけのカードを表示します。ドットはスワイプに追従し、<code>[(index)]</code> で現在の位置がわかります。',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'スライドを並べたカルーセル。',
+            members: {
+              label: 'カルーセルの名前。',
+              index: '表示中の最初のスライド。0 から数えます。',
+              perView:
+                '一度に表示するスライドの数。スライドが自身の幅を決める場合は <code>auto</code>。',
+              gap: 'スライド間の間隔。任意の CSS の長さで指定します。',
+              loop: '最後のスライドの次は最初に、最初のスライドの前は最後に戻ります。',
+              autoplay:
+                '自動再生でスライドが切り替わる間隔（ミリ秒）。0 のときは自動再生しません。',
+              'controls, indicators': '前へ・次へのボタンと、ドット。',
+              labels: 'カルーセルが表示または読み上げるすべてのテキスト。翻訳に使います。',
+              'next, previous': 'スライドを1枚進めるか、1枚戻します。',
+              goTo: '指定したスライドを表示します。',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: '1枚のスライド。',
+            members: { nuiCarouselSlide: 'スライドのタイトル。位置の代わりに読み上げられます。' },
+          },
+        },
+        keyboard: [
+          ['Tab', '自動再生ボタン、前へ・次へのボタン、スライド、ドットの順に移動します。'],
+          ['スライド上で左右矢印キー', '前または次のスライドまでスクロールします。'],
+          ['Enter または Space', 'フォーカスされているボタンまたはドットを押します。'],
+        ],
+        notes: [
+          'カルーセルは <code>aria-roledescription="carousel"</code> を持つ <code>region</code> で、各スライドは <code>aria-roledescription="slide"</code> を持つ <code>group</code> です。スライドには「Lake Como, 2 of 4」のような名前が付きます。',
+          '自動再生ボタンは最初に置かれ、押すと何をするかを名前で伝えます。自動再生はポインターを重ねると一時停止し、キーボードフォーカスが入ると停止するため、読んでいる内容が勝手に動くことはありません。',
+          'スワイプ、ボタン、ドットで移動したあとは、どこに着いたかが読み上げられます。自動再生による切り替えは読み上げられません。',
+        ],
+      },
+      editor: {
+        name: 'リッチテキストエディター',
+        title: 'Angular 用リッチテキストエディターコンポーネント',
+        summary:
+          '見出し、リスト、リンク、書式を扱えます。ツールバーのほか、入力中の Markdown 記法でも書式を付けられます。',
+        description:
+          'アクセシブルな Angular リッチテキストエディター。ツールバー、ショートカット、Markdown 入力、クリーンな貼り付け、リンク、取り消しに対応。値は HTML か Markdown です。',
+        apiDescription:
+          'Needless UI のリッチテキストエディターの API リファレンス。nui-editor の値と形式、ツールバーのボタン、表示テキスト、コマンド、HTML・Markdown 変換関数を解説します。',
+        a11yDescription:
+          'Needless UI のリッチテキストエディターのキーボード操作とアクセシビリティ。複数行テキストボックス、WAI-ARIA ツールバー、ショートカット、リンクダイアログを解説します。',
+        overview: [
+          'エディターでは、段落、見出し、引用、リスト、コードブロック、区切り線を書くことができ、太字、斜体、下線、取り消し線、コード、リンクを使えます。値は HTML ですが、<code>format="markdown"</code> を指定すると Markdown になります。フォームでも使えます。',
+          'エディターは独自のドキュメントを保持し、すべての編集を自ら処理します。そのため、貼り付けたりドロップしたりした内容も、このドキュメントとしてしかページに入りません。構造と書式は Google Docs や Word からでも保たれ、スクリプト、スタイル、安全でないリンクは取り除かれます。',
+          'Markdown を入力すると書式に変わります。<code># </code> で見出し、<code>- </code> でリストが始まり、<code>**bold**</code> や <code>`code`</code> は閉じた時点で書式が付きます。どの書式にも、ショートカットとツールバーのボタンがあります。',
+        ],
+        examples: {
+          comment: {
+            title: 'コメント',
+            text: '<code>tools</code> でツールバーのボタンを選びます。Markdown を入力したり、どこからでも貼り付けたりして、エディターが保持する HTML を確認してみてください。',
+          },
+          markdown: {
+            title: 'Markdown の読み込みと書き出し',
+            text: '<code>format="markdown"</code> では、値は Markdown です。入れ子のリスト、引用、コードも読み込まれ、編集に合わせて書き戻されます。',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'リッチテキストエディター。',
+            members: {
+              value: '内容。HTML または Markdown で、テキストがないときは空です。',
+              format: '値の書き方。',
+              tools: 'ツールバーのボタン。順番に並べ、グループの間には <code>|</code> を入れます。',
+              'label, labelledBy, describedBy': '内容に名前と説明を付けます。',
+              placeholder: '空のときに表示するテキスト。',
+              'readonly, disabled, invalid':
+                'それぞれ、編集させずに内容を表示する、操作できなくする、無効としてマークする設定です。',
+              labels: 'エディターが表示または読み上げるすべてのテキスト。翻訳に使います。',
+              run: 'ツールバーのコマンドを実行します。',
+              'undo, redo, focus':
+                'それぞれ、取り消し、やり直し、テキストへのフォーカス移動を行います。',
+            },
+          },
+          Helpers: {
+            summary: 'ドキュメントを変換する関数。',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown':
+                'ドキュメントを HTML または Markdown として書き出します。',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'HTML または Markdown をドキュメントとして読み込みます。エディターが表示できるものだけを残します。',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B、I または U',
+            '太字、斜体、下線。Apple のデバイスでは Ctrl の代わりに ⌘ を使います。',
+          ],
+          ['Ctrl + K', 'リンクを追加または編集します。'],
+          ['Ctrl + Alt + 1、2 または 3', '見出しにします。Ctrl + Alt + 0 で段落に戻します。'],
+          ['Ctrl + Shift + 7 または 8', '番号付きリストまたは箇条書きリストにします。'],
+          [
+            'リスト内で Tab / Shift + Tab',
+            'インデントを増やすか減らします。リスト以外では、Tab キーでエディターから出ます。',
+          ],
+          ['Ctrl + Z / Ctrl + Shift + Z', '取り消すか、やり直します。'],
+          ['ツールバー内で左右矢印キー', 'ボタン間を移動します。'],
+        ],
+        notes: [
+          '内容は <code>aria-multiline</code> を持つ <code>textbox</code> で、<code>label</code> で名前が付き、プレースホルダーは <code>aria-placeholder</code> に入ります。',
+          'ツールバーは WAI-ARIA のツールバーで、タブストップは1つだけです。書式は <code>aria-pressed</code> を持つトグルボタンで、各ボタンは <code>aria-keyshortcuts</code> とツールチップでショートカットを示します。',
+          'ツールバーのコマンドを実行するとフォーカスはテキストに戻り、リンクのダイアログも Esc キーでテキストに戻ります。Tab キーで閉じ込められることはなく、リスト以外ではエディターから出ます。',
         ],
       },
     },

@@ -1216,6 +1216,7 @@ export const messages: Messages = {
           'Native na table ang data grid na may sorting, filtering, paging at pag-edit. Ilarawan ang <code>columns</code>, ipasa ang <code>rows</code>, at naka-format ang bawat cell ayon sa type nito para sa locale: mga numero, currency, petsa, oo at hindi, at mga label para sa mga value ng <code>enum</code>.',
           'Nasa mga model ang state nito na puwede mong i-bind, i-save at ipadala sa server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, at <code>columnState</code> para sa mga lapad, pagkakasunod-sunod, pin at nakatagong column na pinili ng mga user. Kapag walang page, ang mga row na nakikita lang ang nire-render, kaya kasingkinis ng sampu ang pag-scroll sa 100,000 row.',
           'Naaabot ng keyboard ang bawat cell, at sa panel ng bawat column, puwede itong i-sort, i-filter, i-pin, ilipat, i-fit at itago.',
+          'Puwede ring mag-nest ang mga row. Ginu-group ng <code>groupBy</code> ang mga ito ayon sa mga column, kasama ang <code>aggregate</code> ng bawat column sa mga row ng grupo at sa isang <code>totals</code> row; ipinapakita ng <code>children</code> ang tree data; at bumubukas sa ilalim ng isang row ang isang <code>nuiGridDetail</code> template. Kapag naka-group o nested, <code>treegrid</code> ang table.',
         ],
         examples: {
           orders: {
@@ -1237,6 +1238,22 @@ export const messages: Messages = {
           server: {
             title: 'Data mula sa server',
             text: 'Sa <code>server</code> mode, ipinapakita ng grid ang mga row kung paano dumating ang mga ito at iniuulat ang bawat pagbabago sa <code>queryChange</code>. I-set ang <code>loading</code> habang nagfe-fetch ka.',
+          },
+          groups: {
+            title: 'Mga grupo at total',
+            text: 'Mag-group ayon sa isa o dalawang column. Binibilang ng mga row ng grupo ang mga order nila at kinukuha ang sum at average ng mga total nila, at idinadagdag ng <code>totals</code> ang pareho para sa bawat row. Isinasara ng left arrow ang isang grupo.',
+          },
+          tree: {
+            title: 'Tree data',
+            text: 'Ibinibigay ng <code>children</code> sa bawat folder ang mga file nito. Bumubukas ang mga row sa right arrow o sa toggle nila, at iniingatan ng <code>[(expanded)]</code> kung alin ang bukas. Pinapanatiling bukas ng search ang mga folder sa itaas ng isang tugma.',
+          },
+          details: {
+            title: 'Mga detalye ng row',
+            text: 'Ipinapakita ng isang <code>nuiGridDetail</code> template ang mga line item ng isang order sa ilalim nito, mula sa isang column ng mga toggle, at iniingatan ng <code>[(details)]</code> kung alin ang bukas.',
+          },
+          live: {
+            title: 'Live data, export at print',
+            text: 'Nagbabago ang mga presyo bawat dalawang segundo, at ipinapakita ng <code>flash</code> kung aling mga cell ang nagbago. Nagda-download ang <code>exportXlsx()</code> ng totoong spreadsheet, pini-print ng <code>print()</code> ang bawat row, at nagpapakita ang <code>layout="auto"</code> ng mga card sa makikitid na screen.',
           },
         },
         api: {
@@ -1273,6 +1290,17 @@ export const messages: Messages = {
                 'Ang mga na-filter at na-sort na row ng mga nakikitang column, bilang CSV.',
               focusCell: 'Inililipat ang focus sa isang cell; header ang row <code>-1</code>.',
               clearFilters: 'Kini-clear ang bawat filter at ang search.',
+              'groupBy, collapsed':
+                'Ang mga column kung saan igu-group ang mga row, ang pinakalabas muna, at ang mga key ng mga nakasarang grupo.',
+              children: 'Ang mga child ng isang row: nagpapakita ng tree data ang grid.',
+              'expanded, details':
+                'Mga key ng mga row na bukas sa tree data, at ng mga row na bukas ang mga detalye.',
+              'totals, flash':
+                'Isang row ng mga aggregate sa bawat na-filter na row; mga cell na kumikislap kapag nagbago ang text nila, sa mga row na may pangmatagalang <code>rowId</code>.',
+              layout:
+                'Ipinapakita ng <code>list</code> ang mga row bilang mga card, at ginagawa rin ito ng <code>auto</code> sa makikitid na screen.',
+              'exportXlsx, print':
+                'Ang mga na-filter at na-sort na row bilang spreadsheet; pini-print ang bawat row.',
             },
           },
           NuiGridColumn: {
@@ -1296,6 +1324,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Kung puwedeng i-edit ang mga cell, at mensahe kapag hindi valid ang value.',
               set: 'Ginagawa ang na-edit na row. Kopyang may bagong value ang default.',
+              aggregate:
+                'Ang ipinapakita ng mga row ng grupo at ng totals row: sum, average, minimum, maximum, count, o isang function.',
             },
           },
           NuiGridCell: {
@@ -1310,6 +1340,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Ang ipinapakita kapag walang row. Sinasabi ng context kung mga filter ang nagtago sa mga ito.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Ang mga detalye ng isang row, na ipinapakita sa ilalim nito kapag binuksan. Nasa context ang row.',
             members: {},
           },
         },
@@ -1337,12 +1372,19 @@ export const messages: Messages = {
           ],
           ['Space', 'Pinipili ang row; kapag may Shift, ang mga row mula sa huling napili.'],
           ['Ctrl + A', 'Pinipili ang bawat row.'],
+          [
+            'Right at left arrow sa grupo',
+            'Binubuksan o isinasara ito; pati sa unang cell ng row na may mga child.',
+          ],
+          ['Enter sa grupo', 'Binubuksan o isinasara ito; pinipili ng Space ang mga row nito.'],
+          ['Enter sa details toggle', 'Ipinapakita o itinatago ang mga detalye ng row.'],
         ],
         notes: [
           'Isang native na <code>&lt;table&gt;</code> na may <code>role="grid"</code>, na pinangalanan ng <code>label</code>. May <code>aria-sort</code> ang mga header, at may <code>aria-selected</code> ang mga row na puwedeng piliin.',
           'Iisang tab stop ang grid. Lumilipat ang focus mula cell hanggang cell gamit ang roving <code>tabindex</code>, kaya binabasa ng mga screen reader ang bawat cell kasama ang mga header ng row at column nito.',
           'Nananatiling tama ang <code>aria-rowcount</code>, <code>aria-rowindex</code> at <code>aria-colindex</code> habang naka-page o naka-virtualize ang mga row.',
           'Ina-announce sa isang polite na status region ang sorting, filtering, paging at mga error sa pag-edit.',
+          'Ginagawang <code>treegrid</code> ng mga naka-group o nested na row ang table: may <code>aria-level</code>, <code>aria-setsize</code> at <code>aria-posinset</code> ang mga row, at <code>aria-expanded</code> kapag bumubukas ang mga ito. Binabasa ang mga aggregate kasama ang uri nila, gaya ng “Sum: 475”.',
         ],
       },
       chat: {
@@ -2236,6 +2278,141 @@ export const messages: Messages = {
           'Isang <code>slider</code> na pinangalanang “Color” ang thumb ng area, na sinasabi ang dalawang value nito, gaya ng “Lightness 62%, chroma 75%”. Mga native na range input ang hue at opacity.',
           'Mga button ang mga swatch na pinangalanan ayon sa label nila, at naka-press kapag tugma sa kulay.',
           'Sinasabi ng AA at AAA ang “passes” o “fails” sa salita, hindi lang sa kulay, at sa forced colors mode, nananatili ang mismong mga kulay.',
+        ],
+      },
+      carousel: {
+        name: 'Carousel',
+        title: 'Carousel at slider component para sa Angular',
+        summary:
+          'Mga slide sa isang hanay na nag-i-scroll at nag-i-snap, may mga button, tuldok at rotation.',
+        description:
+          'Accessible na Angular carousel: native na scroll snapping at swipe, ilang slide bawat view, mga tuldok, loop, at rotation na humihinto ayon sa WCAG.',
+        apiDescription:
+          'API reference ng Needless UI carousel: mga slide bawat view, index, loop at rotation ng nui-carousel, ang mga method nito, at ang nuiCarouselSlide directive.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI carousel: ang WAI-ARIA carousel pattern, rotation control, mga slide na may pangalan at mga ina-announce na galaw.',
+        overview: [
+          'Ipinapakita ng carousel ang mga slide sa isang hanay na nag-i-scroll at nag-i-snap: native itong naigagalaw ng swipe, mga trackpad at mga arrow key, pati ng mga previous at next button nito at ng mga tuldok nito. Markahan ang bawat slide ng <code>nuiCarouselSlide</code>, na pinangalanan ayon sa title nito.',
+          'Magpakita ng isang slide sa bawat pagkakataon, o ilan gamit ang <code>perView</code>, o hayaang panatilihin ng mga slide ang sarili nilang lapad gamit ang <code>perView="auto"</code>. Bina-bind ng <code>[(index)]</code> ang unang slide na nakikita, at bumabalik sa simula ang <code>loop</code>.',
+          'Kapag may <code>autoplay</code>, kusa itong umiikot, na kontrolado ng isang rotation control. Nagpa-pause ang rotation kapag nasa ibabaw ang pointer, at tuluyang humihinto kapag pumasok ang keyboard focus, gaya ng hinihingi ng WAI-ARIA pattern.',
+        ],
+        examples: {
+          featured: {
+            title: 'Mga tampok na biyahe',
+            text: 'Bagong slide bawat anim na segundo, habang napupuno hanggang doon ang ring sa rotation control. Mag-hover para i-pause ang rotation, o pumasok gamit ang Tab para ihinto ito.',
+          },
+          shelf: {
+            title: 'Isang shelf ng mga card',
+            text: 'Pinapanatili ng <code>perView="auto"</code> ang lapad ng bawat card at ipinapakita ang kasing-dami ng kasya. Sinusundan ng mga tuldok ang swipe, at sinasabi ng <code>[(index)]</code> kung nasaan na ito.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Isang carousel ng mga slide.',
+            members: {
+              label: 'Pinapangalanan ang carousel.',
+              index: 'Ang unang slide na nakikita, mula sa 0.',
+              perView:
+                'Ilang slide ang sabay na nakikita, o <code>auto</code> para sa mga slide na may sariling lapad.',
+              gap: 'Espasyo sa pagitan ng mga slide, bilang kahit anong CSS length.',
+              loop: 'Bumabalik sa una kapag lumampas sa huling slide, at pabaligtad din.',
+              autoplay:
+                'Mga millisecond sa pagitan ng mga slide kapag kusa itong umiikot; hindi ito umiikot kapag 0.',
+              'controls, indicators': 'Ang mga previous at next button, at ang mga tuldok.',
+              labels: 'Bawat text na sinasabi nito, para maisalin.',
+              'next, previous': 'Umuusad o umaatras nang isang slide.',
+              goTo: 'Dinadala ang isang slide sa view.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Isang slide.',
+            members: {
+              nuiCarouselSlide: 'Ang title nito, na binabasa sa halip na ang posisyon nito.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Ang rotation control, ang mga button, ang mga slide, saka ang mga tuldok.'],
+          ['Left at right arrow sa mga slide', 'Nag-i-scroll sa nauna o susunod na slide.'],
+          ['Enter o Space', 'Pinipindot ang naka-focus na button o tuldok.'],
+        ],
+        notes: [
+          'Isang <code>region</code> ang carousel na may <code>aria-roledescription="carousel"</code>, at isang <code>group</code> ang bawat slide na may <code>aria-roledescription="slide"</code>, na pinangalanang gaya ng “Lake Como, 2 of 4”.',
+          'Nauuna ang rotation control at sinasabi nito ang gagawin nito. Nagpa-pause ang rotation sa ilalim ng pointer at humihinto kapag pumasok ang keyboard focus, kaya hindi nito kailanman ginagalaw ang binabasa ng isang tao.',
+          'Ina-announce kung saan napunta ang carousel pagkatapos ng swipe, button o tuldok; tahimik ang rotation.',
+        ],
+      },
+      editor: {
+        name: 'Rich text editor',
+        title: 'Rich text editor component para sa Angular',
+        summary: 'Mga heading, list, link at format, may toolbar at Markdown habang nagta-type.',
+        description:
+          'Accessible na Angular rich text editor: toolbar, mga shortcut, Markdown habang nagta-type, malinis na paste, mga link at undo, na HTML o Markdown ang value.',
+        apiDescription:
+          'API reference ng Needless UI rich text editor: value at format ng nui-editor, mga tool ng toolbar, mga text, mga command, at ang HTML at Markdown converter.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI rich text editor: multiline na textbox, WAI-ARIA toolbar, mga shortcut at link dialog.',
+        overview: [
+          'Sumusulat ang editor ng mga paragraph, heading, quote, list, code block at divider, na may bold, italic, underline, strikethrough, code at mga link. HTML ang value nito, o Markdown kapag may <code>format="markdown"</code>, at gumagana ito sa mga form.',
+          'May sarili itong dokumento at ito mismo ang humahawak sa bawat edit, kaya umaabot sa page ang anumang na-paste o na-drop bilang dokumentong iyon lang: nananatili ang structure at mga format, pati mula sa Google Docs at Word, at inaalis ang mga script, style at hindi ligtas na link.',
+          'Mag-type ng Markdown at nagiging format ito: nagsisimula ng heading ang <code># </code>, ng list ang <code>- </code>, at nafo-format ang <code>**bold**</code> at <code>`code`</code> pagkasara mo sa mga ito. May sariling shortcut at toolbar button ang bawat format.',
+        ],
+        examples: {
+          comment: {
+            title: 'Isang comment',
+            text: 'Pinipili ng <code>tools</code> ang mga button ng toolbar. Mag-type ng Markdown, mag-paste mula kahit saan, at tingnan ang HTML na iniingatan ng editor.',
+          },
+          markdown: {
+            title: 'Markdown papasok at palabas',
+            text: 'Kapag may <code>format="markdown"</code>, Markdown ang value: binabasa ito kasama ang mga nested list, quote at code, at isinusulat pabalik habang nag-e-edit ka.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Isang rich text editor.',
+            members: {
+              value: 'Ang content, bilang HTML o Markdown; walang laman kapag walang text.',
+              format: 'Kung paano isinusulat ang value.',
+              tools:
+                'Ang mga button ng toolbar ayon sa pagkakasunod, may <code>|</code> sa pagitan ng mga grupo.',
+              'label, labelledBy, describedBy': 'Pinapangalanan at inilalarawan ang content.',
+              placeholder: 'Ipinapakita habang walang laman ito.',
+              'readonly, disabled, invalid':
+                'Ipinapakita ang content nang hindi ito ma-edit; ino-off ito; minamarkahan itong invalid.',
+              labels: 'Bawat text na sinasabi nito, para maisalin.',
+              run: 'Nagpapatakbo ng isang toolbar command.',
+              'undo, redo, focus': 'Ina-undo, nire-redo, at inililipat ang focus sa text.',
+            },
+          },
+          Helpers: {
+            summary: 'Mga function para mag-convert ng mga dokumento.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown':
+                'Isinusulat ang isang dokumento bilang HTML o Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Binabasa ang HTML o Markdown papunta sa isang dokumento, at pinapanatili ang kayang ipakita ng editor.',
+            },
+          },
+        },
+        keyboard: [
+          ['Ctrl + B, I o U', 'Bold, italic o underline. Sa mga Apple device, ⌘ sa halip na Ctrl.'],
+          ['Ctrl + K', 'Nagdadagdag o nag-e-edit ng link.'],
+          [
+            'Ctrl + Alt + 1, 2 o 3',
+            'Isang heading; ibinabalik ito ng Ctrl + Alt + 0 sa pagiging paragraph.',
+          ],
+          ['Ctrl + Shift + 7 o 8', 'Isang numbered o bulleted list.'],
+          [
+            'Tab at Shift + Tab sa list',
+            'Nag-i-indent o nag-o-outdent; sa ibang lugar, lumalabas ang Tab sa editor.',
+          ],
+          ['Ctrl + Z at Ctrl + Shift + Z', 'Undo at redo.'],
+          ['Left at right arrow sa toolbar', 'Lumilipat sa pagitan ng mga button nito.'],
+        ],
+        notes: [
+          'Isang <code>textbox</code> ang content na may <code>aria-multiline</code>, na pinangalanan ng <code>label</code>, at nasa <code>aria-placeholder</code> ang placeholder nito.',
+          'Isang WAI-ARIA toolbar ang toolbar, iisang tab stop: mga toggle button na may <code>aria-pressed</code> ang mga format, at sinasabi ng bawat button ang shortcut nito sa <code>aria-keyshortcuts</code> at sa tooltip nito.',
+          'Ibinabalik ng isang toolbar command ang focus sa text, at bumabalik dito ang link dialog sa Escape. Hindi kailanman naiipit ang Tab: sa labas ng mga list, lumalabas ito sa editor.',
         ],
       },
     },

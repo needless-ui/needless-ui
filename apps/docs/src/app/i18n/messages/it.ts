@@ -1190,6 +1190,7 @@ export const messages: Messages = {
           'La griglia dati è una tabella nativa con ordinamento, filtri, paginazione e modifica. Descrivi le <code>columns</code>, passa le <code>rows</code> e ogni cella viene formattata in base al tipo e al locale: numeri, valute, date, sì e no, ed etichette per i valori <code>enum</code>.',
           'Tutto il suo stato è nei model, che puoi collegare, salvare e inviare a un server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> e <code>columnState</code> per larghezze, ordine, colonne bloccate e nascoste scelte dagli utenti. Senza paginazione vengono renderizzate solo le righe visibili, così 100.000 righe scorrono come dieci.',
           'Ogni cella è raggiungibile da tastiera, e il pannello di ogni colonna permette di ordinarla, filtrarla, bloccarla, spostarla, adattarla al contenuto e nasconderla.',
+          'Le righe possono anche essere annidate. <code>groupBy</code> le raggruppa per colonne, con l’<code>aggregate</code> di ogni colonna sulle righe di gruppo e in una riga <code>totals</code>; <code>children</code> mostra dati ad albero; e un template <code>nuiGridDetail</code> si apre sotto una riga. Con righe raggruppate o annidate, la tabella è un <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1211,6 +1212,22 @@ export const messages: Messages = {
           server: {
             title: 'Dati dal server',
             text: 'In modalità <code>server</code> la griglia mostra le righe man mano che arrivano e segnala ogni cambiamento con <code>queryChange</code>. Imposta <code>loading</code> mentre carichi i dati.',
+          },
+          groups: {
+            title: 'Gruppi e totali',
+            text: 'Raggruppa per una o due colonne. Le righe di gruppo contano i loro ordini e calcolano somma e media dei loro importi, e <code>totals</code> fa lo stesso su tutte le righe. La freccia sinistra chiude un gruppo.',
+          },
+          tree: {
+            title: 'Dati ad albero',
+            text: '<code>children</code> dà a ogni cartella i suoi file. Le righe si aprono con la freccia destra o con il loro pulsante toggle, e <code>[(expanded)]</code> tiene traccia di quelle aperte. Una ricerca tiene aperte le cartelle sopra un risultato.',
+          },
+          details: {
+            title: 'Dettagli della riga',
+            text: 'Un template <code>nuiGridDetail</code> mostra gli articoli di un ordine sotto la sua riga, da una colonna di pulsanti toggle, e <code>[(details)]</code> tiene traccia di quelli aperti.',
+          },
+          live: {
+            title: 'Dati live, esportazione e stampa',
+            text: 'I prezzi cambiano ogni due secondi, e <code>flash</code> mostra quali celle sono cambiate. <code>exportXlsx()</code> scarica un vero foglio di calcolo, <code>print()</code> stampa tutte le righe, e <code>layout="auto"</code> mostra delle card sugli schermi stretti.',
           },
         },
         api: {
@@ -1245,6 +1262,17 @@ export const messages: Messages = {
               exportCsv: 'Le righe filtrate e ordinate delle colonne visibili, in CSV.',
               focusCell: 'Sposta il focus su una cella; la riga <code>-1</code> è l’intestazione.',
               clearFilters: 'Azzera tutti i filtri e la ricerca.',
+              'groupBy, collapsed':
+                'Le colonne per cui raggruppare le righe, a partire dalla più esterna, e le chiavi dei gruppi chiusi.',
+              children: 'I figli di una riga: la griglia mostra dati ad albero.',
+              'expanded, details':
+                'Le chiavi delle righe aperte nei dati ad albero, e quelle delle righe con i dettagli aperti.',
+              'totals, flash':
+                'Una riga di aggregati su tutte le righe filtrate; celle che lampeggiano quando il loro testo cambia, nelle righe con un <code>rowId</code> stabile.',
+              layout:
+                '<code>list</code> mostra le righe come card, e <code>auto</code> lo fa sugli schermi stretti.',
+              'exportXlsx, print':
+                'Le righe filtrate e ordinate come foglio di calcolo; stampa tutte le righe.',
             },
           },
           NuiGridColumn: {
@@ -1269,6 +1297,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Se le celle si possono modificare, e un messaggio quando un valore non è valido.',
               set: 'Crea la riga modificata. Di default è una copia con il nuovo valore.',
+              aggregate:
+                'Cosa mostrano le righe di gruppo e la riga dei totali: una somma, una media, un minimo, un massimo, un conteggio o una funzione.',
             },
           },
           NuiGridCell: {
@@ -1283,6 +1313,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Cosa si vede quando non ci sono righe. Il contesto indica se le hanno nascoste i filtri.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'I dettagli di una riga, mostrati sotto di essa quando è aperta. Il contesto contiene la riga.',
             members: {},
           },
         },
@@ -1307,12 +1342,19 @@ export const messages: Messages = {
           ['Invio, Esc e Tab durante la modifica', 'Conferma, annulla, o conferma e passa oltre.'],
           ['Spazio', 'Seleziona la riga; con Maiusc, le righe dall’ultima selezionata.'],
           ['Ctrl + A', 'Seleziona tutte le righe.'],
+          [
+            'Freccia destra e sinistra su un gruppo',
+            'Lo aprono o lo chiudono; anche sulla prima cella di una riga con figli.',
+          ],
+          ['Invio su un gruppo', 'Lo apre o lo chiude; Spazio ne seleziona le righe.'],
+          ['Invio sul pulsante dei dettagli', 'Mostra o nasconde i dettagli della riga.'],
         ],
         notes: [
           'Una <code>&lt;table&gt;</code> nativa con <code>role="grid"</code> e il nome dato da <code>label</code>. Le intestazioni hanno <code>aria-sort</code>, e le righe selezionabili <code>aria-selected</code>.',
           'La griglia è un unico tab stop. Il focus passa da una cella all’altra con un <code>tabindex</code> mobile, così gli screen reader leggono ogni cella con le intestazioni di riga e di colonna.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> e <code>aria-colindex</code> restano corretti anche con righe paginate o virtualizzate.',
           'Ordinamento, filtri, paginazione ed errori di modifica vengono annunciati in modo cortese in una regione di stato.',
+          'Le righe raggruppate o annidate fanno della tabella un <code>treegrid</code>: le righe hanno <code>aria-level</code>, <code>aria-setsize</code> e <code>aria-posinset</code>, e <code>aria-expanded</code> quando si possono aprire. Gli aggregati vengono letti con il loro tipo, come «Sum: 475».',
         ],
       },
       chat: {
@@ -2199,6 +2241,140 @@ export const messages: Messages = {
           'Il cursore dell’area è uno <code>slider</code> chiamato «Color» che annuncia entrambi i valori, come «Lightness 62%, chroma 75%». Tonalità e opacità sono input range nativi.',
           'I campioni sono pulsanti con il nome della loro etichetta, e risultano premuti quando corrispondono al colore.',
           'AA e AAA dicono «passes» o «fails» a parole, non solo con il colore, e in modalità forced colors i colori stessi restano.',
+        ],
+      },
+      carousel: {
+        name: 'Carosello',
+        title: 'Componente carosello e slider per Angular',
+        summary: 'Slide in fila che scorrono e si agganciano, con pulsanti, puntini e rotazione.',
+        description:
+          'Carosello Angular accessibile: scroll snapping e swipe nativi, più slide per vista, puntini, loop e una rotazione che va in pausa e si ferma come chiede WCAG.',
+        apiDescription:
+          'Riferimento API del carosello Needless UI: slide per vista, indice, loop e rotazione di nui-carousel, i suoi metodi e la direttiva nuiCarouselSlide.',
+        a11yDescription:
+          'Tastiera e accessibilità del carosello Needless UI: il pattern Carousel di WAI-ARIA, un controllo della rotazione, slide con nome e spostamenti annunciati.',
+        overview: [
+          'Un carosello mostra le slide in una fila che scorre e si aggancia a ciascuna: swipe, trackpad e tasti freccia lo spostano in modo nativo, così come i pulsanti precedente e successivo e i puntini. Segna ogni slide con <code>nuiCarouselSlide</code>, che le dà come nome il suo titolo.',
+          'Mostra una slide alla volta, o più di una con <code>perView</code>, oppure lascia che ogni slide mantenga la propria larghezza con <code>perView="auto"</code>. <code>[(index)]</code> collega la prima slide visibile, e <code>loop</code> ricomincia dall’inizio.',
+          'Con <code>autoplay</code> gira da solo, preceduto da un controllo della rotazione. La rotazione va in pausa sotto il puntatore e si ferma del tutto quando entra il focus da tastiera, come chiede il pattern WAI-ARIA.',
+        ],
+        examples: {
+          featured: {
+            title: 'Viaggi in evidenza',
+            text: 'Una nuova slide ogni sei secondi, con l’anello sul controllo della rotazione che si riempie fino alla successiva. Passa sopra con il mouse per mettere in pausa la rotazione, o entra con Tab per fermarla.',
+          },
+          shelf: {
+            title: 'Uno scaffale di card',
+            text: '<code>perView="auto"</code> mantiene la larghezza di ogni card e ne mostra quante ce ne stanno. I puntini seguono lo swipe, e <code>[(index)]</code> dice dove si trova.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Un carosello di slide.',
+            members: {
+              label: 'Dà un nome al carosello.',
+              index: 'La prima slide visibile, a partire da 0.',
+              perView:
+                'Le slide visibili contemporaneamente, o <code>auto</code> per slide che decidono da sé la propria larghezza.',
+              gap: 'Lo spazio tra le slide, come qualsiasi lunghezza CSS.',
+              loop: 'Andare oltre l’ultima slide riporta alla prima, e viceversa.',
+              autoplay: 'Millisecondi tra una slide e l’altra quando gira da solo; con 0 non gira.',
+              'controls, indicators': 'I pulsanti precedente e successivo, e i puntini.',
+              labels: 'Ogni suo testo, da tradurre.',
+              'next, previous': 'Va avanti o indietro di una slide.',
+              goTo: 'Scorre fino a una slide.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Una slide.',
+            members: { nuiCarouselSlide: 'Il suo titolo, letto al posto della sua posizione.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Scorre il controllo della rotazione, i pulsanti, le slide e poi i puntini.'],
+          ['Freccia sinistra e destra sulle slide', 'Portano alla slide precedente o successiva.'],
+          ['Invio o Spazio', 'Attiva il pulsante o il puntino con il focus.'],
+        ],
+        notes: [
+          'Il carosello è una <code>region</code> con <code>aria-roledescription="carousel"</code>, e ogni slide un <code>group</code> con <code>aria-roledescription="slide"</code>, con un nome come «Lake Como, 2 of 4».',
+          'Il controllo della rotazione viene per primo e dice cosa farà. La rotazione va in pausa sotto il puntatore e si ferma quando entra il focus da tastiera, così non sposta mai ciò che qualcuno sta leggendo.',
+          'Viene annunciato dove arriva il carosello dopo uno swipe, un pulsante o un puntino; la rotazione resta in silenzio.',
+        ],
+      },
+      editor: {
+        name: 'Editor di testo formattato',
+        title: 'Componente editor di testo formattato per Angular',
+        summary:
+          'Intestazioni, elenchi, link e formattazione, con barra degli strumenti e Markdown mentre scrivi.',
+        description:
+          'Editor di testo formattato Angular accessibile: barra degli strumenti, scorciatoie, Markdown mentre scrivi, incolla pulito, link e undo, in HTML o Markdown.',
+        apiDescription:
+          'Riferimento API dell’editor di testo formattato Needless UI: valore e formato di nui-editor, strumenti, testi, comandi e i convertitori HTML e Markdown.',
+        a11yDescription:
+          'Tastiera e accessibilità dell’editor di testo formattato Needless UI: campo multiriga, barra degli strumenti WAI-ARIA, scorciatoie e dialog per i link.',
+        overview: [
+          'L’editor scrive paragrafi, intestazioni, citazioni, elenchi, blocchi di codice e separatori, con grassetto, corsivo, sottolineato, barrato, codice e link. Il suo valore è HTML, o Markdown con <code>format="markdown"</code>, e funziona con i moduli.',
+          'Gestisce un proprio documento e ogni modifica, quindi ciò che viene incollato o trascinato arriva alla pagina solo come quel documento: struttura e formattazione restano, anche da Google Docs e Word, mentre script, stili e link non sicuri spariscono.',
+          'Scrivi Markdown e diventa formattazione: <code># </code> inizia un’intestazione, <code>- </code> un elenco, e <code>**bold**</code> e <code>`code`</code> si formattano appena li chiudi. Ogni formato ha la sua scorciatoia e il suo pulsante nella barra degli strumenti.',
+        ],
+        examples: {
+          comment: {
+            title: 'Un commento',
+            text: '<code>tools</code> sceglie i pulsanti della barra degli strumenti. Scrivi Markdown, incolla da qualsiasi fonte e guarda l’HTML che l’editor conserva.',
+          },
+          markdown: {
+            title: 'Markdown in entrata e in uscita',
+            text: 'Con <code>format="markdown"</code>, il valore è Markdown: letto con elenchi annidati, citazioni e codice, e riscritto mentre modifichi.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Un editor di testo formattato.',
+            members: {
+              value: 'Il contenuto, in HTML o Markdown; vuoto quando non c’è testo.',
+              format: 'Come viene scritto il valore.',
+              tools:
+                'I pulsanti della barra degli strumenti in ordine, con <code>|</code> tra i gruppi.',
+              'label, labelledBy, describedBy': 'Danno un nome e una descrizione al contenuto.',
+              placeholder: 'Testo mostrato finché è vuoto.',
+              'readonly, disabled, invalid':
+                'Mostra il contenuto senza poterlo modificare; lo disattiva; lo segna come non valido.',
+              labels: 'Ogni suo testo, da tradurre.',
+              run: 'Esegue un comando della barra degli strumenti.',
+              'undo, redo, focus': 'Annulla, ripete e sposta il focus nel testo.',
+            },
+          },
+          Helpers: {
+            summary: 'Funzioni per convertire i documenti.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': 'Scrivono un documento in HTML o Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Leggono HTML o Markdown in un documento, tenendo ciò che l’editor può mostrare.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I o U',
+            'Grassetto, corsivo o sottolineato. Sui dispositivi Apple, ⌘ al posto di Ctrl.',
+          ],
+          ['Ctrl + K', 'Aggiunge o modifica un link.'],
+          ['Ctrl + Alt + 1, 2 o 3', 'Un’intestazione; Ctrl + Alt + 0 la riporta a paragrafo.'],
+          ['Ctrl + Maiusc + 7 o 8', 'Un elenco numerato o puntato.'],
+          [
+            'Tab e Maiusc + Tab in un elenco',
+            'Aumentano o riducono il rientro; altrove, Tab esce dall’editor.',
+          ],
+          ['Ctrl + Z, Ctrl + Maiusc + Z', 'Annulla e ripeti.'],
+          [
+            'Freccia sinistra e destra nella barra degli strumenti',
+            'Si spostano tra i suoi pulsanti.',
+          ],
+        ],
+        notes: [
+          'Il contenuto è una <code>textbox</code> con <code>aria-multiline</code>, con il nome dato da <code>label</code> e il segnaposto in <code>aria-placeholder</code>.',
+          'La barra degli strumenti è una toolbar WAI-ARIA con un solo tab stop: i formati sono pulsanti toggle con <code>aria-pressed</code>, e ogni pulsante indica la sua scorciatoia in <code>aria-keyshortcuts</code> e nel suo tooltip.',
+          'Un comando della barra degli strumenti riporta il focus al testo, e anche il dialog dei link lo fa con Esc. Tab non resta mai bloccato: fuori dagli elenchi esce dall’editor.',
         ],
       },
     },

@@ -436,6 +436,12 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
           { name: 'rowActivate', kind: 'output', type: 'T' },
           { name: 'cellEdit', kind: 'output', type: 'NuiGridEdit<T>' },
           { name: 'queryChange', kind: 'output', type: 'NuiGridQuery' },
+          { name: 'groupBy, collapsed', kind: 'model', type: 'string[]', default: '[]' },
+          { name: 'children', kind: 'input', type: '(row: T) => T[] | undefined' },
+          { name: 'expanded, details', kind: 'model', type: 'unknown[]', default: '[]' },
+          { name: 'totals, flash', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'layout', kind: 'input', type: "'table' | 'list' | 'auto'", default: "'table'" },
+          { name: 'exportXlsx, print', kind: 'method', type: '(options?) => Blob, () => void' },
           { name: 'exportCsv', kind: 'method', type: '(options?) => string' },
           { name: 'focusCell', kind: 'method', type: '(row: number, col: number) => void' },
           { name: 'clearFilters', kind: 'method', type: '() => void' },
@@ -472,6 +478,11 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
             type: 'boolean | ((row) => boolean), (value, row) => string | null',
           },
           { name: 'set', kind: 'property', type: '(row: T, value: V) => T' },
+          {
+            name: 'aggregate',
+            kind: 'property',
+            type: "'sum' | 'avg' | 'min' | 'max' | 'count' | ((values, rows) => unknown)",
+          },
         ],
       },
       {
@@ -485,6 +496,7 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
         members: [{ name: 'nuiGridHeader', kind: 'input', type: 'string' }],
       },
       { name: 'NuiGridEmpty', selector: 'ng-template[nuiGridEmpty]', members: [] },
+      { name: 'NuiGridDetail', selector: 'ng-template[nuiGridDetail]', members: [] },
     ],
     examples: [
       {
@@ -511,6 +523,26 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
         id: 'server',
         load: () => import('../examples/grid/server').then((m) => m.GridServerExample),
         defer: 500,
+      },
+      {
+        id: 'groups',
+        load: () => import('../examples/grid/groups').then((m) => m.GridGroupsExample),
+        defer: 460,
+      },
+      {
+        id: 'tree',
+        load: () => import('../examples/grid/tree').then((m) => m.GridTreeExample),
+        defer: 300,
+      },
+      {
+        id: 'details',
+        load: () => import('../examples/grid/details').then((m) => m.GridDetailsExample),
+        defer: 460,
+      },
+      {
+        id: 'live',
+        load: () => import('../examples/grid/live').then((m) => m.GridLiveExample),
+        defer: 360,
       },
     ],
   },
@@ -1526,6 +1558,85 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
         load: () =>
           import('../examples/color-picker/popover').then((m) => m.ColorPickerPopoverExample),
         defer: 133,
+      },
+    ],
+  },
+  carousel: {
+    id: 'carousel',
+    importFile: 'snippets/import-carousel.ts',
+    api: [
+      {
+        name: 'NuiCarousel',
+        selector: 'nui-carousel',
+        members: [
+          { name: 'label', kind: 'input', type: 'string' },
+          { name: 'index', kind: 'model', type: 'number', default: '0' },
+          { name: 'perView', kind: 'input', type: "number | 'auto'", default: '1' },
+          { name: 'gap', kind: 'input', type: 'string', default: "'1rem'" },
+          { name: 'loop', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'autoplay', kind: 'input', type: 'number (ms)', default: '0' },
+          { name: 'controls, indicators', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiCarouselLabels>' },
+          { name: 'next, previous', kind: 'method', type: '() => void' },
+          { name: 'goTo', kind: 'method', type: '(index: number) => void' },
+        ],
+      },
+      {
+        name: 'NuiCarouselSlide',
+        selector: '[nuiCarouselSlide]',
+        members: [{ name: 'nuiCarouselSlide', kind: 'input', type: 'string' }],
+      },
+    ],
+    examples: [
+      {
+        id: 'featured',
+        load: () => import('../examples/carousel/featured').then((m) => m.CarouselFeaturedExample),
+      },
+      {
+        id: 'shelf',
+        load: () => import('../examples/carousel/shelf').then((m) => m.CarouselShelfExample),
+      },
+    ],
+  },
+  editor: {
+    id: 'editor',
+    importFile: 'snippets/import-editor.ts',
+    api: [
+      {
+        name: 'NuiEditor',
+        selector: 'nui-editor',
+        members: [
+          { name: 'value', kind: 'model', type: 'string', default: "''" },
+          { name: 'format', kind: 'input', type: "'html' | 'markdown'", default: "'html'" },
+          { name: 'tools', kind: 'input', type: 'NuiEditorTool[]', default: 'NUI_EDITOR_TOOLS' },
+          { name: 'label, labelledBy, describedBy', kind: 'input', type: 'string' },
+          { name: 'placeholder', kind: 'input', type: 'string' },
+          { name: 'readonly, disabled, invalid', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiEditorLabels>' },
+          { name: 'run', kind: 'method', type: '(tool: NuiEditorTool) => void' },
+          { name: 'undo, redo, focus', kind: 'method', type: '() => void' },
+        ],
+      },
+      {
+        name: 'Helpers',
+        members: [
+          { name: 'nuiEditorToHtml, nuiEditorToMarkdown', kind: 'method', type: '(doc) => string' },
+          {
+            name: 'nuiEditorFromHtml, nuiEditorFromMarkdown',
+            kind: 'method',
+            type: '(text, document?) => NuiEditorDoc',
+          },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'comment',
+        load: () => import('../examples/editor/comment').then((m) => m.EditorCommentExample),
+      },
+      {
+        id: 'markdown',
+        load: () => import('../examples/editor/markdown').then((m) => m.EditorMarkdownExample),
       },
     ],
   },

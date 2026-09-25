@@ -1176,6 +1176,7 @@ export const messages: Messages = {
           'Bảng dữ liệu dựa trên phần tử table native, có sắp xếp, lọc, phân trang và chỉnh sửa. Mô tả <code>columns</code>, truyền <code>rows</code>, và mỗi ô sẽ được định dạng theo kiểu dữ liệu và locale: số, tiền tệ, ngày tháng, có/không, và nhãn cho các giá trị <code>enum</code>.',
           'Trạng thái nằm trong các model mà bạn có thể liên kết, lưu và gửi lên máy chủ: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, và <code>columnState</code> cho độ rộng, thứ tự, ghim và các cột ẩn mà người dùng chọn. Khi không phân trang, chỉ các dòng đang hiển thị được render, nên 100.000 dòng vẫn cuộn mượt như mười dòng.',
           'Mọi ô đều đến được bằng bàn phím, và panel của mỗi cột có thể sắp xếp, lọc, ghim, di chuyển, chỉnh vừa độ rộng và ẩn cột đó.',
+          'Các dòng cũng có thể lồng nhau. <code>groupBy</code> nhóm chúng theo cột, với <code>aggregate</code> của từng cột trên các dòng nhóm và trong một dòng <code>totals</code>; <code>children</code> hiển thị dữ liệu dạng cây; còn template <code>nuiGridDetail</code> mở ra bên dưới một dòng. Khi được nhóm hoặc lồng nhau, bảng là một <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1197,6 +1198,22 @@ export const messages: Messages = {
           server: {
             title: 'Dữ liệu máy chủ',
             text: 'Ở chế độ <code>server</code>, bảng hiển thị các dòng đúng như nhận được và báo mỗi thay đổi qua <code>queryChange</code>. Hãy đặt <code>loading</code> trong lúc tải dữ liệu.',
+          },
+          groups: {
+            title: 'Nhóm và tổng cộng',
+            text: 'Nhóm theo một hoặc hai cột. Dòng nhóm đếm số đơn hàng, tính tổng và trung bình giá trị đơn, còn <code>totals</code> thêm các giá trị đó cho mọi dòng. Mũi tên trái đóng một nhóm.',
+          },
+          tree: {
+            title: 'Dữ liệu dạng cây',
+            text: '<code>children</code> cho mỗi thư mục các tệp của nó. Dòng mở ra bằng mũi tên phải hoặc nút bật/tắt của nó, và <code>[(expanded)]</code> giữ những dòng đang mở. Khi tìm kiếm, các thư mục phía trên kết quả khớp vẫn mở.',
+          },
+          details: {
+            title: 'Chi tiết dòng',
+            text: 'Template <code>nuiGridDetail</code> hiển thị các mặt hàng của một đơn ngay bên dưới nó, mở từ một cột nút bật/tắt, và <code>[(details)]</code> giữ những chi tiết đang mở.',
+          },
+          live: {
+            title: 'Dữ liệu trực tiếp, xuất và in',
+            text: 'Giá thay đổi mỗi hai giây, và <code>flash</code> cho thấy ô nào vừa đổi. <code>exportXlsx()</code> tải xuống một bảng tính thật, <code>print()</code> in mọi dòng, và <code>layout="auto"</code> hiển thị dạng thẻ trên màn hình hẹp.',
           },
         },
         api: {
@@ -1230,6 +1247,16 @@ export const messages: Messages = {
               exportCsv: 'Các dòng đã lọc và sắp xếp của những cột đang hiển thị, dưới dạng CSV.',
               focusCell: 'Chuyển focus vào một ô; dòng <code>-1</code> là tiêu đề.',
               clearFilters: 'Xóa mọi bộ lọc và tìm kiếm.',
+              'groupBy, collapsed':
+                'Các cột để nhóm dòng, cột ngoài cùng trước, và khóa của các nhóm đang đóng.',
+              children: 'Các dòng con của một dòng: bảng hiển thị dữ liệu dạng cây.',
+              'expanded, details':
+                'Khóa của các dòng đang mở trong dữ liệu dạng cây, và của các dòng đang mở chi tiết.',
+              'totals, flash':
+                'Một dòng giá trị tổng hợp trên mọi dòng đã lọc; các ô lóe sáng khi văn bản thay đổi, ở những dòng có <code>rowId</code> cố định.',
+              layout:
+                '<code>list</code> hiển thị dòng dạng thẻ, còn <code>auto</code> làm vậy trên màn hình hẹp.',
+              'exportXlsx, print': 'Các dòng đã lọc và sắp xếp, dưới dạng bảng tính; in mọi dòng.',
             },
           },
           NuiGridColumn: {
@@ -1253,6 +1280,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Ô có chỉnh sửa được không, và thông báo khi giá trị không hợp lệ.',
               set: 'Tạo dòng đã chỉnh sửa. Mặc định là một bản sao mang giá trị mới.',
+              aggregate:
+                'Giá trị mà dòng nhóm và dòng tổng cộng hiển thị: tổng, trung bình, nhỏ nhất, lớn nhất, số lượng, hoặc một hàm.',
             },
           },
           NuiGridCell: {
@@ -1266,6 +1295,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Nội dung khi không có dòng nào. Context cho biết bộ lọc có ẩn chúng hay không.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Chi tiết của một dòng, hiển thị bên dưới dòng khi được mở. Context chứa dòng đó.',
             members: {},
           },
         },
@@ -1290,12 +1324,19 @@ export const messages: Messages = {
           ['Enter, Esc và Tab khi đang chỉnh sửa', 'Xác nhận, hủy, hoặc xác nhận rồi chuyển tiếp.'],
           ['Phím cách', 'Chọn dòng; kèm Shift thì chọn các dòng kể từ dòng chọn gần nhất.'],
           ['Ctrl + A', 'Chọn mọi dòng.'],
+          [
+            'Mũi tên phải và trái trên một nhóm',
+            'Mở hoặc đóng nhóm; cũng vậy trên ô đầu tiên của một dòng có dòng con.',
+          ],
+          ['Enter trên một nhóm', 'Mở hoặc đóng nhóm; Phím cách chọn các dòng của nhóm.'],
+          ['Enter trên nút bật/tắt chi tiết', 'Hiện hoặc ẩn chi tiết của dòng.'],
         ],
         notes: [
           'Một <code>&lt;table&gt;</code> native với <code>role="grid"</code>, được đặt tên bằng <code>label</code>. Tiêu đề cột có <code>aria-sort</code>, còn các dòng có thể chọn có <code>aria-selected</code>.',
           'Bảng chỉ chiếm một điểm dừng Tab. Focus di chuyển giữa các ô bằng roving <code>tabindex</code>, nên trình đọc màn hình đọc từng ô kèm tiêu đề dòng và cột của nó.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> và <code>aria-colindex</code> vẫn đúng khi các dòng được phân trang hoặc ảo hóa.',
           'Việc sắp xếp, lọc, chuyển trang và lỗi chỉnh sửa được đọc lên qua một vùng trạng thái ở chế độ polite.',
+          'Dòng được nhóm hoặc lồng nhau khiến bảng thành một <code>treegrid</code>: các dòng có <code>aria-level</code>, <code>aria-setsize</code> và <code>aria-posinset</code>, cùng <code>aria-expanded</code> khi mở ra được. Giá trị tổng hợp được đọc kèm loại của nó, chẳng hạn “Sum: 475”.',
         ],
       },
       chat: {
@@ -2161,6 +2202,136 @@ export const messages: Messages = {
           'Nút kéo của vùng màu là một <code>slider</code> có tên “Color”, đọc lên cả hai giá trị, chẳng hạn “Lightness 62%, chroma 75%”. Sắc độ và độ mờ đục dùng thanh trượt range native.',
           'Mẫu màu là các nút được đặt tên theo nhãn của chúng, và ở trạng thái được nhấn khi trùng với màu hiện tại.',
           'AA và AAA nói “passes” hoặc “fails” bằng chữ, không chỉ bằng màu, và ở chế độ forced colors, bản thân các màu vẫn được giữ nguyên.',
+        ],
+      },
+      carousel: {
+        name: 'Carousel',
+        title: 'Component carousel và slider cho Angular',
+        summary: 'Một hàng slide cuộn và dừng đúng từng slide, kèm nút, chấm và tự động chuyển.',
+        description:
+          'Carousel Angular hỗ trợ tiếp cận: scroll snapping và vuốt native, nhiều slide cùng lúc, chấm, vòng lặp, và tự động chuyển biết tạm dừng, dừng hẳn theo WCAG.',
+        apiDescription:
+          'Tài liệu API về carousel của Needless UI: số slide hiển thị, index, vòng lặp và tự động chuyển của nui-carousel, phương thức và directive nuiCarouselSlide.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của carousel Needless UI: mẫu carousel của WAI-ARIA, nút tự động chuyển, slide có tên và thông báo khi di chuyển.',
+        overview: [
+          'Carousel hiển thị các slide trên một hàng cuộn được và dừng đúng từng slide: thao tác vuốt, touchpad và phím mũi tên di chuyển nó theo cách native, các nút trước, sau và các chấm cũng vậy. Hãy đánh dấu mỗi slide bằng <code>nuiCarouselSlide</code>, được đặt tên theo tiêu đề của slide.',
+          'Hiển thị từng slide một, hoặc nhiều slide cùng lúc với <code>perView</code>, hay để slide giữ độ rộng riêng với <code>perView="auto"</code>. <code>[(index)]</code> liên kết slide đầu tiên đang hiển thị, còn <code>loop</code> quay về đầu.',
+          'Với <code>autoplay</code>, carousel tự chuyển slide, có một nút tự động chuyển để điều khiển. Việc tự động chuyển tạm dừng khi con trỏ nằm trên carousel, và dừng hẳn khi focus bàn phím đi vào, đúng như mẫu WAI-ARIA yêu cầu.',
+        ],
+        examples: {
+          featured: {
+            title: 'Chuyến đi nổi bật',
+            text: 'Cứ sáu giây lại có một slide mới, còn vòng tròn trên nút tự động chuyển đầy dần cho đến lúc đó. Di chuột lên để tạm dừng việc tự động chuyển, hoặc dùng Tab đi vào để dừng hẳn.',
+          },
+          shelf: {
+            title: 'Một kệ thẻ',
+            text: '<code>perView="auto"</code> giữ độ rộng của từng thẻ và hiển thị số thẻ vừa với khung. Các chấm đi theo thao tác vuốt, và <code>[(index)]</code> cho biết vị trí hiện tại.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Một carousel gồm các slide.',
+            members: {
+              label: 'Đặt tên cho carousel.',
+              index: 'Slide đầu tiên đang hiển thị, tính từ 0.',
+              perView:
+                'Số slide hiển thị cùng lúc, hoặc <code>auto</code> cho các slide tự đặt độ rộng của mình.',
+              gap: 'Khoảng cách giữa các slide, là một độ dài CSS bất kỳ.',
+              loop: 'Đi quá slide cuối sẽ quay về slide đầu, và ngược lại.',
+              autoplay: 'Số mili giây giữa các slide khi tự động chuyển; 0 là không tự chuyển.',
+              'controls, indicators': 'Các nút trước và sau, và các chấm.',
+              labels: 'Mọi văn bản mà carousel đọc lên, để dịch.',
+              'next, previous': 'Chuyển tới hoặc lùi lại một slide.',
+              goTo: 'Đưa một slide vào vùng hiển thị.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Một slide.',
+            members: { nuiCarouselSlide: 'Tiêu đề của slide, được đọc thay cho vị trí của nó.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Nút tự động chuyển, các nút, các slide, rồi đến các chấm.'],
+          ['Mũi tên trái và phải trên các slide', 'Cuộn đến slide trước hoặc sau.'],
+          ['Enter hoặc Phím cách', 'Nhấn nút hoặc chấm đang có focus.'],
+        ],
+        notes: [
+          'Carousel là một <code>region</code> có <code>aria-roledescription="carousel"</code>, và mỗi slide là một <code>group</code> có <code>aria-roledescription="slide"</code>, với tên như “Lake Como, 2 of 4”.',
+          'Nút tự động chuyển đứng đầu tiên và cho biết nó sẽ làm gì. Việc tự động chuyển tạm dừng dưới con trỏ và dừng lại khi focus bàn phím đi vào, nên không bao giờ làm xê dịch nội dung ai đó đang đọc.',
+          'Vị trí carousel dừng lại sau một lần vuốt, nhấn nút hoặc chấm sẽ được đọc lên; việc tự động chuyển thì diễn ra im lặng.',
+        ],
+      },
+      editor: {
+        name: 'Trình soạn thảo văn bản',
+        title: 'Component trình soạn thảo văn bản cho Angular',
+        summary:
+          'Tiêu đề, danh sách, liên kết và định dạng, có thanh công cụ và Markdown ngay khi gõ.',
+        description:
+          'Trình soạn thảo văn bản Angular hỗ trợ tiếp cận: thanh công cụ, phím tắt, Markdown khi gõ, dán sạch, liên kết và hoàn tác, giá trị là HTML hoặc Markdown.',
+        apiDescription:
+          'Tài liệu API về trình soạn thảo văn bản của Needless UI: giá trị và định dạng của nui-editor, công cụ, văn bản, lệnh và bộ chuyển đổi HTML, Markdown.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của trình soạn thảo văn bản Needless UI: ô văn bản nhiều dòng, thanh công cụ WAI-ARIA, phím tắt và hộp thoại liên kết.',
+        overview: [
+          'Trình soạn thảo viết đoạn văn, tiêu đề, trích dẫn, danh sách, khối mã và đường phân cách, với chữ đậm, nghiêng, gạch chân, gạch ngang, mã và liên kết. Giá trị của nó là HTML, hoặc Markdown với <code>format="markdown"</code>, và nó dùng được với biểu mẫu.',
+          'Nó giữ tài liệu của riêng mình và tự xử lý mọi thao tác chỉnh sửa, nên nội dung được dán hay thả vào chỉ đến được trang dưới dạng tài liệu đó: cấu trúc và định dạng được giữ lại, kể cả từ Google Docs và Word, còn script, style và liên kết không an toàn bị loại bỏ.',
+          'Gõ Markdown và nó sẽ thành định dạng: <code># </code> bắt đầu một tiêu đề, <code>- </code> bắt đầu một danh sách, còn <code>**bold**</code> và <code>`code`</code> được định dạng ngay khi bạn đóng chúng. Mỗi định dạng đều có phím tắt và nút riêng trên thanh công cụ.',
+        ],
+        examples: {
+          comment: {
+            title: 'Một bình luận',
+            text: '<code>tools</code> chọn các nút của thanh công cụ. Hãy gõ Markdown, dán từ bất cứ đâu, và xem HTML mà trình soạn thảo lưu giữ.',
+          },
+          markdown: {
+            title: 'Markdown vào và ra',
+            text: 'Với <code>format="markdown"</code>, giá trị là Markdown: được đọc vào cùng danh sách lồng nhau, trích dẫn và mã, rồi được ghi lại trong lúc bạn chỉnh sửa.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Một trình soạn thảo văn bản.',
+            members: {
+              value: 'Nội dung, dưới dạng HTML hoặc Markdown; trống khi không có chữ nào.',
+              format: 'Cách ghi giá trị.',
+              tools: 'Các nút của thanh công cụ theo thứ tự, <code>|</code> giữa các nhóm.',
+              'label, labelledBy, describedBy': 'Đặt tên và mô tả cho nội dung.',
+              placeholder: 'Hiển thị khi nội dung còn trống.',
+              'readonly, disabled, invalid':
+                'Hiển thị nội dung mà không cho sửa; vô hiệu hóa trình soạn thảo; đánh dấu không hợp lệ.',
+              labels: 'Mọi văn bản mà trình soạn thảo đọc lên, để dịch.',
+              run: 'Chạy một lệnh của thanh công cụ.',
+              'undo, redo, focus': 'Hoàn tác, làm lại, và chuyển focus vào văn bản.',
+            },
+          },
+          Helpers: {
+            summary: 'Các hàm chuyển đổi tài liệu.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': 'Ghi tài liệu thành HTML hoặc Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Đọc HTML hoặc Markdown thành tài liệu, giữ lại những gì trình soạn thảo hiển thị được.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I hoặc U',
+            'Đậm, nghiêng hoặc gạch chân. Trên thiết bị Apple, dùng ⌘ thay cho Ctrl.',
+          ],
+          ['Ctrl + K', 'Thêm hoặc sửa liên kết.'],
+          ['Ctrl + Alt + 1, 2 hoặc 3', 'Một tiêu đề; Ctrl + Alt + 0 đưa nó về đoạn văn.'],
+          ['Ctrl + Shift + 7 hoặc 8', 'Danh sách đánh số hoặc danh sách dấu đầu dòng.'],
+          [
+            'Tab và Shift + Tab trong danh sách',
+            'Tăng hoặc giảm thụt lề; ở chỗ khác, Tab rời khỏi trình soạn thảo.',
+          ],
+          ['Ctrl + Z và Ctrl + Shift + Z', 'Hoàn tác và làm lại.'],
+          ['Mũi tên trái và phải trên thanh công cụ', 'Di chuyển giữa các nút của nó.'],
+        ],
+        notes: [
+          'Nội dung là một <code>textbox</code> có <code>aria-multiline</code>, được đặt tên bằng <code>label</code>, với placeholder nằm trong <code>aria-placeholder</code>.',
+          'Thanh công cụ là một toolbar WAI-ARIA, chỉ chiếm một điểm dừng Tab: các định dạng là nút bật/tắt có <code>aria-pressed</code>, và mỗi nút nêu phím tắt của nó trong <code>aria-keyshortcuts</code> và trong tooltip.',
+          'Lệnh trên thanh công cụ trả focus về văn bản, và hộp thoại liên kết quay về văn bản khi nhấn Esc. Tab không bao giờ bị kẹt: bên ngoài danh sách, nó rời khỏi trình soạn thảo.',
         ],
       },
     },

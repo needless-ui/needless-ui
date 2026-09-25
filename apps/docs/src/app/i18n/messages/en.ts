@@ -1174,6 +1174,7 @@ export const messages: Messages = {
           'The data grid is a native table that sorts, filters, pages and edits. Describe the <code>columns</code>, pass the <code>rows</code>, and each cell is formatted by type for the locale: numbers, currencies, dates, yes and no, and labels for <code>enum</code> values.',
           'Its state lives in models you can bind, save and send to a server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, and <code>columnState</code> for the widths, order, pins and hidden columns people choose. Without pages, only the rows in view are rendered, so 100,000 rows scroll like ten.',
           'Every cell is reachable from the keyboard, and each column’s panel sorts, filters, pins, moves, fits and hides it.',
+          'Rows can also nest. <code>groupBy</code> groups them by columns, with each column’s <code>aggregate</code> on the group rows and in a <code>totals</code> row; <code>children</code> shows tree data; and an <code>nuiGridDetail</code> template opens under a row. Grouped or nested, the table is a <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1195,6 +1196,22 @@ export const messages: Messages = {
           server: {
             title: 'Server data',
             text: 'In <code>server</code> mode the grid shows rows as they come and reports each change in <code>queryChange</code>. Set <code>loading</code> while you fetch.',
+          },
+          groups: {
+            title: 'Groups and totals',
+            text: 'Group by one column or two. Group rows count their orders and sum and average their totals, and <code>totals</code> adds the same for every row. The left arrow closes a group.',
+          },
+          tree: {
+            title: 'Tree data',
+            text: '<code>children</code> gives each folder its files. Rows open with the right arrow or their toggle, and <code>[(expanded)]</code> keeps which are open. A search keeps the folders above a match open.',
+          },
+          details: {
+            title: 'Row details',
+            text: 'An <code>nuiGridDetail</code> template shows an order’s lines under it, from a column of toggles, and <code>[(details)]</code> keeps which are open.',
+          },
+          live: {
+            title: 'Live data, export and print',
+            text: 'Prices change every two seconds, and <code>flash</code> shows which cells did. <code>exportXlsx()</code> downloads a real spreadsheet, <code>print()</code> prints every row, and <code>layout="auto"</code> shows cards on narrow screens.',
           },
         },
         api: {
@@ -1228,6 +1245,16 @@ export const messages: Messages = {
               exportCsv: 'The filtered, sorted rows of the visible columns, as CSV.',
               focusCell: 'Focuses a cell; row <code>-1</code> is the header.',
               clearFilters: 'Clears every filter and the search.',
+              'groupBy, collapsed':
+                'Columns to group rows by, outermost first, and the keys of the groups closed.',
+              children: 'A row’s children: the grid shows tree data.',
+              'expanded, details':
+                'Keys of the rows open in tree data, and of the rows whose details are open.',
+              'totals, flash':
+                'A row of aggregates over every filtered row; cells that flash when their text changes, in rows with a lasting <code>rowId</code>.',
+              layout:
+                '<code>list</code> shows rows as cards, and <code>auto</code> does on narrow screens.',
+              'exportXlsx, print': 'The filtered, sorted rows as a spreadsheet; prints every row.',
             },
           },
           NuiGridColumn: {
@@ -1252,6 +1279,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Whether cells can be edited, and a message when a value isn’t valid.',
               set: 'Makes the edited row. Defaults to a copy with the new value.',
+              aggregate:
+                'What group rows and the totals row show: a sum, an average, a minimum, a maximum, a count, or a function.',
             },
           },
           NuiGridCell: {
@@ -1265,6 +1294,10 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'What shows when there are no rows. The context says whether filters hid them.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary: 'A row’s details, shown under it when opened. The context holds the row.',
             members: {},
           },
         },
@@ -1283,12 +1316,19 @@ export const messages: Messages = {
           ['Enter, Escape and Tab while editing', 'Commit, cancel, or commit and move on.'],
           ['Space', 'Select the row; with Shift, the rows since the last one.'],
           ['Ctrl + A', 'Select every row.'],
+          [
+            'Right and left arrows on a group',
+            'Open or close it; on the first cell of a row with children, too.',
+          ],
+          ['Enter on a group', 'Open or close it; Space selects its rows.'],
+          ['Enter on a details toggle', 'Show or hide the row’s details.'],
         ],
         notes: [
           'A native <code>&lt;table&gt;</code> with <code>role="grid"</code>, named by <code>label</code>. Headers carry <code>aria-sort</code>, and selectable rows <code>aria-selected</code>.',
           'The grid is one tab stop. Focus moves from cell to cell with a roving <code>tabindex</code>, so screen readers read each cell with its row and column headers.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> and <code>aria-colindex</code> stay right while rows are paged or virtualized.',
           'Sorting, filtering, paging and editing errors are announced in a polite status region.',
+          'Grouped or nested rows make the table a <code>treegrid</code>: rows carry <code>aria-level</code>, <code>aria-setsize</code> and <code>aria-posinset</code>, and <code>aria-expanded</code> when they open. Aggregates are read with their kind, such as “Sum: 475”.',
         ],
       },
       chat: {
@@ -2133,6 +2173,129 @@ export const messages: Messages = {
           'The area’s thumb is a <code>slider</code> named “Color” that says both its values, such as “Lightness 62%, chroma 75%”. Hue and opacity are native range inputs.',
           'Swatches are buttons named by their label, and pressed when they match the color.',
           'AA and AAA say “passes” or “fails” in words, not only by color, and in forced colors mode the colors themselves stay.',
+        ],
+      },
+      carousel: {
+        name: 'Carousel',
+        title: 'Carousel and slider component for Angular',
+        summary: 'Slides in a row that scrolls and snaps, with buttons, dots and rotation.',
+        description:
+          'Accessible Angular carousel: native scroll snapping and swiping, several slides per view, dots, loop, and rotation that pauses and stops as WCAG asks.',
+        apiDescription:
+          'API reference for the Needless UI carousel: nui-carousel slides per view, index, loop and rotation, its methods, and the nuiCarouselSlide directive.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI carousel: the WAI-ARIA carousel pattern, a rotation control, named slides and announced moves.',
+        overview: [
+          'A carousel shows slides in a row that scrolls and snaps: swiping, trackpads and the arrow keys move it natively, and so do its previous and next buttons and its dots. Mark each slide with <code>nuiCarouselSlide</code>, named by its title.',
+          'Show one slide at a time or several with <code>perView</code>, or let slides keep their own width with <code>perView="auto"</code>. <code>[(index)]</code> binds the first slide in view, and <code>loop</code> comes back to the start.',
+          'With <code>autoplay</code>, it turns by itself behind a rotation control. Rotation pauses under the pointer, and stops for good when keyboard focus comes in, as the WAI-ARIA pattern asks.',
+        ],
+        examples: {
+          featured: {
+            title: 'Featured trips',
+            text: 'A new slide every six seconds, with the ring on the rotation control filling up to it. Hover to pause the rotation, or tab in to stop it.',
+          },
+          shelf: {
+            title: 'A shelf of cards',
+            text: '<code>perView="auto"</code> keeps each card’s width and shows as many as fit. The dots follow a swipe, and <code>[(index)]</code> says where it is.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'A carousel of slides.',
+            members: {
+              label: 'Names the carousel.',
+              index: 'The first slide in view, from 0.',
+              perView:
+                'Slides in view at once, or <code>auto</code> for slides that set their own width.',
+              gap: 'Room between slides, as any CSS length.',
+              loop: 'Going past the last slide comes back to the first, and the other way round.',
+              autoplay: 'Milliseconds between slides when it turns by itself; 0 doesn’t.',
+              'controls, indicators': 'The previous and next buttons, and the dots.',
+              labels: 'Every text it says, to translate.',
+              'next, previous': 'Moves one slide on or back.',
+              goTo: 'Brings a slide into view.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'A slide.',
+            members: { nuiCarouselSlide: 'Its title, read instead of its position.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'The rotation control, the buttons, the slides, then the dots.'],
+          ['Left and right arrows on the slides', 'Scroll to the previous or next slide.'],
+          ['Enter or Space', 'Press the focused button or dot.'],
+        ],
+        notes: [
+          'The carousel is a <code>region</code> with <code>aria-roledescription="carousel"</code>, and each slide a <code>group</code> with <code>aria-roledescription="slide"</code>, named such as “Lake Como, 2 of 4”.',
+          'The rotation control comes first and says what it will do. Rotation pauses under the pointer and stops when keyboard focus comes in, so it never moves what someone is reading.',
+          'Where the carousel lands after a swipe, a button or a dot is announced; rotation stays quiet.',
+        ],
+      },
+      editor: {
+        name: 'Rich text editor',
+        title: 'Rich text editor component for Angular',
+        summary: 'Headings, lists, links and formats, with a toolbar and Markdown as you type.',
+        description:
+          'Accessible Angular rich text editor: a toolbar, shortcuts, Markdown as you type, clean paste, links and undo, with HTML or Markdown as its value.',
+        apiDescription:
+          'API reference for the Needless UI rich text editor: nui-editor value and format, toolbar tools, texts, commands, and the HTML and Markdown converters.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI rich text editor: a multiline textbox, a WAI-ARIA toolbar, shortcuts and a link dialog.',
+        overview: [
+          'The editor writes paragraphs, headings, quotes, lists, code blocks and dividers, with bold, italic, underline, strikethrough, code and links. Its value is HTML, or Markdown with <code>format="markdown"</code>, and it works with forms.',
+          'It keeps its own document and handles every edit, so what’s pasted or dropped reaches the page only as that document: structure and formats stay, from Google Docs and Word too, and scripts, styles and unsafe links go.',
+          'Type Markdown and it turns into formats: <code># </code> starts a heading, <code>- </code> a list, and <code>**bold**</code> and <code>`code`</code> format as you close them. Every format has its shortcut and its toolbar button.',
+        ],
+        examples: {
+          comment: {
+            title: 'A comment',
+            text: '<code>tools</code> picks the toolbar’s buttons. Type Markdown, paste from anywhere, and see the HTML the editor keeps.',
+          },
+          markdown: {
+            title: 'Markdown in and out',
+            text: 'With <code>format="markdown"</code>, the value is Markdown: read in with nested lists, quotes and code, and written back as you edit.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'A rich text editor.',
+            members: {
+              value: 'The content, as HTML or Markdown; empty when there’s no text.',
+              format: 'How the value is written.',
+              tools: 'The toolbar’s buttons in order, <code>|</code> between groups.',
+              'label, labelledBy, describedBy': 'Name and describe the content.',
+              placeholder: 'Shown while it’s empty.',
+              'readonly, disabled, invalid':
+                'Shows the content without editing; turns it off; marks it invalid.',
+              labels: 'Every text it says, to translate.',
+              run: 'Runs a toolbar command.',
+              'undo, redo, focus': 'Undoes, redoes, and moves focus into the text.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions to convert documents.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': 'Write a document as HTML or Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Read HTML or Markdown into a document, keeping what the editor can show.',
+            },
+          },
+        },
+        keyboard: [
+          ['Ctrl + B, I or U', 'Bold, italic or underline. On Apple devices, ⌘ instead of Ctrl.'],
+          ['Ctrl + K', 'Add or edit a link.'],
+          ['Ctrl + Alt + 1, 2 or 3', 'A heading; Ctrl + Alt + 0 turns it back into a paragraph.'],
+          ['Ctrl + Shift + 7 or 8', 'A numbered or bulleted list.'],
+          ['Tab and Shift + Tab in a list', 'Indent or outdent; elsewhere, Tab leaves the editor.'],
+          ['Ctrl + Z, Ctrl + Shift + Z', 'Undo and redo.'],
+          ['Left and right arrows in the toolbar', 'Move between its buttons.'],
+        ],
+        notes: [
+          'The content is a <code>textbox</code> with <code>aria-multiline</code>, named by <code>label</code>, with its placeholder in <code>aria-placeholder</code>.',
+          'The toolbar is a WAI-ARIA toolbar, one tab stop: formats are toggle buttons with <code>aria-pressed</code>, and each button names its shortcut in <code>aria-keyshortcuts</code> and its tooltip.',
+          'A toolbar command sends focus back to the text, and the link dialog returns to it on Escape. Tab never gets stuck: outside lists it leaves the editor.',
         ],
       },
     },

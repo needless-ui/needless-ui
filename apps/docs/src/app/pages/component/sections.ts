@@ -156,12 +156,13 @@ export class OverviewSection extends ComponentSection {
                         <td>
                           <code>{{ member.type }}</code>
                         </td>
+                        <!-- No control flow in a row: identical rows hydrate from one entry. -->
                         <td>
-                          @if (member.default) {
-                            <code>{{ member.default }}</code>
-                          } @else {
-                            <span aria-hidden="true">—</span>
-                          }
+                          <code
+                            [class.api-none]="!member.default"
+                            [attr.aria-hidden]="member.default ? null : 'true'"
+                            >{{ member.default || '—' }}</code
+                          >
                         </td>
                         <td
                           [innerHTML]="

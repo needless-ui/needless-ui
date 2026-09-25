@@ -353,6 +353,32 @@ import type { ComponentId } from '../docs/ids';
           </div>
         </div>
       }
+      @case ('carousel') {
+        <div class="nui-carousel preview-carousel">
+          <span class="nui-carousel-nav" data-direction="previous"></span>
+          <span class="nui-carousel-nav" data-direction="next"></span>
+          <span class="nui-carousel-track">
+            <span class="nui-carousel-slide preview-slide"></span>
+          </span>
+          <span class="nui-carousel-dots">
+            <span class="nui-carousel-dot" aria-current="true"></span>
+            <span class="nui-carousel-dot"></span>
+            <span class="nui-carousel-dot"></span>
+          </span>
+        </div>
+      }
+      @case ('editor') {
+        <div class="nui-editor preview-editor">
+          <span class="nui-editor-toolbar">
+            <span class="nui-editor-tool" data-tool="bold" aria-pressed="true"></span>
+            <span class="nui-editor-tool" data-tool="italic"></span>
+            <span class="nui-editor-tool" data-tool="link"></span>
+            <span class="nui-editor-separator"></span>
+            <span class="nui-editor-tool" data-tool="bullet"></span>
+          </span>
+          <span class="nui-editor-content"> <strong>Bold</strong> ideas, <a>linked</a>. </span>
+        </div>
+      }
     }
   `,
 })

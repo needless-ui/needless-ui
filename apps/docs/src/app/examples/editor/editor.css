@@ -1,0 +1,16 @@
+:host {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+.output {
+  max-block-size: 10rem;
+  margin: 0;
+  padding: var(--nui-space-3);
+  overflow: auto;
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-subtle);
+  font-family: var(--nui-font-family-mono);
+  font-size: var(--nui-font-size-xs);
+  white-space: pre-wrap;
+}

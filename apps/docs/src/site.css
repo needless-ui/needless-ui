@@ -1008,6 +1008,32 @@
     margin: 0 0 var(--nui-space-2);
   }
 
+  .preview-carousel {
+    inline-size: 14rem;
+    max-inline-size: 100%;
+  }
+
+  .preview-slide {
+    block-size: 6rem;
+    border-radius: var(--nui-radius-lg);
+    background: linear-gradient(160deg, oklch(0.75 0.11 205), oklch(0.5 0.1 245));
+  }
+
+  .preview-carousel .nui-carousel-nav {
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+  }
+
+  .preview-editor {
+    inline-size: 14rem;
+    max-inline-size: 100%;
+  }
+
+  .preview-editor .nui-editor-content {
+    min-block-size: 0;
+    font-size: var(--nui-font-size-sm);
+  }
+
   /* Card grid */
 
   .card-grid {
@@ -1297,7 +1323,7 @@
     gap: var(--nui-space-3);
   }
 
-  .example-demo p:not(:where(.nui-markdown, .nui-chat) p) {
+  .example-demo p:not(:where(.nui-markdown, .nui-chat, .nui-editor-content) p) {
     flex-basis: 100%;
     margin: 0;
     color: var(--nui-color-text-muted);
@@ -1441,6 +1467,13 @@
 
   .table-wrap td code {
     white-space: nowrap;
+  }
+
+  /* No default: a plain dash, not a code chip. */
+  .table-wrap td code.api-none {
+    padding: 0;
+    background: none;
+    font-family: inherit;
   }
 
   .member-kind {

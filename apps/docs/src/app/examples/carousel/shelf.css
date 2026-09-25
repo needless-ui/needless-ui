@@ -1,0 +1,30 @@
+nui-carousel {
+  flex-basis: 100%;
+}
+
+.card {
+  display: grid;
+  gap: var(--nui-space-2);
+  box-sizing: border-box;
+  inline-size: 12rem;
+  padding: var(--nui-space-3);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  border-radius: var(--nui-radius-lg);
+  background: var(--nui-color-bg-canvas);
+}
+
+.swatch {
+  block-size: 6rem;
+  border-radius: var(--nui-radius-md);
+  background: linear-gradient(135deg, oklch(0.85 0.08 var(--hue)), oklch(0.6 0.12 var(--hue)));
+}
+
+.card h3,
+.card p {
+  margin: 0;
+  font-size: var(--nui-font-size-sm);
+}
+
+.card p {
+  color: var(--nui-color-text-muted);
+}

@@ -1212,6 +1212,7 @@ export const messages: Messages = {
           'Das Data Grid ist eine native Tabelle mit Sortierung, Filtern, Paginierung und Bearbeitung. Beschreibe die <code>columns</code>, übergib die <code>rows</code>, und jede Zelle wird nach ihrem Typ passend zur Locale formatiert: Zahlen, Währungen, Datumsangaben, Ja und Nein sowie Beschriftungen für <code>enum</code>-Werte.',
           'Sein Zustand steckt in Models, die du binden, speichern und an einen Server schicken kannst: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> und <code>columnState</code> für Breiten, Reihenfolge, Fixierung und ausgeblendete Spalten, wie Nutzer sie festlegen. Ohne Paginierung werden nur die sichtbaren Zeilen gerendert, sodass 100.000 Zeilen so flüssig scrollen wie zehn.',
           'Jede Zelle ist per Tastatur erreichbar, und im Panel jeder Spalte lässt sie sich sortieren, filtern, fixieren, verschieben, an den Inhalt anpassen und ausblenden.',
+          'Zeilen lassen sich auch verschachteln. <code>groupBy</code> gruppiert sie nach Spalten, mit dem <code>aggregate</code> jeder Spalte in den Gruppenzeilen und in einer <code>totals</code>-Zeile; <code>children</code> zeigt Baumdaten; und ein <code>nuiGridDetail</code>-Template klappt unter einer Zeile auf. Gruppiert oder verschachtelt ist die Tabelle ein <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1233,6 +1234,22 @@ export const messages: Messages = {
           server: {
             title: 'Serverdaten',
             text: 'Im Modus <code>server</code> zeigt das Grid die Zeilen, wie sie ankommen, und meldet jede Änderung über <code>queryChange</code>. Setze <code>loading</code>, während du Daten abrufst.',
+          },
+          groups: {
+            title: 'Gruppen und Summen',
+            text: 'Gruppiere nach einer oder zwei Spalten. Gruppenzeilen zählen ihre Bestellungen und bilden Summe und Durchschnitt ihrer Beträge, und <code>totals</code> ergänzt dasselbe für alle Zeilen. Der Pfeil nach links schließt eine Gruppe.',
+          },
+          tree: {
+            title: 'Baumdaten',
+            text: '<code>children</code> gibt jedem Ordner seine Dateien. Zeilen öffnen sich mit dem Pfeil nach rechts oder ihrem Toggle-Button, und <code>[(expanded)]</code> merkt sich, welche offen sind. Eine Suche hält die Ordner über einem Treffer offen.',
+          },
+          details: {
+            title: 'Zeilendetails',
+            text: 'Ein <code>nuiGridDetail</code>-Template zeigt die Positionen einer Bestellung darunter, geöffnet über eine Spalte mit Toggle-Buttons, und <code>[(details)]</code> merkt sich, welche offen sind.',
+          },
+          live: {
+            title: 'Live-Daten, Export und Druck',
+            text: 'Die Preise ändern sich alle zwei Sekunden, und <code>flash</code> zeigt, welche Zellen sich geändert haben. <code>exportXlsx()</code> lädt eine echte Tabellenkalkulationsdatei herunter, <code>print()</code> druckt alle Zeilen, und <code>layout="auto"</code> zeigt auf schmalen Bildschirmen Karten.',
           },
         },
         api: {
@@ -1268,6 +1285,17 @@ export const messages: Messages = {
               exportCsv: 'Die gefilterten, sortierten Zeilen der sichtbaren Spalten als CSV.',
               focusCell: 'Fokussiert eine Zelle; Zeile <code>-1</code> ist die Kopfzeile.',
               clearFilters: 'Setzt alle Filter und die Suche zurück.',
+              'groupBy, collapsed':
+                'Spalten, nach denen Zeilen gruppiert werden, die äußerste zuerst, und die Schlüssel der geschlossenen Gruppen.',
+              children: 'Die Kindzeilen einer Zeile: Das Grid zeigt Baumdaten.',
+              'expanded, details':
+                'Schlüssel der Zeilen, die in Baumdaten offen sind, und der Zeilen, deren Details offen sind.',
+              'totals, flash':
+                'Eine Zeile mit Aggregaten über alle gefilterten Zeilen; Zellen, die kurz aufleuchten, wenn sich ihr Text ändert, in Zeilen mit einer stabilen <code>rowId</code>.',
+              layout:
+                '<code>list</code> zeigt Zeilen als Karten, <code>auto</code> nur auf schmalen Bildschirmen.',
+              'exportXlsx, print':
+                'Die gefilterten, sortierten Zeilen als Tabellenkalkulationsdatei; druckt alle Zeilen.',
             },
           },
           NuiGridColumn: {
@@ -1292,6 +1320,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Ob Zellen bearbeitbar sind, und eine Meldung, wenn ein Wert ungültig ist.',
               set: 'Erzeugt die bearbeitete Zeile. Standardmäßig eine Kopie mit dem neuen Wert.',
+              aggregate:
+                'Was Gruppenzeilen und die Summenzeile zeigen: eine Summe, einen Durchschnitt, ein Minimum, ein Maximum, eine Anzahl oder eine Funktion.',
             },
           },
           NuiGridCell: {
@@ -1306,6 +1336,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Was erscheint, wenn es keine Zeilen gibt. Der Kontext verrät, ob Filter sie ausgeblendet haben.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Die Details einer Zeile, die beim Öffnen darunter erscheinen. Der Kontext enthält die Zeile.',
             members: {},
           },
         },
@@ -1342,12 +1377,25 @@ export const messages: Messages = {
             'Wählt die Zeile aus; mit Umschalt alle Zeilen seit der zuletzt gewählten.',
           ],
           ['Ctrl + A', 'Wählt alle Zeilen aus.'],
+          [
+            'Pfeil nach rechts und links auf einer Gruppe',
+            'Öffnen oder schließen sie; ebenso auf der ersten Zelle einer Zeile mit Kindzeilen.',
+          ],
+          [
+            'Enter auf einer Gruppe',
+            'Öffnet oder schließt sie; die Leertaste wählt ihre Zeilen aus.',
+          ],
+          [
+            'Enter auf einem Toggle-Button für Details',
+            'Zeigt oder verbirgt die Details der Zeile.',
+          ],
         ],
         notes: [
           'Ein natives <code>&lt;table&gt;</code> mit <code>role="grid"</code>, benannt über <code>label</code>. Spaltenköpfe tragen <code>aria-sort</code> und auswählbare Zeilen <code>aria-selected</code>.',
           'Das Grid ist ein einziger Tab-Stopp. Der Fokus springt mit einem wandernden <code>tabindex</code> von Zelle zu Zelle, sodass Screenreader jede Zelle mit ihren Zeilen- und Spaltenköpfen vorlesen.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> und <code>aria-colindex</code> bleiben korrekt, auch wenn Zeilen paginiert oder virtualisiert sind.',
           'Sortierung, Filter, Seitenwechsel und Bearbeitungsfehler werden höflich über eine Statusregion angesagt.',
+          'Gruppierte oder verschachtelte Zeilen machen die Tabelle zu einem <code>treegrid</code>: Zeilen tragen <code>aria-level</code>, <code>aria-setsize</code> und <code>aria-posinset</code> sowie <code>aria-expanded</code>, wenn sie sich aufklappen lassen. Aggregate werden mit ihrer Art vorgelesen, etwa „Sum: 475“.',
         ],
       },
       chat: {
@@ -2265,6 +2313,149 @@ export const messages: Messages = {
           'Der Griff der Fläche ist ein <code>slider</code> namens „Color“, der beide Werte ansagt, etwa „Lightness 62%, chroma 75%“. Farbton und Deckkraft sind native Range-Eingabefelder.',
           'Farbfelder sind Buttons, die nach ihrer Beschriftung benannt sind und als gedrückt gelten, wenn sie der Farbe entsprechen.',
           'AA und AAA sagen „passes“ oder „fails“ in Worten, nicht nur per Farbe, und im Forced-Colors-Modus bleiben die Farben selbst erhalten.',
+        ],
+      },
+      carousel: {
+        name: 'Karussell',
+        title: 'Karussell- und Slider-Komponente für Angular',
+        summary:
+          'Folien in einer Reihe, die scrollt und einrastet, mit Buttons, Punkten und Rotation.',
+        description:
+          'Barrierefreies Angular-Karussell: natives Scroll-Snapping und Wischen, mehrere Folien pro Ansicht, Punkte, Loop und Rotation, die nach WCAG pausiert und stoppt.',
+        apiDescription:
+          'API-Referenz des Karussells von Needless UI: Folien pro Ansicht, Index, Loop und Rotation von nui-carousel, seine Methoden und die Direktive nuiCarouselSlide.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit des Karussells von Needless UI: das Carousel-Pattern von WAI-ARIA, eine Rotationssteuerung, benannte Folien und angesagte Wechsel.',
+        overview: [
+          'Ein Karussell zeigt Folien in einer Reihe, die scrollt und einrastet: Wischen, Trackpads und die Pfeiltasten bewegen es nativ, ebenso seine Zurück- und Weiter-Buttons und seine Punkte. Markiere jede Folie mit <code>nuiCarouselSlide</code>, benannt nach ihrem Titel.',
+          'Zeige eine Folie auf einmal oder mit <code>perView</code> mehrere, oder lass Folien mit <code>perView="auto"</code> ihre eigene Breite behalten. <code>[(index)]</code> bindet die erste sichtbare Folie, und mit <code>loop</code> geht es am Ende wieder von vorn los.',
+          'Mit <code>autoplay</code> dreht es sich von selbst weiter; eine Rotationssteuerung steht davor. Die Rotation pausiert unter dem Mauszeiger und stoppt endgültig, sobald der Tastaturfokus hineinkommt, wie es das WAI-ARIA-Pattern verlangt.',
+        ],
+        examples: {
+          featured: {
+            title: 'Empfohlene Reisen',
+            text: 'Alle sechs Sekunden eine neue Folie, und der Ring an der Rotationssteuerung füllt sich bis dahin. Fahre mit der Maus darüber, um die Rotation zu pausieren, oder wechsle mit Tab hinein, um sie zu stoppen.',
+          },
+          shelf: {
+            title: 'Ein Regal voller Karten',
+            text: '<code>perView="auto"</code> behält die Breite jeder Karte bei und zeigt so viele, wie hineinpassen. Die Punkte folgen dem Wischen, und <code>[(index)]</code> verrät, wo es gerade steht.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Ein Karussell aus Folien.',
+            members: {
+              label: 'Benennt das Karussell.',
+              index: 'Die erste sichtbare Folie, ab 0.',
+              perView:
+                'Gleichzeitig sichtbare Folien oder <code>auto</code> für Folien, die ihre Breite selbst bestimmen.',
+              gap: 'Abstand zwischen den Folien, als beliebige CSS-Länge.',
+              loop: 'Nach der letzten Folie geht es mit der ersten weiter, und umgekehrt.',
+              autoplay:
+                'Millisekunden zwischen den Folien, wenn es sich von selbst dreht; bei 0 dreht es sich nicht.',
+              'controls, indicators': 'Die Zurück- und Weiter-Buttons sowie die Punkte.',
+              labels: 'Alle Texte des Karussells, zum Übersetzen.',
+              'next, previous': 'Geht eine Folie weiter oder zurück.',
+              goTo: 'Scrollt zu einer Folie.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Eine Folie.',
+            members: { nuiCarouselSlide: 'Ihr Titel, der statt ihrer Position vorgelesen wird.' },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Wechselt zur Rotationssteuerung, zu den Buttons, den Folien und dann den Punkten.',
+          ],
+          [
+            'Pfeil nach links und rechts auf den Folien',
+            'Scrollen zur vorigen oder nächsten Folie.',
+          ],
+          ['Enter oder Leertaste', 'Aktiviert den fokussierten Button oder Punkt.'],
+        ],
+        notes: [
+          'Das Karussell ist eine <code>region</code> mit <code>aria-roledescription="carousel"</code> und jede Folie eine <code>group</code> mit <code>aria-roledescription="slide"</code>, benannt etwa „Lake Como, 2 of 4“.',
+          'Die Rotationssteuerung steht an erster Stelle und sagt, was sie tun wird. Die Rotation pausiert unter dem Mauszeiger und stoppt, sobald der Tastaturfokus hineinkommt, sodass sie nie verschiebt, was jemand gerade liest.',
+          'Wo das Karussell nach einem Wischen, einem Button oder einem Punkt landet, wird angesagt; die Rotation bleibt stumm.',
+        ],
+      },
+      editor: {
+        name: 'Rich-Text-Editor',
+        title: 'Rich-Text-Editor-Komponente für Angular',
+        summary: 'Überschriften, Listen, Links und Formate, mit Toolbar und Markdown beim Tippen.',
+        description:
+          'Barrierefreier Angular-Rich-Text-Editor: Toolbar, Tastenkürzel, Markdown beim Tippen, sauberes Einfügen, Links und Undo, mit HTML oder Markdown als Wert.',
+        apiDescription:
+          'API-Referenz des Rich-Text-Editors von Needless UI: Wert und Format von nui-editor, Toolbar-Buttons, Texte, Befehle und die HTML- und Markdown-Konverter.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit des Rich-Text-Editors von Needless UI: ein mehrzeiliges Textfeld, eine WAI-ARIA-Toolbar, Tastenkürzel und ein Link-Dialog.',
+        overview: [
+          'Der Editor schreibt Absätze, Überschriften, Zitate, Listen, Codeblöcke und Trennlinien, formatiert fett, kursiv, unterstrichen, durchgestrichen und als Code und setzt Links. Sein Wert ist HTML oder, mit <code>format="markdown"</code>, Markdown, und er funktioniert mit Formularen.',
+          'Er führt ein eigenes Dokument und verarbeitet jede Änderung selbst, sodass Eingefügtes oder Hineingezogenes die Seite nur als dieses Dokument erreicht: Struktur und Formate bleiben erhalten, auch aus Google Docs und Word, während Skripte, Styles und unsichere Links verschwinden.',
+          'Tippe Markdown, und daraus wird Formatierung: <code># </code> beginnt eine Überschrift, <code>- </code> eine Liste, und <code>**bold**</code> und <code>`code`</code> werden formatiert, sobald du sie schließt. Jedes Format hat sein Tastenkürzel und seinen Button in der Toolbar.',
+        ],
+        examples: {
+          comment: {
+            title: 'Ein Kommentar',
+            text: '<code>tools</code> legt die Buttons der Toolbar fest. Tippe Markdown, füge Text von überall ein und sieh dir das HTML an, das der Editor speichert.',
+          },
+          markdown: {
+            title: 'Markdown lesen und schreiben',
+            text: 'Mit <code>format="markdown"</code> ist der Wert Markdown: eingelesen mit verschachtelten Listen, Zitaten und Code und beim Bearbeiten laufend zurückgeschrieben.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Ein Rich-Text-Editor.',
+            members: {
+              value: 'Der Inhalt als HTML oder Markdown; leer, wenn es keinen Text gibt.',
+              format: 'Wie der Wert geschrieben wird.',
+              tools:
+                'Die Buttons der Toolbar in ihrer Reihenfolge, <code>|</code> zwischen Gruppen.',
+              'label, labelledBy, describedBy': 'Benennen und beschreiben den Inhalt.',
+              placeholder: 'Wird angezeigt, solange der Editor leer ist.',
+              'readonly, disabled, invalid':
+                'Zeigt den Inhalt ohne Bearbeitung; schaltet den Editor ab; markiert den Inhalt als ungültig.',
+              labels: 'Alle Texte des Editors, zum Übersetzen.',
+              run: 'Führt einen Befehl der Toolbar aus.',
+              'undo, redo, focus':
+                'Macht rückgängig, stellt wieder her und setzt den Fokus in den Text.',
+            },
+          },
+          Helpers: {
+            summary: 'Funktionen zum Umwandeln von Dokumenten.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown':
+                'Schreiben ein Dokument als HTML oder Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Lesen HTML oder Markdown in ein Dokument ein und behalten, was der Editor darstellen kann.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I oder U',
+            'Fett, kursiv oder unterstrichen. Auf Apple-Geräten ⌘ statt Ctrl.',
+          ],
+          ['Ctrl + K', 'Fügt einen Link ein oder bearbeitet ihn.'],
+          [
+            'Ctrl + Alt + 1, 2 oder 3',
+            'Eine Überschrift; Ctrl + Alt + 0 macht wieder einen Absatz daraus.',
+          ],
+          ['Ctrl + Umschalt + 7 oder 8', 'Eine nummerierte Liste oder eine Aufzählung.'],
+          [
+            'Tab und Umschalt + Tab in einer Liste',
+            'Rücken ein oder aus; anderswo verlässt Tab den Editor.',
+          ],
+          ['Ctrl + Z, Ctrl + Umschalt + Z', 'Rückgängig machen und wiederholen.'],
+          ['Pfeil nach links und rechts in der Toolbar', 'Wechseln zwischen ihren Buttons.'],
+        ],
+        notes: [
+          'Der Inhalt ist eine <code>textbox</code> mit <code>aria-multiline</code>, benannt über <code>label</code>, mit seinem Platzhalter in <code>aria-placeholder</code>.',
+          'Die Toolbar ist eine WAI-ARIA-Toolbar mit einem einzigen Tab-Stopp: Formate sind Toggle-Buttons mit <code>aria-pressed</code>, und jeder Button nennt sein Tastenkürzel in <code>aria-keyshortcuts</code> und in seinem Tooltip.',
+          'Ein Befehl aus der Toolbar schickt den Fokus zurück in den Text, und der Link-Dialog gibt ihn mit Esc dorthin zurück. Tab bleibt nie hängen: Außerhalb von Listen verlässt es den Editor.',
         ],
       },
     },

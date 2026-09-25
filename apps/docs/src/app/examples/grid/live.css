@@ -1,0 +1,10 @@
+:host {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nui-space-2);
+}

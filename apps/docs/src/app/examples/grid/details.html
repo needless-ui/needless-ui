@@ -1,0 +1,14 @@
+<nui-grid
+  label="Orders with their lines"
+  [(rows)]="orders"
+  [columns]="columns"
+  [(details)]="details"
+>
+  <ng-template nuiGridDetail let-order>
+    <ul class="lines">
+      @for (line of lines(order); track line.item) {
+        <li>{{ line.quantity }} × {{ line.item }}</li>
+      }
+    </ul>
+  </ng-template>
+</nui-grid>

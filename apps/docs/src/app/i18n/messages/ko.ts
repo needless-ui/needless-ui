@@ -1165,6 +1165,7 @@ export const messages: Messages = {
           '데이터 그리드는 정렬, 필터링, 페이지 나누기, 편집을 지원하는 네이티브 표입니다. <code>columns</code>를 정의하고 <code>rows</code>를 전달하면 각 셀이 타입에 따라 로케일에 맞는 서식으로 표시됩니다. 숫자, 통화, 날짜, 예/아니요, <code>enum</code> 값의 레이블을 지원합니다.',
           '상태는 바인딩하고, 저장하고, 서버로 보낼 수 있는 모델에 담깁니다. 모델은 <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, 그리고 사용자가 정한 열 너비, 순서, 고정, 숨김을 담는 <code>columnState</code>입니다. 페이지를 나누지 않으면 보이는 행만 렌더링하므로, 10만 행도 10행처럼 스크롤됩니다.',
           '모든 셀에 키보드로 이동할 수 있으며, 각 열의 패널에서는 그 열을 정렬, 필터링, 고정, 이동하거나 너비를 맞추거나 숨길 수 있습니다.',
+          '행을 중첩할 수도 있습니다. <code>groupBy</code>는 행을 열 기준으로 그룹화하고, 각 열의 <code>aggregate</code>를 그룹 행과 <code>totals</code> 합계 행에 표시합니다. <code>children</code>은 트리 데이터를 보여 주고, <code>nuiGridDetail</code> 템플릿은 행 아래에 열립니다. 그룹화하거나 중첩하면 표는 <code>treegrid</code>가 됩니다.',
         ],
         examples: {
           orders: {
@@ -1186,6 +1187,22 @@ export const messages: Messages = {
           server: {
             title: '서버 데이터',
             text: '<code>server</code> 모드에서는 그리드가 받은 행을 그대로 표시하고, 변경될 때마다 <code>queryChange</code>로 알립니다. 데이터를 가져오는 동안에는 <code>loading</code>을 설정합니다.',
+          },
+          groups: {
+            title: '그룹과 합계',
+            text: '열 하나나 둘로 그룹화합니다. 그룹 행은 주문 수를 세고 금액의 합계와 평균을 보여 주며, <code>totals</code>는 모든 행에 대한 같은 집계를 한 행으로 더합니다. 왼쪽 화살표로 그룹을 닫습니다.',
+          },
+          tree: {
+            title: '트리 데이터',
+            text: '<code>children</code>은 각 폴더에 그 안의 파일을 달아 줍니다. 행은 오른쪽 화살표나 토글로 열리고, <code>[(expanded)]</code>는 어떤 행이 열려 있는지 유지합니다. 검색하면 일치하는 항목 위의 폴더가 열린 채로 남습니다.',
+          },
+          details: {
+            title: '행 세부 정보',
+            text: '<code>nuiGridDetail</code> 템플릿은 토글 열에서 연 주문 아래에 그 주문의 품목을 보여 주고, <code>[(details)]</code>는 어떤 행이 열려 있는지 유지합니다.',
+          },
+          live: {
+            title: '실시간 데이터, 내보내기, 인쇄',
+            text: '가격이 2초마다 바뀌고, <code>flash</code>는 바뀐 셀을 잠깐 반짝여 보여 줍니다. <code>exportXlsx()</code>는 진짜 스프레드시트를 내려받고, <code>print()</code>는 모든 행을 인쇄하며, <code>layout="auto"</code>는 좁은 화면에서 행을 카드로 보여 줍니다.',
           },
         },
         api: {
@@ -1219,6 +1236,15 @@ export const messages: Messages = {
               exportCsv: '필터링하고 정렬한 행을 보이는 열만 CSV로 반환합니다.',
               focusCell: '셀에 포커스를 줍니다. 행 <code>-1</code>은 헤더입니다.',
               clearFilters: '모든 필터와 검색을 지웁니다.',
+              'groupBy, collapsed': '행을 그룹화할 열(바깥쪽부터)과 닫힌 그룹의 키.',
+              children: '행의 자식 행. 지정하면 그리드가 트리 데이터를 보여 줍니다.',
+              'expanded, details': '트리 데이터에서 열린 행의 키와, 세부 정보가 열린 행의 키.',
+              'totals, flash':
+                '필터링된 모든 행을 집계한 행, 그리고 텍스트가 바뀔 때 반짝이는 셀. 셀 반짝임은 계속 유지되는 <code>rowId</code>가 있는 행에서 동작합니다.',
+              layout:
+                '<code>list</code>는 행을 카드로 보여 주고, <code>auto</code>는 좁은 화면에서만 그렇게 합니다.',
+              'exportXlsx, print':
+                '각각 필터링하고 정렬한 행을 스프레드시트로 내보내고, 모든 행을 인쇄합니다.',
             },
           },
           NuiGridColumn: {
@@ -1239,6 +1265,8 @@ export const messages: Messages = {
               compare: '사용자 지정 정렬.',
               'editable, validate': '셀을 편집할 수 있는지 여부와, 값이 올바르지 않을 때의 메시지.',
               set: '편집된 행을 만듭니다. 기본값은 새 값을 넣은 복사본입니다.',
+              aggregate:
+                '그룹 행과 합계 행에 표시할 값: 합계, 평균, 최솟값, 최댓값, 개수 또는 함수.',
             },
           },
           NuiGridCell: {
@@ -1252,6 +1280,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               '행이 없을 때 표시되는 내용입니다. 컨텍스트로 필터 때문에 행이 숨겨졌는지 알 수 있습니다.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              '행의 세부 정보로, 열면 그 행 아래에 표시됩니다. 컨텍스트에는 행이 들어 있습니다.',
             members: {},
           },
         },
@@ -1282,12 +1315,19 @@ export const messages: Messages = {
             '행을 선택합니다. Shift와 함께 누르면 마지막으로 선택한 행부터 범위를 선택합니다.',
           ],
           ['Ctrl + A', '모든 행을 선택합니다.'],
+          [
+            '그룹에서 오른쪽 / 왼쪽 화살표',
+            '그룹을 열거나 닫습니다. 자식 행이 있는 행의 첫 번째 셀에서도 마찬가지입니다.',
+          ],
+          ['그룹에서 Enter', '그룹을 열거나 닫습니다. Space는 그 그룹의 행을 선택합니다.'],
+          ['세부 정보 토글에서 Enter', '행의 세부 정보를 보여 주거나 숨깁니다.'],
         ],
         notes: [
           '<code>role="grid"</code>를 가진 네이티브 <code>&lt;table&gt;</code>이며, <code>label</code>로 이름을 지정합니다. 헤더에는 <code>aria-sort</code>가, 선택할 수 있는 행에는 <code>aria-selected</code>가 지정됩니다.',
           '그리드는 탭 순서에서 한 번만 멈춥니다. 포커스는 로빙 <code>tabindex</code>로 셀 사이를 이동하므로, 스크린 리더는 각 셀을 행 헤더, 열 헤더와 함께 읽어 줍니다.',
           '행을 페이지로 나누거나 가상화해도 <code>aria-rowcount</code>, <code>aria-rowindex</code>, <code>aria-colindex</code>는 올바른 값을 유지합니다.',
           '정렬, 필터링, 페이지 이동, 편집 오류는 읽고 있던 내용을 끊지 않는 상태 영역에서 안내됩니다.',
+          '그룹화되거나 중첩된 행이 있으면 표는 <code>treegrid</code>가 됩니다. 행에는 <code>aria-level</code>, <code>aria-setsize</code>, <code>aria-posinset</code>이 지정되고, 열 수 있는 행에는 <code>aria-expanded</code>도 지정됩니다. 집계 값은 ‘Sum: 475’처럼 종류와 함께 읽힙니다.',
         ],
       },
       chat: {
@@ -2156,6 +2196,139 @@ export const messages: Messages = {
           '영역의 핸들은 ‘Color’라는 이름의 <code>slider</code>이며, ‘Lightness 62%, chroma 75%’처럼 두 값을 모두 읽어 줍니다. 색조와 불투명도는 네이티브 range 입력입니다.',
           '색상 견본은 레이블로 이름이 지정된 버튼이며, 현재 색상과 일치하면 눌린 상태가 됩니다.',
           'AA와 AAA는 색만이 아니라 ‘passes’ 또는 ‘fails’라는 말로도 결과를 알려 주며, 강제 색상 모드에서도 색 자체는 그대로 유지됩니다.',
+        ],
+      },
+      carousel: {
+        name: '캐러셀',
+        title: 'Angular 캐러셀·슬라이더 컴포넌트',
+        summary:
+          '슬라이드를 한 줄로 늘어놓고 스크롤과 스냅으로 넘기며, 버튼, 점, 자동 재생을 지원합니다.',
+        description:
+          '접근성을 갖춘 Angular 캐러셀입니다. 네이티브 스크롤 스냅과 스와이프, 여러 장 동시 표시, 점, 반복, WCAG에 맞춰 일시 정지하고 멈추는 자동 재생을 지원합니다.',
+        apiDescription:
+          'Needless UI 캐러셀의 API 레퍼런스입니다. nui-carousel의 표시할 슬라이드 수, 인덱스, 반복, 자동 재생, 메서드와 nuiCarouselSlide 디렉티브를 설명합니다.',
+        a11yDescription:
+          'Needless UI 캐러셀의 키보드 동작과 접근성을 다룹니다. WAI-ARIA 캐러셀 패턴, 자동 재생 버튼, 이름이 붙은 슬라이드, 이동 안내를 설명합니다.',
+        overview: [
+          '캐러셀은 슬라이드를 한 줄로 보여 주며, 이 줄은 스크롤되다가 슬라이드에 맞춰 멈춥니다(스냅). 스와이프, 트랙패드, 화살표 키가 네이티브 스크롤로 캐러셀을 움직이고, 이전·다음 버튼과 점으로도 이동할 수 있습니다. 각 슬라이드에 <code>nuiCarouselSlide</code>를 붙이고, 그 제목으로 이름을 지정합니다.',
+          '<code>perView</code>로 한 번에 슬라이드를 하나 또는 여러 개 보여 주거나, <code>perView="auto"</code>로 슬라이드가 자기 너비를 유지하게 합니다. <code>[(index)]</code>는 보이는 첫 번째 슬라이드를 바인딩하고, <code>loop</code>를 지정하면 끝에서 처음으로 돌아갑니다.',
+          '<code>autoplay</code>를 지정하면 자동 재생 버튼과 함께 슬라이드가 저절로 넘어갑니다. 자동 재생은 포인터가 올라가 있는 동안 일시 정지하고, 키보드 포커스가 들어오면 WAI-ARIA 패턴에 따라 완전히 멈춥니다.',
+        ],
+        examples: {
+          featured: {
+            title: '추천 여행지',
+            text: '6초마다 새 슬라이드로 넘어가며, 자동 재생 버튼의 링이 다음 슬라이드까지 차오릅니다. 포인터를 올리면 자동 재생이 일시 정지하고, Tab 키로 들어오면 멈춥니다.',
+          },
+          shelf: {
+            title: '카드 진열대',
+            text: '<code>perView="auto"</code>는 각 카드의 너비를 유지하며 들어가는 만큼 보여 줍니다. 점은 스와이프를 따라가고, <code>[(index)]</code>는 현재 위치를 알려 줍니다.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: '슬라이드로 이루어진 캐러셀입니다.',
+            members: {
+              label: '캐러셀의 이름.',
+              index: '보이는 첫 번째 슬라이드. 0부터 셉니다.',
+              perView:
+                '한 번에 보이는 슬라이드 수. 슬라이드가 자기 너비를 정하게 하려면 <code>auto</code>.',
+              gap: '슬라이드 사이의 간격. 어떤 CSS 길이든 쓸 수 있습니다.',
+              loop: '마지막 슬라이드 다음에는 첫 슬라이드로, 첫 슬라이드 이전에는 마지막 슬라이드로 이어집니다.',
+              autoplay:
+                '자동으로 넘어갈 때 슬라이드 사이의 간격(밀리초). 0이면 자동으로 넘어가지 않습니다.',
+              'controls, indicators': '이전·다음 버튼과 점.',
+              labels: '캐러셀이 표시하거나 읽어 주는 모든 텍스트. 번역할 때 사용합니다.',
+              'next, previous': '슬라이드를 하나 앞으로 또는 뒤로 옮깁니다.',
+              goTo: '지정한 슬라이드가 보이게 합니다.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: '슬라이드 하나입니다.',
+            members: { nuiCarouselSlide: '슬라이드의 제목. 위치 대신 읽힙니다.' },
+          },
+        },
+        keyboard: [
+          ['Tab', '자동 재생 버튼, 이전·다음 버튼, 슬라이드, 점 순서로 이동합니다.'],
+          ['슬라이드에서 왼쪽 / 오른쪽 화살표', '이전 또는 다음 슬라이드로 스크롤합니다.'],
+          ['Enter 또는 Space', '포커스된 버튼이나 점을 누릅니다.'],
+        ],
+        notes: [
+          '캐러셀은 <code>aria-roledescription="carousel"</code>을 가진 <code>region</code>이고, 각 슬라이드는 <code>aria-roledescription="slide"</code>를 가진 <code>group</code>이며, ‘Lake Como, 2 of 4’ 같은 이름이 붙습니다.',
+          '자동 재생 버튼이 맨 앞에 오며, 누르면 무엇을 할지 이름으로 알려 줍니다. 자동 재생은 포인터가 올라가 있으면 일시 정지하고 키보드 포커스가 들어오면 멈추므로, 사용자가 읽고 있는 내용을 움직이는 일이 없습니다.',
+          '스와이프, 버튼, 점으로 이동하면 캐러셀이 도착한 위치를 안내합니다. 자동 재생으로 넘어갈 때는 안내하지 않습니다.',
+        ],
+      },
+      editor: {
+        name: '리치 텍스트 편집기',
+        title: 'Angular 리치 텍스트 편집기 컴포넌트',
+        summary:
+          '제목, 목록, 링크, 서식을 툴바로 넣거나, 입력하면서 Markdown으로 바로 쓸 수 있습니다.',
+        description:
+          '접근성을 갖춘 Angular 리치 텍스트 편집기입니다. 툴바, 단축키, Markdown 입력, 깔끔한 붙여넣기, 링크, 실행 취소를 지원하고, 값은 HTML이나 Markdown입니다.',
+        apiDescription:
+          'Needless UI 리치 텍스트 편집기의 API 레퍼런스입니다. nui-editor의 값과 형식, 툴바 버튼, 텍스트, 명령, HTML·Markdown 변환 함수를 설명합니다.',
+        a11yDescription:
+          'Needless UI 리치 텍스트 편집기의 키보드 동작과 접근성을 다룹니다. 여러 줄 텍스트 상자, WAI-ARIA 툴바, 단축키, 링크 다이얼로그를 설명합니다.',
+        overview: [
+          '편집기로 단락, 제목, 인용문, 목록, 코드 블록, 구분선을 쓰고, 굵게, 기울임꼴, 밑줄, 취소선, 코드, 링크를 적용할 수 있습니다. 값은 HTML이며, <code>format="markdown"</code>을 지정하면 Markdown이 됩니다. 폼과도 함께 동작합니다.',
+          '편집기는 자체 문서를 유지하고 모든 편집을 직접 처리합니다. 그래서 붙여 넣거나 끌어다 놓은 내용도 이 문서의 형태로만 페이지에 들어갑니다. 구조와 서식은 Google Docs나 Word에서 가져와도 유지되고, 스크립트, 스타일, 안전하지 않은 링크는 제거됩니다.',
+          'Markdown을 입력하면 서식으로 바뀝니다. 줄을 <code># </code> 기호로 시작하면 제목, <code>- </code> 기호로 시작하면 목록이 되고, <code>**bold**</code>와 <code>`code`</code>는 닫는 순간 서식이 적용됩니다. 모든 서식에는 단축키와 툴바 버튼이 있습니다.',
+        ],
+        examples: {
+          comment: {
+            title: '댓글',
+            text: '<code>tools</code>로 툴바의 버튼을 고릅니다. Markdown을 입력하거나 어디서든 붙여 넣은 뒤, 편집기가 유지하는 HTML을 확인해 보십시오.',
+          },
+          markdown: {
+            title: 'Markdown 읽기와 쓰기',
+            text: '<code>format="markdown"</code>을 지정하면 값이 Markdown이 됩니다. 중첩 목록, 인용문, 코드까지 읽어 들이고, 편집할 때마다 다시 Markdown으로 씁니다.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: '리치 텍스트 편집기입니다.',
+            members: {
+              value: '내용. HTML 또는 Markdown이며, 텍스트가 없으면 비어 있습니다.',
+              format: '값을 쓰는 형식.',
+              tools: '툴바 버튼을 순서대로 나열하며, 그룹 사이에는 <code>|</code>를 넣습니다.',
+              'label, labelledBy, describedBy': '내용의 이름과 설명을 지정합니다.',
+              placeholder: '비어 있을 때 표시됩니다.',
+              'readonly, disabled, invalid':
+                '각각 편집 없이 내용만 보여 주고, 사용할 수 없게 하고, 올바르지 않은 값으로 표시합니다.',
+              labels: '편집기가 표시하거나 읽어 주는 모든 텍스트. 번역할 때 사용합니다.',
+              run: '툴바 명령을 실행합니다.',
+              'undo, redo, focus':
+                '각각 실행을 취소하고, 다시 실행하고, 텍스트로 포커스를 옮깁니다.',
+            },
+          },
+          Helpers: {
+            summary: '문서를 변환하는 함수입니다.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': '문서를 HTML 또는 Markdown으로 씁니다.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'HTML 또는 Markdown을 문서로 읽어 들이며, 편집기가 표시할 수 있는 것만 남깁니다.',
+            },
+          },
+        },
+        keyboard: [
+          ['Ctrl + B, I 또는 U', '굵게, 기울임꼴, 밑줄. Apple 기기에서는 Ctrl 대신 ⌘를 누릅니다.'],
+          ['Ctrl + K', '링크를 추가하거나 편집합니다.'],
+          [
+            'Ctrl + Alt + 1, 2 또는 3',
+            '제목으로 바꿉니다. Ctrl + Alt + 0을 누르면 다시 단락이 됩니다.',
+          ],
+          ['Ctrl + Shift + 7 또는 8', '번호 매기기 목록 또는 글머리 기호 목록으로 바꿉니다.'],
+          [
+            '목록에서 Tab과 Shift + Tab',
+            '들여쓰기 또는 내어쓰기. 목록 밖에서는 Tab을 누르면 편집기를 벗어납니다.',
+          ],
+          ['Ctrl + Z / Ctrl + Shift + Z', '실행 취소와 다시 실행.'],
+          ['툴바에서 왼쪽 / 오른쪽 화살표', '버튼 사이를 이동합니다.'],
+        ],
+        notes: [
+          '내용은 <code>aria-multiline</code>을 가진 <code>textbox</code>이며, <code>label</code>로 이름이 지정되고, 자리 표시자는 <code>aria-placeholder</code>에 들어갑니다.',
+          '툴바는 탭 순서에서 한 번만 멈추는 WAI-ARIA 툴바입니다. 서식 버튼은 <code>aria-pressed</code>를 가진 토글 버튼이며, 각 버튼은 <code>aria-keyshortcuts</code>와 툴팁에 단축키를 밝힙니다.',
+          '툴바 명령을 실행하면 포커스가 텍스트로 돌아가고, 링크 다이얼로그에서 Esc를 누르면 텍스트로 돌아갑니다. Tab 키가 갇히는 일은 없으며, 목록 밖에서는 편집기를 벗어납니다.',
         ],
       },
     },

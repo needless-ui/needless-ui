@@ -1,0 +1,4 @@
+<nui-editor label="Comment" placeholder="Write a comment…" [tools]="tools" [(value)]="html" />
+<pre class="output" dir="ltr" tabindex="0" role="region" aria-label="The comment as HTML">{{
+  html() || 'Type **bold**, - a list, or paste from anywhere.'
+}}</pre>

@@ -4,9 +4,11 @@
  *
  * Beasties inlines the rules a page's elements match, and every design token
  * comes along with `:root`, most of them unread on that page. A token stays when
- * a rule, an inline style or another kept token reads it; the rest go. The full
- * stylesheet, which loads right after the first paint, still has them all. That
- * saves about 1.5 KB of brotli per page, which keeps pages in the first round trip.
+ * a rule, an inline style or another kept token reads it; the rest go. So do the
+ * `@property` registrations Beasties keeps on every page, for properties nothing
+ * on it uses. The full stylesheet, which loads right after the first paint, still
+ * has them all. That saves about 1.5 KB of brotli per page, which keeps pages in
+ * the first round trip.
  *
  * Run: node apps/docs/scripts/trim-css.ts
  */
@@ -19,6 +21,12 @@ const STYLE = /<style(\s[^>]*)?>([\s\S]*?)<\/style>/g;
 /** A custom property declaration, right after `{` or `;`; values may quote `;` and `}`. */
 const DECLARATION = /(?<=[{;]\s*)(--[\w-]+)\s*:((?:[^;{}"']|"[^"]*"|'[^']*')*);?/g;
 const READ = /var\(\s*(--[\w-]+)/g;
+/**
+ * An `@property` rule. Beasties writes a `;` after each, which at the top level
+ * starts the next rule's selector, so browsers drop that rule: once, the editor's
+ * whole `@layer` block. The `;` goes with the rule.
+ */
+const PROPERTY = /@property\s+(--[\w-]+)\s*\{[^}]*\};?/g;
 
 function trimCss(html: string): string {
   const css = [...html.matchAll(STYLE)].map((style) => style[2]).join('\n');
@@ -36,11 +44,19 @@ function trimCss(html: string): string {
   };
   const outside = css.replace(DECLARATION, '') + html.replace(STYLE, '');
   for (const [, name] of outside.matchAll(READ)) visit(name);
-  return html.replace(
+  const trimmed = html.replace(
     STYLE,
     (_, attributes = '', body: string) =>
       `<style${attributes}>${body.replace(DECLARATION, (declaration, name) => (keep.has(name) ? declaration : ''))}</style>`,
   );
+  // A registered property stays when anything else on the page names it.
+  const rest = trimmed.replace(PROPERTY, '');
+  return trimmed.replace(STYLE, (_, attributes = '', body: string) => {
+    const kept = body.replace(PROPERTY, (rule, name: string) =>
+      rest.includes(name) ? rule.replace(/;$/, '') : '',
+    );
+    return `<style${attributes}>${kept}</style>`;
+  });
 }
 
 const files = (await readdir(DIST, { recursive: true })).filter((file) => file.endsWith('.html'));

@@ -1199,6 +1199,7 @@ export const messages: Messages = {
           'Data grid tebur ne na asali da ke jerawa, tacewa, raba shafuka da gyarawa. Ku bayyana <code>columns</code>, ku ba shi <code>rows</code>, kuma ana tsara kowane cell bisa irinsa da yankin (locale): lambobi, kuɗi, kwanan wata, “Ee” da “A’a”, da lakabai na ƙimomin <code>enum</code>.',
           'Yanayinsa yana cikin models da za ku iya haɗawa, adanawa da aikawa zuwa server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, da <code>columnState</code> don faɗin ginshiƙai, jerinsu, kafewarsu da ɓoyewarsu yadda mutane suka zaɓa. Idan babu shafuka, layukan da ake gani kawai ake nunawa, don haka layuka 100,000 suna gungurawa kamar goma.',
           'Ana iya isa ga kowane cell da allon madannai, kuma panel na kowane ginshiƙi yana jera shi, tace shi, kafe shi, matsar da shi, daidaita faɗinsa da abun ciki, da ɓoye shi.',
+          'Layuka ma suna iya kasancewa a cikin juna. <code>groupBy</code> yana rukunta su bisa ginshiƙai, tare da <code>aggregate</code> na kowane ginshiƙi a layukan rukuni da kuma a layin <code>totals</code>; <code>children</code> yana nuna bayanai masu tsarin bishiya; kuma template na <code>nuiGridDetail</code> yana buɗewa a ƙarƙashin layi. Idan an rukunta layuka ko suna cikin juna, teburin <code>treegrid</code> ne.',
         ],
         examples: {
           orders: {
@@ -1220,6 +1221,22 @@ export const messages: Messages = {
           server: {
             title: 'Bayanai daga server',
             text: 'A yanayin <code>server</code>, grid ɗin yana nuna layuka yadda suke zuwa kuma yana ba da rahoton kowane canji a <code>queryChange</code>. Ku saita <code>loading</code> yayin da kuke ɗauko bayanai.',
+          },
+          groups: {
+            title: 'Rukunoni da jimilla',
+            text: 'Ku rukunta layuka bisa ginshiƙi ɗaya ko biyu. Layukan rukuni suna ƙirga odar da ke cikinsu, suna nuna jimilla da matsakaicin kuɗinsu, kuma <code>totals</code> yana ƙara haka ga dukan layuka. Kibiyar hagu tana rufe rukuni.',
+          },
+          tree: {
+            title: 'Bayanai masu tsarin bishiya',
+            text: '<code>children</code> yana ba kowane folder fayilolinsa. Layuka suna buɗewa da kibiyar dama ko toggle ɗinsu, kuma <code>[(expanded)]</code> yana riƙe waɗanda ke buɗe. Bincike yana barin folders da ke ɗauke da sakamako a buɗe.',
+          },
+          details: {
+            title: 'Cikakken bayanin layi',
+            text: 'Template na <code>nuiGridDetail</code> yana nuna kayayyakin kowace oda a ƙarƙashinta, daga ginshiƙin toggles, kuma <code>[(details)]</code> yana riƙe waɗanda ke buɗe.',
+          },
+          live: {
+            title: 'Bayanai kai tsaye, fitarwa da bugawa',
+            text: 'Farashi suna canzawa duk bayan daƙiƙa biyu, kuma <code>flash</code> yana nuna cells da suka canza. <code>exportXlsx()</code> yana sauke spreadsheet na gaske, <code>print()</code> yana buga kowane layi, kuma <code>layout="auto"</code> yana nuna katuna a ƙananan allo.',
           },
         },
         api: {
@@ -1256,6 +1273,18 @@ export const messages: Messages = {
               exportCsv: 'Layukan da aka tace aka jera na ginshiƙan da ake gani, a matsayin CSV.',
               focusCell: 'Yana kai focus kan cell; layi <code>-1</code> shi ne layin take.',
               clearFilters: 'Yana share kowace tacewa da binciken.',
+              'groupBy, collapsed':
+                'Ginshiƙan da ake rukunta layuka bisa su, na waje da farko, da keys na rukunonin da ke rufe.',
+              children:
+                'Layukan da ke ƙarƙashin wani layi: grid ɗin yana nuna bayanai masu tsarin bishiya.',
+              'expanded, details':
+                'Keys na layukan da ke buɗe a bayanai masu tsarin bishiya, da na layukan da cikakken bayaninsu ke buɗe.',
+              'totals, flash':
+                'Layin aggregates a kan dukan layukan da aka tace; cells masu walƙiya idan rubutunsu ya canza, a layukan da ke da <code>rowId</code> mai ɗorewa.',
+              layout:
+                '<code>list</code> yana nuna layuka a matsayin katuna, <code>auto</code> kuma yana yin haka a ƙananan allo.',
+              'exportXlsx, print':
+                'Layukan da aka tace aka jera a matsayin spreadsheet; yana buga kowane layi.',
             },
           },
           NuiGridColumn: {
@@ -1279,6 +1308,8 @@ export const messages: Messages = {
               compare: 'Jerawa ta musamman.',
               'editable, validate': 'Ko ana iya gyara cells, da saƙo idan ƙima ba ta da inganci.',
               set: 'Yana samar da layin da aka gyara. Idan ba a saita ba, kwafi ne mai sabuwar ƙimar.',
+              aggregate:
+                'Abin da layukan rukuni da layin jimilla ke nunawa: jimilla, matsakaici, mafi ƙanƙanta, mafi girma, ƙidaya, ko function.',
             },
           },
           NuiGridCell: {
@@ -1293,6 +1324,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Abin da ake nunawa idan babu layuka. Context ɗin yana faɗa ko tacewa ce ta ɓoye su.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Cikakken bayanin layi, ana nuna shi a ƙarƙashinsa idan an buɗe. Context ɗin yana ɗauke da layin.',
             members: {},
           },
         },
@@ -1323,12 +1359,19 @@ export const messages: Messages = {
           ],
           ['Space', 'Yana zaɓar layin; da Shift, layukan tun daga na ƙarshe da aka zaɓa.'],
           ['Ctrl + A', 'Yana zaɓar kowane layi.'],
+          [
+            'Kibiyar dama da ta hagu a kan rukuni',
+            'Suna buɗe shi ko rufe shi; haka ma a kan cell na farko na layi mai layuka a ƙarƙashinsa.',
+          ],
+          ['Enter a kan rukuni', 'Yana buɗe shi ko rufe shi; Space yana zaɓar layukansa.'],
+          ['Enter a kan toggle na cikakken bayani', 'Yana nuna ko ɓoye cikakken bayanin layin.'],
         ],
         notes: [
           '<code>&lt;table&gt;</code> ne na asali mai <code>role="grid"</code>, mai suna daga <code>label</code>. Taken kowane ginshiƙi yana ɗauke da <code>aria-sort</code>, layukan da ake iya zaɓa kuma <code>aria-selected</code>.',
           'Grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab. Focus yana tafiya daga cell zuwa cell ta <code>tabindex</code> mai yawo (roving), don haka manhajojin karanta allo suna karanta kowane cell tare da taken layinsa da na ginshiƙinsa.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> da <code>aria-colindex</code> suna zama daidai yayin da aka raba layuka zuwa shafuka ko ake nuna wasu kawai.',
           'Ana sanar da jerawa, tacewa, sauya shafi da kurakuran gyarawa a yankin yanayi, cikin ladabi (polite).',
+          'Layukan da aka rukunta ko ke cikin juna suna mayar da teburin <code>treegrid</code>: layuka suna ɗauke da <code>aria-level</code>, <code>aria-setsize</code> da <code>aria-posinset</code>, da <code>aria-expanded</code> idan suna buɗewa. Ana karanta aggregates tare da irinsu, kamar “Sum: 475”.',
         ],
       },
       chat: {
@@ -2223,6 +2266,139 @@ export const messages: Messages = {
           'Thumb na akwatin <code>slider</code> ne mai suna “Color” wanda ke faɗin ƙimominsa biyu, kamar “Lightness 62%, chroma 75%”. Hue da opacity range inputs ne na asali.',
           'Samfuran launi maɓallai ne masu suna daga lakabinsu, kuma suna bayyana a danne idan sun yi daidai da launin.',
           'AA da AAA suna faɗin “passes” ko “fails” a kalmomi, ba ta launi kaɗai ba, kuma a yanayin forced colors launukan da kansu suna nan yadda suke.',
+        ],
+      },
+      carousel: {
+        name: 'Carousel',
+        title: 'Component na carousel da slider don Angular',
+        summary:
+          'Slides a layi ɗaya da ke gungurawa ya tsaya daidai, tare da maɓallai, ɗigogi da juyawa ta atomatik.',
+        description:
+          'Carousel na Angular mai sauƙin amfani ga kowa: gungurawa da jan yatsa na asali, slides da yawa a gani ɗaya, ɗigogi, zagaye, da juyawa da ke tsayawa bisa WCAG.',
+        apiDescription:
+          'Bayanin API na carousel ɗin Needless UI: slides a gani ɗaya, index, zagaye da juyawa na nui-carousel, methods ɗinsa, da directive na nuiCarouselSlide.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na carousel ɗin Needless UI: tsarin carousel na WAI-ARIA, maɓallin juyawa, slides masu suna da sanar da motsi.',
+        overview: [
+          'Carousel yana jera slides a layi ɗaya da ke gungurawa ya tsaya daidai a kan kowane slide: jan yatsa, trackpads da maɓallan kibiya suna motsa shi ta hanyar asali, haka ma maɓallansa na baya da na gaba da ɗigoginsa. Ku sa <code>nuiCarouselSlide</code> a kan kowane slide, mai suna daga takensa.',
+          'Ku nuna slide ɗaya a lokaci guda ko da yawa da <code>perView</code>, ko ku bar slides su riƙe faɗinsu da <code>perView="auto"</code>. <code>[(index)]</code> yana haɗa slide na farko da ake gani, kuma <code>loop</code> yana komawa farko.',
+          'Da <code>autoplay</code>, yana juyawa da kansa, tare da maɓallin juyawa a gabansa. Juyawar tana tsayawa na ɗan lokaci idan linzami yana kansa, kuma tana tsayawa gaba ɗaya idan focus na allon madannai ya shiga cikinsa, kamar yadda tsarin WAI-ARIA ya buƙata.',
+        ],
+        examples: {
+          featured: {
+            title: 'Tafiye-tafiye na musamman',
+            text: 'Sabon slide duk bayan daƙiƙa shida, da zobe a kan maɓallin juyawa da ke cika har zuwa lokacinsa. Ku kawo linzami kansa don dakatar da juyawar na ɗan lokaci, ko ku shiga da Tab don tsayar da ita.',
+          },
+          shelf: {
+            title: 'Shiryayyen katuna',
+            text: '<code>perView="auto"</code> yana riƙe faɗin kowane kati kuma yana nuna yawan da wurin zai iya ɗauka. Ɗigogin suna bin jan yatsa, kuma <code>[(index)]</code> yana faɗin inda yake.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Carousel na slides.',
+            members: {
+              label: 'Yana ba carousel ɗin suna.',
+              index: 'Slide na farko da ake gani, daga 0.',
+              perView:
+                'Slides da ake gani a lokaci guda, ko <code>auto</code> ga slides da ke saita faɗinsu da kansu.',
+              gap: 'Sarari tsakanin slides, a kowane tsawon CSS.',
+              loop: 'Wucewa slide na ƙarshe yana komawa na farko, haka ma akasin haka.',
+              autoplay:
+                'Milliseconds tsakanin slides idan yana juyawa da kansa; da 0, ba ya juyawa.',
+              'controls, indicators': 'Maɓallan baya da gaba, da ɗigogi.',
+              labels: 'Kowane rubutu da yake nunawa ko sanarwa, don fassarawa.',
+              'next, previous': 'Yana matsawa slide ɗaya gaba ko baya.',
+              goTo: 'Yana kawo slide cikin gani.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Slide ɗaya.',
+            members: { nuiCarouselSlide: 'Takensa, wanda ake karantawa maimakon matsayinsa.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Maɓallin juyawa, maɓallai, slides, sannan ɗigogi.'],
+          ['Kibiyar hagu da ta dama a kan slides', 'Suna gungurawa zuwa slide na baya ko na gaba.'],
+          ['Enter ko Space', 'Yana danna maɓalli ko ɗigon da ke da focus.'],
+        ],
+        notes: [
+          'Carousel ɗin <code>region</code> ne mai <code>aria-roledescription="carousel"</code>, kowane slide kuma <code>group</code> ne mai <code>aria-roledescription="slide"</code>, mai suna kamar “Lake Como, 2 of 4”.',
+          'Maɓallin juyawa ne ke zuwa da farko, kuma yana faɗin abin da zai yi. Juyawa tana tsayawa na ɗan lokaci idan linzami yana kan carousel ɗin, kuma tana tsayawa idan focus na allon madannai ya shiga, don haka ba ta taɓa motsa abin da wani ke karantawa.',
+          'Ana sanar da inda carousel ɗin ya tsaya bayan jan yatsa, danna maɓalli ko ɗigo; juyawa kuma ba ta sanar da komai.',
+        ],
+      },
+      editor: {
+        name: 'Rich text editor',
+        title: 'Component na rich text editor don Angular',
+        summary:
+          'Headings, jeri, mahaɗai da salon rubutu, da toolbar da Markdown yayin da kuke rubutu.',
+        description:
+          'Rich text editor na Angular mai sauƙin amfani ga kowa: toolbar, gajerun hanyoyi, Markdown yayin rubutu, liƙa mai tsafta, mahaɗai, undo, ƙimar HTML ko Markdown.',
+        apiDescription:
+          'Bayanin API na rich text editor ɗin Needless UI: ƙima da tsarin nui-editor, kayan aikin toolbar, rubuce-rubuce, umarni, da masu sauya HTML da Markdown.',
+        a11yDescription:
+          'Allon madannai da sauƙin amfani na rich text editor ɗin Needless UI: textbox mai layuka da yawa, toolbar na WAI-ARIA, gajerun hanyoyi da dialog na mahaɗa.',
+        overview: [
+          'Editor ɗin yana rubuta sakin layi, headings, ambato, jeri, tubalan code da layukan raba, tare da rubutu mai kauri (bold), karkatacce (italic), mai layi a ƙasa (underline) da mai layi a tsakiya (strikethrough), code da mahaɗai. Ƙimarsa HTML ce, ko Markdown da <code>format="markdown"</code>, kuma yana aiki da fom.',
+          'Yana riƙe takardarsa ta kansa kuma yana sarrafa kowane gyara da kansa, don haka abin da aka liƙa ko aka sauke yana isa shafin ne kawai a matsayin wannan takarda: tsari da salon rubutu suna nan, har daga Google Docs da Word, kuma ana cire scripts, styles da mahaɗai marasa aminci.',
+          'Ku rubuta Markdown, sai ya koma salon rubutu: <code># </code> yana fara heading, <code>- </code> jeri, kuma <code>**bold**</code> da <code>`code`</code> suna samun salonsu da zarar kun rufe su. Kowane salo yana da gajeriyar hanyarsa da maɓallinsa a toolbar.',
+        ],
+        examples: {
+          comment: {
+            title: 'Sharhi',
+            text: '<code>tools</code> yana zaɓar maɓallan toolbar. Ku rubuta Markdown, ku liƙa daga ko’ina, sannan ku ga HTML ɗin da editor ɗin ke riƙewa.',
+          },
+          markdown: {
+            title: 'Karanta da rubuta Markdown',
+            text: 'Da <code>format="markdown"</code>, ƙimar Markdown ce: ana karanta ta tare da jeri a cikin jeri, ambato da code, kuma ana sake rubuta ta yayin da kuke gyarawa.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Editor na rubutu mai salo.',
+            members: {
+              value: 'Abun ciki, a matsayin HTML ko Markdown; babu komai idan babu rubutu.',
+              format: 'Yadda ake rubuta ƙimar.',
+              tools: 'Maɓallan toolbar bi da bi, da <code>|</code> tsakanin rukunoni.',
+              'label, labelledBy, describedBy': 'Suna ba abun cikin suna da bayani.',
+              placeholder: 'Ana nuna shi yayin da babu komai a ciki.',
+              'readonly, disabled, invalid':
+                'Yana nuna abun ciki ba tare da gyarawa ba; yana kashe shi; yana alamta shi a matsayin mara inganci.',
+              labels: 'Kowane rubutu da yake nunawa ko sanarwa, don fassarawa.',
+              run: 'Yana aiwatar da umarnin toolbar.',
+              'undo, redo, focus': 'Yana yin undo da redo, kuma yana kai focus cikin rubutun.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions don sauya takardu.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown':
+                'Suna rubuta takarda a matsayin HTML ko Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Suna karanta HTML ko Markdown zuwa takarda, suna riƙe abin da editor ɗin zai iya nunawa.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I ko U',
+            'Mai kauri, karkatacce ko mai layi a ƙasa. A na’urorin Apple, ⌘ maimakon Ctrl.',
+          ],
+          ['Ctrl + K', 'Yana ƙara mahaɗa ko yana gyara ta.'],
+          ['Ctrl + Alt + 1, 2 ko 3', 'Heading; Ctrl + Alt + 0 yana mayar da shi sakin layi.'],
+          ['Ctrl + Shift + 7 ko 8', 'Jeri mai lambobi ko mai ɗigo.'],
+          [
+            'Tab da Shift + Tab a cikin jeri',
+            'Suna tura abu ciki ko fitar da shi; a wani wuri, Tab yana fita daga editor ɗin.',
+          ],
+          ['Ctrl + Z da Ctrl + Shift + Z', 'Undo da redo.'],
+          ['Kibiyar hagu da ta dama a toolbar', 'Suna matsawa tsakanin maɓallansa.'],
+        ],
+        notes: [
+          'Abun ciki <code>textbox</code> ne mai <code>aria-multiline</code>, mai suna daga <code>label</code>, kuma rubutun riƙe wurinsa yana cikin <code>aria-placeholder</code>.',
+          'Toolbar ɗin toolbar ne na WAI-ARIA, mai ɗaukar wuri ɗaya a jerin Tab: salon rubutu maɓallan toggle ne masu <code>aria-pressed</code>, kuma kowane maɓalli yana faɗin gajeriyar hanyarsa a <code>aria-keyshortcuts</code> da kuma a tooltip ɗinsa.',
+          'Umarnin toolbar yana mayar da focus kan rubutun, kuma dialog na mahaɗa yana komawa gare shi da Escape. Tab ba ya taɓa maƙalewa: a wajen jeri, yana fita daga editor ɗin.',
         ],
       },
     },

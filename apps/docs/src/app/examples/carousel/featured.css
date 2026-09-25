@@ -1,0 +1,27 @@
+nui-carousel {
+  flex-basis: 100%;
+}
+
+.trip {
+  display: grid;
+  align-items: end;
+  block-size: 14rem;
+  border-radius: var(--nui-radius-lg);
+  background:
+    radial-gradient(circle at 75% 25%, oklch(0.92 0.06 var(--hue)) 0 12%, transparent 13%),
+    linear-gradient(160deg, oklch(0.72 0.12 var(--hue)), oklch(0.42 0.1 calc(var(--hue) + 40)));
+}
+
+.trip .caption {
+  display: grid;
+  gap: var(--nui-space-1);
+  margin: var(--nui-space-3);
+  padding: var(--nui-space-3);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-canvas);
+}
+
+.trip span {
+  color: var(--nui-color-text-muted);
+  font-size: var(--nui-font-size-sm);
+}

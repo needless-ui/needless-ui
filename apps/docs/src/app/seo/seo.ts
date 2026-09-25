@@ -67,15 +67,10 @@ export class Seo {
     this.setMeta('property', 'og:image:height', '630');
     this.setMeta('property', 'og:image:alt', `${site.name}: ${site.tagline}`);
     this.setMeta('property', 'og:locale', info.ogLocale);
+    // X reads the title, description and image from Open Graph. No
+    // `og:locale:alternate` either: Facebook asks for those with `?fb_locale=`,
+    // which a static page can't answer; hreflang links name the other languages.
     this.setMeta('name', 'twitter:card', 'summary_large_image');
-    this.setMeta('name', 'twitter:title', title);
-    this.setMeta('name', 'twitter:description', page.description);
-    this.setMeta('name', 'twitter:image', OG_IMAGE);
-
-    this.meta.getTags('property="og:locale:alternate"').forEach((tag) => tag.remove());
-    for (const other of LOCALES.filter((l) => l !== locale)) {
-      this.meta.addTag({ property: 'og:locale:alternate', content: LOCALE_INFO[other].ogLocale });
-    }
 
     this.replaceManaged(
       page.noindex
@@ -129,13 +124,16 @@ export class Seo {
   private graph(page: PageSeo, locale: Locale, title: string, url: string): object {
     const site = this.i18n.t().site;
     const home = absoluteUrl(localizePath('/', locale));
+    // The home page describes the site; other pages only name it, for `isPartOf`,
+    // which keeps a few hundred bytes out of every page's first round trip.
     const website = {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: home,
       name: site.name,
-      alternateName: site.tagline,
-      description: site.description,
+      ...(page.type === 'website'
+        ? { alternateName: site.tagline, description: site.description }
+        : {}),
       inLanguage: LOCALE_INFO[locale].tag,
     };
     const crumbs = page.breadcrumbs ?? [];

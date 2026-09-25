@@ -1181,6 +1181,7 @@ export const messages: Messages = {
           'A grade de dados é uma tabela nativa com ordenação, filtros, paginação e edição. Descreva as <code>columns</code>, passe as <code>rows</code>, e cada célula é formatada pelo tipo e pela localidade: números, moedas, datas, sim e não, e rótulos para valores <code>enum</code>.',
           'O estado dela fica em models que você pode vincular, salvar e enviar a um servidor: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> e <code>columnState</code> para as larguras, a ordem, as colunas fixadas e as ocultas que os usuários escolhem. Sem paginação, só as linhas visíveis são renderizadas, então 100.000 linhas rolam como dez.',
           'Todas as células são alcançáveis pelo teclado, e o painel de cada coluna permite ordená-la, filtrá-la, fixá-la, movê-la, ajustá-la ao conteúdo e ocultá-la.',
+          'As linhas também podem ser aninhadas. <code>groupBy</code> as agrupa por colunas, com o <code>aggregate</code> de cada coluna nas linhas de grupo e em uma linha de <code>totals</code>; <code>children</code> mostra dados em árvore; e um template <code>nuiGridDetail</code> se abre sob uma linha. Agrupada ou aninhada, a tabela é uma <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1202,6 +1203,22 @@ export const messages: Messages = {
           server: {
             title: 'Dados do servidor',
             text: 'No modo <code>server</code>, a grade mostra as linhas conforme chegam e informa cada mudança em <code>queryChange</code>. Defina <code>loading</code> enquanto busca os dados.',
+          },
+          groups: {
+            title: 'Grupos e totais',
+            text: 'Agrupe por uma ou duas colunas. As linhas de grupo contam os pedidos e mostram a soma e a média dos valores deles, e <code>totals</code> faz o mesmo para todas as linhas. A seta para a esquerda fecha um grupo.',
+          },
+          tree: {
+            title: 'Dados em árvore',
+            text: '<code>children</code> dá a cada pasta os seus arquivos. As linhas abrem com a seta para a direita ou com o botão de expandir, e <code>[(expanded)]</code> guarda quais estão abertas. Uma busca mantém abertas as pastas acima de um resultado.',
+          },
+          details: {
+            title: 'Detalhes da linha',
+            text: 'Um template <code>nuiGridDetail</code> mostra os itens de um pedido logo abaixo dele, a partir de uma coluna de botões de alternância, e <code>[(details)]</code> guarda quais estão abertos.',
+          },
+          live: {
+            title: 'Dados ao vivo, exportação e impressão',
+            text: 'Os preços mudam a cada dois segundos, e <code>flash</code> mostra quais células mudaram. <code>exportXlsx()</code> baixa uma planilha de verdade, <code>print()</code> imprime todas as linhas, e <code>layout="auto"</code> mostra cards em telas estreitas.',
           },
         },
         api: {
@@ -1237,6 +1254,17 @@ export const messages: Messages = {
               exportCsv: 'As linhas filtradas e ordenadas das colunas visíveis, em CSV.',
               focusCell: 'Move o foco para uma célula; a linha <code>-1</code> é o cabeçalho.',
               clearFilters: 'Limpa todos os filtros e a busca.',
+              'groupBy, collapsed':
+                'As colunas pelas quais agrupar as linhas, a partir da mais externa, e as chaves dos grupos fechados.',
+              children: 'Os filhos de uma linha: a grade mostra dados em árvore.',
+              'expanded, details':
+                'As chaves das linhas abertas nos dados em árvore, e das linhas com os detalhes abertos.',
+              'totals, flash':
+                'Uma linha de agregados sobre todas as linhas filtradas; células que piscam quando o texto delas muda, em linhas com um <code>rowId</code> estável.',
+              layout:
+                '<code>list</code> mostra as linhas como cards, e <code>auto</code> faz isso em telas estreitas.',
+              'exportXlsx, print':
+                'As linhas filtradas e ordenadas como planilha; imprime todas as linhas.',
             },
           },
           NuiGridColumn: {
@@ -1260,6 +1288,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Se as células podem ser editadas, e uma mensagem quando um valor não é válido.',
               set: 'Cria a linha editada. O padrão é uma cópia com o novo valor.',
+              aggregate:
+                'O que as linhas de grupo e a linha de totais mostram: uma soma, uma média, um mínimo, um máximo, uma contagem ou uma função.',
             },
           },
           NuiGridCell: {
@@ -1274,6 +1304,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'O que aparece quando não há linhas. O contexto informa se os filtros as ocultaram.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Os detalhes de uma linha, mostrados abaixo dela quando abertos. O contexto contém a linha.',
             members: {},
           },
         },
@@ -1301,12 +1336,19 @@ export const messages: Messages = {
           ],
           ['Espaço', 'Seleciona a linha; com Shift, as linhas desde a última selecionada.'],
           ['Ctrl + A', 'Seleciona todas as linhas.'],
+          [
+            'Setas para a direita e para a esquerda em um grupo',
+            'Abrem ou fecham o grupo; também na primeira célula de uma linha com filhos.',
+          ],
+          ['Enter em um grupo', 'Abre ou fecha o grupo; Espaço seleciona as linhas dele.'],
+          ['Enter em um botão de detalhes', 'Mostra ou oculta os detalhes da linha.'],
         ],
         notes: [
           'Uma <code>&lt;table&gt;</code> nativa com <code>role="grid"</code>, nomeada por <code>label</code>. Os cabeçalhos têm <code>aria-sort</code>, e as linhas selecionáveis, <code>aria-selected</code>.',
           'A grade é uma única parada de tabulação. O foco passa de célula em célula com um <code>tabindex</code> móvel, então os leitores de tela leem cada célula com os cabeçalhos da linha e da coluna.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> e <code>aria-colindex</code> continuam corretos quando as linhas são paginadas ou virtualizadas.',
           'Ordenação, filtros, paginação e erros de edição são anunciados de forma educada em uma região de status.',
+          'Linhas agrupadas ou aninhadas fazem da tabela uma <code>treegrid</code>: as linhas têm <code>aria-level</code>, <code>aria-setsize</code> e <code>aria-posinset</code>, e <code>aria-expanded</code> quando podem ser abertas. Os agregados são lidos com o tipo, como “Sum: 475”.',
         ],
       },
       chat: {
@@ -2195,6 +2237,147 @@ export const messages: Messages = {
           'O marcador da área é um <code>slider</code> chamado “Color” que diz os dois valores, como “Lightness 62%, chroma 75%”. Matiz e opacidade são entradas nativas do tipo range.',
           'As amostras são botões nomeados pelo rótulo, e ficam pressionadas quando correspondem à cor.',
           'AA e AAA dizem “passes” ou “fails” por extenso, não só pela cor, e no modo de cores forçadas as próprias cores continuam.',
+        ],
+      },
+      carousel: {
+        name: 'Carrossel',
+        title: 'Componente de carrossel e slider para Angular',
+        summary: 'Slides em uma fileira que rola e se encaixa, com botões, pontos e rotação.',
+        description:
+          'Carrossel acessível para Angular: rolagem com encaixe e deslize nativos, vários slides por vez, pontos, loop e rotação que pausa e para como a WCAG pede.',
+        apiDescription:
+          'Referência da API do carrossel do Needless UI: slides por vez, índice, loop e rotação de nui-carousel, seus métodos e a diretiva nuiCarouselSlide.',
+        a11yDescription:
+          'Teclado e acessibilidade do carrossel do Needless UI: o padrão Carousel do WAI-ARIA, um controle de rotação, slides com nome e movimentos anunciados.',
+        overview: [
+          'Um carrossel mostra slides em uma fileira que rola e se encaixa em cada um: o deslize, os trackpads e as setas do teclado o movem de forma nativa, assim como os botões de anterior e próximo e os pontos. Marque cada slide com <code>nuiCarouselSlide</code>, que usa o título dele como nome.',
+          'Mostre um slide por vez ou vários com <code>perView</code>, ou deixe os slides manterem a própria largura com <code>perView="auto"</code>. <code>[(index)]</code> vincula o primeiro slide visível, e <code>loop</code> volta ao início.',
+          'Com <code>autoplay</code>, ele gira sozinho, com um controle de rotação à frente. A rotação pausa sob o ponteiro e para de vez quando o foco do teclado entra, como pede o padrão do WAI-ARIA.',
+        ],
+        examples: {
+          featured: {
+            title: 'Viagens em destaque',
+            text: 'Um slide novo a cada seis segundos, com o anel do controle de rotação se enchendo até o próximo. Passe o mouse por cima para pausar a rotação, ou entre com Tab para pará-la.',
+          },
+          shelf: {
+            title: 'Uma prateleira de cards',
+            text: '<code>perView="auto"</code> mantém a largura de cada card e mostra quantos couberem. Os pontos acompanham o deslize, e <code>[(index)]</code> diz onde ele está.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Um carrossel de slides.',
+            members: {
+              label: 'Dá nome ao carrossel.',
+              index: 'O primeiro slide visível, a partir de 0.',
+              perView:
+                'Slides visíveis ao mesmo tempo, ou <code>auto</code> para slides que definem a própria largura.',
+              gap: 'O espaço entre os slides, em qualquer comprimento CSS.',
+              loop: 'Passar do último slide leva ao primeiro, e vice-versa.',
+              autoplay: 'Milissegundos entre os slides quando ele gira sozinho; com 0, não gira.',
+              'controls, indicators': 'Os botões de anterior e próximo, e os pontos.',
+              labels: 'Todos os textos dele, para traduzir.',
+              'next, previous': 'Avança ou volta um slide.',
+              goTo: 'Rola até um slide.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Um slide.',
+            members: { nuiCarouselSlide: 'O título dele, lido no lugar da posição.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Percorre o controle de rotação, os botões, os slides e depois os pontos.'],
+          [
+            'Setas para a esquerda e para a direita nos slides',
+            'Rolam até o slide anterior ou o próximo.',
+          ],
+          ['Enter ou Espaço', 'Aciona o botão ou o ponto em foco.'],
+        ],
+        notes: [
+          'O carrossel é uma <code>region</code> com <code>aria-roledescription="carousel"</code>, e cada slide, um <code>group</code> com <code>aria-roledescription="slide"</code>, com um nome como “Lake Como, 2 of 4”.',
+          'O controle de rotação vem primeiro e diz o que vai fazer. A rotação pausa sob o ponteiro e para quando o foco do teclado entra, então nunca move o que alguém está lendo.',
+          'É anunciado onde o carrossel chega depois de um deslize, um botão ou um ponto; a rotação fica em silêncio.',
+        ],
+      },
+      editor: {
+        name: 'Editor de texto rico',
+        title: 'Componente de editor de texto rico para Angular',
+        summary:
+          'Títulos, listas, links e formatos, com barra de ferramentas e Markdown enquanto você digita.',
+        description:
+          'Editor de texto rico acessível para Angular: barra de ferramentas, atalhos, Markdown ao digitar, colagem limpa, links e desfazer, valor em HTML ou Markdown.',
+        apiDescription:
+          'Referência da API do editor de texto rico do Needless UI: valor e formato de nui-editor, ferramentas, textos, comandos e os conversores de HTML e Markdown.',
+        a11yDescription:
+          'Teclado e acessibilidade do editor de texto rico do Needless UI: caixa de texto multilinha, barra de ferramentas WAI-ARIA, atalhos e diálogo de link.',
+        overview: [
+          'O editor escreve parágrafos, títulos, citações, listas, blocos de código e divisores, com negrito, itálico, sublinhado, tachado, código e links. O valor dele é HTML, ou Markdown com <code>format="markdown"</code>, e ele funciona com formulários.',
+          'Ele mantém o próprio documento e cuida de cada edição, então o que é colado ou arrastado chega à página só como esse documento: a estrutura e os formatos ficam, inclusive do Google Docs e do Word, e scripts, estilos e links inseguros saem.',
+          'Digite Markdown e ele vira formatação: <code># </code> começa um título, <code>- </code> uma lista, e <code>**bold**</code> e <code>`code`</code> são formatados quando você os fecha. Todo formato tem o seu atalho e o seu botão na barra de ferramentas.',
+        ],
+        examples: {
+          comment: {
+            title: 'Um comentário',
+            text: '<code>tools</code> escolhe os botões da barra de ferramentas. Digite Markdown, cole de qualquer lugar e veja o HTML que o editor guarda.',
+          },
+          markdown: {
+            title: 'Markdown na entrada e na saída',
+            text: 'Com <code>format="markdown"</code>, o valor é Markdown: lido com listas aninhadas, citações e código, e escrito de volta enquanto você edita.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Um editor de texto rico.',
+            members: {
+              value: 'O conteúdo, em HTML ou Markdown; vazio quando não há texto.',
+              format: 'Como o valor é escrito.',
+              tools:
+                'Os botões da barra de ferramentas em ordem, com <code>|</code> entre os grupos.',
+              'label, labelledBy, describedBy': 'Nomeiam e descrevem o conteúdo.',
+              placeholder: 'Texto mostrado enquanto o editor está vazio.',
+              'readonly, disabled, invalid':
+                'Mostra o conteúdo sem permitir edição; desativa o editor; marca o conteúdo como inválido.',
+              labels: 'Todos os textos dele, para traduzir.',
+              run: 'Executa um comando da barra de ferramentas.',
+              'undo, redo, focus': 'Desfaz, refaz e move o foco para o texto.',
+            },
+          },
+          Helpers: {
+            summary: 'Funções para converter documentos.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown':
+                'Escrevem um documento como HTML ou Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Leem HTML ou Markdown para um documento, mantendo o que o editor consegue mostrar.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I ou U',
+            'Negrito, itálico ou sublinhado. Em dispositivos Apple, ⌘ no lugar de Ctrl.',
+          ],
+          ['Ctrl + K', 'Adiciona ou edita um link.'],
+          [
+            'Ctrl + Alt + 1, 2 ou 3',
+            'Um título; Ctrl + Alt + 0 volta a transformá-lo em parágrafo.',
+          ],
+          ['Ctrl + Shift + 7 ou 8', 'Uma lista numerada ou com marcadores.'],
+          [
+            'Tab e Shift + Tab em uma lista',
+            'Aumentam ou diminuem o recuo; fora das listas, Tab sai do editor.',
+          ],
+          ['Ctrl + Z e Ctrl + Shift + Z', 'Desfazer e refazer.'],
+          [
+            'Setas para a esquerda e para a direita na barra de ferramentas',
+            'Passam de um botão para outro.',
+          ],
+        ],
+        notes: [
+          'O conteúdo é uma <code>textbox</code> com <code>aria-multiline</code>, nomeada por <code>label</code>, com o placeholder em <code>aria-placeholder</code>.',
+          'A barra de ferramentas segue o padrão toolbar do WAI-ARIA, com uma única parada de tabulação: os formatos são botões de alternância com <code>aria-pressed</code>, e cada botão informa o seu atalho em <code>aria-keyshortcuts</code> e no seu tooltip.',
+          'Um comando da barra de ferramentas devolve o foco ao texto, e o diálogo de link faz o mesmo com Esc. O Tab nunca fica preso: fora das listas, ele sai do editor.',
         ],
       },
     },

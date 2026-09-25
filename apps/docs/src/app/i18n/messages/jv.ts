@@ -1185,6 +1185,7 @@ export const messages: Messages = {
           'Grid data yaiku tabel native sing bisa ngurutake, nyaring, mbagi kaca lan nyunting. Terangna <code>columns</code>, wenehana <code>rows</code>, lan saben sel diformat miturut jinise kanggo locale: angka, mata uang, tanggal, ya lan ora, uga label kanggo nilai <code>enum</code>.',
           'Kahanane ana ing model sing bisa panjenengan bind, simpen lan kirim menyang server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, lan <code>columnState</code> kanggo ambane, urutan, lan kolom sing disemat utawa didhelikake miturut pilihane pangguna. Tanpa kaca, mung baris sing katon sing digambar, dadi 100.000 baris digulung kaya sepuluh.',
           'Saben sel bisa ditekani nganggo keyboard, lan panel saben kolom bisa ngurutake, nyaring, nyemat, mindhah, nyetel ambane lan ndhelikake kolom kasebut.',
+          'Baris uga bisa susun. <code>groupBy</code> nglompokake baris miturut kolom, kanthi <code>aggregate</code> saben kolom ing baris klompok lan ing baris <code>totals</code>; <code>children</code> nampilake data wit; lan template <code>nuiGridDetail</code> mbukak ing sangisore baris. Yen diklompokake utawa susun, tabele dadi <code>treegrid</code>.',
         ],
         examples: {
           orders: {
@@ -1206,6 +1207,22 @@ export const messages: Messages = {
           server: {
             title: 'Data saka server',
             text: 'Ing mode <code>server</code>, grid nampilake baris kaya tekane lan nglaporake saben owah-owahan ing <code>queryChange</code>. Setel <code>loading</code> sajrone njupuk data.',
+          },
+          groups: {
+            title: 'Klompok lan total',
+            text: 'Klompokake miturut siji utawa rong kolom. Baris klompok ngetung pesenane lan nampilake jumlah sarta rata-rata totale, lan <code>totals</code> nambahake sing padha kanggo kabeh baris. Panah kiwa nutup klompok.',
+          },
+          tree: {
+            title: 'Data wit',
+            text: '<code>children</code> menehi saben folder berkas-berkase. Baris kabukak nganggo panah tengen utawa toggle-e, lan <code>[(expanded)]</code> nyimpen endi sing kabukak. Panelusuran njaga folder ing sadhuwure asil sing cocog tetep kabukak.',
+          },
+          details: {
+            title: 'Rincian baris',
+            text: 'Template <code>nuiGridDetail</code> nampilake isi pesenan ing sangisore pesenan kasebut, saka kolom isi toggle, lan <code>[(details)]</code> nyimpen endi sing kabukak.',
+          },
+          live: {
+            title: 'Data langsung, ekspor lan cithak',
+            text: 'Rega owah saben rong detik, lan <code>flash</code> nuduhake sel endi sing owah. <code>exportXlsx()</code> ngundhuh spreadsheet asli, <code>print()</code> nyithak kabeh baris, lan <code>layout="auto"</code> nampilake kertu ing layar sing ciut.',
           },
         },
         api: {
@@ -1242,6 +1259,17 @@ export const messages: Messages = {
                 'Baris sing wis disaring lan diurutake saka kolom sing katon, minangka CSV.',
               focusCell: 'Mindhah fokus menyang sel; baris <code>-1</code> yaiku header.',
               clearFilters: 'Mbusak kabeh saringan lan panelusuran.',
+              'groupBy, collapsed':
+                'Kolom kanggo nglompokake baris, sing paling njaba dhisik, lan kunci klompok sing ditutup.',
+              children: 'Baris anak saka sawijining baris: grid nampilake data wit.',
+              'expanded, details':
+                'Kunci baris sing kabukak ing data wit, lan kunci baris sing rinciane kabukak.',
+              'totals, flash':
+                'Baris agregat saka kabeh baris sing wis disaring; sel sing kedhip nalika teks-e owah, ing baris kanthi <code>rowId</code> sing tetep.',
+              layout:
+                '<code>list</code> nampilake baris minangka kertu, lan <code>auto</code> uga mengkono ing layar sing ciut.',
+              'exportXlsx, print':
+                'Baris sing wis disaring lan diurutake minangka spreadsheet; nyithak kabeh baris.',
             },
           },
           NuiGridColumn: {
@@ -1263,6 +1291,8 @@ export const messages: Messages = {
               compare: 'Urutan kustom.',
               'editable, validate': 'Apa sel bisa disunting, lan pesen nalika nilaine ora valid.',
               set: 'Nggawe baris sing wis disunting. Gawane salinan kanthi nilai anyar.',
+              aggregate:
+                'Apa sing ditampilake baris klompok lan baris total: jumlah, rata-rata, minimum, maksimum, cacah, utawa fungsi.',
             },
           },
           NuiGridCell: {
@@ -1277,6 +1307,11 @@ export const messages: Messages = {
           NuiGridEmpty: {
             summary:
               'Apa sing katon nalika ora ana baris. Konteks-e ngandhani apa baris-baris didhelikake saringan.',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary:
+              'Rincian sawijining baris, katon ing sangisore nalika dibukak. Konteks-e ngemot baris kasebut.',
             members: {},
           },
         },
@@ -1307,12 +1342,19 @@ export const messages: Messages = {
           ],
           ['Spasi', 'Milih baris; kanthi Shift, kabeh baris wiwit pilihan pungkasan.'],
           ['Ctrl + A', 'Milih kabeh baris.'],
+          [
+            'Panah tengen lan kiwa ing klompok',
+            'Mbukak utawa nutup klompok; uga ing sel kapisan baris sing duwe anak.',
+          ],
+          ['Enter ing klompok', 'Mbukak utawa nutup klompok; Spasi milih baris-barise.'],
+          ['Enter ing toggle rincian', 'Nampilake utawa ndhelikake rincian baris.'],
         ],
         notes: [
           '<code>&lt;table&gt;</code> native kanthi <code>role="grid"</code>, dijenengi dening <code>label</code>. Header nggawa <code>aria-sort</code>, lan baris sing bisa dipilih nggawa <code>aria-selected</code>.',
           'Grid mung dadi siji tab stop. Fokus pindhah saka sel menyang sel nganggo roving <code>tabindex</code>, dadi screen reader maca saben sel bareng header baris lan kolome.',
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> lan <code>aria-colindex</code> tetep bener nalika baris dibagi dadi kaca utawa nganggo virtual scrolling.',
           'Owah-owahan urutan, saringan lan kaca, uga kesalahan nyunting, diumumake kanthi sopan (polite) ing wilayah status.',
+          'Baris sing diklompokake utawa susun ndadekake tabel dadi <code>treegrid</code>: baris nggawa <code>aria-level</code>, <code>aria-setsize</code> lan <code>aria-posinset</code>, uga <code>aria-expanded</code> yen bisa dibukak. Agregat diwaca bareng jinise, kayata “Sum: 475”.',
         ],
       },
       chat: {
@@ -2191,6 +2233,138 @@ export const messages: Messages = {
           'Thumb area yaiku <code>slider</code> kanthi jeneng “Color” sing nyebutake loro nilaine, kayata “Lightness 62%, chroma 75%”. Hue lan opasitas yaiku input range native.',
           'Conto werna yaiku tombol sing dijenengi miturut labele, lan katon dipencet nalika cocog karo wernane.',
           'AA lan AAA ngandhakake “passes” utawa “fails” nganggo tembung, ora mung nganggo werna, lan ing mode forced colors wernane dhewe tetep katon.',
+        ],
+      },
+      carousel: {
+        name: 'Korsel',
+        title: 'Komponen korsel lan slider kanggo Angular',
+        summary:
+          'Slide ing sak baris sing digulung lan mandheg pas, kanthi tombol, titik lan rotasi.',
+        description:
+          'Korsel Angular sing aksesibel: scroll snapping lan geseran native, pirang-pirang slide sakaligus, titik, loop, lan rotasi sing ngaso lan mandheg miturut WCAG.',
+        apiDescription:
+          'Referensi API korsel Needless UI: slide saben tampilan, index, loop lan rotasi nui-carousel, metode-metodene, lan directive nuiCarouselSlide.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas korsel Needless UI: pola korsel WAI-ARIA, kontrol rotasi, slide sing duwe jeneng lan pamindhahan sing diumumake.',
+        overview: [
+          'Korsel nampilake slide ing sak baris sing digulung lan mandheg pas ing saben slide: geseran, trackpad lan tombol panah mindhah korsel kanthi native, semono uga tombol sadurunge lan sabanjure sarta titik-titike. Tandhani saben slide nganggo <code>nuiCarouselSlide</code>, lan jenengi miturut judhule.',
+          'Tampilake siji slide sakwayah utawa pirang-pirang nganggo <code>perView</code>, utawa jarna slide tetep nganggo ambane dhewe kanthi <code>perView="auto"</code>. <code>[(index)]</code> bind slide kapisan sing katon, lan <code>loop</code> bali menyang wiwitan.',
+          'Kanthi <code>autoplay</code>, korsel muter dhewe ing sangisore kontrol rotasi. Rotasi ngaso nalika pointer ana ing ndhuwure, lan mandheg babar pisan nalika fokus keyboard mlebu, kaya sing dijaluk pola WAI-ARIA.',
+        ],
+        examples: {
+          featured: {
+            title: 'Lelungan pilihan',
+            text: 'Slide anyar saben nem detik, karo bunderan ing kontrol rotasi sing saya kebak nganti slide kasebut teka. Hover kanggo ngasokake rotasi, utawa mlebu nganggo Tab kanggo mandhegake.',
+          },
+          shelf: {
+            title: 'Rak kertu',
+            text: '<code>perView="auto"</code> njaga ambane saben kertu lan nampilake kertu sakcukupe. Titik-titik ngetutake geseran, lan <code>[(index)]</code> ngandhani posisine.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Korsel isi slide.',
+            members: {
+              label: 'Menehi jeneng korsel.',
+              index: 'Slide kapisan sing katon, wiwit 0.',
+              perView:
+                'Slide sing katon bebarengan, utawa <code>auto</code> kanggo slide sing nemtokake ambane dhewe.',
+              gap: 'Jarak antarane slide, minangka dawa CSS apa wae.',
+              loop: 'Liwat slide pungkasan bali menyang sing kapisan, lan kosok baline.',
+              autoplay: 'Milidetik antarane slide nalika muter dhewe; 0 ateges ora muter.',
+              'controls, indicators': 'Tombol sadurunge lan sabanjure, lan titik-titik.',
+              labels: 'Saben teks sing diucapake korsel, kanggo diterjemahake.',
+              'next, previous': 'Mindhah siji slide maju utawa mundur.',
+              goTo: 'Nggawa sawijining slide supaya katon.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Siji slide.',
+            members: { nuiCarouselSlide: 'Judhule, sing diwaca minangka ganti posisine.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Kontrol rotasi, tombol-tombol, slide, banjur titik-titik.'],
+          ['Panah kiwa lan tengen ing slide', 'Nggulung menyang slide sadurunge utawa sabanjure.'],
+          ['Enter utawa Spasi', 'Mencet tombol utawa titik sing lagi difokus.'],
+        ],
+        notes: [
+          'Korsel yaiku <code>region</code> kanthi <code>aria-roledescription="carousel"</code>, lan saben slide yaiku <code>group</code> kanthi <code>aria-roledescription="slide"</code>, dijenengi kayata “Lake Como, 2 of 4”.',
+          'Kontrol rotasi ana ing ngarep dhewe lan ngandhani apa sing arep ditindakake. Rotasi ngaso nalika pointer ana ing ndhuwure lan mandheg nalika fokus keyboard mlebu, dadi ora tau mindhah apa sing lagi diwaca wong.',
+          'Panggonan korsel mandheg sawise geseran, tombol utawa titik diumumake; rotasi tetep meneng.',
+        ],
+      },
+      editor: {
+        name: 'Panyunting teks kanthi format',
+        title: 'Komponen panyunting teks kanthi format kanggo Angular',
+        summary:
+          'Heading, dhaptar, pranala lan format, kanthi toolbar lan Markdown sinambi ngetik.',
+        description:
+          'Panyunting teks Angular sing aksesibel: toolbar, shortcut, Markdown sinambi ngetik, tempelan resik, pranala lan undo, kanthi nilai HTML utawa Markdown.',
+        apiDescription:
+          'Referensi API panyunting teks Needless UI: nilai lan format nui-editor, piranti toolbar, teks, printah, lan konverter HTML lan Markdown.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas panyunting teks Needless UI: textbox pirang-pirang baris, toolbar WAI-ARIA, shortcut lan dialog pranala.',
+        overview: [
+          'Panyunting iki nulis paragraf, heading, kutipan, dhaptar, blok kode lan garis pamisah, kanthi kandel, miring, garis ngisor, coretan, kode lan pranala. Nilaine yaiku HTML, utawa Markdown kanthi <code>format="markdown"</code>, lan bisa digunakake karo formulir.',
+          'Panyunting iki nyimpen dokumen dhewe lan ngurus saben suntingan, dadi apa sing ditempel utawa diselehake mung tekan kaca minangka dokumen kasebut: struktur lan format tetep, uga saka Google Docs lan Word, dene script, style lan pranala sing ora aman dibuwang.',
+          'Ketik Markdown lan bakal dadi format: <code># </code> miwiti heading, <code>- </code> dhaptar, lan <code>**bold**</code> sarta <code>`code`</code> diformat nalika panjenengan nutup. Saben format duwe shortcut lan tombol toolbar dhewe.',
+        ],
+        examples: {
+          comment: {
+            title: 'Komentar',
+            text: '<code>tools</code> milih tombol-tombol toolbar. Ketik Markdown, tempel saka ngendi wae, lan pirsani HTML sing disimpen panyunting.',
+          },
+          markdown: {
+            title: 'Markdown mlebu lan metu',
+            text: 'Kanthi <code>format="markdown"</code>, nilaine yaiku Markdown: diwaca kalebu dhaptar susun, kutipan lan kode, lan ditulis maneh sinambi panjenengan nyunting.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Panyunting teks kanthi format.',
+            members: {
+              value: 'Isine, minangka HTML utawa Markdown; kosong yen ora ana teks.',
+              format: 'Carane nilai ditulis.',
+              tools: 'Tombol-tombol toolbar kanthi urutan, <code>|</code> ing antarane klompok.',
+              'label, labelledBy, describedBy': 'Menehi jeneng lan katrangan marang isine.',
+              placeholder: 'Katon nalika isih kosong.',
+              'readonly, disabled, invalid':
+                'Nampilake isi tanpa bisa disunting; mateni; nandhani ora valid.',
+              labels: 'Saben teks sing diucapake panyunting, kanggo diterjemahake.',
+              run: 'Nglakokake printah toolbar.',
+              'undo, redo, focus':
+                'Mbatalake lan mbaleni suntingan, lan mindhah fokus menyang teks.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi kanggo ngowahi dokumen.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': 'Nulis dokumen minangka HTML utawa Markdown.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'Maca HTML utawa Markdown dadi dokumen, njaga apa sing bisa ditampilake panyunting.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I utawa U',
+            'Kandel, miring utawa garis ngisor. Ing piranti Apple, ⌘ minangka ganti Ctrl.',
+          ],
+          ['Ctrl + K', 'Nambah utawa nyunting pranala.'],
+          ['Ctrl + Alt + 1, 2 utawa 3', 'Heading; Ctrl + Alt + 0 mbalekake dadi paragraf.'],
+          ['Ctrl + Shift + 7 utawa 8', 'Dhaptar angka utawa dhaptar bullet.'],
+          [
+            'Tab lan Shift + Tab ing dhaptar',
+            'Nambah utawa ngurangi indentasi; ing panggonan liya, Tab metu saka panyunting.',
+          ],
+          ['Ctrl + Z lan Ctrl + Shift + Z', 'Mbatalake lan mbaleni suntingan.'],
+          ['Panah kiwa lan tengen ing toolbar', 'Pindhah antarane tombol-tombole.'],
+        ],
+        notes: [
+          'Isine yaiku <code>textbox</code> kanthi <code>aria-multiline</code>, dijenengi dening <code>label</code>, lan placeholder-e ana ing <code>aria-placeholder</code>.',
+          'Toolbar-e yaiku toolbar WAI-ARIA, siji tab stop: format-format yaiku tombol toggle kanthi <code>aria-pressed</code>, lan saben tombol nyebutake shortcut-e ing <code>aria-keyshortcuts</code> lan ing tooltip-e.',
+          'Printah toolbar mbalekake fokus menyang teks, lan dialog pranala uga bali menyang teks nalika Escape dipencet. Tab ora tau macet: ing njaba dhaptar, Tab metu saka panyunting.',
         ],
       },
     },

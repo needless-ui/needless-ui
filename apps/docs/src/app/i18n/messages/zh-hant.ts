@@ -1123,6 +1123,7 @@ export const messages: Messages = {
           '資料表格以原生 table 元素為基礎，支援排序、篩選、分頁和編輯。定義好 <code>columns</code>，傳入 <code>rows</code>，每個儲存格就會依類型和地區設定格式化：數字、貨幣、日期、是或否，以及 <code>enum</code> 值的標籤。',
           '它的狀態都存放在模型中，可以繫結、儲存或傳送到伺服器：<code>sort</code>、<code>filters</code>、<code>search</code>、<code>page</code>、<code>selected</code>，以及記錄使用者設定的欄寬、順序、固定和隱藏欄的 <code>columnState</code>。不分頁時只渲染可見的列，因此十萬列捲動起來也像十列一樣流暢。',
           '每個儲存格都能用鍵盤抵達；每一欄的面板都能對該欄排序、篩選、固定、移動、自動調整欄寬和隱藏。',
+          '列也可以巢狀呈現。<code>groupBy</code> 會依欄將列分組，並在群組列和 <code>totals</code> 合計列中顯示每一欄的 <code>aggregate</code>；<code>children</code> 會顯示樹狀資料；<code>nuiGridDetail</code> 範本則會在列的下方展開。分組或巢狀呈現時，表格會成為 <code>treegrid</code>。',
         ],
         examples: {
           orders: {
@@ -1144,6 +1145,22 @@ export const messages: Messages = {
           server: {
             title: '伺服器資料',
             text: '在 <code>server</code> 模式下，表格會照收到的樣子顯示列，並透過 <code>queryChange</code> 回報每次變更。擷取資料期間請設定 <code>loading</code>。',
+          },
+          groups: {
+            title: '群組與合計',
+            text: '依一欄或兩欄分組。群組列會計算訂單數量，並加總及平均金額；<code>totals</code> 會為所有列加上同樣的統計。按向左鍵可收合群組。',
+          },
+          tree: {
+            title: '樹狀資料',
+            text: '<code>children</code> 讓每個資料夾帶有自己的檔案。按向右鍵或切換按鈕即可展開列，<code>[(expanded)]</code> 會記住哪些列已展開。搜尋時，符合項目上層的資料夾會保持展開。',
+          },
+          details: {
+            title: '列的詳細資料',
+            text: '<code>nuiGridDetail</code> 範本會在訂單下方顯示它的明細，由一欄切換按鈕開啟；<code>[(details)]</code> 會記住哪些列已開啟。',
+          },
+          live: {
+            title: '即時資料、匯出與列印',
+            text: '價格每兩秒變動一次，<code>flash</code> 會讓有變動的儲存格閃爍一下。<code>exportXlsx()</code> 會下載真正的試算表，<code>print()</code> 會列印所有列，<code>layout="auto"</code> 則會在窄螢幕上以卡片顯示列。',
           },
         },
         api: {
@@ -1177,6 +1194,13 @@ export const messages: Messages = {
               exportCsv: '以 CSV 格式傳回篩選和排序後的列，只包含可見的欄。',
               focusCell: '讓某個儲存格取得焦點；第 <code>-1</code> 列是標題列。',
               clearFilters: '清除所有篩選條件和搜尋。',
+              'groupBy, collapsed': '用來將列分組的欄（由最外層開始），以及已收合群組的 key。',
+              children: '列的子列：表格會顯示樹狀資料。',
+              'expanded, details': '樹狀資料中已展開的列的 key，以及已開啟詳細資料的列的 key。',
+              'totals, flash':
+                '彙總所有篩選後列的一列；以及文字變動時會閃爍的儲存格，僅適用於具有固定 <code>rowId</code> 的列。',
+              layout: '<code>list</code> 以卡片顯示列，<code>auto</code> 則只在窄螢幕上這樣顯示。',
+              'exportXlsx, print': '以試算表形式匯出篩選和排序後的列；列印所有列。',
             },
           },
           NuiGridColumn: {
@@ -1197,6 +1221,7 @@ export const messages: Messages = {
               compare: '自訂排序。',
               'editable, validate': '儲存格是否可編輯，以及值無效時顯示的訊息。',
               set: '產生編輯後的列。預設為帶有新值的副本。',
+              aggregate: '群組列和合計列顯示的內容：總和、平均值、最小值、最大值、計數或函式。',
             },
           },
           NuiGridCell: {
@@ -1209,6 +1234,10 @@ export const messages: Messages = {
           },
           NuiGridEmpty: {
             summary: '沒有列時顯示的內容。其 context 會說明這些列是否被篩選條件隱藏。',
+            members: {},
+          },
+          NuiGridDetail: {
+            summary: '列的詳細資料，開啟後顯示在該列下方。其 context 包含該列。',
             members: {},
           },
         },
@@ -1224,12 +1253,16 @@ export const messages: Messages = {
           ['編輯時按 Enter、Esc 或 Tab', 'Enter 確認，Esc 取消，Tab 確認並移到下一格。'],
           ['空白鍵', '選取該列；按住 Shift 時，選取自上次選取的列起的所有列。'],
           ['Ctrl + A', '選取所有列。'],
+          ['在群組上按向右 / 向左鍵', '展開或收合群組；在有子列的列的第一個儲存格上也一樣。'],
+          ['在群組上按 Enter', '展開或收合群組；按空白鍵則會選取其中的列。'],
+          ['在詳細資料切換按鈕上按 Enter', '顯示或隱藏該列的詳細資料。'],
         ],
         notes: [
           '它是帶有 <code>role="grid"</code> 的原生 <code>&lt;table&gt;</code>，以 <code>label</code> 命名。欄標題帶有 <code>aria-sort</code>，可選取的列帶有 <code>aria-selected</code>。',
           '表格在 Tab 鍵順序中只佔一個位置。焦點透過漫遊式 <code>tabindex</code> 在儲存格之間移動，因此螢幕閱讀器會連同列標題和欄標題一起朗讀每個儲存格。',
           '分頁或虛擬化時，<code>aria-rowcount</code>、<code>aria-rowindex</code> 和 <code>aria-colindex</code> 仍會保持正確。',
           '排序、篩選、換頁和編輯錯誤，會透過不打斷目前朗讀的狀態區域朗讀出來。',
+          '有分組或巢狀的列時，表格會成為 <code>treegrid</code>：列帶有 <code>aria-level</code>、<code>aria-setsize</code> 和 <code>aria-posinset</code>，可展開的列還帶有 <code>aria-expanded</code>。彙總值會連同類型一起朗讀，例如「Sum: 475」。',
         ],
       },
       chat: {
@@ -2055,6 +2088,127 @@ export const messages: Messages = {
           '選色區域的控點是名為「Color」的 <code>slider</code>，會朗讀它的兩個值，例如「Lightness 62%, chroma 75%」。色相和不透明度則是原生的 range 輸入欄位。',
           '色票是以其標籤命名的按鈕，與目前顏色相符時會呈現按下狀態。',
           'AA 和 AAA 會用文字說明「passes」或「fails」，而不只用顏色表示；在強制色彩模式下，顏色本身會保持不變。',
+        ],
+      },
+      carousel: {
+        name: '輪播',
+        title: 'Angular 輪播圖與投影片元件',
+        summary: '一排可捲動並自動貼齊的投影片，附有按鈕、圓點和自動輪播。',
+        description:
+          '無障礙的 Angular 輪播：原生的捲動貼齊與滑動手勢、一次顯示多張投影片、圓點、循環，以及依 WCAG 要求暫停和停止的自動輪播。',
+        apiDescription:
+          'Needless UI 輪播的 API 參考文件：nui-carousel 的每次顯示張數、索引、循環與自動輪播、它的方法，以及 nuiCarouselSlide 指令。',
+        a11yDescription:
+          'Needless UI 輪播的鍵盤互動與無障礙支援：WAI-ARIA 輪播模式、自動輪播按鈕、具名的投影片，以及切換後的朗讀。',
+        overview: [
+          '輪播會把投影片排成一排，這一排可以捲動，並會貼齊每張投影片：滑動、觸控板和方向鍵都能以原生方式移動它，上一張、下一張按鈕和圓點也可以。請用 <code>nuiCarouselSlide</code> 標示每張投影片，並以它的標題命名。',
+          '用 <code>perView</code> 設定一次顯示一張或多張投影片，或用 <code>perView="auto"</code> 讓投影片保留各自的寬度。<code>[(index)]</code> 繫結畫面中的第一張投影片，<code>loop</code> 則會讓輪播到底後回到開頭。',
+          '設定 <code>autoplay</code> 後，輪播會自動切換，並由一個自動輪播按鈕控制。指標停在上方時自動輪播會暫停；鍵盤焦點進入時，則會依 WAI-ARIA 模式的要求完全停止。',
+        ],
+        examples: {
+          featured: {
+            title: '精選旅程',
+            text: '每六秒換一張投影片，自動輪播按鈕上的圓環會隨之逐漸填滿。將滑鼠懸停在上方可暫停自動輪播，用 Tab 鍵移入則會停止。',
+          },
+          shelf: {
+            title: '卡片貨架',
+            text: '<code>perView="auto"</code> 會保留每張卡片的寬度，放得下幾張就顯示幾張。圓點會跟著滑動移動，<code>[(index)]</code> 則會告訴你目前的位置。',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: '由投影片組成的輪播。',
+            members: {
+              label: '為輪播命名。',
+              index: '畫面中的第一張投影片，從 0 開始。',
+              perView: '同時顯示的投影片數量；設為 <code>auto</code> 時，由投影片自行決定寬度。',
+              gap: '投影片之間的間距，可以是任何 CSS 長度。',
+              loop: '越過最後一張時會回到第一張，反之亦然。',
+              autoplay: '自動切換時兩張投影片之間的毫秒數；設為 0 則不自動切換。',
+              'controls, indicators': '上一張和下一張按鈕，以及圓點。',
+              labels: '它顯示或朗讀的所有文字，供翻譯使用。',
+              'next, previous': '往前或往後移動一張投影片。',
+              goTo: '把某張投影片捲動到畫面中。',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: '一張投影片。',
+            members: { nuiCarouselSlide: '投影片的標題，朗讀時會取代它的位置。' },
+          },
+        },
+        keyboard: [
+          ['Tab', '依序移到自動輪播按鈕、上一張和下一張按鈕、投影片，最後是圓點。'],
+          ['在投影片上按向左 / 向右鍵', '捲動到上一張或下一張投影片。'],
+          ['Enter 或空白鍵', '按下取得焦點的按鈕或圓點。'],
+        ],
+        notes: [
+          '輪播是帶有 <code>aria-roledescription="carousel"</code> 的 <code>region</code>，每張投影片則是帶有 <code>aria-roledescription="slide"</code> 的 <code>group</code>，名稱像是「Lake Como, 2 of 4」。',
+          '自動輪播按鈕排在最前面，並會說明按下後的動作。指標停在上方時自動輪播會暫停，鍵盤焦點進入時則會停止，因此絕不會移動使用者正在閱讀的內容。',
+          '透過滑動、按鈕或圓點切換後，會朗讀輪播停在哪裡；自動輪播時則保持安靜。',
+        ],
+      },
+      editor: {
+        name: '富文字編輯器',
+        title: 'Angular 富文字編輯器元件',
+        summary: '標題、清單、連結和各種格式，附有工具列，輸入時也能直接使用 Markdown。',
+        description:
+          '無障礙的 Angular 富文字編輯器：工具列、快速鍵、輸入時自動轉換 Markdown、乾淨的貼上、連結和復原，值可以是 HTML 或 Markdown。',
+        apiDescription:
+          'Needless UI 富文字編輯器的 API 參考文件：nui-editor 的值與格式、工具列按鈕、文字、命令，以及 HTML 和 Markdown 轉換函式。',
+        a11yDescription:
+          'Needless UI 富文字編輯器的鍵盤互動與無障礙支援：多行文字方塊、WAI-ARIA 工具列、快速鍵，以及新增連結的對話框。',
+        overview: [
+          '編輯器可以撰寫段落、標題、引言、清單、程式碼區塊和分隔線，並支援粗體、斜體、底線、刪除線、程式碼和連結。它的值是 HTML；設定 <code>format="markdown"</code> 後則是 Markdown。它也能搭配表單使用。',
+          '它維護自己的文件，並親自處理每一次編輯，因此貼上或拖放進來的內容只會以這份文件的形式進入頁面：結構和格式都會保留，來自 Google Docs 和 Word 的內容也一樣；指令碼、樣式和不安全的連結則會被移除。',
+          '輸入 Markdown 就會變成格式：<code># </code> 開始一個標題，<code>- </code> 開始一個清單，<code>**bold**</code> 和 <code>`code`</code> 則會在輸入結尾符號時套用格式。每種格式都有對應的快速鍵和工具列按鈕。',
+        ],
+        examples: {
+          comment: {
+            title: '留言',
+            text: '<code>tools</code> 會決定工具列上有哪些按鈕。試著輸入 Markdown、從任何地方貼上內容，再看看編輯器保存的 HTML。',
+          },
+          markdown: {
+            title: 'Markdown 的讀入與寫出',
+            text: '設定 <code>format="markdown"</code> 後，值就是 Markdown：讀入時支援巢狀清單、引言和程式碼，編輯時會再寫回 Markdown。',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: '一個富文字編輯器。',
+            members: {
+              value: '內容，以 HTML 或 Markdown 表示；沒有文字時為空。',
+              format: '值的寫法。',
+              tools: '工具列上依序排列的按鈕，群組之間以 <code>|</code> 分隔。',
+              'label, labelledBy, describedBy': '為內容命名並加上描述。',
+              placeholder: '內容為空時顯示。',
+              'readonly, disabled, invalid': '依序為：只顯示內容而不可編輯；停用；標示為無效。',
+              labels: '它顯示或朗讀的所有文字，供翻譯使用。',
+              run: '執行一個工具列命令。',
+              'undo, redo, focus': '依序為：復原、重做，以及把焦點移到文字中。',
+            },
+          },
+          Helpers: {
+            summary: '用來轉換文件的函式。',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown': '把文件寫成 HTML 或 Markdown。',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                '把 HTML 或 Markdown 讀入為文件，只保留編輯器能顯示的內容。',
+            },
+          },
+        },
+        keyboard: [
+          ['Ctrl + B、I 或 U', '粗體、斜體或底線。在 Apple 裝置上，以 ⌘ 取代 Ctrl。'],
+          ['Ctrl + K', '新增或編輯連結。'],
+          ['Ctrl + Alt + 1、2 或 3', '設為標題；Ctrl + Alt + 0 則改回段落。'],
+          ['Ctrl + Shift + 7 或 8', '編號清單或項目符號清單。'],
+          ['在清單中按 Tab 和 Shift + Tab', '增加或減少縮排；在清單外，Tab 會離開編輯器。'],
+          ['Ctrl + Z、Ctrl + Shift + Z', '復原和重做。'],
+          ['在工具列中按向左 / 向右鍵', '在按鈕之間移動。'],
+        ],
+        notes: [
+          '內容區是帶有 <code>aria-multiline</code> 的 <code>textbox</code>，以 <code>label</code> 命名，預留位置文字則放在 <code>aria-placeholder</code> 中。',
+          '工具列是 WAI-ARIA 工具列，在 Tab 鍵順序中只佔一個位置：格式按鈕是帶有 <code>aria-pressed</code> 的切換按鈕，每個按鈕都會在 <code>aria-keyshortcuts</code> 和工具提示中註明快速鍵。',
+          '執行工具列命令後，焦點會回到文字中；在連結對話框中按 Esc 也會回到文字。Tab 鍵絕不會被困住：在清單外，它會離開編輯器。',
         ],
       },
     },

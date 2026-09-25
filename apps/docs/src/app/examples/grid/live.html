@@ -1,0 +1,18 @@
+<div class="toolbar">
+  <button nuiButton variant="outline" tone="neutral" size="sm" (click)="running.set(!running())">
+    {{ running() ? 'Pause' : 'Resume' }} prices
+  </button>
+  <button nuiButton variant="outline" tone="neutral" size="sm" (click)="download(grid)">
+    Export XLSX
+  </button>
+  <button nuiButton variant="outline" tone="neutral" size="sm" (click)="grid.print()">Print</button>
+</div>
+<nui-grid
+  #grid
+  label="Quotes"
+  flash
+  layout="auto"
+  [(rows)]="quotes"
+  [columns]="columns"
+  [rowId]="rowId"
+/>

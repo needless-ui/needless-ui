@@ -1,0 +1,21 @@
+<div class="choices" role="group" aria-label="Group by">
+  @for (choice of choices; track choice.label) {
+    <label>
+      <input
+        type="radio"
+        name="group-by"
+        [checked]="groupBy().join() === choice.value.join()"
+        (change)="groupBy.set(choice.value)"
+      />
+      {{ choice.label }}
+    </label>
+  }
+</div>
+<nui-grid
+  label="Orders by country"
+  height="24rem"
+  totals
+  [(rows)]="orders"
+  [columns]="columns"
+  [(groupBy)]="groupBy"
+/>

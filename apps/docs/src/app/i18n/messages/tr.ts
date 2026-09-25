@@ -1171,6 +1171,7 @@ export const messages: Messages = {
           'Veri tablosu yerel bir tablodur: sıralar, filtreler, sayfalara böler ve düzenler. Sütunları <code>columns</code> ile tanımlayıp satırları <code>rows</code> ile verin; her hücre türüne ve yerel ayara göre biçimlendirilir: sayılar, para birimleri, tarihler, evet/hayır ve <code>enum</code> değerlerinin etiketleri.',
           'Tablonun durumu, bağlayıp kaydedebileceğiniz ve sunucuya gönderebileceğiniz modellerde tutulur: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> ve kullanıcıların seçtiği genişlik, sıra, sabitleme ve gizli sütunlar için <code>columnState</code>. Sayfalama yoksa yalnızca görünen satırlar render edilir; böylece 100.000 satır da on satır kadar akıcı kayar.',
           'Her hücreye klavyeyle ulaşılabilir; her sütunun paneli sütunu sıralar, filtreler, sabitler, taşır, içeriğe sığdırır ve gizler.',
+          'Satırlar iç içe de olabilir. <code>groupBy</code> satırları sütunlara göre gruplar; her sütunun <code>aggregate</code> değeri grup satırlarında ve bir <code>totals</code> satırında gösterilir. <code>children</code> ağaç verisini gösterir, bir <code>nuiGridDetail</code> şablonu da satırın altında açılır. Gruplanmış ya da iç içe satırlarda tablo bir <code>treegrid</code> olur.',
         ],
         examples: {
           orders: {
@@ -1192,6 +1193,22 @@ export const messages: Messages = {
           server: {
             title: 'Sunucu verisi',
             text: '<code>server</code> modunda tablo, satırları geldiği gibi gösterir ve her değişikliği <code>queryChange</code> ile bildirir. Veriyi çekerken <code>loading</code> ayarlayın.',
+          },
+          groups: {
+            title: 'Gruplar ve toplamlar',
+            text: 'Bir ya da iki sütuna göre gruplayın. Grup satırları siparişlerini sayar, tutarlarının toplamını ve ortalamasını alır; <code>totals</code> da aynısını tüm satırlar için ekler. Sol ok bir grubu kapatır.',
+          },
+          tree: {
+            title: 'Ağaç verisi',
+            text: '<code>children</code> her klasöre dosyalarını verir. Satırlar sağ okla ya da kendi açma düğmeleriyle açılır; <code>[(expanded)]</code> hangilerinin açık olduğunu saklar. Arama, eşleşmenin üstündeki klasörleri açık tutar.',
+          },
+          details: {
+            title: 'Satır ayrıntıları',
+            text: 'Bir <code>nuiGridDetail</code> şablonu, siparişin kalemlerini satırın altında gösterir; ayrıntılar bir açma düğmeleri sütunundan açılır ve <code>[(details)]</code> hangilerinin açık olduğunu saklar.',
+          },
+          live: {
+            title: 'Canlı veri, dışa aktarma ve yazdırma',
+            text: 'Fiyatlar iki saniyede bir değişir ve <code>flash</code> hangi hücrelerin değiştiğini gösterir. <code>exportXlsx()</code> gerçek bir elektronik tablo indirir, <code>print()</code> tüm satırları yazdırır, <code>layout="auto"</code> ise dar ekranlarda kartlar gösterir.',
           },
         },
         api: {
@@ -1226,6 +1243,17 @@ export const messages: Messages = {
               exportCsv: 'Görünür sütunların filtrelenmiş ve sıralanmış satırları, CSV olarak.',
               focusCell: 'Hücreye odaklanır; satır <code>-1</code> başlıktır.',
               clearFilters: 'Tüm filtreleri ve aramayı temizler.',
+              'groupBy, collapsed':
+                'Satırların gruplanacağı sütunlar (en dıştaki önce) ve kapalı grupların anahtarları.',
+              children: 'Bir satırın alt satırları: tablo ağaç verisi gösterir.',
+              'expanded, details':
+                'Ağaç verisinde açık olan satırların ve ayrıntıları açık olan satırların anahtarları.',
+              'totals, flash':
+                'Filtrelenmiş tüm satırların özet değerlerini gösteren bir satır; kalıcı bir <code>rowId</code> taşıyan satırlarda, metni değişince bir an parlayan hücreler.',
+              layout:
+                '<code>list</code> satırları kart olarak gösterir, <code>auto</code> ise bunu dar ekranlarda yapar.',
+              'exportXlsx, print':
+                'Filtrelenmiş ve sıralanmış satırlar, elektronik tablo olarak; tüm satırları yazdırır.',
             },
           },
           NuiGridColumn: {
@@ -1250,6 +1278,8 @@ export const messages: Messages = {
               'editable, validate':
                 'Hücrelerin düzenlenip düzenlenemeyeceği ve değer geçersizken gösterilecek mesaj.',
               set: 'Düzenlenen satırı oluşturur. Varsayılan: yeni değeri taşıyan bir kopya.',
+              aggregate:
+                'Grup satırlarının ve toplam satırının gösterdiği değer: toplam, ortalama, en küçük, en büyük, sayı ya da bir fonksiyon.',
             },
           },
           NuiGridCell: {
@@ -1265,6 +1295,11 @@ export const messages: Messages = {
               'Satır yokken gösterilen içerik. Bağlam, satırları filtrelerin gizleyip gizlemediğini söyler.',
             members: {},
           },
+          NuiGridDetail: {
+            summary:
+              'Bir satırın ayrıntıları; açıldığında satırın altında gösterilir. Bağlamda satır bulunur.',
+            members: {},
+          },
         },
         keyboard: [
           ['Ok tuşları', 'Bir hücre ilerler. Sağdan sola metinde sol ve sağ yer değiştirir.'],
@@ -1278,12 +1313,19 @@ export const messages: Messages = {
           ['Düzenlerken Enter, Esc ve Tab', 'Onaylar, iptal eder ya da onaylayıp sonrakine geçer.'],
           ['Boşluk', 'Satırı seçer; Shift ile son seçilenden buna kadar olanları.'],
           ['Ctrl + A', 'Tüm satırları seçer.'],
+          [
+            'Grupta sağ ve sol ok',
+            'Grubu açar veya kapatır; alt satırları olan bir satırın ilk hücresinde de.',
+          ],
+          ['Grupta Enter', 'Grubu açar veya kapatır; Boşluk grubun satırlarını seçer.'],
+          ['Ayrıntı düğmesinde Enter', 'Satırın ayrıntılarını gösterir veya gizler.'],
         ],
         notes: [
           '<code>role="grid"</code> taşıyan ve <code>label</code> ile adlandırılan yerel bir <code>&lt;table&gt;</code>. Başlıklar <code>aria-sort</code>, seçilebilir satırlar ise <code>aria-selected</code> taşır.',
           'Tablo tek bir sekme durağıdır. Odak, gezici bir <code>tabindex</code> ile hücreden hücreye geçer; böylece ekran okuyucular her hücreyi satır ve sütun başlıklarıyla birlikte okur.',
           'Satırlar sayfalandığında veya sanallaştırıldığında da <code>aria-rowcount</code>, <code>aria-rowindex</code> ve <code>aria-colindex</code> doğru kalır.',
           'Sıralama, filtreleme, sayfa değişimi ve düzenleme hataları nazik (polite) bir durum bölgesinde duyurulur.',
+          'Gruplanmış ya da iç içe satırlar tabloyu bir <code>treegrid</code> yapar: satırlar <code>aria-level</code>, <code>aria-setsize</code> ve <code>aria-posinset</code>, açılabildiklerinde de <code>aria-expanded</code> taşır. Özet değerler türleriyle birlikte okunur, örneğin “Sum: 475”.',
         ],
       },
       chat: {
@@ -2158,6 +2200,137 @@ export const messages: Messages = {
           'Renk alanının tutamacı, adı “Color” olan ve iki değerini de söyleyen bir <code>slider</code> öğesidir; örneğin “Lightness 62%, chroma 75%”. Renk tonu ve opaklık ise yerel range kaydırıcılarıdır.',
           'Renk örnekleri, etiketleriyle adlandırılan düğmelerdir; renkle eşleştiklerinde basılı görünürler.',
           'AA ve AAA, yalnızca renkle değil sözle de “passes” ya da “fails” der; forced colors modunda ise renklerin kendisi korunur.',
+        ],
+      },
+      carousel: {
+        name: 'Carousel',
+        title: 'Angular için carousel ve slider bileşeni',
+        summary: 'Kayan ve yerine oturan bir sıra slayt: düğmeler, noktalar ve otomatik geçiş.',
+        description:
+          'Erişilebilir Angular carousel: yerine oturan yerel kaydırma, dokunmatik hareketler, aynı anda birden çok slayt, noktalar, döngü ve WCAG’ye uygun otomatik geçiş.',
+        apiDescription:
+          'Needless UI carousel bileşeninin API referansı: nui-carousel görünür slayt sayısı, indeks, döngü ve otomatik geçiş, metotları ve nuiCarouselSlide direktifi.',
+        a11yDescription:
+          'Needless UI carousel bileşeninin klavye kullanımı ve erişilebilirliği: WAI-ARIA carousel deseni, otomatik geçiş düğmesi, adlandırılmış slaytlar ve duyurular.',
+        overview: [
+          'Carousel, slaytları kayan ve yerine oturan bir sıra hâlinde gösterir: parmakla kaydırma, dokunmatik yüzeyler ve ok tuşları onu yerel olarak hareket ettirir; önceki ve sonraki düğmeleri ile noktalar da öyle. Her slaytı başlığıyla birlikte <code>nuiCarouselSlide</code> ile işaretleyin; slayt bu başlıkla adlandırılır.',
+          'Tek seferde bir slayt ya da <code>perView</code> ile birkaç slayt gösterin veya <code>perView="auto"</code> ile slaytların kendi genişliklerini korumasını sağlayın. <code>[(index)]</code> görünen ilk slaytı bağlar, <code>loop</code> ise sondan başa döner.',
+          '<code>autoplay</code> ile carousel kendiliğinden döner ve bunu bir otomatik geçiş düğmesi denetler. Otomatik geçiş, işaretçi üzerindeyken duraklar; WAI-ARIA deseninin istediği gibi, klavye odağı içeri girdiğinde de tamamen durur.',
+        ],
+        examples: {
+          featured: {
+            title: 'Öne çıkan geziler',
+            text: 'Her altı saniyede yeni bir slayt; otomatik geçiş düğmesindeki halka o ana kadar dolar. Otomatik geçişi duraklatmak için üzerine gelin, durdurmak için Tab ile içeri girin.',
+          },
+          shelf: {
+            title: 'Bir kart rafı',
+            text: '<code>perView="auto"</code> her kartın genişliğini korur ve sığabildiği kadar kart gösterir. Noktalar kaydırma hareketini izler, <code>[(index)]</code> ise nerede olduğunu söyler.',
+          },
+        },
+        api: {
+          NuiCarousel: {
+            summary: 'Slaytlardan oluşan bir carousel.',
+            members: {
+              label: 'Carousel’i adlandırır.',
+              index: 'Görünen ilk slayt, 0’dan başlayarak.',
+              perView:
+                'Aynı anda görünen slayt sayısı ya da genişliğini kendi belirleyen slaytlar için <code>auto</code>.',
+              gap: 'Slaytlar arasındaki boşluk; herhangi bir CSS uzunluğu.',
+              loop: 'Son slayttan ileri gidince ilkine, ilkinden geri gidince sonuncuya dönülür.',
+              autoplay: 'Kendiliğinden dönerken slaytlar arasındaki milisaniye; 0 ise dönmez.',
+              'controls, indicators': 'Önceki ve sonraki düğmeleri ile noktalar.',
+              labels: 'Carousel’in söylediği her metin; çeviri için.',
+              'next, previous': 'Bir slayt ileri ya da geri gider.',
+              goTo: 'Bir slaytı görünür alana getirir.',
+            },
+          },
+          NuiCarouselSlide: {
+            summary: 'Bir slayt.',
+            members: { nuiCarouselSlide: 'Slaytın başlığı; konumunun yerine okunur.' },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Otomatik geçiş düğmesi, düğmeler, slaytlar, ardından noktalar.'],
+          ['Slaytlarda sol ve sağ ok', 'Önceki veya sonraki slayta kaydırır.'],
+          ['Enter veya Boşluk', 'Odaktaki düğmeye ya da noktaya basar.'],
+        ],
+        notes: [
+          'Carousel, <code>aria-roledescription="carousel"</code> taşıyan bir <code>region</code> öğesidir; her slayt da <code>aria-roledescription="slide"</code> taşıyan ve “Lake Como, 2 of 4” gibi adlandırılan bir <code>group</code> öğesidir.',
+          'Otomatik geçiş düğmesi en önde gelir ve ne yapacağını söyler. Otomatik geçiş işaretçi üzerindeyken duraklar, klavye odağı içeri girince durur; böylece birinin okuduğu şey asla kaymaz.',
+          'Kaydırma hareketi, düğme ya da noktadan sonra carousel’in vardığı yer duyurulur; otomatik geçiş sessiz kalır.',
+        ],
+      },
+      editor: {
+        name: 'Zengin metin düzenleyici',
+        title: 'Angular için zengin metin düzenleyici bileşeni',
+        summary:
+          'Başlıklar, listeler, bağlantılar ve biçimler; araç çubuğu ve yazarken Markdown ile.',
+        description:
+          'Erişilebilir Angular zengin metin düzenleyici: araç çubuğu, kısayollar, yazarken Markdown, temiz yapıştırma ve geri alma; değeri HTML ya da Markdown.',
+        apiDescription:
+          'Needless UI zengin metin düzenleyicisinin API referansı: nui-editor değeri ve biçimi, araç çubuğu, metinler, komutlar, HTML ve Markdown dönüştürücüleri.',
+        a11yDescription:
+          'Needless UI zengin metin düzenleyicisinin klavye kullanımı ve erişilebilirliği: çok satırlı metin kutusu, WAI-ARIA araç çubuğu, kısayollar, bağlantı diyaloğu.',
+        overview: [
+          'Düzenleyici paragraflar, başlıklar, alıntılar, listeler, kod blokları ve ayırıcılar yazar; metin kalın, italik, altı çizili, üstü çizili, kod ya da bağlantı olabilir. Değeri HTML’dir ya da <code>format="markdown"</code> ile Markdown’dır; formlarla çalışır.',
+          'Düzenleyici kendi belgesini tutar ve her düzenlemeyi kendisi yapar; böylece yapıştırılan ya da bırakılan içerik sayfaya yalnızca bu belge olarak ulaşır: Google Docs ve Word’den gelse bile yapı ve biçimler korunur; betikler, stiller ve güvensiz bağlantılar ise atılır.',
+          'Markdown yazın, biçime dönüşsün: <code># </code> bir başlık, <code>- </code> bir liste başlatır; <code>**bold**</code> ve <code>`code`</code> ise kapattığınız anda biçimlenir. Her biçimin bir kısayolu ve araç çubuğunda bir düğmesi vardır.',
+        ],
+        examples: {
+          comment: {
+            title: 'Bir yorum',
+            text: '<code>tools</code> araç çubuğunun düğmelerini seçer. Markdown yazın, her yerden yapıştırın ve düzenleyicinin sakladığı HTML’i görün.',
+          },
+          markdown: {
+            title: 'Markdown giriş ve çıkışı',
+            text: '<code>format="markdown"</code> ile değer Markdown’dır: iç içe listeler, alıntılar ve kodla birlikte okunur, siz düzenledikçe de geri yazılır.',
+          },
+        },
+        api: {
+          NuiEditor: {
+            summary: 'Bir zengin metin düzenleyici.',
+            members: {
+              value: 'İçerik, HTML ya da Markdown olarak; metin yoksa boş.',
+              format: 'Değerin nasıl yazıldığı.',
+              tools: 'Araç çubuğunun düğmeleri, sırasıyla; gruplar arasında <code>|</code>.',
+              'label, labelledBy, describedBy': 'İçeriği adlandırır ve açıklar.',
+              placeholder: 'İçerik boşken gösterilir.',
+              'readonly, disabled, invalid':
+                'İçeriği düzenlenemez biçimde gösterir; devre dışı bırakır; geçersiz olarak işaretler.',
+              labels: 'Düzenleyicinin söylediği her metin; çeviri için.',
+              run: 'Bir araç çubuğu komutunu çalıştırır.',
+              'undo, redo, focus': 'Geri alır, yineler ve odağı metne taşır.',
+            },
+          },
+          Helpers: {
+            summary: 'Belgeleri dönüştüren fonksiyonlar.',
+            members: {
+              'nuiEditorToHtml, nuiEditorToMarkdown':
+                'Bir belgeyi HTML ya da Markdown olarak yazar.',
+              'nuiEditorFromHtml, nuiEditorFromMarkdown':
+                'HTML ya da Markdown’ı okur ve düzenleyicinin gösterebildiklerini koruyarak bir belgeye dönüştürür.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ctrl + B, I veya U',
+            'Kalın, italik veya altı çizili. Apple cihazlarında Ctrl yerine ⌘.',
+          ],
+          ['Ctrl + K', 'Bağlantı ekler veya düzenler.'],
+          ['Ctrl + Alt + 1, 2 veya 3', 'Başlık; Ctrl + Alt + 0 onu yeniden paragrafa çevirir.'],
+          ['Ctrl + Shift + 7 veya 8', 'Numaralı veya madde işaretli liste.'],
+          [
+            'Listede Tab ve Shift + Tab',
+            'Girintiyi artırır veya azaltır; başka yerlerde Tab düzenleyiciden çıkar.',
+          ],
+          ['Ctrl + Z ve Ctrl + Shift + Z', 'Geri alır ve yineler.'],
+          ['Araç çubuğunda sol ve sağ ok', 'Düğmeleri arasında gezinir.'],
+        ],
+        notes: [
+          'İçerik, <code>aria-multiline</code> taşıyan, <code>label</code> ile adlandırılan ve yer tutucusu <code>aria-placeholder</code> içinde bulunan bir <code>textbox</code> öğesidir.',
+          'Araç çubuğu, tek sekme durağı olan bir WAI-ARIA toolbar öğesidir: biçimler <code>aria-pressed</code> taşıyan geçiş düğmeleridir ve her düğme kısayolunu <code>aria-keyshortcuts</code> içinde ve araç ipucunda belirtir.',
+          'Araç çubuğu komutları odağı metne geri verir; bağlantı diyaloğu da Esc ile metne döner. Tab asla takılıp kalmaz: listelerin dışında düzenleyiciden çıkar.',
         ],
       },
     },
