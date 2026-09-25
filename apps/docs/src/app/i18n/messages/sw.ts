@@ -1234,7 +1234,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Kadi kwenye simu',
-            text: '<code>layout="list"</code> huonyesha safu kama kadi, na <code>auto</code> hufanya hivyo upana ukiwa chini ya 36rem. Kadi hazina safu ya vichwa, hivyo upau wa zana huzipanga, na kitufe chake cha “Filter” hufungua paneli ya safu wima unayochagua. <code>toolbar</code> inaweza pia kuuonyesha juu ya jedwali, au kuuondoa.',
+            text: '<code>layout="list"</code> huonyesha safu kama kadi, na <code>auto</code> hufanya hivyo upana ukiwa chini ya 36rem. Kadi hazina safu ya vichwa, hivyo upau wa zana huzipanga na kuzichagua zote, na kitufe chake cha “Filter” hufungua paneli ya safu wima unayochagua. <code>toolbar</code> inaweza pia kuuonyesha juu ya jedwali, au kuuondoa.',
           },
         },
         api: {
@@ -1279,7 +1279,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> huonyesha safu kama kadi, na <code>auto</code> hufanya hivyo kwenye skrini nyembamba.',
               toolbar:
-                'Upau unaopanga safu na kufungua paneli ya safu wima: daima, kamwe, au kwa <code>auto</code> pamoja na kadi.',
+                'Upau unaopanga na kuchuja safu, na kuzichagua zote: daima, kamwe, au kwa <code>auto</code> pamoja na kadi.',
               'exportXlsx, print':
                 'Safu zilizochujwa na kupangwa, kama lahajedwali; huchapisha safu zote.',
             },
@@ -1370,7 +1370,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> na <code>aria-colindex</code> hubaki sahihi safu zikigawanywa kwa kurasa au kwa virtual scrolling.',
           'Mabadiliko ya upangaji, uchujaji na kurasa, pamoja na makosa ya uhariri, hutangazwa kwa upole (polite) katika eneo la hali.',
           'Safu zilizo katika makundi au ndani ya safu nyingine hufanya jedwali kuwa <code>treegrid</code>: safu hubeba <code>aria-level</code>, <code>aria-setsize</code> na <code>aria-posinset</code>, na <code>aria-expanded</code> zinapoweza kufunguka. Thamani za muhtasari husomwa pamoja na aina yake, kama “Sum: 475”.',
-          'Kadi hazina safu ya vichwa, hivyo upau wa zana huja kwanza: kikundi chenye jina “Sort and filter” kilicho na select yenye lebo inayochagua safu wima ya kupanga, vitufe vya kugeuza vya mwelekeo wa upangaji, na kitufe cha “Filter” kinachofungua paneli ya safu wima, ambamo select huchagua safu wima. Kituo cha Tab cha gridi huhamia kwenye kadi ya kwanza.',
+          'Kadi hazina safu ya vichwa, hivyo upau wa zana huja kwanza: kikundi chenye jina “Sort and filter” kilicho na select yenye lebo inayochagua safu wima ya kupanga, vitufe vya kugeuza vya mwelekeo wa upangaji, checkbox ya “Select all rows” safu nyingi zikiweza kuchaguliwa, na kitufe cha “Filter” kinachofungua paneli ya safu wima, ambamo select huchagua safu wima. Kituo cha Tab cha gridi huhamia kwenye kadi ya kwanza.',
         ],
       },
       chat: {

@@ -1243,7 +1243,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Cartes sur téléphone',
-            text: '<code>layout="list"</code> affiche les lignes sous forme de cartes, et <code>auto</code> le fait en dessous de 36rem. Les cartes n’ont pas de ligne d’en-tête, donc une barre d’outils les trie, et son bouton « Filter » ouvre le panneau de la colonne que vous choisissez. <code>toolbar</code> peut aussi l’afficher au-dessus d’un tableau, ou l’omettre.',
+            text: '<code>layout="list"</code> affiche les lignes sous forme de cartes, et <code>auto</code> le fait en dessous de 36rem. Les cartes n’ont pas de ligne d’en-tête, donc une barre d’outils les trie et les sélectionne toutes, et son bouton « Filter » ouvre le panneau de la colonne que vous choisissez. <code>toolbar</code> peut aussi l’afficher au-dessus d’un tableau, ou l’omettre.',
           },
         },
         api: {
@@ -1289,7 +1289,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> affiche les lignes sous forme de cartes, et <code>auto</code> le fait sur les écrans étroits.',
               toolbar:
-                'Une barre qui trie les lignes et ouvre le panneau de la colonne : toujours, jamais, ou <code>auto</code> avec les cartes.',
+                'Une barre qui trie, filtre et sélectionne toutes les lignes : toujours, jamais, ou <code>auto</code> avec les cartes.',
               'exportXlsx, print':
                 'Les lignes filtrées et triées sous forme de feuille de calcul ; imprime toutes les lignes.',
             },
@@ -1383,7 +1383,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> et <code>aria-colindex</code> restent justes quand les lignes sont paginées ou virtualisées.',
           'Le tri, le filtrage, la pagination et les erreurs d’édition sont annoncés poliment dans une région d’état.',
           'Des lignes groupées ou imbriquées font du tableau un <code>treegrid</code> : les lignes portent <code>aria-level</code>, <code>aria-setsize</code> et <code>aria-posinset</code>, et <code>aria-expanded</code> quand elles peuvent s’ouvrir. Les agrégats sont lus avec leur type, par exemple « Sum: 475 ».',
-          'Les cartes n’ont pas de ligne d’en-tête, donc une barre d’outils vient en premier : un groupe nommé « Sort and filter » avec un select étiqueté pour la colonne de tri, des boutons bascules pour le sens du tri et un bouton « Filter » qui ouvre le panneau de la colonne, où un select choisit la colonne. L’arrêt de tabulation de la grille passe à la première carte.',
+          'Les cartes n’ont pas de ligne d’en-tête, donc une barre d’outils vient en premier : un groupe nommé « Sort and filter » avec un select étiqueté pour la colonne de tri, des boutons bascules pour le sens du tri, une case « Select all rows » avec la sélection multiple et un bouton « Filter » qui ouvre le panneau de la colonne, où un select choisit la colonne. L’arrêt de tabulation de la grille passe à la première carte.',
         ],
       },
       chat: {

@@ -1240,7 +1240,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Katuna a wayoyi',
-            text: '<code>layout="list"</code> yana nuna layuka a matsayin katuna, <code>auto</code> kuma yana yin haka idan faɗi bai kai 36rem ba. Katuna ba su da layin take, don haka toolbar ne ke jera su, kuma maɓallinsa na “Filter” yana buɗe panel na ginshiƙin da kuka zaɓa. <code>toolbar</code> kuma yana iya nuna shi a saman tebur, ko ya cire shi.',
+            text: '<code>layout="list"</code> yana nuna layuka a matsayin katuna, <code>auto</code> kuma yana yin haka idan faɗi bai kai 36rem ba. Katuna ba su da layin take, don haka toolbar ne ke jera su da kuma zaɓar dukansu, kuma maɓallinsa na “Filter” yana buɗe panel na ginshiƙin da kuka zaɓa. <code>toolbar</code> kuma yana iya nuna shi a saman tebur, ko ya cire shi.',
           },
         },
         api: {
@@ -1288,7 +1288,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> yana nuna layuka a matsayin katuna, <code>auto</code> kuma yana yin haka a ƙananan allo.',
               toolbar:
-                'Sanda da ke jera layuka kuma tana buɗe panel na ginshiƙi: koyaushe, ba ko kaɗan, ko <code>auto</code> tare da katuna.',
+                'Sanda da ke jera layuka, tana tace su, kuma tana zaɓar dukansu: koyaushe, ba ko kaɗan, ko <code>auto</code> tare da katuna.',
               'exportXlsx, print':
                 'Layukan da aka tace aka jera a matsayin spreadsheet; yana buga kowane layi.',
             },
@@ -1378,7 +1378,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> da <code>aria-colindex</code> suna zama daidai yayin da aka raba layuka zuwa shafuka ko ake nuna wasu kawai.',
           'Ana sanar da jerawa, tacewa, sauya shafi da kurakuran gyarawa a yankin yanayi, cikin ladabi (polite).',
           'Layukan da aka rukunta ko ke cikin juna suna mayar da teburin <code>treegrid</code>: layuka suna ɗauke da <code>aria-level</code>, <code>aria-setsize</code> da <code>aria-posinset</code>, da <code>aria-expanded</code> idan suna buɗewa. Ana karanta aggregates tare da irinsu, kamar “Sum: 475”.',
-          'Katuna ba su da layin take, don haka toolbar ne ke zuwa da farko: rukuni mai suna “Sort and filter”, mai ɗauke da select mai lakabi don ginshiƙin da za a jera bisa shi, maɓallan toggle don alkiblar jerawa, da maɓallin “Filter” da ke buɗe panel na ginshiƙi, inda select ke zaɓar ginshiƙin. Wurin grid ɗin a jerin Tab yana matsawa zuwa katin farko.',
+          'Katuna ba su da layin take, don haka toolbar ne ke zuwa da farko: rukuni mai suna “Sort and filter”, mai ɗauke da select mai lakabi don ginshiƙin da za a jera bisa shi, maɓallan toggle don alkiblar jerawa, checkbox “Select all rows” idan ana iya zaɓar layuka da yawa, da maɓallin “Filter” da ke buɗe panel na ginshiƙi, inda select ke zaɓar ginshiƙin. Wurin grid ɗin a jerin Tab yana matsawa zuwa katin farko.',
         ],
       },
       chat: {

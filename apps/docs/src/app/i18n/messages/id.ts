@@ -1236,7 +1236,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Kartu di ponsel',
-            text: '<code>layout="list"</code> menampilkan baris sebagai kartu, dan <code>auto</code> melakukannya pada lebar di bawah 36rem. Kartu tidak memiliki baris header, jadi sebuah toolbar mengurutkannya, dan tombol “Filter” di dalamnya membuka panel kolom untuk kolom yang Anda pilih. <code>toolbar</code> juga bisa menampilkannya di atas tabel, atau menghilangkannya.',
+            text: '<code>layout="list"</code> menampilkan baris sebagai kartu, dan <code>auto</code> melakukannya pada lebar di bawah 36rem. Kartu tidak memiliki baris header, jadi sebuah toolbar mengurutkan dan memilih semuanya, dan tombol “Filter” di dalamnya membuka panel kolom untuk kolom yang Anda pilih. <code>toolbar</code> juga bisa menampilkannya di atas tabel, atau menghilangkannya.',
           },
         },
         api: {
@@ -1282,7 +1282,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> menampilkan baris sebagai kartu, dan <code>auto</code> melakukannya di layar sempit.',
               toolbar:
-                'Bilah yang mengurutkan baris dan membuka panel kolom: selalu, tidak pernah, atau <code>auto</code> bersama kartu.',
+                'Bilah yang mengurutkan, menyaring, dan memilih semua baris: selalu, tidak pernah, atau <code>auto</code> bersama kartu.',
               'exportXlsx, print':
                 'Baris yang tersaring dan terurut sebagai spreadsheet; mencetak semua baris.',
             },
@@ -1363,7 +1363,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code>, dan <code>aria-colindex</code> tetap benar saat baris dipaginasi atau divirtualisasi.',
           'Pengurutan, penyaringan, perpindahan halaman, dan error pengeditan diumumkan secara polite di region status.',
           'Baris yang dikelompokkan atau bertingkat menjadikan tabel sebuah <code>treegrid</code>: baris memiliki <code>aria-level</code>, <code>aria-setsize</code>, dan <code>aria-posinset</code>, serta <code>aria-expanded</code> jika bisa dibuka. Agregat dibacakan beserta jenisnya, misalnya “Sum: 475”.',
-          'Kartu tidak memiliki baris header, jadi toolbar muncul lebih dulu: grup bernama “Sort and filter” yang berisi select berlabel untuk memilih kolom pengurutan, tombol toggle untuk arahnya, dan tombol “Filter” yang membuka panel kolom, tempat sebuah select memilih kolomnya. Perhentian tab grid berpindah ke kartu pertama.',
+          'Kartu tidak memiliki baris header, jadi toolbar muncul lebih dulu: grup bernama “Sort and filter” yang berisi select berlabel untuk memilih kolom pengurutan, tombol toggle untuk arahnya, checkbox “Select all rows” saat beberapa baris bisa dipilih, dan tombol “Filter” yang membuka panel kolom, tempat sebuah select memilih kolomnya. Perhentian tab grid berpindah ke kartu pertama.',
         ],
       },
       chat: {

@@ -1253,7 +1253,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Karten auf Smartphones',
-            text: '<code>layout="list"</code> zeigt Zeilen als Karten, <code>auto</code> unter 36rem. Karten haben keine Kopfzeile, deshalb sortiert sie eine Toolbar, und ihr Button „Filter“ öffnet das Spalten-Panel für die Spalte, die du wählst. <code>toolbar</code> kann sie auch über einer Tabelle zeigen oder weglassen.',
+            text: '<code>layout="list"</code> zeigt Zeilen als Karten, <code>auto</code> unter 36rem. Karten haben keine Kopfzeile, deshalb sortiert sie eine Toolbar und wählt sie alle aus, und ihr Button „Filter“ öffnet das Spalten-Panel für die Spalte, die du wählst. <code>toolbar</code> kann sie auch über einer Tabelle zeigen oder weglassen.',
           },
         },
         api: {
@@ -1299,7 +1299,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> zeigt Zeilen als Karten, <code>auto</code> nur auf schmalen Bildschirmen.',
               toolbar:
-                'Eine Leiste, die die Zeilen sortiert und das Spalten-Panel öffnet: immer, nie oder <code>auto</code> bei Karten.',
+                'Eine Leiste, die die Zeilen sortiert, filtert und alle auswählt: immer, nie oder <code>auto</code> bei Karten.',
               'exportXlsx, print':
                 'Die gefilterten, sortierten Zeilen als Tabellenkalkulationsdatei; druckt alle Zeilen.',
             },
@@ -1402,7 +1402,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> und <code>aria-colindex</code> bleiben korrekt, auch wenn Zeilen paginiert oder virtualisiert sind.',
           'Sortierung, Filter, Seitenwechsel und Bearbeitungsfehler werden höflich über eine Statusregion angesagt.',
           'Gruppierte oder verschachtelte Zeilen machen die Tabelle zu einem <code>treegrid</code>: Zeilen tragen <code>aria-level</code>, <code>aria-setsize</code> und <code>aria-posinset</code> sowie <code>aria-expanded</code>, wenn sie sich aufklappen lassen. Aggregate werden mit ihrer Art vorgelesen, etwa „Sum: 475“.',
-          'Karten haben keine Kopfzeile, daher kommt zuerst eine Toolbar: eine Gruppe namens „Sort and filter“ mit einem beschrifteten Select für die Spalte, nach der sortiert wird, Toggle-Buttons für die Richtung und einem Button „Filter“, der das Spalten-Panel öffnet, in dem ein Select die Spalte wählt. Der Tab-Stopp des Grids wandert zur ersten Karte.',
+          'Karten haben keine Kopfzeile, daher kommt zuerst eine Toolbar: eine Gruppe namens „Sort and filter“ mit einem beschrifteten Select für die Spalte, nach der sortiert wird, Toggle-Buttons für die Richtung, einer Checkbox „Select all rows“ bei Mehrfachauswahl und einem Button „Filter“, der das Spalten-Panel öffnet, in dem ein Select die Spalte wählt. Der Tab-Stopp des Grids wandert zur ersten Karte.',
         ],
       },
       chat: {

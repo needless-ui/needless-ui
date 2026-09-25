@@ -1226,7 +1226,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Kertu ing HP',
-            text: '<code>layout="list"</code> nampilake baris minangka kertu, lan <code>auto</code> uga mengkono ing ambane kurang saka 36rem. Kertu ora duwe baris header, dadi toolbar sing ngurutake kertu, lan tombol “Filter” ing njerone mbukak panel kolom kanggo kolom sing panjenengan pilih. <code>toolbar</code> uga bisa nampilake ing sadhuwure tabel, utawa ngilangi.',
+            text: '<code>layout="list"</code> nampilake baris minangka kertu, lan <code>auto</code> uga mengkono ing ambane kurang saka 36rem. Kertu ora duwe baris header, dadi toolbar sing ngurutake lan milih kabeh kertu, lan tombol “Filter” ing njerone mbukak panel kolom kanggo kolom sing panjenengan pilih. <code>toolbar</code> uga bisa nampilake ing sadhuwure tabel, utawa ngilangi.',
           },
         },
         api: {
@@ -1273,7 +1273,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> nampilake baris minangka kertu, lan <code>auto</code> uga mengkono ing layar sing ciut.',
               toolbar:
-                'Bar sing ngurutake baris lan mbukak panel kolom: tansah, ora tau, utawa kanthi <code>auto</code> bareng kertu.',
+                'Bar sing ngurutake, nyaring lan milih kabeh baris: tansah, ora tau, utawa kanthi <code>auto</code> bareng kertu.',
               'exportXlsx, print':
                 'Baris sing wis disaring lan diurutake minangka spreadsheet; nyithak kabeh baris.',
             },
@@ -1361,7 +1361,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> lan <code>aria-colindex</code> tetep bener nalika baris dibagi dadi kaca utawa nganggo virtual scrolling.',
           'Owah-owahan urutan, saringan lan kaca, uga kesalahan nyunting, diumumake kanthi sopan (polite) ing wilayah status.',
           'Baris sing diklompokake utawa susun ndadekake tabel dadi <code>treegrid</code>: baris nggawa <code>aria-level</code>, <code>aria-setsize</code> lan <code>aria-posinset</code>, uga <code>aria-expanded</code> yen bisa dibukak. Agregat diwaca bareng jinise, kayata “Sum: 475”.',
-          'Kertu ora duwe baris header, dadi toolbar teka dhisik: klompok kanthi jeneng “Sort and filter” sing isine select sing duwe label kanggo milih kolom sing dienggo ngurutake, tombol toggle kanggo arahe, lan tombol “Filter” sing mbukak panel kolom; ing panel kasebut, select milih kolome. Tab stop grid pindhah menyang kertu kapisan.',
+          'Kertu ora duwe baris header, dadi toolbar teka dhisik: klompok kanthi jeneng “Sort and filter” sing isine select sing duwe label kanggo milih kolom sing dienggo ngurutake, tombol toggle kanggo arahe, checkbox “Select all rows” yen bisa milih pirang-pirang baris, lan tombol “Filter” sing mbukak panel kolom; ing panel kasebut, select milih kolome. Tab stop grid pindhah menyang kertu kapisan.',
         ],
       },
       chat: {

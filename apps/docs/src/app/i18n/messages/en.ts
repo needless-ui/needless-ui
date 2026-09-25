@@ -1215,7 +1215,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Cards on phones',
-            text: '<code>layout="list"</code> shows rows as cards, and <code>auto</code> does below 36rem. Cards have no header row, so a toolbar sorts them, and its Filter button opens the column panel for the column you pick. <code>toolbar</code> can also show it over a table, or leave it out.',
+            text: '<code>layout="list"</code> shows rows as cards, and <code>auto</code> does below 36rem. Cards have no header row, so a toolbar sorts them and selects them all, and its Filter button opens the column panel for the column you pick. <code>toolbar</code> can also show it over a table, or leave it out.',
           },
         },
         api: {
@@ -1259,7 +1259,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> shows rows as cards, and <code>auto</code> does on narrow screens.',
               toolbar:
-                'A bar that sorts the rows and opens the column panel: always, never, or <code>auto</code> with cards.',
+                'A bar that sorts, filters and selects all rows: always, never, or <code>auto</code> with cards.',
               'exportXlsx, print': 'The filtered, sorted rows as a spreadsheet; prints every row.',
             },
           },
@@ -1335,7 +1335,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> and <code>aria-colindex</code> stay right while rows are paged or virtualized.',
           'Sorting, filtering, paging and editing errors are announced in a polite status region.',
           'Grouped or nested rows make the table a <code>treegrid</code>: rows carry <code>aria-level</code>, <code>aria-setsize</code> and <code>aria-posinset</code>, and <code>aria-expanded</code> when they open. Aggregates are read with their kind, such as “Sum: 475”.',
-          'Cards have no header row, so a toolbar comes first: a group named “Sort and filter” with a labeled select for the column to sort by, toggle buttons for the direction, and a Filter button that opens the column panel, where a select picks the column. The grid’s tab stop moves to the first card.',
+          'Cards have no header row, so a toolbar comes first: a group named “Sort and filter” with a labeled select for the column to sort by, toggle buttons for the direction, a “Select all rows” checkbox with multiple selection, and a Filter button that opens the column panel, where a select picks the column. The grid’s tab stop moves to the first card.',
         ],
       },
       chat: {

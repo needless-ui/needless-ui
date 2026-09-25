@@ -1231,7 +1231,7 @@ export const messages: Messages = {
           },
           cards: {
             title: 'Card sui telefoni',
-            text: '<code>layout="list"</code> mostra le righe come card, e <code>auto</code> lo fa sotto i 36rem. Le card non hanno una riga di intestazione, quindi una barra degli strumenti le ordina, e il suo pulsante «Filter» apre il pannello della colonna che scegli. <code>toolbar</code> può anche mostrarla sopra una tabella, o ometterla.',
+            text: '<code>layout="list"</code> mostra le righe come card, e <code>auto</code> lo fa sotto i 36rem. Le card non hanno una riga di intestazione, quindi una barra degli strumenti le ordina e le seleziona tutte, e il suo pulsante «Filter» apre il pannello della colonna che scegli. <code>toolbar</code> può anche mostrarla sopra una tabella, o ometterla.',
           },
         },
         api: {
@@ -1276,7 +1276,7 @@ export const messages: Messages = {
               layout:
                 '<code>list</code> mostra le righe come card, e <code>auto</code> lo fa sugli schermi stretti.',
               toolbar:
-                'Una barra che ordina le righe e apre il pannello della colonna: sempre, mai, o <code>auto</code> con le card.',
+                'Una barra che ordina, filtra e seleziona tutte le righe: sempre, mai, o <code>auto</code> con le card.',
               'exportXlsx, print':
                 'Le righe filtrate e ordinate come foglio di calcolo; stampa tutte le righe.',
             },
@@ -1361,7 +1361,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> e <code>aria-colindex</code> restano corretti anche con righe paginate o virtualizzate.',
           'Ordinamento, filtri, paginazione ed errori di modifica vengono annunciati in modo cortese in una regione di stato.',
           'Le righe raggruppate o annidate fanno della tabella un <code>treegrid</code>: le righe hanno <code>aria-level</code>, <code>aria-setsize</code> e <code>aria-posinset</code>, e <code>aria-expanded</code> quando si possono aprire. Gli aggregati vengono letti con il loro tipo, come «Sum: 475».',
-          'Le card non hanno una riga di intestazione, quindi prima viene una barra degli strumenti: un gruppo chiamato «Sort and filter» con una select etichettata per la colonna di ordinamento, pulsanti toggle per la direzione e un pulsante «Filter» che apre il pannello della colonna, dove una select sceglie la colonna. Il tab stop della griglia passa alla prima card.',
+          'Le card non hanno una riga di intestazione, quindi prima viene una barra degli strumenti: un gruppo chiamato «Sort and filter» con una select etichettata per la colonna di ordinamento, pulsanti toggle per la direzione, una checkbox «Select all rows» con la selezione multipla e un pulsante «Filter» che apre il pannello della colonna, dove una select sceglie la colonna. Il tab stop della griglia passa alla prima card.',
         ],
       },
       chat: {

@@ -548,7 +548,7 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       {
         id: 'cards',
         load: () => import('../examples/grid/cards').then((m) => m.GridCardsExample),
-        defer: 480,
+        defer: 590,
       },
     ],
   },
