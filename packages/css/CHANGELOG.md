@@ -1,5 +1,96 @@
 # @needless-ui/css
 
+## 0.6.1
+
+### Patch Changes
+
+- [`104e05c`](https://github.com/needless-ui/needless-ui/commit/104e05c6fba1d2f5fa8cdda7381c6a11f4e62ba0) - Every component now runs its tests in Chromium, Firefox and WebKit, and `specs/browser-support.md` lists the supported browsers: Chrome and Edge 120, Firefox 125, Safari 17 and iOS 17. What that turned up:
+
+  - **Safari doesn't focus the buttons it clicks.**
+    - The select focuses its trigger when its list opens, so keys pressed after opening it by mouse work there too (the phone field's country list included).
+    - A popover trigger focuses itself when clicked, so Tab goes on into the popover and focus comes back to the trigger on close.
+    - A clicked rating star takes focus, so the arrow keys go on from it.
+    - A dialog returns focus to the control that opened it, instead of leaving it on the page.
+  - **Avatar initials** split names at spaces instead of using `Intl.Segmenter`'s word dictionaries. Firefox has none for Chinese, so a name like 毛泽东 got no initials there.
+  - **Dropzone:** files whose folder entries can't be read (dragged in from some apps) arrive as plain files instead of not at all.
+  - **Drags** (splitter handles, the color area, grid column edges, toast swipes) no longer fail when the pointer can't be captured, as with synthetic events in tests.
+  - **CSS:**
+    - The dialog backdrop gets a fallback color where `::backdrop` can't read custom properties (Chrome 120–121, Safari 17.0–17.3).
+    - The carousel's rotation ring stays drawn without `@property` (Firefox 125–127).
+    - The bundle's prefixes target the supported browsers.
+
+- [`c3580b1`](https://github.com/needless-ui/needless-ui/commit/c3580b19a304ff601b4e24ea038a2dee5f7ca15f) - **Rich text editor:** list items nest from the toolbar, for touch screens, which have no Tab key.
+
+  - New `indent` and `outdent` tools move the list items in the selection a level in or out, as Tab and Shift+Tab do. Their buttons are enabled only in a list (Indent only above the deepest level) and name Tab and Shift+Tab as their keys. Their labels are `indent` and `outdent` in `NuiEditorLabels`.
+  - The default toolbar (`NUI_EDITOR_TOOLS`) has them after the lists, on touch screens only: a phone or a tablet on its own, `(hover: none) and (pointer: coarse)`. Listed in other `tools`, they show on every screen. On other screens the CSS hides them (`data-touch`) until the editor runs and drops them, so a page rendered on the server doesn't shift when it starts.
+  - Outdenting a top-level item, with the button or Shift+Tab, turns it into a paragraph, as Backspace does. Shift+Tab used to leave it as it was.
+  - A click or a tap on a toolbar button leaves focus in the text, so a phone's on-screen keyboard stays open. Before, the toolbar moved focus to the button after the command ran, and a click on Link, once its form had opened, left focus on the button instead of the address field.
+  - Buttons that can't act, such as Undo with nothing to undo, are `aria-disabled` from the start; the attribute used to say `false` until the first edit. They stay in the toolbar's arrow-key order.
+  - CSS: icons for the two tools, turned for right-to-left text.
+
+- [`2b6ceff`](https://github.com/needless-ui/needless-ui/commit/2b6ceff3b793c95a8211545a5e1946d910447b48) - **Grid:** cards (`layout="list"`, or `auto` below 36rem) hide the header row, and with it the sort buttons and the column menus, so on phones rows could be neither sorted nor filtered. A toolbar above the cards now does both:
+
+  - A "Sort by" select with the visible columns that sort, and ascending and descending buttons. Choosing a column replaces the sort; the buttons turn its first column around.
+  - A Filter button that opens the column panel, with a select to pick the column. It counts the columns that filter. On cards, the panel leaves out pinning and fitting, which cards have no use for.
+  - `toolbar` shows the bar over a table too (`true`), or never (`false`). It defaults to `auto`: with cards.
+  - The controls are at least 24px, taller on touch screens, and the select has 16px text there so iPhones don't zoom into it.
+
+  `NuiGridLabels` gains `toolbar`, `sortBy`, `unsorted`, `column` and `activeFilters` for the toolbar's words.
+
+  Cards also move the grid's tab stop into the rows. It stayed on the hidden header row, so Tab never reached cards, and the arrow keys and `focusCell()` could go up to a row that isn't there.
+
+  The grid's rules for its header, totals and print layout now start at `.nui-grid`. A bare `thead` let critical-CSS tools inline the header's rule into every page with a table, and in print a bare `[data-pinned]` reached elements outside the grid.
+
+- [`1119df4`](https://github.com/needless-ui/needless-ui/commit/1119df4bf2b522562c84e418431d6a73333ae707) - **Grid:** cards hide the header row, and with it the checkbox that selects every row, so on touch screens, with `selection="multiple"`, rows could only be selected one at a time (Ctrl + A needs a keyboard). The toolbar now has a "Select all rows" checkbox:
+
+  - A native checkbox named by its label on screen (`NuiGridLabels.selectAll`). Like the header's, it's checked when every row that passes the filters is selected and mixed when some are, and it selects or clears them all.
+  - It comes after the sort buttons, so on a narrow toolbar it wraps to the start of the second line, above the cards' checkboxes. The whole label is its target, as tall as the other controls and taller on touch screens.
+  - The toolbar also shows for it alone, when no column sorts or filters.
+
+  Both select-all checkboxes are disabled while no row passes the filters. A click on the header's used to check it with nothing selected. `NuiGridEngine.selectableKeys` holds the keys that select all acts on.
+
+  Cards line their checkboxes up with the column names and the toolbar's, and a selected, hovered or group card is colored to its edges.
+
+- [`3801ef9`](https://github.com/needless-ui/needless-ui/commit/3801ef95d63541adc6a6c0f284ac27b69d31268b) - Found by trying every component with a finger in Safari on iOS 17:
+
+  - **Select, combobox, phone field and command palette:** their option lists opened empty in Safari 17, whose flexbox gave a `flex: 1` list no height inside a popup sized by its content. The lists now take `flex: 1 1 auto`.
+  - **Dialog:** with the on-screen keyboard up, Safari on iPhone left a strip of the page below the backdrop undimmed. The backdrop now reaches past the viewport.
+  - **OTP input:** Safari on iPhone drew its own caret beside the first slot, whatever `caret-color` said. The hidden text now starts out of view there.
+  - **Chat:** tapping send took focus from the field, so a phone's keyboard closed after every message. The button no longer takes focus.
+
+- [`317efe7`](https://github.com/needless-ui/needless-ui/commit/317efe7322cd97d15fba178932ab145ade5fbefc) - Every component was tried on phones and tablets, with touch and on-screen keyboards. What that turned up:
+
+  - **Rich text editor:** words from keyboards that compose them (Android keyboards compose every word) no longer end up scrambled. The editor redraws once each composition ends and measures the text actually on screen.
+  - **Scheduler:**
+    - A scroll that started on an event or a cell used to leave a drag half-done, and the next tap anywhere moved or created an event. Now a drag the browser takes back changes nothing.
+    - On touch screens, a long press picks an event up (or starts choosing time), and the finger then drags it instead of scrolling the page. The resize edge is taller for a finger.
+    - The scheduler narrows with its container instead of pushing past it, and keeps its times in view as a week scrolls sideways.
+  - **Date and time fields:** text a keyboard composes is taken once, when the composition ends, instead of piling up in the segment ("AaM").
+  - **Number field:** a lone `.` or `,` reads as the decimal point unless three digits follow it, since a phone's keypad has its region's separator, not the page's. Fixed along the way: with `maximumFractionDigits: 0`, German numbers read their group separator as a decimal point. On iPhone and iPad, a field that takes negatives asks for the text keyboard, because the number pad has no minus key.
+  - **OTP input:** tapping a slot selects its character, as a click does. Characters a keyboard composes that the pattern doesn't allow are cleaned out.
+  - **Grid:**
+    - A tap on the active cell starts editing it, since touch screens have no double click.
+    - A sideways scroll that starts on a header no longer moves the column; dragging headers is left to the column menu on touch.
+    - Column edges are wider and always visible for a finger.
+  - **Menu:** a tap outside closes it, even when the tapped trigger didn't take focus, as in Safari. The trigger focuses itself when clicked.
+  - **Popups** stay in the visible part of the page, above the on-screen keyboard, and go below their anchor when there's no room beside it. With an arrow, a popover that's taller than its room scrolls, and its arrow goes.
+  - **Tour:** a card with no room above or below its target goes in the middle instead of shrinking until its buttons are out of reach, and scrolls on short screens.
+  - **Chat:** `sendOn` defaults to a new `auto`. Enter sends where there's a keyboard and a pointer; on touch screens, Return makes a new line and the button sends, as in message editing. `enterkeyhint` says which.
+  - **Combobox:** its buttons no longer bring up the on-screen keyboard when tapped, and the option lists don't highlight or scroll under a finger.
+  - **Date range picker:** one month on screens under 40rem, where two months stacked were taller than the screen.
+  - **Carousel:** a finger on the slides stops the rotation for good, as keyboard focus does.
+  - **Masks:** no autocorrect or spell check.
+  - **CSS:**
+    - Fields have at least 16px of text on touch screens, so Safari on iPhone doesn't zoom into them.
+    - Splitter handles and color slider thumbs grow for a finger.
+    - The breadcrumbs, color picker, date range picker, OTP input and phone field narrow down to 320px wide.
+    - The dropzone's folder button hides on phones and tablets, and the command palette hides its key hints there.
+    - Toasts stay clear of a phone's safe areas.
+    - Presses show on iOS: components register the touch listener Safari needs to match `:active`.
+
+- Updated dependencies []:
+  - @needless-ui/tokens@0.6.1
+
 ## 0.6.0
 
 ### Minor Changes

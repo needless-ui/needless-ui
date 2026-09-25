@@ -1,6 +1,6 @@
 {
   "name": "@needless-ui/css",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Framework-free component styles for Needless UI. Works with Angular, React or plain HTML.",
   "license": "MIT",
   "type": "module",
