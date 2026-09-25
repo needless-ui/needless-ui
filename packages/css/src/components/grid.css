@@ -115,7 +115,9 @@
     text-align: center;
   }
 
-  :is(.nui-grid-select, .nui-grid-select-all) input {
+  /* Selector lists, not :is(): critical-CSS tools match :is(…) input as any input. */
+  .nui-grid-select input,
+  .nui-grid-select-all input {
     inline-size: 1rem;
     block-size: 1rem;
     margin: 0;
@@ -124,7 +126,8 @@
     cursor: pointer;
   }
 
-  :is(.nui-grid-select, .nui-grid-select-all) input:disabled {
+  .nui-grid-select input:disabled,
+  .nui-grid-select-all input:disabled {
     cursor: default;
   }
 
