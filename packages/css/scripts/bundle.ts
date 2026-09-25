@@ -9,13 +9,17 @@ const LAYERS = new URL('../src/layers.css', import.meta.url);
 
 const version = (major: number, minor = 0) => (major << 16) | (minor << 8);
 
-/** Roughly Baseline "widely available" as of Angular 22; used for vendor prefixes. */
+/**
+ * The oldest browsers Needless UI supports (specs/browser-support.md): Firefox
+ * 125 and Safari 17 bring the Popover API, Chrome and Edge 120 unprefixed masks
+ * and `:dir()`. Used for vendor prefixes.
+ */
 export const TARGETS: Targets = {
-  chrome: version(122),
-  edge: version(122),
-  firefox: version(124),
-  safari: version(17, 4),
-  ios_saf: version(17, 4),
+  chrome: version(120),
+  edge: version(120),
+  firefox: version(125),
+  safari: version(17),
+  ios_saf: version(17),
 };
 
 /** Inlines every @import, resolving bare specifiers through package `exports`. */

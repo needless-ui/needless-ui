@@ -222,6 +222,12 @@ export async function nuiDroppedFiles(
       }
     }
   };
-  for (const entry of entries) await walk(entry!);
+  try {
+    for (const entry of entries) await walk(entry!);
+  } catch {
+    // An entry that can't be read (dragged from another app, or made by a script,
+    // which WebKit can't read back): the files as they are, without folders.
+    return [...transfer.files].map((file) => ({ file, path: file.name }));
+  }
   return out;
 }

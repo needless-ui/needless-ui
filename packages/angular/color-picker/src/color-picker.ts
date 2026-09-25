@@ -426,7 +426,10 @@ export class NuiColorPicker implements ControlValueAccessor {
   protected onAreaDown(event: PointerEvent): void {
     if (this.isDisabled() || event.button !== 0) return;
     const area = event.currentTarget as HTMLElement;
-    area.setPointerCapture?.(event.pointerId);
+    // A pointer that isn't live (a synthetic event, one already lifted) can't be captured.
+    try {
+      area.setPointerCapture(event.pointerId);
+    } catch {}
     this.dragging.set(true);
     this.thumb().nativeElement.focus({ preventScroll: true });
     event.preventDefault();

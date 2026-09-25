@@ -39,7 +39,21 @@ async function setup() {
     await fixture.whenStable();
     await new Promise((resolve) => requestAnimationFrame(resolve));
   };
-  return { fixture, host: fixture.componentInstance, trigger, menu, items, isOpen, settle };
+  /** Opens the menu with a click, and waits until focus has moved into it. */
+  const clickOpen = async () => {
+    await userEvent.click(trigger);
+    await expect.poll(() => isOpen() && menu.contains(document.activeElement)).toBe(true);
+  };
+  return {
+    fixture,
+    host: fixture.componentInstance,
+    trigger,
+    menu,
+    items,
+    isOpen,
+    settle,
+    clickOpen,
+  };
 }
 
 describe('NuiMenu', () => {
@@ -57,9 +71,8 @@ describe('NuiMenu', () => {
   });
 
   it('opens below the trigger on click and focuses the first item', async () => {
-    const { trigger, menu, items, isOpen, settle } = await setup();
-    await userEvent.click(trigger);
-    await settle();
+    const { trigger, menu, items, isOpen, settle, clickOpen } = await setup();
+    await clickOpen();
 
     expect(isOpen()).toBe(true);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
@@ -95,10 +108,9 @@ describe('NuiMenu', () => {
   });
 
   it('opens submenus with the right arrow and reports their choices through the root', async () => {
-    const { host, trigger, items, isOpen, settle } = await setup();
+    const { host, trigger, items, isOpen, settle, clickOpen } = await setup();
     const [, , , more, archive] = items;
-    await userEvent.click(trigger);
-    await settle();
+    await clickOpen();
 
     await userEvent.keyboard('{End}');
     expect(document.activeElement).toBe(more);
@@ -117,18 +129,16 @@ describe('NuiMenu', () => {
   });
 
   it('jumps to an item by typing its first letter', async () => {
-    const { trigger, items, settle } = await setup();
-    await userEvent.click(trigger);
-    await settle();
+    const { trigger, items, settle, clickOpen } = await setup();
+    await clickOpen();
 
     await userEvent.keyboard('d');
     expect(document.activeElement).toBe(items[2]);
   });
 
   it('closes on Escape and returns focus to the trigger', async () => {
-    const { trigger, isOpen, settle } = await setup();
-    await userEvent.click(trigger);
-    await settle();
+    const { trigger, isOpen, settle, clickOpen } = await setup();
+    await clickOpen();
 
     await userEvent.keyboard('{Escape}');
     await settle();
@@ -137,9 +147,8 @@ describe('NuiMenu', () => {
   });
 
   it("emits the item's own (selected) output on click", async () => {
-    const { host, trigger, items, isOpen, settle } = await setup();
-    await userEvent.click(trigger);
-    await settle();
+    const { host, trigger, items, isOpen, settle, clickOpen } = await setup();
+    await clickOpen();
 
     await userEvent.click(items[0]);
     await settle();

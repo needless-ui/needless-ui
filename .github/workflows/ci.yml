@@ -25,8 +25,8 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - name: Install Chromium for browser tests
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Chromium, Firefox and WebKit for browser tests
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm build

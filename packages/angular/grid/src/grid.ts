@@ -678,7 +678,10 @@ export class NuiGrid<T> {
     event.preventDefault();
     event.stopPropagation();
     const handle = event.target as HTMLElement;
-    handle.setPointerCapture(event.pointerId);
+    // A pointer that isn't live (a synthetic event, one already lifted) can't be captured.
+    try {
+      handle.setPointerCapture(event.pointerId);
+    } catch {}
     const startX = event.clientX;
     const start = column.width;
     const sign = this.rtl() ? -1 : 1;

@@ -22,7 +22,18 @@ class Host {
   readonly readonly = signal(false);
 }
 
-const mod = /Mac|iPhone|iPad/.test(navigator.platform) ? 'Meta' : 'Control';
+const mac = /Mac|iPhone|iPad/.test(navigator.platform);
+const mod = mac ? 'Meta' : 'Control';
+// Home and End scroll on Apple platforms; there the Command arrows move along the line.
+const lineStart = mac ? '{Meta>}{ArrowLeft}{/Meta}' : '{Home}';
+const lineEnd = mac ? '{Meta>}{ArrowRight}{/Meta}' : '{End}';
+
+/** A paste of `data`. Firefox ignores `clipboardData` given to the event's constructor. */
+function pasteEvent(data: DataTransfer): ClipboardEvent {
+  const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true });
+  Object.defineProperty(event, 'clipboardData', { value: data });
+  return event;
+}
 
 async function setup(change?: (host: Host) => void) {
   const fixture = TestBed.createComponent(Host);
@@ -89,7 +100,7 @@ describe('NuiEditor', () => {
     await userEvent.type(content, '> quote{Enter}{Enter}after');
     await stable();
     expect(host.value()).toBe('<blockquote><p>quote</p></blockquote><p>after</p>');
-    await userEvent.keyboard('{Home}{Backspace}');
+    await userEvent.keyboard(`${lineStart}{Backspace}`);
     await stable();
     expect(host.value()).toBe('<blockquote><p>quoteafter</p></blockquote>');
     await userEvent.keyboard('{Backspace}');
@@ -103,9 +114,7 @@ describe('NuiEditor', () => {
     const paste = (type: string, data: string) => {
       const transfer = new DataTransfer();
       transfer.setData(type, data);
-      content.dispatchEvent(
-        new ClipboardEvent('paste', { clipboardData: transfer, bubbles: true, cancelable: true }),
-      );
+      content.dispatchEvent(pasteEvent(transfer));
     };
     paste('text/html', '<p style="color:red">Hi <b>there</b><script>alert(1)</script></p>');
     await stable();
@@ -123,7 +132,7 @@ describe('NuiEditor', () => {
     expect(content.querySelector('em')!.textContent).toBe('text');
     expect(content.hasAttribute('data-empty')).toBe(false);
     await userEvent.click(content.querySelector('em')!);
-    await userEvent.keyboard('{End}!');
+    await userEvent.keyboard(`${lineEnd}!`);
     await fixture.whenStable();
     // Text typed at the end of a format goes on in it.
     expect(host.value()).toBe('# Title\n\nSome *text!*');

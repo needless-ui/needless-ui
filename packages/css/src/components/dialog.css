@@ -75,7 +75,9 @@
   }
 
   .nui-dialog[open]::backdrop {
-    background-color: var(--nui-color-backdrop);
+    /* The backdrop reads the dialog's custom properties only since Chrome 122 and
+       Safari 17.4; before that, the default backdrop color. */
+    background-color: var(--nui-color-backdrop, oklch(0.22 0.02 262 / 0.45));
     transition-duration: var(--nui-duration-normal);
   }
 

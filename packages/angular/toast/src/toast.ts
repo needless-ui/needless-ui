@@ -443,7 +443,10 @@ export class NuiToasterRegion {
     const sign = position.endsWith('center') ? 0 : position.endsWith('end') !== rtl ? 1 : -1;
     const start = { x: event.clientX, time: event.timeStamp };
     let distance = 0;
-    item.setPointerCapture(event.pointerId);
+    // A pointer that isn't live (a synthetic event, one already lifted) can't be captured.
+    try {
+      item.setPointerCapture(event.pointerId);
+    } catch {}
 
     const move = (moveEvent: PointerEvent) => {
       const dx = moveEvent.clientX - start.x;

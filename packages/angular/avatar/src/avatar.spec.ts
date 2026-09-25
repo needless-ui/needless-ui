@@ -22,6 +22,8 @@ describe('nuiInitials', () => {
     expect(nuiInitials('Grace Brewster Murray Hopper')).toBe('GH');
     expect(nuiInitials('Plato')).toBe('P');
     expect(nuiInitials('毛泽东')).toBe('毛');
+    expect(nuiInitials('Jean-Luc Picard')).toBe('JP');
+    expect(nuiInitials('(Ada) Lovelace 🚀')).toBe('AL');
   });
 });
 

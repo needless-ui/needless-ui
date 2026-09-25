@@ -149,9 +149,10 @@ describe('NuiDateField', () => {
     const paste = (text: string) => {
       const data = new DataTransfer();
       data.setData('text', text);
-      segments('date')[0].dispatchEvent(
-        new ClipboardEvent('paste', { clipboardData: data, bubbles: true }),
-      );
+      // Firefox ignores `clipboardData` given to the event's constructor.
+      const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'clipboardData', { value: data });
+      segments('date')[0].dispatchEvent(event);
     };
     paste('24.12.2025');
     await stable();

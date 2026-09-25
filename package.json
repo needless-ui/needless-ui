@@ -24,7 +24,8 @@
     "version-packages": "changeset version && pnpm install --lockfile-only",
     "release": "pnpm build && changeset publish",
     "docs:generate": "node apps/docs/scripts/generate-code.ts",
-    "build:docs": "pnpm build:tokens && pnpm docs:generate && ng build docs && node apps/docs/scripts/seo-check.ts && node apps/docs/scripts/paint-first.ts && node apps/docs/scripts/trim-css.ts"
+    "build:docs": "pnpm build:tokens && pnpm docs:generate && ng build docs && node apps/docs/scripts/seo-check.ts && node apps/docs/scripts/paint-first.ts && node apps/docs/scripts/trim-css.ts",
+    "check:browsers": "node apps/docs/scripts/browser-check.ts"
   },
   "dependencies": {
     "@angular/aria": "^22.2.0",

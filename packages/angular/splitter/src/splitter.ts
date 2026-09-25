@@ -150,7 +150,10 @@ export class NuiSplitterHandle {
     const start = horizontal ? event.clientX : event.clientY;
     const index = this.index();
     const from = [...this.splitter.layout()];
-    this.element.setPointerCapture(event.pointerId);
+    // A pointer that isn't live (a synthetic event, one already lifted) can't be captured.
+    try {
+      this.element.setPointerCapture(event.pointerId);
+    } catch {}
     this.dragging.set(true);
     this.splitter.dragging.set(true);
     const move = (e: PointerEvent) => {

@@ -99,7 +99,7 @@ packages/
   css/         component styles (one file per component) and the bundler
   angular/     @needless-ui/angular, one secondary entry point per component
 apps/
-  docs/        the documentation site, www.needlessui.com (English and Italian)
+  docs/        the documentation site, www.needlessui.com (30 languages)
 specs/         framework-agnostic contract for each component
 ```
 
@@ -113,6 +113,7 @@ pnpm dev        # docs site at http://localhost:4200
 pnpm test       # token, CSS and Angular unit tests
 pnpm build      # tokens → css → Angular package in dist/
 pnpm build:docs # prerendered docs site in dist/docs/browser
+pnpm check:browsers # every page in Chromium, Firefox and WebKit, desktop and touch
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.

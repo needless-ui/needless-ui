@@ -199,8 +199,10 @@
     padding: 0;
     border: 0;
     border-radius: 50%;
+    /* Without @property (Firefox before 128) the turn is unset until the ring
+       jumps full: 0turn keeps the ring drawn meanwhile. */
     background: conic-gradient(
-      var(--nui-color-accent-solid) var(--_carousel-turn),
+      var(--nui-color-accent-solid) var(--_carousel-turn, 0turn),
       var(--nui-color-neutral-soft) 0
     );
     color: var(--nui-color-text-default);

@@ -54,7 +54,7 @@ import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
             [disabled]="isDisabled()"
             [attr.aria-label]="starLabel()(star)"
             (change)="choose(star)"
-            (click)="toggle(star)"
+            (click)="toggle(star, $event)"
           />
           <span class="nui-rating-star" aria-hidden="true"></span>
         </label>
@@ -95,11 +95,14 @@ export class NuiRating implements ControlValueAccessor {
   }
 
   /**
-   * A click on the star that is already chosen. `change` doesn't fire for it (the
-   * radio is already checked), and `click` comes first otherwise, so this only
-   * ever sees the current star.
+   * A click on a star. On the star that is already chosen, it clears the rating:
+   * `change` doesn't fire for it (the radio is already checked), and `click` comes
+   * first otherwise, so the value here is still the one before the click.
    */
-  protected toggle(star: number): void {
+  protected toggle(star: number, event: MouseEvent): void {
+    // Safari doesn't focus a radio it clicks; focused, the arrow keys go on from it.
+    const input = event.currentTarget as HTMLInputElement;
+    if (input.ownerDocument.activeElement !== input) input.focus({ preventScroll: true });
     if (this.clearable() && this.value() === star) {
       this.value.set(null);
       this.onChange(null);

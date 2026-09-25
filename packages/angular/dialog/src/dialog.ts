@@ -15,6 +15,31 @@ import {
 } from '@angular/core';
 import { NuiPersonality, type NuiSize } from '@needless-ui/angular';
 
+/** Elements a press can leave focused, or that could open a dialog. */
+const PRESSABLE =
+  'button, a[href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])';
+
+/**
+ * The control a pointer pressed last, in every document with a dialog. Safari
+ * doesn't focus the buttons it clicks, so a dialog opened from one can't learn
+ * its opener from the focus.
+ */
+const lastPressed = new WeakMap<Document, WeakRef<Element>>();
+const watched = new WeakSet<Document>();
+
+function watchPresses(document: Document): void {
+  if (watched.has(document)) return;
+  watched.add(document);
+  document.addEventListener(
+    'pointerdown',
+    (event) => {
+      const pressed = event.target instanceof Element ? event.target.closest(PRESSABLE) : null;
+      if (pressed) lastPressed.set(document, new WeakRef(pressed));
+    },
+    { capture: true, passive: true },
+  );
+}
+
 /**
  * Turns a native `<dialog>` into a Needless UI dialog. The browser provides the
  * modal behavior: the page behind becomes inert, focus stays inside, Escape
@@ -77,13 +102,22 @@ export class NuiDialog {
   readonly describedBy = signal<string | null>(null);
 
   private pressStartedOutside = false;
+  /** Where focus goes back to when the dialog closes. */
+  private opener: Element | null = null;
 
   constructor() {
+    const document = this.element.ownerDocument;
     afterRenderEffect(() => {
+      watchPresses(document);
       const open = this.open();
       const dialog = this.element;
       if (open && !dialog.open && dialog.isConnected) {
         dialog.returnValue = '';
+        const focused = document.activeElement;
+        this.opener =
+          focused && focused !== document.body
+            ? focused
+            : (lastPressed.get(document)?.deref() ?? null);
         if (this.modal()) dialog.showModal();
         else dialog.show();
       } else if (!open && dialog.open) {
@@ -99,6 +133,21 @@ export class NuiDialog {
   }
 
   protected onClose(): void {
+    // Browsers return focus to what was focused when the dialog opened: in Safari,
+    // after a click, that's the page itself, or focus stays in the closed dialog
+    // until it's hidden. Then the opener takes it.
+    const opener = this.opener;
+    this.opener = null;
+    const document = this.element.ownerDocument;
+    const focused = document.activeElement;
+    if (
+      opener instanceof HTMLElement &&
+      opener.isConnected &&
+      !this.element.contains(opener) &&
+      (!focused || focused === document.body || this.element.contains(focused))
+    ) {
+      opener.focus({ preventScroll: true });
+    }
     this.open.set(false);
     this.closed.emit(this.element.returnValue);
   }

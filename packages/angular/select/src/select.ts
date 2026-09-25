@@ -209,6 +209,10 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
   /** Before the list shows (synchronously, so a typed letter can still move on): the chosen option is active. */
   protected onBeforeToggle(event: ToggleEvent): void {
     if (event.newState !== 'open') return;
+    // The list is driven from the trigger, and Safari doesn't focus a button it
+    // clicks: without this, keys pressed after opening the list by mouse go nowhere.
+    const trigger = this.triggerRef().nativeElement;
+    if (trigger.ownerDocument.activeElement !== trigger) trigger.focus({ preventScroll: true });
     const engine = this.engine;
     const first = this.chosen()[0];
     if (first && this.tree()) engine.reveal(first);

@@ -56,7 +56,9 @@ describe('NuiOtp', () => {
     input.focus();
     const clipboardData = new DataTransfer();
     clipboardData.setData('text', ' 987-654 ');
-    const paste = new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true });
+    // Firefox ignores `clipboardData` given to the event's constructor.
+    const paste = new ClipboardEvent('paste', { bubbles: true, cancelable: true });
+    Object.defineProperty(paste, 'clipboardData', { value: clipboardData });
     input.dispatchEvent(paste);
     // The browser inserts the text itself (a synthetic event inserts nothing); the cleanup follows.
     expect(paste.defaultPrevented).toBe(false);

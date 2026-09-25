@@ -11,20 +11,21 @@ import type { NuiSize } from '@needless-ui/angular';
 /** A presence dot. Mirrors `data-status` in @needless-ui/css. */
 export type NuiAvatarStatus = 'online' | 'away' | 'busy' | 'offline';
 
-const words = new Intl.Segmenter(undefined, { granularity: 'word' });
 const letters = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+const LETTER = /[\p{L}\p{N}]/u;
 
 /**
- * Up to two initials: the first letters of the first and last words. Works on
- * graphemes, so accents, emoji and combining marks stay whole, and a name in a
- * script without word spaces gives its first character.
+ * Up to two initials: the first letters of the first and last words. Words are
+ * split at spaces, not by `Intl.Segmenter`'s dictionaries, which differ between
+ * browsers (Firefox has none for Chinese, so a name like 毛泽东 had no words at
+ * all). Works on graphemes, so accents, emoji and combining marks stay whole, and
+ * a name in a script without word spaces gives its first character.
  */
 export function nuiInitials(name: string): string {
-  const parts = [...words.segment(name.trim())]
-    .filter((part) => part.isWordLike)
-    .map((part) => part.segment);
-  const first = (part: string | undefined) => [...letters.segment(part ?? '')][0]?.segment ?? '';
-  const initials = parts.length > 1 ? first(parts[0]) + first(parts.at(-1)) : first(parts[0]);
+  const first = (word: string | undefined) =>
+    [...letters.segment(word ?? '')].find((part) => LETTER.test(part.segment))?.segment ?? '';
+  const words = name.split(/\s+/u).filter((word) => LETTER.test(word));
+  const initials = words.length > 1 ? first(words[0]) + first(words.at(-1)) : first(words[0]);
   return initials.toLocaleUpperCase();
 }
 

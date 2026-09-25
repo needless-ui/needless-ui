@@ -123,12 +123,21 @@ export class NuiPopover extends Floating {
   host: {
     '[attr.popovertarget]': 'popover().id',
     'aria-haspopup': 'dialog',
-    '(click)': 'popover().setAnchor(element)',
+    '(click)': 'onClick()',
   },
 })
 export class NuiPopoverTrigger {
   readonly popover = input.required<NuiPopover>({ alias: 'nuiPopoverTrigger' });
   protected readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
+  protected onClick(): void {
+    // Safari doesn't focus a button it clicks. Focused, the trigger is where Tab
+    // goes on into the popover from, and where the browser returns focus.
+    if (this.element.ownerDocument.activeElement !== this.element) {
+      this.element.focus({ preventScroll: true });
+    }
+    this.popover().setAnchor(this.element);
+  }
 }
 
 /**

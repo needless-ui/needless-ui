@@ -128,8 +128,7 @@ describe('NuiCombobox', () => {
 
     // A press outside closes the list.
     await userEvent.click(input);
-    await settle();
-    expect(popup.matches(':popover-open')).toBe(true);
+    await expect.poll(() => popup.matches(':popover-open')).toBe(true);
     document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     await settle();
     expect(popup.matches(':popover-open')).toBe(false);

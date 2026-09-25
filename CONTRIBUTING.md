@@ -8,7 +8,7 @@ You need Node.js 22.22+ or 24.15+ (see `.nvmrc`) and pnpm 12.
 
 ```bash
 pnpm install
-pnpm exec playwright install chromium   # once: Angular tests run in headless Chromium
+pnpm exec playwright install chromium firefox webkit   # once: Angular tests run in all three
 pnpm dev
 ```
 
@@ -61,7 +61,11 @@ pnpm test
 pnpm build:docs   # prerenders every page, which catches SSR-unsafe code, and checks SEO
 ```
 
+Components must work in the browsers listed in [specs/browser-support.md](specs/browser-support.md). The Angular tests run in Chromium, Firefox and WebKit. Code that depends on a browser detail (focus, pointer capture, clipboard events) deserves a test in all three.
+
 ## Releases
+
+Before merging a release, run `pnpm build:docs` and then `pnpm check:browsers`: it opens every component page in Chromium, Firefox and WebKit, on a computer screen and a phone-sized touch screen, and fails on any page that doesn't start, throws, overflows the screen or has a popup that won't open.
 
 Maintainers merge the "release packages" pull request that Changesets opens. The release workflow then publishes to npm with trusted publishing and provenance. All `@needless-ui/*` packages share one version number.
 

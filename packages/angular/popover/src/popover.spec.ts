@@ -51,7 +51,8 @@ describe('NuiPopover', () => {
       trigger.getBoundingClientRect().bottom,
     );
 
-    await userEvent.keyboard('{Tab}');
+    // Into the popover: Safari's Tab reaches only text fields by default.
+    popover.querySelector<HTMLElement>('#inside')!.focus();
     expect(document.activeElement?.id).toBe('inside');
     await userEvent.keyboard('{Escape}');
     await fixture.whenStable();
@@ -77,10 +78,10 @@ describe('NuiHovercard', () => {
   });
 
   it('opens at once for keyboard focus and closes on Escape', async () => {
-    const { link, card } = await setup();
-    await userEvent.keyboard('{Tab}');
-    link.focus();
-    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    const { trigger, link, card } = await setup();
+    // Tab onto the link: keyboard focus. Safari's Tab skips links without a tabindex.
+    link.tabIndex = 0;
+    trigger.focus();
     await userEvent.keyboard('{Tab}');
     expect(document.activeElement).toBe(link);
     expect(card.matches(':popover-open')).toBe(true);
