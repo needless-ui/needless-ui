@@ -1,0 +1,18 @@
+.field {
+  display: grid;
+  gap: var(--nui-space-1);
+  justify-items: start;
+}
+
+label {
+  font-size: var(--nui-font-size-sm);
+  font-weight: var(--nui-font-weight-medium);
+}
+
+nui-phone-field {
+  inline-size: min(100%, 20rem);
+}
+
+.error {
+  color: var(--nui-color-danger-text);
+}

@@ -1,0 +1,7 @@
+<div class="layout">
+  <nui-color-picker [(value)]="color" [swatches]="swatches" contrastWith="#ffffff" />
+  <div class="sample" [style.--brand]="color() || null">
+    <span class="sample-button">Get started</span>
+    <p>{{ color() }}</p>
+  </div>
+</div>

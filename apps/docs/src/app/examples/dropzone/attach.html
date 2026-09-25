@@ -1,0 +1,15 @@
+<form (submit)="send($event)">
+  <nui-dropzone
+    accept=".pdf,.txt,.md,.doc,.docx"
+    maxFiles="3"
+    hint="Up to three documents: PDF, Word or text"
+    [(files)]="files"
+  >
+    Attach documents
+  </nui-dropzone>
+  <p>{{ files().length }} of 3 attached, {{ size() }}</p>
+  <button nuiButton type="submit" [disabled]="!files().length">Send</button>
+</form>
+@if (sent()) {
+  <p>Sent {{ sent() }}.</p>
+}

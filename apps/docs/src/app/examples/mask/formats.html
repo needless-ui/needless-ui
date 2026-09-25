@@ -1,0 +1,19 @@
+<div class="fields">
+  <label class="field">
+    <span>Date</span>
+    <input nuiMask="00/00/0000" placeholder="DD/MM/YYYY" [(value)]="date" />
+  </label>
+  <label class="field">
+    <span>Time</span>
+    <input nuiMask="00:00" placeholder="HH:MM" [(value)]="time" />
+  </label>
+  <label class="field">
+    <span>Licence plate</span>
+    <input nuiMask="AA 000 AA" placeholder="AB 123 CD" [(value)]="plate" />
+  </label>
+  <label class="field">
+    <span>Hex color</span>
+    <input nuiMask="#hhhhhh" [tokens]="hex" placeholder="#1e90ff" [(value)]="color" />
+  </label>
+</div>
+<p>{{ date() || '—' }} · {{ time() || '—' }} · {{ plate() || '—' }} · {{ color() || '—' }}</p>

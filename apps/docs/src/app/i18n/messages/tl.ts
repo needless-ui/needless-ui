@@ -1822,6 +1822,422 @@ export const messages: Messages = {
           'Mga toggle button sa isang group ang mga view, at ina-announce ang title kapag lumipat sa ibang linggo o buwan.',
         ],
       },
+      splitter: {
+        name: 'Splitter',
+        title: 'Splitter at mga resizable na pane para sa Angular',
+        summary: 'Mga pane na magkatabi o nakapatong, na may mga handle para i-resize ang mga ito.',
+        description:
+          'Accessible na Angular splitter: mga resizable na pane na magkatabi o nakapatong, mga limit, pag-collapse, naka-save na laki at buong kontrol sa keyboard.',
+        apiDescription:
+          'API reference ng Needless UI splitter: orientation at mga laki ng nuiSplitter, ang mga limit at pag-collapse ng mga pane, at ang mga handle sa pagitan nila.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI splitter: mga focusable na window splitter handle na may value, mga arrow key, Home, End at Enter.',
+        overview: [
+          'Hinahati ng splitter ang espasyo nito sa mga pane, na may handle sa pagitan ng bawat dalawa. I-drag ang isang handle, o i-focus ito at gamitin ang mga arrow key. Mga percentage ang mga laki na umaabot sa 100 kapag pinagsama, at bina-bind ang mga ito ng <code>[(sizes)]</code>.',
+          'Puwedeng nasa pixel, rem o percent ang panimulang laki, minimum at maximum ng bawat pane. Nako-collapse ang isang <code>collapsible</code> na pane kapag na-drag ito nang mas maliit sa kalahati ng minimum nito, o sa Enter sa handle nito, at bumabalik ito sa dati nitong laki.',
+          'Kapag may <code>storageKey</code>, itinatabi ang mga laki sa <code>localStorage</code>, kaya sa susunod na pagbisita, makikita ng mga tao ang layout gaya ng pagkakaiwan nila rito.',
+        ],
+        examples: {
+          editor: {
+            title: 'Isang editor',
+            text: 'Mga file, code at preview. Nako-collapse ang mga file at ang preview, laging may hindi bababa sa 30% ng lapad ang code, at naka-save ang mga laki.',
+          },
+          stacked: {
+            title: 'Mga nakapatong na pane',
+            text: 'Pinapatong ng <code>orientation="vertical"</code> ang mga pane, at binabasa ng <code>[(sizes)]</code> ang mga laki nila habang nagbabago ang mga ito.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Mga pane na may mga handle sa pagitan nila.',
+            members: {
+              orientation: 'Magkatabi, o nakapatong.',
+              sizes: 'Ang bahagi ng bawat pane, sa percent, ayon sa pagkakasunod.',
+              storageKey:
+                'Itinatabi ang mga laki sa <code>localStorage</code> sa ilalim ng key na ito.',
+              step: 'Kung gaano kalayo inililipat ng mga arrow key ang isang handle, sa percent. Doble ang layo kapag may Shift.',
+              move: 'Inililipat nang ilang percent ang hangganan pagkatapos ng isang pane.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Isang pane. Tumatanggap ang mga laki nito ng pixel, rem o percent.',
+            members: {
+              defaultSize: 'Ang panimulang laki nito, kapag walang laking maibabalik.',
+              min: 'Ang pinakamaliit nitong laki.',
+              max: 'Ang pinakamalaki nitong laki.',
+              collapsible:
+                'Nako-collapse ito: kapag na-drag nang mas maliit sa kalahati ng minimum nito, o sa Enter.',
+              collapsedSize: 'Ang laki nito kapag naka-collapse, gaya ng isang hanay ng mga icon.',
+              label: 'Pinapangalanan ang handle na nagre-resize dito.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'Ang handle sa pagitan ng dalawang pane.',
+            members: {
+              label: 'Pinapangalanan ito, kapag hindi ito pinapangalanan ng label ng pane.',
+              disabled: 'Hindi ito gumagalaw.',
+              toggle: 'Kino-collapse ang pane sa tabi nito, o ibinabalik ito.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Left at right arrow',
+            'Inililipat ang handle sa pagitan ng magkatabing pane. Baligtad sa right-to-left na text.',
+          ],
+          ['Up at down arrow', 'Inililipat ang handle sa pagitan ng mga nakapatong na pane.'],
+          ['Shift + mga arrow key', 'Inililipat ito nang doble ang layo.'],
+          [
+            'Home at End',
+            'Dinadala ang pane bago ang handle sa pinakamaliit o pinakamalaki nitong laki.',
+          ],
+          ['Enter', 'Kino-collapse ang collapsible na pane, o ibinabalik ito.'],
+        ],
+        notes: [
+          'Isang focusable na <code>separator</code> ang bawat handle, gaya sa window splitter pattern ng WAI-ARIA: ang value nito ay ang laki ng pane bago ito, sa pagitan ng mga limit ng pane na iyon, at tumuturo sa pane ang <code>aria-controls</code>.',
+          'Pangalanan ang mga handle sa pamamagitan ng <code>label</code> ng mga pane: sinasabi ng “Files” sa screen reader kung ano ang nire-resize ng isang handle.',
+          'Kino-collapse din ng double click sa handle ang pane nito, at kinukuha ng drag ang pointer, kaya hindi nawawala ang handle kahit sa mabibilis na galaw.',
+        ],
+      },
+      tour: {
+        name: 'Tour',
+        title: 'Guided tour component para sa Angular',
+        summary:
+          'Isang card para sa bawat step, katabi ng tinutukoy nito, habang naka-dim ang natitirang bahagi ng page.',
+        description:
+          'Accessible na Angular product tour: card para sa bawat step sa tabi ng target nito, spotlight sa paligid nito, mga interactive na step at focus na bumabalik.',
+        apiDescription:
+          'API reference ng Needless UI tour: mga step ng nui-tour, ang open at step binding, ang mga output nito, at ang target, placement at hook ng bawat step.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI tour: dialog ang bawat card na pinangalanan ng title nito, focus na iniingatan at ibinabalik, at Escape para umalis.',
+        overview: [
+          'Ginagabayan ng tour ang mga tao sa isang page, isang step sa bawat pagkakataon. Tumuturo ang bawat step sa isang element gamit ang card sa tabi nito at dini-dim ang natitirang bahagi ng page sa paligid nito; lumalabas sa gitna ang step na walang target.',
+          'Plain na data ang mga step: isang target (isang selector, isang element o isang function na humahanap nito), isang title, at content bilang text o template. Unang tumatakbo ang <code>beforeShow</code>, kaya puwedeng buksan ng isang step ang panel na kinalalagyan ng target nito, at sini-scroll ang page papunta sa target na wala sa view.',
+          'Dialog ang bawat card. Modal ito, maliban kung <code>interactive</code> ang step: saka magagamit ng mga tao ang tinuturo nito. Tinatapos ng Escape ang tour, at bumabalik ang focus kung saan ito dati.',
+        ],
+        examples: {
+          basics: {
+            title: 'Unang silip',
+            text: 'Apat na step, ang una ay walang target. Pinaghihiwalay ng <code>finished</code> at <code>dismissed</code> ang dalawang paraan ng pagtatapos.',
+          },
+          interactive: {
+            title: 'Mga step na susubukan',
+            text: 'Binubuksan ng <code>beforeShow</code> ang settings bago tumuro ang pangalawang step sa loob nito, at hinahayaan ng <code>interactive</code> ang mga tao na gamitin ang switch habang nakabukas ang card.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Isang guided tour.',
+            members: {
+              steps: 'Ang mga step, ayon sa pagkakasunod.',
+              open: 'Kung tumatakbo ang tour.',
+              step: 'Ang step na ipinapakita, mula sa 0.',
+              labels: 'Bawat text na ipinapakita nito, para maisalin.',
+              finished: 'Nagfa-fire kapag tapos na ang huling step.',
+              dismissed:
+                'Inilalabas ang step kung saan natapos ang tour, kapag maaga itong natapos.',
+              start: 'Sinisimulan ang tour, mula sa unang step o sa step na ibinigay.',
+              end: 'Tinatapos ang tour, bilang natapos o na-dismiss.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Isang step ng tour.',
+            members: {
+              target: 'Kung saan ito tumuturo. Kapag wala, lumalabas ang card sa gitna.',
+              title: 'Ang title ng card.',
+              content: 'Ang text nito, o isang template.',
+              side: 'Kung saang gilid ng target pupunta ang card.',
+              align: 'Kung paano pumapantay ang card sa target.',
+              padding: 'Ang espasyo sa paligid ng target sa spotlight, sa pixel.',
+              interactive: 'Magagamit ang target habang nakabukas ang card.',
+              beforeShow: 'Tumatakbo bago lumabas ang step. Naghihintay ang tour sa isang promise.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Lumilipat sa mga button ng card. Sa mga modal na step, nananatili ang focus sa card.',
+          ],
+          ['Enter o Space', 'Pinipindot ang naka-focus na button: Next, Back o Done.'],
+          ['Escape', 'Tinatapos ang tour.'],
+        ],
+        notes: [
+          'Isang <code>dialog</code> ang bawat card na pinangalanan ng title nito at inilalarawan ng content nito. Lumilipat ang focus sa pangunahing button nito sa bawat step, at bumabalik kung saan ito dati kapag natapos ang tour.',
+          'Ginagawang inert ng mga modal na step ang natitirang bahagi ng page. Hindi modal ang mga interactive na step, kaya naaabot ang target nila gamit ang keyboard at gamit din ang pointer.',
+          'Text ang progress, gaya ng “2 of 4”; iginuguhit lang ito ng mga tuldok.',
+        ],
+      },
+      dropzone: {
+        name: 'Dropzone',
+        title: 'File dropzone at pag-upload para sa Angular',
+        summary:
+          'Mag-drop o pumili ng mga file, may pagsusuri, preview at pag-upload na may progress.',
+        description:
+          'Accessible na Angular file dropzone: drag and drop, folder at paste, pagsusuri ng type at laki, preview ng larawan, at pag-upload na may progress at retry.',
+        apiDescription:
+          'API reference ng Needless UI dropzone: mga file at pagsusuri ng nui-dropzone, ang upload function at ang queue nito, ang mga output nito at ang mga text nito.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI dropzone: isang zone na button, mga resultang ina-announce, at mga progress bar at aksyong may pangalan.',
+        overview: [
+          'Tumatanggap ang dropzone ng mga file na na-drop dito, pinili gamit ang file picker, o na-paste. Binabasa ang buong laman ng mga folder na na-drop, at napapanatili ng bawat file ang path nito.',
+          'Sinusuri ang bawat file ayon sa <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> at sa <code>validate</code> function mo, at inililista kasama ang dahilan ang mga tinanggihan. May preview ang mga larawan.',
+          'Kapag walang <code>upload</code> function, hinahawakan ng dropzone ang mga file para sa isang form, sa <code>[(files)]</code>. Kapag mayroon, ina-upload nito ang mga ito nang ilan-ilan, may progress, cancel at retry. Ipasa ang <code>signal</code> ng upload sa <code>fetch</code>, para mapahinto ito ng pag-cancel.',
+        ],
+        examples: {
+          upload: {
+            title: 'Mga upload',
+            text: 'Nag-uulat ng progress nito nang paunti-unti ang isang kunwaring upload. Pumapalya ang mga file na may “fail” sa pangalan, para maipakita ang retry, at nagdadagdag ang <code>directory</code> ng button para pumili ng folder.',
+          },
+          attach: {
+            title: 'Mga attachment para sa isang form',
+            text: 'Walang <code>upload</code>: hanggang tatlong dokumento ang hinahawakan ng dropzone sa <code>[(files)]</code>, at pinapalitan ng sarili nitong text ang default na text.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Isang lugar para mag-drop ng mga file, o pumili ng mga ito.',
+            members: {
+              files: 'Ang mga file na hawak nito, ayon sa pagkakasunod.',
+              accept:
+                'Ang mga uri ng file na tatanggapin, gaya sa <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Higit sa isang file nang sabay.',
+              directory: 'Nag-aalok ng button para pumili ng folder.',
+              maxFiles: 'Ilang file ang kaya nitong hawakan.',
+              'maxSize, minSize': 'Ang pinakamalaki at pinakamaliit na file, sa byte.',
+              validate: 'Sinusuri ang bawat file. Tinatanggihan ito kapag may ibinalik na mensahe.',
+              upload: 'Nagpapadala ng file. Kapag wala ito, hinahawakan lang ang mga file.',
+              concurrency: 'Ilang file ang sabay-sabay na ina-upload.',
+              hint: 'Isang linya sa ilalim ng text ng zone, gaya ng kung ano ang tinatanggap nito.',
+              disabled: 'Wala itong tinatanggap na file.',
+              labels: 'Bawat text na ipinapakita o ina-announce nito, para maisalin.',
+              uploaded:
+                'Inilalabas ang file na na-upload, kasama ang ibinalik ng <code>upload</code>.',
+              rejected: 'Inilalabas ang mga file na tinanggihan, kasama ang mga dahilan.',
+              queue:
+                'Ang upload queue, para mag-cancel, mag-retry at magbasa ng progress mula sa code.',
+              take: 'Nagdadagdag ng mga file mula sa code, at sinusuri ang bawat isa.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Nagpapadala ng isang file: iniuulat nito ang progress mula 0 hanggang 1, at humihinto kapag na-abort ang signal.',
+            members: {
+              '(file, context)': 'Nagbabalik ng promise ng kung anuman ang isagot ng server mo.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter o Space', 'Sa zone, binubuksan ang file picker.'],
+          ['Ctrl + V o ⌘ + V', 'Sa zone, idinadagdag ang mga file na na-paste.'],
+          ['Tab', 'Lumilipat sa zone at sa mga aksyon ng bawat file.'],
+        ],
+        notes: [
+          'Button ang zone, kaya gumagana ito kahit walang pointer, at inilalarawan ito ng hint.',
+          'Ina-announce ang mga file na naidagdag at ang mga tinanggihan. Isang <code>progressbar</code> ang bawat progress bar na pinangalanan ayon sa file nito, at pinangalanan ang bawat aksyon ayon sa ginagawa nito, gaya ng “Remove beach.jpg”.',
+          'Pandekorasyon lang ang mga preview: sinasabi ng pangalan ng file kung aling file ito.',
+        ],
+      },
+      mask: {
+        name: 'Input mask',
+        title: 'Input mask directive para sa Angular',
+        summary: 'Mga text field na nagfo-format habang nagta-type: petsa, card, IBAN, code.',
+        description:
+          'Angular input mask: mga text field na nagfo-format habang nagta-type, caret na hindi naaalis sa puwesto, helper para sa card at IBAN, at form validation.',
+        apiDescription:
+          'API reference ng Needless UI input mask: ang nuiMask directive, ang mga token at value nito, at mga helper para sa card number at IBAN.',
+        a11yDescription:
+          'Accessibility ng Needless UI input mask: mga native field na may sariling label, numeric keyboard sa phone, at pagbura na nilalaktawan ang mga literal.',
+        overview: [
+          'Fino-format ng mask ang isang text field habang nagta-type: inilalagay ng <code>00/00/0000</code> ang mga slash, at tumatanggap ang <code>AA 000 AA</code> ng mga titik at digit nang salitan. Hindi pumapasok ang mga character na hindi tugma, at nananatili sa puwesto nito ang caret kapag nag-type sa gitna.',
+          'Binubuo ang mga mask ng mga token at literal: digit ang <code>0</code>, titik ang <code>a</code>, alinman sa dalawa ang <code>*</code>, at ang <code>A</code> at <code>X</code> ang katumbas nila para sa mga code, naka-uppercase. Magdagdag ng sarili mong token gamit ang <code>tokens</code>, o magpasa ng function na pumipili ng mask ayon sa na-type, gaya ng ginagawa ng <code>nuiCardMask</code> ayon sa card brand.',
+          'Ang value ay ang ipinapakita, o ang data lang kapag may <code>unmask</code>. Gumagana ang mask sa Signal Forms, reactive forms at <code>ngModel</code>, at error ang value na hindi pa kumpleto.',
+        ],
+        examples: {
+          formats: {
+            title: 'Mga format',
+            text: 'Isang petsa, isang oras, isang plaka, at isang kulay na may sariling token para sa mga hexadecimal digit.',
+          },
+          payment: {
+            title: 'Mga detalye ng pagbabayad',
+            text: 'Mga field ng Signal Forms. Sumusunod sa brand ang card mask, apat na digit ang security code para sa American Express, at sinusuri ng <code>nuiCardValid</code> at <code>nuiIbanValid</code> ang mga numero.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Isang mask sa isang native na text field.',
+            members: {
+              nuiMask: 'Ang mask, o isang function na pumipili nito ayon sa na-type na data.',
+              tokens: 'Mga mask character na idadagdag o papalitan.',
+              unmask: 'Data lang ang value, walang mga literal.',
+              value: 'Ang value: ang ipinapakita, o ang data kapag may <code>unmask</code>.',
+              raw: 'Ang na-type na data, walang mga literal.',
+              complete: 'Kung napunan na ang bawat puwesto sa mask.',
+            },
+          },
+          Helpers: {
+            summary: 'Mga function para mag-format, mag-check at bumuo ng mga mask.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Fino-format ang isang value gamit ang mask, o kinukuha ang data mula sa na-format na value.',
+              nuiCardMask:
+                'Isang mask para sa mga card number, naka-group gaya ng pagkaka-print ng brand nila.',
+              nuiCardBrand: 'Ang brand ng isang card number, mula sa mga unang digit nito.',
+              'nuiCardValid, nuiLuhn':
+                'Kung tama ang haba ng card number para sa brand nito at pumapasa ito sa Luhn check.',
+              nuiIbanMask: 'Isang mask para sa mga IBAN, kasinghaba ng IBAN ng bansa.',
+              nuiIbanValid:
+                'Kung tama ang haba ng IBAN para sa bansa nito at tama ang mga check digit.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Binubura ang character bago ang caret, nilalaktawan ang mga literal.'],
+          ['Delete', 'Binubura ang character pagkatapos ng caret, nilalaktawan ang mga literal.'],
+        ],
+        notes: [
+          'Gumagana ang mask sa sarili mong <code>&lt;input&gt;</code>, kaya nananatili ang label at hint nito gaya ng pagkakasulat mo. Sabihin doon kung ano ang inaasahan: hindi instruction ang mask.',
+          'Nagse-set ng <code>inputmode="numeric"</code> ang mga mask na puro digit, kaya numeric keypad ang ipinapakita ng mga phone, maliban kung may sariling input mode ang field.',
+          'Tinatanggap ang mga digit ng anumang script, at isinusulat bilang 0 hanggang 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Phone field',
+        title: 'Phone number input para sa Angular',
+        summary: 'Isang country picker at isang numero, naka-group ayon sa pagsulat ng bansa nito.',
+        description:
+          'Accessible na Angular phone number input: country picker, mga numerong naka-group ayon sa bansa, calling code na tina-type o ipinapaste, at E.164 na value.',
+        apiDescription:
+          'API reference ng Needless UI phone field: value at country ng nui-phone-field, ang mga bansang inaalok, at mga helper para magbasa at magsulat ng numero.',
+        a11yDescription:
+          'Accessibility ng Needless UI phone field: country picker na may pangalan, bansang ina-announce kapag pinili ito ng code, at autofill ng browser.',
+        overview: [
+          'Isang country picker at isang numero ang phone field. Habang tina-type, naka-group ang numero ayon sa pagsulat ng mga numero sa bansa nito, at ang value ay ang numero sa E.164, gaya ng <code>+393331234567</code>.',
+          'Tina-type ng mga tao ang mga numero sa paraang nakasanayan nila. Itinuturing na trunk prefix ang 0 sa unahan (o ang 1 bago ang isang North American na numero) at hindi isinasama sa value. Pinipili ng calling code na tina-type o ipinaste, gaya ng <code>+44</code> o <code>0044</code>, ang bansa nito, at ganoon din ang area code kapag iisang calling code ang gamit ng ilang bansa.',
+          'Ang unang bansa ay ang sa locale, at nililimitahan ng <code>countries</code> ang listahan. Sa mga form, error ang numerong masyadong maikli o masyadong mahaba para sa bansa nito. Para sa buong validation, i-check din ang mga numero sa server.',
+        ],
+        examples: {
+          basic: {
+            title: 'Isang numero',
+            text: 'Magsimula sa <code>+</code> at isang calling code para magpalit ng bansa habang nagta-type.',
+          },
+          countries: {
+            title: 'Mga bansang pinili mo',
+            text: 'Labing-isang bansa ang inaalok ng <code>countries</code>, gumagana ang field sa isang reactive na <code>FormControl</code>, at isinusulat pabalik ng <code>nuiFormatPhone</code> ang value para mabasa ng mga tao.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Isang phone number field.',
+            members: {
+              value: 'Ang numero sa E.164, o walang laman.',
+              country: 'Ang bansa, bilang region code nito.',
+              countries: 'Ang mga bansang inaalok, bilang mga region code.',
+              locale: 'Ang wika ng mga pangalan ng bansa.',
+              label:
+                'Pinapangalanan ang numero, kapag walang <code>&lt;label for&gt;</code> na gumagawa nito.',
+              inputId: 'Ang id ng numero, para sa <code>&lt;label for&gt;</code>.',
+              placeholder: 'Text na ipinapakita habang walang laman ang numero.',
+              invalid: 'Minamarkahang invalid ang numero.',
+              disabled: 'Hindi ito mababago.',
+              labels: 'Bawat text na sinasabi nito, para maisalin.',
+            },
+          },
+          Helpers: {
+            summary: 'Mga function para sa mga phone number.',
+            members: {
+              nuiParsePhone:
+                'Binabasa ang numerong nakasulat sa kahit anong paraan at hinahati ito sa region, calling code at national number nito.',
+              nuiFormatPhone:
+                'Isinusulat ang numero na naka-group gaya ng sa bansa nito, o sa E.164.',
+              nuiPhoneValid:
+                'Kung may kilalang calling code ang numero at tama ang haba nito para sa bansa nito.',
+            },
+          },
+        },
+        keyboard: [
+          ['Mga titik sa country picker', 'Tumatalon sa mga bansang nagsisimula sa mga ito.'],
+          ['Enter o Space', 'Binubuksan ang listahan ng mga bansa, o pumipili ng isa.'],
+          [
+            'Backspace',
+            'Sa numero, binubura ang isang digit, nilalaktawan ang mga space at bracket.',
+          ],
+        ],
+        notes: [
+          '“Country code” ang pangalan ng country picker at binabasa nito ang flag at code nito. Kapag pumili ng bansa ang isang calling code o area code, ina-announce ang bagong bansa.',
+          'Pangalanan ang numero gamit ang <code>&lt;label for&gt;</code> at <code>inputId</code>, o gamit ang <code>label</code>.',
+          'May <code>autocomplete="tel"</code> ang numero, kaya kayang punan ito ng mga browser, pati ang calling code, at phone keypad ang ipinapakita ng mga phone.',
+        ],
+      },
+      'color-picker': {
+        name: 'Color picker',
+        title: 'OKLCH color picker para sa Angular',
+        summary: 'Isang kulay sa OKLCH, may mga slider, swatch, eyedropper at contrast check.',
+        description:
+          'Accessible na Angular color picker sa OKLCH: wide-gamut na P3 color, bawat CSS color syntax, mga swatch, ang eyedropper, at WCAG contrast check.',
+        apiDescription:
+          'API reference ng Needless UI color picker: value, format at gamut ng nui-color-picker, mga swatch at contrast, at mga helper para sa mga kulay.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI color picker: slider na may dalawang value para sa area, mga native slider, at mga contrast grade sa salita.',
+        overview: [
+          'Gumagana ang color picker sa OKLCH, ang perceptual color space ng modernong CSS. Pahalang sa area, tumatakbo ang chroma mula gray hanggang sa pinakamataas na kayang ipakita ng screen sa lightness na iyon, kaya magagamit na kulay ang bawat punto, at hindi gumagalaw ang thumb habang umiikot ang hue.',
+          'Tumatanggap ang field ng kahit anong CSS color, kasama ang mga pangalan, at isinusulat ng format button ang value bilang hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> o <code>color(display-p3)</code>. Ang kulay na nasa labas ng gamut ng isang format ay ipinapasok dito sa paraan ng CSS, at pinapanatili ang lightness at hue nito.',
+          'Magdagdag ng <code>swatches</code> na mapagpipilian, at ng <code>contrastWith</code> para i-check ang kulay laban sa isang background ayon sa pagsukat ng WCAG 2 sa contrast. Kapag may eyedropper ang browser, may button na pumipili ng kulay mula sa screen.',
+        ],
+        examples: {
+          brand: {
+            title: 'Isang brand color',
+            text: 'Mga swatch na may pangalan, at ang contrast ng puting text sa kulay: pumili ng maliwanag, at babagsak ang AA.',
+          },
+          wide: {
+            title: 'Malawak na gamut',
+            text: 'Pinupuno ng <code>gamut="p3"</code> ang area ng mga Display P3 color, at minamarkahan ng isang dashed line kung saan nagtatapos ang sRGB. Nananatili sa <code>oklch()</code> ang value.',
+          },
+          popover: {
+            title: 'Sa isang popover',
+            text: 'Binubuksan ng button na nagpapakita ng kulay ang picker sa isang <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Isang color picker sa OKLCH.',
+            members: {
+              value: 'Ang kulay, nakasulat sa format. Walang laman hanggang may mapili.',
+              format: 'Kung paano isinusulat ang value.',
+              formats: 'Ang mga format na pinagsasalit-salitan ng format button.',
+              gamut: 'Ang mga kulay na laman ng area: sRGB, o Display P3.',
+              alpha: 'Ipinapakita ang opacity slider.',
+              swatches: 'Mga kulay na mapagpipilian, may mga pangalan.',
+              contrastWith: 'Isang background na pagsusukatan ng contrast.',
+              eyeDropper: 'Ipinapakita ang eyedropper, kapag mayroon nito ang browser.',
+              disabled: 'Hindi ito mababago.',
+              labels: 'Bawat text na sinasabi nito, para maisalin.',
+              color: 'Ang napiling kulay, sa OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Mga function para sa mga kulay.',
+            members: {
+              nuiParseColor: 'Binabasa ang kulay sa kahit anong CSS syntax.',
+              nuiFormatColor: 'Isinusulat ang kulay sa isang format.',
+              nuiToGamut: 'Ipinapasok ang kulay sa sRGB o Display P3, gaya ng ginagawa ng CSS.',
+              nuiContrast: 'Ang WCAG 2 contrast ratio ng isang kulay sa isang background.',
+            },
+          },
+        },
+        keyboard: [
+          ['Left at right arrow', 'Sa area, mas kaunti o mas maraming chroma.'],
+          ['Up at down arrow', 'Sa area, mas maliwanag o mas madilim.'],
+          ['Shift + mga arrow key', 'Gumagalaw nang sampung beses na mas malayo.'],
+          ['Home at End', 'Sa area, walang chroma o ang pinakamarami.'],
+          ['Page Up at Page Down', 'Sa area, mas maliwanag o mas madilim nang malaking hakbang.'],
+        ],
+        notes: [
+          'Isang <code>slider</code> na pinangalanang “Color” ang thumb ng area, na sinasabi ang dalawang value nito, gaya ng “Lightness 62%, chroma 75%”. Mga native na range input ang hue at opacity.',
+          'Mga button ang mga swatch na pinangalanan ayon sa label nila, at naka-press kapag tugma sa kulay.',
+          'Sinasabi ng AA at AAA ang “passes” o “fails” sa salita, hindi lang sa kulay, at sa forced colors mode, nananatili ang mismong mga kulay.',
+        ],
+      },
     },
   },
 

@@ -285,6 +285,74 @@ import type { ComponentId } from '../docs/ids';
           </div>
         </div>
       }
+      @case ('color-picker') {
+        <div
+          class="nui-color-picker preview-color"
+          style="--_value: oklch(0.6 0.2 265); --_opaque: oklch(0.6 0.2 265)"
+        >
+          <span class="nui-color-area preview-color-area">
+            <span
+              class="nui-color-thumb"
+              style="inset-inline-start: 78%; inset-block-start: 40%"
+            ></span>
+          </span>
+          <span class="preview-color-row">
+            <span class="nui-color-preview"></span>
+            <span class="preview-hue"></span>
+          </span>
+        </div>
+      }
+      @case ('dropzone') {
+        <div class="nui-dropzone preview-dropzone">
+          <span class="nui-dropzone-button">
+            <span class="nui-dropzone-icon"></span>
+            <span class="nui-dropzone-label">Drop files here</span>
+          </span>
+          <span class="nui-dropzone-file" data-status="uploading">
+            <span class="nui-dropzone-preview"></span>
+            <span class="nui-dropzone-name">beach.jpg</span>
+            <span class="nui-dropzone-meta">60%</span>
+            <span class="nui-dropzone-progress" style="--_progress: 0.6"></span>
+          </span>
+        </div>
+      }
+      @case ('mask') {
+        <div class="preview-stack">
+          <span class="preview-label">Card number</span>
+          <span class="preview-field">4242 4242 42<span class="preview-caret"></span></span>
+        </div>
+      }
+      @case ('phone-field') {
+        <div class="nui-phone preview-phone">
+          <span class="nui-select-trigger"><span class="nui-select-value">🇮🇹 +39</span></span>
+          <span class="nui-phone-input">333 123 4567</span>
+        </div>
+      }
+      @case ('splitter') {
+        <div class="nui-splitter preview-splitter" data-orientation="horizontal">
+          <span class="nui-splitter-pane preview-pane" style="flex-grow: 32">
+            <span class="nui-skeleton"></span><span class="nui-skeleton"></span>
+          </span>
+          <span class="nui-splitter-handle"></span>
+          <span class="nui-splitter-pane preview-pane" style="flex-grow: 68">
+            <span class="nui-skeleton" style="inline-size: 70%"></span
+            ><span class="nui-skeleton"></span
+            ><span class="nui-skeleton" style="inline-size: 50%"></span>
+          </span>
+        </div>
+      }
+      @case ('tour') {
+        <div class="preview-tour">
+          <span class="nui-button preview-tour-target" data-size="sm">New</span>
+          <div class="nui-tour-card preview-tour-card" data-side="bottom">
+            <p class="nui-tour-title">Start here</p>
+            <div class="nui-tour-footer">
+              <span class="nui-tour-progress">1 of 3</span>
+              <span class="nui-button" data-size="sm">Next</span>
+            </div>
+          </div>
+        </div>
+      }
     }
   `,
 })

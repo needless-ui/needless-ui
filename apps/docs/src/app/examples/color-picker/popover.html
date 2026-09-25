@@ -1,0 +1,8 @@
+<button nuiButton variant="outline" tone="neutral" [nuiPopoverTrigger]="picker">
+  <span class="chip" [style.background-color]="color()" aria-hidden="true"></span>
+  Accent color
+</button>
+<div nuiPopover #picker="nuiPopover" aria-label="Accent color">
+  <nui-color-picker [(value)]="color" [alpha]="false" />
+</div>
+<p>Accent: {{ color() }}</p>

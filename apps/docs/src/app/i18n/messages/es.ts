@@ -1806,6 +1806,415 @@ export const messages: Messages = {
           'Las vistas son botones de alternancia en un grupo, y al pasar a otra semana u otro mes se anuncia su título.',
         ],
       },
+      splitter: {
+        name: 'Splitter',
+        title: 'Splitter y paneles redimensionables para Angular',
+        summary: 'Paneles lado a lado o apilados, con divisores para cambiar su tamaño.',
+        description:
+          'Splitter accesible para Angular: paneles redimensionables lado a lado o apilados, con límites, paneles plegables, tamaños guardados y todo con el teclado.',
+        apiDescription:
+          'Referencia de la API del splitter de Needless UI: orientación y tamaños de nuiSplitter, límites y plegado de los paneles, y los divisores entre ellos.',
+        a11yDescription:
+          'Teclado y accesibilidad del splitter de Needless UI: divisores enfocables con valor según el patrón Window Splitter, flechas, Inicio, Fin e Intro.',
+        overview: [
+          'Un splitter reparte su espacio entre paneles, con un divisor entre cada dos. Arrastra un divisor, o ponle el foco y usa las flechas. Los tamaños son porcentajes que suman 100 y se enlazan con <code>[(sizes)]</code>.',
+          'Cada panel acepta un tamaño inicial, un mínimo y un máximo en píxeles, rem o porcentaje. Un panel <code>collapsible</code> se pliega al arrastrarlo por debajo de la mitad de su mínimo, o con Intro en su divisor, y vuelve con el tamaño que tenía.',
+          'Con <code>storageKey</code>, los tamaños se guardan en <code>localStorage</code>, así que en la siguiente visita cada persona encuentra la disposición tal como la dejó.',
+        ],
+        examples: {
+          editor: {
+            title: 'Un editor',
+            text: 'Archivos, código y una vista previa. Los archivos y la vista previa se pliegan, el código conserva al menos el 30 % del ancho y los tamaños se guardan.',
+          },
+          stacked: {
+            title: 'Paneles apilados',
+            text: '<code>orientation="vertical"</code> apila los paneles, y <code>[(sizes)]</code> lee sus tamaños a medida que cambian.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Paneles con divisores entre ellos.',
+            members: {
+              orientation: 'Lado a lado, o apilados.',
+              sizes: 'La parte de cada panel, en porcentaje, en orden.',
+              storageKey: 'Guarda los tamaños en <code>localStorage</code> con esta clave.',
+              step: 'Cuánto mueven las flechas un divisor, en porcentaje. El doble con Mayús.',
+              move: 'Mueve en un porcentaje la frontera que sigue a un panel.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Un panel. Sus tamaños admiten píxeles, rem o porcentaje.',
+            members: {
+              defaultSize: 'Su tamaño inicial, cuando no hay tamaños que restaurar.',
+              min: 'Su tamaño mínimo.',
+              max: 'Su tamaño máximo.',
+              collapsible:
+                'Se pliega: al arrastrarlo por debajo de la mitad de su mínimo, o con Intro.',
+              collapsedSize: 'Su tamaño plegado, como una barra de iconos.',
+              label: 'Da nombre al divisor que lo redimensiona.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'El divisor entre dos paneles.',
+            members: {
+              label: 'Le da nombre, cuando la etiqueta del panel no lo hace.',
+              disabled: 'No se mueve.',
+              toggle: 'Pliega el panel de al lado, o lo restaura.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Flechas izquierda y derecha',
+            'Mueven el divisor entre paneles lado a lado. Las flechas se invierten en texto de derecha a izquierda.',
+          ],
+          ['Flechas arriba y abajo', 'Mueven el divisor entre paneles apilados.'],
+          ['Mayús + flechas', 'Lo mueven el doble.'],
+          ['Inicio y Fin', 'Lleva el panel anterior al divisor a su tamaño mínimo o máximo.'],
+          ['Intro', 'Pliega el panel plegable, o lo restaura.'],
+        ],
+        notes: [
+          'Cada divisor es un <code>separator</code> enfocable, como en el patrón Window Splitter de WAI-ARIA: su valor es el tamaño del panel anterior, entre los límites de ese panel, y <code>aria-controls</code> apunta a ese panel.',
+          'Pon nombre a los divisores con el <code>label</code> de los paneles: «Files» le dice a un lector de pantalla qué redimensiona un divisor.',
+          'Un doble clic en un divisor también pliega su panel, y al arrastrar se captura el puntero, así que los movimientos rápidos no pierden el divisor.',
+        ],
+      },
+      tour: {
+        name: 'Recorrido guiado',
+        title: 'Componente de recorrido guiado para Angular',
+        summary:
+          'Una tarjeta por paso, junto a lo que explica, con el resto de la página atenuado.',
+        description:
+          'Recorrido guiado accesible para Angular: una tarjeta por paso junto a su objetivo resaltado, pasos interactivos y un foco que vuelve a su sitio.',
+        apiDescription:
+          'Referencia de la API del recorrido guiado de Needless UI: pasos de nui-tour, open y step bidireccionales, outputs, y objetivo, posición y hooks de cada paso.',
+        a11yDescription:
+          'Teclado y accesibilidad del recorrido guiado de Needless UI: cada tarjeta es un diálogo con el nombre de su título, foco retenido y devuelto, y Esc para salir.',
+        overview: [
+          'Un recorrido guía a los usuarios por una página, paso a paso. Cada paso señala un elemento con una tarjeta al lado y atenúa el resto de la página a su alrededor; un paso sin objetivo aparece en el centro.',
+          'Los pasos son datos simples: un objetivo (un selector, un elemento o una función que lo encuentra), un título y un contenido en forma de texto o de plantilla. <code>beforeShow</code> se ejecuta antes, así que un paso puede abrir el panel donde está su objetivo, y si el objetivo no está a la vista, la página se desplaza hasta él.',
+          'Cada tarjeta es un diálogo. Es modal, salvo que el paso sea <code>interactive</code>: entonces se puede usar lo que señala. Esc termina el recorrido, y el foco vuelve a donde estaba.',
+        ],
+        examples: {
+          basics: {
+            title: 'Un primer vistazo',
+            text: 'Cuatro pasos, el primero sin objetivo. <code>finished</code> y <code>dismissed</code> distinguen las dos formas de terminar.',
+          },
+          interactive: {
+            title: 'Pasos para probar',
+            text: '<code>beforeShow</code> abre los ajustes antes de que el segundo paso señale algo dentro de ellos, e <code>interactive</code> permite usar el interruptor mientras la tarjeta está visible.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Un recorrido guiado.',
+            members: {
+              steps: 'Los pasos, en orden.',
+              open: 'Si el recorrido está en marcha.',
+              step: 'El paso que se muestra, desde 0.',
+              labels: 'Todos los textos que muestra, para traducirlos.',
+              finished: 'Emite cuando se completa el último paso.',
+              dismissed:
+                'Emite el paso en el que terminó el recorrido, cuando termina antes de tiempo.',
+              start: 'Inicia el recorrido, desde el primer paso o desde el indicado.',
+              end: 'Termina el recorrido, como completado o descartado.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Un paso del recorrido.',
+            members: {
+              target: 'Lo que señala. Sin objetivo, la tarjeta aparece en el centro.',
+              title: 'El título de la tarjeta.',
+              content: 'Su texto, o una plantilla.',
+              side: 'En qué lado del objetivo va la tarjeta.',
+              align: 'Cómo se alinea la tarjeta con el objetivo.',
+              padding: 'Margen alrededor del objetivo resaltado, en píxeles.',
+              interactive: 'El objetivo se puede usar mientras la tarjeta está visible.',
+              beforeShow:
+                'Se ejecuta antes de mostrar el paso. Si devuelve una promesa, el recorrido la espera.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Recorre los botones de la tarjeta. En los pasos modales, el foco se queda en la tarjeta.',
+          ],
+          ['Intro o Espacio', 'Activa el botón enfocado: «Siguiente», «Atrás» o «Listo».'],
+          ['Esc', 'Termina el recorrido.'],
+        ],
+        notes: [
+          'Cada tarjeta es un <code>dialog</code> que toma su nombre del título y su descripción del contenido. El foco pasa a su botón principal en cada paso, y vuelve a donde estaba al terminar el recorrido.',
+          'Los pasos modales vuelven inerte el resto de la página. Los interactivos no son modales, así que se puede llegar a su objetivo con el teclado, no solo con el puntero.',
+          'El progreso es texto, como «2 of 4»; los puntos solo lo dibujan.',
+        ],
+      },
+      dropzone: {
+        name: 'Zona de arrastre',
+        title: 'Zona de arrastre y subida de archivos para Angular',
+        summary:
+          'Suelta archivos o elígelos, con comprobaciones, vistas previas y subidas con progreso.',
+        description:
+          'Zona de arrastre accesible para Angular: arrastrar y soltar, carpetas y pegado, validación de tipo y tamaño, vistas previas y subidas con progreso y reintento.',
+        apiDescription:
+          'Referencia de la API de la zona de arrastre de Needless UI: archivos y comprobaciones de nui-dropzone, la función de subida y su cola, sus outputs y sus textos.',
+        a11yDescription:
+          'Teclado y accesibilidad de la zona de arrastre de Needless UI: una zona que es un botón, resultados anunciados, y barras de progreso y acciones con nombre.',
+        overview: [
+          'Una zona de arrastre acepta archivos soltados sobre ella, elegidos con el selector de archivos o pegados. Las carpetas soltadas se recorren por completo, y cada archivo conserva su ruta.',
+          'Cada archivo se comprueba con <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> y tu función <code>validate</code>, y los rechazados aparecen en una lista con el motivo. Las imágenes tienen vista previa.',
+          'Sin una función <code>upload</code>, la zona guarda los archivos para un formulario, en <code>[(files)]</code>. Con una, los sube de pocos en pocos, con progreso, cancelación y reintento. Pasa el <code>signal</code> de la subida a <code>fetch</code>, para que cancelar la detenga de verdad.',
+        ],
+        examples: {
+          upload: {
+            title: 'Subidas',
+            text: 'Una subida simulada informa de su progreso por pasos. Los archivos con «fail» en el nombre fallan, para mostrar el reintento, y <code>directory</code> añade un botón para elegir una carpeta.',
+          },
+          attach: {
+            title: 'Adjuntos para un formulario',
+            text: 'Sin <code>upload</code>: la zona guarda hasta tres documentos en <code>[(files)]</code>, y el texto que lleva dentro sustituye al predeterminado.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Un lugar donde soltar archivos, o elegirlos.',
+            members: {
+              files: 'Los archivos que contiene, en orden.',
+              accept:
+                'Los tipos de archivo que acepta, como en <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Más de un archivo a la vez.',
+              directory: 'Ofrece un botón para elegir una carpeta.',
+              maxFiles: 'Cuántos archivos admite.',
+              'maxSize, minSize': 'El tamaño máximo y mínimo de un archivo, en bytes.',
+              validate: 'Comprueba cada archivo. Si devuelve un mensaje, el archivo se rechaza.',
+              upload: 'Envía un archivo. Sin esta función, los archivos solo se guardan.',
+              concurrency: 'Cuántos archivos se suben a la vez.',
+              hint: 'Una línea bajo el texto de la zona, por ejemplo con lo que acepta.',
+              disabled: 'No acepta archivos.',
+              labels: 'Todos los textos que muestra o anuncia, para traducirlos.',
+              uploaded: 'Emite un archivo subido, con lo que devolvió <code>upload</code>.',
+              rejected: 'Emite los archivos rechazados, con los motivos.',
+              queue:
+                'La cola de subidas, para cancelar, reintentar y leer el progreso desde el código.',
+              take: 'Añade archivos desde el código, comprobando cada uno.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Envía un archivo: informa del progreso de 0 a 1 y se detiene cuando se aborta el signal.',
+            members: {
+              '(file, context)': 'Devuelve una promesa con lo que responda tu servidor.',
+            },
+          },
+        },
+        keyboard: [
+          ['Intro o Espacio', 'En la zona, abre el selector de archivos.'],
+          ['Ctrl + V (⌘ + V en Mac)', 'En la zona, añade los archivos pegados.'],
+          ['Tab', 'Recorre la zona y las acciones de cada archivo.'],
+        ],
+        notes: [
+          'La zona es un botón, así que funciona sin puntero, y la indicación la describe.',
+          'Los archivos añadidos y los rechazados se anuncian. Cada barra de progreso es una <code>progressbar</code> con el nombre de su archivo, y cada acción se nombra por lo que hace, como «Remove beach.jpg».',
+          'Las vistas previas son decorativas: el nombre del archivo ya dice de qué archivo se trata.',
+        ],
+      },
+      mask: {
+        name: 'Máscara de entrada',
+        title: 'Directiva de máscara de entrada para Angular',
+        summary:
+          'Campos de texto que se formatean mientras se escribe: fechas, tarjetas, IBAN, códigos.',
+        description:
+          'Máscara de entrada para Angular: da formato al escribir sin mover el cursor, e incluye funciones auxiliares para tarjetas e IBAN y validación de formularios.',
+        apiDescription:
+          'Referencia de la API de la máscara de entrada de Needless UI: la directiva nuiMask, sus tokens y su valor, y funciones auxiliares para tarjetas e IBAN.',
+        a11yDescription:
+          'Accesibilidad de la máscara de entrada de Needless UI: campos nativos con sus etiquetas, teclados numéricos en móviles y borrado que salta los literales.',
+        overview: [
+          'Una máscara da formato a un campo de texto mientras se escribe: <code>00/00/0000</code> pone las barras y <code>AA 000 AA</code> acepta letras y dígitos por turnos. Los caracteres que no encajan se quedan fuera, y el cursor mantiene su sitio cuando se escribe en medio.',
+          'Las máscaras se componen de tokens y literales: <code>0</code> es un dígito, <code>a</code> una letra, <code>*</code> cualquiera de los dos, y <code>A</code> y <code>X</code> hacen lo mismo para códigos, en mayúsculas. Añade los tuyos con <code>tokens</code>, o pasa una función que elija la máscara según lo que se escribe, como hace <code>nuiCardMask</code> según la marca de la tarjeta.',
+          'El valor es lo que se muestra, o solo los datos con <code>unmask</code>. La máscara funciona con Signal Forms, formularios reactivos y <code>ngModel</code>, y un valor incompleto es un error.',
+        ],
+        examples: {
+          formats: {
+            title: 'Formatos',
+            text: 'Una fecha, una hora, una matrícula y un color con un token propio para los dígitos hexadecimales.',
+          },
+          payment: {
+            title: 'Datos de pago',
+            text: 'Campos de Signal Forms. La máscara de la tarjeta sigue a la marca, el código de seguridad tiene cuatro dígitos en American Express, y <code>nuiCardValid</code> y <code>nuiIbanValid</code> comprueban los números.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Una máscara sobre un campo de texto nativo.',
+            members: {
+              nuiMask: 'La máscara, o una función que elige una según los datos escritos.',
+              tokens: 'Caracteres de máscara que añadir o reemplazar.',
+              unmask: 'El valor contiene solo los datos, sin los literales.',
+              value: 'El valor: lo que se muestra, o los datos con <code>unmask</code>.',
+              raw: 'Los datos escritos, sin los literales.',
+              complete: 'Todas las posiciones de la máscara están rellenas.',
+            },
+          },
+          Helpers: {
+            summary: 'Funciones para dar formato, comprobar y crear máscaras.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Dan formato a un valor con una máscara, o extraen los datos de un valor formateado.',
+              nuiCardMask:
+                'Una máscara para números de tarjeta, agrupados como los imprime su marca.',
+              nuiCardBrand: 'La marca de un número de tarjeta, según sus primeros dígitos.',
+              'nuiCardValid, nuiLuhn':
+                'Si un número de tarjeta tiene la longitud de su marca y supera la verificación de Luhn.',
+              nuiIbanMask: 'Una máscara para IBAN, con la longitud del IBAN de cada país.',
+              nuiIbanValid:
+                'Si un IBAN tiene la longitud de su país y los dígitos de control correctos.',
+            },
+          },
+        },
+        keyboard: [
+          ['Retroceso', 'Borra el carácter anterior al cursor, saltando los literales.'],
+          ['Supr', 'Borra el carácter posterior al cursor, saltando los literales.'],
+        ],
+        notes: [
+          'La máscara actúa sobre tu propio <code>&lt;input&gt;</code>, así que su etiqueta y su texto de ayuda quedan como los escribiste. Indica ahí qué se espera: una máscara no es una instrucción.',
+          'Las máscaras de dígitos ponen <code>inputmode="numeric"</code>, para que los móviles muestren un teclado numérico, salvo que el campo defina el suyo.',
+          'Acepta dígitos de cualquier sistema de escritura y los escribe del 0 al 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Campo de teléfono',
+        title: 'Campo de número de teléfono para Angular',
+        summary: 'Un selector de país y un número, agrupado como se escribe en su país.',
+        description:
+          'Campo de teléfono accesible para Angular: selector de país, números agrupados como los escribe cada país, códigos de país escritos o pegados y valores E.164.',
+        apiDescription:
+          'Referencia de la API del campo de teléfono de Needless UI: valor y país de nui-phone-field, países ofrecidos y funciones para leer y escribir números.',
+        a11yDescription:
+          'Accesibilidad del campo de teléfono de Needless UI: selector de país con nombre, anuncio del país que elige un código y autocompletado del navegador.',
+        overview: [
+          'Un campo de teléfono es un selector de país y un número. El número se agrupa mientras se escribe, como su país escribe los números, y el valor es el número en E.164, como <code>+393331234567</code>.',
+          'Cada persona escribe los números como los conoce. Un 0 inicial (o el 1 delante de un número norteamericano) se toma como prefijo troncal y queda fuera del valor. Un código de país escrito o pegado, como <code>+44</code> o <code>0044</code>, elige su país, y lo mismo hace un código de área donde varios países comparten código.',
+          'El primer país es el de la configuración regional, y <code>countries</code> limita la lista. Con formularios, un número demasiado corto o largo para su país es un error. Para una validación completa, comprueba también los números en el servidor.',
+        ],
+        examples: {
+          basic: {
+            title: 'Un número',
+            text: 'Empieza con <code>+</code> y un código de país para cambiar de país mientras escribes.',
+          },
+          countries: {
+            title: 'Los países que elijas',
+            text: '<code>countries</code> ofrece once, el campo funciona con un <code>FormControl</code> reactivo y <code>nuiFormatPhone</code> vuelve a escribir el valor en un formato legible.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Un campo de número de teléfono.',
+            members: {
+              value: 'El número en E.164, o vacío.',
+              country: 'El país, como código de región.',
+              countries: 'Los países ofrecidos, como códigos de región.',
+              locale: 'El idioma de los nombres de países.',
+              label: 'Da nombre al número cuando ningún <code>&lt;label for&gt;</code> lo hace.',
+              inputId: 'El id del número, para <code>&lt;label for&gt;</code>.',
+              placeholder: 'Texto que se muestra mientras el número está vacío.',
+              invalid: 'Marca el número como no válido.',
+              disabled: 'No se puede cambiar.',
+              labels: 'Todos los textos que anuncia, para traducirlos.',
+            },
+          },
+          Helpers: {
+            summary: 'Funciones para números de teléfono.',
+            members: {
+              nuiParsePhone:
+                'Lee un número escrito de cualquier forma y lo separa en región, código de país y número nacional.',
+              nuiFormatPhone: 'Escribe un número agrupado como lo hace su país, o en E.164.',
+              nuiPhoneValid:
+                'Si un número tiene un código de país conocido y la longitud de su país.',
+            },
+          },
+        },
+        keyboard: [
+          ['Letras en el selector de país', 'Saltan a los países que empiezan por ellas.'],
+          ['Intro o Espacio', 'Abre la lista de países, o elige uno.'],
+          ['Retroceso', 'En el número, borra un dígito, saltando espacios y paréntesis.'],
+        ],
+        notes: [
+          'El selector de país se llama «Country code» y lee su bandera y su código. Cuando un código de país o de área elige un país, se anuncia el país nuevo.',
+          'Ponle nombre al número con <code>&lt;label for&gt;</code> e <code>inputId</code>, o con <code>label</code>.',
+          'El número tiene <code>autocomplete="tel"</code>, así que los navegadores pueden rellenarlo, código de país incluido, y los móviles muestran un teclado telefónico.',
+        ],
+      },
+      'color-picker': {
+        name: 'Selector de color',
+        title: 'Selector de color OKLCH para Angular',
+        summary:
+          'Un color en OKLCH, con controles deslizantes, muestras, cuentagotas y comprobación de contraste.',
+        description:
+          'Selector de color accesible para Angular en OKLCH: colores P3 de gama amplia, cualquier sintaxis CSS, muestras, cuentagotas y comprobación de contraste WCAG.',
+        apiDescription:
+          'Referencia de la API del selector de color de Needless UI: valor, formato y gama de nui-color-picker, muestras y contraste, y funciones auxiliares de color.',
+        a11yDescription:
+          'Teclado y accesibilidad del selector de color de Needless UI: un área con dos valores, controles deslizantes nativos y niveles de contraste por escrito.',
+        overview: [
+          'El selector de color trabaja en OKLCH, el espacio de color perceptual del CSS moderno. A lo ancho del área, el croma va del gris al máximo que la pantalla puede mostrar con esa luminosidad, así que cada punto es un color que puedes usar, y el tirador no se mueve cuando gira el tono.',
+          'El campo acepta cualquier color de CSS, nombres incluidos, y el botón de formato escribe el valor en hexadecimal, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> o <code>color(display-p3)</code>. Un color fuera de la gama de un formato se lleva a ella como lo hace CSS, conservando su luminosidad y su tono.',
+          'Añade <code>swatches</code> para elegir entre muestras, y <code>contrastWith</code> para comprobar el contraste del color sobre un fondo tal como lo mide WCAG 2. Si el navegador tiene cuentagotas, un botón toma un color de la pantalla.',
+        ],
+        examples: {
+          brand: {
+            title: 'Un color de marca',
+            text: 'Muestras con nombre y el contraste de un texto blanco sobre el color: elige uno claro y AA falla.',
+          },
+          wide: {
+            title: 'Gama amplia',
+            text: '<code>gamut="p3"</code> llena el área con colores Display P3, y una línea discontinua marca dónde termina sRGB. El valor sigue en <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'En un popover',
+            text: 'Un botón que muestra el color abre el selector en un <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Un selector de color en OKLCH.',
+            members: {
+              value: 'El color, escrito en el formato. Vacío hasta que se elige uno.',
+              format: 'Cómo se escribe el valor.',
+              formats: 'Los formatos que recorre el botón de formato.',
+              gamut: 'Los colores que abarca el área: sRGB o Display P3.',
+              alpha: 'Muestra el control deslizante de opacidad.',
+              swatches: 'Colores para elegir, con nombre.',
+              contrastWith: 'Un fondo con el que comprobar el contraste.',
+              eyeDropper: 'Muestra el cuentagotas, si el navegador tiene uno.',
+              disabled: 'No se puede cambiar.',
+              labels: 'Todos los textos que anuncia, para traducirlos.',
+              color: 'El color elegido, en OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Funciones para colores.',
+            members: {
+              nuiParseColor: 'Lee un color en cualquier sintaxis de CSS.',
+              nuiFormatColor: 'Escribe un color en un formato.',
+              nuiToGamut: 'Lleva un color a sRGB o Display P3, como hace CSS.',
+              nuiContrast: 'La relación de contraste WCAG 2 de un color sobre un fondo.',
+            },
+          },
+        },
+        keyboard: [
+          ['Flechas izquierda y derecha', 'En el área, menos o más croma.'],
+          ['Flechas arriba y abajo', 'En el área, más claro o más oscuro.'],
+          ['Mayús + flechas', 'Mueven el tirador diez veces más.'],
+          ['Inicio y Fin', 'En el área, croma nulo o máximo.'],
+          ['Re Pág y Av Pág', 'En el área, mucho más claro o más oscuro.'],
+        ],
+        notes: [
+          'El tirador del área es un <code>slider</code> llamado «Color» que anuncia sus dos valores, como «Lightness 62%, chroma 75%». El tono y la opacidad son entradas de rango nativas.',
+          'Las muestras son botones con el nombre de su etiqueta, y aparecen pulsadas cuando coinciden con el color.',
+          'AA y AAA dicen «passes» o «fails» con palabras, no solo con el color, y en el modo de colores forzados los colores en sí se mantienen.',
+        ],
+      },
     },
   },
 

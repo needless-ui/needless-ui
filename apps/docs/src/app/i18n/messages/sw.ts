@@ -1807,6 +1807,418 @@ export const messages: Messages = {
           'Mionekano ni vitufe vya kugeuza katika kikundi, na kwenda wiki au mwezi mwingine hutangaza kichwa chake.',
         ],
       },
+      splitter: {
+        name: 'Kigawanya paneli',
+        title: 'Kigawanya paneli za kubadili ukubwa kwa Angular',
+        summary:
+          'Paneli kando kwa kando au moja juu ya nyingine, zenye vishikio vya kuzibadilisha ukubwa.',
+        description:
+          'Kigawanya paneli cha Angular kinachofikika: paneli za kubadili ukubwa, mlalo au wima, zenye mipaka na kukunjika, ukubwa unaohifadhiwa na kibodi kamili.',
+        apiDescription:
+          'Marejeleo ya API ya kigawanya paneli cha Needless UI: mwelekeo na ukubwa wa nuiSplitter, mipaka ya paneli na kuzikunja, na vishikio vilivyo kati yake.',
+        a11yDescription:
+          'Kibodi na ufikivu wa kigawanya paneli cha Needless UI: vishikio vya window splitter vyenye thamani vinavyopokea focus, vitufe vya mishale, Home, End na Enter.',
+        overview: [
+          'Kigawanya paneli hugawa nafasi yake kati ya paneli, na kuna kishikio kati ya kila paneli mbili. Buruta kishikio, au weka focus juu yake kisha utumie vitufe vya mishale. Ukubwa ni asilimia ambazo jumla yake ni 100, na <code>[(sizes)]</code> huziunganisha.',
+          'Kila paneli hupokea ukubwa wake wa kwanza, wa chini kabisa na wa juu kabisa kwa pikseli, rem au asilimia. Paneli yenye <code>collapsible</code> hujikunja ikiburutwa chini ya nusu ya ukubwa wake wa chini kabisa, au kwa Enter kwenye kishikio chake, na hurudi na ukubwa iliyokuwa nao.',
+          'Ukiweka <code>storageKey</code>, ukubwa huhifadhiwa kwenye <code>localStorage</code>, hivyo watumiaji wanaporudi hukuta mpangilio kama walivyouacha.',
+        ],
+        examples: {
+          editor: {
+            title: 'Kihariri',
+            text: 'Faili, msimbo na onyesho la kukagua. Faili na onyesho la kukagua hujikunja, msimbo hubaki na angalau 30% ya upana, na ukubwa huhifadhiwa.',
+          },
+          stacked: {
+            title: 'Paneli moja juu ya nyingine',
+            text: '<code>orientation="vertical"</code> hupanga paneli moja juu ya nyingine, na <code>[(sizes)]</code> husoma ukubwa wake unapobadilika.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Paneli zenye vishikio kati yake.',
+            members: {
+              orientation: 'Kando kwa kando, au moja juu ya nyingine.',
+              sizes: 'Sehemu ya kila paneli, kwa asilimia, kwa mpangilio.',
+              storageKey: 'Huhifadhi ukubwa kwenye <code>localStorage</code> chini ya ufunguo huu.',
+              step: 'Umbali ambao vitufe vya mishale husogeza kishikio, kwa asilimia. Mara mbili yake kwa Shift.',
+              move: 'Husogeza mpaka ulio baada ya paneli kwa asilimia fulani.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Paneli. Ukubwa wake hupokea pikseli, rem au asilimia.',
+            members: {
+              defaultSize: 'Ukubwa wake wa kwanza, wakati hakuna ukubwa wa kurejesha.',
+              min: 'Ukubwa wake mdogo zaidi.',
+              max: 'Ukubwa wake mkubwa zaidi.',
+              collapsible:
+                'Hujikunja: ikiburutwa chini ya nusu ya ukubwa wake wa chini kabisa, au kwa Enter.',
+              collapsedSize: 'Ukubwa wake ikiwa imekunjwa, kama safu nyembamba ya ikoni.',
+              label: 'Hukipa jina kishikio kinachobadilisha ukubwa wake.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'Kishikio kati ya paneli mbili.',
+            members: {
+              label: 'Hukipa jina, pale lebo ya paneli isipokipa.',
+              disabled: 'Hakisogei.',
+              toggle: 'Hukunja paneli iliyo kando yake, au huirudisha.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Mishale ya kushoto na kulia',
+            'Husogeza kishikio kati ya paneli zilizo kando kwa kando. Hubadilishana katika maandishi ya kulia kwenda kushoto.',
+          ],
+          [
+            'Mishale ya juu na chini',
+            'Husogeza kishikio kati ya paneli zilizo moja juu ya nyingine.',
+          ],
+          ['Shift + vitufe vya mishale', 'Husogeza mara mbili zaidi.'],
+          [
+            'Home na End',
+            'Hupeleka paneli iliyo kabla ya kishikio kwenye ukubwa wake mdogo zaidi au mkubwa zaidi.',
+          ],
+          ['Enter', 'Hukunja paneli inayokunjika, au huirudisha.'],
+        ],
+        notes: [
+          'Kila kishikio ni <code>separator</code> inayopokea focus, kama katika muundo wa window splitter wa WAI-ARIA: thamani yake ni ukubwa wa paneli iliyo kabla yake, ndani ya mipaka ya paneli hiyo, na <code>aria-controls</code> huelekeza kwenye paneli hiyo.',
+          'Vipe vishikio majina kupitia <code>label</code> ya paneli: “Files” hukiambia kisoma skrini kishikio hubadilisha ukubwa wa kitu gani.',
+          'Kubofya mara mbili kwenye kishikio hukunja paneli yake pia, na kuburuta hushikilia kielekezi, hivyo miondoko ya haraka haikipotezi kishikio.',
+        ],
+      },
+      tour: {
+        name: 'Ziara ya kuongozwa',
+        title: 'Kijenzi cha ziara ya kuongozwa kwa Angular',
+        summary:
+          'Kadi kwa kila hatua, kando ya kile inachohusu, huku ukurasa unaoizunguka ukififia.',
+        description:
+          'Ziara ya bidhaa ya Angular inayofikika: kadi kwa kila hatua kando ya lengo lake, mwangaza unaolizunguka, hatua shirikishi na focus inayorudi.',
+        apiDescription:
+          'Marejeleo ya API ya ziara ya Needless UI: hatua za nui-tour, binding za open na step, output zake, na lengo, uwekaji na hook za kila hatua.',
+        a11yDescription:
+          'Kibodi na ufikivu wa ziara ya Needless UI: kila kadi ni kidirisha chenye jina la kichwa chake, focus inayohifadhiwa na kurudishwa, na Escape ya kuondoka.',
+        overview: [
+          'Ziara huwapitisha watumiaji kwenye ukurasa, hatua moja baada ya nyingine. Kila hatua huelekeza kwenye kipengele kwa kadi iliyo kando yake, na hufifisha sehemu nyingine ya ukurasa inayokizunguka; hatua isiyo na lengo huonekana katikati.',
+          'Hatua ni data ya kawaida: lengo (kiteuzi, kipengele au function inayokipata), kichwa, na maudhui kama maandishi au template. <code>beforeShow</code> hutekelezwa kwanza, hivyo hatua inaweza kufungua paneli ambamo lengo lake limo, na ukurasa husogezwa hadi lengo lisiloonekana.',
+          'Kila kadi ni kidirisha. Ni modal, isipokuwa hatua ikiwa <code>interactive</code>: hapo watumiaji wanaweza kutumia kile inachoelekeza. Escape humaliza ziara, na focus hurudi ilipokuwa.',
+        ],
+        examples: {
+          basics: {
+            title: 'Mtazamo wa kwanza',
+            text: 'Hatua nne, ya kwanza bila lengo. <code>finished</code> na <code>dismissed</code> hutofautisha namna mbili za kumalizika.',
+          },
+          interactive: {
+            title: 'Hatua za kujaribu',
+            text: '<code>beforeShow</code> hufungua mipangilio kabla hatua ya pili haijaelekeza ndani yake, na <code>interactive</code> huwaruhusu watumiaji kutumia swichi kadi ikiwa bado iko wazi.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Ziara ya kuongozwa.',
+            members: {
+              steps: 'Hatua, kwa mpangilio.',
+              open: 'Kama ziara inaendelea.',
+              step: 'Hatua inayoonyeshwa, kuanzia 0.',
+              labels: 'Kila maandishi ambayo ziara huonyesha, ili kuyatafsiri.',
+              finished: 'Hutoa tukio hatua ya mwisho inapokamilika.',
+              dismissed: 'Hutoa hatua ambayo ziara iliishia, ikiisha mapema.',
+              start: 'Huanzisha ziara, kuanzia hatua ya kwanza au ile uliyotoa.',
+              end: 'Humaliza ziara, kama iliyokamilika au iliyoachwa.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Hatua ya ziara.',
+            members: {
+              target: 'Kile inachoelekeza. Bila lengo, kadi huonekana katikati.',
+              title: 'Kichwa cha kadi.',
+              content: 'Maandishi yake, au template.',
+              side: 'Upande wa lengo ambako kadi huwekwa.',
+              align: 'Jinsi kadi inavyojipanga na lengo.',
+              padding: 'Nafasi kuzunguka lengo ndani ya mwangaza, kwa pikseli.',
+              interactive: 'Lengo linaweza kutumika kadi ikiwa wazi.',
+              beforeShow: 'Hutekelezwa kabla hatua haijaonyeshwa. Ziara husubiri promise.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Hupitia vitufe vya kadi. Kwenye hatua za modal, focus hubaki ndani ya kadi.'],
+          ['Enter au Space', 'Hubonyeza kitufe chenye focus: Next, Back au Done.'],
+          ['Escape', 'Humaliza ziara.'],
+        ],
+        notes: [
+          'Kila kadi ni <code>dialog</code> inayopewa jina na kichwa chake na kuelezwa na maudhui yake. Katika kila hatua, focus huhamia kwenye kitufe chake kikuu, na ziara inapoisha hurudi ilipokuwa.',
+          'Hatua za modal hufanya sehemu nyingine ya ukurasa isitumike. Hatua shirikishi si modal, hivyo lengo lake linaweza kufikiwa kwa kibodi pamoja na kielekezi.',
+          'Maendeleo ni maandishi, kama “2 of 4”; vitone huyachora tu.',
+        ],
+      },
+      dropzone: {
+        name: 'Eneo la kudondosha',
+        title: 'Eneo la kudondosha faili na upakiaji kwa Angular',
+        summary:
+          'Dondosha faili au uzichague; hukaguliwa, huonyeshwa awali na hupakiwa huku maendeleo yakionekana.',
+        description:
+          'Eneo la kudondosha la Angular linalofikika: folda na kubandika, ukaguzi wa aina na ukubwa, maonyesho ya picha, na upakiaji wenye maendeleo na kujaribu tena.',
+        apiDescription:
+          'Marejeleo ya API ya eneo la kudondosha la Needless UI: faili na ukaguzi wa nui-dropzone, function ya upload na foleni yake, output na maandishi yake.',
+        a11yDescription:
+          'Kibodi na ufikivu wa eneo la kudondosha la Needless UI: eneo ambalo ni kitufe, matokeo yanayotangazwa, na pau za maendeleo na vitendo vyenye majina.',
+        overview: [
+          'Eneo la kudondosha hupokea faili zilizodondoshwa juu yake, zilizochaguliwa kwa kichagua faili, au zilizobandikwa. Folda zilizodondoshwa husomwa zote, na kila faili hubaki na njia yake.',
+          'Kila faili hukaguliwa dhidi ya <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> na function yako ya <code>validate</code>, na zilizokataliwa huorodheshwa pamoja na sababu. Picha hupata onyesho la kukagua.',
+          'Bila function ya <code>upload</code>, eneo la kudondosha hushikilia faili kwa ajili ya fomu, katika <code>[(files)]</code>. Ikiwepo, hupakia faili chache kwa wakati mmoja, pamoja na maendeleo, kughairi na kujaribu tena. Pitisha <code>signal</code> ya upakiaji kwa <code>fetch</code>, ili kughairi kuusimamishe.',
+        ],
+        examples: {
+          upload: {
+            title: 'Upakiaji',
+            text: 'Upakiaji wa kuigiza huripoti maendeleo yake kwa hatua. Faili zenye “fail” katika jina hushindwa, ili kuonyesha kujaribu tena, na <code>directory</code> huongeza kitufe cha kuchagua folda.',
+          },
+          attach: {
+            title: 'Viambatisho vya fomu',
+            text: 'Bila <code>upload</code>: eneo la kudondosha hushikilia hadi hati tatu katika <code>[(files)]</code>, na maandishi yake yenyewe huchukua nafasi ya yale ya chaguomsingi.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Mahali pa kudondosha faili, au kuzichagua.',
+            members: {
+              files: 'Faili linazoshikilia, kwa mpangilio.',
+              accept: 'Aina za faili linazopokea, kama kwa <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Zaidi ya faili moja kwa wakati mmoja.',
+              directory: 'Hutoa kitufe cha kuchagua folda.',
+              maxFiles: 'Idadi ya faili linazoweza kushikilia.',
+              'maxSize, minSize': 'Ukubwa wa juu zaidi na wa chini zaidi wa faili, kwa baiti.',
+              validate: 'Hukagua kila faili. Ujumbe unaorudishwa huikataa faili hiyo.',
+              upload: 'Hutuma faili. Bila hii, faili hushikiliwa tu.',
+              concurrency: 'Idadi ya faili zinazopakiwa kwa wakati mmoja.',
+              hint: 'Mstari chini ya maandishi ya eneo, kama vile kile linachopokea.',
+              disabled: 'Halipokei faili.',
+              labels: 'Kila maandishi ambayo eneo huonyesha au hutangaza, ili kuyatafsiri.',
+              uploaded:
+                'Hutoa faili iliyopakiwa, pamoja na kile ambacho <code>upload</code> ilirudisha.',
+              rejected: 'Hutoa faili zilizokataliwa, pamoja na sababu.',
+              queue:
+                'Foleni ya upakiaji, ili kughairi, kujaribu tena na kusoma maendeleo kutoka kwenye msimbo.',
+              take: 'Huongeza faili kutoka kwenye msimbo, na kukagua kila moja.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Hutuma faili moja: huripoti maendeleo kutoka 0 hadi 1, na husimama signal inapoghairiwa.',
+            members: {
+              '(file, context)': 'Hurudisha promise ya chochote ambacho seva yako hujibu.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter au Space', 'Focus ikiwa kwenye eneo, hufungua kichagua faili.'],
+          ['Ctrl + V au ⌘ + V', 'Focus ikiwa kwenye eneo, huongeza faili zilizobandikwa.'],
+          ['Tab', 'Hupitia eneo na vitendo vya kila faili.'],
+        ],
+        notes: [
+          'Eneo ni kitufe, hivyo hufanya kazi bila kielekezi, na dokezo lililo chini yake hulieleza.',
+          'Faili zilizoongezwa na zilizokataliwa hutangazwa. Kila upau wa maendeleo ni <code>progressbar</code> yenye jina la faili yake, na kila kitendo hupewa jina la kile kinachofanya, kama “Remove beach.jpg”.',
+          'Maonyesho ya kukagua ni ya mapambo tu: jina la faili husema ni faili ipi.',
+        ],
+      },
+      mask: {
+        name: 'Mask ya input',
+        title: 'Directive ya mask ya input kwa Angular',
+        summary:
+          'Sehemu za maandishi zinazoumbizwa watu wanapoandika: tarehe, kadi, IBAN na misimbo.',
+        description:
+          'Mask ya input ya Angular: huumbiza sehemu za maandishi watu wanapoandika, kishale hubaki mahali pake, visaidizi vya kadi na IBAN, na uthibitishaji wa fomu.',
+        apiDescription:
+          'Marejeleo ya API ya mask ya input ya Needless UI: directive ya nuiMask, token zake na thamani, na visaidizi vya namba za kadi na IBAN.',
+        a11yDescription:
+          'Ufikivu wa mask ya input ya Needless UI: sehemu asilia zenye lebo zake, kibodi za namba kwenye simu, na kufuta kwa kuruka herufi thabiti.',
+        overview: [
+          'Mask huumbiza sehemu ya maandishi watu wanapoandika: <code>00/00/0000</code> huweka mikwaju yenyewe, <code>AA 000 AA</code> hupokea herufi na tarakimu kwa mpangilio huo. Herufi zisizofaa hazikubaliwi, na kishale hubaki mahali pake watu wanapoandika katikati.',
+          'Mask huundwa kwa token na herufi thabiti (kama mikwaju): <code>0</code> ni tarakimu, <code>a</code> ni herufi, <code>*</code> ni yoyote kati ya hizo, na <code>A</code> na <code>X</code> ni hizohizo kwa misimbo, kwa herufi kubwa. Ongeza zako kwa <code>tokens</code>, au pitisha function inayochagua mask kulingana na kilichoandikwa, kama <code>nuiCardMask</code> inavyofanya kwa chapa ya kadi.',
+          'Thamani ni kile kinachoonyeshwa, au data pekee ukiweka <code>unmask</code>. Mask hufanya kazi na Signal Forms, reactive forms na <code>ngModel</code>, na thamani isiyokamilika ni kosa.',
+        ],
+        examples: {
+          formats: {
+            title: 'Maumbizo',
+            text: 'Tarehe, saa, namba ya gari, na rangi yenye token yake yenyewe kwa tarakimu za heksadesimali.',
+          },
+          payment: {
+            title: 'Maelezo ya malipo',
+            text: 'Sehemu za Signal Forms. Mask ya kadi hufuata chapa yake, msimbo wa usalama una tarakimu nne kwa American Express, na <code>nuiCardValid</code> na <code>nuiIbanValid</code> hukagua namba.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Mask kwenye sehemu asilia ya maandishi.',
+            members: {
+              nuiMask: 'Mask, au function inayochagua moja kulingana na data iliyoandikwa.',
+              tokens: 'Herufi za mask za kuongeza au kubadilisha.',
+              unmask: 'Thamani ni data pekee, bila herufi thabiti.',
+              value: 'Thamani: kinachoonyeshwa, au data ukiweka <code>unmask</code>.',
+              raw: 'Data iliyoandikwa, bila herufi thabiti.',
+              complete: 'Kama kila nafasi ya mask imejazwa.',
+            },
+          },
+          Helpers: {
+            summary: 'Function za kuumbiza, kukagua na kuunda mask.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Huumbiza thamani kwa mask, au husoma data kutoka kwenye thamani iliyoumbizwa.',
+              nuiCardMask:
+                'Mask ya namba za kadi, zikiwa katika makundi kama chapa yake inavyozichapisha.',
+              nuiCardBrand: 'Chapa ya namba ya kadi, kutokana na tarakimu zake za kwanza.',
+              'nuiCardValid, nuiLuhn':
+                'Kama namba ya kadi ina urefu wa chapa yake na inapita ukaguzi wa Luhn.',
+              nuiIbanMask: 'Mask ya IBAN, yenye urefu sawa na IBAN za nchi husika.',
+              nuiIbanValid: 'Kama IBAN ina urefu wa nchi yake na tarakimu hakiki sahihi.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Hufuta herufi iliyo kabla ya kishale, ikiruka herufi thabiti.'],
+          ['Delete', 'Hufuta herufi iliyo baada ya kishale, ikiruka herufi thabiti.'],
+        ],
+        notes: [
+          'Mask hufanya kazi kwenye <code>&lt;input&gt;</code> yako mwenyewe, hivyo lebo na kidokezo chake hubaki kama ulivyoviandika. Eleza hapo kinachotarajiwa: mask si maelekezo.',
+          'Mask za tarakimu huweka <code>inputmode="numeric"</code>, hivyo simu huonyesha vitufe vya namba, isipokuwa sehemu iwe imeweka yake.',
+          'Tarakimu za mfumo wowote wa uandishi hupokelewa, na huandikwa kama 0 hadi 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Sehemu ya simu',
+        title: 'Input ya namba ya simu kwa Angular',
+        summary: 'Kichagua nchi na namba, iliyopangwa kwa makundi kama nchi hiyo inavyoiandika.',
+        description:
+          'Input ya simu ya Angular inayofikika: kichagua nchi, namba katika makundi ya kila nchi, misimbo ya kupiga simu iliyoandikwa au kubandikwa, na thamani za E.164.',
+        apiDescription:
+          'Marejeleo ya API ya sehemu ya simu ya Needless UI: thamani na nchi ya nui-phone-field, nchi zinazotolewa, na visaidizi vya kusoma na kuandika namba.',
+        a11yDescription:
+          'Ufikivu wa sehemu ya simu ya Needless UI: kichagua nchi chenye jina, nchi inayotangazwa msimbo unapoichagua, na kujaza kiotomatiki kwa kivinjari.',
+        overview: [
+          'Sehemu ya simu ni kichagua nchi pamoja na namba. Namba hupangwa kwa makundi kama nchi yake inavyoandika namba, wakati inapoandikwa, na thamani ni namba katika E.164, kama <code>+393331234567</code>.',
+          'Watu huandika namba kwa jinsi wanavyozifahamu. 0 ya mwanzo (au 1 kabla ya namba ya Amerika Kaskazini) huchukuliwa kama kiambishi awali cha trunk na huachwa nje ya thamani. Msimbo wa kupiga simu ulioandikwa au kubandikwa, kama <code>+44</code> au <code>0044</code>, huchagua nchi yake, na msimbo wa eneo hufanya vivyo hivyo pale nchi kadhaa zinaposhiriki msimbo mmoja wa kupiga simu.',
+          'Nchi ya kwanza ni ya locale, na <code>countries</code> huweka kikomo cha orodha. Ikitumika na fomu, namba fupi mno au ndefu mno kwa nchi yake ni kosa. Kwa uthibitishaji kamili, kagua namba kwenye seva pia.',
+        ],
+        examples: {
+          basic: {
+            title: 'Namba',
+            text: 'Anza na <code>+</code> na msimbo wa kupiga simu ili kubadilisha nchi unapoandika.',
+          },
+          countries: {
+            title: 'Nchi unazochagua',
+            text: '<code>countries</code> hutoa nchi kumi na moja, sehemu hufanya kazi na <code>FormControl</code> ya reactive forms, na <code>nuiFormatPhone</code> huandika thamani upya ili watu waisome.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Sehemu ya namba ya simu.',
+            members: {
+              value: 'Namba katika E.164, au tupu.',
+              country: 'Nchi, kama msimbo wake wa kanda.',
+              countries: 'Nchi zinazotolewa, kama misimbo ya kanda.',
+              locale: 'Lugha ya majina ya nchi.',
+              label:
+                'Huipa namba jina, pale ambapo hakuna <code>&lt;label for&gt;</code> inayofanya hivyo.',
+              inputId: 'Id ya namba, kwa <code>&lt;label for&gt;</code>.',
+              placeholder: 'Maandishi yanayoonyeshwa sehemu ya namba ikiwa tupu.',
+              invalid: 'Huweka alama kuwa namba si halali.',
+              disabled: 'Haiwezi kubadilishwa.',
+              labels: 'Kila maandishi ambayo sehemu husema, ili kuyatafsiri.',
+            },
+          },
+          Helpers: {
+            summary: 'Function za namba za simu.',
+            members: {
+              nuiParsePhone:
+                'Husoma namba iliyoandikwa kwa njia yoyote na kuitenganisha kuwa kanda, msimbo wa kupiga simu na namba ya kitaifa.',
+              nuiFormatPhone:
+                'Huandika namba kwa makundi kama nchi yake inavyofanya, au katika E.164.',
+              nuiPhoneValid:
+                'Kama namba ina msimbo wa kupiga simu unaojulikana na urefu wa nchi yake.',
+            },
+          },
+        },
+        keyboard: [
+          ['Herufi kwenye kichagua nchi', 'Huruka hadi nchi zinazoanza nazo.'],
+          ['Enter au Space', 'Hufungua orodha ya nchi, au huchagua moja.'],
+          ['Backspace', 'Kwenye namba, hufuta tarakimu, ikiruka nafasi na mabano.'],
+        ],
+        notes: [
+          'Kichagua nchi kinaitwa “Country code” na husoma bendera na msimbo wake. Msimbo wa kupiga simu au msimbo wa eneo unapochagua nchi, nchi mpya hutangazwa.',
+          'Ipe namba jina kwa <code>&lt;label for&gt;</code> na <code>inputId</code>, au kwa <code>label</code>.',
+          'Namba ina <code>autocomplete="tel"</code>, hivyo vivinjari vinaweza kuijaza, pamoja na msimbo wa kupiga simu, na simu huonyesha vitufe vya simu.',
+        ],
+      },
+      'color-picker': {
+        name: 'Kichagua rangi',
+        title: 'Kichagua rangi cha OKLCH kwa Angular',
+        summary:
+          'Rangi katika OKLCH, yenye vitelezi, sampuli za rangi, eyedropper na ukaguzi wa utofautishaji.',
+        description:
+          'Kichagua rangi cha OKLCH kinachofikika kwa Angular: P3 ya wigo mpana, kila sintaksia ya rangi ya CSS, sampuli, eyedropper na ukaguzi wa utofautishaji wa WCAG.',
+        apiDescription:
+          'Marejeleo ya API ya kichagua rangi cha Needless UI: thamani, umbizo na wigo wa nui-color-picker, sampuli na utofautishaji, na visaidizi vya rangi.',
+        a11yDescription:
+          'Kibodi na ufikivu wa kichagua rangi cha Needless UI: kitelezi chenye thamani mbili kwa eneo, vitelezi asilia, na viwango vya utofautishaji kwa maneno.',
+        overview: [
+          'Kichagua rangi hufanya kazi katika OKLCH, nafasi ya rangi ya CSS ya kisasa inayofuata jinsi macho yanavyoona. Kwa upana wa eneo la rangi, ukolezi (chroma) huanzia kijivu hadi kiwango cha juu kabisa ambacho skrini inaweza kuonyesha kwa mwangaza (lightness) huo, hivyo kila nukta ni rangi unayoweza kutumia, na kishikio hakisogei hue inapobadilika.',
+          'Sehemu hupokea rangi yoyote ya CSS, yakiwemo majina ya rangi, na kitufe cha umbizo huandika thamani kama hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> au <code>color(display-p3)</code>. Rangi iliyo nje ya wigo wa rangi (gamut) wa umbizo huletwa ndani yake kwa njia ya CSS, ikibaki na mwangaza na hue yake.',
+          'Ongeza <code>swatches</code> ili kuchagua kutoka kwazo, na <code>contrastWith</code> ili kukagua rangi dhidi ya mandharinyuma jinsi WCAG 2 inavyopima utofautishaji. Pale kivinjari kina eyedropper, kitufe huchagua rangi kutoka kwenye skrini.',
+        ],
+        examples: {
+          brand: {
+            title: 'Rangi ya chapa',
+            text: 'Sampuli za rangi zenye majina, na utofautishaji wa maandishi meupe juu ya rangi: chagua rangi nyepesi, na AA hushindwa.',
+          },
+          wide: {
+            title: 'Wigo mpana',
+            text: '<code>gamut="p3"</code> hujaza eneo kwa rangi za Display P3, na mstari wa vistari huonyesha mahali sRGB inapoishia. Thamani hubaki katika <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'Ndani ya popover',
+            text: 'Kitufe kinachoonyesha rangi hufungua kichagua ndani ya <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Kichagua rangi katika OKLCH.',
+            members: {
+              value: 'Rangi, iliyoandikwa kwa umbizo. Tupu hadi rangi ichaguliwe.',
+              format: 'Jinsi thamani inavyoandikwa.',
+              formats: 'Maumbizo ambayo kitufe cha umbizo hupitia.',
+              gamut: 'Rangi zilizomo katika eneo: sRGB, au Display P3.',
+              alpha: 'Huonyesha kitelezi cha opacity.',
+              swatches: 'Rangi za kuchagua, zenye majina.',
+              contrastWith: 'Mandharinyuma ya kukagua utofautishaji dhidi yake.',
+              eyeDropper: 'Huonyesha eyedropper, pale kivinjari kina moja.',
+              disabled: 'Haiwezi kubadilishwa.',
+              labels: 'Kila maandishi ambayo kichagua husema, ili kuyatafsiri.',
+              color: 'Rangi iliyochaguliwa, katika OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Function za rangi.',
+            members: {
+              nuiParseColor: 'Husoma rangi katika sintaksia yoyote ya CSS.',
+              nuiFormatColor: 'Huandika rangi katika umbizo fulani.',
+              nuiToGamut: 'Huleta rangi ndani ya sRGB au Display P3, kama CSS inavyofanya.',
+              nuiContrast: 'Uwiano wa utofautishaji wa WCAG 2 wa rangi juu ya mandharinyuma.',
+            },
+          },
+        },
+        keyboard: [
+          ['Mishale ya kushoto na kulia', 'Kwenye eneo, ukolezi mdogo au mkubwa zaidi.'],
+          ['Mishale ya juu na chini', 'Kwenye eneo, mwangaza zaidi au kidogo.'],
+          ['Shift + vitufe vya mishale', 'Husogea mara kumi zaidi.'],
+          ['Home na End', 'Kwenye eneo, bila ukolezi au ukolezi wa juu kabisa.'],
+          ['Page Up na Page Down', 'Kwenye eneo, mwangaza zaidi au kidogo, kwa hatua kubwa.'],
+        ],
+        notes: [
+          'Kishikio cha eneo ni <code>slider</code> inayoitwa “Color” inayotaja thamani zake zote mbili, kama “Lightness 62%, chroma 75%”. Hue na opacity ni input asilia za range.',
+          'Sampuli za rangi ni vitufe vinavyopewa jina kwa lebo zake, na huwa vimebonyezwa vinapolingana na rangi.',
+          'AA na AAA husema “passes” au “fails” kwa maneno, si kwa rangi pekee, na katika hali ya forced colors rangi zenyewe hubaki.',
+        ],
+      },
     },
   },
 

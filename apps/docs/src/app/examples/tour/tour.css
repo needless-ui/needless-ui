@@ -1,0 +1,56 @@
+.app {
+  flex-basis: 100%;
+  display: grid;
+  gap: var(--nui-space-3);
+  margin-block-end: var(--nui-space-3);
+  padding: var(--nui-space-3);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  border-radius: var(--nui-radius-lg);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nui-space-2);
+}
+
+.search {
+  flex: 1;
+  min-inline-size: 8rem;
+  block-size: var(--nui-control-height-sm);
+  padding-inline: var(--nui-space-2);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-strong);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-canvas);
+  color: inherit;
+  font: inherit;
+  font-size: var(--nui-font-size-sm);
+}
+
+.search:focus-visible,
+.switch input:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+  outline-offset: var(--nui-focus-ring-offset);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nui-space-2);
+  justify-self: start;
+  padding: var(--nui-space-2) var(--nui-space-3);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-subtle);
+}
+
+.switch input {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  margin: 0;
+}
+
+.muted {
+  margin: 0;
+  color: var(--nui-color-text-muted);
+}

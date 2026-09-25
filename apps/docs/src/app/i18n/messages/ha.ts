@@ -1817,6 +1817,414 @@ export const messages: Messages = {
           'Nau’o’in kallo maɓallan toggle ne a cikin rukuni, kuma zuwa wani mako ko wata yana sanar da takensa.',
         ],
       },
+      splitter: {
+        name: 'Splitter',
+        title: 'Splitter da panes masu sauya girma don Angular',
+        summary: 'Panes gefe da gefe ko a saman juna, da handles don sauya girmansu.',
+        description:
+          'Splitter na Angular mai sauƙin amfani ga kowa: panes masu sauya girma gefe da gefe ko a saman juna, iyakoki, naɗewa, ajiye girma da iko da allon madannai.',
+        apiDescription:
+          'Bayanin API na splitter ɗin Needless UI: orientation da girman nuiSplitter, iyakoki da naɗewar panes, da handles da ke tsakaninsu.',
+        a11yDescription:
+          'Allon madannai da sauƙin amfani na splitter ɗin Needless UI: handles masu karɓar focus da ƙima bisa window splitter, maɓallan kibiya, Home, End da Enter.',
+        overview: [
+          'Splitter yana raba sararinsa tsakanin panes, da handle tsakanin kowane biyu. Ku ja handle, ko ku kai focus kansa sannan ku yi amfani da maɓallan kibiya. Girman panes kaso ne da jimillarsu ta kai 100, kuma <code>[(sizes)]</code> yana haɗa su.',
+          'Kowane pane yana karɓar girmansa na farko, mafi ƙanƙanta da mafi girma a pixels, rems ko kaso. Pane mai <code>collapsible</code> yana naɗewa idan aka ja shi ƙasa da rabin mafi ƙanƙantarsa, ko da Enter a kan handle ɗinsa, kuma yana dawowa da girman da yake da shi a da.',
+          'Da <code>storageKey</code>, ana ajiye girman panes a <code>localStorage</code>, don haka mutane suna samun tsarin shafin yadda suka bar shi a ziyararsu ta gaba.',
+        ],
+        examples: {
+          editor: {
+            title: 'Editor na code',
+            text: 'Fayiloli, code da samfoti. Panes na fayiloli da na samfoti suna naɗewa, code yana riƙe aƙalla 30% na faɗin, kuma ana ajiye girman panes.',
+          },
+          stacked: {
+            title: 'Panes a saman juna',
+            text: '<code>orientation="vertical"</code> yana jera panes a saman juna, kuma <code>[(sizes)]</code> yana karanta girmansu yayin da suke canzawa.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Panes masu handles a tsakaninsu.',
+            members: {
+              orientation: 'Gefe da gefe, ko a saman juna.',
+              sizes: 'Rabon kowane pane, a kaso, bi da bi.',
+              storageKey:
+                'Yana ajiye girman panes a <code>localStorage</code> ƙarƙashin wannan key.',
+              step: 'Nisan da maɓallan kibiya ke matsar da handle, a kaso. Ninki biyu da Shift.',
+              move: 'Yana matsar da iyakar da ke bayan pane da wani kaso.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Pane ɗaya. Girmansa yana karɓar pixels, rems ko kaso.',
+            members: {
+              defaultSize: 'Girmansa na farko, idan babu girman da za a maido.',
+              min: 'Girmansa mafi ƙanƙanta.',
+              max: 'Girmansa mafi girma.',
+              collapsible:
+                'Yana naɗewa: idan aka ja shi ƙasa da rabin mafi ƙanƙantarsa, ko da Enter.',
+              collapsedSize: 'Girmansa idan ya naɗe, kamar siririn layin icons.',
+              label: 'Yana ba handle ɗin da ke sauya girmansa suna.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'Handle da ke tsakanin panes biyu.',
+            members: {
+              label: 'Yana ba shi suna, idan lakabin pane ɗin bai ba shi ba.',
+              disabled: 'Ba ya motsi.',
+              toggle: 'Yana naɗe pane da ke kusa da shi, ko yana dawo da shi.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Kibiyar hagu da ta dama',
+            'Suna matsar da handle tsakanin panes da ke gefe da gefe. Suna juyawa a rubutu daga dama zuwa hagu.',
+          ],
+          ['Kibiyar sama da ta ƙasa', 'Suna matsar da handle tsakanin panes da ke saman juna.'],
+          ['Shift + maɓallan kibiya', 'Suna matsar da shi ninki biyu.'],
+          [
+            'Home da End',
+            'Suna kai pane ɗin da ya gabaci handle zuwa girmansa mafi ƙanƙanta ko mafi girma.',
+          ],
+          ['Enter', 'Yana naɗe pane mai naɗewa, ko yana dawo da shi.'],
+        ],
+        notes: [
+          'Kowane handle <code>separator</code> ne mai karɓar focus, kamar a tsarin window splitter na WAI-ARIA: ƙimarsa ita ce girman pane ɗin da ya gabace shi, a cikin iyakokin wannan pane, kuma <code>aria-controls</code> yana nuni zuwa pane ɗin.',
+          'Ku ba handles suna ta <code>label</code> na panes: “Files” yana gaya wa manhajar karanta allo abin da handle ke sauya girmansa.',
+          'Danna handle sau biyu ma yana naɗe pane ɗinsa, kuma yayin ja, handle ɗin yana riƙe linzamin, don haka motsi mai sauri ba ya kuɓuce masa.',
+        ],
+      },
+      tour: {
+        name: 'Tour',
+        title: 'Component na rangadi mai jagora don Angular',
+        summary:
+          'Kati ga kowane mataki, kusa da abin da yake bayani a kai, da sauran shafin a dusashe a kewaye.',
+        description:
+          'Rangadin manhaja na Angular mai sauƙin amfani ga kowa: kati kusa da target na kowane mataki, haske kewaye da shi, matakai masu mu’amala da focus mai komawa.',
+        apiDescription:
+          'Bayanin API na rangadin Needless UI: matakan nui-tour, binding na open da step, outputs ɗinsa, da target, matsayi da hooks na kowane mataki.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na rangadin Needless UI: kowane kati dialog ne mai suna daga takensa, riƙewa da mayar da focus, da Escape don fita.',
+        overview: [
+          'Rangadi yana zagaya da mutane cikin shafi, mataki-mataki. Kowane mataki yana nuni zuwa element da kati a gefensa, kuma yana dusashe sauran shafin da ke kewaye da shi; matakin da ba shi da target yana bayyana a tsakiya.',
+          'Matakai bayanai ne zalla: target (selector, element ko function da ke nemo shi), take, da abun ciki a matsayin rubutu ko template. <code>beforeShow</code> yana aiki da farko, don mataki ya iya buɗe panel ɗin da target ɗinsa ke ciki, kuma idan target ɗin ba ya cikin gani, ana gungurawa zuwa gare shi.',
+          'Kowane kati dialog ne. Modal ne, sai dai idan matakin <code>interactive</code> ne: a lokacin, mutane za su iya amfani da abin da yake nuni zuwa gare shi. Escape yana ƙare rangadin, kuma focus yana komawa inda yake a da.',
+        ],
+        examples: {
+          basics: {
+            title: 'Kallon farko',
+            text: 'Matakai huɗu, na farkon ba shi da target. <code>finished</code> da <code>dismissed</code> suna bambanta hanyoyin ƙarewa biyu.',
+          },
+          interactive: {
+            title: 'Matakan gwadawa',
+            text: '<code>beforeShow</code> yana buɗe saituna kafin mataki na biyu ya yi nuni cikinsu, kuma <code>interactive</code> yana barin mutane su yi amfani da switch ɗin yayin da katin ke buɗe.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Rangadi mai jagora.',
+            members: {
+              steps: 'Matakan, bi da bi.',
+              open: 'Ko rangadin yana gudana.',
+              step: 'Matakin da ake nunawa, daga 0.',
+              labels: 'Kowane rubutu da yake nunawa, don fassarawa.',
+              finished: 'Yana fitarwa idan an kammala mataki na ƙarshe.',
+              dismissed: 'Yana fitar da matakin da rangadin ya ƙare a kai, idan ya ƙare da wuri.',
+              start: 'Yana fara rangadin, daga mataki na farko ko wanda aka bayar.',
+              end: 'Yana ƙare rangadin, a matsayin wanda aka kammala ko wanda aka watsar.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Mataki ɗaya na rangadin.',
+            members: {
+              target: 'Abin da yake nuni zuwa gare shi. Idan babu, katin yana bayyana a tsakiya.',
+              title: 'Taken katin.',
+              content: 'Rubutunsa, ko template.',
+              side: 'Gefen target ɗin da katin zai kasance.',
+              align: 'Yadda katin ke daidaita da target ɗin.',
+              padding: 'Sarari kewaye da target ɗin a cikin hasken, a pixels.',
+              interactive: 'Ana iya amfani da target ɗin yayin da katin ke buɗe.',
+              beforeShow:
+                'Yana aiki kafin matakin ya bayyana. Idan ya dawo da promise, rangadin yana jiran sa.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Yana ratsa maɓallan katin. A matakan modal, focus yana zama a cikin katin.'],
+          ['Enter ko Space', 'Yana danna maɓallin da ke da focus: Next, Back ko Done.'],
+          ['Escape', 'Yana ƙare rangadin.'],
+        ],
+        notes: [
+          'Kowane kati <code>dialog</code> ne mai suna daga takensa da bayani daga abun cikinsa. Focus yana zuwa kan babban maɓallinsa a kowane mataki, kuma yana komawa inda yake a da idan rangadin ya ƙare.',
+          'Matakan modal suna hana sauran shafin aiki (inert). Matakai masu mu’amala ba modal ba ne, don haka ana iya kaiwa ga target ɗinsu da allon madannai da kuma linzami.',
+          'Ci gaban rangadin rubutu ne, kamar “2 of 4”; ɗigogin suna zana shi ne kawai.',
+        ],
+      },
+      dropzone: {
+        name: 'Dropzone',
+        title: 'Component na dropzone da ɗora fayiloli don Angular',
+        summary:
+          'Ku sauke fayiloli ko ku zaɓe su, tare da dubawa, samfoti da ɗorawa mai nuna ci gaba.',
+        description:
+          'Dropzone na Angular mai sauƙin amfani ga kowa: ja da sauke, folders da liƙawa, duba iri da girma, samfotin hotuna, da ɗorawa mai nuna ci gaba da sake gwadawa.',
+        apiDescription:
+          'Bayanin API na dropzone ɗin Needless UI: fayiloli da dubawar nui-dropzone, function na ɗorawa da jerin jiransa, outputs ɗinsa da rubutunsa.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na dropzone ɗin Needless UI: yanki da yake maɓalli, sanar da sakamako, da sandunan ci gaba da ayyuka masu suna.',
+        overview: [
+          'Dropzone yana karɓar fayilolin da aka sauke a kansa, waɗanda aka zaɓa da mai zaɓar fayiloli, ko waɗanda aka liƙa. Ana karanta dukan abin da ke cikin folders da aka sauke, kuma kowane fayil yana riƙe hanyarsa.',
+          'Ana duba kowane fayil da <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> da function ɗinku na <code>validate</code>, kuma ana jera waɗanda aka ƙi tare da dalilin ƙin su. Hotuna suna samun samfoti.',
+          'Ba tare da function na <code>upload</code> ba, dropzone ɗin yana riƙe fayilolin don fom, a cikin <code>[(files)]</code>. Idan akwai shi, yana ɗora su kaɗan-kaɗan a lokaci guda, tare da nuna ci gaba, sokewa da sake gwadawa. Ku miƙa <code>signal</code> na ɗorawar ga <code>fetch</code>, don sokewa ta dakatar da ita.',
+        ],
+        examples: {
+          upload: {
+            title: 'Ɗora fayiloli',
+            text: 'Ɗorawar gwaji tana ba da rahoton ci gabanta mataki-mataki. Fayilolin da sunansu ke ɗauke da “fail” suna kasawa, don nuna sake gwadawa, kuma <code>directory</code> yana ƙara maɓallin zaɓar folder.',
+          },
+          attach: {
+            title: 'Fayiloli da ake haɗawa da fom',
+            text: 'Babu <code>upload</code>: dropzone ɗin yana riƙe takardu har guda uku a cikin <code>[(files)]</code>, kuma rubutunsa na kansa yana maye gurbin na asali.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Wurin sauke fayiloli, ko zaɓar su.',
+            members: {
+              files: 'Fayilolin da yake riƙe da su, bi da bi.',
+              accept:
+                'Irin fayilolin da yake karɓa, kamar a <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Fiye da fayil ɗaya a lokaci guda.',
+              directory: 'Yana ba da maɓallin zaɓar folder.',
+              maxFiles: 'Iyakar yawan fayilolin da yake riƙewa.',
+              'maxSize, minSize': 'Mafi girma da mafi ƙanƙantar fayil, a bytes.',
+              validate: 'Yana duba kowane fayil. Idan ya dawo da saƙo, an ƙi fayil ɗin.',
+              upload: 'Yana aika fayil. Idan babu shi, ana riƙe fayiloli ne kawai.',
+              concurrency: 'Fayiloli nawa ne ake ɗorawa a lokaci guda.',
+              hint: 'Layi a ƙarƙashin rubutun yankin, kamar irin fayilolin da yake karɓa.',
+              disabled: 'Ba ya karɓar fayiloli.',
+              labels: 'Kowane rubutu da yake nunawa ko sanarwa, don fassarawa.',
+              uploaded:
+                'Yana fitar da fayil da aka ɗora, tare da abin da <code>upload</code> ya dawo da shi.',
+              rejected: 'Yana fitar da fayilolin da aka ƙi, tare da dalilai.',
+              queue: 'Jerin jiran ɗorawa, don sokewa, sake gwadawa da karanta ci gaba daga code.',
+              take: 'Yana ƙara fayiloli daga code, yana duba kowanne.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Yana aika fayil ɗaya: yana ba da rahoton ci gaba daga 0 zuwa 1, kuma yana tsayawa idan an soke signal ɗin.',
+            members: {
+              '(file, context)': 'Yana dawo da promise na duk abin da server ɗinku ya amsa.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter ko Space', 'A kan yankin, yana buɗe mai zaɓar fayiloli.'],
+          ['Ctrl + V ko ⌘ + V', 'A kan yankin, yana ƙara fayilolin da aka liƙa.'],
+          ['Tab', 'Yana ratsa yankin da ayyukan kowane fayil.'],
+        ],
+        notes: [
+          'Yankin maɓalli ne, don haka yana aiki ba tare da linzami ba, kuma layin ƙarin bayani yana bayyana shi.',
+          'Ana sanar da fayilolin da aka ƙara da waɗanda aka ƙi. Kowace sandar ci gaba <code>progressbar</code> ce mai sunan fayil ɗinta, kuma kowane aiki yana da suna daga abin da yake yi, kamar “Remove beach.jpg”.',
+          'Samfoti na ado ne: sunan fayil ne ke faɗin wane fayil ne.',
+        ],
+      },
+      mask: {
+        name: 'Input mask',
+        title: 'Directive na input mask don Angular',
+        summary:
+          'Filayen rubutu da ke tsara kansu yayin rubutu: kwanan wata, katuna, IBAN, lambobi.',
+        description:
+          'Input mask na Angular: ku tsara filayen rubutu yayin da ake rubutu, da cursor da ke riƙe wurinsa, mataimaka don katuna da IBAN, da tantancewar fom.',
+        apiDescription:
+          'Bayanin API na input mask na Needless UI: directive ɗin nuiMask, tokens ɗinsa da ƙimarsa, da mataimaka don lambobin kati da IBAN.',
+        a11yDescription:
+          'Sauƙin amfani na input mask ɗin Needless UI: filaye na asali masu lakabinsu, allon lambobi a wayoyi, da gogewa da ke tsallake literals.',
+        overview: [
+          'Mask yana tsara filin rubutu yayin da ake rubutu: <code>00/00/0000</code> yana saka alamomin /, <code>AA 000 AA</code> kuma yana karɓar haruffa da lambobi bi da bi. Haruffan da ba su dace ba ba sa shiga, kuma cursor yana riƙe wurinsa idan aka yi rubutu a tsakiya.',
+          'Mask yana ƙunshe da tokens da literals (haruffa tsayayyu): <code>0</code> lamba ce, <code>a</code> harafi, <code>*</code> ko wanne daga cikinsu, <code>A</code> da <code>X</code> kuma suna yin haka ga lambobin shaida, da manyan haruffa. Ku ƙara naku da <code>tokens</code>, ko ku ba da function da ke zaɓar mask bisa abin da aka rubuta, kamar yadda <code>nuiCardMask</code> ke yi bisa nau’in kati.',
+          'Ƙimar ita ce abin da ake nunawa, ko bayanan kawai da <code>unmask</code>. Mask yana aiki da Signal Forms, reactive forms da <code>ngModel</code>, kuma ƙimar da ba ta cika ba kuskure ce.',
+        ],
+        examples: {
+          formats: {
+            title: 'Tsare-tsare',
+            text: 'Kwanan wata, lokaci, lambar mota, da launi mai token na kansa don lambobin hexadecimal.',
+          },
+          payment: {
+            title: 'Bayanan biyan kuɗi',
+            text: 'Filayen Signal Forms. Mask ɗin kati yana bin nau’in katin, lambar tsaro tana da lambobi huɗu ga American Express, <code>nuiCardValid</code> da <code>nuiIbanValid</code> kuma suna duba lambobin.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Mask a kan filin rubutu na asali.',
+            members: {
+              nuiMask: 'Mask ɗin, ko function da ke zaɓar ɗaya bisa bayanan da aka rubuta.',
+              tokens: 'Haruffan mask da za a ƙara ko a maye gurbinsu.',
+              unmask: 'Ƙimar bayanan ne kawai, ba tare da literals ba.',
+              value: 'Ƙimar: abin da ake nunawa, ko bayanan da <code>unmask</code>.',
+              raw: 'Bayanan da aka rubuta, ba tare da literals ba.',
+              complete: 'An cike kowane gurbi a cikin mask ɗin.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions don tsarawa, dubawa da gina masks.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Suna tsara ƙima da mask, ko suna fitar da bayanan daga ƙimar da aka tsara.',
+              nuiCardMask:
+                'Mask don lambobin kati, a rukunoni kamar yadda nau’in katin ke buga su.',
+              nuiCardBrand: 'Nau’in kati, daga lambobin farko na lambarsa.',
+              'nuiCardValid, nuiLuhn':
+                'Ko lambar kati tana da tsawon da nau’inta ke buƙata, kuma ta wuce binciken Luhn.',
+              nuiIbanMask: 'Mask don IBAN, mai tsawo daidai da IBAN na ƙasarsa.',
+              nuiIbanValid: 'Ko IBAN yana da tsawon ƙasarsa da lambobin tantancewa daidai.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Yana goge harafin da ya gabaci cursor, yana tsallake literals.'],
+          ['Delete', 'Yana goge harafin da ke bayan cursor, yana tsallake literals.'],
+        ],
+        notes: [
+          'Mask yana aiki a kan <code>&lt;input&gt;</code> naku, don haka lakabinsa da bayanin taimakonsa suna nan yadda kuka rubuta su. Ku faɗi abin da ake tsammani a can: mask ba umarni ba ne.',
+          'Masks na lambobi suna saita <code>inputmode="numeric"</code>, don wayoyi su nuna allon lambobi, sai dai idan filin ya saita nasa.',
+          'Ana karɓar lambobi daga kowane tsarin rubutu, kuma ana rubuta su a matsayin 0 zuwa 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Phone field',
+        title: 'Filin lambar waya don Angular',
+        summary: 'Mai zaɓar ƙasa da lamba, a rukunoni kamar yadda ƙasar ke rubuta ta.',
+        description:
+          'Filin lambar waya na Angular mai sauƙin amfani ga kowa: mai zaɓar ƙasa, lambobi a tsarin kowace ƙasa, lambobin kiran ƙasa da aka rubuta ko liƙa, ƙimomin E.164.',
+        apiDescription:
+          'Bayanin API na filin lambar waya na Needless UI: ƙima da ƙasa na nui-phone-field, ƙasashen da ake bayarwa, da mataimaka don karantawa da rubuta lambobi.',
+        a11yDescription:
+          'Sauƙin amfani na filin lambar waya na Needless UI: mai zaɓar ƙasa mai suna, sanar da ƙasar da lamba ta zaɓa, da cikawa ta atomatik ta burauza.',
+        overview: [
+          'Filin lambar waya ya ƙunshi mai zaɓar ƙasa da lamba. Ana tsara lambar a rukunoni yayin da ake rubuta ta, kamar yadda ƙasarta ke rubuta lambobi, kuma ƙimar ita ce lambar a E.164, kamar <code>+393331234567</code>.',
+          'Mutane suna rubuta lambobi yadda suka saba. Ana ɗaukar 0 na farko (ko 1 kafin lambar Arewacin Amurka) a matsayin prefix na kiran cikin gida, kuma ba a saka shi a ƙimar ba. Lambar kiran ƙasa da aka rubuta ko aka liƙa, kamar <code>+44</code> ko <code>0044</code>, tana zaɓar ƙasarta, haka ma lambar yanki inda ƙasashe ke raba lambar kira ɗaya.',
+          'Ƙasa ta farko ita ce ta yankin (locale), kuma <code>countries</code> yana taƙaita jerin. Da fom, lambar da ta gaza ko ta wuce tsawon da ƙasarta ke buƙata kuskure ce. Don cikakken tantancewa, ku duba lambobi a server ma.',
+        ],
+        examples: {
+          basic: {
+            title: 'Lamba',
+            text: 'Ku fara da <code>+</code> da lambar kiran ƙasa don sauya ƙasa yayin da kuke rubutu.',
+          },
+          countries: {
+            title: 'Ƙasashen da kuka zaɓa',
+            text: '<code>countries</code> yana bayar da ƙasashe goma sha ɗaya, filin yana aiki da <code>FormControl</code> na reactive forms, <code>nuiFormatPhone</code> kuma yana sake rubuta ƙimar don mutane su karanta.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Filin lambar waya.',
+            members: {
+              value: 'Lambar a E.164, ko babu komai.',
+              country: 'Ƙasar, a matsayin region code ɗinta.',
+              countries: 'Ƙasashen da ake bayarwa, a matsayin region codes.',
+              locale: 'Harshen sunayen ƙasashe.',
+              label:
+                'Sunan da ake sanarwa ga lambar, idan babu <code>&lt;label for&gt;</code> da ke ba ta suna.',
+              inputId: 'Id na filin lambar, don <code>&lt;label for&gt;</code>.',
+              placeholder: 'Rubutun da ake nunawa yayin da filin lambar ba shi da komai.',
+              invalid: 'Yana nuna lambar a matsayin marar inganci.',
+              disabled: 'Ba za a iya canza shi ba.',
+              labels: 'Kowane rubutu da yake nunawa ko sanarwa, don fassarawa.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions don lambobin waya.',
+            members: {
+              nuiParsePhone:
+                'Yana karanta lambar da aka rubuta ta kowace hanya, yana raba ta zuwa region, lambar kiran ƙasa da lambar cikin gida.',
+              nuiFormatPhone: 'Yana rubuta lamba a rukunoni kamar yadda ƙasarta ke yi, ko a E.164.',
+              nuiPhoneValid:
+                'Ko lamba tana da sananniyar lambar kiran ƙasa da tsawon da ƙasarta ke buƙata.',
+            },
+          },
+        },
+        keyboard: [
+          ['Haruffa a kan mai zaɓar ƙasa', 'Suna tsallakawa zuwa ƙasashen da suka fara da su.'],
+          ['Enter ko Space', 'Yana buɗe jerin ƙasashe, ko yana zaɓar ɗaya.'],
+          ['Backspace', 'A kan lambar, yana goge lamba ɗaya, yana tsallake sarari da baka.'],
+        ],
+        notes: [
+          'Sunan mai zaɓar ƙasa “Country code” ne, kuma yana karanta tutarsa da lambarsa. Idan lambar kiran ƙasa ko lambar yanki ta zaɓi ƙasa, ana sanar da sabuwar ƙasar.',
+          'Ku ba lambar suna da <code>&lt;label for&gt;</code> da <code>inputId</code>, ko da <code>label</code>.',
+          'Lambar tana da <code>autocomplete="tel"</code>, don haka burauzoji za su iya cike ta gaba ɗaya, har da lambar kiran ƙasa, kuma wayoyi suna nuna allon lambobin waya.',
+        ],
+      },
+      'color-picker': {
+        name: 'Color picker',
+        title: 'Mai zaɓar launi na OKLCH don Angular',
+        summary: 'Launi a OKLCH, da sliders, samfuran launi, eyedropper da gwajin bambancin launi.',
+        description:
+          'Mai zaɓar launi a OKLCH na Angular, mai sauƙin amfani ga kowa: launukan P3 na gamut mai faɗi, duk rubutun launi na CSS, samfuran launi, eyedropper, gwajin WCAG.',
+        apiDescription:
+          'Bayanin API na mai zaɓar launi na Needless UI: ƙima, tsari da gamut na nui-color-picker, samfuran launi da bambanci, da mataimaka don launuka.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na mai zaɓar launi na Needless UI: slider mai ƙimomi biyu a akwatin, sliders na asali, da sakamakon bambanci a kalmomi.',
+        overview: [
+          'Mai zaɓar launi yana aiki a OKLCH, tsarin launi na CSS na zamani da ke bin yadda ido ke gani. A faɗin akwatin launuka, chroma yana tafiya daga launin toka zuwa iyakar abin da allo zai iya nunawa a wannan haske, don haka kowane wuri launi ne da za ku iya amfani da shi, kuma thumb yana zama a wurinsa yayin da hue ke juyawa.',
+          'Filin yana karɓar kowane launi na CSS, har da sunaye, kuma maɓallin tsari yana rubuta ƙimar a matsayin hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> ko <code>color(display-p3)</code>. Launin da ke wajen gamut na wani tsari ana shigar da shi cikinsa ta hanyar CSS, yana riƙe haskensa da hue ɗinsa.',
+          'Ku ƙara <code>swatches</code> don a zaɓa daga cikinsu, da <code>contrastWith</code> don duba launin a kan wani bango kamar yadda WCAG 2 ke auna bambancin launi. Inda burauza ke da eyedropper, maɓalli yana ɗaukar launi daga allo.',
+        ],
+        examples: {
+          brand: {
+            title: 'Launin tambari',
+            text: 'Samfuran launi masu suna, da bambancin farin rubutu a kan launin: ku zaɓi mai haske, sai AA ya kasa.',
+          },
+          wide: {
+            title: 'Gamut mai faɗi',
+            text: '<code>gamut="p3"</code> yana cike akwatin da launukan Display P3, kuma layin ɗigo-ɗigo yana nuna inda sRGB ke ƙarewa. Ƙimar tana zama a <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'A cikin popover',
+            text: 'Maɓallin da ke nuna launin yana buɗe mai zaɓar a cikin <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Mai zaɓar launi a OKLCH.',
+            members: {
+              value: 'Launin, a rubuce a tsarin da aka zaɓa. Babu komai har sai an zaɓi launi.',
+              format: 'Yadda ake rubuta ƙimar.',
+              formats: 'Tsare-tsaren da maɓallin tsari ke bi ɗaya bayan ɗaya.',
+              gamut: 'Launukan da akwatin ke ɗauke da su: sRGB, ko Display P3.',
+              alpha: 'Yana nuna slider na opacity.',
+              swatches: 'Launukan da za a zaɓa daga ciki, da sunayensu.',
+              contrastWith: 'Bangon da za a duba bambancin launi da shi.',
+              eyeDropper: 'Yana nuna eyedropper, inda burauza ke da shi.',
+              disabled: 'Ba za a iya canza shi ba.',
+              labels: 'Kowane rubutu da yake nunawa ko sanarwa, don fassarawa.',
+              color: 'Launin da aka zaɓa, a OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions don launuka.',
+            members: {
+              nuiParseColor: 'Yana karanta launi da aka rubuta ta kowace hanyar CSS.',
+              nuiFormatColor: 'Yana rubuta launi a wani tsari.',
+              nuiToGamut: 'Yana shigar da launi cikin sRGB ko Display P3, kamar yadda CSS ke yi.',
+              nuiContrast: 'Rabon bambancin launi na WCAG 2 na launi a kan bango.',
+            },
+          },
+        },
+        keyboard: [
+          ['Kibiyar hagu da ta dama', 'A kan akwatin, suna rage ko ƙara chroma.'],
+          ['Kibiyar sama da ta ƙasa', 'A kan akwatin, suna ƙara haske ko duhu.'],
+          ['Shift + maɓallan kibiya', 'Suna ninka matakin sau goma.'],
+          ['Home da End', 'A kan akwatin, suna kai chroma zuwa sifili ko mafi girma.'],
+          ['Page Up da Page Down', 'A kan akwatin, suna ƙara haske ko duhu sosai.'],
+        ],
+        notes: [
+          'Thumb na akwatin <code>slider</code> ne mai suna “Color” wanda ke faɗin ƙimominsa biyu, kamar “Lightness 62%, chroma 75%”. Hue da opacity range inputs ne na asali.',
+          'Samfuran launi maɓallai ne masu suna daga lakabinsu, kuma suna bayyana a danne idan sun yi daidai da launin.',
+          'AA da AAA suna faɗin “passes” ko “fails” a kalmomi, ba ta launi kaɗai ba, kuma a yanayin forced colors launukan da kansu suna nan yadda suke.',
+        ],
+      },
     },
   },
 

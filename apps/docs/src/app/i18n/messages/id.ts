@@ -1788,6 +1788,417 @@ export const messages: Messages = {
           'Tampilan berupa tombol toggle dalam satu grup, dan berpindah ke minggu atau bulan lain akan mengumumkan judulnya.',
         ],
       },
+      splitter: {
+        name: 'Pemisah panel',
+        title: 'Komponen pemisah panel untuk Angular',
+        summary: 'Panel berdampingan atau bertumpuk, dengan handle untuk mengubah ukurannya.',
+        description:
+          'Pemisah panel Angular yang aksesibel: panel berdampingan atau bertumpuk, batas ukuran, panel yang bisa diciutkan, ukuran tersimpan, dan kontrol keyboard penuh.',
+        apiDescription:
+          'Referensi API pemisah panel Needless UI: orientasi dan ukuran nuiSplitter, batas dan penciutan panel, serta handle di antara panel-panelnya.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas pemisah panel Needless UI: handle window splitter yang bisa difokus dan bernilai, tombol panah, Home, End, dan Enter.',
+        overview: [
+          'Pemisah panel membagi ruangnya di antara panel-panel, dengan handle di antara setiap dua panel. Seret handle, atau fokuskan lalu gunakan tombol panah. Ukurannya berupa persentase yang totalnya 100, dan bisa dihubungkan dengan <code>[(sizes)]</code>.',
+          'Ukuran awal, minimum, dan maksimum setiap panel bisa dalam piksel, rem, atau persen. Panel <code>collapsible</code> menciut saat diseret di bawah separuh ukuran minimumnya, atau dengan Enter pada handle-nya, lalu kembali dengan ukuran sebelumnya.',
+          'Dengan <code>storageKey</code>, ukuran disimpan di <code>localStorage</code>, sehingga pada kunjungan berikutnya pengguna menemukan tata letak persis seperti saat mereka meninggalkannya.',
+        ],
+        examples: {
+          editor: {
+            title: 'Editor',
+            text: 'File, kode, dan pratinjau. Panel file dan pratinjau bisa diciutkan, kode selalu mendapat setidaknya 30% lebar, dan ukurannya disimpan.',
+          },
+          stacked: {
+            title: 'Panel bertumpuk',
+            text: '<code>orientation="vertical"</code> menumpuk panel, dan <code>[(sizes)]</code> membaca ukurannya setiap kali berubah.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Panel dengan handle di antaranya.',
+            members: {
+              orientation: 'Berdampingan, atau bertumpuk.',
+              sizes: 'Bagian setiap panel, dalam persen, sesuai urutan.',
+              storageKey: 'Menyimpan ukuran di <code>localStorage</code> dengan kunci ini.',
+              step: 'Seberapa jauh tombol panah menggeser handle, dalam persen. Dua kali lipat dengan Shift.',
+              move: 'Menggeser batas setelah sebuah panel sebesar persentase tertentu.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Sebuah panel. Ukurannya bisa dalam piksel, rem, atau persen.',
+            members: {
+              defaultSize: 'Ukuran awalnya, saat tidak ada ukuran yang bisa dipulihkan.',
+              min: 'Ukuran terkecilnya.',
+              max: 'Ukuran terbesarnya.',
+              collapsible:
+                'Panel bisa diciutkan: diseret di bawah separuh minimumnya, atau dengan Enter.',
+              collapsedSize: 'Ukurannya saat diciutkan, misalnya deretan ikon.',
+              label: 'Menamai handle yang mengubah ukurannya.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'Handle di antara dua panel.',
+            members: {
+              label: 'Menamai handle, jika label panel tidak menamainya.',
+              disabled: 'Handle tidak bisa digeser.',
+              toggle: 'Menciutkan panel di sebelahnya, atau mengembalikannya.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Panah kiri dan kanan',
+            'Menggeser handle di antara panel yang berdampingan. Dicerminkan pada teks kanan-ke-kiri.',
+          ],
+          ['Panah atas dan bawah', 'Menggeser handle di antara panel yang bertumpuk.'],
+          ['Shift + tombol panah', 'Menggesernya dua kali lebih jauh.'],
+          ['Home dan End', 'Membawa panel sebelum handle ke ukuran terkecil atau terbesarnya.'],
+          ['Enter', 'Menciutkan panel yang bisa diciutkan, atau mengembalikannya.'],
+        ],
+        notes: [
+          'Setiap handle adalah <code>separator</code> yang bisa difokus, seperti pada pola window splitter WAI-ARIA: nilainya adalah ukuran panel sebelumnya, di antara batas-batas panel tersebut, dan <code>aria-controls</code> menunjuk ke panel itu.',
+          'Beri nama handle melalui <code>label</code> panel: “Files” memberi tahu pembaca layar panel mana yang diubah ukurannya oleh sebuah handle.',
+          'Klik ganda pada handle juga menciutkan panelnya, dan seretan menangkap pointer, sehingga gerakan cepat tidak membuat handle terlepas.',
+        ],
+      },
+      tour: {
+        name: 'Tur terpandu',
+        title: 'Komponen tur terpandu untuk Angular',
+        summary:
+          'Kartu untuk setiap langkah, di samping hal yang dijelaskannya, dengan halaman di sekitarnya diredupkan.',
+        description:
+          'Tur produk Angular yang aksesibel: kartu untuk setiap langkah di samping targetnya, sorotan di sekelilingnya, langkah interaktif, dan fokus yang kembali.',
+        apiDescription:
+          'Referensi API tur terpandu Needless UI: langkah nui-tour, binding open dan step, output-nya, serta target, penempatan, dan hook setiap langkah.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas tur terpandu Needless UI: setiap kartu adalah dialog yang dinamai judulnya, fokus dijaga dan dikembalikan, serta Esc untuk keluar.',
+        overview: [
+          'Tur memandu pengguna menjelajahi halaman, selangkah demi selangkah. Setiap langkah menunjuk sebuah elemen dengan kartu di sampingnya dan meredupkan bagian halaman lainnya; langkah tanpa target tampil di tengah.',
+          'Langkah berupa data biasa: target (selektor, elemen, atau fungsi yang menemukannya), judul, dan konten berupa teks atau template. <code>beforeShow</code> berjalan lebih dulu, sehingga langkah bisa membuka panel tempat targetnya berada, dan halaman digulir ke target yang berada di luar tampilan.',
+          'Setiap kartu adalah dialog. Kartu bersifat modal, kecuali langkahnya <code>interactive</code>: dalam hal itu, pengguna bisa memakai elemen yang ditunjuknya. Esc mengakhiri tur, dan fokus kembali ke tempat semula.',
+        ],
+        examples: {
+          basics: {
+            title: 'Sekilas pandang',
+            text: 'Empat langkah, yang pertama tanpa target. <code>finished</code> dan <code>dismissed</code> membedakan dua cara tur berakhir.',
+          },
+          interactive: {
+            title: 'Langkah untuk dicoba',
+            text: '<code>beforeShow</code> membuka pengaturan sebelum langkah kedua menunjuk ke dalamnya, dan <code>interactive</code> memungkinkan pengguna memakai sakelar selama kartu tampil.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Tur terpandu.',
+            members: {
+              steps: 'Langkah-langkahnya, sesuai urutan.',
+              open: 'Apakah tur sedang berjalan.',
+              step: 'Langkah yang ditampilkan, mulai dari 0.',
+              labels: 'Semua teks yang ditampilkannya, untuk diterjemahkan.',
+              finished: 'Terpicu saat langkah terakhir selesai.',
+              dismissed: 'Mengirimkan langkah tempat tur berakhir, jika tur berakhir lebih awal.',
+              start: 'Memulai tur, dari langkah pertama atau dari langkah yang diberikan.',
+              end: 'Mengakhiri tur, sebagai selesai atau dibatalkan.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Satu langkah dalam tur.',
+            members: {
+              target: 'Yang ditunjuk langkah ini. Tanpa target, kartu tampil di tengah.',
+              title: 'Judul kartu.',
+              content: 'Teksnya, atau template.',
+              side: 'Sisi target tempat kartu diletakkan.',
+              align: 'Cara kartu disejajarkan dengan target.',
+              padding: 'Ruang di sekitar target dalam sorotan, dalam piksel.',
+              interactive: 'Target bisa digunakan selama kartu tampil.',
+              beforeShow:
+                'Berjalan sebelum langkah ditampilkan. Jika berupa promise, tur menunggunya.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Berpindah di antara tombol-tombol kartu. Pada langkah modal, fokus tetap di dalam kartu.',
+          ],
+          ['Enter atau Spasi', 'Menekan tombol yang difokus: Next, Back, atau Done.'],
+          ['Esc', 'Mengakhiri tur.'],
+        ],
+        notes: [
+          'Setiap kartu adalah <code>dialog</code> yang dinamai oleh judulnya dan dideskripsikan oleh kontennya. Di setiap langkah, fokus berpindah ke tombol utamanya, lalu kembali ke tempat semula saat tur berakhir.',
+          'Langkah modal membuat bagian halaman lainnya menjadi inert. Langkah interaktif tidak modal, sehingga targetnya bisa dijangkau dengan keyboard maupun pointer.',
+          'Progresnya berupa teks, seperti “2 of 4”; titik-titiknya hanya menggambarkannya.',
+        ],
+      },
+      dropzone: {
+        name: 'Area unggah',
+        title: 'Area seret dan lepas serta unggah file untuk Angular',
+        summary:
+          'Seret dan lepas atau pilih file, dengan validasi, pratinjau, dan unggahan beserta progresnya.',
+        description:
+          'Area unggah Angular aksesibel: seret dan lepas, folder dan tempel, validasi jenis dan ukuran, pratinjau gambar, serta unggahan dengan progres dan coba ulang.',
+        apiDescription:
+          'Referensi API area unggah Needless UI: file dan validasi nui-dropzone, fungsi unggah dan antreannya, output-nya, serta teks-teksnya.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas area unggah Needless UI: area yang berupa tombol, hasil yang diumumkan, serta bilah progres dan aksi yang bernama.',
+        overview: [
+          'Area unggah menerima file yang di-drop ke atasnya, dipilih lewat pemilih file, atau ditempel. Folder yang di-drop dibaca seluruh isinya, dan setiap file tetap menyimpan jalurnya.',
+          'Setiap file diperiksa terhadap <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code>, dan fungsi <code>validate</code> Anda, lalu file yang ditolak dicantumkan beserta alasannya. Gambar mendapat pratinjau.',
+          'Tanpa fungsi <code>upload</code>, area unggah menyimpan file untuk formulir di <code>[(files)]</code>. Dengan fungsi itu, file diunggah beberapa sekaligus, lengkap dengan progres, pembatalan, dan coba ulang. Teruskan <code>signal</code> unggahan ke <code>fetch</code>, agar pembatalan benar-benar menghentikannya.',
+        ],
+        examples: {
+          upload: {
+            title: 'Unggahan',
+            text: 'Simulasi unggahan melaporkan progresnya secara bertahap. File yang namanya mengandung “fail” akan gagal, untuk menunjukkan coba ulang, dan <code>directory</code> menambahkan tombol untuk memilih folder.',
+          },
+          attach: {
+            title: 'Lampiran untuk formulir',
+            text: 'Tanpa <code>upload</code>: area unggah menyimpan hingga tiga dokumen di <code>[(files)]</code>, dan teksnya sendiri menggantikan teks default.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Tempat untuk menyeret dan melepas file, atau memilihnya.',
+            members: {
+              files: 'File yang disimpannya, sesuai urutan.',
+              accept:
+                'Jenis file yang diterima, seperti pada <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Lebih dari satu file sekaligus.',
+              directory: 'Menawarkan tombol untuk memilih folder.',
+              maxFiles: 'Jumlah file yang bisa disimpannya.',
+              'maxSize, minSize': 'Ukuran file terbesar dan terkecil, dalam byte.',
+              validate: 'Memeriksa setiap file. Jika mengembalikan pesan, file ditolak.',
+              upload: 'Mengirim file. Tanpanya, file hanya disimpan.',
+              concurrency: 'Jumlah file yang diunggah sekaligus.',
+              hint: 'Satu baris di bawah teks area, misalnya jenis file yang diterimanya.',
+              disabled: 'Tidak menerima file.',
+              labels: 'Semua teks yang ditampilkan atau diumumkannya, untuk diterjemahkan.',
+              uploaded:
+                'Mengirimkan file yang terunggah, beserta nilai yang dikembalikan <code>upload</code>.',
+              rejected: 'Mengirimkan file yang ditolak, beserta alasannya.',
+              queue:
+                'Antrean unggahan, untuk membatalkan, mencoba ulang, dan membaca progres dari kode.',
+              take: 'Menambahkan file dari kode, sambil memeriksa masing-masing.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Mengirim satu file: melaporkan progres dari 0 sampai 1, dan berhenti saat signal dibatalkan.',
+            members: {
+              '(file, context)': 'Mengembalikan promise berisi apa pun jawaban server Anda.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter atau Spasi', 'Pada area, membuka pemilih file.'],
+          ['Ctrl + V atau ⌘ + V', 'Pada area, menambahkan file yang ditempel.'],
+          ['Tab', 'Berpindah melalui area dan aksi setiap file.'],
+        ],
+        notes: [
+          'Area ini adalah tombol, sehingga bisa dipakai tanpa pointer, dan petunjuknya menjadi deskripsinya.',
+          'File yang ditambahkan dan yang ditolak diumumkan. Setiap bilah progres adalah <code>progressbar</code> yang dinamai sesuai file-nya, dan setiap aksi dinamai sesuai fungsinya, misalnya “Remove beach.jpg”.',
+          'Pratinjau bersifat dekoratif: nama file sudah menyebutkan file mana itu.',
+        ],
+      },
+      mask: {
+        name: 'Input mask',
+        title: 'Direktif input mask untuk Angular',
+        summary: 'Kolom teks yang terformat saat pengguna mengetik: tanggal, kartu, IBAN, kode.',
+        description:
+          'Input mask Angular: kolom teks terformat saat pengguna mengetik, kursor yang tetap di tempatnya, helper untuk kartu dan IBAN, serta validasi form.',
+        apiDescription:
+          'Referensi API input mask Needless UI: direktif nuiMask, token dan nilainya, serta helper untuk nomor kartu dan IBAN.',
+        a11yDescription:
+          'Aksesibilitas input mask Needless UI: kolom native dengan labelnya sendiri, keyboard angka di ponsel, dan penghapusan yang melewati literal.',
+        overview: [
+          'Mask memformat kolom teks saat pengguna mengetik: <code>00/00/0000</code> menyisipkan garis miring, <code>AA 000 AA</code> menerima huruf dan angka secara bergantian. Karakter yang tidak sesuai tidak akan masuk, dan kursor tetap di tempatnya saat pengguna mengetik di tengah.',
+          'Mask tersusun dari token dan literal (karakter tetap): <code>0</code> adalah angka, <code>a</code> huruf, <code>*</code> salah satunya, sedangkan <code>A</code> dan <code>X</code> adalah padanannya untuk kode, dalam huruf kapital. Tambahkan token sendiri dengan <code>tokens</code>, atau berikan fungsi yang memilih mask sesuai teks yang diketik, seperti <code>nuiCardMask</code> yang memilihnya berdasarkan merek kartu.',
+          'Nilainya adalah teks yang ditampilkan, atau hanya datanya dengan <code>unmask</code>. Mask bekerja dengan Signal Forms, reactive forms, dan <code>ngModel</code>; nilai yang belum lengkap dianggap error.',
+        ],
+        examples: {
+          formats: {
+            title: 'Format',
+            text: 'Tanggal, waktu, pelat nomor, dan warna dengan token khusus untuk digit heksadesimal.',
+          },
+          payment: {
+            title: 'Detail pembayaran',
+            text: 'Kolom Signal Forms. Mask kartu mengikuti mereknya, kode keamanan berisi empat digit untuk American Express, dan <code>nuiCardValid</code> serta <code>nuiIbanValid</code> memeriksa nomornya.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Mask pada kolom teks native.',
+            members: {
+              nuiMask: 'Mask, atau fungsi yang memilih mask sesuai data yang diketik.',
+              tokens: 'Karakter mask yang ingin ditambahkan atau diganti.',
+              unmask: 'Nilainya hanya data, tanpa literal.',
+              value: 'Nilainya: teks yang ditampilkan, atau datanya dengan <code>unmask</code>.',
+              raw: 'Data yang diketik, tanpa literal.',
+              complete: 'Apakah semua posisi dalam mask sudah terisi.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi untuk memformat, memeriksa, dan membuat mask.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Memformat nilai dengan mask, atau mengambil kembali datanya dari nilai yang terformat.',
+              nuiCardMask:
+                'Mask untuk nomor kartu, dikelompokkan seperti yang dicetak oleh mereknya.',
+              nuiCardBrand: 'Merek kartu, dikenali dari digit pertama nomornya.',
+              'nuiCardValid, nuiLuhn':
+                'Apakah panjang nomor kartu sesuai mereknya dan lolos pemeriksaan Luhn.',
+              nuiIbanMask: 'Mask untuk IBAN, sepanjang IBAN negara tersebut.',
+              nuiIbanValid: 'Apakah panjang IBAN sesuai negaranya dan digit pemeriksanya benar.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Menghapus karakter sebelum kursor, sambil melewati literal.'],
+          ['Delete', 'Menghapus karakter setelah kursor, sambil melewati literal.'],
+        ],
+        notes: [
+          'Mask bekerja pada <code>&lt;input&gt;</code> milik Anda sendiri, sehingga label dan petunjuknya tetap seperti yang Anda tulis. Jelaskan format yang diharapkan di sana: mask bukan instruksi.',
+          'Mask yang hanya berisi angka menetapkan <code>inputmode="numeric"</code>, sehingga ponsel menampilkan keypad angka, kecuali kolomnya menetapkan mode input sendiri.',
+          'Angka dari aksara apa pun diterima, lalu ditulis sebagai 0 sampai 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Kolom telepon',
+        title: 'Input nomor telepon untuk Angular',
+        summary: 'Pemilih negara dan nomor, dikelompokkan sesuai cara penulisan di negara itu.',
+        description:
+          'Input nomor telepon Angular yang aksesibel: pemilih negara, nomor dikelompokkan sesuai format tiap negara, kode negara diketik atau ditempel, dan nilai E.164.',
+        apiDescription:
+          'Referensi API kolom telepon Needless UI: nilai dan negara nui-phone-field, daftar negara yang ditawarkan, serta helper untuk membaca dan menulis nomor.',
+        a11yDescription:
+          'Aksesibilitas kolom telepon Needless UI: pemilih negara bernama, negara diumumkan saat dipilih lewat kode, dan isi otomatis browser.',
+        overview: [
+          'Kolom telepon terdiri dari pemilih negara dan nomor. Saat diketik, nomor dikelompokkan sesuai cara negaranya menulis nomor, dan nilainya adalah nomor dalam format E.164, misalnya <code>+393331234567</code>.',
+          'Pengguna mengetik nomor dengan cara yang mereka kenal. Angka 0 di depan (atau angka 1 sebelum nomor Amerika Utara) dianggap sebagai awalan trunk dan tidak disertakan dalam nilai. Kode negara yang diketik atau ditempel, seperti <code>+44</code> atau <code>0044</code>, memilih negaranya, begitu pula kode area jika beberapa negara berbagi kode negara yang sama.',
+          'Negara awal mengikuti locale, dan <code>countries</code> membatasi daftarnya. Dalam formulir, nomor yang terlalu pendek atau terlalu panjang untuk negaranya dianggap error. Untuk validasi penuh, periksa juga nomornya di server.',
+        ],
+        examples: {
+          basic: {
+            title: 'Sebuah nomor',
+            text: 'Mulai dengan <code>+</code> dan kode negara untuk berganti negara sambil mengetik.',
+          },
+          countries: {
+            title: 'Negara pilihan Anda',
+            text: '<code>countries</code> menawarkan sebelas negara, kolomnya bekerja dengan <code>FormControl</code> reactive, dan <code>nuiFormatPhone</code> menuliskan kembali nilainya agar mudah dibaca.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Kolom nomor telepon.',
+            members: {
+              value: 'Nomor dalam format E.164, atau kosong.',
+              country: 'Negaranya, sebagai kode wilayah.',
+              countries: 'Negara yang ditawarkan, sebagai kode wilayah.',
+              locale: 'Bahasa untuk nama negara.',
+              label:
+                'Memberi nama pada nomor, jika tidak ada <code>&lt;label for&gt;</code> yang menamainya.',
+              inputId: 'Id kolom nomor, untuk <code>&lt;label for&gt;</code>.',
+              placeholder: 'Teks yang ditampilkan saat kolom nomor kosong.',
+              invalid: 'Menandai nomor sebagai tidak valid.',
+              disabled: 'Tidak bisa diubah.',
+              labels: 'Semua teks yang disampaikan kolom, untuk diterjemahkan.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi untuk nomor telepon.',
+            members: {
+              nuiParsePhone:
+                'Mengurai nomor yang ditulis dengan cara apa pun menjadi wilayah, kode negara, dan nomor nasionalnya.',
+              nuiFormatPhone:
+                'Menulis nomor dengan pengelompokan sesuai negaranya, atau dalam format E.164.',
+              nuiPhoneValid:
+                'Apakah nomor memiliki kode negara yang dikenal dan panjang yang sesuai negaranya.',
+            },
+          },
+        },
+        keyboard: [
+          ['Huruf pada pemilih negara', 'Melompat ke negara yang diawali huruf tersebut.'],
+          ['Enter atau Spasi', 'Membuka daftar negara, atau memilih salah satunya.'],
+          ['Backspace', 'Pada nomor, menghapus satu digit sambil melewati spasi dan tanda kurung.'],
+        ],
+        notes: [
+          'Pemilih negara bernama “Country code” dan membacakan bendera serta kodenya. Saat kode negara atau kode area memilih sebuah negara, negara baru itu diumumkan.',
+          'Beri nama pada nomor dengan <code>&lt;label for&gt;</code> dan <code>inputId</code>, atau dengan <code>label</code>.',
+          'Nomor memiliki <code>autocomplete="tel"</code>, sehingga browser bisa mengisinya secara lengkap, termasuk kode negaranya, dan ponsel menampilkan keypad telepon.',
+        ],
+      },
+      'color-picker': {
+        name: 'Pemilih warna',
+        title: 'Pemilih warna OKLCH untuk Angular',
+        summary:
+          'Warna dalam OKLCH, dengan slider, contoh warna, pipet warna, dan pemeriksaan kontras.',
+        description:
+          'Pemilih warna OKLCH Angular yang aksesibel: warna P3 bergamut lebar, semua sintaks warna CSS, contoh warna, pipet warna, dan pemeriksaan kontras WCAG.',
+        apiDescription:
+          'Referensi API pemilih warna Needless UI: nilai, format, dan gamut nui-color-picker, contoh warna dan kontras, serta helper untuk warna.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas pemilih warna Needless UI: slider dua nilai untuk area, slider native, dan tingkat kontras yang dinyatakan dengan kata-kata.',
+        overview: [
+          'Pemilih warna bekerja dalam OKLCH, ruang warna perseptual CSS modern. Dari kiri ke kanan pada area, kroma naik dari abu-abu hingga nilai tertinggi yang bisa ditampilkan layar pada kecerahan tersebut, sehingga setiap titik adalah warna yang bisa dipakai, dan penanda tetap di tempatnya saat hue berputar.',
+          'Kolom teksnya menerima warna CSS apa pun, termasuk nama warna, dan tombol format menuliskan nilainya sebagai hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code>, atau <code>color(display-p3)</code>. Warna di luar gamut suatu format dibawa masuk ke gamut itu dengan cara CSS, dengan kecerahan dan hue-nya tetap dipertahankan.',
+          'Tambahkan <code>swatches</code> sebagai pilihan warna, dan <code>contrastWith</code> untuk memeriksa kontras warna terhadap latar belakang sesuai cara WCAG 2 mengukurnya. Jika browser menyediakan pipet warna, sebuah tombol bisa mengambil warna dari layar.',
+        ],
+        examples: {
+          brand: {
+            title: 'Warna brand',
+            text: 'Contoh warna bernama, dan kontras teks putih di atas warna tersebut: pilih warna yang terang, maka AA gagal.',
+          },
+          wide: {
+            title: 'Gamut lebar',
+            text: '<code>gamut="p3"</code> mengisi area dengan warna Display P3, dan garis putus-putus menandai batas sRGB. Nilainya tetap dalam <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'Di dalam popover',
+            text: 'Tombol yang menampilkan warna membuka pemilih di dalam <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Pemilih warna dalam OKLCH.',
+            members: {
+              value:
+                'Warnanya, ditulis dalam format yang dipilih. Kosong sampai ada warna yang dipilih.',
+              format: 'Cara nilai ditulis.',
+              formats: 'Format yang dilalui tombol format secara bergiliran.',
+              gamut: 'Warna yang dimuat area: sRGB, atau Display P3.',
+              alpha: 'Menampilkan slider opasitas.',
+              swatches: 'Warna yang bisa dipilih, beserta namanya.',
+              contrastWith: 'Latar belakang untuk memeriksa kontras.',
+              eyeDropper: 'Menampilkan pipet warna, jika browser menyediakannya.',
+              disabled: 'Tidak bisa diubah.',
+              labels: 'Semua teks yang disampaikan pemilih, untuk diterjemahkan.',
+              color: 'Warna yang dipilih, dalam OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi untuk warna.',
+            members: {
+              nuiParseColor: 'Membaca warna dalam sintaks CSS apa pun.',
+              nuiFormatColor: 'Menulis warna dalam suatu format.',
+              nuiToGamut:
+                'Membawa warna ke dalam sRGB atau Display P3, seperti yang dilakukan CSS.',
+              nuiContrast: 'Rasio kontras WCAG 2 dari warna di atas latar belakang.',
+            },
+          },
+        },
+        keyboard: [
+          ['Panah kiri dan kanan', 'Di area, mengurangi atau menambah kroma.'],
+          ['Panah atas dan bawah', 'Di area, membuat warna lebih terang atau lebih gelap.'],
+          ['Shift + tombol panah', 'Bergeser sepuluh kali lebih jauh.'],
+          ['Home dan End', 'Di area, tanpa kroma atau kroma maksimum.'],
+          ['Page Up dan Page Down', 'Di area, jauh lebih terang atau lebih gelap.'],
+        ],
+        notes: [
+          'Penanda area adalah <code>slider</code> bernama “Color” yang menyebutkan kedua nilainya, misalnya “Lightness 62%, chroma 75%”. Hue dan opasitas memakai input range native.',
+          'Contoh warna adalah tombol yang dinamai sesuai labelnya, dan tampil tertekan saat cocok dengan warna yang dipilih.',
+          'AA dan AAA menyatakan “passes” atau “fails” dengan kata-kata, bukan hanya dengan warna, dan dalam mode forced colors, warnanya sendiri tetap dipertahankan.',
+        ],
+      },
     },
   },
 

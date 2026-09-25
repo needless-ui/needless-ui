@@ -1757,6 +1757,409 @@ export const messages: Messages = {
           'Görünümler, bir grup içindeki geçiş düğmeleridir; başka bir haftaya ya da aya geçildiğinde yeni başlık duyurulur.',
         ],
       },
+      splitter: {
+        name: 'Bölme ayırıcı',
+        title: 'Angular için ayırıcı ve boyutlandırılabilir bölmeler',
+        summary: 'Yan yana ya da üst üste bölmeler ve onları yeniden boyutlandıran tutamaçlar.',
+        description:
+          'Erişilebilir Angular bölme ayırıcısı: yan yana ya da üst üste boyutlandırılabilir bölmeler, sınırlar, daraltma, kaydedilen boyutlar ve tam klavye denetimi.',
+        apiDescription:
+          'Needless UI bölme ayırıcısının API referansı: nuiSplitter yönü ve boyutları, bölmelerin sınırları ve daraltılması, aralarındaki tutamaçlar.',
+        a11yDescription:
+          'Needless UI bölme ayırıcısının klavye kullanımı ve erişilebilirliği: değer taşıyan odaklanabilir tutamaçlar, ok tuşları, Home, End ve Enter.',
+        overview: [
+          'Ayırıcı, alanını bölmeler arasında paylaştırır; her iki bölmenin arasında bir tutamaç bulunur. Bir tutamacı sürükleyin ya da ona odaklanıp ok tuşlarını kullanın. Boyutlar toplamı 100 olan yüzdelerdir ve <code>[(sizes)]</code> onları bağlar.',
+          'Her bölmenin başlangıç, en küçük ve en büyük boyutu piksel, rem ya da yüzde olarak verilir. <code>collapsible</code> bir bölme, en küçük boyutunun yarısının altına sürüklendiğinde ya da tutamacında Enter’a basıldığında daralır; geri açıldığında da önceki boyutuna döner.',
+          '<code>storageKey</code> ile boyutlar <code>localStorage</code> içinde saklanır; böylece kullanıcılar bir sonraki ziyaretlerinde düzeni bıraktıkları gibi bulur.',
+        ],
+        examples: {
+          editor: {
+            title: 'Bir düzenleyici',
+            text: 'Dosyalar, kod ve önizleme. Dosyalar ve önizleme daraltılabilir, kod genişliğin en az %30’unu korur ve boyutlar kaydedilir.',
+          },
+          stacked: {
+            title: 'Üst üste bölmeler',
+            text: '<code>orientation="vertical"</code> bölmeleri üst üste dizer, <code>[(sizes)]</code> ise boyutları değiştikçe okur.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Aralarında tutamaçlar olan bölmeler.',
+            members: {
+              orientation: 'Yan yana ya da üst üste.',
+              sizes: 'Her bölmenin payı, yüzde olarak ve sırayla.',
+              storageKey: 'Boyutları bu anahtarla <code>localStorage</code> içinde saklar.',
+              step: 'Ok tuşlarının bir tutamacı ne kadar taşıdığı, yüzde olarak. Shift ile iki katı.',
+              move: 'Bir bölmeden sonraki sınırı belirli bir yüzde kadar taşır.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Bir bölme. Boyutları piksel, rem ya da yüzde olarak verilir.',
+            members: {
+              defaultSize: 'Geri yüklenecek boyut yokken başlangıçtaki boyutu.',
+              min: 'En küçük boyutu.',
+              max: 'En büyük boyutu.',
+              collapsible:
+                'Daraltılabilir: en küçük boyutunun yarısının altına sürüklenince ya da Enter ile.',
+              collapsedSize: 'Daraltılmış hâldeki boyutu; örneğin bir simge şeridi.',
+              label: 'Bölmeyi yeniden boyutlandıran tutamacı adlandırır.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'İki bölme arasındaki tutamaç.',
+            members: {
+              label: 'Bölmenin label değeri adlandırmıyorsa tutamacı adlandırır.',
+              disabled: 'Tutamaç hareket etmez.',
+              toggle: 'Yanındaki bölmeyi daraltır ya da geri açar.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Sol ve sağ ok',
+            'Yan yana bölmeler arasındaki tutamacı taşır. Sağdan sola metinde yönler yer değiştirir.',
+          ],
+          ['Yukarı ve aşağı ok', 'Üst üste bölmeler arasındaki tutamacı taşır.'],
+          ['Shift + ok tuşları', 'Tutamacı iki kat daha uzağa taşır.'],
+          ['Home ve End', 'Tutamaçtan önceki bölmeyi en küçük ya da en büyük boyutuna getirir.'],
+          ['Enter', 'Daraltılabilir bölmeyi daraltır ya da geri açar.'],
+        ],
+        notes: [
+          'WAI-ARIA window splitter örneğindeki gibi her tutamaç odaklanabilir bir <code>separator</code> öğesidir: değeri, kendinden önceki bölmenin boyutudur ve o bölmenin sınırları arasında kalır; <code>aria-controls</code> da o bölmeyi gösterir.',
+          'Tutamaçları bölmelerin <code>label</code> girdisiyle adlandırın: “Files”, ekran okuyucuya tutamacın neyi yeniden boyutlandırdığını söyler.',
+          'Tutamaca çift tıklamak da bölmesini daraltır; sürükleme ise işaretçiyi yakalar, böylece hızlı hareketlerde tutamaç elden kaçmaz.',
+        ],
+      },
+      tour: {
+        name: 'Rehberli tur',
+        title: 'Angular için rehberli tur bileşeni',
+        summary:
+          'Her adım için, anlattığı öğenin yanında bir kart; sayfanın geri kalanı karartılır.',
+        description:
+          'Erişilebilir Angular ürün turu: her adım için hedefinin yanında bir kart, hedefin çevresinde spot ışığı, etkileşimli adımlar ve geri dönen odak.',
+        apiDescription:
+          'Needless UI rehberli turunun API referansı: nui-tour adımları, open ve step bağlamaları, çıktıları ve her adımın hedefi, konumu ve hook’ları.',
+        a11yDescription:
+          'Needless UI rehberli turunun klavye kullanımı ve erişilebilirliği: başlığıyla adlandırılan diyalog kartlar, korunan ve geri verilen odak, Esc ile çıkış.',
+        overview: [
+          'Tur, kullanıcıları bir sayfada adım adım gezdirir. Her adım, yanındaki bir kartla bir öğeyi gösterir ve sayfanın geri kalanını karartır; hedefi olmayan bir adım ortada görünür.',
+          'Adımlar düz verilerdir: bir hedef (bir seçici, bir öğe ya da hedefi bulan bir fonksiyon), bir başlık ve metin ya da şablon olarak içerik. Önce <code>beforeShow</code> çalışır; böylece bir adım, hedefinin içinde bulunduğu paneli açabilir. Görünüm dışındaki bir hedefe ise sayfa kendiliğinden kaydırılır.',
+          'Her kart bir diyalogdur ve modaldır; ancak adım <code>interactive</code> ise kullanıcılar kartın gösterdiği öğeyi kullanabilir. Esc turu bitirir ve odak önceki yerine döner.',
+        ],
+        examples: {
+          basics: {
+            title: 'İlk bakış',
+            text: 'Dört adım; ilkinin hedefi yok. <code>finished</code> ve <code>dismissed</code> iki farklı bitişi birbirinden ayırır.',
+          },
+          interactive: {
+            title: 'Denenecek adımlar',
+            text: '<code>beforeShow</code>, ikinci adım ayarların içini göstermeden önce ayarları açar; <code>interactive</code> ise kart açıkken anahtarın kullanılmasına izin verir.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Rehberli bir tur.',
+            members: {
+              steps: 'Adımlar, sırasıyla.',
+              open: 'Turun açık olup olmadığı.',
+              step: 'Gösterilen adım, 0’dan başlayarak.',
+              labels: 'Gösterdiği her metin; çeviri için.',
+              finished: 'Son adım tamamlandığında tetiklenir.',
+              dismissed: 'Tur erken biterse, bittiği adımı yayar.',
+              start: 'Turu ilk adımdan ya da verilen adımdan başlatır.',
+              end: 'Turu tamamlanmış ya da yarıda bırakılmış olarak bitirir.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Turun bir adımı.',
+            members: {
+              target: 'Adımın gösterdiği öğe. Hedef yoksa kart ortada görünür.',
+              title: 'Kartın başlığı.',
+              content: 'Kartın metni ya da bir şablon.',
+              side: 'Kartın hedefin hangi yanına yerleşeceği.',
+              align: 'Kartın hedefle nasıl hizalandığı.',
+              padding: 'Spot ışığında hedefin çevresinde bırakılan boşluk, piksel cinsinden.',
+              interactive: 'Kart açıkken hedef kullanılabilir.',
+              beforeShow: 'Adım gösterilmeden önce çalışır. Bir promise döndürürse tur onu bekler.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Kartın düğmeleri arasında gezinir. Modal adımlarda odak kartta kalır.'],
+          ['Enter veya Boşluk', 'Odaktaki düğmeye basar: Next, Back ya da Done.'],
+          ['Esc', 'Turu bitirir.'],
+        ],
+        notes: [
+          'Her kart, başlığıyla adlandırılan ve içeriğiyle açıklanan bir <code>dialog</code> öğesidir. Odak her adımda kartın ana düğmesine gider, tur bittiğinde de önceki yerine döner.',
+          'Modal adımlar sayfanın geri kalanını etkileşime kapatır (inert). Etkileşimli adımlar modal değildir; bu yüzden hedeflerine işaretçinin yanı sıra klavyeyle de ulaşılabilir.',
+          'İlerleme, “2 of 4” gibi bir metindir; noktalar yalnızca bunu görselleştirir.',
+        ],
+      },
+      dropzone: {
+        name: 'Dosya bırakma alanı',
+        title: 'Angular için dosya bırakma alanı ve yükleme',
+        summary:
+          'Dosyaları sürükleyip bırakın ya da seçin: denetimler, önizlemeler ve ilerlemesi görünen yüklemeler.',
+        description:
+          'Erişilebilir Angular dosya bırakma alanı: sürükle-bırak, klasör ve yapıştırma, tür ve boyut denetimi, görsel önizleme, ilerleme ve yeniden denemeyle yükleme.',
+        apiDescription:
+          'Needless UI dosya bırakma alanının API referansı: nui-dropzone dosyaları ve denetimleri, yükleme fonksiyonu ve kuyruğu, çıktıları ve metinleri.',
+        a11yDescription:
+          'Needless UI dosya bırakma alanının klavye kullanımı ve erişilebilirliği: düğme olan bir alan, duyurulan sonuçlar, adlandırılmış ilerleme çubukları ve eylemler.',
+        overview: [
+          'Dosya bırakma alanı, üzerine bırakılan, dosya seçiciyle seçilen ya da yapıştırılan dosyaları alır. Bırakılan klasörlerin tüm içeriği okunur ve her dosya kendi yolunu korur.',
+          'Her dosya <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> ve sizin <code>validate</code> fonksiyonunuzla denetlenir; reddedilenler nedeniyle birlikte listelenir. Görseller için önizleme gösterilir.',
+          '<code>upload</code> fonksiyonu yoksa alan, dosyaları bir form için <code>[(files)]</code> içinde tutar. Varsa dosyaları birkaçar birkaçar, ilerlemeyi göstererek yükler; iptal etmek ve yeniden denemek de mümkündür. Yüklemenin <code>signal</code> değerini <code>fetch</code> çağrısına iletin; böylece iptal, yüklemeyi durdurur.',
+        ],
+        examples: {
+          upload: {
+            title: 'Yüklemeler',
+            text: 'Sahte bir yükleme, ilerlemesini adım adım bildirir. Adında “fail” geçen dosyalar, yeniden denemeyi göstermek için başarısız olur; <code>directory</code> ise klasör seçmek için bir düğme ekler.',
+          },
+          attach: {
+            title: 'Bir form için ekler',
+            text: '<code>upload</code> yok: alan, <code>[(files)]</code> içinde en fazla üç belge tutar ve kendi metni varsayılan metnin yerini alır.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Dosyaları bırakmak ya da seçmek için bir alan.',
+            members: {
+              files: 'Tuttuğu dosyalar, sırasıyla.',
+              accept:
+                'Kabul ettiği dosya türleri; <code>&lt;input type="file"&gt;</code> ile aynı biçimde.',
+              multiple: 'Aynı anda birden fazla dosya.',
+              directory: 'Klasör seçmek için bir düğme sunar.',
+              maxFiles: 'Tutabileceği en fazla dosya sayısı.',
+              'maxSize, minSize': 'En büyük ve en küçük dosya boyutu, bayt cinsinden.',
+              validate: 'Her dosyayı denetler. Bir mesaj döndürürse dosya reddedilir.',
+              upload: 'Bir dosyayı gönderir. Verilmezse dosyalar yalnızca tutulur.',
+              concurrency: 'Aynı anda kaç dosyanın yükleneceği.',
+              hint: 'Alanın metninin altındaki satır; örneğin hangi dosyaları kabul ettiği.',
+              disabled: 'Dosya kabul etmez.',
+              labels: 'Gösterdiği veya duyurduğu her metin; çeviri için.',
+              uploaded:
+                'Yüklenen bir dosyayı, <code>upload</code> fonksiyonunun döndürdüğü değerle birlikte yayar.',
+              rejected: 'Reddedilen dosyaları nedenleriyle birlikte yayar.',
+              queue:
+                'Koddan iptal etmek, yeniden denemek ve ilerlemeyi okumak için yükleme kuyruğu.',
+              take: 'Koddan dosya ekler ve her birini denetler.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Tek bir dosya gönderir: ilerlemeyi 0’dan 1’e kadar bildirir ve sinyal iptal edildiğinde durur.',
+            members: {
+              '(file, context)': 'Sunucunuz ne yanıt verirse onu taşıyan bir promise döndürür.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter veya Boşluk', 'Alandayken dosya seçiciyi açar.'],
+          ['Ctrl + V veya ⌘ + V', 'Alandayken yapıştırılan dosyaları ekler.'],
+          ['Tab', 'Alan ve her dosyanın eylemleri arasında gezinir.'],
+        ],
+        notes: [
+          'Alan bir düğmedir; bu yüzden işaretçi olmadan da çalışır ve ipucu onu açıklar.',
+          'Eklenen ve reddedilen dosyalar duyurulur. Her ilerleme çubuğu, dosyasıyla adlandırılan bir <code>progressbar</code> öğesidir; her eylem de yaptığı işle adlandırılır, örneğin “Remove beach.jpg”.',
+          'Önizlemeler dekoratiftir: hangi dosya olduğunu dosya adı söyler.',
+        ],
+      },
+      mask: {
+        name: 'Giriş maskesi',
+        title: 'Angular için giriş maskesi direktifi',
+        summary: 'Yazıldıkça biçimlenen metin alanları: tarihler, kartlar, IBAN’lar, kodlar.',
+        description:
+          'Angular giriş maskesi: yazıldıkça biçimlenen metin alanları, yerini koruyan imleç, kartlar ve IBAN’lar için yardımcı fonksiyonlar, form doğrulaması.',
+        apiDescription:
+          'Needless UI giriş maskesinin API referansı: nuiMask direktifi, token’ları ve değeri, kart numaraları ve IBAN’lar için yardımcı fonksiyonlar.',
+        a11yDescription:
+          'Needless UI giriş maskesinin erişilebilirliği: kendi etiketleriyle yerel alanlar, telefonlarda sayısal klavye ve sabit karakterleri atlayarak silme.',
+        overview: [
+          'Maske, bir metin alanını yazıldıkça biçimlendirir: <code>00/00/0000</code> eğik çizgileri kendisi ekler, <code>AA 000 AA</code> ise sırasıyla harf ve rakam alır. Uymayan karakterler alana girmez ve metnin ortasına yazıldığında imleç yerini korur.',
+          'Maskeler token’lardan ve sabit karakterlerden oluşur: <code>0</code> bir rakam, <code>a</code> bir harf, <code>*</code> ikisinden biridir; <code>A</code> ve <code>X</code> ise kodlar için bunların büyük harfli karşılıklarıdır. Kendi token’larınızı <code>tokens</code> ile ekleyin ya da yazılana göre maskeyi seçen bir fonksiyon verin; <code>nuiCardMask</code> da maskeyi kart markasına göre böyle seçer.',
+          'Değer, alanda görünen metindir; <code>unmask</code> ile yalnızca veridir. Maske Signal Forms, reaktif formlar ve <code>ngModel</code> ile çalışır; tamamlanmamış bir değer hata sayılır.',
+        ],
+        examples: {
+          formats: {
+            title: 'Biçimler',
+            text: 'Bir tarih, bir saat, bir plaka ve onaltılık rakamlar için kendi token’ı olan bir renk.',
+          },
+          payment: {
+            title: 'Ödeme bilgileri',
+            text: 'Signal Forms alanları. Kart maskesi markaya uyar, güvenlik kodu American Express için dört hanelidir; <code>nuiCardValid</code> ve <code>nuiIbanValid</code> de numaraları denetler.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Yerel bir metin alanı üzerinde maske.',
+            members: {
+              nuiMask: 'Maske ya da yazılan veriye göre maske seçen bir fonksiyon.',
+              tokens: 'Eklenecek veya değiştirilecek maske karakterleri.',
+              unmask: 'Değer, sabit karakterler olmadan yalnızca veridir.',
+              value: 'Değer: alanda görünen metin ya da <code>unmask</code> ile veri.',
+              raw: 'Sabit karakterler olmadan, yazılan veri.',
+              complete: 'Maskedeki tüm yerlerin dolu olup olmadığı.',
+            },
+          },
+          Helpers: {
+            summary: 'Değerleri biçimlendiren, denetleyen ve maske oluşturan fonksiyonlar.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Bir değeri maskeyle biçimlendirir ya da biçimli değerden veriyi çıkarır.',
+              nuiCardMask:
+                'Kart numaraları için, rakamları markanın kart üzerine bastığı gibi gruplayan bir maske.',
+              nuiCardBrand: 'Kart numarasının markasını ilk rakamlarından bulur.',
+              'nuiCardValid, nuiLuhn':
+                'Kart numarasının markasına uygun uzunlukta olup olmadığı ve Luhn kontrolünden geçip geçmediği.',
+              nuiIbanMask: 'IBAN’lar için, ülkenin IBAN uzunluğunda bir maske.',
+              nuiIbanValid:
+                'IBAN’ın ülkesine uygun uzunlukta olup olmadığı ve kontrol basamaklarının doğru olup olmadığı.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'İmleçten önceki karakteri siler, sabit karakterleri atlar.'],
+          ['Delete', 'İmleçten sonraki karakteri siler, sabit karakterleri atlar.'],
+        ],
+        notes: [
+          'Maske sizin kendi <code>&lt;input&gt;</code> öğeniz üzerinde çalışır; böylece etiketi ve ipucu metni yazdığınız gibi kalır. Beklenen biçimi orada belirtin: maske bir talimat değildir.',
+          'Yalnızca rakamlardan oluşan maskeler <code>inputmode="numeric"</code> ayarlar; böylece alan kendi değerini belirlemediyse telefonlar sayısal tuş takımı gösterir.',
+          'Her yazı sisteminin rakamları kabul edilir ve 0–9 olarak yazılır.',
+        ],
+      },
+      'phone-field': {
+        name: 'Telefon alanı',
+        title: 'Angular için telefon numarası alanı',
+        summary: 'Bir ülke seçici ve ülkesinin yazım biçimine göre gruplanan bir numara.',
+        description:
+          'Erişilebilir Angular telefon numarası alanı: ülke seçici, ülkesine göre gruplanan numaralar, yazılan ya da yapıştırılan ülke kodları ve E.164 değerleri.',
+        apiDescription:
+          'Needless UI telefon alanının API referansı: nui-phone-field değeri ve ülkesi, sunulan ülkeler, numaraları okuyup yazan yardımcı fonksiyonlar.',
+        a11yDescription:
+          'Needless UI telefon alanının erişilebilirliği: adlandırılmış ülke seçici, bir kod ülkeyi seçtiğinde yapılan duyuru ve tarayıcı otomatik doldurması.',
+        overview: [
+          'Telefon alanı, bir ülke seçici ve bir numaradan oluşur. Numara, yazıldıkça ülkesinde numaraların yazıldığı biçimde gruplanır; değer ise E.164 biçimindeki numaradır, örneğin <code>+393331234567</code>.',
+          'Kullanıcılar numaraları alıştıkları gibi yazar. Baştaki 0 (veya Kuzey Amerika numaralarının önündeki 1) yurt içi arama öneki (trunk prefix) sayılır ve değere alınmaz. Yazılan ya da yapıştırılan bir ülke kodu, örneğin <code>+44</code> veya <code>0044</code>, kendi ülkesini seçer; birden çok ülkenin aynı ülke kodunu paylaştığı yerlerde bunu alan kodu yapar.',
+          'İlk ülke yerel ayarınkidir; <code>countries</code> listeyi sınırlar. Formlarda, ülkesi için fazla kısa ya da fazla uzun bir numara hata sayılır. Tam doğrulama için numaraları sunucuda da denetleyin.',
+        ],
+        examples: {
+          basic: {
+            title: 'Bir numara',
+            text: 'Yazarken ülke değiştirmek için <code>+</code> ve bir ülke koduyla başlayın.',
+          },
+          countries: {
+            title: 'Seçtiğiniz ülkeler',
+            text: '<code>countries</code> on bir ülke sunar, alan reaktif bir <code>FormControl</code> ile çalışır ve <code>nuiFormatPhone</code> değeri okunacak biçimde geri yazar.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Bir telefon numarası alanı.',
+            members: {
+              value: 'E.164 biçiminde numara ya da boş.',
+              country: 'Bölge kodu biçiminde ülke.',
+              countries: 'Bölge kodları biçiminde sunulan ülkeler.',
+              locale: 'Ülke adlarının dili.',
+              label: 'Hiçbir <code>&lt;label for&gt;</code> adlandırmıyorsa numarayı adlandırır.',
+              inputId: '<code>&lt;label for&gt;</code> için numaranın id’si.',
+              placeholder: 'Numara alanı boşken gösterilen metin.',
+              invalid: 'Numarayı geçersiz olarak işaretler.',
+              disabled: 'Değiştirilemez.',
+              labels: 'Alanın söylediği her metin; çeviri için.',
+            },
+          },
+          Helpers: {
+            summary: 'Telefon numaraları için fonksiyonlar.',
+            members: {
+              nuiParsePhone:
+                'Herhangi bir biçimde yazılmış numarayı bölgesine, ülke koduna ve ulusal numarasına ayırır.',
+              nuiFormatPhone: 'Numarayı ülkesinin grupladığı gibi ya da E.164 biçiminde yazar.',
+              nuiPhoneValid:
+                'Numaranın bilinen bir ülke kodu taşıyıp taşımadığı ve ülkesine uygun uzunlukta olup olmadığı.',
+            },
+          },
+        },
+        keyboard: [
+          ['Ülke seçicide harfler', 'Bu harflerle başlayan ülkelere atlar.'],
+          ['Enter veya Boşluk', 'Ülke listesini açar ya da bir ülke seçer.'],
+          ['Backspace', 'Numarada bir rakamı siler; boşlukları ve parantezleri atlar.'],
+        ],
+        notes: [
+          'Ülke seçicinin adı “Country code” olur ve seçili ülkenin bayrağını ve kodunu okur. Bir ülke kodu ya da alan kodu ülkeyi seçtiğinde yeni ülke duyurulur.',
+          'Numarayı <code>&lt;label for&gt;</code> ve <code>inputId</code> ile ya da <code>label</code> ile adlandırın.',
+          'Numarada <code>autocomplete="tel"</code> bulunur; böylece tarayıcılar numarayı ülke koduyla birlikte eksiksiz doldurabilir, telefonlar da telefon tuş takımını gösterir.',
+        ],
+      },
+      'color-picker': {
+        name: 'Renk seçici',
+        title: 'Angular için OKLCH renk seçici',
+        summary: 'OKLCH’de bir renk: kaydırıcılar, renk örnekleri, damlalık ve kontrast denetimi.',
+        description:
+          'Erişilebilir Angular OKLCH renk seçici: geniş renk gamlı P3 renkleri, her CSS renk sözdizimi, renk örnekleri, damlalık ve WCAG kontrast denetimi.',
+        apiDescription:
+          'Needless UI renk seçicisinin API referansı: nui-color-picker değeri, biçimi ve gamı, renk örnekleri ve kontrast, renkler için yardımcı fonksiyonlar.',
+        a11yDescription:
+          'Needless UI renk seçicisinin klavye kullanımı ve erişilebilirliği: iki değerli renk alanı kaydırıcısı, yerel kaydırıcılar, sözle belirtilen kontrast düzeyleri.',
+        overview: [
+          'Renk seçici, modern CSS’in algısal renk uzayı olan OKLCH’de çalışır. Renk alanında soldan sağa doygunluk (chroma), griden ekranın o açıklıkta gösterebildiği en yüksek değere kadar artar; böylece her nokta kullanılabilir bir renktir ve renk tonu döndükçe tutamaç yerinde kalır.',
+          'Metin alanı, renk adları dahil her CSS rengini kabul eder; biçim düğmesi de değeri hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> ya da <code>color(display-p3)</code> olarak yazar. Bir biçimin gamı dışında kalan renk, CSS’in yöntemiyle açıklığı ve tonu korunarak bu gamın içine alınır.',
+          'Seçim için renk örnekleri sunmak üzere <code>swatches</code>, rengin bir arka plana karşı kontrastını WCAG 2’nin ölçtüğü şekilde denetlemek için de <code>contrastWith</code> ekleyin. Tarayıcıda damlalık varsa bir düğme ekrandan renk alır.',
+        ],
+        examples: {
+          brand: {
+            title: 'Bir marka rengi',
+            text: 'Adlandırılmış renk örnekleri ve rengin üzerindeki beyaz metnin kontrastı: açık bir renk seçerseniz AA başarısız olur.',
+          },
+          wide: {
+            title: 'Geniş renk gamı',
+            text: '<code>gamut="p3"</code> renk alanını Display P3 renkleriyle doldurur, kesikli bir çizgi de sRGB’nin bittiği yeri gösterir. Değer <code>oklch()</code> olarak kalır.',
+          },
+          popover: {
+            title: 'Popover içinde',
+            text: 'Rengi gösteren bir düğme, seçiciyi bir <a href="/components/popover">popover</a> içinde açar.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'OKLCH’de çalışan bir renk seçici.',
+            members: {
+              value: 'Biçime göre yazılmış renk. Bir renk seçilene kadar boştur.',
+              format: 'Değerin nasıl yazılacağı.',
+              formats: 'Biçim düğmesinin sırayla dolaştığı biçimler.',
+              gamut: 'Renk alanının kapsadığı renkler: sRGB ya da Display P3.',
+              alpha: 'Opaklık kaydırıcısını gösterir.',
+              swatches: 'Adlarıyla birlikte, seçilebilecek renkler.',
+              contrastWith: 'Kontrastın denetleneceği arka plan.',
+              eyeDropper: 'Tarayıcıda varsa damlalığı gösterir.',
+              disabled: 'Değiştirilemez.',
+              labels: 'Seçicinin söylediği her metin; çeviri için.',
+              color: 'OKLCH’de seçilen renk.',
+            },
+          },
+          Helpers: {
+            summary: 'Renkler için fonksiyonlar.',
+            members: {
+              nuiParseColor: 'Herhangi bir CSS sözdizimiyle yazılmış rengi okur.',
+              nuiFormatColor: 'Bir rengi belirli bir biçimde yazar.',
+              nuiToGamut: 'Bir rengi, CSS’in yaptığı gibi sRGB ya da Display P3 gamına alır.',
+              nuiContrast: 'Bir rengin arka plan üzerindeki WCAG 2 kontrast oranı.',
+            },
+          },
+        },
+        keyboard: [
+          ['Sol ve sağ ok', 'Renk alanında doygunluğu azaltır veya artırır.'],
+          ['Yukarı ve aşağı ok', 'Renk alanında rengi açar veya koyulaştırır.'],
+          ['Shift + ok tuşları', 'On kat daha uzağa taşır.'],
+          ['Home ve End', 'Renk alanında doygunluğu sıfıra ya da en yükseğe getirir.'],
+          ['Page Up ve Page Down', 'Renk alanında rengi çok daha açık ya da çok daha koyu yapar.'],
+        ],
+        notes: [
+          'Renk alanının tutamacı, adı “Color” olan ve iki değerini de söyleyen bir <code>slider</code> öğesidir; örneğin “Lightness 62%, chroma 75%”. Renk tonu ve opaklık ise yerel range kaydırıcılarıdır.',
+          'Renk örnekleri, etiketleriyle adlandırılan düğmelerdir; renkle eşleştiklerinde basılı görünürler.',
+          'AA ve AAA, yalnızca renkle değil sözle de “passes” ya da “fails” der; forced colors modunda ise renklerin kendisi korunur.',
+        ],
+      },
     },
   },
 

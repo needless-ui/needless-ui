@@ -1741,6 +1741,400 @@ export const messages: Messages = {
           'The views are toggle buttons in a group, and moving to another week or month announces its title.',
         ],
       },
+      splitter: {
+        name: 'Splitter',
+        title: 'Splitter and resizable panes for Angular',
+        summary: 'Panes side by side or stacked, with handles to resize them.',
+        description:
+          'Accessible Angular splitter: resizable panes side by side or stacked, with limits, collapsible panes, saved sizes and full keyboard control.',
+        apiDescription:
+          'API reference for the Needless UI splitter: nuiSplitter orientation and sizes, the limits and folding of panes, and the handles between them.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI splitter: focusable window splitter handles with values, arrow keys, Home, End and Enter.',
+        overview: [
+          'A splitter shares its room between panes, with a handle between every two. Drag a handle, or focus it and use the arrow keys. Sizes are percentages that add up to 100, and <code>[(sizes)]</code> binds them.',
+          'Each pane takes its first size, its minimum and its maximum in pixels, rems or percent. A <code>collapsible</code> pane folds away when dragged below half its minimum, or with Enter on its handle, and comes back at the size it had.',
+          'With <code>storageKey</code>, the sizes are kept in <code>localStorage</code>, so people find the layout as they left it on their next visit.',
+        ],
+        examples: {
+          editor: {
+            title: 'An editor',
+            text: 'Files, code and a preview. The files and the preview fold away, the code keeps at least 30% of the width, and the sizes are saved.',
+          },
+          stacked: {
+            title: 'Stacked panes',
+            text: '<code>orientation="vertical"</code> stacks the panes, and <code>[(sizes)]</code> reads their sizes as they change.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Panes with handles between them.',
+            members: {
+              orientation: 'Side by side, or stacked.',
+              sizes: 'Each pane’s share, in percent, in order.',
+              storageKey: 'Keeps the sizes in <code>localStorage</code> under this key.',
+              step: 'How far the arrow keys move a handle, in percent. Twice as far with Shift.',
+              move: 'Moves the boundary after a pane by a percentage.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'A pane. Its sizes take pixels, rems or percent.',
+            members: {
+              defaultSize: 'Its size at first, when there are no sizes to restore.',
+              min: 'Its smallest size.',
+              max: 'Its largest size.',
+              collapsible: 'It folds away: dragged below half its minimum, or with Enter.',
+              collapsedSize: 'Its size folded, such as a rail of icons.',
+              label: 'Names the handle that resizes it.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'The handle between two panes.',
+            members: {
+              label: 'Names it, when the pane’s label doesn’t.',
+              disabled: 'It doesn’t move.',
+              toggle: 'Folds the pane beside it, or brings it back.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Left and right arrows',
+            'Move the handle between side-by-side panes. Mirrored in right-to-left text.',
+          ],
+          ['Up and down arrows', 'Move the handle between stacked panes.'],
+          ['Shift + arrow keys', 'Move it twice as far.'],
+          ['Home and End', 'Take the pane before the handle to its smallest or largest size.'],
+          ['Enter', 'Fold the collapsible pane, or bring it back.'],
+        ],
+        notes: [
+          'Each handle is a focusable <code>separator</code>, as in the WAI-ARIA window splitter pattern: its value is the size of the pane before it, between that pane’s limits, and <code>aria-controls</code> points at the pane.',
+          'Name the handles through the panes’ <code>label</code>: “Files” tells a screen reader what a handle resizes.',
+          'A double click on a handle folds its pane too, and a drag captures the pointer, so fast moves don’t lose the handle.',
+        ],
+      },
+      tour: {
+        name: 'Tour',
+        title: 'Guided tour component for Angular',
+        summary: 'A card for each step, beside what it’s about, with the page dimmed around it.',
+        description:
+          'Accessible Angular product tour: a card for each step next to its target, a spotlight around it, interactive steps, and focus that returns.',
+        apiDescription:
+          'API reference for the Needless UI tour: nui-tour steps, the open and step bindings, its outputs, and the target, placement and hooks of each step.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI tour: each card a dialog named by its title, focus kept and given back, and Escape to leave.',
+        overview: [
+          'A tour walks people through a page, one step at a time. Each step points at an element with a card beside it and dims the rest of the page around it; a step without a target shows in the middle.',
+          'Steps are plain data: a target (a selector, an element or a function that finds one), a title, and content as text or a template. <code>beforeShow</code> runs first, so a step can open the panel its target is in, and a target out of view is scrolled to.',
+          'Every card is a dialog. It’s modal, unless the step is <code>interactive</code>: then people can use what it points at. Escape ends the tour, and focus goes back where it was.',
+        ],
+        examples: {
+          basics: {
+            title: 'A first look',
+            text: 'Four steps, the first without a target. <code>finished</code> and <code>dismissed</code> tell the two endings apart.',
+          },
+          interactive: {
+            title: 'Steps to try',
+            text: '<code>beforeShow</code> opens the settings before the second step points into them, and <code>interactive</code> lets people use the switch while the card is up.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'A guided tour.',
+            members: {
+              steps: 'The steps, in order.',
+              open: 'Whether the tour is on.',
+              step: 'The step shown, from 0.',
+              labels: 'Every text it shows, to translate.',
+              finished: 'Emits when the last step is done.',
+              dismissed: 'Emits the step the tour ended on, when it ends early.',
+              start: 'Starts the tour, from the first step or the one given.',
+              end: 'Ends the tour, finished or dismissed.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'A step of the tour.',
+            members: {
+              target: 'What it points at. Without one, the card shows in the middle.',
+              title: 'The card’s title.',
+              content: 'Its text, or a template.',
+              side: 'Where the card goes beside the target.',
+              align: 'How the card lines up with the target.',
+              padding: 'Room around the target in the spotlight, in pixels.',
+              interactive: 'The target can be used while the card is up.',
+              beforeShow: 'Runs before the step shows. The tour waits for a promise.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Move through the card’s buttons. On modal steps, focus stays in the card.'],
+          ['Enter or Space', 'Press the focused button: Next, Back or Done.'],
+          ['Escape', 'End the tour.'],
+        ],
+        notes: [
+          'Each card is a <code>dialog</code> named by its title and described by its content. Focus moves to its main button on every step, and back where it was when the tour ends.',
+          'Modal steps make the rest of the page inert. Interactive steps aren’t modal, so their target can be reached with the keyboard as well as the pointer.',
+          'The progress is text, such as “2 of 4”; the dots only draw it.',
+        ],
+      },
+      dropzone: {
+        name: 'Dropzone',
+        title: 'File dropzone and uploads for Angular',
+        summary: 'Drop files or choose them, with checks, previews and uploads with progress.',
+        description:
+          'Accessible Angular file dropzone: drag and drop, folders and paste, type and size checks, image previews, and uploads with progress and retry.',
+        apiDescription:
+          'API reference for the Needless UI dropzone: nui-dropzone files and checks, the upload function and its queue, its outputs and its texts.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI dropzone: a zone that is a button, announced results, and named progress bars and actions.',
+        overview: [
+          'A dropzone takes files dropped on it, chosen with the file picker, or pasted. Folders dropped are read through, and each file keeps its path.',
+          'Every file is checked against <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> and your <code>validate</code> function, and the ones turned away are listed with the reason. Images get a preview.',
+          'Without an <code>upload</code> function, the dropzone holds the files for a form, in <code>[(files)]</code>. With one, it uploads them a few at a time, with progress, cancel and retry. Pass the upload’s <code>signal</code> to <code>fetch</code>, so canceling stops it.',
+        ],
+        examples: {
+          upload: {
+            title: 'Uploads',
+            text: 'A pretend upload reports its progress in steps. Files named with “fail” fail, to show retry, and <code>directory</code> adds a button to choose a folder.',
+          },
+          attach: {
+            title: 'Attachments for a form',
+            text: 'No <code>upload</code>: the dropzone holds up to three documents in <code>[(files)]</code>, and its own text replaces the default one.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'A place to drop files, or choose them.',
+            members: {
+              files: 'The files it holds, in order.',
+              accept: 'The kinds of file it takes, as for <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'More than one file at a time.',
+              directory: 'Offers a button to choose a folder.',
+              maxFiles: 'How many files it holds.',
+              'maxSize, minSize': 'The largest and smallest file, in bytes.',
+              validate: 'Checks each file. A message turns it away.',
+              upload: 'Sends a file. Without it, files are only held.',
+              concurrency: 'How many files upload at once.',
+              hint: 'A line under the zone’s text, such as what it takes.',
+              disabled: 'It takes no files.',
+              labels: 'Every text it shows or announces, to translate.',
+              uploaded: 'Emits a file uploaded, with what <code>upload</code> returned.',
+              rejected: 'Emits the files turned away, with the reasons.',
+              queue: 'The upload queue, to cancel, retry and read progress from code.',
+              take: 'Adds files from code, checking each one.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Sends one file: it reports progress from 0 to 1, and stops when the signal aborts.',
+            members: {
+              '(file, context)': 'Returns a promise of whatever your server answers.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter or Space', 'On the zone, open the file picker.'],
+          ['Ctrl + V (⌘ + V)', 'On the zone, add the files pasted.'],
+          ['Tab', 'Move through the zone and each file’s actions.'],
+        ],
+        notes: [
+          'The zone is a button, so it works without a pointer, and the hint describes it.',
+          'Files added and files turned away are announced. Each progress bar is a <code>progressbar</code> named for its file, and each action is named for what it does, such as “Remove beach.jpg”.',
+          'Previews are decorative: the file name says which file it is.',
+        ],
+      },
+      mask: {
+        name: 'Input mask',
+        title: 'Input mask directive for Angular',
+        summary: 'Text fields that format as people type: dates, cards, IBANs, codes.',
+        description:
+          'Angular input mask: format text fields as people type, with a caret that keeps its place, helpers for cards and IBANs, and form validation.',
+        apiDescription:
+          'API reference for the Needless UI input mask: the nuiMask directive, its tokens and value, and helpers for card numbers and IBANs.',
+        a11yDescription:
+          'Accessibility of the Needless UI input mask: native fields with their own labels, numeric keyboards on phones, and deleting across literals.',
+        overview: [
+          'A mask formats a text field as people type: <code>00/00/0000</code> puts in the slashes, <code>AA 000 AA</code> takes letters and digits in turn. Characters that don’t fit stay out, and the caret keeps its place when people type in the middle.',
+          'Masks are made of tokens and literals: <code>0</code> is a digit, <code>a</code> a letter, <code>*</code> either, and <code>A</code> and <code>X</code> are the same for codes, in upper case. Add your own with <code>tokens</code>, or pass a function that picks the mask for what’s typed, as <code>nuiCardMask</code> does by card brand.',
+          'The value is what’s shown, or only the data with <code>unmask</code>. The mask works with Signal Forms, reactive forms and <code>ngModel</code>, and an unfinished value is an error.',
+        ],
+        examples: {
+          formats: {
+            title: 'Formats',
+            text: 'A date, a time, a licence plate, and a color with a token of its own for hexadecimal digits.',
+          },
+          payment: {
+            title: 'Payment details',
+            text: 'Signal Forms fields. The card mask follows the brand, the security code has four digits for American Express, and <code>nuiCardValid</code> and <code>nuiIbanValid</code> check the numbers.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'A mask on a native text field.',
+            members: {
+              nuiMask: 'The mask, or a function that picks one for the data typed.',
+              tokens: 'Mask characters to add or replace.',
+              unmask: 'The value is only the data, without the literals.',
+              value: 'The value: what’s shown, or the data with <code>unmask</code>.',
+              raw: 'The data typed, without the literals.',
+              complete: 'Every place in the mask is filled.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions to format, check and build masks.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Format a value with a mask, or read the data out of one.',
+              nuiCardMask: 'A mask for card numbers, grouped as their brand prints them.',
+              nuiCardBrand: 'The brand of a card number, from its first digits.',
+              'nuiCardValid, nuiLuhn':
+                'Whether a card number has its brand’s length and passes the Luhn check.',
+              nuiIbanMask: 'A mask for IBANs, as long as the country’s.',
+              nuiIbanValid: 'Whether an IBAN has its country’s length and the right check digits.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Delete the character before the caret, skipping over literals.'],
+          ['Delete', 'Delete the character after the caret, skipping over literals.'],
+        ],
+        notes: [
+          'The mask works on your own <code>&lt;input&gt;</code>, so its label and hint stay as you wrote them. Say what’s expected there: a mask isn’t an instruction.',
+          'Masks of digits set <code>inputmode="numeric"</code>, so phones show a keypad, unless the field sets its own.',
+          'Digits of any script are taken, and written 0 to 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Phone field',
+        title: 'Phone number input for Angular',
+        summary: 'A country picker and a number, grouped as the country writes it.',
+        description:
+          'Accessible Angular phone number input: a country picker, numbers grouped as each country writes them, calling codes typed or pasted, and E.164 values.',
+        apiDescription:
+          'API reference for the Needless UI phone field: nui-phone-field value and country, the countries offered, and helpers to read and write numbers.',
+        a11yDescription:
+          'Accessibility of the Needless UI phone field: a named country picker, a country announced when a code picks it, and browser autofill.',
+        overview: [
+          'A phone field is a country picker and a number. The number is grouped as its country writes numbers, as it’s typed, and the value is the number in E.164, such as <code>+393331234567</code>.',
+          'People type numbers the way they know them. A leading 0 (or the 1 before a North American number) is taken as the trunk prefix and left out of the value. A calling code typed or pasted, such as <code>+44</code> or <code>0044</code>, picks its country, and so does an area code where countries share a calling code.',
+          'The first country is the locale’s, and <code>countries</code> limits the list. With forms, a number too short or too long for its country is an error. For full validation, check numbers on the server too.',
+        ],
+        examples: {
+          basic: {
+            title: 'A number',
+            text: 'Start with <code>+</code> and a calling code to switch countries as you type.',
+          },
+          countries: {
+            title: 'Countries of your choice',
+            text: '<code>countries</code> offers eleven, the field works with a reactive <code>FormControl</code>, and <code>nuiFormatPhone</code> writes the value back for people to read.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'A phone number field.',
+            members: {
+              value: 'The number in E.164, or empty.',
+              country: 'The country, as its region code.',
+              countries: 'The countries offered, as region codes.',
+              locale: 'The language of country names.',
+              label: 'Names the number, when no <code>&lt;label for&gt;</code> does.',
+              inputId: 'The number’s id, for <code>&lt;label for&gt;</code>.',
+              placeholder: 'The number’s placeholder.',
+              invalid: 'Marks the number invalid.',
+              disabled: 'It can’t be changed.',
+              labels: 'Every text it says, to translate.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions for phone numbers.',
+            members: {
+              nuiParsePhone:
+                'Reads a number written any way into its region, calling code and national number.',
+              nuiFormatPhone: 'Writes a number grouped as its country does, or in E.164.',
+              nuiPhoneValid: 'Whether a number has a known calling code and its country’s length.',
+            },
+          },
+        },
+        keyboard: [
+          ['Letters on the country picker', 'Jump to the countries they start.'],
+          ['Enter or Space', 'Open the list of countries, or pick one.'],
+          ['Backspace', 'On the number, delete a digit, skipping over spaces and brackets.'],
+        ],
+        notes: [
+          'The country picker is named “Country code” and reads its flag and code. When a calling code or an area code picks a country, the new country is announced.',
+          'Name the number with <code>&lt;label for&gt;</code> and <code>inputId</code>, or with <code>label</code>.',
+          'The number has <code>autocomplete="tel"</code>, so browsers can fill it in, calling code and all, and phones show a phone keypad.',
+        ],
+      },
+      'color-picker': {
+        name: 'Color picker',
+        title: 'OKLCH color picker for Angular',
+        summary: 'A color in OKLCH, with sliders, swatches, an eyedropper and a contrast check.',
+        description:
+          'Accessible Angular color picker in OKLCH: wide-gamut P3 colors, every CSS color syntax, swatches, the eyedropper, and a WCAG contrast check.',
+        apiDescription:
+          'API reference for the Needless UI color picker: nui-color-picker value, format and gamut, swatches and contrast, and helpers for colors.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI color picker: a slider with two values for the area, native sliders, and contrast grades in words.',
+        overview: [
+          'The color picker works in OKLCH, the perceptual color space of modern CSS. Across the area, chroma runs from gray to the most the screen can show at that lightness, so every point is a color you can use, and the thumb stays put as the hue turns.',
+          'The field takes any CSS color, names included, and the format button writes the value as hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> or <code>color(display-p3)</code>. A color outside a format’s gamut is brought into it the CSS way, keeping its lightness and hue.',
+          'Add <code>swatches</code> to pick from, and <code>contrastWith</code> to check the color against a background as WCAG 2 measures contrast. Where the browser has an eyedropper, a button picks a color from the screen.',
+        ],
+        examples: {
+          brand: {
+            title: 'A brand color',
+            text: 'Named swatches, and the contrast of white text on the color: pick a light one, and AA fails.',
+          },
+          wide: {
+            title: 'Wide gamut',
+            text: '<code>gamut="p3"</code> fills the area with Display P3 colors, and a dashed line marks where sRGB ends. The value stays in <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'In a popover',
+            text: 'A button that shows the color opens the picker in a <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'A color picker in OKLCH.',
+            members: {
+              value: 'The color, written in the format. Empty until one is picked.',
+              format: 'How the value is written.',
+              formats: 'The formats the format button goes through.',
+              gamut: 'The colors the area holds: sRGB, or Display P3.',
+              alpha: 'Shows the opacity slider.',
+              swatches: 'Colors to pick from, with names.',
+              contrastWith: 'A background to check the contrast against.',
+              eyeDropper: 'Shows the eyedropper, where the browser has one.',
+              disabled: 'It can’t be changed.',
+              labels: 'Every text it says, to translate.',
+              color: 'The color picked, in OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Functions for colors.',
+            members: {
+              nuiParseColor: 'Reads a color in any CSS syntax.',
+              nuiFormatColor: 'Writes a color in a format.',
+              nuiToGamut: 'Brings a color into sRGB or Display P3, as CSS does.',
+              nuiContrast: 'The WCAG 2 contrast ratio of a color on a background.',
+            },
+          },
+        },
+        keyboard: [
+          ['Left and right arrows', 'On the area, less or more chroma.'],
+          ['Up and down arrows', 'On the area, lighter or darker.'],
+          ['Shift + arrow keys', 'Move ten times as far.'],
+          ['Home and End', 'On the area, no chroma or the most.'],
+          ['Page Up and Page Down', 'On the area, much lighter or darker.'],
+        ],
+        notes: [
+          'The area’s thumb is a <code>slider</code> named “Color” that says both its values, such as “Lightness 62%, chroma 75%”. Hue and opacity are native range inputs.',
+          'Swatches are buttons named by their label, and pressed when they match the color.',
+          'AA and AAA say “passes” or “fails” in words, not only by color, and in forced colors mode the colors themselves stay.',
+        ],
+      },
     },
   },
 

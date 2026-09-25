@@ -1,0 +1,26 @@
+<div class="app">
+  <div class="toolbar">
+    <button
+      #toggle
+      nuiButton
+      size="sm"
+      variant="outline"
+      tone="neutral"
+      [attr.aria-expanded]="settings()"
+      (click)="settings.set(!settings())"
+    >
+      Settings
+    </button>
+  </div>
+  @if (settings()) {
+    <label #theme class="switch">
+      <input type="checkbox" [checked]="dark()" (change)="dark.set(!dark())" />
+      Dark mode
+    </label>
+  }
+  <p class="muted">Dark mode is {{ dark() ? 'on' : 'off' }}.</p>
+</div>
+<button nuiButton variant="soft" (click)="settings.set(false); touring.set(true)">
+  Show me around
+</button>
+<nui-tour [steps]="steps" [(open)]="touring" />

@@ -1,0 +1,11 @@
+<div class="field">
+  <label for="phone-basic">Phone</label>
+  <nui-phone-field inputId="phone-basic" [(value)]="phone" [(country)]="country" />
+</div>
+<p>
+  Value: <code>{{ phone() || '—' }}</code>
+  @if (phone()) {
+    · {{ valid() ? 'A whole number' : 'Not a whole number yet' }}
+  }
+</p>
+<p>Try typing <code>+44 20 7946 0958</code>, or a number starting with 0.</p>

@@ -1784,6 +1784,415 @@ export const messages: Messages = {
           'Tampilan-tampilan iku tombol toggle ing sawijining klompok, lan pindhah menyang minggu utawa sasi liya ngumumake judhule.',
         ],
       },
+      splitter: {
+        name: 'Pamisah panel',
+        title: 'Pamisah panel sing ukurane bisa diowahi kanggo Angular',
+        summary: 'Panel sing jejer utawa numpuk, kanthi gagang kanggo ngowahi ukurane.',
+        description:
+          'Pamisah panel Angular sing aksesibel: panel jejer utawa numpuk, ukurane bisa diowahi lan disimpen, ana watesan, bisa dilempit, lan kontrol keyboard jangkep.',
+        apiDescription:
+          'Referensi API pamisah panel Needless UI: orientasi lan ukuran nuiSplitter, watesan lan lempitan panel, uga gagang ing antarane panel.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas pamisah panel Needless UI: gagang window splitter sing bisa difokus lan duwe nilai, tombol panah, Home, End lan Enter.',
+        overview: [
+          'Pamisah panel mbagi papane marang panel-panel, kanthi gagang ing antarane saben rong panel. Seret gagang, utawa wenehi fokus banjur agem tombol panah. Ukuran yaiku persentase sing gunggunge 100, lan di-bind nganggo <code>[(sizes)]</code>.',
+          'Saben panel nampa ukuran wiwitan, minimal lan maksimale ing piksel, rem utawa persen. Panel <code>collapsible</code> kalempit yen diseret nganti kurang saka separo ukuran minimale, utawa nganggo Enter ing gagange, lan bali kanthi ukuran sadurunge.',
+          'Kanthi <code>storageKey</code>, ukuran disimpen ing <code>localStorage</code>, dadi ing kunjungan sabanjure pangguna nemokake tata letak kaya nalika ditinggal.',
+        ],
+        examples: {
+          editor: {
+            title: 'Editor kode',
+            text: 'Berkas, kode lan pratinjau. Berkas lan pratinjau bisa dilempit, kode tetep oleh paling ora 30% saka ambane, lan ukurane disimpen.',
+          },
+          stacked: {
+            title: 'Panel numpuk',
+            text: '<code>orientation="vertical"</code> numpuk panel-panel, lan <code>[(sizes)]</code> maca ukurane nalika owah.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Panel-panel kanthi gagang ing antarane.',
+            members: {
+              orientation: 'Jejer, utawa numpuk.',
+              sizes: 'Bagean saben panel, ing persen, miturut urutan.',
+              storageKey: 'Nyimpen ukuran ing <code>localStorage</code> kanthi kunci iki.',
+              step: 'Sepira adohe tombol panah mindhah gagang, ing persen. Kaping pindho kanthi Shift.',
+              move: 'Mindhah wates sawise sawijining panel kanthi persentase tartamtu.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Siji panel. Ukurane bisa ing piksel, rem utawa persen.',
+            members: {
+              defaultSize: 'Ukuran wiwitane, nalika ora ana ukuran sing kudu dibalekake.',
+              min: 'Ukuran paling cilik.',
+              max: 'Ukuran paling gedhe.',
+              collapsible:
+                'Bisa dilempit: diseret nganti kurang saka separo ukuran minimale, utawa nganggo Enter.',
+              collapsedSize: 'Ukurane nalika dilempit, kayata jalur ikon sing ciut.',
+              label: 'Menehi jeneng marang gagang sing ngowahi ukurane.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'Gagang ing antarane rong panel.',
+            members: {
+              label: 'Menehi jeneng gagang, yen label panel ora menehi jeneng.',
+              disabled: 'Ora bisa obah.',
+              toggle: 'Nglempit panel ing sandhinge, utawa mbalekake.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Panah kiwa lan tengen',
+            'Mindhah gagang ing antarane panel sing jejer. Kewalik ing teks tengen-menyang-kiwa.',
+          ],
+          ['Panah munggah lan mudhun', 'Mindhah gagang ing antarane panel sing numpuk.'],
+          ['Shift + tombol panah', 'Mindhah kaping pindho luwih adoh.'],
+          [
+            'Home lan End',
+            'Nggawa panel sadurunge gagang menyang ukuran paling cilik utawa paling gedhe.',
+          ],
+          ['Enter', 'Nglempit panel sing bisa dilempit, utawa mbalekake.'],
+        ],
+        notes: [
+          'Saben gagang yaiku <code>separator</code> sing bisa difokus, kaya ing pola window splitter WAI-ARIA: nilaine yaiku ukuran panel sadurunge, ing antarane watesan panel kasebut, lan <code>aria-controls</code> nuding panel kasebut.',
+          'Wenehana jeneng gagang lumantar <code>label</code> panel: “Files” ngandhani screen reader panel endi sing diowahi ukurane dening gagang kasebut.',
+          'Klik kaping pindho ing gagang uga nglempit panele. Sajrone diseret, gagang nyekel pointer, dadi obahan cepet ora ndadekake gagang ucul.',
+        ],
+      },
+      tour: {
+        name: 'Tur tuntunan',
+        title: 'Komponen tur tuntunan kanggo Angular',
+        summary:
+          'Kertu kanggo saben langkah ing sandhinge perangan sing diterangake, lan kaca ing sakubenge dadi surem.',
+        description:
+          'Tur produk Angular sing aksesibel: kertu kanggo saben langkah ing sandhinge target, sorotan ing sakubenge, langkah interaktif, lan fokus sing bali.',
+        apiDescription:
+          'Referensi API tur Needless UI: langkah-langkah nui-tour, binding open lan step, output-e, uga target, posisi lan hook saben langkah.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas tur Needless UI: saben kertu yaiku dialog sing dijenengi miturut judhule, fokus dijaga lan dibalekake, lan Escape kanggo metu.',
+        overview: [
+          'Tur ngajak pangguna ngubengi kaca, selangkah mbaka selangkah. Saben langkah nuding sawijining elemen kanthi kertu ing sandhinge lan nyuremake kaca liyane ing sakubenge; langkah tanpa target katon ing tengah.',
+          'Langkah iku data biasa: target (selector, elemen utawa fungsi sing nemokake elemen), judhul, lan isi awujud teks utawa template. <code>beforeShow</code> mlaku dhisik, dadi langkah bisa mbukak panel panggonane target, lan kaca digulung menyang target sing ora katon.',
+          'Saben kertu yaiku dialog. Kertu iku modal, kajaba langkahe <code>interactive</code>: yen mangkono, pangguna bisa nganggo apa sing dituding. Escape mungkasi tur, lan fokus bali menyang panggonan sadurunge.',
+        ],
+        examples: {
+          basics: {
+            title: 'Delengan kapisan',
+            text: 'Patang langkah, sing kapisan tanpa target. <code>finished</code> lan <code>dismissed</code> mbedakake rong cara rampunge tur.',
+          },
+          interactive: {
+            title: 'Langkah kanggo dicoba',
+            text: '<code>beforeShow</code> mbukak setelan sadurunge langkah kapindho nuding menyang njerone, lan <code>interactive</code> ngidini pangguna nganggo saklar sajrone kertu katon.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Tur tuntunan.',
+            members: {
+              steps: 'Langkah-langkah, miturut urutan.',
+              open: 'Apa tur lagi mlaku.',
+              step: 'Langkah sing ditampilake, wiwit 0.',
+              labels: 'Saben teks sing ditampilake tur, kanggo diterjemahake.',
+              finished: 'Ngetokake nalika langkah pungkasan rampung.',
+              dismissed: 'Ngetokake langkah panggonane tur mandheg, yen tur rampung luwih dhisik.',
+              start: 'Miwiti tur, saka langkah kapisan utawa saka langkah sing diwenehake.',
+              end: 'Mungkasi tur, minangka rampung utawa diilangi.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Siji langkah ing tur.',
+            members: {
+              target: 'Apa sing dituding. Tanpa target, kertu katon ing tengah.',
+              title: 'Judhul kertu.',
+              content: 'Teks-e, utawa template.',
+              side: 'Sisih target panggonane kertu.',
+              align: 'Kepriye jejere kertu karo target.',
+              padding: 'Jarak ing sakubenge target sajrone sorotan, ing piksel.',
+              interactive: 'Target bisa dienggo sajrone kertu katon.',
+              beforeShow: 'Mlaku sadurunge langkah katon. Tur ngenteni promise.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Pindhah antarane tombol-tombol kertu. Ing langkah modal, fokus tetep ing njero kertu.',
+          ],
+          ['Enter utawa Spasi', 'Mencet tombol sing lagi difokus: Next, Back utawa Done.'],
+          ['Escape', 'Mungkasi tur.'],
+        ],
+        notes: [
+          'Saben kertu yaiku <code>dialog</code> sing dijenengi miturut judhule lan diterangake dening isine. Ing saben langkah, fokus pindhah menyang tombol utamane, lan bali menyang panggonan sadurunge nalika tur rampung.',
+          'Langkah modal ndadekake kaca liyane inert. Langkah interaktif ora modal, dadi target-e bisa ditekani nganggo keyboard uga pointer.',
+          'Progres iku teks, kayata “2 of 4”; titik-titik mung nggambarake progres kasebut.',
+        ],
+      },
+      dropzone: {
+        name: 'Area seleh berkas',
+        title: 'Area seleh berkas lan unggahan kanggo Angular',
+        summary:
+          'Selehake utawa pilih berkas, kanthi pamriksan, pratinjau lan unggahan sing nuduhake progres.',
+        description:
+          'Area seleh berkas Angular sing aksesibel: folder lan tempel, pamriksan jinis lan ukuran, pratinjau gambar, lan unggahan kanthi progres lan coba maneh.',
+        apiDescription:
+          'Referensi API area seleh berkas Needless UI: berkas lan pamriksan nui-dropzone, fungsi upload lan antriane, output lan teks-e.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas area seleh berkas Needless UI: area sing awujud tombol, asil sing diumumake, lan bar progres uga tumindak sing duwe jeneng.',
+        overview: [
+          'Area seleh berkas nampa berkas sing diselehake ing ndhuwure, dipilih nganggo pamilih berkas, utawa ditempel. Folder sing diselehake diwaca kabeh isine, lan saben berkas tetep nggawa path-e.',
+          'Saben berkas dicek miturut <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> lan fungsi <code>validate</code> panjenengan, lan berkas sing ditolak didhaptar bareng alesane. Gambar oleh pratinjau.',
+          'Tanpa fungsi <code>upload</code>, area seleh berkas nyimpen berkas kanggo formulir, ing <code>[(files)]</code>. Yen ana, berkas diunggah sawetara bebarengan, kanthi progres, batal lan coba maneh. Terusna <code>signal</code> unggahan menyang <code>fetch</code>, supaya mbatalake uga mandhegake unggahan.',
+        ],
+        examples: {
+          upload: {
+            title: 'Unggahan',
+            text: 'Unggahan ethok-ethokan nglaporake progrese sithik mbaka sithik. Berkas sing jenenge ngemot “fail” bakal gagal, kanggo nuduhake coba maneh, lan <code>directory</code> nambahake tombol kanggo milih folder.',
+          },
+          attach: {
+            title: 'Lampiran kanggo formulir',
+            text: 'Tanpa <code>upload</code>: area seleh berkas nyimpen nganti telung dokumen ing <code>[(files)]</code>, lan teks-e dhewe ngganti teks gawan.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Papan kanggo nyelehake berkas, utawa milih berkas.',
+            members: {
+              files: 'Berkas sing disimpen, miturut urutan.',
+              accept: 'Jinis berkas sing ditampa, kaya ing <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Luwih saka siji berkas sepisan.',
+              directory: 'Nyedhiyakake tombol kanggo milih folder.',
+              maxFiles: 'Pira berkas sing bisa disimpen.',
+              'maxSize, minSize': 'Ukuran berkas paling gedhe lan paling cilik, ing bita.',
+              validate: 'Mriksa saben berkas. Yen mbalekake pesen, berkas ditolak.',
+              upload: 'Ngirim berkas. Tanpa iki, berkas mung disimpen.',
+              concurrency: 'Pira berkas sing diunggah bebarengan.',
+              hint: 'Baris ing sangisore teks area, kayata apa sing ditampa.',
+              disabled: 'Ora nampa berkas.',
+              labels: 'Saben teks sing ditampilake utawa diumumake, kanggo diterjemahake.',
+              uploaded:
+                'Ngetokake berkas sing wis diunggah, bareng apa sing dibalekake <code>upload</code>.',
+              rejected: 'Ngetokake berkas sing ditolak, bareng alesane.',
+              queue: 'Antrian unggahan, kanggo mbatalake, nyoba maneh lan maca progres saka kode.',
+              take: 'Nambahake berkas saka kode, sarta mriksa saben berkas.',
+            },
+          },
+          NuiUploader: {
+            summary:
+              'Ngirim siji berkas: nglaporake progres saka 0 nganti 1, lan mandheg nalika signal dibatalake.',
+            members: {
+              '(file, context)': 'Mbalekake promise saka apa wae jawaban server panjenengan.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter utawa Spasi', 'Nalika fokus ing area, mbukak pamilih berkas.'],
+          ['Ctrl + V utawa ⌘ + V', 'Nalika fokus ing area, nambahake berkas sing ditempel.'],
+          ['Tab', 'Pindhah antarane area lan tumindak saben berkas.'],
+        ],
+        notes: [
+          'Area iki yaiku tombol, dadi bisa dienggo tanpa pointer, lan pitunjuk ing sangisore nerangake area kasebut.',
+          'Berkas sing ditambahake lan sing ditolak diumumake. Saben bar progres yaiku <code>progressbar</code> sing dijenengi miturut berkase, lan saben tumindak dijenengi miturut gunane, kayata “Remove beach.jpg”.',
+          'Pratinjau mung kanggo hiasan: jeneng berkas sing nuduhake berkas endi.',
+        ],
+      },
+      mask: {
+        name: 'Mask input',
+        title: 'Directive mask input kanggo Angular',
+        summary: 'Kolom teks sing diformat nalika diketik: tanggal, kertu, IBAN lan kode.',
+        description:
+          'Mask input Angular: ngformat kolom teks nalika pangguna ngetik, kursor tetep ing panggonane, helper kanggo kertu lan IBAN, lan validasi formulir.',
+        apiDescription:
+          'Referensi API mask input Needless UI: directive nuiMask, token lan nilaine, uga helper kanggo nomer kertu lan IBAN.',
+        a11yDescription:
+          'Aksesibilitas mask input Needless UI: kolom native kanthi label dhewe, keyboard angka ing HP, lan mbusak kanthi nglangkahi karakter tetep.',
+        overview: [
+          'Mask ngformat kolom teks nalika pangguna ngetik: <code>00/00/0000</code> nambahake garis miring dhewe, <code>AA 000 AA</code> nampa aksara lan angka miturut urutane. Karakter sing ora cocog ora bakal mlebu, lan kursor tetep ing panggonane nalika pangguna ngetik ing tengah.',
+          'Mask kasusun saka token lan karakter tetep (kayata garis miring): <code>0</code> iku angka, <code>a</code> aksara, <code>*</code> salah siji saka loro-lorone, lan <code>A</code> lan <code>X</code> padha kanggo kode, nanging nganggo aksara gedhe. Tambahake token dhewe nganggo <code>tokens</code>, utawa wenehna fungsi sing milih mask miturut apa sing diketik, kaya sing ditindakake <code>nuiCardMask</code> miturut merek kertu.',
+          'Nilaine yaiku apa sing ditampilake, utawa mung datane yen nganggo <code>unmask</code>. Mask iki bisa karo Signal Forms, reactive forms lan <code>ngModel</code>, lan nilai sing durung jangkep dianggep kesalahan.',
+        ],
+        examples: {
+          formats: {
+            title: 'Format',
+            text: 'Tanggal, wektu, pelat nomer kendharaan, lan werna kanthi token dhewe kanggo angka heksadesimal.',
+          },
+          payment: {
+            title: 'Rincian pambayaran',
+            text: 'Kolom Signal Forms. Mask kertu ngetutake mereke, kode keamanan duwe papat angka kanggo American Express, lan <code>nuiCardValid</code> lan <code>nuiIbanValid</code> mriksa nomer-nomere.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Mask ing kolom teks native.',
+            members: {
+              nuiMask: 'Mask-e, utawa fungsi sing milih mask miturut data sing diketik.',
+              tokens: 'Karakter mask sing arep ditambahake utawa diganti.',
+              unmask: 'Nilaine mung data, tanpa karakter tetep.',
+              value: 'Nilaine: apa sing ditampilake, utawa datane yen nganggo <code>unmask</code>.',
+              raw: 'Data sing diketik, tanpa karakter tetep.',
+              complete: 'Apa saben panggonan ing mask wis keisi.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi kanggo ngformat, mriksa lan nggawe mask.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Ngformat nilai nganggo mask, utawa maca data saka nilai sing wis diformat.',
+              nuiCardMask: 'Mask kanggo nomer kertu, dikelompokake kaya carane mereke nyithak.',
+              nuiCardBrand: 'Merek nomer kertu, miturut angka-angka kapisane.',
+              'nuiCardValid, nuiLuhn':
+                'Apa nomer kertu duwe dawa miturut mereke lan lulus pamriksan Luhn.',
+              nuiIbanMask: 'Mask kanggo IBAN, dawane padha karo IBAN negarane.',
+              nuiIbanValid: 'Apa IBAN duwe dawa miturut negarane lan angka pamriksa sing bener.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Mbusak karakter sadurunge kursor, nglangkahi karakter tetep.'],
+          ['Delete', 'Mbusak karakter sawise kursor, nglangkahi karakter tetep.'],
+        ],
+        notes: [
+          'Mask iki makarya ing <code>&lt;input&gt;</code> panjenengan dhewe, dadi label lan pitunjuke tetep kaya sing panjenengan tulis. Terangna ing kono apa sing dikarepake: mask dudu pituduh.',
+          'Mask angka nyetel <code>inputmode="numeric"</code>, dadi HP nuduhake keyboard angka, kajaba kolom kasebut wis nyetel dhewe.',
+          'Angka saka sistem tulisan apa wae ditampa, lan ditulis dadi 0 nganti 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Kolom telpon',
+        title: 'Input nomer telpon kanggo Angular',
+        summary: 'Pamilih negara lan nomer, dikelompokake kaya carane negara kasebut nulis nomer.',
+        description:
+          'Input telpon Angular sing aksesibel: pamilih negara, nomer dikelompokake kaya saben negara nulis, kode panggilan sing diketik utawa ditempel, lan nilai E.164.',
+        apiDescription:
+          'Referensi API kolom telpon Needless UI: nilai lan negara nui-phone-field, negara sing ditawakake, lan helper kanggo maca lan nulis nomer.',
+        a11yDescription:
+          'Aksesibilitas kolom telpon Needless UI: pamilih negara sing duwe jeneng, negara sing diumumake nalika dipilih kode, lan isi otomatis browser.',
+        overview: [
+          'Kolom telpon yaiku pamilih negara lan nomer. Nomer dikelompokake kaya carane negarane nulis nomer, nalika lagi diketik, lan nilaine yaiku nomer ing format E.164, kayata <code>+393331234567</code>.',
+          'Pangguna ngetik nomer kaya sing wis dikenal. 0 ing ngarep (utawa 1 sadurunge nomer Amerika Lor) dianggep awalan trunk lan ora dilebokake ing nilai. Kode panggilan sing diketik utawa ditempel, kayata <code>+44</code> utawa <code>0044</code>, milih negarane, semono uga kode area ing panggonan sing sawetara negara nganggo kode panggilan sing padha.',
+          'Negara kapisan miturut locale, lan <code>countries</code> matesi dhaptare. Yen nganggo formulir, nomer sing kecendhak utawa kedawan kanggo negarane dianggep kesalahan. Kanggo validasi jangkep, priksa nomer ing server uga.',
+        ],
+        examples: {
+          basic: {
+            title: 'Sawijining nomer',
+            text: 'Wiwiti nganggo <code>+</code> lan kode panggilan kanggo ganti negara nalika ngetik.',
+          },
+          countries: {
+            title: 'Negara pilihan panjenengan',
+            text: '<code>countries</code> nawakake sewelas negara, kolom iki bisa karo <code>FormControl</code> reactive, lan <code>nuiFormatPhone</code> nulis maneh nilaine supaya gampang diwaca pangguna.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Kolom nomer telpon.',
+            members: {
+              value: 'Nomer ing format E.164, utawa kosong.',
+              country: 'Negara, awujud kode regione.',
+              countries: 'Negara sing ditawakake, awujud kode region.',
+              locale: 'Basa kanggo jeneng-jeneng negara.',
+              label: 'Menehi jeneng nomer, yen ora ana <code>&lt;label for&gt;</code> sing menehi.',
+              inputId: 'Id nomer, kanggo <code>&lt;label for&gt;</code>.',
+              placeholder: 'Teks sing katon nalika kolom nomer kosong.',
+              invalid: 'Nandhani nomer minangka ora valid.',
+              disabled: 'Ora bisa diowahi.',
+              labels: 'Saben teks sing diucapake kolom, kanggo diterjemahake.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi kanggo nomer telpon.',
+            members: {
+              nuiParsePhone:
+                'Maca nomer sing ditulis kanthi cara apa wae dadi region, kode panggilan lan nomer nasional.',
+              nuiFormatPhone:
+                'Nulis nomer kanthi dikelompokake kaya negarane, utawa ing format E.164.',
+              nuiPhoneValid:
+                'Apa nomer duwe kode panggilan sing dikenal lan dawa miturut negarane.',
+            },
+          },
+        },
+        keyboard: [
+          ['Aksara ing pamilih negara', 'Mlumpat menyang negara sing diwiwiti aksara kasebut.'],
+          ['Enter utawa Spasi', 'Mbukak dhaptar negara, utawa milih salah siji.'],
+          ['Backspace', 'Ing nomer, mbusak siji angka, nglangkahi spasi lan kurung.'],
+        ],
+        notes: [
+          'Pamilih negara jenenge “Country code” lan maca gendera lan kodene. Nalika kode panggilan utawa kode area milih negara, negara anyar kasebut diumumake.',
+          'Wenehana jeneng nomer nganggo <code>&lt;label for&gt;</code> lan <code>inputId</code>, utawa nganggo <code>label</code>.',
+          'Nomer duwe <code>autocomplete="tel"</code>, dadi browser bisa ngisi, kalebu kode panggilane, lan HP nuduhake keyboard telpon.',
+        ],
+      },
+      'color-picker': {
+        name: 'Pamilih werna',
+        title: 'Pamilih werna OKLCH kanggo Angular',
+        summary: 'Werna ing OKLCH, kanthi slider, conto werna, pipet lan pamriksan kontras.',
+        description:
+          'Pamilih werna Angular sing aksesibel ing OKLCH: werna P3 gamut amba, saben sintaks werna CSS, conto werna, pipet, lan pamriksan kontras WCAG.',
+        apiDescription:
+          'Referensi API pamilih werna Needless UI: nilai, format lan gamut nui-color-picker, conto werna lan kontras, uga helper kanggo werna.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas pamilih werna Needless UI: slider rong nilai kanggo area, slider native, lan tingkat kontras nganggo tembung.',
+        overview: [
+          'Pamilih werna makarya ing OKLCH, ruang werna ing CSS modern sing ngetutake cara mripat ndeleng. Nyabrang area, kentel werna (chroma) mlaku saka abu-abu nganti sing paling kentel sing bisa ditampilake layar ing padhang (lightness) kasebut, dadi saben titik yaiku werna sing bisa panjenengan agem, lan thumb ora obah nalika hue diowahi.',
+          'Kolom iki nampa werna CSS apa wae, kalebu jeneng werna, lan tombol format nulis nilaine minangka hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> utawa <code>color(display-p3)</code>. Werna sing ana ing njaba gamut sawijining format digawa mlebu kanthi cara CSS, padhang lan hue-ne tetep.',
+          'Tambahake <code>swatches</code> kanggo dipilih, lan <code>contrastWith</code> kanggo mriksa werna marang latar mburi kaya carane WCAG 2 ngukur kontras. Yen browser duwe pipet (eyedropper), sawijining tombol bisa njupuk werna saka layar.',
+        ],
+        examples: {
+          brand: {
+            title: 'Werna merek',
+            text: 'Conto werna sing duwe jeneng, lan kontras teks putih ing werna kasebut: pilih werna sing padhang, AA bakal gagal.',
+          },
+          wide: {
+            title: 'Gamut amba',
+            text: '<code>gamut="p3"</code> ngisi area nganggo werna Display P3, lan garis putus-putus nandhani ing ngendi sRGB pungkasan. Nilaine tetep ing <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'Ing popover',
+            text: 'Tombol sing nuduhake werna mbukak pamilih ing njero <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Pamilih werna ing OKLCH.',
+            members: {
+              value: 'Werna, ditulis miturut format. Kosong nganti ana sing dipilih.',
+              format: 'Carane nilai ditulis.',
+              formats: 'Format-format sing diliwati tombol format.',
+              gamut: 'Werna sing ana ing area: sRGB, utawa Display P3.',
+              alpha: 'Nampilake slider opasitas.',
+              swatches: 'Werna kanggo dipilih, kanthi jeneng.',
+              contrastWith: 'Latar mburi kanggo mriksa kontras.',
+              eyeDropper: 'Nampilake pipet, yen browser duwe.',
+              disabled: 'Ora bisa diowahi.',
+              labels: 'Saben teks sing diucapake pamilih, kanggo diterjemahake.',
+              color: 'Werna sing dipilih, ing OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Fungsi kanggo werna.',
+            members: {
+              nuiParseColor: 'Maca werna ing sintaks CSS apa wae.',
+              nuiFormatColor: 'Nulis werna ing sawijining format.',
+              nuiToGamut: 'Nggawa werna mlebu sRGB utawa Display P3, kaya CSS.',
+              nuiContrast: 'Rasio kontras WCAG 2 sawijining werna ing latar mburi.',
+            },
+          },
+        },
+        keyboard: [
+          ['Panah kiwa lan tengen', 'Ing area, kentel werna luwih sithik utawa luwih akeh.'],
+          ['Panah munggah lan mudhun', 'Ing area, luwih padhang utawa luwih peteng.'],
+          ['Shift + tombol panah', 'Pindhah kaping sepuluh luwih adoh.'],
+          ['Home lan End', 'Ing area, tanpa kentel werna utawa sing paling kentel.'],
+          [
+            'Page Up lan Page Down',
+            'Ing area, luwih padhang utawa luwih peteng kanthi langkah gedhe.',
+          ],
+        ],
+        notes: [
+          'Thumb area yaiku <code>slider</code> kanthi jeneng “Color” sing nyebutake loro nilaine, kayata “Lightness 62%, chroma 75%”. Hue lan opasitas yaiku input range native.',
+          'Conto werna yaiku tombol sing dijenengi miturut labele, lan katon dipencet nalika cocog karo wernane.',
+          'AA lan AAA ngandhakake “passes” utawa “fails” nganggo tembung, ora mung nganggo werna, lan ing mode forced colors wernane dhewe tetep katon.',
+        ],
+      },
     },
   },
 

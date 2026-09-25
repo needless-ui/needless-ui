@@ -1,0 +1,14 @@
+nui-dropzone {
+  flex-basis: 100%;
+}
+
+form {
+  display: grid;
+  flex-basis: 100%;
+  gap: var(--nui-space-3);
+  justify-items: start;
+}
+
+form nui-dropzone {
+  justify-self: stretch;
+}

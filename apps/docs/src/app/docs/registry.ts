@@ -1229,4 +1229,304 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
   },
+  splitter: {
+    id: 'splitter',
+    importFile: 'snippets/import-splitter.ts',
+    api: [
+      {
+        name: 'NuiSplitter',
+        selector: '[nuiSplitter]',
+        members: [
+          {
+            name: 'orientation',
+            kind: 'input',
+            type: "'horizontal' | 'vertical'",
+            default: "'horizontal'",
+          },
+          { name: 'sizes', kind: 'model', type: 'number[]', default: 'shared evenly' },
+          { name: 'storageKey', kind: 'input', type: 'string' },
+          { name: 'step', kind: 'input', type: 'number', default: '5' },
+          { name: 'move', kind: 'method', type: '(index: number, delta: number) => void' },
+        ],
+      },
+      {
+        name: 'NuiSplitterPane',
+        selector: '[nuiSplitterPane]',
+        members: [
+          { name: 'defaultSize', kind: 'input', type: "string | number (e.g. '240px', '30%')" },
+          { name: 'min', kind: 'input', type: 'string | number', default: '0' },
+          { name: 'max', kind: 'input', type: 'string | number', default: "'100%'" },
+          { name: 'collapsible', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'collapsedSize', kind: 'input', type: 'string | number', default: '0' },
+          { name: 'label', kind: 'input', type: 'string' },
+        ],
+      },
+      {
+        name: 'NuiSplitterHandle',
+        selector: '[nuiSplitterHandle]',
+        members: [
+          { name: 'label', kind: 'input', type: 'string', default: "the pane's label" },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'toggle', kind: 'method', type: '() => void' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'editor',
+        load: () => import('../examples/splitter/editor').then((m) => m.SplitterEditorExample),
+      },
+      {
+        id: 'stacked',
+        load: () => import('../examples/splitter/stacked').then((m) => m.SplitterStackedExample),
+      },
+    ],
+  },
+  tour: {
+    id: 'tour',
+    importFile: 'snippets/import-tour.ts',
+    api: [
+      {
+        name: 'NuiTour',
+        selector: 'nui-tour',
+        members: [
+          { name: 'steps', kind: 'input', type: 'NuiTourStep[]', default: '[]' },
+          { name: 'open', kind: 'model', type: 'boolean', default: 'false' },
+          { name: 'step', kind: 'model', type: 'number', default: '0' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiTourLabels>' },
+          { name: 'finished', kind: 'output', type: 'void' },
+          { name: 'dismissed', kind: 'output', type: 'number' },
+          { name: 'start', kind: 'method', type: '(from?: number) => void' },
+          { name: 'end', kind: 'method', type: '(finished: boolean) => void' },
+        ],
+      },
+      {
+        name: 'NuiTourStep',
+        members: [
+          {
+            name: 'target',
+            kind: 'property',
+            type: 'string | Element | (() => Element | null)',
+          },
+          { name: 'title', kind: 'property', type: 'string' },
+          { name: 'content', kind: 'property', type: 'string | TemplateRef' },
+          { name: 'side', kind: 'property', type: SIDE, default: "'bottom'" },
+          { name: 'align', kind: 'property', type: ALIGN, default: "'center'" },
+          { name: 'padding', kind: 'property', type: 'number', default: '8' },
+          { name: 'interactive', kind: 'property', type: 'boolean', default: 'false' },
+          { name: 'beforeShow', kind: 'property', type: '() => void | Promise<void>' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'basics',
+        load: () => import('../examples/tour/basics').then((m) => m.TourBasicsExample),
+      },
+      {
+        id: 'interactive',
+        load: () => import('../examples/tour/interactive').then((m) => m.TourInteractiveExample),
+      },
+    ],
+  },
+  dropzone: {
+    id: 'dropzone',
+    importFile: 'snippets/import-dropzone.ts',
+    api: [
+      {
+        name: 'NuiDropzone',
+        selector: 'nui-dropzone',
+        members: [
+          { name: 'files', kind: 'model', type: 'File[]', default: '[]' },
+          { name: 'accept', kind: 'input', type: 'string' },
+          { name: 'multiple', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'directory', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'maxFiles', kind: 'input', type: 'number', default: 'Infinity' },
+          { name: 'maxSize, minSize', kind: 'input', type: 'number (bytes)' },
+          { name: 'validate', kind: 'input', type: '(file: File) => string | null' },
+          { name: 'upload', kind: 'input', type: 'NuiUploader<R>' },
+          { name: 'concurrency', kind: 'input', type: 'number', default: '3' },
+          { name: 'hint', kind: 'input', type: 'string' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiDropzoneLabels>' },
+          { name: 'uploaded', kind: 'output', type: 'NuiUpload<R>' },
+          { name: 'rejected', kind: 'output', type: '{ file, reason }[]' },
+          { name: 'queue', kind: 'property', type: 'NuiUploadQueue<R>' },
+          { name: 'take', kind: 'method', type: '(files: Iterable<File>) => void' },
+        ],
+      },
+      {
+        name: 'NuiUploader',
+        members: [
+          {
+            name: '(file, context)',
+            kind: 'method',
+            type: '(file: File, { signal, progress }) => Promise<R>',
+          },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'upload',
+        load: () => import('../examples/dropzone/upload').then((m) => m.DropzoneUploadExample),
+      },
+      {
+        id: 'attach',
+        load: () => import('../examples/dropzone/attach').then((m) => m.DropzoneAttachExample),
+      },
+    ],
+  },
+  mask: {
+    id: 'mask',
+    importFile: 'snippets/import-mask.ts',
+    api: [
+      {
+        name: 'NuiMask',
+        selector: 'input[nuiMask]',
+        exportAs: 'nuiMask',
+        members: [
+          { name: 'nuiMask', kind: 'input', type: 'string | ((raw: string) => string)' },
+          { name: 'tokens', kind: 'input', type: 'Record<string, NuiMaskToken>' },
+          { name: 'unmask', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'value', kind: 'model', type: 'string', default: "''" },
+          { name: 'raw', kind: 'property', type: 'Signal<string>' },
+          { name: 'complete', kind: 'property', type: 'Signal<boolean>' },
+        ],
+      },
+      {
+        name: 'Helpers',
+        members: [
+          { name: 'nuiMaskFormat, nuiUnmask', kind: 'method', type: '(value, mask) => string' },
+          { name: 'nuiCardMask', kind: 'method', type: '(raw: string) => string' },
+          { name: 'nuiCardBrand', kind: 'method', type: '(number: string) => NuiCardBrand | null' },
+          { name: 'nuiCardValid, nuiLuhn', kind: 'method', type: '(number: string) => boolean' },
+          { name: 'nuiIbanMask', kind: 'method', type: '(raw: string) => string' },
+          { name: 'nuiIbanValid', kind: 'method', type: '(iban: string) => boolean' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'formats',
+        load: () => import('../examples/mask/formats').then((m) => m.MaskFormatsExample),
+      },
+      {
+        id: 'payment',
+        load: () => import('../examples/mask/payment').then((m) => m.MaskPaymentExample),
+      },
+    ],
+  },
+  'phone-field': {
+    id: 'phone-field',
+    importFile: 'snippets/import-phone-field.ts',
+    api: [
+      {
+        name: 'NuiPhoneField',
+        selector: 'nui-phone-field',
+        members: [
+          { name: 'value', kind: 'model', type: 'string (E.164)', default: "''" },
+          { name: 'country', kind: 'model', type: 'string', default: "the locale's region" },
+          { name: 'countries', kind: 'input', type: 'string[]', default: 'all' },
+          { name: 'locale', kind: 'input', type: 'string', default: 'LOCALE_ID' },
+          { name: 'label', kind: 'input', type: 'string' },
+          { name: 'inputId', kind: 'input', type: 'string' },
+          { name: 'placeholder', kind: 'input', type: 'string' },
+          { name: 'invalid', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiPhoneFieldLabels>' },
+        ],
+      },
+      {
+        name: 'Helpers',
+        members: [
+          {
+            name: 'nuiParsePhone',
+            kind: 'method',
+            type: '(text, region?) => NuiPhoneNumber | null',
+          },
+          {
+            name: 'nuiFormatPhone',
+            kind: 'method',
+            type: "(phone, style?: 'international' | 'e164') => string",
+          },
+          { name: 'nuiPhoneValid', kind: 'method', type: '(phone, region?) => boolean' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'basic',
+        load: () => import('../examples/phone-field/basic').then((m) => m.PhoneFieldBasicExample),
+      },
+      {
+        id: 'countries',
+        load: () =>
+          import('../examples/phone-field/countries').then((m) => m.PhoneFieldCountriesExample),
+      },
+    ],
+  },
+  'color-picker': {
+    id: 'color-picker',
+    importFile: 'snippets/import-color-picker.ts',
+    api: [
+      {
+        name: 'NuiColorPicker',
+        selector: 'nui-color-picker',
+        members: [
+          { name: 'value', kind: 'model', type: 'string', default: "''" },
+          {
+            name: 'format',
+            kind: 'model',
+            type: "'hex' | 'rgb' | 'hsl' | 'oklch' | 'p3'",
+            default: "'hex'",
+          },
+          {
+            name: 'formats',
+            kind: 'input',
+            type: 'NuiColorFormat[]',
+            default: 'hex, rgb, hsl, oklch',
+          },
+          { name: 'gamut', kind: 'input', type: "'srgb' | 'p3'", default: "'srgb'" },
+          { name: 'alpha', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'swatches', kind: 'input', type: 'NuiColorSwatch[]', default: '[]' },
+          { name: 'contrastWith', kind: 'input', type: 'string' },
+          { name: 'eyeDropper', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiColorPickerLabels>' },
+          { name: 'color', kind: 'property', type: 'Signal<NuiColor>' },
+        ],
+      },
+      {
+        name: 'Helpers',
+        members: [
+          { name: 'nuiParseColor', kind: 'method', type: '(text: string) => NuiColor | null' },
+          { name: 'nuiFormatColor', kind: 'method', type: '(color, format?) => string' },
+          {
+            name: 'nuiToGamut',
+            kind: 'method',
+            type: "(color, gamut?: 'srgb' | 'p3') => NuiColor",
+          },
+          { name: 'nuiContrast', kind: 'method', type: '(color, background) => number' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'brand',
+        load: () => import('../examples/color-picker/brand').then((m) => m.ColorPickerBrandExample),
+      },
+      {
+        id: 'wide',
+        load: () => import('../examples/color-picker/wide').then((m) => m.ColorPickerWideExample),
+        defer: 402,
+      },
+      {
+        id: 'popover',
+        load: () =>
+          import('../examples/color-picker/popover').then((m) => m.ColorPickerPopoverExample),
+        defer: 133,
+      },
+    ],
+  },
 };

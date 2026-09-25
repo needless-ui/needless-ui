@@ -870,6 +870,144 @@
     box-shadow: var(--nui-shadow-md);
   }
 
+  /* Areas and panes have no width of their own: these previews set one. */
+  .preview-color {
+    display: grid;
+    gap: var(--nui-space-2);
+    inline-size: 9.5rem;
+    max-inline-size: 100%;
+  }
+
+  .preview-color-area {
+    display: block;
+    border-radius: var(--nui-radius-md);
+    background:
+      linear-gradient(to bottom, oklch(1 0 0), transparent 45%, transparent 55%, oklch(0 0 0)),
+      linear-gradient(to right, oklch(0.6 0 0), oklch(0.6 0.2 265));
+  }
+
+  .preview-color-row {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-2);
+  }
+
+  .preview-color .nui-color-preview {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .preview-hue {
+    flex: 1;
+    block-size: 0.625rem;
+    border-radius: var(--nui-radius-full);
+    background: linear-gradient(
+      to right,
+      oklch(0.7 0.15 0),
+      oklch(0.7 0.15 90),
+      oklch(0.7 0.15 180),
+      oklch(0.7 0.15 270),
+      oklch(0.7 0.15 360)
+    );
+  }
+
+  .preview-dropzone {
+    inline-size: min(14rem, 100%);
+    gap: var(--nui-space-2);
+  }
+
+  .preview-dropzone .nui-dropzone-button {
+    padding: var(--nui-space-3);
+  }
+
+  .preview-dropzone .nui-dropzone-icon {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .preview-dropzone .nui-dropzone-file {
+    grid-template:
+      'preview name actions' auto 'preview meta actions' auto 'preview progress actions' auto
+      / 2rem minmax(0, 1fr) auto;
+    padding-block: var(--nui-space-1);
+  }
+
+  .preview-dropzone .nui-dropzone-preview {
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+
+  .preview-label {
+    font-size: var(--nui-font-size-sm);
+    font-weight: var(--nui-font-weight-medium);
+  }
+
+  .preview-field {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: var(--nui-control-height-md);
+    padding-inline: var(--nui-space-3);
+    border: var(--nui-border-width-thin) solid var(--nui-color-accent-border);
+    border-radius: var(--nui-radius-md);
+    background: var(--nui-color-bg-canvas);
+    font-size: var(--nui-font-size-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .preview-caret {
+    inline-size: 1px;
+    block-size: 1.1em;
+    margin-inline-start: 1px;
+    background: var(--nui-color-text-default);
+  }
+
+  .preview-phone {
+    inline-size: min(14rem, 100%);
+  }
+
+  .preview-phone .nui-phone-input {
+    display: flex;
+    align-items: center;
+  }
+
+  .preview-splitter {
+    inline-size: 15rem;
+    max-inline-size: 100%;
+    block-size: 6rem;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--nui-radius-md);
+  }
+
+  .preview-pane {
+    display: grid;
+    align-content: start;
+    gap: var(--nui-space-2);
+    padding: var(--nui-space-3);
+  }
+
+  .preview-tour {
+    display: grid;
+    justify-items: center;
+    gap: var(--nui-space-3);
+  }
+
+  .preview-tour-target {
+    box-shadow: 0 0 0 0.375rem var(--nui-color-accent-soft);
+  }
+
+  .preview-tour-card {
+    position: relative;
+    inline-size: min(12rem, 100%);
+    padding: var(--nui-space-3);
+    transition: none;
+  }
+
+  .preview-tour-card .nui-tour-title {
+    margin: 0 0 var(--nui-space-2);
+  }
+
   /* Card grid */
 
   .card-grid {

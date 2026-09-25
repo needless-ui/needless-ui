@@ -1,0 +1,10 @@
+<div nuiSplitter orientation="vertical" class="stacked" [(sizes)]="sizes">
+  <section nuiSplitterPane min="25%" label="Query" class="pane">
+    <p>SELECT name, total FROM orders</p>
+  </section>
+  <div nuiSplitterHandle></div>
+  <section nuiSplitterPane min="15%" label="Results" class="pane results">
+    <p>3 rows</p>
+  </section>
+</div>
+<p>Sizes: {{ rounded()[0] }}% and {{ rounded()[1] }}%</p>

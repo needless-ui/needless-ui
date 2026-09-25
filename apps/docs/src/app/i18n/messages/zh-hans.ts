@@ -1671,6 +1671,393 @@ export const messages: Messages = {
           '各视图是一组切换按钮；移到另一周或另一个月时，会播报它的标题。',
         ],
       },
+      splitter: {
+        name: '分隔面板',
+        title: 'Angular 可调整大小的分隔面板组件',
+        summary: '左右并排或上下堆叠的面板，拖动分隔条即可调整大小。',
+        description:
+          '无障碍的 Angular 分隔面板：左右并排或上下堆叠的可调整大小的面板，支持尺寸限制、可折叠面板、保存尺寸和完整的键盘操作。',
+        apiDescription:
+          'Needless UI 分隔面板的 API 参考：nuiSplitter 的方向和尺寸、面板的尺寸限制与折叠，以及面板之间的分隔条。',
+        a11yDescription:
+          'Needless UI 分隔面板的键盘交互与无障碍支持：带有数值、可聚焦的窗口分隔条，以及方向键、Home、End 和 Enter 键。',
+        overview: [
+          '分隔面板把空间分给多个面板，每两个相邻面板之间都有一个分隔条。拖动分隔条，或让它获得焦点后使用方向键即可调整。尺寸是总和为 100 的百分比，可以用 <code>[(sizes)]</code> 绑定。',
+          '每个面板的初始尺寸、最小尺寸和最大尺寸都可以用像素、rem 或百分比指定。设置了 <code>collapsible</code> 的面板在被拖到小于最小尺寸的一半时，或在其分隔条上按 Enter 键时会折叠起来，展开时则恢复为折叠前的尺寸。',
+          '设置 <code>storageKey</code> 后，尺寸会保存在 <code>localStorage</code> 中，用户下次访问时，布局仍是离开时的样子。',
+        ],
+        examples: {
+          editor: {
+            title: '编辑器',
+            text: '文件、代码和预览三个面板。文件和预览可以折叠，代码至少保留 30% 的宽度，各面板的尺寸会被保存下来。',
+          },
+          stacked: {
+            title: '上下堆叠的面板',
+            text: '<code>orientation="vertical"</code> 让面板上下堆叠，<code>[(sizes)]</code> 则会随时读取变化中的尺寸。',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: '一组面板，面板之间有分隔条。',
+            members: {
+              orientation: '左右并排，还是上下堆叠。',
+              sizes: '各面板所占的比例，以百分比表示，按顺序排列。',
+              storageKey: '以此键把尺寸保存在 <code>localStorage</code> 中。',
+              step: '方向键每次移动分隔条的幅度，以百分比表示。按住 Shift 时加倍。',
+              move: '将某个面板之后的边界移动指定的百分比。',
+            },
+          },
+          NuiSplitterPane: {
+            summary: '一个面板。它的各项尺寸可以用像素、rem 或百分比表示。',
+            members: {
+              defaultSize: '没有可恢复的尺寸时，面板的初始尺寸。',
+              min: '面板的最小尺寸。',
+              max: '面板的最大尺寸。',
+              collapsible: '面板可以折叠：拖到小于最小尺寸的一半，或按 Enter 键。',
+              collapsedSize: '折叠后的尺寸，例如只显示一列图标的窄条。',
+              label: '为调整此面板大小的分隔条命名。',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: '两个面板之间的分隔条。',
+            members: {
+              label: '分隔条的名称，在面板的标签没有为它命名时使用。',
+              disabled: '分隔条无法移动。',
+              toggle: '折叠旁边的面板，或将其展开。',
+            },
+          },
+        },
+        keyboard: [
+          ['向左 / 向右箭头键', '移动左右并排的面板之间的分隔条。在从右到左的文本中左右方向相反。'],
+          ['向上 / 向下箭头键', '移动上下堆叠的面板之间的分隔条。'],
+          ['Shift + 方向键', '移动距离加倍。'],
+          ['Home / End', '把分隔条前面的面板调整到最小或最大尺寸。'],
+          ['Enter', '折叠可折叠的面板，或将其展开。'],
+        ],
+        notes: [
+          '每个分隔条都是一个可聚焦的 <code>separator</code>，与 WAI-ARIA 的窗口分隔条（window splitter）模式一致：它的值是前一个面板的尺寸，介于该面板的尺寸限制之间，<code>aria-controls</code> 指向该面板。',
+          '请通过面板的 <code>label</code> 为分隔条命名：有了“Files”这样的名称，屏幕阅读器就能说明分隔条调整的是哪个面板。',
+          '双击分隔条也能折叠对应的面板；拖动时会捕获指针，因此即使快速移动也不会脱离分隔条。',
+        ],
+      },
+      tour: {
+        name: '漫游式引导',
+        title: 'Angular 漫游式引导组件',
+        summary: '为每个步骤显示一张卡片，放在它所介绍的内容旁边，并调暗周围的页面。',
+        description:
+          '无障碍的 Angular 产品引导：每个步骤的卡片显示在目标旁边，目标周围有聚光灯效果，支持可交互的步骤，结束后焦点会回到原处。',
+        apiDescription:
+          'Needless UI 漫游式引导的 API 参考：nui-tour 的步骤、open 和 step 绑定、输出属性，以及每个步骤的目标、位置和钩子。',
+        a11yDescription:
+          'Needless UI 漫游式引导的键盘交互与无障碍支持：每张卡片都是以标题命名的对话框，焦点保留在内并最终归还，按 Esc 键即可退出。',
+        overview: [
+          '漫游式引导带用户一步步浏览页面。每个步骤都指向一个元素，在它旁边显示一张卡片，并调暗周围的页面；没有目标的步骤显示在页面中央。',
+          '步骤只是普通数据：一个目标（选择器、元素，或查找元素的函数）、一个标题，以及文本或模板形式的内容。<code>beforeShow</code> 会先运行，因此步骤可以先打开目标所在的面板；不在视野中的目标会被自动滚动到可见位置。',
+          '每张卡片都是一个对话框。它是模态的，除非该步骤设置了 <code>interactive</code>：这时用户可以操作它所指向的元素。按 Esc 键会结束引导，焦点回到原来的位置。',
+        ],
+        examples: {
+          basics: {
+            title: '初识应用',
+            text: '四个步骤，第一步没有目标。<code>finished</code> 和 <code>dismissed</code> 可以区分两种结束方式。',
+          },
+          interactive: {
+            title: '动手试试',
+            text: '<code>beforeShow</code> 在第二步指向设置之前先把设置打开，<code>interactive</code> 让用户在卡片显示期间也能操作开关。',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: '一个漫游式引导。',
+            members: {
+              steps: '按顺序排列的步骤。',
+              open: '引导是否正在进行。',
+              step: '当前显示的步骤，从 0 开始。',
+              labels: '它显示的所有文本，供翻译使用。',
+              finished: '完成最后一步时发出。',
+              dismissed: '引导提前结束时，发出结束时所在的步骤。',
+              start: '开始引导，从第一步或指定的步骤开始。',
+              end: '结束引导，并标记为完成或中途退出。',
+            },
+          },
+          NuiTourStep: {
+            summary: '引导中的一个步骤。',
+            members: {
+              target: '步骤所指向的对象。没有目标时，卡片显示在中央。',
+              title: '卡片的标题。',
+              content: '卡片的文本，或一个模板。',
+              side: '卡片位于目标的哪一侧。',
+              align: '卡片与目标的对齐方式。',
+              padding: '聚光灯中目标周围留出的空间，单位为像素。',
+              interactive: '卡片显示期间，目标仍可操作。',
+              beforeShow: '在步骤显示之前运行。如果返回 Promise，引导会等待它完成。',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', '在卡片的按钮之间移动。在模态步骤中，焦点保持在卡片内。'],
+          ['Enter 或空格键', '按下获得焦点的按钮：Next、Back 或 Done。'],
+          ['Esc', '结束引导。'],
+        ],
+        notes: [
+          '每张卡片都是一个 <code>dialog</code>，以其标题命名，并以其内容作为描述。每一步焦点都会移到卡片的主按钮上，引导结束后回到原来的位置。',
+          '模态步骤会让页面的其余部分变为不可交互（inert）。可交互的步骤不是模态的，因此用户既能用指针，也能用键盘到达其目标。',
+          '进度以文本表示，例如“2 of 4”；圆点只是把进度画出来。',
+        ],
+      },
+      dropzone: {
+        name: '文件拖放区',
+        title: 'Angular 文件拖放区与上传组件',
+        summary: '拖放或选择文件，支持校验、预览，以及显示进度的上传。',
+        description:
+          '无障碍的 Angular 文件拖放区：支持拖放、文件夹和粘贴，校验类型和大小，预览图片，上传时显示进度并可重试。',
+        apiDescription:
+          'Needless UI 文件拖放区的 API 参考：nui-dropzone 的文件与校验、上传函数及其队列、输出属性和文本。',
+        a11yDescription:
+          'Needless UI 文件拖放区的键盘交互与无障碍支持：本身就是按钮的拖放区、会播报的结果，以及具名的进度条和操作按钮。',
+        overview: [
+          '文件拖放区接收拖放到它上面的文件、通过文件选择器选择的文件，以及粘贴的文件。拖入的文件夹会被逐层读取，每个文件都保留自己的路径。',
+          '每个文件都会根据 <code>accept</code>、<code>maxSize</code>、<code>minSize</code>、<code>maxFiles</code> 以及你的 <code>validate</code> 函数进行校验，被拒绝的文件会连同原因一起列出。图片会显示预览。',
+          '没有 <code>upload</code> 函数时，拖放区会把文件保存在 <code>[(files)]</code> 中，供表单使用。提供该函数后，它会每次上传几个文件，并支持显示进度、取消和重试。请把上传的 <code>signal</code> 传给 <code>fetch</code>，这样取消时上传才会真正停止。',
+        ],
+        examples: {
+          upload: {
+            title: '上传',
+            text: '模拟上传会分阶段报告进度。名称中带有“fail”的文件会上传失败，用来演示重试；<code>directory</code> 会添加一个选择文件夹的按钮。',
+          },
+          attach: {
+            title: '表单附件',
+            text: '没有 <code>upload</code>：拖放区在 <code>[(files)]</code> 中最多保存三个文档，放在其中的自定义文字会替换默认文字。',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: '用于拖放或选择文件的区域。',
+            members: {
+              files: '它保存的文件，按顺序排列。',
+              accept: '可接收的文件类型，写法同 <code>&lt;input type="file"&gt;</code>。',
+              multiple: '一次可接收多个文件。',
+              directory: '提供一个选择文件夹的按钮。',
+              maxFiles: '最多可保存的文件数。',
+              'maxSize, minSize': '文件的最大和最小大小，单位为字节。',
+              validate: '校验每个文件。返回一条消息即拒绝该文件。',
+              upload: '发送一个文件。不提供时，文件只会被保存。',
+              concurrency: '同时上传的文件数。',
+              hint: '显示在拖放区文字下方的一行说明，例如可接收哪些文件。',
+              disabled: '不接收任何文件。',
+              labels: '它显示或播报的所有文本，供翻译使用。',
+              uploaded: '发出上传完成的文件，以及 <code>upload</code> 返回的结果。',
+              rejected: '发出被拒绝的文件及其原因。',
+              queue: '上传队列，可在代码中取消、重试和读取进度。',
+              take: '在代码中添加文件，并逐个校验。',
+            },
+          },
+          NuiUploader: {
+            summary: '发送一个文件：以 0 到 1 报告进度，并在收到中止信号时停止。',
+            members: {
+              '(file, context)': '返回一个 Promise，其结果为服务器返回的任何内容。',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter 或空格键', '在拖放区上：打开文件选择器。'],
+          ['Ctrl + V（⌘ + V）', '在拖放区上：添加粘贴的文件。'],
+          ['Tab', '在拖放区和各文件的操作按钮之间移动。'],
+        ],
+        notes: [
+          '拖放区本身是一个按钮，因此无需指针也能使用，提示文字则作为它的描述。',
+          '添加的文件和被拒绝的文件都会被播报。每个进度条都是以对应文件命名的 <code>progressbar</code>，每个操作按钮都以其作用命名，例如“Remove beach.jpg”。',
+          '预览只是装饰：文件名已经说明了是哪个文件。',
+        ],
+      },
+      mask: {
+        name: '输入掩码',
+        title: 'Angular 输入掩码指令',
+        summary: '在输入时自动格式化的文本框：日期、银行卡号、IBAN 和各类代码。',
+        description:
+          'Angular 输入掩码：在用户输入时格式化文本框，光标始终停在原位，提供银行卡号和 IBAN 的辅助函数，并支持表单校验。',
+        apiDescription:
+          'Needless UI 输入掩码的 API 参考：nuiMask 指令、它的 token 与值，以及用于银行卡号和 IBAN 的辅助函数。',
+        a11yDescription:
+          'Needless UI 输入掩码的无障碍支持：保留自身标签的原生输入框、手机上的数字键盘，以及跳过固定字符的删除。',
+        overview: [
+          '掩码会在用户输入时格式化文本框：<code>00/00/0000</code> 会自动补上斜杠，<code>AA 000 AA</code> 则按顺序接受字母和数字。不符合的字符不会被输入；在中间输入时，光标也会停在原位。',
+          '掩码由 token 和固定字符组成：<code>0</code> 表示数字，<code>a</code> 表示字母，<code>*</code> 表示两者皆可，<code>A</code> 和 <code>X</code> 则是用于代码的对应写法，输入后转为大写。你可以用 <code>tokens</code> 添加自己的 token，也可以传入一个根据已输入内容选择掩码的函数，<code>nuiCardMask</code> 就是这样按卡品牌选择掩码的。',
+          '值就是显示出来的内容；设置 <code>unmask</code> 后则只包含数据。掩码支持 Signal Forms、响应式表单和 <code>ngModel</code>，未填完的值会被视为错误。',
+        ],
+        examples: {
+          formats: {
+            title: '格式',
+            text: '日期、时间、车牌号，以及用自定义 token 接受十六进制数字的颜色值。',
+          },
+          payment: {
+            title: '支付信息',
+            text: '基于 Signal Forms 的输入框。卡号掩码随卡品牌变化，American Express 的安全码为四位，<code>nuiCardValid</code> 和 <code>nuiIbanValid</code> 负责校验号码。',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: '作用于原生文本框的掩码。',
+            members: {
+              nuiMask: '掩码，或根据已输入数据选择掩码的函数。',
+              tokens: '要添加或替换的掩码字符。',
+              unmask: '值只包含数据，不含固定字符。',
+              value: '值：显示的内容；设置 <code>unmask</code> 时为数据。',
+              raw: '已输入的数据，不含固定字符。',
+              complete: '掩码中的每个位置是否都已填满。',
+            },
+          },
+          Helpers: {
+            summary: '用于格式化、校验和构建掩码的函数。',
+            members: {
+              'nuiMaskFormat, nuiUnmask': '用掩码格式化一个值，或从格式化后的值中取出数据。',
+              nuiCardMask: '银行卡号的掩码，按卡品牌印在卡上的方式分组。',
+              nuiCardBrand: '根据卡号开头的数字判断出的卡品牌。',
+              'nuiCardValid, nuiLuhn': '卡号的长度是否符合其卡品牌，并通过 Luhn 校验。',
+              nuiIbanMask: 'IBAN 的掩码，长度与该国的 IBAN 一致。',
+              nuiIbanValid: 'IBAN 的长度是否符合其所属国家，且校验位正确。',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', '删除光标前的字符，并跳过固定字符。'],
+          ['Delete', '删除光标后的字符，并跳过固定字符。'],
+        ],
+        notes: [
+          '掩码作用于你自己的 <code>&lt;input&gt;</code>，因此标签和提示都保持你写的样子。请在那里说明需要输入什么：掩码本身并不是说明。',
+          '只含数字的掩码会设置 <code>inputmode="numeric"</code>，让手机显示数字键盘，除非输入框自己设置了该属性。',
+          '接受任何书写系统的数字，并统一写成 0 到 9。',
+        ],
+      },
+      'phone-field': {
+        name: '电话号码输入框',
+        title: 'Angular 电话号码输入框组件',
+        summary: '国家选择器加上号码，号码按该国的习惯分组显示。',
+        description:
+          '无障碍的 Angular 电话号码输入框：带国家选择器，号码按各国习惯分组，可输入或粘贴国际区号，值采用 E.164 格式。',
+        apiDescription:
+          'Needless UI 电话号码输入框的 API 参考：nui-phone-field 的 value 和 country、可选的国家，以及读写号码的辅助函数。',
+        a11yDescription:
+          'Needless UI 电话号码输入框的无障碍支持：带名称的国家选择器、区号选定国家时的播报，以及浏览器自动填充。',
+        overview: [
+          '电话号码输入框由国家选择器和号码组成。号码在输入时按其所属国家的习惯分组，值是 E.164 格式的号码，例如 <code>+393331234567</code>。',
+          '用户可以按自己熟悉的方式输入号码。开头的 0（或北美号码前的 1）会被当作国内前缀，不计入值中。输入或粘贴国际区号（例如 <code>+44</code> 或 <code>0044</code>）会选中对应的国家；多个国家共用同一个国际区号时，号码开头的地区区号也能确定国家。',
+          '初始国家取自语言环境，<code>countries</code> 可以限定列表。配合表单使用时，对所属国家而言过短或过长的号码会被视为错误。要做完整校验，请同时在服务器上检查号码。',
+        ],
+        examples: {
+          basic: {
+            title: '输入号码',
+            text: '以 <code>+</code> 和国际区号开头，输入时就会切换国家。',
+          },
+          countries: {
+            title: '自选国家',
+            text: '<code>countries</code> 提供了十一个国家，输入框配合响应式表单的 <code>FormControl</code> 使用，<code>nuiFormatPhone</code> 再把值写成便于阅读的形式。',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: '电话号码输入框。',
+            members: {
+              value: 'E.164 格式的号码，或为空。',
+              country: '国家，以其地区代码表示。',
+              countries: '可选的国家，以地区代码表示。',
+              locale: '国家名称所用的语言。',
+              label: '号码的名称，在没有 <code>&lt;label for&gt;</code> 为它命名时使用。',
+              inputId: '号码输入框的 id，供 <code>&lt;label for&gt;</code> 使用。',
+              placeholder: '号码输入框为空时显示的文本。',
+              invalid: '将号码标记为无效。',
+              disabled: '禁止修改。',
+              labels: '它显示或播报的所有文本，供翻译使用。',
+            },
+          },
+          Helpers: {
+            summary: '处理电话号码的函数。',
+            members: {
+              nuiParsePhone: '把任意写法的号码解析为地区、国际区号和国内号码。',
+              nuiFormatPhone: '按所属国家的分组方式写出号码，或写成 E.164 格式。',
+              nuiPhoneValid: '号码是否带有已知的国际区号，且长度符合其所属国家。',
+            },
+          },
+        },
+        keyboard: [
+          ['在国家选择器上按字母键', '跳到以这些字母开头的国家。'],
+          ['Enter 或空格键', '打开国家列表，或选择一个国家。'],
+          ['Backspace', '在号码中删除一位数字，并跳过空格和括号。'],
+        ],
+        notes: [
+          '国家选择器名为“Country code”，会读出国旗和国际区号。当国际区号或地区区号选定某个国家时，会播报新的国家。',
+          '请用 <code>&lt;label for&gt;</code> 加 <code>inputId</code>，或用 <code>label</code> 为号码命名。',
+          '号码输入框带有 <code>autocomplete="tel"</code>，因此浏览器可以自动填入包括国际区号在内的完整号码，手机也会显示拨号键盘。',
+        ],
+      },
+      'color-picker': {
+        name: '颜色选择器',
+        title: 'Angular OKLCH 颜色选择器组件',
+        summary: '以 OKLCH 选择颜色，带有滑块、色块、吸管和对比度检查。',
+        description:
+          '无障碍的 Angular 颜色选择器，基于 OKLCH：支持广色域 P3 颜色、所有 CSS 颜色语法、色块、吸管，以及 WCAG 对比度检查。',
+        apiDescription:
+          'Needless UI 颜色选择器的 API 参考：nui-color-picker 的值、格式和色域，色块与对比度，以及处理颜色的辅助函数。',
+        a11yDescription:
+          'Needless UI 颜色选择器的键盘操作与无障碍支持：带两个值的取色区域滑块、原生滑块，以及用文字说明的对比度等级。',
+        overview: [
+          '颜色选择器基于 OKLCH 工作，这是现代 CSS 中符合人眼感知的色彩空间。在取色区域中，色度从左到右由灰色增加到屏幕在该亮度下能显示的最大值，因此每个点都是可用的颜色；转动色相时，手柄也会停在原处。',
+          '输入框接受任何 CSS 颜色，包括颜色名称；格式按钮会把值写成 hex、<code>rgb()</code>、<code>hsl()</code>、<code>oklch()</code> 或 <code>color(display-p3)</code>。超出某种格式色域的颜色，会按 CSS 的方式映射到该色域内，并保持亮度和色相不变。',
+          '添加 <code>swatches</code> 可提供候选颜色，添加 <code>contrastWith</code> 则可按 WCAG 2 的算法检查颜色与背景的对比度。浏览器支持吸管时，还会有一个按钮用来从屏幕上取色。',
+        ],
+        examples: {
+          brand: {
+            title: '品牌色',
+            text: '带名称的色块，以及白色文字在该颜色上的对比度：选一个浅色，AA 就不达标。',
+          },
+          wide: {
+            title: '广色域',
+            text: '<code>gamut="p3"</code> 用 Display P3 颜色填满取色区域，并用虚线标出 sRGB 的边界。值仍以 <code>oklch()</code> 表示。',
+          },
+          popover: {
+            title: '放在弹出框中',
+            text: '一个显示当前颜色的按钮，会在<a href="/components/popover">弹出框</a>中打开选择器。',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: '基于 OKLCH 的颜色选择器。',
+            members: {
+              value: '按格式写出的颜色；选择颜色之前为空。',
+              format: '值的写法。',
+              formats: '格式按钮依次切换的格式。',
+              gamut: '取色区域包含的颜色：sRGB 或 Display P3。',
+              alpha: '显示不透明度滑块。',
+              swatches: '可供选择的颜色，可带名称。',
+              contrastWith: '用来检查对比度的背景色。',
+              eyeDropper: '在浏览器支持时显示吸管。',
+              disabled: '禁止修改。',
+              labels: '它显示或播报的所有文本，供翻译使用。',
+              color: '选中的颜色，以 OKLCH 表示。',
+            },
+          },
+          Helpers: {
+            summary: '处理颜色的函数。',
+            members: {
+              nuiParseColor: '读取以任意 CSS 语法写成的颜色。',
+              nuiFormatColor: '按某种格式写出颜色。',
+              nuiToGamut: '像 CSS 一样，把颜色映射到 sRGB 或 Display P3 色域内。',
+              nuiContrast: '颜色在背景上的 WCAG 2 对比度。',
+            },
+          },
+        },
+        keyboard: [
+          ['向左 / 向右箭头键', '在取色区域中减少或增加色度。'],
+          ['向上 / 向下箭头键', '在取色区域中调亮或调暗。'],
+          ['Shift + 方向键', '移动幅度变为十倍。'],
+          ['Home / End', '在取色区域中把色度调到零或最大。'],
+          ['Page Up / Page Down', '在取色区域中大幅调亮或调暗。'],
+        ],
+        notes: [
+          '取色区域的手柄是一个名为“Color”的 <code>slider</code>，会读出它的两个值，例如“Lightness 62%, chroma 75%”。色相和不透明度则是原生的 range 输入框。',
+          '色块是以其标签命名的按钮，与当前颜色一致时处于按下状态。',
+          'AA 和 AAA 会用文字说明“passes”或“fails”，而不只靠颜色表示；在强制颜色模式下，颜色本身保持不变。',
+        ],
+      },
     },
   },
 

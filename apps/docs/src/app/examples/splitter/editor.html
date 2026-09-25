@@ -1,0 +1,26 @@
+<div nuiSplitter class="editor" storageKey="docs-editor">
+  <nav nuiSplitterPane defaultSize="22%" min="8rem" max="40%" collapsible label="Files">
+    <ul class="files">
+      @for (file of files; track file) {
+        <li>
+          <button
+            type="button"
+            [attr.aria-current]="file === open() || null"
+            (click)="open.set(file)"
+          >
+            {{ file }}
+          </button>
+        </li>
+      }
+    </ul>
+  </nav>
+  <div nuiSplitterHandle></div>
+  <section nuiSplitterPane min="30%" class="source" [attr.aria-label]="open()">
+    <p><span class="keyword">export class</span> App &#123;&#125;</p>
+    <p class="comment">// {{ open() }}</p>
+  </section>
+  <div nuiSplitterHandle label="Preview"></div>
+  <aside nuiSplitterPane defaultSize="30%" min="6rem" collapsible label="Preview" class="output">
+    <p>Hello, world</p>
+  </aside>
+</div>

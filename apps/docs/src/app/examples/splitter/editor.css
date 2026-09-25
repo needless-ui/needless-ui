@@ -1,0 +1,64 @@
+.editor {
+  flex-basis: 100%;
+  block-size: 14rem;
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  border-radius: var(--nui-radius-lg);
+  background: var(--nui-color-bg-canvas);
+}
+
+.files {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: var(--nui-space-2);
+  list-style: none;
+}
+
+.files button {
+  inline-size: 100%;
+  min-block-size: 1.75rem;
+  padding-inline: var(--nui-space-2);
+  border: 0;
+  border-radius: var(--nui-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--nui-font-size-sm);
+  text-align: start;
+  cursor: pointer;
+}
+
+.files button:hover,
+.files [aria-current] {
+  background: var(--nui-color-neutral-soft);
+}
+
+.files button:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+}
+
+.source {
+  padding: var(--nui-space-3);
+  background: var(--nui-color-bg-subtle);
+  font-family: var(--nui-font-family-mono);
+  font-size: var(--nui-font-size-sm);
+}
+
+.source p,
+.output p {
+  margin: 0 0 var(--nui-space-1);
+}
+
+.keyword {
+  color: var(--nui-color-accent-text);
+}
+
+.comment {
+  color: var(--nui-color-text-muted);
+}
+
+.output {
+  display: grid;
+  place-items: center;
+  font-weight: var(--nui-font-weight-medium);
+}

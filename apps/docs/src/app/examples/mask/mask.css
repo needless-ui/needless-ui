@@ -1,0 +1,51 @@
+.fields {
+  flex-basis: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--nui-space-3);
+}
+
+.field {
+  display: grid;
+  min-inline-size: 0;
+  gap: var(--nui-space-1);
+  font-size: var(--nui-font-size-sm);
+  font-weight: var(--nui-font-weight-medium);
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.field input {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: var(--nui-control-height-md);
+  padding-inline: var(--nui-space-3);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-strong);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-canvas);
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--nui-font-weight-regular);
+}
+
+.field input:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+  outline-offset: var(--nui-focus-ring-offset);
+}
+
+.field input[aria-invalid='true'] {
+  border-color: var(--nui-color-danger-border-hover);
+}
+
+.card-brand {
+  margin-inline-start: var(--nui-space-2);
+  color: var(--nui-color-accent-text);
+}
+
+.error {
+  color: var(--nui-color-danger-text);
+}

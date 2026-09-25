@@ -1670,6 +1670,393 @@ export const messages: Messages = {
           '各檢視是一組切換按鈕；移到另一週或另一個月時，會朗讀它的標題。',
         ],
       },
+      splitter: {
+        name: '分割窗格',
+        title: 'Angular 可調整大小的分割窗格元件',
+        summary: '左右並排或上下堆疊的窗格，拖曳中間的控點即可調整大小。',
+        description:
+          '無障礙的 Angular 分割窗格：左右並排或上下堆疊、可調整大小的窗格，支援大小限制、可收合的窗格、記住大小和完整的鍵盤操作。',
+        apiDescription:
+          'Needless UI 分割窗格的 API 參考文件：nuiSplitter 的方向和大小、窗格的大小限制與收合，以及窗格之間的控點。',
+        a11yDescription:
+          'Needless UI 分割窗格的鍵盤互動與無障礙支援：帶有數值、可取得焦點的視窗分隔器控點，以及方向鍵、Home、End 和 Enter 鍵。',
+        overview: [
+          '分割窗格會把空間分給多個窗格，每兩個相鄰的窗格之間都有一個控點。拖曳控點，或讓它取得焦點後使用方向鍵即可調整。大小是加總為 100 的百分比，可以用 <code>[(sizes)]</code> 繫結。',
+          '每個窗格的初始大小、最小大小和最大大小，都可以用像素、rem 或百分比指定。設定了 <code>collapsible</code> 的窗格在被拖曳到小於最小大小的一半時，或在它的控點上按 Enter 鍵時會收合起來，展開時則恢復為收合前的大小。',
+          '設定 <code>storageKey</code> 後，大小會儲存在 <code>localStorage</code> 中，使用者下次造訪時，版面仍會維持離開時的樣子。',
+        ],
+        examples: {
+          editor: {
+            title: '編輯器',
+            text: '檔案、程式碼和預覽三個窗格。檔案和預覽可以收合，程式碼至少保留 30% 的寬度，而且會記住各窗格的大小。',
+          },
+          stacked: {
+            title: '上下堆疊的窗格',
+            text: '<code>orientation="vertical"</code> 會讓窗格上下堆疊，<code>[(sizes)]</code> 則會隨時讀取變動中的大小。',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: '一組窗格，窗格之間有控點。',
+            members: {
+              orientation: '左右並排，或上下堆疊。',
+              sizes: '各窗格所佔的比例，以百分比表示，依序排列。',
+              storageKey: '以這個鍵將大小儲存在 <code>localStorage</code> 中。',
+              step: '方向鍵每次移動控點的幅度，以百分比表示。按住 Shift 時加倍。',
+              move: '將某個窗格之後的邊界移動指定的百分比。',
+            },
+          },
+          NuiSplitterPane: {
+            summary: '一個窗格。它的各項大小可以用像素、rem 或百分比表示。',
+            members: {
+              defaultSize: '沒有可還原的大小時，窗格的初始大小。',
+              min: '窗格的最小大小。',
+              max: '窗格的最大大小。',
+              collapsible: '窗格可以收合：拖曳到小於最小大小的一半，或按 Enter 鍵。',
+              collapsedSize: '收合後的大小，例如只顯示一排圖示的窄欄。',
+              label: '為調整此窗格大小的控點命名。',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: '兩個窗格之間的控點。',
+            members: {
+              label: '控點的名稱，在窗格的標籤沒有為它命名時使用。',
+              disabled: '控點無法移動。',
+              toggle: '收合旁邊的窗格，或將它展開。',
+            },
+          },
+        },
+        keyboard: [
+          ['向左 / 向右鍵', '移動左右並排的窗格之間的控點。在由右至左的文字中左右方向相反。'],
+          ['向上 / 向下鍵', '移動上下堆疊的窗格之間的控點。'],
+          ['Shift + 方向鍵', '移動距離加倍。'],
+          ['Home / End', '把控點前方的窗格調整為最小或最大大小。'],
+          ['Enter', '收合可收合的窗格，或將它展開。'],
+        ],
+        notes: [
+          '每個控點都是可取得焦點的 <code>separator</code>，與 WAI-ARIA 的視窗分隔器（window splitter）模式相同：它的值是前一個窗格的大小，介於該窗格的大小限制之間，<code>aria-controls</code> 則指向該窗格。',
+          '請透過窗格的 <code>label</code> 為控點命名：有了「Files」這樣的名稱，螢幕閱讀器就能說明控點調整的是哪個窗格。',
+          '雙擊控點也能收合對應的窗格；拖曳時會擷取指標，因此即使快速移動也不會脫離控點。',
+        ],
+      },
+      tour: {
+        name: '引導式導覽',
+        title: 'Angular 引導式導覽元件',
+        summary: '為每個步驟顯示一張卡片，放在它所介紹的內容旁邊，並調暗周圍的頁面。',
+        description:
+          '無障礙的 Angular 產品導覽：每個步驟的卡片會顯示在目標旁邊，目標周圍有聚光燈效果，支援可互動的步驟，結束後焦點會回到原處。',
+        apiDescription:
+          'Needless UI 引導式導覽的 API 參考文件：nui-tour 的步驟、open 和 step 繫結、輸出屬性，以及每個步驟的目標、位置和掛鉤。',
+        a11yDescription:
+          'Needless UI 引導式導覽的鍵盤互動與無障礙支援：每張卡片都是以標題命名的對話框，焦點會留在其中並在結束時歸還，按 Esc 鍵即可離開。',
+        overview: [
+          '引導式導覽會一步一步帶使用者認識頁面。每個步驟都會指向一個元素，在它旁邊顯示一張卡片，並調暗周圍的頁面；沒有目標的步驟會顯示在中央。',
+          '步驟只是一般的資料：一個目標（選擇器、元素，或能找到元素的函式）、一個標題，以及文字或範本形式的內容。<code>beforeShow</code> 會先執行，因此步驟可以先開啟目標所在的面板；不在可見範圍內的目標會自動捲動到畫面中。',
+          '每張卡片都是一個對話框。它是強制回應的，除非該步驟設為 <code>interactive</code>：這時使用者可以操作它所指向的元素。按 Esc 鍵會結束導覽，焦點會回到原本的位置。',
+        ],
+        examples: {
+          basics: {
+            title: '初步認識',
+            text: '四個步驟，第一個步驟沒有目標。<code>finished</code> 和 <code>dismissed</code> 可以區分兩種結束方式。',
+          },
+          interactive: {
+            title: '動手試試看',
+            text: '<code>beforeShow</code> 會在第二個步驟指向設定之前先開啟設定，<code>interactive</code> 則讓使用者在卡片顯示期間也能操作開關。',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: '一段引導式導覽。',
+            members: {
+              steps: '依序排列的步驟。',
+              open: '導覽是否正在進行。',
+              step: '目前顯示的步驟，從 0 開始。',
+              labels: '它顯示的所有文字，供翻譯使用。',
+              finished: '完成最後一個步驟時發出。',
+              dismissed: '導覽提前結束時，發出結束時所在的步驟。',
+              start: '開始導覽，從第一個步驟或指定的步驟開始。',
+              end: '結束導覽，並標示為完成或中途離開。',
+            },
+          },
+          NuiTourStep: {
+            summary: '導覽中的一個步驟。',
+            members: {
+              target: '步驟指向的對象。沒有目標時，卡片會顯示在中央。',
+              title: '卡片的標題。',
+              content: '卡片的文字，或一個範本。',
+              side: '卡片位於目標的哪一側。',
+              align: '卡片與目標的對齊方式。',
+              padding: '聚光燈中目標周圍保留的空間，單位為像素。',
+              interactive: '卡片顯示期間，目標仍可操作。',
+              beforeShow: '在步驟顯示前執行。如果傳回 Promise，導覽會等待它完成。',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', '在卡片的按鈕之間移動。在強制回應的步驟中，焦點會留在卡片內。'],
+          ['Enter 或空白鍵', '按下取得焦點的按鈕：Next、Back 或 Done。'],
+          ['Esc', '結束導覽。'],
+        ],
+        notes: [
+          '每張卡片都是一個 <code>dialog</code>，以它的標題命名，並以它的內容作為描述。每個步驟都會把焦點移到卡片的主要按鈕上，導覽結束後焦點會回到原本的位置。',
+          '強制回應的步驟會讓頁面的其餘部分無法互動（inert）。可互動的步驟不是強制回應的，因此使用者除了指標，也能用鍵盤抵達它的目標。',
+          '進度以文字呈現，例如「2 of 4」；圓點只是把進度畫出來。',
+        ],
+      },
+      dropzone: {
+        name: '檔案拖放區',
+        title: 'Angular 檔案拖放區與上傳元件',
+        summary: '拖放或選取檔案，支援檢查、預覽，以及顯示進度的上傳。',
+        description:
+          '無障礙的 Angular 檔案拖放區：支援拖放、資料夾和貼上，檢查類型與大小，預覽圖片，上傳時顯示進度並可重試。',
+        apiDescription:
+          'Needless UI 檔案拖放區的 API 參考文件：nui-dropzone 的檔案與檢查、上傳函式及其佇列、輸出屬性和文字。',
+        a11yDescription:
+          'Needless UI 檔案拖放區的鍵盤互動與無障礙支援：本身就是按鈕的拖放區、會朗讀的結果，以及具名的進度列和操作按鈕。',
+        overview: [
+          '檔案拖放區會接收拖放到上面的檔案、透過檔案選擇器選取的檔案，以及貼上的檔案。拖放進來的資料夾會被逐層讀取，每個檔案都會保留自己的路徑。',
+          '每個檔案都會依據 <code>accept</code>、<code>maxSize</code>、<code>minSize</code>、<code>maxFiles</code> 和你的 <code>validate</code> 函式進行檢查，被拒絕的檔案會連同原因一起列出。圖片會顯示預覽。',
+          '沒有 <code>upload</code> 函式時，拖放區會把檔案保存在 <code>[(files)]</code> 中供表單使用。提供這個函式後，它會一次上傳幾個檔案，並支援顯示進度、取消和重試。請把上傳的 <code>signal</code> 傳給 <code>fetch</code>，這樣取消時上傳才會真正停止。',
+        ],
+        examples: {
+          upload: {
+            title: '上傳',
+            text: '模擬的上傳會分階段回報進度。名稱含有「fail」的檔案會上傳失敗，用來示範重試；<code>directory</code> 會加上一個選取資料夾的按鈕。',
+          },
+          attach: {
+            title: '表單附件',
+            text: '沒有 <code>upload</code>：拖放區在 <code>[(files)]</code> 中最多保存三份文件，放在其中的自訂文字會取代預設文字。',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: '用來拖放或選取檔案的區域。',
+            members: {
+              files: '它保存的檔案，依序排列。',
+              accept: '可接收的檔案類型，寫法同 <code>&lt;input type="file"&gt;</code>。',
+              multiple: '一次可接收多個檔案。',
+              directory: '提供選取資料夾的按鈕。',
+              maxFiles: '最多可保存的檔案數。',
+              'maxSize, minSize': '檔案的最大和最小大小，單位為位元組。',
+              validate: '檢查每個檔案。傳回訊息即拒絕該檔案。',
+              upload: '傳送一個檔案。未提供時，檔案只會被保存。',
+              concurrency: '同時上傳的檔案數。',
+              hint: '顯示在拖放區文字下方的一行說明，例如可接收哪些檔案。',
+              disabled: '不接收任何檔案。',
+              labels: '它顯示或朗讀的所有文字，供翻譯使用。',
+              uploaded: '發出上傳完成的檔案，以及 <code>upload</code> 傳回的結果。',
+              rejected: '發出被拒絕的檔案及其原因。',
+              queue: '上傳佇列，可從程式碼取消、重試及讀取進度。',
+              take: '從程式碼加入檔案，並逐一檢查。',
+            },
+          },
+          NuiUploader: {
+            summary: '傳送一個檔案：以 0 到 1 回報進度，並在收到中止訊號時停止。',
+            members: {
+              '(file, context)': '傳回一個 Promise，其結果為伺服器回應的任何內容。',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter 或空白鍵', '在拖放區上：開啟檔案選擇器。'],
+          ['Ctrl + V（⌘ + V）', '在拖放區上：加入貼上的檔案。'],
+          ['Tab', '在拖放區和各檔案的操作按鈕之間移動。'],
+        ],
+        notes: [
+          '拖放區本身是一個按鈕，因此不用指標也能操作，提示文字則是它的描述。',
+          '加入的檔案和被拒絕的檔案都會被朗讀。每個進度列都是以對應檔案命名的 <code>progressbar</code>，每個操作按鈕都以其作用命名，例如「Remove beach.jpg」。',
+          '預覽只是裝飾：檔案名稱就能說明是哪個檔案。',
+        ],
+      },
+      mask: {
+        name: '輸入遮罩',
+        title: 'Angular 輸入遮罩指令',
+        summary: '在輸入時自動格式化的文字欄位：日期、信用卡號、IBAN 和各類代碼。',
+        description:
+          'Angular 輸入遮罩：在使用者輸入時格式化文字欄位，游標會留在原處，提供信用卡號和 IBAN 的輔助函式，並支援表單驗證。',
+        apiDescription:
+          'Needless UI 輸入遮罩的 API 參考文件：nuiMask 指令、它的 token 與值，以及用於信用卡號和 IBAN 的輔助函式。',
+        a11yDescription:
+          'Needless UI 輸入遮罩的無障礙支援：保留原有標籤的原生欄位、手機上的數字鍵盤，以及跳過固定字元的刪除。',
+        overview: [
+          '遮罩會在使用者輸入時格式化文字欄位：<code>00/00/0000</code> 會自動補上斜線，<code>AA 000 AA</code> 則依序接受字母和數字。不符合的字元不會被輸入；在中間輸入時，游標也會留在原處。',
+          '遮罩由 token 和固定字元組成：<code>0</code> 代表數字，<code>a</code> 代表字母，<code>*</code> 代表兩者皆可，<code>A</code> 和 <code>X</code> 則是用於代碼的對應寫法，輸入後會轉為大寫。你可以用 <code>tokens</code> 加入自己的 token，也可以傳入依已輸入內容挑選遮罩的函式，<code>nuiCardMask</code> 就是這樣依卡別挑選遮罩的。',
+          '值就是畫面上顯示的內容；設定 <code>unmask</code> 後則只包含資料。遮罩支援 Signal Forms、響應式表單和 <code>ngModel</code>，尚未填完的值會被視為錯誤。',
+        ],
+        examples: {
+          formats: {
+            title: '格式',
+            text: '日期、時間、車牌號碼，以及用自訂 token 接受十六進位數字的色碼。',
+          },
+          payment: {
+            title: '付款資訊',
+            text: '使用 Signal Forms 的欄位。卡號遮罩會依卡別變化，American Express 的安全碼為四碼，<code>nuiCardValid</code> 和 <code>nuiIbanValid</code> 負責驗證號碼。',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: '套用在原生文字欄位上的遮罩。',
+            members: {
+              nuiMask: '遮罩，或依已輸入資料挑選遮罩的函式。',
+              tokens: '要加入或取代的遮罩字元。',
+              unmask: '值只包含資料，不含固定字元。',
+              value: '值：顯示的內容；設定 <code>unmask</code> 時則為資料。',
+              raw: '已輸入的資料，不含固定字元。',
+              complete: '遮罩中的每個位置是否都已填滿。',
+            },
+          },
+          Helpers: {
+            summary: '用於格式化、驗證和建立遮罩的函式。',
+            members: {
+              'nuiMaskFormat, nuiUnmask': '用遮罩格式化一個值，或從格式化後的值取出資料。',
+              nuiCardMask: '卡號遮罩，依卡別印在卡片上的方式分組。',
+              nuiCardBrand: '依卡號開頭的數字判斷出的卡別。',
+              'nuiCardValid, nuiLuhn': '卡號長度是否符合其卡別，並通過 Luhn 檢查。',
+              nuiIbanMask: 'IBAN 遮罩，長度與該國的 IBAN 相同。',
+              nuiIbanValid: 'IBAN 長度是否符合其所屬國家，且檢查碼正確。',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', '刪除游標前的字元，並跳過固定字元。'],
+          ['Delete', '刪除游標後的字元，並跳過固定字元。'],
+        ],
+        notes: [
+          '遮罩套用在你自己的 <code>&lt;input&gt;</code> 上，因此標籤和提示都會維持你寫的樣子。請在那裡說明需要輸入什麼：遮罩本身並不是說明。',
+          '只含數字的遮罩會設定 <code>inputmode="numeric"</code>，讓手機顯示數字鍵盤，除非欄位自己設定了這個屬性。',
+          '接受任何書寫系統的數字，並一律寫成 0 到 9。',
+        ],
+      },
+      'phone-field': {
+        name: '電話號碼輸入欄位',
+        title: 'Angular 電話號碼輸入欄位元件',
+        summary: '國家選擇器加上號碼，號碼會依該國的習慣分組。',
+        description:
+          '無障礙的 Angular 電話號碼輸入欄位：附國家選擇器，號碼依各國習慣分組，可輸入或貼上國碼，值採用 E.164 格式。',
+        apiDescription:
+          'Needless UI 電話號碼輸入欄位的 API 參考文件：nui-phone-field 的 value 和 country、可選的國家，以及讀寫號碼的輔助函式。',
+        a11yDescription:
+          'Needless UI 電話號碼輸入欄位的無障礙支援：具名的國家選擇器、國碼選定國家時的朗讀，以及瀏覽器自動填入。',
+        overview: [
+          '電話號碼輸入欄位由國家選擇器和號碼組成。號碼會在輸入時依所屬國家的習慣分組，值則是 E.164 格式的號碼，例如 <code>+393331234567</code>。',
+          '使用者可以照自己熟悉的方式輸入號碼。開頭的 0（或北美號碼前面的 1）會被視為國內冠碼，不列入值中。輸入或貼上國碼（例如 <code>+44</code> 或 <code>0044</code>）會選取對應的國家；多個國家共用同一個國碼時，號碼開頭的區碼也能決定國家。',
+          '一開始的國家取自地區設定，<code>countries</code> 可以限定清單。搭配表單使用時，對所屬國家而言太短或太長的號碼會被視為錯誤。若要完整驗證，請同時在伺服器上檢查號碼。',
+        ],
+        examples: {
+          basic: {
+            title: '輸入號碼',
+            text: '以 <code>+</code> 和國碼開頭，輸入時就會切換國家。',
+          },
+          countries: {
+            title: '自選國家',
+            text: '<code>countries</code> 提供十一個國家，欄位搭配響應式表單的 <code>FormControl</code> 使用，<code>nuiFormatPhone</code> 則把值寫回方便閱讀的格式。',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: '電話號碼欄位。',
+            members: {
+              value: 'E.164 格式的號碼，或為空。',
+              country: '國家，以地區代碼表示。',
+              countries: '可選的國家，以地區代碼表示。',
+              locale: '國家名稱使用的語言。',
+              label: '號碼的名稱，在沒有 <code>&lt;label for&gt;</code> 為它命名時使用。',
+              inputId: '號碼欄位的 id，供 <code>&lt;label for&gt;</code> 使用。',
+              placeholder: '號碼欄位為空時顯示的文字。',
+              invalid: '將號碼標示為無效。',
+              disabled: '禁止變更。',
+              labels: '它顯示或朗讀的所有文字，供翻譯使用。',
+            },
+          },
+          Helpers: {
+            summary: '處理電話號碼的函式。',
+            members: {
+              nuiParsePhone: '將任何寫法的號碼解析為地區、國碼和國內號碼。',
+              nuiFormatPhone: '依所屬國家的分組方式寫出號碼，或寫成 E.164 格式。',
+              nuiPhoneValid: '號碼是否帶有已知的國碼，且長度符合所屬國家。',
+            },
+          },
+        },
+        keyboard: [
+          ['在國家選擇器上按字母鍵', '跳到以這些字母開頭的國家。'],
+          ['Enter 或空白鍵', '開啟國家清單，或選取一個國家。'],
+          ['Backspace', '在號碼中刪除一位數字，並跳過空格和括號。'],
+        ],
+        notes: [
+          '國家選擇器的名稱是「Country code」，會朗讀國旗和國碼。國碼或區碼選定某個國家時，會朗讀新的國家。',
+          '請用 <code>&lt;label for&gt;</code> 搭配 <code>inputId</code>，或用 <code>label</code> 為號碼命名。',
+          '號碼欄位帶有 <code>autocomplete="tel"</code>，因此瀏覽器能自動填入包含國碼在內的完整號碼，手機也會顯示撥號鍵盤。',
+        ],
+      },
+      'color-picker': {
+        name: '顏色選擇器',
+        title: 'Angular OKLCH 顏色選擇器元件',
+        summary: '以 OKLCH 選取顏色，附有滑桿、色票、滴管和對比度檢查。',
+        description:
+          '無障礙的 Angular 顏色選擇器，以 OKLCH 運作：支援廣色域 P3 色彩、所有 CSS 顏色語法、色票、滴管，以及 WCAG 對比度檢查。',
+        apiDescription:
+          'Needless UI 顏色選擇器的 API 參考文件：nui-color-picker 的值、格式和色域，色票與對比度，以及處理顏色的輔助函式。',
+        a11yDescription:
+          'Needless UI 顏色選擇器的鍵盤操作與無障礙支援：具有兩個值的選色區域滑桿、原生滑桿，以及用文字說明的對比度等級。',
+        overview: [
+          '顏色選擇器以 OKLCH 運作，這是現代 CSS 中貼近人眼感知的色彩空間。在選色區域中，彩度由左至右從灰色增加到螢幕在該亮度下能顯示的最大值，因此每一點都是可用的顏色；轉動色相時，控點也會留在原處。',
+          '輸入欄位接受任何 CSS 顏色，包括顏色名稱；格式按鈕會把值寫成 hex、<code>rgb()</code>、<code>hsl()</code>、<code>oklch()</code> 或 <code>color(display-p3)</code>。超出某種格式色域的顏色，會依 CSS 的方式對應到色域內，並保留亮度和色相。',
+          '加上 <code>swatches</code> 可提供候選顏色，加上 <code>contrastWith</code> 則能依 WCAG 2 的計算方式，檢查顏色與背景的對比度。瀏覽器支援滴管時，還會有一個按鈕可以從螢幕上取色。',
+        ],
+        examples: {
+          brand: {
+            title: '品牌色',
+            text: '具名的色票，以及白色文字在該顏色上的對比度：選擇淺色時，AA 就會不合格。',
+          },
+          wide: {
+            title: '廣色域',
+            text: '<code>gamut="p3"</code> 會以 Display P3 色彩填滿選色區域，並用虛線標出 sRGB 的邊界。值仍以 <code>oklch()</code> 表示。',
+          },
+          popover: {
+            title: '放在 Popover 中',
+            text: '顯示目前顏色的按鈕會在 <a href="/components/popover">Popover</a> 中開啟選擇器。',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: '以 OKLCH 運作的顏色選擇器。',
+            members: {
+              value: '依格式寫出的顏色；選取顏色前為空。',
+              format: '值的寫法。',
+              formats: '格式按鈕依序切換的格式。',
+              gamut: '選色區域包含的顏色：sRGB 或 Display P3。',
+              alpha: '顯示不透明度滑桿。',
+              swatches: '可供選取的顏色，可附名稱。',
+              contrastWith: '用來檢查對比度的背景色。',
+              eyeDropper: '瀏覽器支援時顯示滴管。',
+              disabled: '禁止變更。',
+              labels: '它顯示或朗讀的所有文字，供翻譯使用。',
+              color: '選取的顏色，以 OKLCH 表示。',
+            },
+          },
+          Helpers: {
+            summary: '處理顏色的函式。',
+            members: {
+              nuiParseColor: '讀取以任何 CSS 語法寫成的顏色。',
+              nuiFormatColor: '以指定格式寫出顏色。',
+              nuiToGamut: '像 CSS 一樣，把顏色對應到 sRGB 或 Display P3 色域內。',
+              nuiContrast: '顏色在背景上的 WCAG 2 對比度。',
+            },
+          },
+        },
+        keyboard: [
+          ['向左 / 向右鍵', '在選色區域中降低或提高彩度。'],
+          ['向上 / 向下鍵', '在選色區域中調亮或調暗。'],
+          ['Shift + 方向鍵', '移動幅度變為十倍。'],
+          ['Home / End', '在選色區域中把彩度調到零或最大。'],
+          ['Page Up / Page Down', '在選色區域中大幅調亮或調暗。'],
+        ],
+        notes: [
+          '選色區域的控點是名為「Color」的 <code>slider</code>，會朗讀它的兩個值，例如「Lightness 62%, chroma 75%」。色相和不透明度則是原生的 range 輸入欄位。',
+          '色票是以其標籤命名的按鈕，與目前顏色相符時會呈現按下狀態。',
+          'AA 和 AAA 會用文字說明「passes」或「fails」，而不只用顏色表示；在強制色彩模式下，顏色本身會保持不變。',
+        ],
+      },
     },
   },
 

@@ -1,0 +1,20 @@
+.stacked {
+  flex-basis: 100%;
+  block-size: 14rem;
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  border-radius: var(--nui-radius-lg);
+}
+
+.pane {
+  padding: var(--nui-space-3);
+  font-family: var(--nui-font-family-mono);
+  font-size: var(--nui-font-size-sm);
+}
+
+.pane p {
+  margin: 0;
+}
+
+.results {
+  background: var(--nui-color-bg-subtle);
+}

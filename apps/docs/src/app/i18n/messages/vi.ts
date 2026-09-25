@@ -1764,6 +1764,405 @@ export const messages: Messages = {
           'Các chế độ xem là nút bật/tắt trong một nhóm, và khi chuyển sang tuần hoặc tháng khác, tiêu đề mới sẽ được đọc lên.',
         ],
       },
+      splitter: {
+        name: 'Bộ chia ngăn',
+        title: 'Bộ chia và các ngăn co giãn cho Angular',
+        summary: 'Các ngăn nằm cạnh nhau hoặc xếp chồng, với tay nắm để đổi kích thước.',
+        description:
+          'Bộ chia ngăn Angular hỗ trợ tiếp cận: ngăn co giãn nằm cạnh nhau hoặc xếp chồng, có giới hạn, thu gọn được, lưu kích thước và dùng hoàn toàn bằng bàn phím.',
+        apiDescription:
+          'Tài liệu API về bộ chia ngăn của Needless UI: hướng và kích thước của nuiSplitter, giới hạn và việc thu gọn ngăn, cùng các tay nắm giữa chúng.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của bộ chia ngăn Needless UI: tay nắm nhận focus được và mang giá trị, phím mũi tên, Home, End và Enter.',
+        overview: [
+          'Bộ chia ngăn phân bổ không gian cho các ngăn, với một tay nắm giữa hai ngăn liền kề. Hãy kéo tay nắm, hoặc focus vào nó rồi dùng phím mũi tên. Kích thước là các giá trị phần trăm có tổng bằng 100, và <code>[(sizes)]</code> liên kết chúng.',
+          'Kích thước ban đầu, tối thiểu và tối đa của mỗi ngăn có thể tính bằng pixel, rem hoặc phần trăm. Ngăn <code>collapsible</code> sẽ thu gọn khi bị kéo nhỏ hơn một nửa kích thước tối thiểu, hoặc khi nhấn Enter trên tay nắm của nó, và mở lại với đúng kích thước trước đó.',
+          'Với <code>storageKey</code>, kích thước được lưu trong <code>localStorage</code>, nên ở lần truy cập sau, người dùng thấy bố cục đúng như lúc họ rời đi.',
+        ],
+        examples: {
+          editor: {
+            title: 'Trình soạn thảo',
+            text: 'Tệp, mã nguồn và bản xem trước. Ngăn tệp và ngăn xem trước thu gọn được, mã nguồn luôn giữ ít nhất 30% chiều rộng, và kích thước được lưu lại.',
+          },
+          stacked: {
+            title: 'Ngăn xếp chồng',
+            text: '<code>orientation="vertical"</code> xếp chồng các ngăn, và <code>[(sizes)]</code> đọc kích thước của chúng mỗi khi thay đổi.',
+          },
+        },
+        api: {
+          NuiSplitter: {
+            summary: 'Các ngăn với tay nắm ở giữa.',
+            members: {
+              orientation: 'Nằm cạnh nhau, hoặc xếp chồng.',
+              sizes: 'Phần của mỗi ngăn, tính bằng phần trăm, theo thứ tự.',
+              storageKey: 'Lưu kích thước trong <code>localStorage</code> dưới khóa này.',
+              step: 'Mức phím mũi tên di chuyển tay nắm, tính bằng phần trăm. Gấp đôi khi giữ Shift.',
+              move: 'Dời ranh giới phía sau một ngăn theo một tỷ lệ phần trăm.',
+            },
+          },
+          NuiSplitterPane: {
+            summary: 'Một ngăn. Kích thước của nó nhận pixel, rem hoặc phần trăm.',
+            members: {
+              defaultSize: 'Kích thước ban đầu, khi không có kích thước nào để khôi phục.',
+              min: 'Kích thước nhỏ nhất.',
+              max: 'Kích thước lớn nhất.',
+              collapsible:
+                'Ngăn thu gọn được: khi bị kéo nhỏ hơn một nửa mức tối thiểu, hoặc bằng Enter.',
+              collapsedSize: 'Kích thước khi thu gọn, chẳng hạn một dải biểu tượng.',
+              label: 'Đặt tên cho tay nắm đổi kích thước của ngăn.',
+            },
+          },
+          NuiSplitterHandle: {
+            summary: 'Tay nắm giữa hai ngăn.',
+            members: {
+              label: 'Đặt tên cho tay nắm, khi label của ngăn không làm việc đó.',
+              disabled: 'Tay nắm không di chuyển được.',
+              toggle: 'Thu gọn ngăn bên cạnh, hoặc mở lại ngăn đó.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Mũi tên trái và phải',
+            'Di chuyển tay nắm giữa các ngăn nằm cạnh nhau. Đảo ngược với văn bản viết từ phải sang trái.',
+          ],
+          ['Mũi tên lên và xuống', 'Di chuyển tay nắm giữa các ngăn xếp chồng.'],
+          ['Shift + phím mũi tên', 'Di chuyển xa gấp đôi.'],
+          ['Home và End', 'Đưa ngăn phía trước tay nắm về kích thước nhỏ nhất hoặc lớn nhất.'],
+          ['Enter', 'Thu gọn ngăn thu gọn được, hoặc mở lại ngăn đó.'],
+        ],
+        notes: [
+          'Mỗi tay nắm là một <code>separator</code> nhận focus được, như trong mẫu window splitter của WAI-ARIA: giá trị của nó là kích thước của ngăn phía trước, nằm trong giới hạn của ngăn đó, và <code>aria-controls</code> trỏ tới ngăn đó.',
+          'Hãy đặt tên cho tay nắm qua <code>label</code> của các ngăn: “Files” cho trình đọc màn hình biết tay nắm đổi kích thước của ngăn nào.',
+          'Nhấp đúp vào tay nắm cũng thu gọn ngăn của nó, và thao tác kéo sẽ bắt giữ con trỏ, nên di chuyển nhanh cũng không làm tuột tay nắm.',
+        ],
+      },
+      tour: {
+        name: 'Tour hướng dẫn',
+        title: 'Component tour hướng dẫn cho Angular',
+        summary:
+          'Mỗi bước là một thẻ nằm cạnh phần được giới thiệu, phần còn lại của trang được làm tối.',
+        description:
+          'Tour giới thiệu sản phẩm Angular hỗ trợ tiếp cận: mỗi bước một thẻ cạnh phần tử đích, vùng sáng quanh phần tử đó, bước tương tác được và focus được trả về.',
+        apiDescription:
+          'Tài liệu API về tour hướng dẫn của Needless UI: các bước của nui-tour, liên kết open và step, các output, cùng đích, vị trí và hook của từng bước.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của tour hướng dẫn Needless UI: mỗi thẻ là hộp thoại mang tên tiêu đề, focus được giữ và trả lại, Esc để thoát.',
+        overview: [
+          'Tour dẫn người dùng đi qua một trang, từng bước một. Mỗi bước chỉ vào một phần tử bằng một thẻ đặt bên cạnh và làm tối phần còn lại của trang; bước không có đích sẽ hiện ở giữa.',
+          'Các bước là dữ liệu thuần: một đích (selector, phần tử hoặc hàm tìm ra phần tử), một tiêu đề, và nội dung dạng văn bản hoặc template. <code>beforeShow</code> chạy trước, nên một bước có thể mở panel chứa đích của nó, và trang sẽ tự cuộn tới đích đang nằm ngoài vùng nhìn thấy.',
+          'Mỗi thẻ là một hộp thoại. Thẻ là modal, trừ khi bước đó là <code>interactive</code>: khi ấy người dùng có thể dùng phần tử mà bước chỉ vào. Esc kết thúc tour, và focus quay về chỗ cũ.',
+        ],
+        examples: {
+          basics: {
+            title: 'Làm quen',
+            text: 'Bốn bước, bước đầu không có đích. <code>finished</code> và <code>dismissed</code> phân biệt hai cách kết thúc.',
+          },
+          interactive: {
+            title: 'Các bước để thử',
+            text: '<code>beforeShow</code> mở phần cài đặt trước khi bước thứ hai chỉ vào bên trong, và <code>interactive</code> cho phép người dùng bật tắt công tắc khi thẻ đang hiện.',
+          },
+        },
+        api: {
+          NuiTour: {
+            summary: 'Một tour hướng dẫn.',
+            members: {
+              steps: 'Các bước, theo thứ tự.',
+              open: 'Tour có đang chạy hay không.',
+              step: 'Bước đang hiển thị, tính từ 0.',
+              labels: 'Mọi văn bản mà tour hiển thị, để dịch.',
+              finished: 'Phát ra khi bước cuối cùng hoàn tất.',
+              dismissed: 'Phát ra bước mà tour dừng lại, khi tour kết thúc sớm.',
+              start: 'Bắt đầu tour, từ bước đầu tiên hoặc từ bước được chỉ định.',
+              end: 'Kết thúc tour, dưới dạng hoàn tất hoặc bỏ dở.',
+            },
+          },
+          NuiTourStep: {
+            summary: 'Một bước của tour.',
+            members: {
+              target: 'Phần tử mà bước chỉ vào. Nếu không có, thẻ hiện ở giữa.',
+              title: 'Tiêu đề của thẻ.',
+              content: 'Nội dung dạng văn bản, hoặc một template.',
+              side: 'Thẻ nằm ở phía nào của đích.',
+              align: 'Cách thẻ căn chỉnh với đích.',
+              padding: 'Khoảng trống quanh đích trong vùng sáng, tính bằng pixel.',
+              interactive: 'Có thể dùng đích khi thẻ đang hiện.',
+              beforeShow: 'Chạy trước khi bước hiện ra. Nếu hàm trả về promise, tour sẽ chờ nó.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Di chuyển qua các nút của thẻ. Ở bước modal, focus ở lại trong thẻ.'],
+          ['Enter hoặc Phím cách', 'Nhấn nút đang có focus: Next, Back hoặc Done.'],
+          ['Esc', 'Kết thúc tour.'],
+        ],
+        notes: [
+          'Mỗi thẻ là một <code>dialog</code> được đặt tên theo tiêu đề và mô tả bằng nội dung của nó. Ở mỗi bước, focus chuyển đến nút chính của thẻ, và quay về chỗ cũ khi tour kết thúc.',
+          'Bước modal khiến phần còn lại của trang không thể tương tác. Bước tương tác không phải modal, nên có thể tiếp cận đích của nó bằng bàn phím cũng như bằng con trỏ.',
+          'Tiến trình là văn bản, chẳng hạn “2 of 4”; các chấm chỉ minh họa nó.',
+        ],
+      },
+      dropzone: {
+        name: 'Vùng thả tệp',
+        title: 'Vùng kéo thả và tải tệp lên cho Angular',
+        summary: 'Thả hoặc chọn tệp, kèm kiểm tra, xem trước và tải lên có hiển thị tiến trình.',
+        description:
+          'Vùng thả tệp Angular hỗ trợ tiếp cận: kéo thả, thư mục và dán, kiểm tra loại và kích thước, xem trước ảnh, tải lên có tiến trình và thử lại.',
+        apiDescription:
+          'Tài liệu API về vùng thả tệp của Needless UI: tệp và kiểm tra của nui-dropzone, hàm tải lên và hàng đợi, các output và văn bản của nó.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của vùng thả tệp Needless UI: vùng thả là một nút, kết quả được đọc lên, thanh tiến trình và thao tác đều có tên.',
+        overview: [
+          'Vùng thả tệp nhận tệp được thả vào, được chọn bằng hộp chọn tệp, hoặc được dán. Thư mục được thả vào sẽ được đọc toàn bộ, và mỗi tệp giữ nguyên đường dẫn của nó.',
+          'Mỗi tệp được kiểm tra theo <code>accept</code>, <code>maxSize</code>, <code>minSize</code>, <code>maxFiles</code> và hàm <code>validate</code> của bạn, còn các tệp bị từ chối được liệt kê kèm lý do. Ảnh có bản xem trước.',
+          'Khi không có hàm <code>upload</code>, vùng thả giữ các tệp cho biểu mẫu trong <code>[(files)]</code>. Khi có, nó tải tệp lên vài tệp một lúc, kèm tiến trình, hủy và thử lại. Hãy truyền <code>signal</code> của lượt tải lên cho <code>fetch</code>, để thao tác hủy dừng được nó.',
+        ],
+        examples: {
+          upload: {
+            title: 'Tải lên',
+            text: 'Một lượt tải lên giả lập báo tiến trình theo từng nấc. Tệp có “fail” trong tên sẽ thất bại, để minh họa thử lại, và <code>directory</code> thêm một nút để chọn thư mục.',
+          },
+          attach: {
+            title: 'Tệp đính kèm cho biểu mẫu',
+            text: 'Không có <code>upload</code>: vùng thả giữ tối đa ba tài liệu trong <code>[(files)]</code>, và văn bản riêng của nó thay cho văn bản mặc định.',
+          },
+        },
+        api: {
+          NuiDropzone: {
+            summary: 'Nơi để thả tệp, hoặc chọn tệp.',
+            members: {
+              files: 'Các tệp đang giữ, theo thứ tự.',
+              accept: 'Các loại tệp được nhận, như với <code>&lt;input type="file"&gt;</code>.',
+              multiple: 'Nhiều tệp cùng lúc.',
+              directory: 'Thêm một nút để chọn thư mục.',
+              maxFiles: 'Số tệp tối đa có thể giữ.',
+              'maxSize, minSize': 'Kích thước tệp lớn nhất và nhỏ nhất, tính bằng byte.',
+              validate: 'Kiểm tra từng tệp. Trả về một thông báo thì tệp bị từ chối.',
+              upload: 'Gửi một tệp. Nếu không có, tệp chỉ được giữ lại.',
+              concurrency: 'Số tệp được tải lên cùng lúc.',
+              hint: 'Một dòng dưới văn bản của vùng thả, chẳng hạn loại tệp nó nhận.',
+              disabled: 'Không nhận tệp nào.',
+              labels: 'Mọi văn bản mà vùng thả hiển thị hoặc đọc lên, để dịch.',
+              uploaded: 'Phát ra tệp đã tải lên, kèm giá trị mà <code>upload</code> trả về.',
+              rejected: 'Phát ra các tệp bị từ chối, kèm lý do.',
+              queue: 'Hàng đợi tải lên, để hủy, thử lại và đọc tiến trình từ mã.',
+              take: 'Thêm tệp từ mã, có kiểm tra từng tệp.',
+            },
+          },
+          NuiUploader: {
+            summary: 'Gửi một tệp: báo tiến trình từ 0 đến 1, và dừng khi signal bị hủy.',
+            members: {
+              '(file, context)': 'Trả về một promise chứa bất cứ thứ gì máy chủ của bạn phản hồi.',
+            },
+          },
+        },
+        keyboard: [
+          ['Enter hoặc Phím cách', 'Trên vùng thả, mở hộp chọn tệp.'],
+          ['Ctrl + V hoặc ⌘ + V', 'Trên vùng thả, thêm các tệp được dán.'],
+          ['Tab', 'Di chuyển qua vùng thả và các thao tác của từng tệp.'],
+        ],
+        notes: [
+          'Vùng thả là một nút, nên dùng được mà không cần con trỏ, và gợi ý đóng vai trò mô tả của nó.',
+          'Tệp được thêm và tệp bị từ chối đều được đọc lên. Mỗi thanh tiến trình là một <code>progressbar</code> được đặt tên theo tệp của nó, và mỗi thao tác được đặt tên theo việc nó làm, chẳng hạn “Remove beach.jpg”.',
+          'Bản xem trước chỉ mang tính trang trí: tên tệp đã cho biết đó là tệp nào.',
+        ],
+      },
+      mask: {
+        name: 'Mặt nạ nhập liệu',
+        title: 'Directive mặt nạ nhập liệu cho Angular',
+        summary: 'Ô văn bản tự định dạng ngay khi gõ: ngày tháng, số thẻ, IBAN, các loại mã.',
+        description:
+          'Mặt nạ nhập liệu cho Angular: định dạng ô văn bản ngay khi gõ, con trỏ giữ nguyên vị trí, các hàm hỗ trợ cho thẻ và IBAN, cùng kiểm tra hợp lệ trong form.',
+        apiDescription:
+          'Tài liệu API về mặt nạ nhập liệu của Needless UI: directive nuiMask, token và giá trị của nó, cùng các hàm hỗ trợ cho số thẻ và IBAN.',
+        a11yDescription:
+          'Khả năng tiếp cận của mặt nạ nhập liệu Needless UI: ô nhập native với nhãn riêng, bàn phím số trên điện thoại và thao tác xóa bỏ qua ký tự cố định.',
+        overview: [
+          'Mặt nạ định dạng ô văn bản ngay khi người dùng gõ: <code>00/00/0000</code> tự chèn dấu gạch chéo, <code>AA 000 AA</code> lần lượt nhận chữ cái và chữ số. Ký tự không khớp sẽ bị bỏ qua, và con trỏ giữ nguyên vị trí khi người dùng gõ ở giữa.',
+          'Mặt nạ gồm token và ký tự cố định: <code>0</code> là một chữ số, <code>a</code> là một chữ cái, <code>*</code> là một trong hai, còn <code>A</code> và <code>X</code> là dạng tương ứng dành cho mã, viết hoa. Thêm token của riêng bạn bằng <code>tokens</code>, hoặc truyền vào một hàm chọn mặt nạ theo nội dung đã gõ, như cách <code>nuiCardMask</code> chọn theo thương hiệu thẻ.',
+          'Giá trị là nội dung đang hiển thị, hoặc chỉ phần dữ liệu khi có <code>unmask</code>. Mặt nạ dùng được với Signal Forms, reactive forms và <code>ngModel</code>; giá trị chưa nhập đủ được coi là lỗi.',
+        ],
+        examples: {
+          formats: {
+            title: 'Định dạng',
+            text: 'Ngày, giờ, biển số xe, và một màu có token riêng cho chữ số thập lục phân.',
+          },
+          payment: {
+            title: 'Thông tin thanh toán',
+            text: 'Các ô nhập Signal Forms. Mặt nạ thẻ thay đổi theo thương hiệu thẻ, mã bảo mật có bốn chữ số với American Express, còn <code>nuiCardValid</code> và <code>nuiIbanValid</code> kiểm tra các số.',
+          },
+        },
+        api: {
+          NuiMask: {
+            summary: 'Một mặt nạ trên ô văn bản native.',
+            members: {
+              nuiMask: 'Mặt nạ, hoặc một hàm chọn mặt nạ theo dữ liệu đã gõ.',
+              tokens: 'Các ký tự mặt nạ cần thêm hoặc thay thế.',
+              unmask: 'Giá trị chỉ gồm dữ liệu, không có ký tự cố định.',
+              value: 'Giá trị: nội dung đang hiển thị, hoặc dữ liệu khi có <code>unmask</code>.',
+              raw: 'Dữ liệu đã gõ, không có ký tự cố định.',
+              complete: 'Mọi vị trí trong mặt nạ đã được điền hay chưa.',
+            },
+          },
+          Helpers: {
+            summary: 'Các hàm để định dạng, kiểm tra và tạo mặt nạ.',
+            members: {
+              'nuiMaskFormat, nuiUnmask':
+                'Định dạng một giá trị theo mặt nạ, hoặc tách dữ liệu ra khỏi giá trị đã định dạng.',
+              nuiCardMask: 'Mặt nạ cho số thẻ, chia nhóm như cách thương hiệu thẻ in số.',
+              nuiCardBrand: 'Thương hiệu của một số thẻ, dựa vào các chữ số đầu.',
+              'nuiCardValid, nuiLuhn':
+                'Số thẻ có đúng độ dài theo thương hiệu và vượt qua kiểm tra Luhn hay không.',
+              nuiIbanMask: 'Mặt nạ cho IBAN, dài đúng bằng IBAN của quốc gia đó.',
+              nuiIbanValid: 'IBAN có đúng độ dài theo quốc gia và đúng chữ số kiểm tra hay không.',
+            },
+          },
+        },
+        keyboard: [
+          ['Backspace', 'Xóa ký tự trước con trỏ, bỏ qua các ký tự cố định.'],
+          ['Delete', 'Xóa ký tự sau con trỏ, bỏ qua các ký tự cố định.'],
+        ],
+        notes: [
+          'Mặt nạ hoạt động trên chính <code>&lt;input&gt;</code> của bạn, nên nhãn và gợi ý vẫn giữ nguyên như bạn đã viết. Hãy ghi rõ nội dung cần nhập ở đó: mặt nạ không phải là lời hướng dẫn.',
+          'Mặt nạ chỉ gồm chữ số sẽ đặt <code>inputmode="numeric"</code>, để điện thoại hiển thị bàn phím số, trừ khi ô nhập đã tự đặt chế độ nhập riêng.',
+          'Chữ số của mọi hệ chữ đều được chấp nhận và được ghi thành 0 đến 9.',
+        ],
+      },
+      'phone-field': {
+        name: 'Ô nhập số điện thoại',
+        title: 'Ô nhập số điện thoại cho Angular',
+        summary:
+          'Bộ chọn quốc gia và số điện thoại, được chia nhóm theo cách viết của quốc gia đó.',
+        description:
+          'Ô nhập số điện thoại Angular hỗ trợ tiếp cận: bộ chọn quốc gia, số được chia nhóm theo cách viết của từng nước, gõ hoặc dán mã quốc gia, và giá trị E.164.',
+        apiDescription:
+          'Tài liệu API về ô nhập số điện thoại của Needless UI: giá trị và quốc gia của nui-phone-field, danh sách quốc gia, cùng các hàm đọc và ghi số.',
+        a11yDescription:
+          'Khả năng tiếp cận của ô nhập số điện thoại Needless UI: bộ chọn quốc gia có tên, đọc lên quốc gia được chọn theo mã, và tự điền của trình duyệt.',
+        overview: [
+          'Ô nhập số điện thoại gồm một bộ chọn quốc gia và một ô số. Số được chia nhóm ngay khi gõ, theo cách quốc gia của nó viết số điện thoại, còn giá trị là số ở định dạng E.164, chẳng hạn <code>+393331234567</code>.',
+          'Người dùng gõ số theo cách họ quen thuộc. Số 0 ở đầu (hoặc số 1 trước số Bắc Mỹ) được hiểu là tiền tố quay số trong nước và bị bỏ khỏi giá trị. Mã quốc gia được gõ hoặc dán vào, chẳng hạn <code>+44</code> hay <code>0044</code>, sẽ chọn quốc gia tương ứng; mã vùng cũng vậy, ở những nơi nhiều quốc gia dùng chung một mã quốc gia.',
+          'Quốc gia ban đầu là quốc gia của locale, và <code>countries</code> giới hạn danh sách. Khi dùng với biểu mẫu, số quá ngắn hoặc quá dài so với quốc gia của nó được coi là lỗi. Để xác thực đầy đủ, hãy kiểm tra số cả ở phía máy chủ.',
+        ],
+        examples: {
+          basic: {
+            title: 'Một số điện thoại',
+            text: 'Bắt đầu bằng <code>+</code> và mã quốc gia để đổi quốc gia ngay khi gõ.',
+          },
+          countries: {
+            title: 'Quốc gia do bạn chọn',
+            text: '<code>countries</code> cung cấp mười một quốc gia, ô nhập dùng được với một <code>FormControl</code> của reactive forms, và <code>nuiFormatPhone</code> ghi lại giá trị ở dạng dễ đọc.',
+          },
+        },
+        api: {
+          NuiPhoneField: {
+            summary: 'Một ô nhập số điện thoại.',
+            members: {
+              value: 'Số ở định dạng E.164, hoặc trống.',
+              country: 'Quốc gia, dưới dạng mã khu vực hai chữ cái.',
+              countries: 'Các quốc gia được cung cấp, dưới dạng mã khu vực.',
+              locale: 'Ngôn ngữ của tên quốc gia.',
+              label:
+                'Đặt tên cho ô số, khi không có <code>&lt;label for&gt;</code> nào làm việc đó.',
+              inputId: 'Id của ô số, dùng cho <code>&lt;label for&gt;</code>.',
+              placeholder: 'Văn bản hiển thị khi ô số còn trống.',
+              invalid: 'Đánh dấu số là không hợp lệ.',
+              disabled: 'Không thể thay đổi.',
+              labels: 'Mọi văn bản mà ô nhập đọc lên, để dịch.',
+            },
+          },
+          Helpers: {
+            summary: 'Các hàm cho số điện thoại.',
+            members: {
+              nuiParsePhone:
+                'Đọc một số viết theo bất kỳ cách nào, tách thành khu vực, mã quốc gia và số trong nước.',
+              nuiFormatPhone:
+                'Ghi một số theo cách chia nhóm của quốc gia đó, hoặc ở định dạng E.164.',
+              nuiPhoneValid: 'Số có mã quốc gia đã biết và đúng độ dài theo quốc gia hay không.',
+            },
+          },
+        },
+        keyboard: [
+          ['Chữ cái trên bộ chọn quốc gia', 'Nhảy tới các quốc gia bắt đầu bằng các chữ đó.'],
+          ['Enter hoặc Phím cách', 'Mở danh sách quốc gia, hoặc chọn một quốc gia.'],
+          ['Backspace', 'Trong ô số, xóa một chữ số, bỏ qua dấu cách và dấu ngoặc.'],
+        ],
+        notes: [
+          'Bộ chọn quốc gia có tên “Country code” và đọc lên cờ cùng mã của quốc gia đang chọn. Khi mã quốc gia hoặc mã vùng chọn một quốc gia, quốc gia mới sẽ được đọc lên.',
+          'Đặt tên cho ô số bằng <code>&lt;label for&gt;</code> và <code>inputId</code>, hoặc bằng <code>label</code>.',
+          'Ô số có <code>autocomplete="tel"</code>, nên trình duyệt có thể tự điền toàn bộ số, kể cả mã quốc gia, và điện thoại hiển thị bàn phím quay số.',
+        ],
+      },
+      'color-picker': {
+        name: 'Bộ chọn màu',
+        title: 'Bộ chọn màu OKLCH cho Angular',
+        summary:
+          'Một màu trong OKLCH, với thanh trượt, mẫu màu, công cụ hút màu và kiểm tra độ tương phản.',
+        description:
+          'Bộ chọn màu OKLCH Angular hỗ trợ tiếp cận: màu P3 gam rộng, mọi cú pháp màu CSS, mẫu màu, công cụ hút màu và kiểm tra độ tương phản theo WCAG.',
+        apiDescription:
+          'Tài liệu API về bộ chọn màu của Needless UI: giá trị, định dạng và gam màu của nui-color-picker, mẫu màu, độ tương phản và các hàm xử lý màu.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của bộ chọn màu Needless UI: thanh trượt hai giá trị cho vùng màu, thanh trượt native và mức tương phản nêu bằng chữ.',
+        overview: [
+          'Bộ chọn màu hoạt động trong OKLCH, không gian màu theo cảm nhận của CSS hiện đại. Theo chiều ngang của vùng màu, độ bão hòa (chroma) tăng từ xám đến mức cao nhất mà màn hình hiển thị được ở độ sáng đó, nên mọi điểm đều là màu dùng được, và nút kéo vẫn đứng yên khi sắc độ thay đổi.',
+          'Ô nhập nhận mọi màu CSS, kể cả tên màu, và nút định dạng ghi giá trị ở dạng hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> hoặc <code>color(display-p3)</code>. Màu nằm ngoài gam màu của một định dạng sẽ được đưa vào gam đó theo cách của CSS, giữ nguyên độ sáng và sắc độ.',
+          'Thêm <code>swatches</code> để có sẵn các mẫu màu cho người dùng chọn, và <code>contrastWith</code> để kiểm tra độ tương phản của màu trên một nền theo cách đo của WCAG 2. Ở trình duyệt có công cụ hút màu, một nút sẽ lấy màu ngay từ màn hình.',
+        ],
+        examples: {
+          brand: {
+            title: 'Màu thương hiệu',
+            text: 'Các mẫu màu có tên, và độ tương phản của chữ trắng trên màu đó: chọn một màu sáng, AA sẽ không đạt.',
+          },
+          wide: {
+            title: 'Gam màu rộng',
+            text: '<code>gamut="p3"</code> lấp đầy vùng màu bằng các màu Display P3, và một đường nét đứt đánh dấu nơi sRGB kết thúc. Giá trị vẫn ở dạng <code>oklch()</code>.',
+          },
+          popover: {
+            title: 'Trong popover',
+            text: 'Một nút hiển thị màu sẽ mở bộ chọn trong một <a href="/components/popover">popover</a>.',
+          },
+        },
+        api: {
+          NuiColorPicker: {
+            summary: 'Bộ chọn màu trong OKLCH.',
+            members: {
+              value: 'Màu, được ghi theo định dạng đã chọn. Trống cho đến khi chọn một màu.',
+              format: 'Cách ghi giá trị.',
+              formats: 'Các định dạng mà nút định dạng lần lượt chuyển qua.',
+              gamut: 'Các màu mà vùng màu chứa: sRGB, hoặc Display P3.',
+              alpha: 'Hiển thị thanh trượt độ mờ đục.',
+              swatches: 'Các màu để chọn, kèm tên.',
+              contrastWith: 'Nền dùng để kiểm tra độ tương phản.',
+              eyeDropper: 'Hiển thị công cụ hút màu, ở trình duyệt có hỗ trợ.',
+              disabled: 'Không thể thay đổi.',
+              labels: 'Mọi văn bản mà bộ chọn đọc lên, để dịch.',
+              color: 'Màu đã chọn, trong OKLCH.',
+            },
+          },
+          Helpers: {
+            summary: 'Các hàm xử lý màu.',
+            members: {
+              nuiParseColor: 'Đọc một màu viết theo bất kỳ cú pháp CSS nào.',
+              nuiFormatColor: 'Ghi một màu theo một định dạng.',
+              nuiToGamut: 'Đưa một màu vào sRGB hoặc Display P3, như cách CSS làm.',
+              nuiContrast: 'Tỷ lệ tương phản WCAG 2 của một màu trên một nền.',
+            },
+          },
+        },
+        keyboard: [
+          ['Mũi tên trái và phải', 'Trên vùng màu, giảm hoặc tăng độ bão hòa.'],
+          ['Mũi tên lên và xuống', 'Trên vùng màu, sáng hơn hoặc tối hơn.'],
+          ['Shift + phím mũi tên', 'Di chuyển xa gấp mười lần.'],
+          ['Home và End', 'Trên vùng màu, độ bão hòa bằng không hoặc cao nhất.'],
+          ['Page Up và Page Down', 'Trên vùng màu, sáng hơn hoặc tối hơn nhiều.'],
+        ],
+        notes: [
+          'Nút kéo của vùng màu là một <code>slider</code> có tên “Color”, đọc lên cả hai giá trị, chẳng hạn “Lightness 62%, chroma 75%”. Sắc độ và độ mờ đục dùng thanh trượt range native.',
+          'Mẫu màu là các nút được đặt tên theo nhãn của chúng, và ở trạng thái được nhấn khi trùng với màu hiện tại.',
+          'AA và AAA nói “passes” hoặc “fails” bằng chữ, không chỉ bằng màu, và ở chế độ forced colors, bản thân các màu vẫn được giữ nguyên.',
+        ],
+      },
     },
   },
 

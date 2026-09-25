@@ -1,0 +1,13 @@
+<div class="field">
+  <label for="phone-europe">Phone in Europe</label>
+  <nui-phone-field
+    inputId="phone-europe"
+    [countries]="europe"
+    [formControl]="phone"
+    [invalid]="phone.invalid && phone.touched"
+  />
+</div>
+@if (phone.hasError('nuiPhone') && phone.touched) {
+  <p class="error">That number is too short or too long for its country.</p>
+}
+<p>Formatted: {{ formatted() || '—' }}</p>

@@ -1,0 +1,9 @@
+<nui-dropzone
+  accept="image/*"
+  maxSize="5242880"
+  hint="Images, up to 5 MB. Name one “fail” to see an error."
+  directory
+  [upload]="upload"
+  (uploaded)="uploaded.set(uploaded() + 1)"
+/>
+<p>Uploaded: {{ uploaded() }}</p>
