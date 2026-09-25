@@ -293,8 +293,9 @@
     transform-origin: bottom;
   }
 
+  /* An auto basis, not `flex: 1`: the popup's height comes from its content, and Safari 17 sizes a 0% basis to nothing there. */
   .nui-select-list {
-    flex: 1;
+    flex: 1 1 auto;
     min-block-size: 0;
     max-block-size: 20rem;
     overflow-y: auto;

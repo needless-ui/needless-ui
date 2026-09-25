@@ -89,3 +89,6 @@ Last full run (2026-09-25): Chromium 153, Firefox 155, WebKit 26.6, and iOS Safa
 ## Known browser behavior
 
 - Chrome and Edge let a second Escape close a dialog whose `cancel` was prevented, unless the user interacted in between (the HTML close-request rules against trapping). A `dismissible="false"` dialog can therefore close on a double Escape there.
+- Safari 17 gives a column flex item with `flex: 1` (a 0% basis) no height inside a popup sized by its content. The option lists of the select, combobox, phone field and command palette take `flex: 1 1 auto`, or they'd open empty there.
+- Safari on iPhone and iPad keeps drawing a field's own caret whatever `caret-color` says. The OTP input starts its hidden text out of view there (`text-indent`), so only its drawn caret shows.
+- With the on-screen keyboard up, Safari on iPhone can show page below the edge of fixed layers. A dialog's backdrop reaches past the viewport, so no strip of the page is left undimmed.

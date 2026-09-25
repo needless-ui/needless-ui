@@ -51,6 +51,14 @@
     background: transparent;
   }
 
+  /* Safari on iPhone and iPad draws its caret whatever caret-color says: there the
+     text starts a field's width before the field, where its caret can't be seen. */
+  @supports (-webkit-touch-callout: none) {
+    .nui-otp-input {
+      text-indent: -100%;
+    }
+  }
+
   .nui-otp-input:disabled {
     cursor: not-allowed;
   }

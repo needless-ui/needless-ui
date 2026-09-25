@@ -145,6 +145,7 @@ const touches = () => undefined;
           [attr.title]="session().busy() ? words().stop : words().send"
           [attr.aria-disabled]="!session().busy() && !ready() ? 'true' : null"
           [disabled]="disabled()"
+          (mousedown)="$event.preventDefault()"
           (click)="session().busy() ? session().stop() : submit()"
         ></button>
       </div>

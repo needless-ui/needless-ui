@@ -152,6 +152,16 @@ describe('NuiChat', () => {
     expect(button().getAttribute('aria-label')).toBe('Send');
   });
 
+  it('keeps focus in the field when its button is pressed, so a phone keeps its keyboard', async () => {
+    const { root, host, stable, field } = await setup();
+    await userEvent.click(field());
+    await userEvent.keyboard('Hi');
+    await userEvent.click(root.querySelector<HTMLButtonElement>('.nui-chat-send')!);
+    await stable();
+    expect(host.requests.length).toBe(1);
+    expect(document.activeElement).toBe(field());
+  });
+
   it('announces a finished reply, whole or as a notice, and a failed one', async () => {
     const { host, stable, announcements } = await setup();
     host.chat.send('Hi');

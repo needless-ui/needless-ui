@@ -83,6 +83,7 @@ Content marked `nuiChatEmpty` is the greeting; other content goes in the compose
 - Actions stay visible on the last message and on touch screens; on earlier ones they show on hover or focus.
 - The composer sends with Enter, but never mid-composition (IME). While a reply arrives, Enter waits and the send button stops the reply.
 - `auto` sends with Enter where there's a keyboard and a pointer that hovers. On a touch screen with nothing that hovers (a phone, a tablet on its own), Return makes a new line, as it's the only way to one there, and the send button sends; `enterkeyhint` names the key accordingly. Editing a sent message works the same way.
+- Pressing the send button leaves focus in the field, so a phone's keyboard stays up between messages.
 - Files are checked against `accept`, `maxSize` and `maxFiles`; what's refused is said below the field and announced. Images get previews, whose object URLs are released when the files are removed before sending.
 - Links in replies and sources work only for web, mail and phone addresses.
 
