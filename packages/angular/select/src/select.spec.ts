@@ -205,6 +205,8 @@ describe('NuiSelect', () => {
     await userEvent.keyboard('{End}');
     await settle();
     expect(active()?.textContent).toContain('Item 9999');
+    // The rows between the top and the end are never rendered, not even for a frame.
+    expect(options().length).toBeLessThan(100);
     expect(active()?.getAttribute('aria-posinset')).toBe('10000');
     expect(document.getElementById(trigger.getAttribute('aria-activedescendant')!)).toBe(active());
     await userEvent.keyboard('{Enter}');

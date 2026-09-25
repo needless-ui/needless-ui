@@ -92,10 +92,15 @@ abstract class Floating {
   },
 })
 export class NuiPopover extends Floating {
-  /** Opens next to `anchor`. */
+  /**
+   * Opens next to `anchor`. The anchor becomes the popover's invoker, so browsers
+   * that support it return focus there when it closes.
+   */
   show(anchor: HTMLElement): void {
     this.anchor = anchor;
-    if (this.browser && !this.element.matches(':popover-open')) this.element.showPopover();
+    if (this.browser && !this.element.matches(':popover-open')) {
+      this.element.showPopover({ source: anchor });
+    }
   }
 
   hide(): void {

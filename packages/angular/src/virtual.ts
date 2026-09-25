@@ -99,6 +99,34 @@ export class NuiVirtualizer {
     return { start, end: Math.min(end, this.count) };
   }
 
+  /**
+   * What to render for a view: the items in range, plus items that must stay
+   * rendered wherever they are (the active one, which `aria-activedescendant` or
+   * focus needs). Runs of skipped items become gaps of their total size, so each
+   * rendered item sits at its true offset and nothing between them is rendered.
+   */
+  slice(
+    scrollTop: number,
+    height: number,
+    keep: readonly number[] = [],
+  ): ({ index: number } | { gap: number; at: number })[] {
+    const { start, end } = this.range(scrollTop, height);
+    const extra = keep.filter((i) => i >= 0 && i < this.count && (i < start || i >= end));
+    const indices = [...new Set(extra)].sort((a, b) => a - b);
+    const items: ({ index: number } | { gap: number; at: number })[] = [];
+    let next = 0;
+    const add = (index: number) => {
+      if (index > next) items.push({ gap: this.offsetOf(index) - this.offsetOf(next), at: next });
+      items.push({ index });
+      next = index + 1;
+    };
+    for (const index of indices.filter((i) => i < start)) add(index);
+    for (let index = start; index < end; index++) add(index);
+    for (const index of indices.filter((i) => i >= end)) add(index);
+    if (next < this.count) items.push({ gap: this.total() - this.offsetOf(next), at: next });
+    return items;
+  }
+
   /** The scroll offset that brings `index` fully into a view of `height` scrolled to `scrollTop`. */
   scrollTo(index: number, scrollTop: number, height: number): number {
     const top = this.offsetOf(index);

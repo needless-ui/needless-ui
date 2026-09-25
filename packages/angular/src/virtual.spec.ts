@@ -29,6 +29,26 @@ describe('NuiVirtualizer', () => {
     expect(list.range(0, 360)).toEqual({ start: 0, end: 13 });
   });
 
+  it('slices the view with gaps, keeping far items rendered without what lies between', () => {
+    const list = new NuiVirtualizer({ count: 1000, estimate: 10, overscan: 0 });
+    // Rows 0–3 touch the view; row 998 must stay (it's active).
+    expect(list.slice(0, 30, [998])).toEqual([
+      { index: 0 },
+      { index: 1 },
+      { index: 2 },
+      { index: 3 },
+      { gap: 9940, at: 4 },
+      { index: 998 },
+      { gap: 10, at: 999 },
+    ]);
+    // Scrolled to the middle, with a kept row above.
+    const middle = list.slice(5000, 20, [1]);
+    expect(middle[0]).toEqual({ gap: 10, at: 0 });
+    expect(middle[1]).toEqual({ index: 1 });
+    expect(middle[2]).toEqual({ gap: 4980, at: 2 });
+    expect(middle.filter((item) => 'index' in item).length).toBe(4);
+  });
+
   it('works out the scroll offset that brings an item into view', () => {
     const list = new NuiVirtualizer({ count: 100, estimate: 20 });
     expect(list.scrollTo(50, 0, 200)).toBe(1020 - 200);

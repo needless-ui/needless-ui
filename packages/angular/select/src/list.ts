@@ -75,10 +75,8 @@ export class NuiOptionText<V = unknown> {
   readonly row = input.required<NuiOptionRow<V>>({ alias: 'nuiOptionText' });
 }
 
-interface Item<V> {
-  row: NuiOptionRow<V>;
-  index: number;
-}
+/** A row to render, or the gap left by rows that aren't rendered. */
+type Item<V> = { key: string; row: NuiOptionRow<V>; index: number } | { key: string; gap: number };
 
 /**
  * The listbox (or tree) inside a select, combobox or command palette. It renders
@@ -100,56 +98,54 @@ interface Item<V> {
     '(mousedown)': '$event.preventDefault()',
   },
   template: `
-    @if (spacers().top) {
-      <div role="presentation" [style.height.px]="spacers().top"></div>
-    }
-    @for (item of window(); track item.row.key) {
-      @let row = item.row;
-      @if (row.kind === 'group') {
-        <div class="nui-select-group" role="presentation" [attr.data-index]="item.index">
-          {{ row.label }}
-        </div>
+    @for (item of items(); track item.key) {
+      @if ('gap' in item) {
+        <div role="presentation" [style.height.px]="item.gap"></div>
       } @else {
-        <div
-          class="nui-select-option"
-          [attr.role]="tree() ? 'treeitem' : 'option'"
-          [id]="optionId(item.index)"
-          [attr.data-index]="item.index"
-          [attr.data-active]="item.index === engine().active() ? '' : null"
-          [attr.data-action]="row.action ? '' : null"
-          [attr.aria-selected]="selected()(row.option!)"
-          [attr.aria-disabled]="row.option!.disabled || null"
-          [attr.aria-setsize]="engine().size()"
-          [attr.aria-posinset]="row.position"
-          [attr.aria-level]="tree() ? row.depth + 1 : null"
-          [attr.aria-expanded]="tree() && row.expandable ? row.expanded : null"
-          [style.--_depth]="row.depth || null"
-          (click)="choose.emit(row)"
-          (pointermove)="engine().activate(item.index)"
-        >
-          @if (tree()) {
-            @if (row.expandable) {
-              <span
-                class="nui-select-toggle"
-                aria-hidden="true"
-                (click)="$event.stopPropagation(); engine().toggleExpanded(row.option!)"
-              ></span>
-            } @else {
-              <span class="nui-select-leaf"></span>
+        @let row = item.row;
+        @if (row.kind === 'group') {
+          <div class="nui-select-group" role="presentation" [attr.data-index]="item.index">
+            {{ row.label }}
+          </div>
+        } @else {
+          <div
+            class="nui-select-option"
+            [attr.role]="tree() ? 'treeitem' : 'option'"
+            [id]="optionId(item.index)"
+            [attr.data-index]="item.index"
+            [attr.data-active]="item.index === engine().active() ? '' : null"
+            [attr.data-action]="row.action ? '' : null"
+            [attr.aria-selected]="selected()(row.option!)"
+            [attr.aria-disabled]="row.option!.disabled || null"
+            [attr.aria-setsize]="engine().size()"
+            [attr.aria-posinset]="row.position"
+            [attr.aria-level]="tree() ? row.depth + 1 : null"
+            [attr.aria-expanded]="tree() && row.expandable ? row.expanded : null"
+            [style.--_depth]="row.depth || null"
+            (click)="choose.emit(row)"
+            (pointermove)="engine().activate(item.index)"
+          >
+            @if (tree()) {
+              @if (row.expandable) {
+                <span
+                  class="nui-select-toggle"
+                  aria-hidden="true"
+                  (click)="$event.stopPropagation(); engine().toggleExpanded(row.option!)"
+                ></span>
+              } @else {
+                <span class="nui-select-leaf"></span>
+              }
             }
-          }
-          @if (template(); as template) {
-            <ng-container
-              *ngTemplateOutlet="template.template; context: { $implicit: row.option!, row }"
-            />
-          } @else {
-            <span [nuiOptionText]="row"></span>
-          }
-        </div>
+            @if (template(); as template) {
+              <ng-container
+                *ngTemplateOutlet="template.template; context: { $implicit: row.option!, row }"
+              />
+            } @else {
+              <span [nuiOptionText]="row"></span>
+            }
+          </div>
+        }
       }
-    }
-    @if (spacers().bottom) {
-      <div role="presentation" [style.height.px]="spacers().bottom"></div>
     }
   `,
 })
@@ -183,38 +179,28 @@ export class NuiOptionList<V = unknown> {
     () => new NuiVirtualizer({ count: this.engine().rows().length, estimate: ESTIMATE }),
   );
 
-  private readonly range = computed(() => {
+  /**
+   * The rows in view, and the active one wherever it is (aria-activedescendant
+   * points at it), with gaps for the rest.
+   */
+  protected readonly items = computed<Item<V>[]>(() => {
     const rows = this.engine().rows();
-    if (!this.virtualized()) return { start: 0, end: rows.length };
+    if (!this.virtualized()) return rows.map((row, index) => ({ key: row.key, row, index }));
     this.layout();
-    const range = this.virtualizer().range(this.scrollTop(), this.height() || 320);
-    // The active option must stay rendered: aria-activedescendant points at it.
     const active = this.engine().active();
-    return active < 0
-      ? range
-      : { start: Math.min(range.start, active), end: Math.max(range.end, active + 1) };
-  });
-
-  protected readonly window = computed<Item<V>[]>(() => {
-    const rows = this.engine().rows();
-    const { start, end } = this.range();
-    const items: Item<V>[] = [];
-    for (let index = start; index < end; index++) items.push({ row: rows[index], index });
-    return items;
-  });
-
-  protected readonly spacers = computed(() => {
-    if (!this.virtualized()) return { top: 0, bottom: 0 };
-    this.layout();
-    const list = this.virtualizer();
-    const { start, end } = this.range();
-    return { top: list.offsetOf(start), bottom: list.total() - list.offsetOf(end) };
+    return this.virtualizer()
+      .slice(this.scrollTop(), this.height() || 320, active >= 0 ? [active] : [])
+      .map((item) =>
+        'gap' in item
+          ? { key: `gap:${item.at}`, gap: item.gap }
+          : { key: rows[item.index].key, row: rows[item.index], index: item.index },
+      );
   });
 
   constructor() {
     // Measure what was rendered; a row that turns out taller or shorter re-lays the list.
     afterRenderEffect(() => {
-      this.window();
+      this.items();
       if (!this.virtualized() || !this.height()) return;
       const list = untracked(this.virtualizer);
       let changed = false;

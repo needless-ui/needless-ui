@@ -1,0 +1,328 @@
+@let t = text();
+@let layout = engine.layout();
+@let rows = engine.view();
+@let lead = this.lead();
+
+@if (loading()) {
+  <div class="nui-grid-progress" role="progressbar" [attr.aria-label]="t.loading"></div>
+}
+
+<div #scroll class="nui-grid-scroll" [style.--_height]="maxHeight()" (scroll)="onScroll()">
+  <table
+    class="nui-grid-table"
+    role="grid"
+    [attr.aria-label]="label() || null"
+    [attr.aria-rowcount]="loading() && !rows.length ? -1 : engine.total() + 1"
+    [attr.aria-colcount]="engine.colCount()"
+    [attr.aria-multiselectable]="selection() === 'multiple' || null"
+    [attr.aria-busy]="loading() || null"
+    [style.inline-size.px]="engine.width()"
+    (keydown)="onKeydown($event)"
+    (focusin)="onFocusIn($event)"
+  >
+    <colgroup>
+      @if (selectable()) {
+        <col class="nui-grid-col-select" [style.inline-size.px]="44" />
+      }
+      @for (column of layout; track column.id) {
+        <col [style.inline-size.px]="column.width" />
+      }
+    </colgroup>
+
+    <thead #head>
+      <tr role="row" aria-rowindex="1">
+        @if (selectable()) {
+          <th
+            role="columnheader"
+            class="nui-grid-select"
+            aria-colindex="1"
+            data-row="-1"
+            data-col="0"
+            data-pinned="start"
+            [tabindex]="tab(-1, 0)"
+          >
+            @if (selection() === 'multiple') {
+              <input
+                type="checkbox"
+                tabindex="-1"
+                [checked]="engine.allSelected()"
+                [indeterminate]="engine.someSelected()"
+                [attr.aria-label]="t.selectAll"
+                (click)="$event.stopPropagation(); engine.toggleAll()"
+              />
+            } @else {
+              <span class="nui-grid-hidden">{{ t.selectRow }}</span>
+            }
+          </th>
+        }
+        @for (column of layout; track column.id; let c = $index) {
+          <th
+            role="columnheader"
+            class="nui-grid-header"
+            data-row="-1"
+            [attr.data-col]="lead + c"
+            [attr.data-column]="column.id"
+            [attr.aria-colindex]="lead + c + 1"
+            [attr.aria-sort]="ariaSort(column)"
+            [attr.aria-labelledby]="headerId(column.id)"
+            [attr.data-align]="column.align"
+            [attr.data-pinned]="column.pinned"
+            [attr.data-edge]="column.edge || null"
+            [attr.data-sortable]="column.column.sortable !== false || null"
+            [attr.data-drop]="drop()?.id === column.id ? drop()!.side : null"
+            [style.--_offset.px]="column.pinned ? column.offset : null"
+            [tabindex]="tab(-1, lead + c)"
+            (click)="onHeaderClick(column, $event)"
+            (pointerdown)="onHeaderPointerDown(column, $event)"
+          >
+            <span class="nui-grid-header-label" [id]="headerId(column.id)">
+              @if (headerTemplates().get(column.id); as template) {
+                <ng-container *ngTemplateOutlet="template; context: { $implicit: column.column }" />
+              } @else {
+                {{ column.column.header }}
+              }
+            </span>
+            @if (column.sort; as sort) {
+              <span class="nui-grid-sort" aria-hidden="true" [attr.data-direction]="sort.direction">
+                @if (engine.sort().length > 1) {
+                  {{ sort.priority }}
+                }
+              </span>
+            }
+            @if (column.filtered) {
+              <span class="nui-grid-filtered" aria-hidden="true"></span>
+            }
+            <button
+              type="button"
+              class="nui-grid-menu-button"
+              tabindex="-1"
+              aria-haspopup="dialog"
+              [attr.aria-expanded]="panel.open() && panelColumn() === column.id"
+              [attr.aria-label]="t.columnOptions(column.column.header)"
+              (click)="openPanel(column.id, $event)"
+            ></button>
+            @if (column.column.resizable !== false) {
+              <span
+                class="nui-grid-resize"
+                aria-hidden="true"
+                (pointerdown)="startResize(column, $event)"
+                (dblclick)="fit(column.id)"
+              ></span>
+            }
+          </th>
+        }
+      </tr>
+    </thead>
+
+    <tbody>
+      @if (loading() && !rows.length) {
+        <!-- Placeholders while the first rows load; the progress bar speaks for them. -->
+        @for (i of [0, 1, 2, 3, 4]; track i) {
+          <tr class="nui-grid-row" aria-hidden="true">
+            @for (c of skeleton(); track c) {
+              <td class="nui-grid-cell"><span class="nui-skeleton"></span></td>
+            }
+          </tr>
+        }
+      } @else if (!rows.length) {
+        <tr role="row" aria-rowindex="2">
+          <td role="gridcell" class="nui-grid-empty" [attr.colspan]="engine.colCount()">
+            @if (emptyDef(); as empty) {
+              <ng-container
+                *ngTemplateOutlet="empty.template; context: { $implicit: filtered() }"
+              />
+            } @else if (filtered()) {
+              {{ t.noMatches }}
+              <button type="button" class="nui-grid-clear" (click)="clearFilters()">
+                {{ t.clearFilters }}
+              </button>
+            } @else {
+              {{ t.empty }}
+            }
+          </td>
+        </tr>
+      }
+      @for (item of items(); track item.key) {
+        @if ('gap' in item) {
+          <tr class="nui-grid-gap" aria-hidden="true">
+            <td [attr.colspan]="engine.colCount()" [style.block-size.px]="item.gap"></td>
+          </tr>
+        } @else {
+          @let row = item.row;
+          @let r = item.index;
+          @let selected = selectable() && engine.isSelected(row);
+          <tr
+            role="row"
+            class="nui-grid-row"
+            [attr.data-index]="r"
+            [attr.aria-rowindex]="engine.firstIndex() + r + 2"
+            [attr.aria-selected]="selectable() ? selected : null"
+            (click)="onRowClick(row, $event)"
+          >
+            @if (selectable()) {
+              <td
+                role="gridcell"
+                class="nui-grid-select"
+                aria-colindex="1"
+                data-col="0"
+                data-pinned="start"
+                [attr.data-row]="r"
+                [tabindex]="tab(r, 0)"
+              >
+                <input
+                  type="checkbox"
+                  tabindex="-1"
+                  [checked]="selected"
+                  [attr.aria-label]="t.selectRow"
+                  (click)="onCheck(row, $event)"
+                />
+              </td>
+            }
+            @for (column of layout; track column.id; let c = $index) {
+              <td
+                role="gridcell"
+                class="nui-grid-cell"
+                [attr.data-row]="r"
+                [attr.data-col]="lead + c"
+                [attr.data-type]="column.type"
+                [attr.data-align]="column.align"
+                [attr.data-pinned]="column.pinned"
+                [attr.data-edge]="column.edge || null"
+                [attr.aria-colindex]="lead + c + 1"
+                [style.--_offset.px]="column.pinned ? column.offset : null"
+                [tabindex]="tab(r, lead + c)"
+                (dblclick)="onCellDblclick(row, r, lead + c)"
+              >
+                @if (isEditing(row, column.id)) {
+                  @let edit = editing()!;
+                  @if (column.type === 'enum') {
+                    <select
+                      class="nui-grid-editor"
+                      [attr.aria-label]="column.column.header"
+                      (change)="onEditorInput($any($event.target).value)"
+                      (keydown)="onEditorKeydown($event)"
+                      (blur)="onEditorBlur()"
+                    >
+                      @for (option of column.column.options ?? []; track $index) {
+                        <option [value]="$index" [selected]="edit.text === '' + $index">
+                          {{ option.label }}
+                        </option>
+                      }
+                    </select>
+                  } @else {
+                    <input
+                      class="nui-grid-editor"
+                      [type]="column.type === 'date' ? 'date' : 'text'"
+                      [attr.inputmode]="column.type === 'number' ? 'decimal' : null"
+                      [attr.aria-label]="column.column.header"
+                      [attr.aria-invalid]="edit.error ? true : null"
+                      [attr.aria-describedby]="edit.error ? errorId : null"
+                      [value]="edit.text"
+                      (input)="onEditorInput($any($event.target).value)"
+                      (keydown)="onEditorKeydown($event)"
+                      (blur)="onEditorBlur()"
+                    />
+                  }
+                  @if (edit.error) {
+                    <span class="nui-grid-error" [id]="errorId">{{ edit.error }}</span>
+                  }
+                } @else if (cellTemplates().get(column.id); as template) {
+                  <ng-container
+                    *ngTemplateOutlet="
+                      template;
+                      context: {
+                        $implicit: row,
+                        value: engine.value(column.column, row),
+                        text: engine.text(column.column, row),
+                        column: column.column,
+                      }
+                    "
+                  />
+                } @else if (column.type === 'boolean') {
+                  @let value = engine.value(column.column, row);
+                  <span
+                    class="nui-grid-check"
+                    aria-hidden="true"
+                    [attr.data-checked]="value ? '' : null"
+                  ></span>
+                  <span class="nui-grid-hidden">{{ engine.text(column.column, row) }}</span>
+                } @else {
+                  {{ engine.text(column.column, row) }}
+                }
+              </td>
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (engine.paged()) {
+  <div class="nui-grid-pager" role="group" [attr.aria-label]="t.pager">
+    <label class="nui-grid-page-size">
+      {{ t.rowsPerPage }}
+      <select (change)="setPageSize(+$any($event.target).value)">
+        @for (size of sizes(); track size) {
+          <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
+        }
+      </select>
+    </label>
+    <span class="nui-grid-range">{{ pageRange() }}</span>
+    <button
+      type="button"
+      class="nui-grid-page"
+      data-icon="first"
+      [attr.aria-label]="t.firstPage"
+      [disabled]="engine.currentPage() === 0"
+      (click)="goToPage(0)"
+    ></button>
+    <button
+      type="button"
+      class="nui-grid-page"
+      data-icon="previous"
+      [attr.aria-label]="t.previousPage"
+      [disabled]="engine.currentPage() === 0"
+      (click)="goToPage(engine.currentPage() - 1)"
+    ></button>
+    <button
+      type="button"
+      class="nui-grid-page"
+      data-icon="next"
+      [attr.aria-label]="t.nextPage"
+      [disabled]="engine.currentPage() >= engine.pageCount() - 1"
+      (click)="goToPage(engine.currentPage() + 1)"
+    ></button>
+    <button
+      type="button"
+      class="nui-grid-page"
+      data-icon="last"
+      [attr.aria-label]="t.lastPage"
+      [disabled]="engine.currentPage() >= engine.pageCount() - 1"
+      (click)="goToPage(engine.pageCount() - 1)"
+    ></button>
+  </div>
+}
+
+<div
+  nuiPopover
+  #panel="nuiPopover"
+  class="nui-grid-panel"
+  [attr.aria-label]="
+    panelColumn() ? t.columnOptions(engine.byId().get(panelColumn()!)?.header ?? '') : null
+  "
+  (openChange)="onPanelChange($event)"
+>
+  @if (panelColumn(); as id) {
+    <nui-grid-panel
+      [engine]="engine"
+      [columnId]="id"
+      [labels]="t"
+      [locale]="locale()"
+      (fit)="fit(id)"
+      (hide)="hideColumn(id)"
+    />
+  }
+</div>
+
+<div class="nui-grid-hidden" role="status">{{ status() }}</div>
