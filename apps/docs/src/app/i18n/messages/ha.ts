@@ -1543,6 +1543,280 @@ export const messages: Messages = {
           'Cursor na streaming a ɓoye yake daga manhajojin karanta allo, kuma ba ya motsi a yanayin rage motsi.',
         ],
       },
+      calendar: {
+        name: 'Calendar',
+        title: 'Component na kalanda don Angular',
+        summary: 'Ku zaɓi rana ɗaya, kwanaki a jere ko kwanaki da yawa, har ma ta allon madannai.',
+        description:
+          'Kalandar Angular mai sauƙin amfani ga kowa: zaɓin rana ɗaya, kwanaki a jere ko da yawa, min da max, kwanakin da aka hana, watanni kusa da juna da lambobin mako.',
+        apiDescription:
+          'Bayanin API na kalandar Needless UI: yanayin zaɓi na nui-calendar, min, max da kwanakin da aka hana, watanni kusa da juna, da lakabai.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na kalandar Needless UI: grid na kwanaki masu suna, maɓallan kibiya don rana da mako, Page Up da Page Down don wata.',
+        overview: [
+          'Kalandar tana zaɓar rana ɗaya, kwanaki a jere, ko kwanaki da yawa. Ƙimominta kwanan wata ne na ISO zalla, kamar <code>2026-09-25</code>, ba tare da yankin lokaci da zai sauya su ba, don haka suna tafiya kai tsaye zuwa server ko <code>&lt;input type="date"&gt;</code>.',
+          'Makonni suna farawa daga ranar farko ta mako a yankin (locale), kuma sunaye da lambobi suna bin harshensa. <code>min</code>, <code>max</code> da <code>unavailable</code> suna hana wasu kwanaki, <code>months</code> yana nuna watanni da yawa kusa da juna, kuma take yana kai ku ga kallon watanni da shekaru don kwanan wata masu nisa.',
+          'Ana iya isa ga kowace rana da allon madannai, kamar yadda yake a samfurin date picker na WAI-ARIA, kuma sunan kowace rana cikakken kwanan watanta ne.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Ranar isar da kaya',
+            text: 'Ba za a iya zaɓar kwanakin da suka gabaci yau, da waɗanda suka wuce <code>max</code>, da waɗanda <code>unavailable</code> ya hana ba, amma allon madannai yana ratsa su duk da haka.',
+          },
+          stay: {
+            title: 'Kwanaki a jere',
+            text: 'Da <code>selection="range"</code>, zaɓi na farko yana fara jerin, kuma zirin haske yana bin linzami har zuwa zaɓi na biyu. <code>months="2"</code> da <code>weekNumbers</code> suna nuna ƙarin abubuwa a lokaci ɗaya.',
+          },
+          'days-off': {
+            title: 'Kwanaki da yawa',
+            text: 'Da <code>selection="multiple"</code>, kowane zaɓi yana ƙara rana ko yana cire ta. <code>firstDay</code> yana fara mako a wata rana dabam da ta yankin.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Kalanda don zaɓar kwanaki.',
+            members: {
+              selection: 'Kwanaki nawa ne ake iya zaɓa.',
+              value: 'Ranar da aka zaɓa.',
+              values: 'Kwanakin da aka zaɓa, bi da bi.',
+              range: 'Kwanakin da aka zaɓa a jere, har da na farko da na ƙarshe.',
+              month: 'Watan da ake nunawa, ko na farko idan ana nuna da yawa.',
+              view: 'Kwanaki, watanni ko shekaru.',
+              'min, max': 'Rana ta farko da ta ƙarshe da ake iya zaɓa.',
+              unavailable: 'Yana hana wasu kwanaki, kamar ranakun hutu.',
+              months: 'Watanni kusa da juna.',
+              weekNumbers: 'Yana nuna lambobin mako na ISO.',
+              firstDay: 'Ranar farko ta mako, 1 ita ce Litinin. Idan ba a saita ba, ta yankin ce.',
+              locale: 'Yana tsara sunaye da lambobi, kuma yana zaɓar ranar farko ta mako.',
+              labels: 'Kowane rubutu da kalandar ke nunawa ko sanarwa, don fassarawa.',
+              picked: 'Yana fitar da kowane zaɓi: rana ɗaya, ko kwanaki a jere idan an kammala.',
+              focusDate: 'Yana kai focus na allon madannai kan wata rana, kuma yana nuna watanta.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Kwanaki a jere.',
+            members: { 'start, end': 'Rana ta farko da ta ƙarshe, duka biyun a ciki.' },
+          },
+        },
+        keyboard: [
+          [
+            'Kibiyar hagu da ta dama',
+            'Suna zuwa rana ta baya ko ta gaba. Suna juyawa a rubutu daga dama zuwa hagu.',
+          ],
+          ['Kibiyar sama da ta ƙasa', 'Suna zuwa mako na baya ko na gaba.'],
+          ['Home da End', 'Suna zuwa rana ta farko ko ta ƙarshe a mako.'],
+          ['Page Up da Page Down', 'Suna zuwa wata na baya ko na gaba; da Shift, shekara.'],
+          ['Enter ko Space', 'Yana zaɓar ranar, ko yana buɗe wata ko shekara.'],
+          [
+            'Escape',
+            'Yana soke zaɓin farko na kwanaki a jere, ko yana komawa kallon da ya fi dalla-dalla.',
+          ],
+        ],
+        notes: [
+          'Kowane wata <code>grid</code> ne mai suna daga takensa, kuma cikakkun sunayen ranakun mako suna cikin <code>abbr</code>.',
+          'Sunan kowace rana cikakken kwanan watanta ne, tare da “Today”, “unavailable” da farko ko ƙarshen kwanaki a jere. <code>aria-selected</code> yana nuna abin da aka zaɓa, <code>aria-disabled</code> kuma abin da ba za a iya zaɓa ba.',
+          'Grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab, tare da <code>tabindex</code> mai yawo. Maɓallan baya da gaba suna sanar da sabon watan.',
+        ],
+      },
+      'date-picker': {
+        name: 'Date picker',
+        title: 'Components na zaɓar kwanan wata da lokaci don Angular',
+        summary: 'Ku rubuta kwanan wata ko lokaci sashe-sashe, ko ku zaɓe shi a kalanda.',
+        description:
+          'Masu zaɓar kwanan wata, lokaci da kwanaki a jere na Angular masu sauƙin amfani ga kowa: sassa bisa tsarin yanki, kalanda a popover, presets da aiki da fom.',
+        apiDescription:
+          'Bayanin API na masu zaɓar kwanan wata na Needless UI: nui-date-field, nui-time-field, nui-date-picker da nui-date-range-picker, tare da presets.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na masu zaɓar kwanan wata na Needless UI: spinbutton ga kowane sashe na kwanan wata, da kalanda a cikin dialog.',
+        overview: [
+          'Ana rubuta filayen kwanan wata da lokaci sashe-sashe: rana, wata da shekara bisa tsarin yankin, sannan sa’o’i da mintuna a agogon sa’o’i 12 ko 24 na yankin. Kowane sashe spinbutton ne: ku rubuta lambobi, focus zai wuce zuwa sashe na gaba da kansa, ko ku canza ƙimar sashen da maɓallan kibiya. Ku liƙa cikakken kwanan wata, kuma kowane sashe zai cika.',
+          'Masu zaɓa suna ƙara kalanda a cikin popover, don kwanan wata ɗaya ko kwanaki a jere tare da presets. Ƙimomi rubutun ISO ne zalla, kamar <code>2026-09-25</code> ko <code>2026-09-25T09:30</code>, kuma kowane fili yana aiki da Signal Forms, reactive forms da <code>ngModel</code>.',
+          'A wannan gidan yanar gizo, misalai suna bin harshen shafin: ku sauya shi don ganin yadda tsari, alamomin rabewa da lambobi ke canzawa.',
+        ],
+        examples: {
+          fields: {
+            title: 'Filayen kwanan wata da lokaci',
+            text: 'Ku rubuta lambobin, ko ku yi amfani da maɓallan kibiya. Danna Backspace karo na biyu yana komawa sashe na baya. <code>minuteStep</code> yana saita yawan mintunan da kibiyoyi ke motsawa.',
+          },
+          pickers: {
+            title: 'Masu zaɓar kwanan wata',
+            text: 'Maɓallin yana buɗe kalanda a kan ranar da aka zaɓa, kuma zaɓa yana rufe ta. Da <code>granularity="minute"</code>, mai zaɓar yana karɓar lokaci ma, kuma kalandar tana canza kwanan wata kawai.',
+          },
+          range: {
+            title: 'Tsakanin kwanan wata biyu',
+            text: 'Filaye biyu da kalanda mai watanni biyu. <code>nuiDateRangePresets()</code> yana ƙara kwanaki a jere da aka saba amfani da su; ƙimar tana zama null har sai an saita farko da ƙarshe a tsarin da ya dace.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Kwanan wata, ko kwanan wata da lokaci, da ake rubutawa sashe-sashe.',
+            members: {
+              value: 'Ƙimar, ko null har sai kowane sashe ya cika.',
+              granularity: 'Yana tsayawa a rana, ko yana ci gaba zuwa sa’a, minti ko daƙiƙa.',
+              'min, max':
+                'Ƙima ta farko da ta ƙarshe da aka yarda da su. A wajensu, filin ba shi da inganci.',
+              placeholder:
+                'Inda sassan da babu komai ke farawa idan aka yi amfani da maɓallan kibiya.',
+              hourCycle: 'Agogon sa’o’i 12 ko 24. Idan ba a saita ba, na yankin ne.',
+              minuteStep: 'Yawan mintunan da maɓallan kibiya ke motsawa.',
+              'disabled, readonly': 'Suna hana canje-canje.',
+              locale: 'Yana saita tsari, alamomin rabewa, lambobi da agogo.',
+              labels: 'Kowane rubutu da filin ke faɗa, don fassarawa.',
+              invalid: 'Ko ƙimar tana wajen <code>min</code> da <code>max</code>.',
+              focus: 'Yana kai focus kan sashe na farko da babu komai a ciki.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Lokaci na rana da ake rubutawa sashe-sashe. Yana karɓar inputs iri ɗaya da filin kwanan wata.',
+            members: { granularity: 'Yana tsayawa a sa’a, minti ko daƙiƙa.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Filin kwanan wata mai kalanda a cikin popover. Yana karɓar inputs na filin kwanan wata, da waɗannan.',
+            members: {
+              unavailable: 'Kwanakin da kalandar ba za ta bari a zaɓa ba.',
+              'firstDay, weekNumbers': 'Ana miƙa su ga kalandar.',
+              labels: 'Rubutun filin, na maɓallin da na kalandar.',
+              show: 'Yana buɗe kalandar.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Filayen kwanan wata biyu masu kalanda ta kwanaki a jere. Yana karɓar inputs na mai zaɓar kwanan wata, da waɗannan.',
+            members: {
+              value:
+                'Kwanakin a jere, ko null har sai an saita farko da ƙarshe a tsarin da ya dace.',
+              presets: 'Kwanaki a jere masu suna, da ake zaɓa da danna ɗaya.',
+              months: 'Watanni kusa da juna a cikin kalandar.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Kwanaki a jere masu suna, tsayayyu ko waɗanda ake samarwa lokacin zaɓa.',
+            members: {
+              label: 'Sunansa.',
+              range: 'Kwanakin a jere, ko function da ke samar da su.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Lambobi',
+            'Suna shiga sashen. Focus yana wucewa zuwa na gaba da zarar babu wata lamba da za ta iya biyowa.',
+          ],
+          [
+            'Kibiyar sama da ta ƙasa',
+            'Suna canza sashen mataki-mataki; Page Up da Page Down suna tafiya fiye da haka.',
+          ],
+          ['Kibiyar hagu da ta dama, Tab', 'Suna zuwa sashe na baya ko na gaba.'],
+          ['Backspace', 'Yana share sashen, sannan yana komawa na baya.'],
+          ['A da P', 'Suna saita AM ko PM.'],
+        ],
+        notes: [
+          'Fili <code>group</code> ne: ku ba shi suna da <code>aria-label</code> ko <code>aria-labelledby</code>. Kowane sashe <code>spinbutton</code> ne mai sunan ɓangarensa, wanda ke karanta watanni da sunayensu, da sassan da babu komai a matsayin “Empty”.',
+          'Sassan rubutu ne da ake iya gyarawa, don haka allon madannai na taɓawa yana buɗewa da lambobi.',
+          'Sunan maɓallin mai zaɓar kwanan wata “Choose a date” ne, kuma popover ɗinsa <code>dialog</code> ne. Zaɓar kwanan wata yana mayar da focus kan maɓallin.',
+          'Kalandar da ke ciki tana aiki kamar yadda <a href="/components/calendar">kalanda</a> ke yi.',
+        ],
+      },
+      scheduler: {
+        name: 'Scheduler',
+        title: 'Component na jadawali don Angular',
+        summary: 'Events a cikin wata, mako, rana ko ajanda, waɗanda ake ja zuwa wurinsu.',
+        description:
+          'Jadawalin Angular mai sauƙin amfani ga kowa: kallon wata, mako, rana da ajanda, events masu haɗuwa gefe da gefe, ja da sauya tsawo, da iko da allon madannai.',
+        apiDescription:
+          'Bayanin API na jadawalin Needless UI: kallo na nui-scheduler, events, gyarawa da zaɓi, outputs ɗinsa, da template na events.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na jadawalin Needless UI: grids na kwanaki da lokuta, events masu suna, da madadin allon madannai ga kowane ja.',
+        overview: [
+          'Jadawalin yana nuna events a wata, mako, rana ko ajanda. Events bayanai ne zalla masu lokutan ISO; waɗanda suka haɗu suna raba faɗin, events da suka ƙetare tsakar dare suna bayyana a kwanakin biyu, kuma events na duk yini suna tafiya a sama a matsayin zirare.',
+          'Ba ya taɓa canza events ɗinku da kansa. Ku ja event, ko gefensa na ƙasa, sai <code>eventChange</code> ya ba da rahoton sabbin lokutan; ku zaɓi lokaci a kan grid, sai <code>slotSelect</code> ya ba da rahotonsa. <code>rangeChange</code> yana gaya muku kwanakin da ake nunawa, don ku ɗauko events ɗinsu.',
+          'Duk abin da linzami ke yi, allon madannai ma yana yi: grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab, maɓallan kibiya suna ratsa kwanaki da lokuta, kuma Alt tare da kibiyoyi yana matsar da event.',
+        ],
+        examples: {
+          planner: {
+            title: 'Mako don tsarawa',
+            text: 'Da <code>editable</code> da <code>selectable</code>, ku ja events don matsar da su, ku ja gefensu na ƙasa don sauya tsawonsu, kuma ku ja a kan lokacin da babu komai don ƙara sabo. Misalin yana sabunta events ɗinsa daga outputs.',
+          },
+          month: {
+            title: 'Wata da ajanda',
+            text: 'Events da suka ratsa kwanaki suna tafiya a matsayin zirare; rana mai cunkoso tana nuna yawan sauran events ɗinta. <code>views</code> yana ba da wata kawai da ajandar kwanaki <code>agendaDays</code> masu zuwa.',
+          },
+          rooms: {
+            title: 'Ɗakunan taro a rana ɗaya',
+            text: '<code>nuiSchedulerEvent</code> yana zana kowace ajiyar wuri tare da ɗakinta da mai shirya ta. <code>slotMinutes="15"</code> yana sa layuka su fi siriri.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Events a wata, mako, rana ko ajanda.',
+            members: {
+              events: 'Events da za a nuna.',
+              view: 'Kallon da ake nunawa.',
+              views: 'Nau’o’in kallo da mutane za su iya sauyawa a tsakaninsu.',
+              date: 'Ranar da ake nunawa, da inda focus na allon madannai yake.',
+              slotMinutes:
+                'Mintunan kowane layi a grid na lokaci, da matakin da events ke matsawa da shi.',
+              scrollHour: 'Sa’ar da grid na lokaci ke buɗewa a kanta.',
+              agendaDays: 'Kwanakin da ajanda ke dubawa a gaba.',
+              editable: 'Ana iya matsar da events da sauya tsawonsu, da linzami da allon madannai.',
+              selectable: 'Ana iya zaɓar lokaci a kan grid, don ƙirƙirar events.',
+              firstDay: 'Ranar farko ta mako, 1 ita ce Litinin. Idan ba a saita ba, ta yankin ce.',
+              headingLevel: 'Matakin heading na take; kwanakin ajanda suna sauka mataki ɗaya.',
+              locale: 'Yana tsara kwanaki da lokuta.',
+              labels: 'Kowane rubutu da jadawalin ke nunawa ko sanarwa, don fassarawa.',
+              eventClick: 'Yana fitar da event da aka danna, ko aka buɗe da Enter.',
+              eventChange:
+                'Yana fitar da sabbin lokutan event bayan an matsar da shi ko an sauya tsawonsa.',
+              slotSelect: 'Yana fitar da lokacin da aka zaɓa a kan grid.',
+              rangeChange: 'Yana fitar da rana ta farko da ta ƙarshe da ake nunawa idan sun canza.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Event ɗaya. Ƙarshen event mai lokaci ba ya ciki; ƙarshen event na duk yini shi ne ranarsa ta ƙarshe.',
+            members: {
+              'id, title': 'Key ɗinsa, da abin da yake nunawa.',
+              'start, end': 'Kwanan wata da lokaci, ko kwanan wata kawai ga events na duk yini.',
+              allDay: 'Idan ba a saita ba, ko <code>start</code> ba shi da lokaci.',
+              tone: 'Launinsa.',
+              editable: 'Ko ana iya matsar da shi, ko mene ne jadawalin ya ce.',
+              data: 'Duk wani abu da za a ajiye tare da shi.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary:
+              'Yana zana events. Context ɗin yana ɗauke da event ɗin da lokacinsa a matsayin rubutu.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Maɓallan kibiya',
+            'Suna matsawa rana ɗaya ko slot ɗaya. Hagu da dama suna juyawa a rubutu daga dama zuwa hagu.',
+          ],
+          ['Page Up da Page Down', 'Suna zuwa wata, mako ko rana ta baya ko ta gaba.'],
+          ['Shift + maɓallan kibiya', 'Suna faɗaɗa lokacin da aka zaɓa.'],
+          ['Enter ko Space a kan cell', 'Yana shiga events ɗinsa, ko yana zaɓar lokacinsa.'],
+          [
+            'Kibiyar sama da ta ƙasa a kan event',
+            'Suna zuwa event na baya ko na gaba a cikin cell ɗin.',
+          ],
+          ['Alt + maɓallan kibiya a kan event', 'Suna matsar da shi da slot ɗaya ko rana ɗaya.'],
+          ['Alt + Shift + kibiyar sama ko ta ƙasa', 'Suna rage ko ƙara tsawon event ɗin.'],
+          [
+            'Escape',
+            'Yana komawa cell ɗin, yana watsar da lokacin da aka zaɓa, ko yana soke jan da ake yi.',
+          ],
+        ],
+        notes: [
+          'Wata, mako da rana <code>grid</code> ne, kowanne da suna daga takensa. Kwanaki ne taken ginshiƙai, lokuta kuma taken layuka, don haka ana karanta kowane cell tare da ranarsa da lokacinsa.',
+          'Kowane event maɓalli ne mai suna daga takensa, ranarsa da lokacinsa, kamar “Standup, Friday, September 25, 9:00 – 9:30 AM”. Matsarwa ko sauya tsawo yana sanar da sabon lokacin.',
+          'Duk abin da ake yi da ja yana da madadi a allon madannai, don haka babu wanda ke buƙatar linzami.',
+          'Nau’o’in kallo maɓallan toggle ne a cikin rukuni, kuma zuwa wani mako ko wata yana sanar da takensa.',
+        ],
+      },
     },
   },
 

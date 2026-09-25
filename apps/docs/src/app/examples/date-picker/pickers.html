@@ -1,0 +1,19 @@
+<div class="field">
+  <label id="departure">Departure</label>
+  <nui-date-picker
+    aria-labelledby="departure"
+    [(value)]="departure"
+    [min]="today"
+    [max]="lastDay"
+  />
+</div>
+<div class="field">
+  <label id="meeting">Meeting</label>
+  <nui-date-picker
+    aria-labelledby="meeting"
+    [(value)]="meeting"
+    granularity="minute"
+    minuteStep="15"
+  />
+</div>
+<p>Departure: {{ departure() ?? 'not set' }} · Meeting: {{ meeting() ?? 'not set' }}</p>

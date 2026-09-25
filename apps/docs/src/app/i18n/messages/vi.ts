@@ -1504,6 +1504,266 @@ export const messages: Messages = {
           'Con trỏ khi stream được ẩn khỏi trình đọc màn hình, và đứng yên khi giảm chuyển động.',
         ],
       },
+      calendar: {
+        name: 'Lịch',
+        title: 'Component lịch cho Angular',
+        summary: 'Chọn một ngày, một khoảng hoặc nhiều ngày, kể cả bằng bàn phím.',
+        description:
+          'Lịch Angular hỗ trợ tiếp cận: chọn một ngày, một khoảng hoặc nhiều ngày, có min và max, ngày không khả dụng, nhiều tháng cạnh nhau và số tuần.',
+        apiDescription:
+          'Tài liệu API về lịch của Needless UI: các chế độ chọn của nui-calendar, min, max và ngày không khả dụng, nhiều tháng cạnh nhau và nhãn.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của lịch Needless UI: lưới các ngày có tên, phím mũi tên theo ngày và tuần, Page Up và Page Down theo tháng.',
+        overview: [
+          'Lịch cho phép chọn một ngày, một khoảng ngày hoặc nhiều ngày. Giá trị là ngày ISO thuần, chẳng hạn <code>2026-09-25</code>, không kèm múi giờ nào có thể làm lệch chúng, nên có thể gửi thẳng lên máy chủ hoặc vào một <code>&lt;input type="date"&gt;</code>.',
+          'Tuần bắt đầu vào ngày đầu tuần theo locale, còn tên và chữ số hiển thị theo ngôn ngữ của locale đó. <code>min</code>, <code>max</code> và <code>unavailable</code> loại trừ các ngày, <code>months</code> hiển thị nhiều tháng cạnh nhau, và tiêu đề cho phép thu nhỏ ra tháng và năm để đến nhanh những ngày ở xa.',
+          'Mọi ngày đều đến được bằng bàn phím, như trong mẫu date picker của WAI-ARIA, và mỗi ngày được đặt tên bằng ngày tháng đầy đủ của nó.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Ngày giao hàng',
+            text: 'Những ngày trước hôm nay, sau <code>max</code> hoặc bị <code>unavailable</code> loại trừ thì không chọn được, nhưng bàn phím vẫn đi qua chúng.',
+          },
+          stay: {
+            title: 'Một khoảng ngày',
+            text: 'Với <code>selection="range"</code>, lần chọn đầu tiên bắt đầu khoảng ngày và dải tô sáng đi theo con trỏ cho đến lần chọn thứ hai. <code>months="2"</code> và <code>weekNumbers</code> hiển thị nhiều hơn cùng lúc.',
+          },
+          'days-off': {
+            title: 'Nhiều ngày',
+            text: 'Với <code>selection="multiple"</code>, mỗi lần chọn sẽ thêm hoặc bỏ một ngày. <code>firstDay</code> cho tuần bắt đầu vào một ngày khác với ngày đầu tuần của locale.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Một lịch để chọn ngày.',
+            members: {
+              selection: 'Có thể chọn bao nhiêu ngày.',
+              value: 'Ngày được chọn.',
+              values: 'Các ngày được chọn, theo thứ tự.',
+              range: 'Khoảng ngày được chọn, bao gồm cả hai đầu.',
+              month: 'Tháng đang hiển thị; là tháng đầu tiên nếu hiển thị nhiều tháng.',
+              view: 'Ngày, tháng hoặc năm.',
+              'min, max': 'Ngày đầu tiên và cuối cùng có thể chọn.',
+              unavailable: 'Loại trừ các ngày khác, chẳng hạn ngày lễ.',
+              months: 'Số tháng hiển thị cạnh nhau.',
+              weekNumbers: 'Hiển thị số tuần ISO.',
+              firstDay: 'Ngày đầu tuần, 1 là thứ Hai. Mặc định theo locale.',
+              locale: 'Định dạng tên và chữ số, và chọn ngày đầu tuần.',
+              labels: 'Mọi văn bản mà lịch hiển thị hoặc đọc lên, để dịch.',
+              picked: 'Phát ra mỗi lựa chọn: một ngày, hoặc một khoảng ngày khi đã hoàn tất.',
+              focusDate: 'Chuyển focus bàn phím tới một ngày và hiển thị tháng của ngày đó.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Một khoảng ngày.',
+            members: { 'start, end': 'Ngày đầu tiên và cuối cùng, bao gồm cả hai.' },
+          },
+        },
+        keyboard: [
+          [
+            'Mũi tên trái và phải',
+            'Ngày trước hoặc ngày sau. Đảo ngược với văn bản viết từ phải sang trái.',
+          ],
+          ['Mũi tên lên và xuống', 'Tuần trước hoặc tuần sau.'],
+          ['Home và End', 'Ngày đầu tiên hoặc cuối cùng của tuần.'],
+          ['Page Up và Page Down', 'Tháng trước hoặc tháng sau; kèm Shift thì là năm.'],
+          ['Enter hoặc Phím cách', 'Chọn ngày, hoặc phóng to vào tháng hay năm.'],
+          ['Esc', 'Bỏ điểm đầu tiên đã chọn của khoảng ngày, hoặc phóng to trở lại.'],
+        ],
+        notes: [
+          'Mỗi tháng là một <code>grid</code> được đặt tên theo tiêu đề của nó, với tên đầy đủ của các ngày trong tuần nằm trong <code>abbr</code>.',
+          'Mỗi ngày được đặt tên bằng ngày tháng đầy đủ, kèm thêm “Today”, “unavailable” và hai đầu của khoảng ngày. <code>aria-selected</code> đánh dấu những gì đã chọn, còn <code>aria-disabled</code> đánh dấu những gì không chọn được.',
+          'Lưới chỉ chiếm một điểm dừng Tab, với roving <code>tabindex</code>. Nút tháng trước và tháng sau đọc lên tháng mới.',
+        ],
+      },
+      'date-picker': {
+        name: 'Bộ chọn ngày',
+        title: 'Component bộ chọn ngày và giờ cho Angular',
+        summary: 'Gõ ngày hoặc giờ theo từng phân đoạn, hoặc chọn trên lịch.',
+        description:
+          'Bộ chọn ngày, giờ và khoảng ngày Angular hỗ trợ tiếp cận: gõ theo phân đoạn đúng thứ tự của locale, lịch trong popover, preset và hỗ trợ form.',
+        apiDescription:
+          'Tài liệu API về bộ chọn ngày của Needless UI: nui-date-field, nui-time-field, nui-date-picker và nui-date-range-picker, kèm preset.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của bộ chọn ngày Needless UI: một spinbutton cho mỗi phần của ngày tháng, và lịch trong một hộp thoại.',
+        overview: [
+          'Ô ngày và giờ được gõ theo từng phân đoạn: ngày, tháng và năm theo thứ tự của locale, rồi giờ và phút theo đồng hồ 12 hoặc 24 giờ của locale đó. Mỗi phân đoạn là một spinbutton: gõ chữ số và nó tự chuyển tiếp, hoặc tăng giảm bằng phím mũi tên. Dán cả một ngày vào, mọi phân đoạn sẽ được điền.',
+          'Các bộ chọn thêm một lịch trong popover, cho một ngày hoặc một khoảng ngày kèm preset. Giá trị là chuỗi ISO thuần, chẳng hạn <code>2026-09-25</code> hoặc <code>2026-09-25T09:30</code>, và mọi ô đều dùng được với Signal Forms, reactive forms và <code>ngModel</code>.',
+          'Trên trang này, các ví dụ theo ngôn ngữ của trang: hãy đổi ngôn ngữ để xem thứ tự, dấu phân cách và chữ số thay đổi.',
+        ],
+        examples: {
+          fields: {
+            title: 'Ô ngày và giờ',
+            text: 'Gõ các chữ số, hoặc dùng phím mũi tên. Nhấn Backspace lần thứ hai sẽ lùi về phân đoạn trước. <code>minuteStep</code> đặt mức mà phím mũi tên thay đổi số phút.',
+          },
+          pickers: {
+            title: 'Bộ chọn ngày',
+            text: 'Nút mở lịch tại ngày đã chọn, và chọn một ngày sẽ đóng lịch. Với <code>granularity="minute"</code>, bộ chọn nhận cả giờ, còn lịch chỉ thay đổi ngày.',
+          },
+          range: {
+            title: 'Khoảng ngày',
+            text: 'Hai ô nhập và một lịch hai tháng. <code>nuiDateRangePresets()</code> thêm các khoảng ngày thường dùng; giá trị vẫn là null cho đến khi cả hai đầu được đặt theo đúng thứ tự.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Một ngày, hoặc ngày và giờ, được gõ theo từng phân đoạn.',
+            members: {
+              value: 'Giá trị, hoặc null cho đến khi mọi phân đoạn được điền.',
+              granularity: 'Dừng ở ngày, hoặc tiếp tục tới giờ, phút hoặc giây.',
+              'min, max': 'Giá trị sớm nhất và muộn nhất. Ngoài khoảng đó, ô nhập không hợp lệ.',
+              placeholder: 'Giá trị mà phân đoạn trống bắt đầu từ đó khi dùng phím mũi tên.',
+              hourCycle: 'Đồng hồ 12 hoặc 24 giờ. Mặc định theo locale.',
+              minuteStep: 'Mức phím mũi tên thay đổi số phút.',
+              'disabled, readonly': 'Ngăn thay đổi.',
+              locale: 'Đặt thứ tự, dấu phân cách, chữ số và kiểu đồng hồ.',
+              labels: 'Mọi văn bản mà ô nhập đọc lên, để dịch.',
+              invalid: 'Giá trị có nằm ngoài <code>min</code> và <code>max</code> hay không.',
+              focus: 'Chuyển focus vào phân đoạn trống đầu tiên.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Một thời điểm trong ngày được gõ theo từng phân đoạn. Nhận cùng các input như ô ngày.',
+            members: { granularity: 'Dừng ở giờ, phút hoặc giây.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Một ô ngày có lịch trong popover. Nhận các input của ô ngày, và thêm các input sau.',
+            members: {
+              unavailable: 'Những ngày lịch không cho chọn.',
+              'firstDay, weekNumbers': 'Được truyền cho lịch.',
+              labels: 'Văn bản của ô nhập, nút và lịch.',
+              show: 'Mở lịch.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Hai ô ngày với một lịch chọn khoảng ngày. Nhận các input của bộ chọn ngày, và thêm các input sau.',
+            members: {
+              value: 'Khoảng ngày, hoặc null cho đến khi cả hai đầu được đặt theo đúng thứ tự.',
+              presets: 'Các khoảng ngày có tên, chọn bằng một cú nhấp.',
+              months: 'Số tháng hiển thị cạnh nhau trong lịch.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Một khoảng ngày có tên, cố định hoặc được tạo ra khi chọn.',
+            members: {
+              label: 'Tên của nó.',
+              range: 'Khoảng ngày, hoặc một hàm tạo ra nó.',
+            },
+          },
+        },
+        keyboard: [
+          ['Chữ số', 'Gõ vào phân đoạn. Tự chuyển tiếp khi không còn chữ số nào có thể theo sau.'],
+          [
+            'Mũi tên lên và xuống',
+            'Tăng giảm phân đoạn; Page Up và Page Down tăng giảm nhiều hơn.',
+          ],
+          ['Mũi tên trái và phải, Tab', 'Phân đoạn trước hoặc sau.'],
+          ['Backspace', 'Xóa phân đoạn, rồi lùi về phân đoạn trước.'],
+          ['A và P', 'Đặt AM hoặc PM.'],
+        ],
+        notes: [
+          'Mỗi ô nhập là một <code>group</code>: hãy đặt tên cho nó bằng <code>aria-label</code> hoặc <code>aria-labelledby</code>. Mỗi phân đoạn là một <code>spinbutton</code> được đặt tên theo phần của nó, đọc tháng bằng tên và phân đoạn trống là “Empty”.',
+          'Phân đoạn là văn bản có thể chỉnh sửa, nên bàn phím cảm ứng mở ở chế độ chữ số.',
+          'Nút của bộ chọn có tên “Choose a date”, và popover của nó là một <code>dialog</code>. Chọn một ngày sẽ trả focus về nút.',
+          'Lịch bên trong hoạt động giống như component <a href="/components/calendar">lịch</a>.',
+        ],
+      },
+      scheduler: {
+        name: 'Bộ lập lịch',
+        title: 'Component bộ lập lịch cho Angular',
+        summary: 'Xem sự kiện theo tháng, tuần, ngày hoặc lịch biểu, và kéo chúng vào đúng chỗ.',
+        description:
+          'Bộ lập lịch Angular hỗ trợ tiếp cận: tháng, tuần, ngày và lịch biểu, sự kiện trùng giờ nằm cạnh nhau, kéo để dời và đổi độ dài, dùng hoàn toàn bằng bàn phím.',
+        apiDescription:
+          'Tài liệu API về bộ lập lịch của Needless UI: chế độ xem, sự kiện, chỉnh sửa và chọn của nui-scheduler, các output và template cho sự kiện.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của bộ lập lịch Needless UI: lưới ngày và giờ, sự kiện có tên, và thao tác bàn phím thay cho mọi thao tác kéo.',
+        overview: [
+          'Bộ lập lịch hiển thị sự kiện theo tháng, tuần, ngày hoặc dạng lịch biểu. Sự kiện là dữ liệu thuần với thời gian ISO; các sự kiện trùng giờ chia nhau chiều rộng, sự kiện kéo dài qua nửa đêm hiển thị ở cả hai ngày, còn sự kiện cả ngày trải dài ở phía trên dưới dạng thanh ngang.',
+          'Bộ lập lịch không bao giờ tự thay đổi sự kiện của bạn. Kéo một sự kiện, hoặc cạnh dưới của nó, và <code>eventChange</code> sẽ báo thời gian mới; chọn thời gian trên lưới, và <code>slotSelect</code> sẽ báo thời gian đó. <code>rangeChange</code> cho bạn biết những ngày nào đang hiển thị, để bạn tải sự kiện của những ngày đó.',
+          'Mọi thao tác bằng con trỏ đều làm được bằng bàn phím: lưới chỉ chiếm một điểm dừng Tab, phím mũi tên di chuyển qua các ngày và giờ, còn Alt kèm phím mũi tên sẽ di chuyển một sự kiện.',
+        ],
+        examples: {
+          planner: {
+            title: 'Lên kế hoạch cho một tuần',
+            text: 'Với <code>editable</code> và <code>selectable</code>, hãy kéo sự kiện để di chuyển, kéo cạnh dưới để đổi độ dài, và kéo qua khoảng thời gian trống để thêm sự kiện mới. Ví dụ này cập nhật sự kiện của nó từ các output.',
+          },
+          month: {
+            title: 'Một tháng và lịch biểu',
+            text: 'Sự kiện kéo dài nhiều ngày hiển thị dưới dạng thanh; ngày bận rộn cho biết còn bao nhiêu sự kiện nữa. <code>views</code> chỉ cung cấp chế độ xem tháng và lịch biểu cho <code>agendaDays</code> ngày tới.',
+          },
+          rooms: {
+            title: 'Một ngày ở các phòng họp',
+            text: '<code>nuiSchedulerEvent</code> vẽ mỗi lượt đặt chỗ kèm tên phòng và người chủ trì. <code>slotMinutes="15"</code> chia dòng chi tiết hơn.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Sự kiện theo tháng, tuần, ngày hoặc lịch biểu.',
+            members: {
+              events: 'Các sự kiện cần hiển thị.',
+              view: 'Chế độ xem đang hiển thị.',
+              views: 'Các chế độ xem mà người dùng có thể chuyển qua lại.',
+              date: 'Ngày đang hiển thị, cũng là nơi focus bàn phím đang ở.',
+              slotMinutes:
+                'Số phút mỗi dòng của lưới thời gian, cũng là bước di chuyển của sự kiện.',
+              scrollHour: 'Giờ hiển thị khi lưới thời gian mở ra.',
+              agendaDays: 'Số ngày mà lịch biểu xem trước.',
+              editable: 'Sự kiện có thể được di chuyển và đổi độ dài, bằng con trỏ và bàn phím.',
+              selectable: 'Có thể chọn thời gian trên lưới để tạo sự kiện.',
+              firstDay: 'Ngày đầu tuần, 1 là thứ Hai. Mặc định theo locale.',
+              headingLevel: 'Cấp heading của tiêu đề; các ngày trong lịch biểu sâu hơn một cấp.',
+              locale: 'Định dạng ngày và giờ.',
+              labels: 'Mọi văn bản mà bộ lập lịch hiển thị hoặc đọc lên, để dịch.',
+              eventClick: 'Phát ra sự kiện được nhấp, hoặc được mở bằng Enter.',
+              eventChange: 'Phát ra thời gian mới của sự kiện sau khi di chuyển hoặc đổi độ dài.',
+              slotSelect: 'Phát ra thời gian được chọn trên lưới.',
+              rangeChange: 'Phát ra ngày đầu tiên và cuối cùng đang hiển thị khi chúng thay đổi.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Một sự kiện. Điểm kết thúc của sự kiện có giờ không được tính vào; còn sự kiện cả ngày kết thúc vào ngày cuối cùng của nó.',
+            members: {
+              'id, title': 'Khóa của nó, và nội dung nó hiển thị.',
+              'start, end': 'Ngày và giờ, hoặc chỉ ngày với sự kiện cả ngày.',
+              allDay: 'Theo mặc định, là sự kiện cả ngày khi <code>start</code> không có giờ.',
+              tone: 'Màu của nó.',
+              editable: 'Sự kiện có di chuyển được hay không, bất kể bộ lập lịch quy định thế nào.',
+              data: 'Mọi thứ khác cần giữ kèm sự kiện.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Vẽ sự kiện. Context chứa sự kiện và thời gian của nó dưới dạng văn bản.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Phím mũi tên',
+            'Di chuyển theo ngày và theo khung giờ. Đảo ngược với văn bản viết từ phải sang trái.',
+          ],
+          ['Page Up và Page Down', 'Tháng, tuần hoặc ngày trước hay sau.'],
+          ['Shift + phím mũi tên', 'Mở rộng khoảng thời gian đã chọn.'],
+          [
+            'Enter hoặc Phím cách trên một ô',
+            'Đi vào các sự kiện của ô, hoặc chọn thời gian của ô.',
+          ],
+          ['Mũi tên lên và xuống trên một sự kiện', 'Sự kiện trước hoặc sau trong ô.'],
+          ['Alt + phím mũi tên trên một sự kiện', 'Di chuyển sự kiện một khung giờ hoặc một ngày.'],
+          ['Alt + Shift + mũi tên lên hoặc xuống', 'Rút ngắn hoặc kéo dài sự kiện.'],
+          ['Esc', 'Quay lại ô, bỏ thời gian đã chọn, hoặc hủy thao tác kéo.'],
+        ],
+        notes: [
+          'Tháng, tuần và ngày là các <code>grid</code> được đặt tên theo tiêu đề của chúng. Ngày làm tiêu đề cột, giờ làm tiêu đề dòng, nên mỗi ô được đọc kèm ngày và giờ của nó.',
+          'Mỗi sự kiện là một nút được đặt tên theo tiêu đề, ngày và giờ của nó, chẳng hạn “Standup, Friday, September 25, 9:00 – 9:30 AM”. Khi di chuyển hoặc đổi độ dài, thời gian mới sẽ được đọc lên.',
+          'Mọi thao tác kéo đều có cách làm tương đương bằng bàn phím, nên không ai cần đến con trỏ.',
+          'Các chế độ xem là nút bật/tắt trong một nhóm, và khi chuyển sang tuần hoặc tháng khác, tiêu đề mới sẽ được đọc lên.',
+        ],
+      },
     },
   },
 

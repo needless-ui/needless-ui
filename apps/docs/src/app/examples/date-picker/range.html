@@ -1,0 +1,11 @@
+<div class="field">
+  <label id="report">Report period</label>
+  <nui-date-range-picker aria-labelledby="report" [(value)]="report" [presets]="presets" />
+</div>
+<p>
+  @if (report(); as report) {
+    From {{ report.start }} to {{ report.end }}.
+  } @else {
+    Type both dates, pick them in the calendar, or choose a preset.
+  }
+</p>

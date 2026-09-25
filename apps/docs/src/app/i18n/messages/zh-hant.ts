@@ -1426,6 +1426,250 @@ export const messages: Messages = {
           '串流時的游標對螢幕閱讀器隱藏，並在開啟減少動態效果時保持靜止。',
         ],
       },
+      calendar: {
+        name: '日曆',
+        title: 'Angular 日曆元件',
+        summary: '選取單一日期、日期範圍或多個日期，也能用鍵盤操作。',
+        description:
+          '無障礙的 Angular 日曆：可選取單一日期、日期範圍或多個日期，支援最小和最大日期、無法選取的日期、多個月份並排顯示和週數。',
+        apiDescription:
+          'Needless UI 日曆的 API 參考文件：nui-calendar 的選取模式，min、max 和 unavailable 限定的日期，多個月份並排顯示，以及可翻譯的文字。',
+        a11yDescription:
+          'Needless UI 日曆的鍵盤操作與無障礙支援：每天都有名稱的日期網格、按日和按週移動的方向鍵，以及按月翻頁的 Page Up 和 Page Down。',
+        overview: [
+          '日曆可以選取單一日期、日期範圍或多個日期。值是一般的 ISO 日期，例如 <code>2026-09-25</code>，不含會讓日期偏移的時區，因此可以直接傳給伺服器或 <code>&lt;input type="date"&gt;</code>。',
+          '每週從地區設定的第一天開始，月份和星期的名稱以及數字都使用其語言。<code>min</code>、<code>max</code> 和 <code>unavailable</code> 用來排除日期，<code>months</code> 可並排顯示多個月份；要前往較遠的日期時，點選標題即可切換到月份和年份檢視。',
+          '和 WAI-ARIA 的日期選擇器模式一樣，每一天都能用鍵盤到達，並以完整日期命名。',
+        ],
+        examples: {
+          delivery: {
+            title: '送貨日期',
+            text: '今天之前、<code>max</code> 之後或被 <code>unavailable</code> 排除的日期都無法選取，但鍵盤仍會經過這些日期。',
+          },
+          stay: {
+            title: '日期範圍',
+            text: '使用 <code>selection="range"</code> 時，第一次選取會決定範圍的起點，在第二次選取之前，範圍的醒目提示會跟著指標移動。<code>months="2"</code> 和 <code>weekNumbers</code> 可以一次顯示更多內容。',
+          },
+          'days-off': {
+            title: '多個日期',
+            text: '使用 <code>selection="multiple"</code> 時，每次選取都會加入或移除一個日期。<code>firstDay</code> 可以讓一週從地區設定預設以外的另一天開始。',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: '用來選取日期的日曆。',
+            members: {
+              selection: '可以選取多少個日期。',
+              value: '選取的日期。',
+              values: '選取的多個日期，依先後順序排列。',
+              range: '選取的範圍，包含兩端。',
+              month: '顯示的月份；同時顯示多個月份時為第一個。',
+              view: '日、月或年檢視。',
+              'min, max': '可以選取的第一天和最後一天。',
+              unavailable: '排除其他日期，例如國定假日。',
+              months: '並排顯示的月份數。',
+              weekNumbers: '顯示 ISO 週數。',
+              firstDay: '一週的第一天，1 代表星期一。預設依循地區設定。',
+              locale: '用來格式化名稱和數字，並決定一週的第一天。',
+              labels: '日曆顯示或朗讀的所有文字，供翻譯使用。',
+              picked: '每次選取時發出：一個日期，或選好兩端後的範圍。',
+              focusDate: '將鍵盤焦點移到某一天，並顯示它所在的月份。',
+            },
+          },
+          NuiDateRange: {
+            summary: '一段日期範圍。',
+            members: { 'start, end': '第一天和最後一天，兩端都包含在內。' },
+          },
+        },
+        keyboard: [
+          ['向左 / 向右鍵', '移到前一天或後一天。在由右至左的文字中左右方向相反。'],
+          ['向上 / 向下鍵', '移到上一週或下一週。'],
+          ['Home / End', '移到該週的第一天或最後一天。'],
+          ['Page Up / Page Down', '移到上個月或下個月；按住 Shift 鍵時改為上一年或下一年。'],
+          ['Enter 或空白鍵', '選取該日期；在月份或年份檢視中，則進入所選的月份或年份。'],
+          ['Esc', '取消範圍的第一次選取，或回到原本的檢視。'],
+        ],
+        notes: [
+          '每個月都是以標題命名的 <code>grid</code>，星期的完整名稱放在 <code>abbr</code> 中。',
+          '每一天都以完整日期命名，並附加「Today」、「unavailable」和範圍端點等資訊。<code>aria-selected</code> 標示已選取的日期，<code>aria-disabled</code> 標示無法選取的日期。',
+          '網格在 Tab 鍵順序中只佔一個位置，並使用漫遊式 <code>tabindex</code>。前後切換月份的按鈕會朗讀新的月份。',
+        ],
+      },
+      'date-picker': {
+        name: '日期選擇器',
+        title: 'Angular 日期與時間選擇器元件',
+        summary: '分區段輸入日期或時間，或在日曆中選取。',
+        description:
+          '無障礙的 Angular 日期、時間與日期範圍選擇器：依地區設定的順序分區段輸入，提供 Popover 日曆和常用範圍，並支援表單。',
+        apiDescription:
+          'Needless UI 日期選擇器的 API 參考文件：nui-date-field、nui-time-field、nui-date-picker 和 nui-date-range-picker，以及常用範圍。',
+        a11yDescription:
+          'Needless UI 日期選擇器的鍵盤操作與無障礙支援：日期的每個部分都是一個 spinbutton，日曆則位於對話框中。',
+        overview: [
+          '日期和時間欄位採分區段輸入：日、月、年依地區設定的順序排列，接著是依其 12 或 24 小時制顯示的小時和分鐘。每個區段都是一個 spinbutton：輸入數字後會自動跳到下一個區段，也可以用方向鍵逐步調整。貼上完整的日期，所有區段都會自動填好。',
+          '選擇器會在 Popover 中加上日曆，可選取單一日期，或搭配常用範圍選取日期範圍。值是一般的 ISO 字串，例如 <code>2026-09-25</code> 或 <code>2026-09-25T09:30</code>，而且每個欄位都支援 Signal Forms、響應式表單和 <code>ngModel</code>。',
+          '本站的範例會依循頁面的語言：切換語言，就能看到順序、分隔符號和數字跟著改變。',
+        ],
+        examples: {
+          fields: {
+            title: '日期和時間欄位',
+            text: '輸入數字，或使用方向鍵。再按一次 Backspace 會退回上一個區段。<code>minuteStep</code> 設定方向鍵每次調整分鐘的幅度。',
+          },
+          pickers: {
+            title: '日期選擇器',
+            text: '按鈕會開啟日曆並停在所選日期，選取日期後日曆隨即關閉。使用 <code>granularity="minute"</code> 時，選擇器也能輸入時間，而日曆只會變更日期。',
+          },
+          range: {
+            title: '日期範圍',
+            text: '兩個欄位搭配雙月日曆。<code>nuiDateRangePresets()</code> 會加入常用範圍；在依序設定好兩端之前，值都會是 null。',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: '分區段輸入的日期，或日期和時間。',
+            members: {
+              value: '值；在所有區段都填好之前為 null。',
+              granularity: '停在日，或繼續到小時、分鐘或秒。',
+              'min, max': '最早和最晚的值。超出這個範圍時，欄位的值無效。',
+              placeholder: '空白區段用方向鍵調整時的起始值。',
+              hourCycle: '12 或 24 小時制。預設依循地區設定。',
+              minuteStep: '方向鍵每次調整分鐘的幅度。',
+              'disabled, readonly': '禁止變更。',
+              locale: '決定順序、分隔符號、數字和小時制。',
+              labels: '欄位朗讀的所有文字，供翻譯使用。',
+              invalid: '值是否超出 <code>min</code> 和 <code>max</code> 的範圍。',
+              focus: '讓第一個空白區段取得焦點。',
+            },
+          },
+          NuiTimeField: {
+            summary: '分區段輸入的時間。它接受與日期欄位相同的輸入屬性。',
+            members: { granularity: '停在小時、分鐘或秒。' },
+          },
+          NuiDatePicker: {
+            summary: '附有 Popover 日曆的日期欄位。它接受日期欄位的輸入屬性，以及下列屬性。',
+            members: {
+              unavailable: '日曆中無法選取的日期。',
+              'firstDay, weekNumbers': '傳給日曆。',
+              labels: '欄位、按鈕和日曆的文字。',
+              show: '開啟日曆。',
+            },
+          },
+          NuiDateRangePicker: {
+            summary: '兩個日期欄位搭配範圍日曆。它接受日期選擇器的輸入屬性，以及下列屬性。',
+            members: {
+              value: '日期範圍；在依序設定好兩端之前為 null。',
+              presets: '按一下即可選取的具名範圍。',
+              months: '日曆中並排顯示的月份數。',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: '具名範圍，可以是固定的，也可以在選取時才產生。',
+            members: {
+              label: '它的名稱。',
+              range: '範圍，或產生範圍的函式。',
+            },
+          },
+        },
+        keyboard: [
+          ['數字鍵', '在區段中輸入。後面不可能再接其他數字時，會自動跳到下一個區段。'],
+          ['向上 / 向下鍵', '調整區段的值；Page Up / Page Down 的調整幅度更大。'],
+          ['向左 / 向右鍵、Tab', '移到上一個或下一個區段。'],
+          ['Backspace', '清除區段，再按一次則退回上一個區段。'],
+          ['A / P', '設為上午（AM）或下午（PM）。'],
+        ],
+        notes: [
+          '欄位是一個 <code>group</code>：請用 <code>aria-label</code> 或 <code>aria-labelledby</code> 為它命名。每個區段都是以其代表部分命名的 <code>spinbutton</code>，月份會以名稱朗讀，空白區段則朗讀為「Empty」。',
+          '區段是可編輯的文字，因此觸控鍵盤會以數字鍵盤開啟。',
+          '選擇器的按鈕名稱是「Choose a date」，它的 Popover 是一個 <code>dialog</code>。選取日期後，焦點會回到按鈕上。',
+          '其中的日曆與<a href="/components/calendar">日曆</a>的運作方式完全相同。',
+        ],
+      },
+      scheduler: {
+        name: '行事曆',
+        title: 'Angular 行事曆元件',
+        summary: '以月、週、日或活動列表顯示活動，拖曳即可放到合適的位置。',
+        description:
+          '無障礙的 Angular 行事曆：提供月、週、日和活動列表檢視，重疊的活動並排顯示，可拖曳來移動活動及調整時間長度，並支援完整的鍵盤操作。',
+        apiDescription:
+          'Needless UI 行事曆的 API 參考文件：nui-scheduler 的檢視、活動、編輯與選取、輸出屬性，以及活動範本。',
+        a11yDescription:
+          'Needless UI 行事曆的鍵盤操作與無障礙支援：由日期和時間構成的網格、具名的活動，以及能取代每種拖曳的鍵盤操作。',
+        overview: [
+          '行事曆以月、週、日或活動列表顯示活動。活動是帶有 ISO 時間的一般資料；時間重疊的活動會平分寬度，跨越午夜的活動在兩天中都會顯示，全天活動則以橫條的形式橫跨頂端。',
+          '行事曆從不自行變更你的活動。拖曳活動或其底邊時，<code>eventChange</code> 會回報新的時間；在網格上選取時間時，<code>slotSelect</code> 會回報所選的時間。<code>rangeChange</code> 會告訴你目前顯示哪些日期，方便你載入這些日期的活動。',
+          '指標能做的，鍵盤也都能做：網格在 Tab 鍵順序中只佔一個位置，方向鍵可在日期和時間之間移動，Alt 加方向鍵則會移動活動。',
+        ],
+        examples: {
+          planner: {
+            title: '規劃一週',
+            text: '使用 <code>editable</code> 和 <code>selectable</code> 時，拖曳活動即可移動它，拖曳其底邊即可調整時間長度，在空白時段上拖曳即可新增活動。這個範例會依據輸出更新自己的活動。',
+          },
+          month: {
+            title: '月檢視與活動列表',
+            text: '跨越多天的活動會顯示為橫條；活動較多的日子會顯示還有幾個未列出。<code>views</code> 只提供月檢視和未來 <code>agendaDays</code> 天的活動列表。',
+          },
+          rooms: {
+            title: '會議室的一天',
+            text: '<code>nuiSchedulerEvent</code> 會繪製每筆預訂，並附上會議室和主辦人。<code>slotMinutes="15"</code> 讓列分得更細。',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: '依月、週、日或活動列表顯示的活動。',
+            members: {
+              events: '要顯示的活動。',
+              view: '目前顯示的檢視。',
+              views: '使用者可以切換的檢視。',
+              date: '顯示的日期，也是鍵盤焦點所在的日期。',
+              slotMinutes: '時間網格每列的分鐘數，也是活動移動的間隔。',
+              scrollHour: '時間網格開啟時捲動到的小時。',
+              agendaDays: '活動列表往後顯示的天數。',
+              editable: '可以用指標和鍵盤移動活動及調整時間長度。',
+              selectable: '可以在網格上選取時間，用來建立活動。',
+              firstDay: '一週的第一天，1 代表星期一。預設依循地區設定。',
+              headingLevel: '標題的層級；活動列表中各天的標題再低一層。',
+              locale: '用來格式化日期和時間。',
+              labels: '行事曆顯示或朗讀的所有文字，供翻譯使用。',
+              eventClick: '發出被點選或按 Enter 鍵開啟的活動。',
+              eventChange: '移動活動或調整時間長度後，發出活動的新時間。',
+              slotSelect: '發出在網格上選取的時間。',
+              rangeChange: '顯示的第一天和最後一天變更時，發出這兩天。',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              '一個活動。有具體時間的活動不包含結束時刻；全天活動的結束日期就是它的最後一天。',
+            members: {
+              'id, title': '它的鍵值，以及顯示的內容。',
+              'start, end': '日期和時間；全天活動只用日期。',
+              allDay: '預設取決於 <code>start</code> 是否不含時間。',
+              tone: '它的顏色。',
+              editable: '無論行事曆如何設定，它能否被移動。',
+              data: '需要和它一起保存的其他資料。',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: '繪製活動。其 context 包含活動，以及文字形式的時間。',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['方向鍵', '按日和按時段移動。在由右至左的文字中左右方向相反。'],
+          ['Page Up / Page Down', '向前或向後翻一個月、一週或一天。'],
+          ['Shift + 方向鍵', '擴大所選的時間範圍。'],
+          ['在儲存格上按 Enter 或空白鍵', '進入其中的活動，或選取它的時間。'],
+          ['在活動上按向上 / 向下鍵', '移到儲存格中的上一個或下一個活動。'],
+          ['在活動上按 Alt + 方向鍵', '將活動移動一個時段或一天。'],
+          ['Alt + Shift + 向上或向下鍵', '縮短或延長活動。'],
+          ['Esc', '回到儲存格、取消所選時間，或取消拖曳。'],
+        ],
+        notes: [
+          '月、週和日檢視都是以標題命名的 <code>grid</code>。日期是欄標題，時間是列標題，因此每個儲存格都會連同日期和時間一起朗讀。',
+          '每個活動都是以標題、日期和時間命名的按鈕，例如「Standup, Friday, September 25, 9:00 – 9:30 AM」。移動活動或調整時間長度後，會朗讀新的時間。',
+          '每種拖曳都有對應的鍵盤操作，因此不需要指標也能完成所有操作。',
+          '各檢視是一組切換按鈕；移到另一週或另一個月時，會朗讀它的標題。',
+        ],
+      },
     },
   },
 

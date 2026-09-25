@@ -44,6 +44,37 @@ import type { ComponentId } from '../docs/ids';
           >
         </div>
       }
+      @case ('calendar') {
+        <div class="nui-calendar preview-calendar">
+          <div class="nui-calendar-header">
+            <span class="nui-calendar-nav" data-direction="previous"></span>
+            <span class="nui-calendar-title">September 2026</span>
+            <span class="nui-calendar-nav" data-direction="next"></span>
+          </div>
+          <table class="nui-calendar-grid">
+            <tbody>
+              <tr>
+                <td class="nui-calendar-day">14</td>
+                <td class="nui-calendar-day">15</td>
+                <td class="nui-calendar-day" data-in-range data-range-start>16</td>
+                <td class="nui-calendar-day" data-in-range>17</td>
+                <td class="nui-calendar-day" data-in-range>18</td>
+                <td class="nui-calendar-day" data-in-range data-range-end>19</td>
+                <td class="nui-calendar-day">20</td>
+              </tr>
+              <tr>
+                <td class="nui-calendar-day">21</td>
+                <td class="nui-calendar-day">22</td>
+                <td class="nui-calendar-day">23</td>
+                <td class="nui-calendar-day">24</td>
+                <td class="nui-calendar-day" data-today>25</td>
+                <td class="nui-calendar-day">26</td>
+                <td class="nui-calendar-day">27</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
       @case ('chat') {
         <div class="nui-chat preview-chat">
           <div class="nui-chat-message" data-role="user">
@@ -87,6 +118,16 @@ import type { ComponentId } from '../docs/ids';
               <span class="nui-command-shortcut"><kbd>⌘</kbd><kbd>S</kbd></span>
             </div>
           </div>
+        </div>
+      }
+      @case ('date-picker') {
+        <div class="nui-date-picker preview-date-picker">
+          <span class="nui-date-field">
+            <span class="nui-date-segment">09</span><span class="nui-date-literal">/</span
+            ><span class="nui-date-segment preview-segment">25</span
+            ><span class="nui-date-literal">/</span><span class="nui-date-segment">2026</span>
+          </span>
+          <span class="nui-date-picker-button"></span>
         </div>
       }
       @case ('dialog') {
@@ -197,6 +238,25 @@ import type { ComponentId } from '../docs/ids';
         <span class="nui-rating" style="--_value: 4.5; --_max: 5"
           ><span class="nui-rating-display"></span
         ></span>
+      }
+      @case ('scheduler') {
+        <div class="nui-scheduler preview-scheduler">
+          <div class="preview-scheduler-day">
+            <span class="nui-scheduler-event" data-tone="neutral" style="--_row: 1">Standup</span>
+            <span class="nui-scheduler-event" style="--_row: 2; --_rows: 2">Design review</span>
+          </div>
+          <div class="preview-scheduler-day">
+            <span class="nui-scheduler-event" data-tone="success" style="--_row: 2">Lunch</span>
+            <span class="nui-scheduler-event" data-tone="warning" style="--_row: 3; --_rows: 2"
+              >Interview</span
+            >
+          </div>
+          <div class="preview-scheduler-day">
+            <span class="nui-scheduler-event" data-tone="danger" style="--_row: 1; --_rows: 2"
+              >Release</span
+            >
+          </div>
+        </div>
       }
       @case ('select') {
         <div class="preview-stack">

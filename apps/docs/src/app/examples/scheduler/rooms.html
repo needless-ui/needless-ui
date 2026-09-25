@@ -1,0 +1,13 @@
+<nui-scheduler
+  [events]="bookings()"
+  view="day"
+  [views]="['day']"
+  slotMinutes="15"
+  scrollHour="9"
+  headingLevel="3"
+>
+  <ng-template nuiSchedulerEvent let-event>
+    <span class="booking-title">{{ event.title }}</span>
+    <span class="booking-room">{{ booking(event).room }} · {{ booking(event).host }}</span>
+  </ng-template>
+</nui-scheduler>

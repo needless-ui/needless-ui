@@ -1427,6 +1427,250 @@ export const messages: Messages = {
           '流式输出时的光标对屏幕阅读器隐藏，在开启减少动态效果时保持静止。',
         ],
       },
+      calendar: {
+        name: '日历',
+        title: 'Angular 日历组件',
+        summary: '选择单个日期、日期范围或多个日期，也可以用键盘操作。',
+        description:
+          '无障碍的 Angular 日历：可选择单个日期、日期范围或多个日期，支持最小和最大日期、不可选日期、多月并排显示和周数。',
+        apiDescription:
+          'Needless UI 日历的 API 参考：nui-calendar 的选择模式，min、max 和 unavailable 限定的日期，多月并排显示，以及可翻译的文本。',
+        a11yDescription:
+          'Needless UI 日历的键盘操作与无障碍支持：每天都有名称的日期网格、按天和按周移动的方向键，以及按月翻页的 Page Up 和 Page Down。',
+        overview: [
+          '日历可以选择单个日期、日期范围或多个日期。值是普通的 ISO 日期，例如 <code>2026-09-25</code>，不带会让日期偏移的时区，因此可以直接发送给服务器或 <code>&lt;input type="date"&gt;</code>。',
+          '每周从语言环境规定的第一天开始，月份和星期的名称以及数字都使用其语言。<code>min</code>、<code>max</code> 和 <code>unavailable</code> 用于排除日期，<code>months</code> 可并排显示多个月份；要前往较远的日期时，点击标题即可切换到月份和年份视图。',
+          '与 WAI-ARIA 的日期选择器模式一样，每一天都可以通过键盘到达，并以完整日期命名。',
+        ],
+        examples: {
+          delivery: {
+            title: '送货日期',
+            text: '今天之前、<code>max</code> 之后或被 <code>unavailable</code> 排除的日期都无法选择，但键盘仍会经过这些日期。',
+          },
+          stay: {
+            title: '日期范围',
+            text: '使用 <code>selection="range"</code> 时，第一次选择确定范围的起点，在第二次选择之前，范围的高亮区间会跟随指针。<code>months="2"</code> 和 <code>weekNumbers</code> 可以一次显示更多内容。',
+          },
+          'days-off': {
+            title: '多个日期',
+            text: '使用 <code>selection="multiple"</code> 时，每次选择都会添加或移除一个日期。<code>firstDay</code> 可以让一周从语言环境默认以外的另一天开始。',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: '用于选择日期的日历。',
+            members: {
+              selection: '可以选择多少个日期。',
+              value: '选中的日期。',
+              values: '选中的多个日期，按先后顺序排列。',
+              range: '选中的范围，包含两端。',
+              month: '显示的月份；同时显示多个月份时为第一个。',
+              view: '日、月或年视图。',
+              'min, max': '可选择的第一天和最后一天。',
+              unavailable: '排除其他日期，例如节假日。',
+              months: '并排显示的月份数。',
+              weekNumbers: '显示 ISO 周数。',
+              firstDay: '一周的第一天，1 表示星期一。默认遵循语言环境。',
+              locale: '用于格式化名称和数字，并决定一周的第一天。',
+              labels: '日历显示或播报的所有文本，供翻译使用。',
+              picked: '每次选择时发出：一个日期，或选完两端后的范围。',
+              focusDate: '将键盘焦点移到某一天，并显示它所在的月份。',
+            },
+          },
+          NuiDateRange: {
+            summary: '一个日期范围。',
+            members: { 'start, end': '第一天和最后一天，两端都包含在内。' },
+          },
+        },
+        keyboard: [
+          ['向左 / 向右箭头键', '移到前一天或后一天。在从右到左的文本中左右方向相反。'],
+          ['向上 / 向下箭头键', '移到上一周或下一周。'],
+          ['Home / End', '移到本周的第一天或最后一天。'],
+          ['Page Up / Page Down', '移到上个月或下个月；按住 Shift 键时移到上一年或下一年。'],
+          ['Enter 或空格键', '选择该日期；在月份或年份视图中，则进入所选的月份或年份。'],
+          ['Esc', '撤销范围的第一次选择，或返回原来的视图。'],
+        ],
+        notes: [
+          '每个月都是一个以其标题命名的 <code>grid</code>，星期的全称放在 <code>abbr</code> 中。',
+          '每一天都以完整日期命名，并附加“Today”“unavailable”以及范围端点等信息。<code>aria-selected</code> 标记已选中的日期，<code>aria-disabled</code> 标记无法选择的日期。',
+          '网格在 Tab 键顺序中只占一个位置，使用漫游式 <code>tabindex</code>。前后翻月按钮会播报新的月份。',
+        ],
+      },
+      'date-picker': {
+        name: '日期选择器',
+        title: 'Angular 日期和时间选择器组件',
+        summary: '按分段输入日期或时间，或在日历中选择。',
+        description:
+          '无障碍的 Angular 日期、时间和日期范围选择器：按语言环境的顺序分段输入，提供弹出框日历和快捷选项，并支持表单。',
+        apiDescription:
+          'Needless UI 日期选择器的 API 参考：nui-date-field、nui-time-field、nui-date-picker 和 nui-date-range-picker，以及快捷选项。',
+        a11yDescription:
+          'Needless UI 日期选择器的键盘操作与无障碍支持：日期的每个部分都是一个 spinbutton，日历则位于对话框中。',
+        overview: [
+          '日期和时间输入框按分段输入：日、月、年按语言环境的顺序排列，随后是按其 12 或 24 小时制显示的小时和分钟。每个分段都是一个 spinbutton：输入数字后会自动跳到下一段，也可以用方向键逐步调整。粘贴完整的日期，所有分段都会自动填好。',
+          '选择器在弹出框中加入日历，可以选择单个日期，也可以借助快捷选项选择日期范围。值是普通的 ISO 字符串，例如 <code>2026-09-25</code> 或 <code>2026-09-25T09:30</code>，每个输入框都支持 Signal Forms、响应式表单和 <code>ngModel</code>。',
+          '本站的示例会跟随页面语言：切换语言，即可看到顺序、分隔符和数字随之变化。',
+        ],
+        examples: {
+          fields: {
+            title: '日期和时间输入框',
+            text: '输入数字，或使用方向键。再按一次 Backspace 会退回上一个分段。<code>minuteStep</code> 设置方向键每次调整分钟的幅度。',
+          },
+          pickers: {
+            title: '日期选择器',
+            text: '按钮会打开日历并定位到所选日期，选中日期后日历随即关闭。使用 <code>granularity="minute"</code> 时，选择器还可以输入时间，而日历只改变日期。',
+          },
+          range: {
+            title: '日期范围',
+            text: '两个输入框加一个双月日历。<code>nuiDateRangePresets()</code> 会添加常用范围；在按顺序设置好两端之前，值一直为 null。',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: '按分段输入的日期，或日期和时间。',
+            members: {
+              value: '值；在所有分段都填好之前为 null。',
+              granularity: '停在日，或继续到小时、分钟或秒。',
+              'min, max': '最早和最晚的值。超出这个范围时，输入框的值无效。',
+              placeholder: '空分段用方向键调整时的起始值。',
+              hourCycle: '12 或 24 小时制。默认遵循语言环境。',
+              minuteStep: '方向键每次调整分钟的幅度。',
+              'disabled, readonly': '禁止修改。',
+              locale: '决定顺序、分隔符、数字和小时制。',
+              labels: '输入框播报的所有文本，供翻译使用。',
+              invalid: '值是否超出 <code>min</code> 和 <code>max</code> 的范围。',
+              focus: '让第一个空分段获得焦点。',
+            },
+          },
+          NuiTimeField: {
+            summary: '按分段输入的时间。它接受与日期输入框相同的输入属性。',
+            members: { granularity: '停在小时、分钟或秒。' },
+          },
+          NuiDatePicker: {
+            summary: '带弹出框日历的日期输入框。它接受日期输入框的输入属性，以及下面这些。',
+            members: {
+              unavailable: '日历中不可选择的日期。',
+              'firstDay, weekNumbers': '传给日历。',
+              labels: '输入框、按钮和日历的文本。',
+              show: '打开日历。',
+            },
+          },
+          NuiDateRangePicker: {
+            summary: '两个日期输入框加一个范围日历。它接受日期选择器的输入属性，以及下面这些。',
+            members: {
+              value: '日期范围；在按顺序设置好两端之前为 null。',
+              presets: '一键即可选择的具名范围。',
+              months: '日历中并排显示的月份数。',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: '具名范围，可以是固定的，也可以在选择时生成。',
+            members: {
+              label: '它的名称。',
+              range: '范围，或生成范围的函数。',
+            },
+          },
+        },
+        keyboard: [
+          ['数字键', '在分段中输入。后面不可能再接其他数字时，会自动跳到下一段。'],
+          ['向上 / 向下箭头键', '调整分段的值；Page Up / Page Down 的调整幅度更大。'],
+          ['向左 / 向右箭头键、Tab', '移到上一个或下一个分段。'],
+          ['Backspace', '清空分段，再按一次则退回上一个分段。'],
+          ['A / P', '设为上午（AM）或下午（PM）。'],
+        ],
+        notes: [
+          '输入框是一个 <code>group</code>：请用 <code>aria-label</code> 或 <code>aria-labelledby</code> 为它命名。每个分段都是以其所代表部分命名的 <code>spinbutton</code>，月份会读出名称，空分段读作“Empty”。',
+          '分段是可编辑的文本，因此触摸屏键盘会以数字键盘打开。',
+          '选择器的按钮名为“Choose a date”，其弹出框是一个 <code>dialog</code>。选择日期后，焦点会回到按钮上。',
+          '其中的日历与<a href="/components/calendar">日历</a>的行为完全一致。',
+        ],
+      },
+      scheduler: {
+        name: '日程表',
+        title: 'Angular 日程表组件',
+        summary: '以月、周、日或日程列表显示日程，拖动即可放到合适的位置。',
+        description:
+          '无障碍的 Angular 日程表：提供月、周、日和日程列表视图，重叠的日程并排显示，可拖动来移动日程和调整时长，并支持完整的键盘操作。',
+        apiDescription:
+          'Needless UI 日程表的 API 参考：nui-scheduler 的视图、日程、编辑与选择、输出属性，以及日程模板。',
+        a11yDescription:
+          'Needless UI 日程表的键盘操作与无障碍支持：由日期和时间构成的网格、具名的日程，以及能代替每种拖动的键盘操作。',
+        overview: [
+          '日程表以月、周、日或日程列表的形式显示日程。日程是带 ISO 时间的普通数据；时间重叠的日程平分宽度，跨越午夜的日程在两天中都会显示，全天日程则以横条的形式横跨顶部。',
+          '日程表从不自行修改你的日程。拖动日程或其底边时，<code>eventChange</code> 会报告新的时间；在网格上选择时间时，<code>slotSelect</code> 会报告所选的时间。<code>rangeChange</code> 会告诉你显示的是哪些日期，方便你加载这些日期的日程。',
+          '指针能做的，键盘也都能做：网格在 Tab 键顺序中只占一个位置，方向键可在日期和时间之间移动，Alt 加方向键则移动日程。',
+        ],
+        examples: {
+          planner: {
+            title: '规划一周',
+            text: '使用 <code>editable</code> 和 <code>selectable</code> 时，拖动日程即可移动它，拖动其底边即可调整时长，在空闲时间上拖动即可添加日程。本示例根据输出更新自己的日程。',
+          },
+          month: {
+            title: '月视图与日程列表',
+            text: '跨越多天的日程显示为横条；日程较多的日期会显示还有几条未列出。<code>views</code> 只提供月视图和未来 <code>agendaDays</code> 天的日程列表。',
+          },
+          rooms: {
+            title: '会议室的一天',
+            text: '<code>nuiSchedulerEvent</code> 绘制每条预订，并附上会议室和组织者。<code>slotMinutes="15"</code> 让行分得更细。',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: '按月、周、日或日程列表显示的日程。',
+            members: {
+              events: '要显示的日程。',
+              view: '当前显示的视图。',
+              views: '用户可以切换的视图。',
+              date: '显示的日期，也是键盘焦点所在的日期。',
+              slotMinutes: '时间网格每行的分钟数，也是日程移动的步长。',
+              scrollHour: '时间网格打开时定位到的小时。',
+              agendaDays: '日程列表向后显示的天数。',
+              editable: '可以用指针和键盘移动日程、调整时长。',
+              selectable: '可以在网格上选择时间，用来创建日程。',
+              firstDay: '一周的第一天，1 表示星期一。默认遵循语言环境。',
+              headingLevel: '标题的级别；日程列表中各日期的标题再低一级。',
+              locale: '用于格式化日期和时间。',
+              labels: '日程表显示或播报的所有文本，供翻译使用。',
+              eventClick: '发出被点击或按 Enter 键打开的日程。',
+              eventChange: '移动日程或调整时长后，发出日程的新时间。',
+              slotSelect: '发出在网格上选择的时间。',
+              rangeChange: '显示的第一天和最后一天变化时，发出这两天。',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              '一条日程。有具体时间的日程不包含结束时刻；全天日程的结束日期就是它的最后一天。',
+            members: {
+              'id, title': '它的键，以及显示的内容。',
+              'start, end': '日期和时间；全天日程只用日期。',
+              allDay: '默认取决于 <code>start</code> 是否不带时间。',
+              tone: '它的颜色。',
+              editable: '无论日程表如何设置，它能否被移动。',
+              data: '需要随它一起保存的其他数据。',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: '绘制日程。上下文中包含日程及其文本形式的时间。',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['方向键', '按天和按时间段移动。在从右到左的文本中左右方向相反。'],
+          ['Page Up / Page Down', '向前或向后翻一个月、一周或一天。'],
+          ['Shift + 方向键', '扩大所选的时间范围。'],
+          ['在单元格上按 Enter 或空格键', '进入其中的日程，或选择它的时间。'],
+          ['在日程上按向上 / 向下箭头键', '移到单元格中的上一个或下一个日程。'],
+          ['在日程上按 Alt + 方向键', '将日程移动一个时间段或一天。'],
+          ['Alt + Shift + 向上或向下箭头键', '缩短或延长日程。'],
+          ['Esc', '返回单元格、取消所选时间，或取消拖动。'],
+        ],
+        notes: [
+          '月、周和日视图都是以其标题命名的 <code>grid</code>。日期作为列标题，时间作为行标题，因此每个单元格都会连同其日期和时间一起朗读。',
+          '每条日程都是一个按钮，以其标题、日期和时间命名，例如“Standup, Friday, September 25, 9:00 – 9:30 AM”。移动日程或调整时长后，会播报新的时间。',
+          '每种拖动都有对应的键盘操作，因此不用指针也能完成所有操作。',
+          '各视图是一组切换按钮；移到另一周或另一个月时，会播报它的标题。',
+        ],
+      },
     },
   },
 

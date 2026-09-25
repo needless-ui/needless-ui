@@ -1562,6 +1562,285 @@ export const messages: Messages = {
           'Der Streaming-Cursor ist vor Screenreadern verborgen und steht bei reduzierter Bewegung still.',
         ],
       },
+      calendar: {
+        name: 'Kalender',
+        title: 'Kalender-Komponente für Angular',
+        summary: 'Wähle einen Tag, einen Zeitraum oder mehrere Tage, auch per Tastatur.',
+        description:
+          'Barrierefreier Angular-Kalender: ein Tag, ein Zeitraum oder mehrere Tage, mit min und max, nicht verfügbaren Tagen, Monaten nebeneinander und Kalenderwochen.',
+        apiDescription:
+          'API-Referenz des Kalenders von Needless UI: Auswahl-Models von nui-calendar, min, max und nicht verfügbare Tage, Monate nebeneinander und Beschriftungen.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit des Kalenders von Needless UI: ein Grid benannter Tage, Pfeiltasten für Tag und Woche, Bild auf und Bild ab für den Monat.',
+        overview: [
+          'Mit dem Kalender wählst du einen Tag, einen Zeitraum oder mehrere Tage. Die Werte sind einfache ISO-Datumsangaben wie <code>2026-09-25</code>, ohne Zeitzone, die sie verschieben könnte, und lassen sich daher direkt an einen Server oder ein <code>&lt;input type="date"&gt;</code> übergeben.',
+          'Die Woche beginnt am ersten Wochentag der Locale, und Namen und Ziffern folgen ihrer Sprache. <code>min</code>, <code>max</code> und <code>unavailable</code> schließen Tage aus, <code>months</code> zeigt mehrere Monate nebeneinander, und der Titel zoomt für weit entfernte Tage auf Monate und Jahre heraus.',
+          'Jeder Tag ist per Tastatur erreichbar, wie im Date-Picker-Muster von WAI-ARIA, und trägt sein vollständiges Datum als Namen.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Ein Liefertag',
+            text: 'Tage vor heute, nach <code>max</code> oder durch <code>unavailable</code> ausgeschlossen: Sie lassen sich nicht wählen, aber die Tastatur bewegt sich trotzdem über sie hinweg.',
+          },
+          stay: {
+            title: 'Ein Zeitraum',
+            text: 'Mit <code>selection="range"</code> beginnt die erste Auswahl den Zeitraum, und die Markierung folgt dem Zeiger bis zur zweiten. <code>months="2"</code> und <code>weekNumbers</code> zeigen mehr auf einmal.',
+          },
+          'days-off': {
+            title: 'Mehrere Tage',
+            text: 'Mit <code>selection="multiple"</code> fügt jede Auswahl einen Tag hinzu oder entfernt ihn. <code>firstDay</code> lässt die Woche an einem anderen Tag beginnen als die Locale.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Ein Kalender zur Auswahl von Tagen.',
+            members: {
+              selection: 'Wie viele Tage sich wählen lassen.',
+              value: 'Der gewählte Tag.',
+              values: 'Die gewählten Tage, chronologisch sortiert.',
+              range: 'Der gewählte Zeitraum, beide Enden eingeschlossen.',
+              month: 'Der angezeigte Monat; bei mehreren der erste.',
+              view: 'Tage, Monate oder Jahre.',
+              'min, max': 'Der erste und der letzte wählbare Tag.',
+              unavailable: 'Schließt weitere Tage aus, etwa Feiertage.',
+              months: 'Monate nebeneinander.',
+              weekNumbers: 'Zeigt ISO-Kalenderwochen an.',
+              firstDay: 'Der erste Tag der Woche, 1 für Montag. Standardmäßig der aus der Locale.',
+              locale: 'Formatiert Namen und Ziffern und bestimmt den ersten Tag der Woche.',
+              labels: 'Alle Texte, die der Kalender anzeigt oder ansagt, zum Übersetzen.',
+              picked: 'Emittiert jede Auswahl: einen Tag oder, sobald vollständig, einen Zeitraum.',
+              focusDate: 'Setzt den Tastaturfokus auf einen Tag und zeigt seinen Monat.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Ein Zeitraum aus ganzen Tagen.',
+            members: { 'start, end': 'Der erste und der letzte Tag, beide eingeschlossen.' },
+          },
+        },
+        keyboard: [
+          [
+            'Pfeil nach links und rechts',
+            'Vorheriger oder nächster Tag. Bei Text von rechts nach links sind die Pfeile vertauscht.',
+          ],
+          ['Pfeil nach oben und unten', 'Vorherige oder nächste Woche.'],
+          ['Pos1 und Ende', 'Erster oder letzter Tag der Woche.'],
+          ['Bild auf und Bild ab', 'Vorheriger oder nächster Monat; mit Umschalt das Jahr.'],
+          ['Enter oder Leertaste', 'Wählt den Tag oder zoomt in einen Monat oder ein Jahr hinein.'],
+          ['Esc', 'Verwirft den angefangenen Zeitraum oder zoomt wieder hinein.'],
+        ],
+        notes: [
+          'Jeder Monat ist ein <code>grid</code>, benannt nach seinem Titel, mit den vollen Namen der Wochentage in <code>abbr</code>.',
+          'Jeder Tag ist nach seinem vollständigen Datum benannt, ergänzt um „Today“, „unavailable“ und die Enden eines Zeitraums. <code>aria-selected</code> markiert, was gewählt ist, und <code>aria-disabled</code>, was sich nicht wählen lässt.',
+          'Das Grid ist ein einziger Tab-Stopp, mit einem wandernden <code>tabindex</code>. Die Buttons für den vorherigen und nächsten Monat sagen den neuen Monat an.',
+        ],
+      },
+      'date-picker': {
+        name: 'Datumsauswahl',
+        title: 'Datums- und Zeitauswahl-Komponenten für Angular',
+        summary: 'Datum oder Uhrzeit in Segmenten eintippen oder im Kalender wählen.',
+        description:
+          'Barrierefreie Datums-, Zeit- und Zeitraumauswahl für Angular: Segmente in der Reihenfolge der Locale, Kalender im Popover, Presets und Formularanbindung.',
+        apiDescription:
+          'API-Referenz der Datumsauswahl von Needless UI: nui-date-field, nui-time-field, nui-date-picker und nui-date-range-picker, mit Presets.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit der Datumsauswahl von Needless UI: ein Spinbutton für jeden Teil eines Datums und ein Kalender in einem Dialog.',
+        overview: [
+          'Datums- und Zeitfelder werden in Segmenten eingetippt: Tag, Monat und Jahr in der Reihenfolge der Locale, dann Stunden und Minuten in ihrem 12- oder 24-Stunden-Format. Jedes Segment ist ein Spinbutton: Tippe Ziffern, und es springt von selbst weiter, oder ändere es schrittweise mit den Pfeiltasten. Füge ein ganzes Datum ein, und alle Segmente füllen sich.',
+          'Datums- und Zeitraumauswahl ergänzen einen Kalender im Popover, für Zeiträume auch mit Presets. Die Werte sind einfache ISO-Strings wie <code>2026-09-25</code> oder <code>2026-09-25T09:30</code>, und jedes Feld funktioniert mit Signal Forms, Reactive Forms und <code>ngModel</code>.',
+          'Auf dieser Website folgen die Beispiele der Sprache der Seite: Wechsle sie, um zu sehen, wie sich Reihenfolge, Trennzeichen und Ziffern ändern.',
+        ],
+        examples: {
+          fields: {
+            title: 'Datums- und Zeitfelder',
+            text: 'Tippe die Ziffern oder nutze die Pfeiltasten. Ein zweites Drücken der Rücktaste springt ein Segment zurück. <code>minuteStep</code> legt fest, wie weit die Pfeiltasten die Minuten verstellen.',
+          },
+          pickers: {
+            title: 'Datumsauswahl',
+            text: 'Der Button öffnet einen Kalender mit dem gewählten Tag im Fokus, und die Auswahl eines Tages schließt ihn. Mit <code>granularity="minute"</code> nimmt die Datumsauswahl auch eine Uhrzeit auf, und der Kalender ändert nur das Datum.',
+          },
+          range: {
+            title: 'Ein Zeitraum',
+            text: 'Zwei Felder und ein Kalender mit zwei Monaten. <code>nuiDateRangePresets()</code> ergänzt gängige Zeiträume; der Wert bleibt null, bis beide Enden in der richtigen Reihenfolge gesetzt sind.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Ein Datum oder Datum mit Uhrzeit, in Segmenten eingetippt.',
+            members: {
+              value: 'Der Wert oder null, bis alle Segmente ausgefüllt sind.',
+              granularity: 'Endet beim Tag oder reicht bis zur Stunde, Minute oder Sekunde.',
+              'min, max':
+                'Der früheste und der späteste Wert. Außerhalb davon ist das Feld ungültig.',
+              placeholder: 'Der Ausgangswert leerer Segmente für die Pfeiltasten.',
+              hourCycle: 'Eine 12- oder 24-Stunden-Uhr. Standardmäßig die der Locale.',
+              minuteStep: 'Wie weit die Pfeiltasten die Minuten verstellen.',
+              'disabled, readonly': 'Verhindern Änderungen.',
+              locale: 'Bestimmt Reihenfolge, Trennzeichen, Ziffern und Uhrformat.',
+              labels: 'Alle Texte, die das Feld ansagt, zum Übersetzen.',
+              invalid: 'Ob der Wert außerhalb von <code>min</code> und <code>max</code> liegt.',
+              focus: 'Fokussiert das erste leere Segment.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Eine Uhrzeit, in Segmenten eingetippt. Nimmt dieselben Inputs wie das Datumsfeld.',
+            members: { granularity: 'Endet bei der Stunde, Minute oder Sekunde.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Ein Datumsfeld mit einem Kalender im Popover. Nimmt die Inputs des Datumsfelds und zusätzlich diese.',
+            members: {
+              unavailable: 'Tage, die sich im Kalender nicht wählen lassen.',
+              'firstDay, weekNumbers': 'Werden an den Kalender weitergegeben.',
+              labels: 'Die Texte von Feld, Button und Kalender.',
+              show: 'Öffnet den Kalender.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Zwei Datumsfelder mit einem Kalender für Zeiträume. Nimmt die Inputs der Datumsauswahl und zusätzlich diese.',
+            members: {
+              value:
+                'Der Zeitraum oder null, bis beide Enden in der richtigen Reihenfolge gesetzt sind.',
+              presets: 'Benannte Zeiträume, mit einem Klick wählbar.',
+              months: 'Monate nebeneinander im Kalender.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Ein benannter Zeitraum, fest oder erst bei der Auswahl berechnet.',
+            members: {
+              label: 'Sein Name.',
+              range: 'Der Zeitraum oder eine Funktion, die ihn erzeugt.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Ziffern',
+            'Schreiben ins Segment. Es springt weiter, sobald keine weitere Ziffer folgen kann.',
+          ],
+          [
+            'Pfeil nach oben und unten',
+            'Ändern das Segment schrittweise; Bild auf und Bild ab in größeren Schritten.',
+          ],
+          ['Pfeil nach links und rechts, Tab', 'Vorheriges oder nächstes Segment.'],
+          ['Rücktaste', 'Leert das Segment und springt dann eins zurück.'],
+          ['A und P', 'Setzt AM oder PM.'],
+        ],
+        notes: [
+          'Ein Feld ist eine <code>group</code>: Benenne es mit <code>aria-label</code> oder <code>aria-labelledby</code>. Jedes Segment ist ein <code>spinbutton</code> mit dem Namen seines Teils; Monate werden mit ihrem Namen vorgelesen, leere Segmente als „Empty“.',
+          'Segmente sind bearbeitbarer Text, daher zeigen Bildschirmtastaturen direkt Ziffern an.',
+          'Der Button der Datumsauswahl heißt „Choose a date“, und sein Popover ist ein <code>dialog</code>. Wählst du ein Datum, kehrt der Fokus zum Button zurück.',
+          'Der Kalender darin funktioniert wie der <a href="/components/calendar">Kalender</a>.',
+        ],
+      },
+      scheduler: {
+        name: 'Terminplaner',
+        title: 'Terminplaner-Komponente für Angular',
+        summary: 'Termine in Monats-, Wochen-, Tages- oder Agendaansicht, an ihren Platz gezogen.',
+        description:
+          'Barrierefreier Angular-Terminplaner: Monat, Woche, Tag und Agenda, überlappende Termine nebeneinander, Verschieben und Dauer ändern per Ziehen oder Tastatur.',
+        apiDescription:
+          'API-Referenz des Terminplaners von Needless UI: Ansichten, Termine, Bearbeitung und Auswahl von nui-scheduler, seine Outputs und das Template für Termine.',
+        a11yDescription:
+          'Tastatur und Barrierefreiheit des Terminplaners von Needless UI: Grids aus Tagen und Uhrzeiten, benannte Termine und eine Tastaturalternative für jedes Ziehen.',
+        overview: [
+          'Der Terminplaner zeigt Termine in der Monats-, Wochen-, Tages- oder Agendaansicht. Termine sind einfache Daten mit ISO-Zeiten; überlappende teilen sich die Breite, Termine über Mitternacht erscheinen an beiden Tagen, und ganztägige Termine ziehen sich oben als Balken über die Tage.',
+          'Deine Termine ändert er nie selbst. Ziehst du einen Termin oder seine Unterkante, meldet <code>eventChange</code> die neuen Zeiten; markierst du eine Zeitspanne im Grid, meldet <code>slotSelect</code> sie. <code>rangeChange</code> sagt dir, welche Tage angezeigt werden, damit du ihre Termine laden kannst.',
+          'Alles, was ein Zeiger kann, geht auch per Tastatur: Das Grid ist ein einziger Tab-Stopp, mit den Pfeiltasten bewegst du dich durch Tage und Uhrzeiten, und Alt plus Pfeiltaste verschiebt einen Termin.',
+        ],
+        examples: {
+          planner: {
+            title: 'Eine Woche planen',
+            text: 'Mit <code>editable</code> und <code>selectable</code> verschiebst du Termine per Ziehen, ziehst an ihrer Unterkante, um die Dauer zu ändern, und ziehst über freie Zeit, um einen neuen anzulegen. Das Beispiel aktualisiert seine Termine anhand der Outputs.',
+          },
+          month: {
+            title: 'Ein Monat und eine Agenda',
+            text: 'Mehrtägige Termine erscheinen als Balken; ein voller Tag zeigt, wie viele weitere es gibt. <code>views</code> bietet nur den Monat und die Agenda der nächsten <code>agendaDays</code> Tage an.',
+          },
+          rooms: {
+            title: 'Ein Tag mit Raumbuchungen',
+            text: '<code>nuiSchedulerEvent</code> zeichnet jede Buchung mit Raum und Organisator. <code>slotMinutes="15"</code> sorgt für feinere Zeilen.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Termine in der Monats-, Wochen-, Tages- oder Agendaansicht.',
+            members: {
+              events: 'Die anzuzeigenden Termine.',
+              view: 'Die angezeigte Ansicht.',
+              views: 'Die Ansichten, zwischen denen man wechseln kann.',
+              date: 'Der angezeigte Tag, auf dem auch der Tastaturfokus steht.',
+              slotMinutes:
+                'Minuten pro Zeile des Zeitrasters und die Schrittweite, in der sich Termine verschieben.',
+              scrollHour: 'Die Stunde, die das Zeitraster beim Öffnen zeigt.',
+              agendaDays: 'Wie viele Tage die Agenda vorausschaut.',
+              editable:
+                'Termine lassen sich verschieben und in der Dauer ändern, per Zeiger und per Tastatur.',
+              selectable: 'Im Grid lässt sich Zeit markieren, um Termine anzulegen.',
+              firstDay: 'Der erste Tag der Woche, 1 für Montag. Standardmäßig der aus der Locale.',
+              headingLevel:
+                'Die Überschriftenebene des Titels; die Tage der Agenda liegen eine Ebene tiefer.',
+              locale: 'Formatiert Tage und Uhrzeiten.',
+              labels: 'Alle Texte, die der Terminplaner anzeigt oder ansagt, zum Übersetzen.',
+              eventClick: 'Emittiert einen angeklickten oder mit Enter geöffneten Termin.',
+              eventChange:
+                'Emittiert die neuen Zeiten eines Termins nach dem Verschieben oder Ändern der Dauer.',
+              slotSelect: 'Emittiert die im Grid markierte Zeit.',
+              rangeChange:
+                'Emittiert den ersten und letzten angezeigten Tag, wenn sie sich ändern.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Ein Termin. Das Ende eines Termins mit Uhrzeit ist nicht eingeschlossen; bei einem ganztägigen Termin ist das Ende sein letzter Tag.',
+            members: {
+              'id, title': 'Sein Schlüssel und was er anzeigt.',
+              'start, end': 'Datum mit Uhrzeit oder, bei ganztägigen Terminen, nur das Datum.',
+              allDay: 'Standardmäßig gesetzt, wenn <code>start</code> keine Uhrzeit hat.',
+              tone: 'Seine Farbe.',
+              editable:
+                'Ob er sich verschieben lässt, unabhängig davon, was der Terminplaner vorgibt.',
+              data: 'Alles Weitere, das du mit ihm aufbewahren willst.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Zeichnet Termine. Der Kontext enthält den Termin und seine Zeit als Text.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Pfeiltasten',
+            'Springen um einen Tag oder ein Zeitfenster. Bei Text von rechts nach links sind die Pfeile vertauscht.',
+          ],
+          [
+            'Bild auf und Bild ab',
+            'Blättert einen Monat, eine Woche oder einen Tag zurück oder vor.',
+          ],
+          ['Umschalt + Pfeiltasten', 'Erweitern die markierte Zeit.'],
+          [
+            'Enter oder Leertaste auf einer Zelle',
+            'Springt in ihre Termine oder markiert ihre Zeit.',
+          ],
+          [
+            'Pfeil nach oben und unten auf einem Termin',
+            'Vorheriger oder nächster Termin in der Zelle.',
+          ],
+          [
+            'Alt + Pfeiltasten auf einem Termin',
+            'Verschieben ihn um ein Zeitfenster oder einen Tag.',
+          ],
+          ['Alt + Umschalt + Pfeil nach oben oder unten', 'Verkürzt oder verlängert den Termin.'],
+          ['Esc', 'Kehrt zur Zelle zurück, verwirft die markierte Zeit oder bricht das Ziehen ab.'],
+        ],
+        notes: [
+          'Monat, Woche und Tag sind jeweils ein <code>grid</code>, benannt nach ihrem Titel. Die Tage bilden die Spaltenköpfe und die Uhrzeiten die Zeilenköpfe, sodass jede Zelle mit ihrem Tag und ihrer Uhrzeit vorgelesen wird.',
+          'Jeder Termin ist ein Button, benannt nach Titel, Tag und Uhrzeit, etwa „Standup, Friday, September 25, 9:00 – 9:30 AM“. Nach dem Verschieben oder Ändern der Dauer wird die neue Zeit angesagt.',
+          'Für jedes Ziehen gibt es eine Tastaturalternative, sodass niemand einen Zeiger braucht.',
+          'Die Ansichten sind Toggle-Buttons in einer Gruppe, und beim Wechsel zu einer anderen Woche oder einem anderen Monat wird der neue Titel angesagt.',
+        ],
+      },
     },
   },
 

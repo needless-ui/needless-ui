@@ -1535,6 +1535,278 @@ export const messages: Messages = {
           'Kishale cha kutiririsha kimefichwa kwa visoma skrini, na hutulia mwendo ukiwa umepunguzwa.',
         ],
       },
+      calendar: {
+        name: 'Kalenda',
+        title: 'Kijenzi cha kalenda kwa Angular',
+        summary: 'Chagua siku, kipindi au siku kadhaa, hata kwa kibodi.',
+        description:
+          'Kalenda ya Angular inayofikika: chagua siku, kipindi au siku kadhaa, pamoja na min na max, siku zisizopatikana, miezi kando kwa kando na namba za wiki.',
+        apiDescription:
+          'Marejeleo ya API ya kalenda ya Needless UI: njia za uchaguzi za nui-calendar, min, max na siku zisizopatikana, miezi kando kwa kando, na lebo.',
+        a11yDescription:
+          'Kibodi na ufikivu wa kalenda ya Needless UI: gridi ya siku zenye majina, mishale kwa siku na wiki, Page Up na Page Down kwa mwezi.',
+        overview: [
+          'Kalenda huchagua siku moja, kipindi cha siku, au siku kadhaa. Thamani ni tarehe za kawaida za ISO, kama <code>2026-09-25</code>, zisizo na saa za eneo za kuzisogeza, hivyo huenda moja kwa moja kwenye seva au kwenye <code>&lt;input type="date"&gt;</code>.',
+          'Wiki huanza siku ya kwanza ya locale, na majina na tarakimu hufuata lugha yake. <code>min</code>, <code>max</code> na <code>unavailable</code> huondoa siku, <code>months</code> huonyesha miezi kadhaa kando kwa kando, na kichwa hukupeleka kwenye miezi na miaka kwa tarehe za mbali.',
+          'Kila siku inafikika kwa kibodi, kama katika kichagua tarehe cha WAI-ARIA, na kila moja hupewa jina la tarehe yake kamili.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Siku ya kuletewa',
+            text: 'Siku kabla ya leo, baada ya <code>max</code> au zilizoondolewa na <code>unavailable</code> haziwezi kuchaguliwa, lakini kibodi bado hupita juu yake.',
+          },
+          stay: {
+            title: 'Kipindi',
+            text: 'Kwa <code>selection="range"</code>, chaguo la kwanza huanzisha kipindi na ukanda hufuata kipanya hadi chaguo la pili. <code>months="2"</code> na <code>weekNumbers</code> huonyesha zaidi kwa wakati mmoja.',
+          },
+          'days-off': {
+            title: 'Siku kadhaa',
+            text: 'Kwa <code>selection="multiple"</code>, kila chaguo huongeza au huondoa siku. <code>firstDay</code> huanzisha wiki siku nyingine badala ya ile ya locale.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Kalenda ya kuchagua siku.',
+            members: {
+              selection: 'Idadi ya siku zinazoweza kuchaguliwa.',
+              value: 'Siku iliyochaguliwa.',
+              values: 'Siku zilizochaguliwa, kwa mpangilio.',
+              range: 'Kipindi kilichochaguliwa, mwanzo na mwisho vikiwemo.',
+              month: 'Mwezi unaoonyeshwa; wa kwanza, ikiwa ni kadhaa.',
+              view: 'Siku, miezi au miaka.',
+              'min, max': 'Siku ya kwanza na ya mwisho zinazoweza kuchaguliwa.',
+              unavailable: 'Huondoa siku nyingine, kama sikukuu.',
+              months: 'Miezi kando kwa kando.',
+              weekNumbers: 'Huonyesha namba za wiki za ISO.',
+              firstDay: 'Siku ya kwanza ya wiki, 1 kwa Jumatatu. Kwa chaguomsingi, ya locale.',
+              locale: 'Huumbiza majina na tarakimu, na huchagua siku ya kwanza ya wiki.',
+              labels: 'Kila maandishi ambayo kalenda huonyesha au hutangaza, ili kuyatafsiri.',
+              picked: 'Hutoa kila chaguo: siku, au kipindi kikishakamilika.',
+              focusDate: 'Huhamisha kibodi hadi siku fulani, na kuonyesha mwezi wake.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Kipindi cha siku.',
+            members: { 'start, end': 'Siku ya kwanza na ya mwisho, zote zikijumuishwa.' },
+          },
+        },
+        keyboard: [
+          [
+            'Mishale ya kushoto na kulia',
+            'Siku iliyotangulia au inayofuata. Hubadilishana katika maandishi ya kulia kwenda kushoto.',
+          ],
+          ['Mishale ya juu na chini', 'Wiki iliyotangulia au inayofuata.'],
+          ['Home na End', 'Siku ya kwanza au ya mwisho ya wiki.'],
+          ['Page Up na Page Down', 'Mwezi uliotangulia au unaofuata; kwa Shift, mwaka.'],
+          ['Enter au Space', 'Huchagua siku, au hufungua mwezi au mwaka.'],
+          ['Escape', 'Huondoa mwanzo wa kipindi, au hurudi kwenye mwonekano uliotangulia.'],
+        ],
+        notes: [
+          'Kila mwezi ni <code>grid</code> inayopewa jina na kichwa chake, na majina kamili ya siku za wiki yamo katika <code>abbr</code>.',
+          'Kila siku hupewa jina la tarehe yake kamili, pamoja na “Today”, “unavailable” na mwanzo au mwisho wa kipindi. <code>aria-selected</code> huonyesha kilichochaguliwa, na <code>aria-disabled</code> kisichoweza kuchaguliwa.',
+          'Gridi ni kituo kimoja cha Tab, chenye roving <code>tabindex</code>. Vitufe vya nyuma na mbele hutangaza mwezi mpya.',
+        ],
+      },
+      'date-picker': {
+        name: 'Kichagua tarehe',
+        title: 'Vijenzi vya kuchagua tarehe na saa kwa Angular',
+        summary: 'Andika tarehe au saa kwa vipande, au uichague kwenye kalenda.',
+        description:
+          'Vichagua tarehe, saa na vipindi vya Angular vinavyofikika: vipande vinavyoandikwa kwa mpangilio wa locale, kalenda katika popover, preset na usaidizi wa fomu.',
+        apiDescription:
+          'Marejeleo ya API ya vichagua tarehe vya Needless UI: nui-date-field, nui-time-field, nui-date-picker na nui-date-range-picker, pamoja na preset.',
+        a11yDescription:
+          'Kibodi na ufikivu wa vichagua tarehe vya Needless UI: spinbutton kwa kila kipande cha tarehe, na kalenda katika kidirisha.',
+        overview: [
+          'Sehemu za tarehe na saa huandikwa kwa vipande: siku, mwezi na mwaka kwa mpangilio wa locale, kisha saa na dakika kwa mfumo wake wa saa 12 au 24. Kila kipande ni spinbutton: andika tarakimu nacho husogea mbele chenyewe, au kibadilishe kwa vitufe vya mishale. Bandika tarehe nzima, na kila kipande hujazwa.',
+          'Vichagua huongeza kalenda katika popover, kwa tarehe moja au kwa kipindi chenye preset. Thamani ni maandishi ya kawaida ya ISO, kama <code>2026-09-25</code> au <code>2026-09-25T09:30</code>, na kila sehemu hufanya kazi na Signal Forms, reactive forms na <code>ngModel</code>.',
+          'Kwenye tovuti hii, mifano hufuata lugha ya ukurasa: ibadilishe uone mpangilio, vitenganishi na tarakimu vikibadilika.',
+        ],
+        examples: {
+          fields: {
+            title: 'Sehemu za tarehe na saa',
+            text: 'Andika tarakimu, au tumia vitufe vya mishale. Backspace ya pili hurudi kipande kimoja nyuma. <code>minuteStep</code> huweka kiasi ambacho mishale husogeza dakika.',
+          },
+          pickers: {
+            title: 'Vichagua tarehe',
+            text: 'Kitufe hufungua kalenda kwenye siku iliyochaguliwa, na kuchagua huifunga. Kwa <code>granularity="minute"</code>, kichagua hupokea saa pia, na kalenda hubadilisha tarehe pekee.',
+          },
+          range: {
+            title: 'Kipindi cha tarehe',
+            text: 'Sehemu mbili na kalenda ya miezi miwili. <code>nuiDateRangePresets()</code> huongeza vipindi vya kawaida; thamani hubaki null hadi mwanzo na mwisho viwekwe, kwa mpangilio.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Tarehe, au tarehe na saa, inayoandikwa kwa vipande.',
+            members: {
+              value: 'Thamani, au null hadi kila kipande kijazwe.',
+              granularity: 'Huishia kwenye siku, au huendelea hadi saa, dakika au sekunde.',
+              'min, max': 'Thamani ya mapema zaidi na ya mwisho zaidi. Nje yake, sehemu si halali.',
+              placeholder: 'Mahali vipande vitupu huanzia kwa vitufe vya mishale.',
+              hourCycle: 'Mfumo wa saa 12 au 24. Kwa chaguomsingi, wa locale.',
+              minuteStep: 'Kiasi ambacho vitufe vya mishale husogeza dakika.',
+              'disabled, readonly': 'Huzuia mabadiliko.',
+              locale: 'Huweka mpangilio, vitenganishi, tarakimu na mfumo wa saa.',
+              labels: 'Kila maandishi ambayo sehemu husema, ili kuyatafsiri.',
+              invalid: 'Kama thamani iko nje ya <code>min</code> na <code>max</code>.',
+              focus: 'Huweka focus kwenye kipande cha kwanza kilicho tupu.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Saa ya siku, inayoandikwa kwa vipande. Hupokea input zilezile za sehemu ya tarehe.',
+            members: { granularity: 'Huishia kwenye saa, dakika au sekunde.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Sehemu ya tarehe yenye kalenda katika popover. Hupokea input za sehemu ya tarehe, pamoja na hizi.',
+            members: {
+              unavailable: 'Siku ambazo kalenda haitachagua.',
+              'firstDay, weekNumbers': 'Hupitishwa kwa kalenda.',
+              labels: 'Maandishi ya sehemu, kitufe na kalenda.',
+              show: 'Hufungua kalenda.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Sehemu mbili za tarehe zenye kalenda ya kipindi. Hupokea input za kichagua tarehe, pamoja na hizi.',
+            members: {
+              value: 'Kipindi, au null hadi mwanzo na mwisho viwekwe, kwa mpangilio.',
+              presets: 'Vipindi vyenye majina vya kuchagua kwa mbofyo mmoja.',
+              months: 'Miezi kando kwa kando katika kalenda.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Kipindi chenye jina, kisichobadilika au kinachoundwa kinapochaguliwa.',
+            members: {
+              label: 'Jina lake.',
+              range: 'Kipindi, au function inayokiunda.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tarakimu',
+            'Huandika kwenye kipande. Husogea mbele pale ambapo hakuna tarakimu nyingine inayoweza kufuata.',
+          ],
+          [
+            'Mishale ya juu na chini',
+            'Hubadilisha kipande hatua moja; Page Up na Page Down husogeza zaidi.',
+          ],
+          ['Mishale ya kushoto na kulia, Tab', 'Kipande kilichotangulia au kinachofuata.'],
+          ['Backspace', 'Hufuta kipande, kisha hurudi kimoja nyuma.'],
+          ['A na P', 'Huweka AM au PM.'],
+        ],
+        notes: [
+          'Sehemu ni <code>group</code>: ipe jina kwa <code>aria-label</code> au <code>aria-labelledby</code>. Kila kipande ni <code>spinbutton</code> yenye jina lake, inayosoma miezi kwa majina na vipande vitupu kama “Empty”.',
+          'Vipande ni maandishi yanayoweza kuhaririwa, hivyo kibodi za skrini za kugusa hufunguka kwenye tarakimu.',
+          'Kitufe cha kichagua kinaitwa “Choose a date”, na popover yake ni <code>dialog</code>. Kuchagua tarehe hurudisha focus kwenye kitufe.',
+          'Kalenda iliyomo hufanya kazi kama <a href="/components/calendar">kalenda</a> inavyofanya.',
+        ],
+      },
+      scheduler: {
+        name: 'Kipanga ratiba',
+        title: 'Kijenzi cha kipanga ratiba kwa Angular',
+        summary: 'Matukio katika mwezi, wiki, siku au ajenda, yanayoburutwa hadi mahali pake.',
+        description:
+          'Kipanga ratiba cha Angular kinachofikika: mwezi, wiki, siku na ajenda, matukio yanayopishana sambamba, kuburuta na kubadilisha ukubwa, na kibodi kamili.',
+        apiDescription:
+          'Marejeleo ya API ya kipanga ratiba cha Needless UI: mionekano ya nui-scheduler, matukio, uhariri na uchaguzi, output zake, na template ya matukio.',
+        a11yDescription:
+          'Kibodi na ufikivu wa kipanga ratiba cha Needless UI: gridi za siku na saa, matukio yenye majina, na njia ya kibodi kwa kila uburutaji.',
+        overview: [
+          'Kipanga ratiba huonyesha matukio katika mwezi, wiki, siku au ajenda. Matukio ni data ya kawaida yenye nyakati za ISO; yanayopishana hugawana upana, yanayovuka usiku wa manane huonekana katika siku zote mbili, na matukio ya siku nzima hupita juu kama pau.',
+          'Hakibadilishi kamwe matukio yako chenyewe. Buruta tukio, au ukingo wake wa chini, na <code>eventChange</code> huripoti nyakati mpya; chagua muda kwenye gridi, na <code>slotSelect</code> huuripoti. <code>rangeChange</code> hukuambia ni siku zipi zinaonyeshwa, ili upakie matukio ya siku hizo.',
+          'Kila kitu ambacho kipanya hufanya, kibodi hufanya pia: gridi ni kituo kimoja cha Tab, vitufe vya mishale hupitia siku na saa, na Alt pamoja na mishale huhamisha tukio.',
+        ],
+        examples: {
+          planner: {
+            title: 'Wiki ya kupanga',
+            text: 'Kwa <code>editable</code> na <code>selectable</code>, buruta matukio ili kuyahamisha, buruta ukingo wa chini wa tukio ili kubadilisha ukubwa wake, na buruta juu ya muda mtupu ili kuongeza jipya. Mfano husasisha matukio yake kutokana na output.',
+          },
+          month: {
+            title: 'Mwezi na ajenda',
+            text: 'Matukio ya siku kadhaa huonyeshwa kama pau; siku yenye shughuli nyingi huonyesha ni mangapi zaidi. <code>views</code> hutoa mwezi na ajenda ya siku <code>agendaDays</code> zijazo tu.',
+          },
+          rooms: {
+            title: 'Siku ya vyumba',
+            text: '<code>nuiSchedulerEvent</code> huchora kila uhifadhi pamoja na chumba na mwenyeji wake. <code>slotMinutes="15"</code> hufanya safu kuwa nyembamba zaidi.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Matukio katika mwezi, wiki, siku au ajenda.',
+            members: {
+              events: 'Matukio ya kuonyesha.',
+              view: 'Mwonekano unaoonyeshwa.',
+              views: 'Mionekano ambayo watumiaji wanaweza kubadili kati yake.',
+              date: 'Siku inayoonyeshwa, na mahali kibodi ilipo.',
+              slotMinutes: 'Dakika za kila safu ya gridi ya muda, na hatua ambayo matukio husogea.',
+              scrollHour: 'Saa inayoonyeshwa gridi ya muda inapofunguka.',
+              agendaDays: 'Idadi ya siku zijazo ambazo ajenda huonyesha.',
+              editable:
+                'Matukio yanaweza kuhamishwa na kubadilishwa ukubwa, kwa kipanya na kibodi.',
+              selectable: 'Muda unaweza kuchaguliwa kwenye gridi, ili kuunda matukio.',
+              firstDay: 'Siku ya kwanza ya wiki, 1 kwa Jumatatu. Kwa chaguomsingi, ya locale.',
+              headingLevel:
+                'Kiwango cha heading cha kichwa; siku za ajenda ziko kiwango kimoja chini.',
+              locale: 'Huumbiza siku na saa.',
+              labels:
+                'Kila maandishi ambayo kipanga ratiba huonyesha au hutangaza, ili kuyatafsiri.',
+              eventClick: 'Hutoa tukio lililobofywa, au lililofunguliwa kwa Enter.',
+              eventChange:
+                'Hutoa nyakati mpya za tukio baada ya kuhamishwa au kubadilishwa ukubwa.',
+              slotSelect: 'Hutoa muda uliochaguliwa kwenye gridi.',
+              rangeChange: 'Hutoa siku ya kwanza na ya mwisho zinazoonyeshwa zinapobadilika.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Tukio. Mwisho wa tukio lenye saa haujumuishwi; mwisho wa tukio la siku nzima ni siku yake ya mwisho.',
+            members: {
+              'id, title': 'Ufunguo wake, na kile linachoonyesha.',
+              'start, end': 'Tarehe na saa, au tarehe tu kwa matukio ya siku nzima.',
+              allDay: 'Kwa chaguomsingi, kama <code>start</code> haina saa.',
+              tone: 'Rangi yake.',
+              editable: 'Kama linaweza kuhamishwa, bila kujali kipanga ratiba kinasema nini.',
+              data: 'Chochote kingine cha kuhifadhi pamoja nalo.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Huchora matukio. Muktadha una tukio na muda wake kama maandishi.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Vitufe vya mishale',
+            'Husogea kwa siku na kwa nafasi ya muda. Hubadilishana katika maandishi ya kulia kwenda kushoto.',
+          ],
+          ['Page Up na Page Down', 'Huenda mwezi, wiki au siku moja nyuma au mbele.'],
+          ['Shift + vitufe vya mishale', 'Hurefusha muda uliochaguliwa.'],
+          [
+            'Enter au Space kwenye kisanduku',
+            'Huingia kwenye matukio yake, au huchagua muda wake.',
+          ],
+          [
+            'Mishale ya juu na chini kwenye tukio',
+            'Tukio lililotangulia au linalofuata katika kisanduku.',
+          ],
+          [
+            'Alt + vitufe vya mishale kwenye tukio',
+            'Hulihamisha kwa nafasi moja ya muda au kwa siku moja.',
+          ],
+          ['Alt + Shift + mshale wa juu au chini', 'Hufupisha au hurefusha tukio.'],
+          ['Escape', 'Hurudi kwenye kisanduku, huacha muda uliochaguliwa, au hughairi uburutaji.'],
+        ],
+        notes: [
+          'Mwezi, wiki na siku ni <code>grid</code> zinazopewa majina na vichwa vyake. Siku ni vichwa vya safu wima na saa ni vichwa vya safu, hivyo kila kisanduku husomwa pamoja na siku na saa yake.',
+          'Kila tukio ni kitufe kinachopewa jina kwa kichwa, siku na saa yake, kama “Standup, Friday, September 25, 9:00 – 9:30 AM”. Kuhamisha au kubadilisha ukubwa hutangaza muda mpya.',
+          'Kila uburutaji una mbadala wa kibodi, hivyo hakuna anayehitaji kipanya.',
+          'Mionekano ni vitufe vya kugeuza katika kikundi, na kwenda wiki au mwezi mwingine hutangaza kichwa chake.',
+        ],
+      },
     },
   },
 

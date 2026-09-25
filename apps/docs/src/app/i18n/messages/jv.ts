@@ -1524,6 +1524,266 @@ export const messages: Messages = {
           'Kursor streaming didhelikake saka screen reader, lan meneng yen obah dikurangi.',
         ],
       },
+      calendar: {
+        name: 'Kalender',
+        title: 'Komponen kalender kanggo Angular',
+        summary: 'Pilih sadina, rentang utawa sawetara dina, uga lumantar keyboard.',
+        description:
+          'Kalender Angular sing aksesibel: pilih sadina, rentang utawa sawetara dina, kanthi min lan max, dina sing ora kasedhiya, sasi jejer lan nomer minggu.',
+        apiDescription:
+          'Referensi API kalender Needless UI: mode pilihan nui-calendar, min, max lan dina sing ora kasedhiya, sasi jejer, uga label.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas kalender Needless UI: grid dina sing duwe jeneng, panah saben dina lan minggu, Page Up lan Page Down saben sasi.',
+        overview: [
+          'Kalender milih sadina, rentang dina, utawa sawetara dina. Nilaine tanggal ISO biasa, kayata <code>2026-09-25</code>, tanpa zona wektu sing bisa nggeser, dadi bisa langsung menyang server utawa <code>&lt;input type="date"&gt;</code>.',
+          'Minggu diwiwiti saka dina kapisan locale, lan jeneng uga angka ngetutake basane. <code>min</code>, <code>max</code> lan <code>unavailable</code> ngecualekake dina, <code>months</code> nampilake sawetara sasi jejer, lan judhul ngalih menyang tampilan sasi lan taun kanggo tanggal sing adoh.',
+          'Saben dina bisa ditekani nganggo keyboard, kaya ing pamilih tanggal WAI-ARIA, lan saben dina dijenengi miturut tanggal lengkape.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Dina pangiriman',
+            text: 'Dina sadurunge dina iki, sawise <code>max</code> utawa sing dikecualekake <code>unavailable</code> ora bisa dipilih, nanging keyboard tetep bisa ngliwati.',
+          },
+          stay: {
+            title: 'Rentang dina',
+            text: 'Kanthi <code>selection="range"</code>, pilihan kapisan miwiti rentang lan pita ngetutake pointer nganti pilihan kapindho. <code>months="2"</code> lan <code>weekNumbers</code> nampilake luwih akeh sakaligus.',
+          },
+          'days-off': {
+            title: 'Sawetara dina',
+            text: 'Kanthi <code>selection="multiple"</code>, saben pilihan nambah utawa mbusak sadina. <code>firstDay</code> miwiti minggu ing dina liya, ora miturut locale.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Kalender kanggo milih dina.',
+            members: {
+              selection: 'Pira dina sing bisa dipilih.',
+              value: 'Dina sing dipilih.',
+              values: 'Dina-dina sing dipilih, kanthi urut.',
+              range: 'Rentang sing dipilih, wiwitan lan pungkasane klebu.',
+              month: 'Sasi sing ditampilake; sing kapisan yen ana sawetara.',
+              view: 'Dina, sasi utawa taun.',
+              'min, max': 'Dina kapisan lan pungkasan sing bisa dipilih.',
+              unavailable: 'Ngecualekake dina liyane, kayata dina prei.',
+              months: 'Sasi sing dijejerake.',
+              weekNumbers: 'Nampilake nomer minggu ISO.',
+              firstDay: 'Dina kapisan ing saminggu, 1 kanggo Senen. Gawane, miturut locale.',
+              locale: 'Ngformat jeneng lan angka, lan nemtokake dina kapisan ing saminggu.',
+              labels: 'Saben teks sing ditampilake utawa diumumake kalender, kanggo diterjemahake.',
+              picked: 'Ngetokake saben pilihan: sadina, utawa rentang yen wis jangkep.',
+              focusDate: 'Mindhah keyboard menyang sawijining dina, lan nampilake sasine.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Rentang dina.',
+            members: { 'start, end': 'Dina kapisan lan pungkasan, loro-lorone klebu.' },
+          },
+        },
+        keyboard: [
+          [
+            'Panah kiwa lan tengen',
+            'Dina sadurunge utawa sabanjure. Kewalik ing teks tengen-menyang-kiwa.',
+          ],
+          ['Panah munggah lan mudhun', 'Minggu sadurunge utawa sabanjure.'],
+          ['Home lan End', 'Dina kapisan utawa pungkasan ing minggu kasebut.'],
+          ['Page Up lan Page Down', 'Sasi sadurunge utawa sabanjure; kanthi Shift, taun.'],
+          ['Enter utawa Spasi', 'Milih dina, utawa mbukak sasi utawa taun.'],
+          ['Escape', 'Mbatalake wiwitan rentang, utawa bali menyang tampilan sadurunge.'],
+        ],
+        notes: [
+          'Saben sasi yaiku <code>grid</code> sing dijenengi miturut judhule, kanthi jeneng lengkap dina-dina ing <code>abbr</code>.',
+          'Saben dina dijenengi miturut tanggal lengkape, ditambahi “Today”, “unavailable” lan wiwitan utawa pungkasan rentang. <code>aria-selected</code> nandhani sing dipilih, lan <code>aria-disabled</code> sing ora bisa dipilih.',
+          'Grid mung dadi siji tab stop, kanthi roving <code>tabindex</code>. Tombol sadurunge lan sabanjure ngumumake sasi sing anyar.',
+        ],
+      },
+      'date-picker': {
+        name: 'Pamilih tanggal',
+        title: 'Komponen pamilih tanggal lan wektu kanggo Angular',
+        summary: 'Ketik tanggal utawa wektu per bagean, utawa pilih ing kalender.',
+        description:
+          'Pamilih tanggal, wektu lan rentang Angular sing aksesibel: bagean sing diketik miturut urutan locale, kalender ing popover, preset lan dhukungan formulir.',
+        apiDescription:
+          'Referensi API pamilih tanggal Needless UI: nui-date-field, nui-time-field, nui-date-picker lan nui-date-range-picker, uga preset.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas pamilih tanggal Needless UI: spinbutton kanggo saben bagean tanggal, lan kalender ing dialog.',
+        overview: [
+          'Kolom tanggal lan wektu diketik per bagean: dina, sasi lan taun miturut urutan locale, banjur jam lan menit ing format 12 utawa 24 jam miturut locale kasebut. Saben bagean yaiku spinbutton: ketik angka lan bagean pindhah dhewe, utawa owahi nganggo tombol panah. Tempel tanggal wutuh, lan kabeh bagean keisi.',
+          'Pamilih nambahake kalender ing popover, kanggo siji tanggal utawa rentang kanthi preset. Nilaine string ISO biasa, kayata <code>2026-09-25</code> utawa <code>2026-09-25T09:30</code>, lan saben kolom bisa karo Signal Forms, reactive forms lan <code>ngModel</code>.',
+          'Ing situs iki, conto-conto ngetutake basa kaca: ganti basane kanggo ndeleng urutan, pamisah lan angka owah.',
+        ],
+        examples: {
+          fields: {
+            title: 'Kolom tanggal lan wektu',
+            text: 'Ketik angkane, utawa agem tombol panah. Backspace kapindho bali sabagean. <code>minuteStep</code> nemtokake sepira adohe panah mindhah menit.',
+          },
+          pickers: {
+            title: 'Pamilih tanggal',
+            text: 'Tombol mbukak kalender ing dina sing dipilih, lan milih bakal nutup kalender. Kanthi <code>granularity="minute"</code>, pamilih uga nampa wektu, lan kalender mung ngowahi tanggal.',
+          },
+          range: {
+            title: 'Rentang tanggal',
+            text: 'Rong kolom lan kalender rong sasi. <code>nuiDateRangePresets()</code> nambahake rentang sing umum; nilaine tetep null nganti wiwitan lan pungkasan disetel, kanthi urut.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Tanggal, utawa tanggal lan wektu, sing diketik per bagean.',
+            members: {
+              value: 'Nilaine, utawa null nganti kabeh bagean keisi.',
+              granularity: 'Mandheg ing dina, utawa terus nganti jam, menit utawa detik.',
+              'min, max': 'Nilai paling awal lan paling pungkasan. Ing njabane, kolom ora valid.',
+              placeholder: 'Titik wiwitan bagean kosong nalika nganggo tombol panah.',
+              hourCycle: 'Format 12 utawa 24 jam. Gawane, miturut locale.',
+              minuteStep: 'Sepira adohe tombol panah mindhah menit.',
+              'disabled, readonly': 'Nyegah owah-owahan.',
+              locale: 'Nemtokake urutan, pamisah, angka lan format jam.',
+              labels: 'Saben teks sing diucapake kolom, kanggo diterjemahake.',
+              invalid: 'Apa nilaine ana ing njaba <code>min</code> lan <code>max</code>.',
+              focus: 'Menehi fokus marang bagean kosong kapisan.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Wektu ing sadina sing diketik per bagean. Nampa input sing padha karo kolom tanggal.',
+            members: { granularity: 'Mandheg ing jam, menit utawa detik.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Kolom tanggal kanthi kalender ing popover. Nampa input kolom tanggal, uga sing iki.',
+            members: {
+              unavailable: 'Dina sing ora bakal dipilih kalender.',
+              'firstDay, weekNumbers': 'Diterusake menyang kalender.',
+              labels: 'Teks kolom, tombol lan kalender.',
+              show: 'Mbukak kalender.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Rong kolom tanggal kanthi kalender rentang. Nampa input pamilih tanggal, uga sing iki.',
+            members: {
+              value: 'Rentange, utawa null nganti wiwitan lan pungkasan disetel, kanthi urut.',
+              presets: 'Rentang kanthi jeneng kanggo dipilih sepisan klik.',
+              months: 'Sasi sing dijejerake ing kalender.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Rentang kanthi jeneng, tetep utawa digawe nalika dipilih.',
+            members: {
+              label: 'Jenenge.',
+              range: 'Rentange, utawa fungsi sing nggawe.',
+            },
+          },
+        },
+        keyboard: [
+          ['Angka', 'Ngetik ing bagean. Pindhah terus yen ora ana angka liya sing bisa nyusul.'],
+          [
+            'Panah munggah lan mudhun',
+            'Ngowahi bagean salangkah; Page Up lan Page Down luwih adoh.',
+          ],
+          ['Panah kiwa lan tengen, Tab', 'Bagean sadurunge utawa sabanjure.'],
+          ['Backspace', 'Mbusak bagean, banjur bali siji.'],
+          ['A lan P', 'Nyetel AM utawa PM.'],
+        ],
+        notes: [
+          'Kolom yaiku <code>group</code>: wenehana jeneng nganggo <code>aria-label</code> utawa <code>aria-labelledby</code>. Saben bagean yaiku <code>spinbutton</code> sing dijenengi miturut perangane, sing maca sasi nganggo jenenge lan bagean kosong minangka “Empty”.',
+          'Bagean-bagean iku teks sing bisa disunting, dadi keyboard layar sentuh mbukak kanthi angka.',
+          'Tombol pamilih jenenge “Choose a date”, lan popover-e yaiku <code>dialog</code>. Milih tanggal mbalekake fokus menyang tombol.',
+          'Kalender ing njerone tumindak kaya <a href="/components/calendar">kalender</a>.',
+        ],
+      },
+      scheduler: {
+        name: 'Pangatur jadhwal',
+        title: 'Komponen pangatur jadhwal kanggo Angular',
+        summary: 'Acara ing sasi, minggu, dina utawa agenda, diseret menyang panggonane.',
+        description:
+          'Pangatur jadhwal Angular sing aksesibel: sasi, minggu, dina lan agenda, acara tumpang-tindih jejer, nyeret lan ngowahi ukuran, uga kontrol keyboard jangkep.',
+        apiDescription:
+          'Referensi API pangatur jadhwal Needless UI: tampilan nui-scheduler, acara, nyunting lan milih, output-e, lan template kanggo acara.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas pangatur jadhwal Needless UI: grid dina lan wektu, acara sing duwe jeneng, lan gerakan keyboard kanggo saben seretan.',
+        overview: [
+          'Pangatur jadhwal nampilake acara ing sasi, minggu, dina utawa agenda. Acara iku data biasa kanthi wektu ISO; sing tumpang-tindih mbagi ambane, acara sing ngliwati tengah wengi katon ing loro dinane, lan acara sadina muput mbentang ing sisih ndhuwur minangka bar.',
+          'Pangatur iki ora tau ngowahi acara panjenengan dhewe. Seret acara, utawa pinggir ngisore, lan <code>eventChange</code> nglaporake wektu anyar; pilih wektu ing grid, lan <code>slotSelect</code> nglaporake wektu kasebut. <code>rangeChange</code> ngandhani dina endi wae sing ditampilake, supaya acarane bisa dimuat.',
+          'Kabeh sing bisa ditindakake pointer, bisa ditindakake keyboard uga: grid mung siji tab stop, tombol panah kanggo pindhah antarane dina lan wektu, lan Alt karo panah mindhah acara.',
+        ],
+        examples: {
+          planner: {
+            title: 'Seminggu kanggo dirancang',
+            text: 'Kanthi <code>editable</code> lan <code>selectable</code>, seret acara kanggo mindhah, seret pinggir ngisore kanggo ngowahi ukurane, lan seret ing wektu kosong kanggo nambah acara anyar. Conto iki nganyari acarane saka output.',
+          },
+          month: {
+            title: 'Sasi lan agenda',
+            text: 'Acara pirang-pirang dina katon minangka bar; dina sing rame nuduhake isih ana pira maneh. <code>views</code> mung nyedhiyakake sasi lan agenda kanggo <code>agendaDays</code> dina sabanjure.',
+          },
+          rooms: {
+            title: 'Pesenan ruangan sadina',
+            text: '<code>nuiSchedulerEvent</code> nggambar saben pesenan karo ruangan lan tuan rumahe. <code>slotMinutes="15"</code> ndadekake baris luwih rapet.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Acara ing sasi, minggu, dina utawa agenda.',
+            members: {
+              events: 'Acara sing ditampilake.',
+              view: 'Tampilan sing katon.',
+              views: 'Tampilan sing bisa digonta-ganti pangguna.',
+              date: 'Dina sing ditampilake, lan posisi keyboard.',
+              slotMinutes: 'Menit saben baris ing grid wektu, lan langkah obahe acara.',
+              scrollHour: 'Jam sing katon nalika grid wektu dibukak.',
+              agendaDays: 'Cacahe dina ing ngarep sing ditampilake agenda.',
+              editable: 'Acara bisa dipindhah lan diowahi ukurane, nganggo pointer lan keyboard.',
+              selectable: 'Wektu bisa dipilih ing grid, kanggo nggawe acara.',
+              firstDay: 'Dina kapisan ing saminggu, 1 kanggo Senen. Gawane, miturut locale.',
+              headingLevel: 'Level heading judhul; dina-dina ing agenda siji level luwih jero.',
+              locale: 'Ngformat dina lan wektu.',
+              labels:
+                'Saben teks sing ditampilake utawa diumumake pangatur jadhwal, kanggo diterjemahake.',
+              eventClick: 'Ngetokake acara sing diklik, utawa dibukak nganggo Enter.',
+              eventChange: 'Ngetokake wektu anyar acara sawise dipindhah utawa diowahi ukurane.',
+              slotSelect: 'Ngetokake wektu sing dipilih ing grid.',
+              rangeChange: 'Ngetokake dina kapisan lan pungkasan sing ditampilake nalika owah.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Siji acara. Pungkasane acara sing duwe jam ora klebu; pungkasane acara sadina muput yaiku dina pungkasane.',
+            members: {
+              'id, title': 'Kuncine, lan apa sing ditampilake.',
+              'start, end': 'Tanggal lan wektu, utawa tanggal wae kanggo acara sadina muput.',
+              allDay: 'Gawane, apa <code>start</code> ora duwe wektu.',
+              tone: 'Wernane.',
+              editable: 'Apa acara bisa dipindhah, apa wae sing dikandhakake pangatur jadhwal.',
+              data: 'Apa wae liyane sing disimpen bareng acara.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Nggambar acara. Konteks-e ngemot acara lan wektune minangka teks.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Tombol panah',
+            'Pindhah saben dina lan saben slot wektu. Kewalik ing teks tengen-menyang-kiwa.',
+          ],
+          ['Page Up lan Page Down', 'Sasi, minggu utawa dina sadurunge utawa sabanjure.'],
+          ['Shift + tombol panah', 'Ndawakake wektu sing dipilih.'],
+          ['Enter utawa Spasi ing sel', 'Mlebu menyang acarane, utawa milih wektune.'],
+          [
+            'Panah munggah lan mudhun ing acara',
+            'Acara sadurunge utawa sabanjure ing sel kasebut.',
+          ],
+          ['Alt + tombol panah ing acara', 'Mindhah acara siji slot wektu utawa sadina.'],
+          ['Alt + Shift + panah munggah utawa mudhun', 'Nyendhekake utawa ndawakake acara.'],
+          ['Escape', 'Bali menyang sel, ngeculake wektu sing dipilih, utawa mbatalake seretan.'],
+        ],
+        notes: [
+          'Sasi, minggu lan dina yaiku <code>grid</code> sing dijenengi miturut judhule. Dina dadi header kolom lan wektu dadi header baris, dadi saben sel diwaca bareng dina lan wektune.',
+          'Saben acara yaiku tombol sing dijenengi miturut judhul, dina lan wektune, kayata “Standup, Friday, September 25, 9:00 – 9:30 AM”. Mindhah utawa ngowahi ukuran ngumumake wektu anyar.',
+          'Saben seretan duwe padhanan keyboard, dadi ora ana sing butuh pointer.',
+          'Tampilan-tampilan iku tombol toggle ing sawijining klompok, lan pindhah menyang minggu utawa sasi liya ngumumake judhule.',
+        ],
+      },
     },
   },
 

@@ -1,0 +1,10 @@
+<nui-scheduler
+  [events]="events()"
+  editable
+  selectable
+  firstDay="1"
+  (eventChange)="move($event)"
+  (slotSelect)="create($event)"
+  (eventClick)="open($event)"
+/>
+<p>{{ note() }}</p>

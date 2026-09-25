@@ -1,0 +1,10 @@
+.booking-title {
+  overflow: hidden;
+  font-weight: var(--nui-font-weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.booking-room {
+  white-space: nowrap;
+}

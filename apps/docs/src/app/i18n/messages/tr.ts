@@ -1497,6 +1497,266 @@ export const messages: Messages = {
           'Akış imleci ekran okuyuculardan gizlenir; azaltılmış hareket açıkken yanıp sönmez.',
         ],
       },
+      calendar: {
+        name: 'Takvim',
+        title: 'Angular için takvim bileşeni',
+        summary: 'Klavyeyle de bir gün, bir aralık ya da birden çok gün seçin.',
+        description:
+          'Erişilebilir Angular takvimi: bir gün, bir aralık ya da birden çok gün seçimi; min ve max, kullanılamayan günler, yan yana aylar ve hafta numaraları.',
+        apiDescription:
+          'Needless UI takviminin API referansı: nui-calendar seçim modları, min, max ve kullanılamayan günler, yan yana aylar ve etiketler.',
+        a11yDescription:
+          'Needless UI takviminin klavye kullanımı ve erişilebilirliği: adlandırılmış günlerden bir ızgara, oklarla gün ve hafta, Page Up ve Page Down ile ay.',
+        overview: [
+          'Takvimle bir gün, bir gün aralığı ya da birden çok gün seçilir. Değerler <code>2026-09-25</code> gibi düz ISO tarihleridir; onları kaydıracak bir saat dilimi yoktur, bu yüzden doğrudan sunucuya ya da bir <code>&lt;input type="date"&gt;</code> öğesine gidebilirler.',
+          'Haftalar yerel ayarın ilk gününde başlar; adlar ve rakamlar da onun dilini izler. <code>min</code>, <code>max</code> ve <code>unavailable</code> günleri seçim dışı bırakır, <code>months</code> birkaç ayı yan yana gösterir; uzak tarihler için de başlık, görünümü aylara ve yıllara uzaklaştırır.',
+          'WAI-ARIA tarih seçici örneğindeki gibi her güne klavyeyle ulaşılabilir ve her gün tam tarihiyle adlandırılır.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Teslimat günü',
+            text: 'Bugünden önceki, <code>max</code> değerinden sonraki ya da <code>unavailable</code> ile dışlanan günler seçilemez; ancak klavye bu günlerin üzerinden yine de geçer.',
+          },
+          stay: {
+            title: 'Bir aralık',
+            text: '<code>selection="range"</code> ile ilk seçim aralığı başlatır ve vurgu, ikinci seçime kadar işaretçiyi izler. <code>months="2"</code> ve <code>weekNumbers</code> aynı anda daha fazlasını gösterir.',
+          },
+          'days-off': {
+            title: 'Birden çok gün',
+            text: '<code>selection="multiple"</code> ile her seçim bir gün ekler ya da kaldırır. <code>firstDay</code>, haftayı yerel ayarınkinden farklı bir günde başlatır.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Gün seçmek için bir takvim.',
+            members: {
+              selection: 'Kaç gün seçilebileceği.',
+              value: 'Seçilen gün.',
+              values: 'Seçilen günler, sırasıyla.',
+              range: 'Seçilen aralık; iki ucu da dahil.',
+              month: 'Gösterilen ay; birkaç ay varsa ilki.',
+              view: 'Günler, aylar ya da yıllar.',
+              'min, max': 'Seçilebilecek ilk ve son gün.',
+              unavailable: 'Tatiller gibi başka günleri seçim dışı bırakır.',
+              months: 'Yan yana gösterilen ay sayısı.',
+              weekNumbers: 'ISO hafta numaralarını gösterir.',
+              firstDay: 'Haftanın ilk günü; pazartesi için 1. Varsayılan: yerel ayarınki.',
+              locale: 'Adları ve rakamları biçimlendirir, haftanın ilk gününü belirler.',
+              labels: 'Takvimin gösterdiği veya duyurduğu her metin; çeviri için.',
+              picked: 'Her seçimi yayar: bir gün ya da tamamlanan bir aralık.',
+              focusDate: 'Klavye odağını bir güne taşır ve o günün ayını gösterir.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Bir gün aralığı.',
+            members: { 'start, end': 'İlk ve son gün; ikisi de dahil.' },
+          },
+        },
+        keyboard: [
+          ['Sol ve sağ ok', 'Önceki veya sonraki gün. Sağdan sola metinde yönler yer değiştirir.'],
+          ['Yukarı ve aşağı ok', 'Önceki veya sonraki hafta.'],
+          ['Home ve End', 'Haftanın ilk veya son günü.'],
+          ['Page Up ve Page Down', 'Önceki veya sonraki ay; Shift ile yıl.'],
+          ['Enter veya Boşluk', 'Günü seçer ya da görünümü bir aya veya yıla yakınlaştırır.'],
+          ['Esc', 'Aralığın ilk seçilen ucunu iptal eder ya da daha ayrıntılı görünüme döner.'],
+        ],
+        notes: [
+          'Her ay, başlığıyla adlandırılan bir <code>grid</code> öğesidir; hafta günlerinin tam adları <code>abbr</code> içinde yer alır.',
+          'Her gün tam tarihiyle adlandırılır; bu ada “Today”, “unavailable” ve aralığın uçları eklenir. <code>aria-selected</code> seçileni, <code>aria-disabled</code> ise seçilemeyeni işaretler.',
+          'Izgara tek bir sekme durağıdır ve gezici bir <code>tabindex</code> kullanır. Önceki ve sonraki ay düğmeleri yeni ayı duyurur.',
+        ],
+      },
+      'date-picker': {
+        name: 'Tarih seçici',
+        title: 'Angular için tarih ve saat seçici bileşenleri',
+        summary: 'Tarihi ya da saati segmentler hâlinde yazın veya takvimden seçin.',
+        description:
+          'Erişilebilir Angular tarih, saat ve aralık seçicileri: yerel ayarın sırasıyla yazılan segmentler, popover’da takvim, hazır aralıklar ve form desteği.',
+        apiDescription:
+          'Needless UI tarih seçicilerinin API referansı: hazır aralıklarla birlikte nui-date-field, nui-time-field, nui-date-picker ve nui-date-range-picker.',
+        a11yDescription:
+          'Needless UI tarih seçicilerinin klavye kullanımı ve erişilebilirliği: tarihin her parçası için bir spinbutton ve diyalog içinde bir takvim.',
+        overview: [
+          'Tarih ve saat alanları segmentler hâlinde yazılır: gün, ay ve yıl yerel ayarın sırasıyla, ardından saat ve dakika yerel ayarın 12 ya da 24 saatlik düzeniyle. Her segment bir spinbutton’dır: rakamları yazın, kendiliğinden sonrakine geçer; ya da ok tuşlarıyla adım adım değiştirin. Tam bir tarih yapıştırdığınızda tüm segmentler dolar.',
+          'Seçiciler, tek bir tarih ya da hazır aralıklarla bir aralık için popover’da bir takvim ekler. Değerler <code>2026-09-25</code> ya da <code>2026-09-25T09:30</code> gibi düz ISO dizeleridir ve her alan Signal Forms, reaktif formlar ve <code>ngModel</code> ile çalışır.',
+          'Bu sitede örnekler sayfanın dilini izler: sıranın, ayırıcıların ve rakamların nasıl değiştiğini görmek için dili değiştirin.',
+        ],
+        examples: {
+          fields: {
+            title: 'Tarih ve saat alanları',
+            text: 'Rakamları yazın ya da ok tuşlarını kullanın. İkinci Backspace bir önceki segmente döner. <code>minuteStep</code>, okların dakikayı kaçar kaçar değiştireceğini belirler.',
+          },
+          pickers: {
+            title: 'Tarih seçiciler',
+            text: 'Düğme takvimi seçili günde açar; bir gün seçmek takvimi kapatır. <code>granularity="minute"</code> ile seçici saati de alır ve takvim yalnızca tarihi değiştirir.',
+          },
+          range: {
+            title: 'Bir tarih aralığı',
+            text: 'İki alan ve iki aylık bir takvim. <code>nuiDateRangePresets()</code> sık kullanılan aralıkları ekler; iki uç da sırayla girilene kadar değer null kalır.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Segmentler hâlinde yazılan bir tarih ya da tarih ve saat.',
+            members: {
+              value: 'Değer; tüm segmentler dolana kadar null.',
+              granularity: 'Günde durur ya da saate, dakikaya veya saniyeye kadar devam eder.',
+              'min, max': 'En erken ve en geç değerler. Bunların dışında alan geçersizdir.',
+              placeholder: 'Boş segmentlerin ok tuşlarıyla hangi değerden başlayacağı.',
+              hourCycle: '12 ya da 24 saatlik düzen. Varsayılan: yerel ayarınki.',
+              minuteStep: 'Ok tuşlarının dakikayı kaçar kaçar değiştireceği.',
+              'disabled, readonly': 'Değişiklikleri engeller.',
+              locale: 'Sırayı, ayırıcıları, rakamları ve saat düzenini belirler.',
+              labels: 'Alanın söylediği her metin; çeviri için.',
+              invalid: 'Değerin <code>min</code> ve <code>max</code> dışında olup olmadığı.',
+              focus: 'İlk boş segmente odaklanır.',
+            },
+          },
+          NuiTimeField: {
+            summary: 'Segmentler hâlinde yazılan bir saat. Tarih alanıyla aynı girdileri alır.',
+            members: { granularity: 'Saatte, dakikada ya da saniyede durur.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Popover’da takvimi olan bir tarih alanı. Tarih alanının girdilerini ve aşağıdakileri alır.',
+            members: {
+              unavailable: 'Takvimde seçilemeyecek günler.',
+              'firstDay, weekNumbers': 'Takvime iletilir.',
+              labels: 'Alanın, düğmenin ve takvimin metinleri.',
+              show: 'Takvimi açar.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Aralık takvimi olan iki tarih alanı. Tarih seçicinin girdilerini ve aşağıdakileri alır.',
+            members: {
+              value: 'Aralık; iki uç da sırayla girilene kadar null.',
+              presets: 'Tek tıkla seçilen adlandırılmış aralıklar.',
+              months: 'Takvimde yan yana gösterilen ay sayısı.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Sabit ya da seçildiği anda oluşturulan adlandırılmış bir aralık.',
+            members: {
+              label: 'Adı.',
+              range: 'Aralık ya da onu oluşturan bir fonksiyon.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Rakamlar',
+            'Segmente yazar. Ardından başka bir rakam gelemeyecekse sonraki segmente geçer.',
+          ],
+          [
+            'Yukarı ve aşağı ok',
+            'Segmenti bir adım değiştirir; Page Up ve Page Down daha büyük adımlarla.',
+          ],
+          ['Sol ve sağ ok, Tab', 'Önceki veya sonraki segment.'],
+          ['Backspace', 'Segmenti temizler, ardından bir öncekine döner.'],
+          ['A ve P', 'AM ya da PM olarak ayarlar.'],
+        ],
+        notes: [
+          'Alan bir <code>group</code> öğesidir: <code>aria-label</code> veya <code>aria-labelledby</code> ile adlandırın. Her segment, temsil ettiği parçayla adlandırılan bir <code>spinbutton</code> öğesidir; ayları adıyla, boş segmentleri ise “Empty” olarak okur.',
+          'Segmentler düzenlenebilir metindir; bu yüzden dokunmatik klavyeler rakamlarla açılır.',
+          'Seçicinin düğmesinin adı “Choose a date” olur ve popover’ı bir <code>dialog</code> öğesidir. Bir tarih seçmek odağı düğmeye geri verir.',
+          'İçindeki takvim, <a href="/components/calendar">takvim</a> bileşeni gibi çalışır.',
+        ],
+      },
+      scheduler: {
+        name: 'Planlayıcı',
+        title: 'Angular için planlayıcı bileşeni',
+        summary:
+          'Etkinlikleri ay, hafta, gün ya da ajanda görünümünde gösterin, sürükleyerek yerleştirin.',
+        description:
+          'Erişilebilir Angular planlayıcısı: ay, hafta, gün ve ajanda görünümleri, yan yana çakışan etkinlikler, sürükleyip taşıma ve boyutlandırma, tam klavye denetimi.',
+        apiDescription:
+          'Needless UI planlayıcısının API referansı: nui-scheduler görünümleri, etkinlikler, düzenleme ve seçim, çıktıları ve etkinlik şablonu.',
+        a11yDescription:
+          'Needless UI planlayıcısının klavye kullanımı ve erişilebilirliği: gün ve saat ızgaraları, adlandırılmış etkinlikler, her sürükleme için klavye karşılığı.',
+        overview: [
+          'Planlayıcı, etkinlikleri ay, hafta, gün ya da ajanda görünümünde gösterir. Etkinlikler, ISO biçiminde zamanlar taşıyan düz verilerdir; çakışan etkinlikler genişliği paylaşır, gece yarısını aşan etkinlikler iki günde de görünür, tüm gün süren etkinlikler ise üstte şeritler hâlinde uzanır.',
+          'Planlayıcı etkinliklerinizi hiçbir zaman kendisi değiştirmez. Bir etkinliği ya da alt kenarını sürükleyin, <code>eventChange</code> yeni zamanları bildirir; ızgarada bir zaman seçin, <code>slotSelect</code> bunu bildirir. <code>rangeChange</code> hangi günlerin gösterildiğini söyler; böylece o günlerin etkinliklerini yükleyebilirsiniz.',
+          'İşaretçiyle yapılan her şey klavyeyle de yapılabilir: ızgara tek bir sekme durağıdır, ok tuşları günler ve saatler arasında gezinir, Alt ile birlikte oklar ise bir etkinliği taşır.',
+        ],
+        examples: {
+          planner: {
+            title: 'Planlanacak bir hafta',
+            text: '<code>editable</code> ve <code>selectable</code> ile etkinlikleri taşımak için sürükleyin, yeniden boyutlandırmak için alt kenarlarından sürükleyin, yeni bir etkinlik eklemek için de boş zamanın üzerinde sürükleyin. Örnek, etkinliklerini çıktılardan gelen değerlerle günceller.',
+          },
+          month: {
+            title: 'Bir ay ve bir ajanda',
+            text: 'Birden çok güne yayılan etkinlikler şerit olarak uzanır; yoğun bir gün, kaç etkinliğin daha olduğunu gösterir. <code>views</code> yalnızca ayı ve önümüzdeki <code>agendaDays</code> günün ajandasını sunar.',
+          },
+          rooms: {
+            title: 'Toplantı odalarında bir gün',
+            text: '<code>nuiSchedulerEvent</code> her rezervasyonu odası ve düzenleyeniyle birlikte çizer. <code>slotMinutes="15"</code> zamanı daha ince satırlara böler.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Ay, hafta, gün ya da ajanda görünümünde etkinlikler.',
+            members: {
+              events: 'Gösterilecek etkinlikler.',
+              view: 'Gösterilen görünüm.',
+              views: 'Kullanıcıların arasında geçiş yapabileceği görünümler.',
+              date: 'Gösterilen gün; klavye odağı da buradadır.',
+              slotMinutes:
+                'Zaman ızgarasında satır başına dakika; etkinlikler de bu adımla taşınır.',
+              scrollHour: 'Zaman ızgarasının açıldığı saat.',
+              agendaDays: 'Ajandanın kaç gün ileriye baktığı.',
+              editable:
+                'Etkinlikler işaretçiyle ve klavyeyle taşınabilir ve yeniden boyutlandırılabilir.',
+              selectable: 'Etkinlik oluşturmak için ızgarada zaman seçilebilir.',
+              firstDay: 'Haftanın ilk günü; pazartesi için 1. Varsayılan: yerel ayarınki.',
+              headingLevel: 'Başlığın düzeyi; ajandadaki günler bir düzey daha derindir.',
+              locale: 'Günleri ve saatleri biçimlendirir.',
+              labels: 'Planlayıcının gösterdiği veya duyurduğu her metin; çeviri için.',
+              eventClick: 'Tıklanan ya da Enter ile açılan etkinliği yayar.',
+              eventChange:
+                'Taşıma veya yeniden boyutlandırmanın ardından etkinliğin yeni zamanlarını yayar.',
+              slotSelect: 'Izgarada seçilen zamanı yayar.',
+              rangeChange: 'Gösterilen ilk ve son gün değiştiğinde bunları yayar.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Bir etkinlik. Saatli bir etkinliğin bitişi dahil değildir; tüm gün süren bir etkinliğin bitişi ise son günüdür.',
+            members: {
+              'id, title': 'Anahtarı ve gösterdiği metin.',
+              'start, end': 'Tarih ve saatler; tüm gün süren etkinlikler için yalnızca tarihler.',
+              allDay:
+                'Varsayılan olarak, <code>start</code> saat içermiyorsa etkinlik tüm gün sürer.',
+              tone: 'Rengi.',
+              editable: 'Planlayıcının ayarı ne olursa olsun, etkinliğin taşınıp taşınamayacağı.',
+              data: 'Etkinlikle birlikte saklanacak diğer her şey.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Etkinlikleri çizer. Bağlam, etkinliği ve zamanını metin olarak içerir.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Ok tuşları',
+            'Günler ve zaman dilimleri arasında ilerler. Sağdan sola metinde yönler yer değiştirir.',
+          ],
+          ['Page Up ve Page Down', 'Önceki veya sonraki ay, hafta ya da gün.'],
+          ['Shift + ok tuşları', 'Seçilen zamanı genişletir.'],
+          ['Hücrede Enter veya Boşluk', 'Hücrenin etkinliklerine girer ya da zamanını seçer.'],
+          ['Etkinlikte yukarı ve aşağı ok', 'Hücredeki önceki veya sonraki etkinlik.'],
+          ['Etkinlikte Alt + ok tuşları', 'Etkinliği bir zaman dilimi ya da bir gün taşır.'],
+          ['Alt + Shift + yukarı veya aşağı ok', 'Etkinliği kısaltır veya uzatır.'],
+          ['Esc', 'Hücreye döner, zaman seçimini kaldırır ya da sürüklemeyi iptal eder.'],
+        ],
+        notes: [
+          'Ay, hafta ve gün, başlıklarıyla adlandırılan <code>grid</code> öğeleridir. Sütun başlıkları günler, satır başlıkları saatlerdir; böylece her hücre, günü ve saatiyle birlikte okunur.',
+          'Her etkinlik, başlığı, günü ve saatiyle adlandırılan bir düğmedir; örneğin “Standup, Friday, September 25, 9:00 – 9:30 AM”. Taşıma veya yeniden boyutlandırma yeni zamanı duyurur.',
+          'Her sürüklemenin bir klavye karşılığı vardır; böylece kimsenin işaretçiye ihtiyacı olmaz.',
+          'Görünümler, bir grup içindeki geçiş düğmeleridir; başka bir haftaya ya da aya geçildiğinde yeni başlık duyurulur.',
+        ],
+      },
     },
   },
 

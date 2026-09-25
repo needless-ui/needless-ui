@@ -1,5 +1,14 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, computed, inject, input, signal, type Type } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  Injector,
+  input,
+  LOCALE_ID,
+  signal,
+  type Type,
+} from '@angular/core';
 import { NuiButton } from '@needless-ui/angular/button';
 import type { ExampleEntry } from '../docs/registry';
 import type { ComponentId } from '../docs/ids';
@@ -21,12 +30,12 @@ import { TrustedHtml } from './trusted';
           @if (example().defer; as height) {
             <!-- Heavy examples render in the browser, near the viewport. -->
             @defer (on viewport) {
-              <ng-container *ngComponentOutlet="type()" />
+              <ng-container *ngComponentOutlet="type(); injector: injector()" />
             } @placeholder {
               <div class="example-placeholder" [style.min-height.px]="height"></div>
             }
           } @else {
-            <ng-container *ngComponentOutlet="type()" />
+            <ng-container *ngComponentOutlet="type(); injector: injector()" />
           }
         </div>
         <div class="example-bar">
@@ -62,6 +71,14 @@ export class ExampleViewer {
   readonly type = input<Type<unknown> | null>(null);
 
   private readonly i18n = inject(I18n);
+  private readonly parent = inject(Injector);
+  /** Examples format dates and numbers in the page's language. */
+  protected readonly injector = computed(() =>
+    Injector.create({
+      providers: [{ provide: LOCALE_ID, useValue: this.i18n.locale() }],
+      parent: this.parent,
+    }),
+  );
   protected readonly showCode = signal(false);
   protected readonly labels = computed(() => this.i18n.t().components.example);
   protected readonly text = computed(

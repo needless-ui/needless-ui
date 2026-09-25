@@ -1541,6 +1541,271 @@ export const messages: Messages = {
           'El cursor del streaming está oculto para los lectores de pantalla y se queda quieto con el movimiento reducido.',
         ],
       },
+      calendar: {
+        name: 'Calendario',
+        title: 'Componente de calendario para Angular',
+        summary: 'Elige un día, un rango o varios días, también con el teclado.',
+        description:
+          'Calendario accesible para Angular: elige un día, un rango o varios días, con mínimo y máximo, días no disponibles, meses lado a lado y números de semana.',
+        apiDescription:
+          'Referencia de la API del calendario de Needless UI: modelos de selección de nui-calendar, min, max y días no disponibles, meses lado a lado y etiquetas.',
+        a11yDescription:
+          'Teclado y accesibilidad del calendario de Needless UI: una cuadrícula de días con nombre, flechas para días y semanas, Re Pág y Av Pág para meses.',
+        overview: [
+          'El calendario permite elegir un día, un rango de días o varios días. Los valores son fechas ISO simples, como <code>2026-09-25</code>, sin zona horaria que las desplace, así que van directamente a un servidor o a un <code>&lt;input type="date"&gt;</code>.',
+          'Las semanas empiezan en el primer día que fija la configuración regional, y los nombres y los dígitos siguen su idioma. <code>min</code>, <code>max</code> y <code>unavailable</code> descartan días, <code>months</code> muestra varios meses lado a lado y el título pasa a la vista de meses y años para las fechas lejanas.',
+          'Todos los días se alcanzan con el teclado, como en el selector de fecha de WAI-ARIA, y cada uno lleva como nombre su fecha completa.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Un día de entrega',
+            text: 'Los días anteriores a hoy, posteriores a <code>max</code> o descartados por <code>unavailable</code> no se pueden elegir, pero el teclado sigue pasando por ellos.',
+          },
+          stay: {
+            title: 'Un rango',
+            text: 'Con <code>selection="range"</code>, la primera elección inicia el rango y la franja sigue al puntero hasta la segunda. <code>months="2"</code> y <code>weekNumbers</code> muestran más a la vez.',
+          },
+          'days-off': {
+            title: 'Varios días',
+            text: 'Con <code>selection="multiple"</code>, cada elección añade o quita un día. <code>firstDay</code> hace que la semana empiece en un día distinto al de la configuración regional.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Un calendario para elegir días.',
+            members: {
+              selection: 'Cuántos días se pueden elegir.',
+              value: 'El día elegido.',
+              values: 'Los días elegidos, en orden.',
+              range: 'El rango elegido, con ambos extremos incluidos.',
+              month: 'El mes que se muestra; si hay varios, el primero.',
+              view: 'Días, meses o años.',
+              'min, max': 'El primer y el último día que se pueden elegir.',
+              unavailable: 'Descarta otros días, como los festivos.',
+              months: 'Meses lado a lado.',
+              weekNumbers: 'Muestra los números de semana ISO.',
+              firstDay:
+                'El primer día de la semana, 1 para el lunes. Por defecto, el de la configuración regional.',
+              locale: 'Da formato a los nombres y los dígitos, y elige el primer día de la semana.',
+              labels: 'Todos los textos que el calendario muestra o anuncia, para traducirlos.',
+              picked: 'Emite cada elección: un día, o un rango cuando está completo.',
+              focusDate: 'Lleva el foco del teclado a un día y muestra su mes.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Un rango de días.',
+            members: { 'start, end': 'El primer y el último día, ambos incluidos.' },
+          },
+        },
+        keyboard: [
+          [
+            'Flechas izquierda y derecha',
+            'Día anterior o siguiente. Las flechas se invierten en texto de derecha a izquierda.',
+          ],
+          ['Flechas arriba y abajo', 'Semana anterior o siguiente.'],
+          ['Inicio y Fin', 'Primer o último día de la semana.'],
+          ['Re Pág y Av Pág', 'Mes anterior o siguiente; con Mayús, año.'],
+          ['Intro o Espacio', 'Elige el día, o entra en un mes o un año.'],
+          ['Esc', 'Descarta el primer extremo de un rango, o vuelve a acercar la vista.'],
+        ],
+        notes: [
+          'Cada mes es un <code>grid</code> que toma su nombre del título, con los nombres completos de los días de la semana en <code>abbr</code>.',
+          'Cada día se nombra con su fecha completa, a la que se añaden «Today», «unavailable» y los extremos de un rango. <code>aria-selected</code> marca lo elegido, y <code>aria-disabled</code>, lo que no se puede elegir.',
+          'La cuadrícula es una sola parada de tabulación, con un <code>tabindex</code> itinerante. Los botones de mes anterior y siguiente anuncian el mes nuevo.',
+        ],
+      },
+      'date-picker': {
+        name: 'Selector de fecha',
+        title: 'Componentes de selector de fecha y hora para Angular',
+        summary: 'Escribe una fecha u hora por segmentos, o elígela en un calendario.',
+        description:
+          'Selectores de fecha, hora y rango accesibles para Angular: segmentos en el orden regional, un calendario en un popover, rangos predefinidos y formularios.',
+        apiDescription:
+          'Referencia de la API de los selectores de fecha de Needless UI: nui-date-field, nui-time-field, nui-date-picker, nui-date-range-picker y rangos predefinidos.',
+        a11yDescription:
+          'Teclado y accesibilidad de los selectores de fecha de Needless UI: un spinbutton por cada parte de la fecha y un calendario en un diálogo.',
+        overview: [
+          'Los campos de fecha y hora se escriben por segmentos: día, mes y año en el orden de la configuración regional, y luego horas y minutos en su reloj de 12 o 24 horas. Cada segmento es un spinbutton: al escribir dígitos avanza solo al siguiente, o puedes cambiarlo paso a paso con las flechas. Pega una fecha completa y se rellenan todos los segmentos.',
+          'Los selectores añaden un calendario en un popover, para una fecha o para un rango con opciones predefinidas. Los valores son cadenas ISO simples, como <code>2026-09-25</code> o <code>2026-09-25T09:30</code>, y todos los campos funcionan con Signal Forms, formularios reactivos y <code>ngModel</code>.',
+          'En este sitio, los ejemplos siguen el idioma de la página: elige otro para ver cómo cambian el orden, los separadores y los dígitos.',
+        ],
+        examples: {
+          fields: {
+            title: 'Campos de fecha y hora',
+            text: 'Escribe los dígitos o usa las flechas. Un segundo Retroceso vuelve al segmento anterior. <code>minuteStep</code> define cuánto mueven las flechas los minutos.',
+          },
+          pickers: {
+            title: 'Selectores de fecha',
+            text: 'El botón abre un calendario en el día elegido, y al elegir un día se cierra. Con <code>granularity="minute"</code>, el selector admite también una hora, y el calendario solo cambia la fecha.',
+          },
+          range: {
+            title: 'Un rango de fechas',
+            text: 'Dos campos y un calendario de dos meses. <code>nuiDateRangePresets()</code> añade rangos habituales; el valor sigue siendo null hasta que se fijan ambos extremos, en orden.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Una fecha, o una fecha y hora, escrita por segmentos.',
+            members: {
+              value: 'El valor, o null hasta que se rellenan todos los segmentos.',
+              granularity: 'Se detiene en el día, o sigue hasta la hora, el minuto o el segundo.',
+              'min, max':
+                'El valor más temprano y el más tardío. Fuera de esos límites, el campo no es válido.',
+              placeholder: 'El punto de partida de los segmentos vacíos al usar las flechas.',
+              hourCycle: 'Un reloj de 12 o 24 horas. Por defecto, el de la configuración regional.',
+              minuteStep: 'Cuánto mueven las flechas los minutos.',
+              'disabled, readonly': 'Impiden los cambios.',
+              locale: 'Define el orden, los separadores, los dígitos y el reloj.',
+              labels: 'Todos los textos que anuncia el campo, para traducirlos.',
+              invalid: 'Si el valor está fuera de <code>min</code> y <code>max</code>.',
+              focus: 'Pone el foco en el primer segmento vacío.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Una hora del día escrita por segmentos. Acepta los mismos inputs que el campo de fecha.',
+            members: { granularity: 'Se detiene en la hora, el minuto o el segundo.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Un campo de fecha con un calendario en un popover. Acepta los inputs del campo de fecha, y estos.',
+            members: {
+              unavailable: 'Días que el calendario no deja elegir.',
+              'firstDay, weekNumbers': 'Se pasan al calendario.',
+              labels: 'Los textos del campo, del botón y del calendario.',
+              show: 'Abre el calendario.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Dos campos de fecha con un calendario de rango. Acepta los inputs del selector de fecha, y estos.',
+            members: {
+              value: 'El rango, o null hasta que se fijan ambos extremos, en orden.',
+              presets: 'Rangos con nombre para elegir con un clic.',
+              months: 'Meses lado a lado en el calendario.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Un rango con nombre, fijo o calculado al elegirlo.',
+            members: {
+              label: 'Su nombre.',
+              range: 'El rango, o una función que lo genera.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Dígitos',
+            'Escriben en el segmento. El foco pasa al siguiente en cuanto ya no pueda seguir ningún otro dígito.',
+          ],
+          [
+            'Flechas arriba y abajo',
+            'Cambian el segmento paso a paso; Re Pág y Av Pág, en pasos más grandes.',
+          ],
+          ['Flechas izquierda y derecha, Tab', 'Segmento anterior o siguiente.'],
+          ['Retroceso', 'Borra el segmento y luego vuelve al anterior.'],
+          ['A y P', 'Pone AM o PM.'],
+        ],
+        notes: [
+          'Un campo es un <code>group</code>: ponle nombre con <code>aria-label</code> o <code>aria-labelledby</code>. Cada segmento es un <code>spinbutton</code> con el nombre de su parte, que lee los meses por su nombre y los segmentos vacíos como «Empty».',
+          'Los segmentos son texto editable, así que los teclados táctiles se abren con los dígitos.',
+          'El botón del selector se llama «Choose a date», y su popover es un <code>dialog</code>. Al elegir una fecha, el foco vuelve al botón.',
+          'El calendario interior funciona como el <a href="/components/calendar">calendario</a>.',
+        ],
+      },
+      scheduler: {
+        name: 'Planificador',
+        title: 'Componente de planificador para Angular',
+        summary: 'Eventos en un mes, una semana, un día o una agenda, arrastrados a su sitio.',
+        description:
+          'Planificador accesible para Angular: mes, semana, día y agenda, eventos solapados lado a lado, arrastrar para mover y redimensionar, y todo con el teclado.',
+        apiDescription:
+          'Referencia de la API del planificador de Needless UI: vistas, eventos, edición y selección de nui-scheduler, sus outputs y la plantilla de eventos.',
+        a11yDescription:
+          'Teclado y accesibilidad del planificador de Needless UI: cuadrículas de días y horas, eventos con nombre y un equivalente de teclado para cada arrastre.',
+        overview: [
+          'El planificador muestra eventos en un mes, una semana, un día o una agenda. Los eventos son datos simples con horas ISO; los que se solapan comparten el ancho, los que cruzan la medianoche aparecen en ambos días y los de todo el día recorren la parte superior como barras.',
+          'Nunca cambia tus eventos por su cuenta. Arrastra un evento, o su borde inferior, y <code>eventChange</code> te pasa las horas nuevas; elige un intervalo en la cuadrícula, y <code>slotSelect</code> te lo indica. <code>rangeChange</code> te dice qué días se muestran, para que puedas cargar sus eventos.',
+          'Todo lo que hace un puntero lo hace también el teclado: la cuadrícula es una sola parada de tabulación, las flechas recorren días y horas, y Alt con las flechas mueve un evento.',
+        ],
+        examples: {
+          planner: {
+            title: 'Una semana para planificar',
+            text: 'Con <code>editable</code> y <code>selectable</code>, arrastra los eventos para moverlos, arrastra su borde inferior para redimensionarlos y arrastra sobre un espacio libre para añadir uno. El ejemplo actualiza sus eventos a partir de los outputs.',
+          },
+          month: {
+            title: 'Un mes y una agenda',
+            text: 'Los eventos de varios días se muestran como barras; un día lleno indica cuántos más hay. <code>views</code> ofrece solo el mes y la agenda de los próximos <code>agendaDays</code> días.',
+          },
+          rooms: {
+            title: 'Un día de reservas de salas',
+            text: '<code>nuiSchedulerEvent</code> dibuja cada reserva con su sala y su organizador. <code>slotMinutes="15"</code> hace las filas más finas.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Eventos en un mes, una semana, un día o una agenda.',
+            members: {
+              events: 'Los eventos que se muestran.',
+              view: 'La vista que se muestra.',
+              views: 'Las vistas entre las que se puede cambiar.',
+              date: 'El día que se muestra, donde también está el foco del teclado.',
+              slotMinutes:
+                'Minutos por fila de la cuadrícula horaria, y el paso con el que se mueven los eventos.',
+              scrollHour: 'La hora en la que se abre la cuadrícula horaria.',
+              agendaDays: 'Cuántos días por delante muestra la agenda.',
+              editable:
+                'Los eventos se pueden mover y redimensionar, con el puntero y con el teclado.',
+              selectable: 'Se puede elegir un intervalo en la cuadrícula, para crear eventos.',
+              firstDay:
+                'El primer día de la semana, 1 para el lunes. Por defecto, el de la configuración regional.',
+              headingLevel:
+                'El nivel de encabezado del título; los días de la agenda bajan un nivel más.',
+              locale: 'Da formato a los días y las horas.',
+              labels: 'Todos los textos que el planificador muestra o anuncia, para traducirlos.',
+              eventClick: 'Emite el evento en el que se hace clic, o que se abre con Intro.',
+              eventChange: 'Emite las horas nuevas de un evento tras moverlo o redimensionarlo.',
+              slotSelect: 'Emite el intervalo elegido en la cuadrícula.',
+              rangeChange: 'Emite el primer y el último día que se muestran cuando cambian.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Un evento. El final de un evento con hora no se incluye; el de un evento de todo el día es su último día.',
+            members: {
+              'id, title': 'Su clave, y lo que muestra.',
+              'start, end': 'Fechas y horas, o solo fechas para los eventos de todo el día.',
+              allDay: 'Por defecto, si <code>start</code> no tiene hora.',
+              tone: 'Su color.',
+              editable: 'Si se puede mover, diga lo que diga el planificador.',
+              data: 'Cualquier otra cosa que quieras guardar con él.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Dibuja los eventos. El contexto contiene el evento y su horario como texto.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Flechas',
+            'Mueven de día en día y de franja en franja. Las flechas se invierten en texto de derecha a izquierda.',
+          ],
+          ['Re Pág y Av Pág', 'Mes, semana o día anterior o siguiente.'],
+          ['Mayús + flechas', 'Amplían el intervalo elegido.'],
+          ['Intro o Espacio en una celda', 'Entra en sus eventos, o elige su hora.'],
+          ['Flechas arriba y abajo en un evento', 'Evento anterior o siguiente de la celda.'],
+          ['Alt + flechas en un evento', 'Lo mueven una franja o un día.'],
+          ['Alt + Mayús + flecha arriba o abajo', 'Acorta o alarga el evento.'],
+          ['Esc', 'Vuelve a la celda, descarta el intervalo elegido o cancela un arrastre.'],
+        ],
+        notes: [
+          'El mes, la semana y el día son cada uno un <code>grid</code> que toma su nombre del título. Los días encabezan las columnas y las horas, las filas, así que cada celda se lee con su día y su hora.',
+          'Cada evento es un botón que toma su nombre del título, el día y la hora, como «Standup, Friday, September 25, 9:00 – 9:30 AM». Al moverlo o redimensionarlo, se anuncia la hora nueva.',
+          'Cada arrastre tiene un equivalente con el teclado, así que nadie necesita un puntero.',
+          'Las vistas son botones de alternancia en un grupo, y al pasar a otra semana u otro mes se anuncia su título.',
+        ],
+      },
     },
   },
 

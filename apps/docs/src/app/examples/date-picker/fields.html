@@ -1,0 +1,9 @@
+<div class="field">
+  <label id="birthday" (click)="birthdayField.focus()">Birthday</label>
+  <nui-date-field #birthdayField aria-labelledby="birthday" [(value)]="birthday" max="2026-12-31" />
+</div>
+<div class="field">
+  <label id="alarm" (click)="alarmField.focus()">Alarm</label>
+  <nui-time-field #alarmField aria-labelledby="alarm" [(value)]="alarm" minuteStep="5" />
+</div>
+<p>Birthday: {{ birthday() ?? 'not set' }} · Alarm: {{ alarm() ?? 'not set' }}</p>

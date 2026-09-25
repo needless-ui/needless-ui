@@ -1,0 +1,8 @@
+<nui-calendar selection="range" [(range)]="stay" months="2" weekNumbers />
+<p>
+  @if (stay(); as stay) {
+    {{ stay.start }} to {{ stay.end }}: {{ nights() }} {{ nights() === 1 ? 'night' : 'nights' }}.
+  } @else {
+    Pick the day you arrive, then the day you leave.
+  }
+</p>

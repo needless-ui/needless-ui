@@ -1495,6 +1495,252 @@ export const messages: Messages = {
           'The streaming caret is hidden from screen readers, and holds still with reduced motion.',
         ],
       },
+      calendar: {
+        name: 'Calendar',
+        title: 'Calendar component for Angular',
+        summary: 'Pick a day, a range or several days, from the keyboard too.',
+        description:
+          'Accessible Angular calendar: pick a day, a range or several days, with min and max, unavailable days, months side by side and week numbers.',
+        apiDescription:
+          'API reference for the Needless UI calendar: nui-calendar selection models, min, max and unavailable days, months side by side, and labels.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI calendar: a grid of named days, arrows by day and week, Page Up and Page Down by month.',
+        overview: [
+          'The calendar picks a day, a range of days, or several days. Values are plain ISO dates, such as <code>2026-09-25</code>, with no time zone to shift them, so they go straight to a server or an <code>&lt;input type="date"&gt;</code>.',
+          'Weeks start on the locale’s first day, and names and digits follow its language. <code>min</code>, <code>max</code> and <code>unavailable</code> rule out days, <code>months</code> shows several side by side, and the title zooms out to months and years for distant dates.',
+          'Every day is reachable from the keyboard, as in the WAI-ARIA date picker, and each is named by its full date.',
+        ],
+        examples: {
+          delivery: {
+            title: 'A delivery day',
+            text: 'Days before today, after <code>max</code> or ruled out by <code>unavailable</code> can’t be picked, but the keyboard still passes through them.',
+          },
+          stay: {
+            title: 'A range',
+            text: 'With <code>selection="range"</code>, the first pick starts the range and the band follows the pointer until the second. <code>months="2"</code> and <code>weekNumbers</code> show more at once.',
+          },
+          'days-off': {
+            title: 'Several days',
+            text: 'With <code>selection="multiple"</code>, each pick adds or removes a day. <code>firstDay</code> starts the week on another day than the locale’s.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'A calendar for choosing days.',
+            members: {
+              selection: 'How many days can be chosen.',
+              value: 'The chosen day.',
+              values: 'The chosen days, in order.',
+              range: 'The chosen range, both ends included.',
+              month: 'The month shown, the first when several are.',
+              view: 'Days, months or years.',
+              'min, max': 'The first and last days that can be chosen.',
+              unavailable: 'Rules out other days, such as holidays.',
+              months: 'Months side by side.',
+              weekNumbers: 'Shows ISO week numbers.',
+              firstDay: 'The first day of the week, 1 for Monday. By default, the locale’s.',
+              locale: 'Formats names and digits, and picks the first day of the week.',
+              labels: 'Every text the calendar shows or announces, to translate.',
+              picked: 'Emits each choice: a day, or a range once complete.',
+              focusDate: 'Moves the keyboard to a day, showing its month.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'A range of days.',
+            members: { 'start, end': 'The first and last days, both included.' },
+          },
+        },
+        keyboard: [
+          ['Left and right arrows', 'Previous or next day. Mirrored in right-to-left text.'],
+          ['Up and down arrows', 'Previous or next week.'],
+          ['Home and End', 'First or last day of the week.'],
+          ['Page Up and Page Down', 'Previous or next month; with Shift, year.'],
+          ['Enter or Space', 'Choose the day, or zoom in on a month or year.'],
+          ['Escape', 'Drop the first end of a range, or zoom back in.'],
+        ],
+        notes: [
+          'Each month is a <code>grid</code> named by its title, with the weekdays’ full names in <code>abbr</code>.',
+          'Every day is named by its full date, with “Today”, “unavailable” and the ends of a range added. <code>aria-selected</code> marks what’s chosen, and <code>aria-disabled</code> what can’t be.',
+          'The grid is one tab stop, with a roving <code>tabindex</code>. The previous and next buttons announce the new month.',
+        ],
+      },
+      'date-picker': {
+        name: 'Date picker',
+        title: 'Date and time picker components for Angular',
+        summary: 'Type a date or time in segments, or pick it in a calendar.',
+        description:
+          'Accessible Angular date, time and range pickers: segments typed in the locale’s order, a calendar in a popover, presets, and form support.',
+        apiDescription:
+          'API reference for the Needless UI date pickers: nui-date-field, nui-time-field, nui-date-picker and nui-date-range-picker, with presets.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI date pickers: a spin button for each part of a date, and a calendar in a dialog.',
+        overview: [
+          'Date and time fields are typed in segments: day, month and year in the locale’s order, then hours and minutes on its 12- or 24-hour clock. Each segment is a spin button: type digits and it moves on by itself, or step it with the arrow keys. Paste a whole date, and every segment fills.',
+          'The pickers add a calendar in a popover, for one date or a range with presets. Values are plain ISO strings, such as <code>2026-09-25</code> or <code>2026-09-25T09:30</code>, and every field works with Signal Forms, reactive forms and <code>ngModel</code>.',
+          'On this site, the examples follow the page’s language: switch it to see the order, separators and digits change.',
+        ],
+        examples: {
+          fields: {
+            title: 'Date and time fields',
+            text: 'Type the digits, or use the arrow keys. A second Backspace goes back a segment. <code>minuteStep</code> sets how far the arrows move the minutes.',
+          },
+          pickers: {
+            title: 'Date pickers',
+            text: 'The button opens a calendar on the chosen day, and picking closes it. With <code>granularity="minute"</code>, the picker takes a time too, and the calendar changes only the date.',
+          },
+          range: {
+            title: 'A date range',
+            text: 'Two fields and a two-month calendar. <code>nuiDateRangePresets()</code> adds common ranges; the value stays null until both ends are set, in order.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'A date, or a date and time, typed in segments.',
+            members: {
+              value: 'The value, or null until every segment is filled.',
+              granularity: 'Stops at the day, or goes on to the hour, minute or second.',
+              'min, max': 'The earliest and latest values. Outside them, the field is invalid.',
+              placeholder: 'Where empty segments start from with the arrow keys.',
+              hourCycle: 'A 12- or 24-hour clock. By default, the locale’s.',
+              minuteStep: 'How far the arrow keys move the minutes.',
+              'disabled, readonly': 'Stop changes.',
+              locale: 'Sets the order, separators, digits and clock.',
+              labels: 'Every text the field says, to translate.',
+              invalid: 'Whether the value is outside <code>min</code> and <code>max</code>.',
+              focus: 'Focuses the first empty segment.',
+            },
+          },
+          NuiTimeField: {
+            summary: 'A time of day typed in segments. It takes the same inputs as the date field.',
+            members: { granularity: 'Stops at the hour, minute or second.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'A date field with a calendar in a popover. It takes the date field’s inputs, and these.',
+            members: {
+              unavailable: 'Days the calendar won’t pick.',
+              'firstDay, weekNumbers': 'Passed to the calendar.',
+              labels: 'The texts of the field, the button and the calendar.',
+              show: 'Opens the calendar.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Two date fields with a range calendar. It takes the date picker’s inputs, and these.',
+            members: {
+              value: 'The range, or null until both ends are set, in order.',
+              presets: 'Named ranges to choose in one click.',
+              months: 'Months side by side in the calendar.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'A named range, fixed or made when chosen.',
+            members: {
+              label: 'Its name.',
+              range: 'The range, or a function that makes it.',
+            },
+          },
+        },
+        keyboard: [
+          ['Digits', 'Type into the segment. It moves on once no other digit could follow.'],
+          ['Up and down arrows', 'Step the segment; Page Up and Page Down step further.'],
+          ['Left and right arrows, Tab', 'Previous or next segment.'],
+          ['Backspace', 'Clear the segment, then go back one.'],
+          ['A and P', 'Set AM or PM.'],
+        ],
+        notes: [
+          'A field is a <code>group</code>: name it with <code>aria-label</code> or <code>aria-labelledby</code>. Each segment is a <code>spinbutton</code> named for its part, which reads months by name and empty segments as “Empty”.',
+          'Segments are editable text, so touch keyboards open on digits.',
+          'The picker’s button is named “Choose a date”, and its popover is a <code>dialog</code>. Picking a date returns focus to the button.',
+          'The calendar inside works as the <a href="/components/calendar">calendar</a> does.',
+        ],
+      },
+      scheduler: {
+        name: 'Scheduler',
+        title: 'Scheduler component for Angular',
+        summary: 'Events in a month, a week, a day or an agenda, dragged into place.',
+        description:
+          'Accessible Angular scheduler: month, week, day and agenda views, overlapping events side by side, drag to move and resize, and full keyboard control.',
+        apiDescription:
+          'API reference for the Needless UI scheduler: nui-scheduler views, events, editing and selection, its outputs, and the template for events.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI scheduler: grids of days and times, named events, and keyboard moves for every drag.',
+        overview: [
+          'The scheduler shows events in a month, a week, a day or an agenda. Events are plain data with ISO times; overlapping ones share the width, events across midnight show in both days, and all-day events run across the top as bars.',
+          'It never changes your events itself. Drag an event, or its bottom edge, and <code>eventChange</code> reports the new times; choose time on the grid, and <code>slotSelect</code> reports it. <code>rangeChange</code> tells you which days are shown, so you can load their events.',
+          'Everything a pointer does, the keyboard does too: the grid is one tab stop, the arrow keys move through days and times, and Alt with the arrows moves an event.',
+        ],
+        examples: {
+          planner: {
+            title: 'A week to plan',
+            text: 'With <code>editable</code> and <code>selectable</code>, drag events to move them, drag their bottom edge to resize them, and drag across empty time to add one. The example updates its events from the outputs.',
+          },
+          month: {
+            title: 'A month and an agenda',
+            text: 'Events across days run as bars; a busy day shows how many more there are. <code>views</code> offers only the month and the agenda of the next <code>agendaDays</code>.',
+          },
+          rooms: {
+            title: 'A day of rooms',
+            text: '<code>nuiSchedulerEvent</code> draws each booking with its room and host. <code>slotMinutes="15"</code> makes finer rows.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Events in a month, a week, a day or an agenda.',
+            members: {
+              events: 'The events to show.',
+              view: 'The view shown.',
+              views: 'The views people can switch between.',
+              date: 'The day shown, and where the keyboard is.',
+              slotMinutes: 'Minutes per row of the time grid, and the step events move by.',
+              scrollHour: 'The hour the time grid opens at.',
+              agendaDays: 'Days the agenda looks ahead.',
+              editable: 'Events can be moved and resized, by pointer and keyboard.',
+              selectable: 'Time can be chosen on the grid, to create events.',
+              firstDay: 'The first day of the week, 1 for Monday. By default, the locale’s.',
+              headingLevel: 'The title’s heading level; the agenda’s days are one deeper.',
+              locale: 'Formats days and times.',
+              labels: 'Every text the scheduler shows or announces, to translate.',
+              eventClick: 'Emits an event clicked, or opened with Enter.',
+              eventChange: 'Emits an event’s new times after a move or a resize.',
+              slotSelect: 'Emits the time chosen on the grid.',
+              rangeChange: 'Emits the first and last day shown when they change.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'An event. A timed event’s end isn’t included; an all-day event’s end is its last day.',
+            members: {
+              'id, title': 'Its key, and what it shows.',
+              'start, end': 'Dates and times, or dates for all-day events.',
+              allDay: 'By default, whether <code>start</code> has no time.',
+              tone: 'Its color.',
+              editable: 'Whether it can be moved, whatever the scheduler says.',
+              data: 'Anything else to keep with it.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Draws events. The context holds the event and its time as text.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Arrow keys', 'Move by day and by slot. Mirrored in right-to-left text.'],
+          ['Page Up and Page Down', 'Previous or next month, week or day.'],
+          ['Shift + arrow keys', 'Extend the time chosen.'],
+          ['Enter or Space on a cell', 'Go into its events, or choose its time.'],
+          ['Up and down arrows on an event', 'Previous or next event in the cell.'],
+          ['Alt + arrow keys on an event', 'Move it by a slot or a day.'],
+          ['Alt + Shift + up or down arrow', 'Shorten or lengthen the event.'],
+          ['Escape', 'Back to the cell, drop the time chosen, or cancel a drag.'],
+        ],
+        notes: [
+          'The month, week and day are <code>grid</code>s named by their title. Days head the columns and times the rows, so each cell reads with its day and time.',
+          'Every event is a button named by its title, day and time, such as “Standup, Friday, September 25, 9:00 – 9:30 AM”. A move or resize announces the new time.',
+          'Every drag has a keyboard equivalent, so no one needs a pointer.',
+          'The views are toggle buttons in a group, and moving to another week or month announces its title.',
+        ],
+      },
     },
   },
 

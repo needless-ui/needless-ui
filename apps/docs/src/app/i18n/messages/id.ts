@@ -1529,6 +1529,265 @@ export const messages: Messages = {
           'Kursor streaming disembunyikan dari pembaca layar, dan diam saat gerakan dikurangi.',
         ],
       },
+      calendar: {
+        name: 'Kalender',
+        title: 'Komponen kalender untuk Angular',
+        summary: 'Pilih satu hari, rentang, atau beberapa hari, juga lewat keyboard.',
+        description:
+          'Kalender Angular yang aksesibel: pilih satu hari, rentang, atau beberapa hari, dengan min dan max, hari tidak tersedia, bulan berdampingan, dan nomor minggu.',
+        apiDescription:
+          'Referensi API kalender Needless UI: mode pemilihan nui-calendar, min, max, dan hari tidak tersedia, bulan berdampingan, serta label.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas kalender Needless UI: grid berisi hari bernama, panah per hari dan minggu, serta Page Up dan Page Down per bulan.',
+        overview: [
+          'Dengan kalender, Anda bisa memilih satu hari, rentang hari, atau beberapa hari. Nilainya berupa tanggal ISO biasa, seperti <code>2026-09-25</code>, tanpa zona waktu yang bisa menggesernya, sehingga bisa langsung dikirim ke server atau ke <code>&lt;input type="date"&gt;</code>.',
+          'Minggu dimulai pada hari pertama menurut locale, dan nama serta angkanya mengikuti bahasa locale tersebut. <code>min</code>, <code>max</code>, dan <code>unavailable</code> mengecualikan hari, <code>months</code> menampilkan beberapa bulan berdampingan, dan judulnya bisa beralih ke tampilan bulan dan tahun untuk tanggal yang jauh.',
+          'Setiap hari bisa dijangkau dengan keyboard, seperti pada pola date picker WAI-ARIA, dan masing-masing dinamai dengan tanggal lengkapnya.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Hari pengiriman',
+            text: 'Hari sebelum hari ini, setelah <code>max</code>, atau yang dikecualikan oleh <code>unavailable</code> tidak bisa dipilih, tetapi keyboard tetap bisa melewatinya.',
+          },
+          stay: {
+            title: 'Rentang',
+            text: 'Dengan <code>selection="range"</code>, pilihan pertama memulai rentang, lalu sorotannya mengikuti pointer sampai pilihan kedua. <code>months="2"</code> dan <code>weekNumbers</code> menampilkan lebih banyak sekaligus.',
+          },
+          'days-off': {
+            title: 'Beberapa hari',
+            text: 'Dengan <code>selection="multiple"</code>, setiap pilihan menambahkan atau menghapus satu hari. <code>firstDay</code> memulai minggu pada hari selain hari pertama menurut locale.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Kalender untuk memilih hari.',
+            members: {
+              selection: 'Berapa banyak hari yang bisa dipilih.',
+              value: 'Hari yang dipilih.',
+              values: 'Hari-hari yang dipilih, secara berurutan.',
+              range: 'Rentang yang dipilih, termasuk kedua ujungnya.',
+              month: 'Bulan yang ditampilkan; yang pertama jika ada beberapa.',
+              view: 'Hari, bulan, atau tahun.',
+              'min, max': 'Hari pertama dan terakhir yang bisa dipilih.',
+              unavailable: 'Mengecualikan hari lain, misalnya hari libur.',
+              months: 'Jumlah bulan yang ditampilkan berdampingan.',
+              weekNumbers: 'Menampilkan nomor minggu ISO.',
+              firstDay: 'Hari pertama dalam minggu, 1 untuk Senin. Default-nya mengikuti locale.',
+              locale: 'Memformat nama dan angka, serta menentukan hari pertama dalam minggu.',
+              labels: 'Semua teks yang ditampilkan atau diumumkan kalender, untuk diterjemahkan.',
+              picked: 'Mengirimkan setiap pilihan: satu hari, atau rentang setelah lengkap.',
+              focusDate: 'Memindahkan fokus keyboard ke suatu hari, sambil menampilkan bulannya.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Rentang hari.',
+            members: { 'start, end': 'Hari pertama dan terakhir, keduanya termasuk.' },
+          },
+        },
+        keyboard: [
+          [
+            'Panah kiri dan kanan',
+            'Hari sebelumnya atau berikutnya. Dicerminkan pada teks kanan-ke-kiri.',
+          ],
+          ['Panah atas dan bawah', 'Minggu sebelumnya atau berikutnya.'],
+          ['Home dan End', 'Hari pertama atau terakhir dalam minggu.'],
+          ['Page Up dan Page Down', 'Bulan sebelumnya atau berikutnya; dengan Shift, tahun.'],
+          ['Enter atau Spasi', 'Memilih hari, atau masuk ke bulan atau tahun.'],
+          ['Esc', 'Membatalkan ujung pertama rentang, atau kembali ke tampilan yang lebih rinci.'],
+        ],
+        notes: [
+          'Setiap bulan adalah <code>grid</code> yang dinamai sesuai judulnya, dengan nama lengkap hari dalam <code>abbr</code>.',
+          'Setiap hari dinamai dengan tanggal lengkapnya, ditambah “Today”, “unavailable”, dan ujung-ujung rentang. <code>aria-selected</code> menandai yang dipilih, dan <code>aria-disabled</code> yang tidak bisa dipilih.',
+          'Grid hanya satu perhentian tab, dengan roving <code>tabindex</code>. Tombol bulan sebelumnya dan berikutnya mengumumkan bulan yang baru.',
+        ],
+      },
+      'date-picker': {
+        name: 'Pemilih tanggal',
+        title: 'Komponen pemilih tanggal dan waktu untuk Angular',
+        summary: 'Ketik tanggal atau waktu per segmen, atau pilih di kalender.',
+        description:
+          'Pemilih tanggal, waktu, dan rentang Angular yang aksesibel: segmen diketik sesuai urutan locale, kalender di popover, preset, dan dukungan form.',
+        apiDescription:
+          'Referensi API pemilih tanggal Needless UI: nui-date-field, nui-time-field, nui-date-picker, dan nui-date-range-picker, beserta preset.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas pemilih tanggal Needless UI: spinbutton untuk setiap bagian tanggal, dan kalender di dalam dialog.',
+        overview: [
+          'Kolom tanggal dan waktu diketik per segmen: hari, bulan, dan tahun sesuai urutan locale, lalu jam dan menit dalam format 12 atau 24 jam milik locale tersebut. Setiap segmen adalah spinbutton: ketik angka dan fokus pindah dengan sendirinya, atau ubah nilainya dengan tombol panah. Tempel tanggal lengkap, dan semua segmen langsung terisi.',
+          'Komponen pemilih menambahkan kalender di popover, untuk satu tanggal atau rentang dengan preset. Nilainya berupa string ISO biasa, seperti <code>2026-09-25</code> atau <code>2026-09-25T09:30</code>, dan setiap kolom bekerja dengan Signal Forms, reactive forms, dan <code>ngModel</code>.',
+          'Di situs ini, contoh mengikuti bahasa halaman: ganti bahasanya untuk melihat urutan, pemisah, dan angkanya berubah.',
+        ],
+        examples: {
+          fields: {
+            title: 'Kolom tanggal dan waktu',
+            text: 'Ketik angkanya, atau gunakan tombol panah. Backspace kedua kembali ke segmen sebelumnya. <code>minuteStep</code> mengatur seberapa jauh tombol panah menggeser menit.',
+          },
+          pickers: {
+            title: 'Pemilih tanggal',
+            text: 'Tombolnya membuka kalender pada hari yang dipilih, dan memilih hari akan menutupnya. Dengan <code>granularity="minute"</code>, pemilih juga menerima waktu, dan kalender hanya mengubah tanggalnya.',
+          },
+          range: {
+            title: 'Rentang tanggal',
+            text: 'Dua kolom dan kalender dua bulan. <code>nuiDateRangePresets()</code> menambahkan rentang yang umum dipakai; nilainya tetap null sampai kedua ujung diisi secara berurutan.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Tanggal, atau tanggal dan waktu, yang diketik per segmen.',
+            members: {
+              value: 'Nilainya, atau null sampai setiap segmen terisi.',
+              granularity: 'Berhenti di hari, atau berlanjut sampai jam, menit, atau detik.',
+              'min, max':
+                'Nilai paling awal dan paling akhir. Di luar rentang itu, kolom tidak valid.',
+              placeholder: 'Titik awal segmen kosong saat diubah dengan tombol panah.',
+              hourCycle: 'Format 12 atau 24 jam. Default-nya mengikuti locale.',
+              minuteStep: 'Seberapa jauh tombol panah menggeser menit.',
+              'disabled, readonly': 'Mencegah perubahan.',
+              locale: 'Menentukan urutan, pemisah, angka, dan format jam.',
+              labels: 'Semua teks yang disampaikan kolom, untuk diterjemahkan.',
+              invalid: 'Apakah nilainya berada di luar <code>min</code> dan <code>max</code>.',
+              focus: 'Memfokuskan segmen kosong pertama.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Waktu dalam sehari yang diketik per segmen. Menerima input yang sama dengan kolom tanggal.',
+            members: { granularity: 'Berhenti di jam, menit, atau detik.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Kolom tanggal dengan kalender di popover. Menerima input kolom tanggal, ditambah input berikut.',
+            members: {
+              unavailable: 'Hari yang tidak bisa dipilih di kalender.',
+              'firstDay, weekNumbers': 'Diteruskan ke kalender.',
+              labels: 'Teks untuk kolom, tombol, dan kalender.',
+              show: 'Membuka kalender.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Dua kolom tanggal dengan kalender rentang. Menerima input pemilih tanggal, ditambah input berikut.',
+            members: {
+              value: 'Rentangnya, atau null sampai kedua ujung diisi secara berurutan.',
+              presets: 'Rentang bernama yang bisa dipilih dengan sekali klik.',
+              months: 'Jumlah bulan yang ditampilkan berdampingan di kalender.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Rentang bernama, tetap atau dibuat saat dipilih.',
+            members: {
+              label: 'Namanya.',
+              range: 'Rentangnya, atau fungsi yang membuatnya.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Angka',
+            'Mengisi segmen. Pindah ke segmen berikutnya begitu tidak ada angka lain yang bisa menyusul.',
+          ],
+          [
+            'Panah atas dan bawah',
+            'Menaikkan atau menurunkan segmen; Page Up dan Page Down melangkah lebih jauh.',
+          ],
+          ['Panah kiri dan kanan, Tab', 'Segmen sebelumnya atau berikutnya.'],
+          ['Backspace', 'Mengosongkan segmen, lalu kembali ke segmen sebelumnya.'],
+          ['A dan P', 'Mengatur AM atau PM.'],
+        ],
+        notes: [
+          'Kolom adalah <code>group</code>: beri nama dengan <code>aria-label</code> atau <code>aria-labelledby</code>. Setiap segmen adalah <code>spinbutton</code> yang dinamai sesuai bagiannya, yang membacakan bulan dengan namanya dan segmen kosong sebagai “Empty”.',
+          'Segmen berupa teks yang bisa diedit, sehingga keyboard sentuh terbuka dalam mode angka.',
+          'Tombol pemilih bernama “Choose a date”, dan popover-nya adalah <code>dialog</code>. Memilih tanggal mengembalikan fokus ke tombol.',
+          'Kalender di dalamnya bekerja sama seperti komponen <a href="/components/calendar">kalender</a>.',
+        ],
+      },
+      scheduler: {
+        name: 'Penjadwal',
+        title: 'Komponen penjadwal untuk Angular',
+        summary: 'Tampilkan acara per bulan, minggu, hari, atau agenda, lalu seret ke tempatnya.',
+        description:
+          'Penjadwal Angular aksesibel: bulan, minggu, hari, dan agenda, acara tumpang-tindih berdampingan, seret untuk pindah dan ubah ukuran, kontrol keyboard penuh.',
+        apiDescription:
+          'Referensi API penjadwal Needless UI: tampilan nui-scheduler, acara, pengeditan dan pemilihan, output-nya, serta template untuk acara.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas penjadwal Needless UI: grid hari dan waktu, acara bernama, dan padanan keyboard untuk setiap seretan.',
+        overview: [
+          'Penjadwal menampilkan acara per bulan, minggu, hari, atau dalam agenda. Acara berupa data biasa dengan waktu ISO; acara yang tumpang-tindih berbagi lebar, acara yang melewati tengah malam tampil di kedua hari, dan acara sepanjang hari membentang di bagian atas sebagai bilah.',
+          'Penjadwal tidak pernah mengubah acara Anda dengan sendirinya. Seret acara, atau tepi bawahnya, maka <code>eventChange</code> melaporkan waktu barunya; pilih waktu di grid, maka <code>slotSelect</code> melaporkannya. <code>rangeChange</code> memberi tahu hari mana saja yang ditampilkan, sehingga Anda bisa memuat acaranya.',
+          'Semua yang bisa dilakukan pointer juga bisa dilakukan keyboard: grid hanya satu perhentian tab, tombol panah bergerak melintasi hari dan waktu, dan Alt bersama tombol panah memindahkan acara.',
+        ],
+        examples: {
+          planner: {
+            title: 'Merencanakan seminggu',
+            text: 'Dengan <code>editable</code> dan <code>selectable</code>, seret acara untuk memindahkannya, seret tepi bawahnya untuk mengubah ukurannya, dan seret melintasi waktu kosong untuk menambahkan acara. Contoh ini memperbarui acaranya dari output.',
+          },
+          month: {
+            title: 'Sebulan dan agenda',
+            text: 'Acara yang melintasi beberapa hari tampil sebagai bilah; hari yang padat menunjukkan berapa acara lagi yang ada. <code>views</code> hanya menawarkan bulan dan agenda untuk <code>agendaDays</code> hari ke depan.',
+          },
+          rooms: {
+            title: 'Sehari di ruang rapat',
+            text: '<code>nuiSchedulerEvent</code> menggambar setiap pemesanan beserta ruangan dan penyelenggaranya. <code>slotMinutes="15"</code> membuat baris lebih rinci.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Acara per bulan, minggu, hari, atau dalam agenda.',
+            members: {
+              events: 'Acara yang ditampilkan.',
+              view: 'Tampilan saat ini.',
+              views: 'Tampilan yang bisa dipilih pengguna.',
+              date: 'Hari yang ditampilkan, sekaligus posisi keyboard.',
+              slotMinutes: 'Menit per baris grid waktu, sekaligus langkah pergeseran acara.',
+              scrollHour: 'Jam yang terlihat saat grid waktu dibuka.',
+              agendaDays: 'Berapa hari ke depan yang dicakup agenda.',
+              editable: 'Acara bisa dipindah dan diubah ukurannya, dengan pointer maupun keyboard.',
+              selectable: 'Waktu bisa dipilih di grid untuk membuat acara.',
+              firstDay: 'Hari pertama dalam minggu, 1 untuk Senin. Default-nya mengikuti locale.',
+              headingLevel:
+                'Level heading untuk judul; hari-hari di agenda satu level lebih dalam.',
+              locale: 'Memformat hari dan waktu.',
+              labels: 'Semua teks yang ditampilkan atau diumumkan penjadwal, untuk diterjemahkan.',
+              eventClick: 'Mengirimkan acara yang diklik, atau dibuka dengan Enter.',
+              eventChange: 'Mengirimkan waktu baru acara setelah dipindah atau diubah ukurannya.',
+              slotSelect: 'Mengirimkan waktu yang dipilih di grid.',
+              rangeChange:
+                'Mengirimkan hari pertama dan terakhir yang ditampilkan saat keduanya berubah.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Sebuah acara. Akhir acara berwaktu tidak termasuk; akhir acara sepanjang hari adalah hari terakhirnya.',
+            members: {
+              'id, title': 'Kuncinya, dan teks yang ditampilkannya.',
+              'start, end': 'Tanggal dan waktu, atau tanggal saja untuk acara sepanjang hari.',
+              allDay: 'Default-nya aktif jika <code>start</code> tidak memiliki waktu.',
+              tone: 'Warnanya.',
+              editable: 'Apakah acara ini bisa dipindah, apa pun pengaturan penjadwal.',
+              data: 'Data lain apa pun yang ingin disimpan bersamanya.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary: 'Menggambar acara. Konteksnya berisi acara dan waktunya dalam bentuk teks.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Tombol panah', 'Pindah per hari dan per slot. Dicerminkan pada teks kanan-ke-kiri.'],
+          ['Page Up dan Page Down', 'Bulan, minggu, atau hari sebelumnya atau berikutnya.'],
+          ['Shift + tombol panah', 'Memperluas waktu yang dipilih.'],
+          ['Enter atau Spasi pada sel', 'Masuk ke acara di sel, atau memilih waktunya.'],
+          ['Panah atas dan bawah pada acara', 'Acara sebelumnya atau berikutnya di sel.'],
+          ['Alt + tombol panah pada acara', 'Memindahkannya satu slot atau satu hari.'],
+          ['Alt + Shift + panah atas atau bawah', 'Memendekkan atau memperpanjang acara.'],
+          ['Esc', 'Kembali ke sel, menghapus pilihan waktu, atau membatalkan seretan.'],
+        ],
+        notes: [
+          'Bulan, minggu, dan hari adalah <code>grid</code> yang dinamai sesuai judulnya. Hari menjadi header kolom dan waktu menjadi header baris, sehingga setiap sel dibacakan beserta hari dan waktunya.',
+          'Setiap acara adalah tombol yang dinamai dengan judul, hari, dan waktunya, misalnya “Standup, Friday, September 25, 9:00 – 9:30 AM”. Memindahkan atau mengubah ukuran acara akan mengumumkan waktu barunya.',
+          'Setiap seretan punya padanan keyboard, jadi tidak ada yang wajib memakai pointer.',
+          'Tampilan berupa tombol toggle dalam satu grup, dan berpindah ke minggu atau bulan lain akan mengumumkan judulnya.',
+        ],
+      },
     },
   },
 

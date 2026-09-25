@@ -514,6 +514,60 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
   },
+  calendar: {
+    id: 'calendar',
+    importFile: 'snippets/import-calendar.ts',
+    api: [
+      {
+        name: 'NuiCalendar',
+        selector: 'nui-calendar',
+        members: [
+          {
+            name: 'selection',
+            kind: 'input',
+            type: "'single' | 'range' | 'multiple'",
+            default: "'single'",
+          },
+          { name: 'value', kind: 'model', type: 'NuiDate | null', default: 'null' },
+          { name: 'values', kind: 'model', type: 'NuiDate[]', default: '[]' },
+          { name: 'range', kind: 'model', type: 'NuiDateRange | null', default: 'null' },
+          { name: 'month', kind: 'model', type: 'NuiMonth | null', default: 'null' },
+          { name: 'view', kind: 'model', type: "'day' | 'month' | 'year'", default: "'day'" },
+          { name: 'min, max', kind: 'input', type: 'NuiDate | null' },
+          { name: 'unavailable', kind: 'input', type: '(date: NuiDate) => boolean' },
+          { name: 'months', kind: 'input', type: 'number', default: '1' },
+          { name: 'weekNumbers', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'firstDay', kind: 'input', type: '1 … 7' },
+          { name: 'locale', kind: 'input', type: 'string', default: 'LOCALE_ID' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiCalendarLabels>' },
+          ...customization('corners', 'radius', 'density'),
+          { name: 'picked', kind: 'output', type: 'NuiDate | NuiDateRange' },
+          { name: 'focusDate', kind: 'method', type: '(date?: NuiDate) => void' },
+        ],
+      },
+      {
+        name: 'NuiDateRange',
+        members: [{ name: 'start, end', kind: 'property', type: 'NuiDate' }],
+      },
+    ],
+    examples: [
+      {
+        id: 'delivery',
+        load: () => import('../examples/calendar/delivery').then((m) => m.CalendarDeliveryExample),
+        defer: 393,
+      },
+      {
+        id: 'stay',
+        load: () => import('../examples/calendar/stay').then((m) => m.CalendarStayExample),
+        defer: 393,
+      },
+      {
+        id: 'days-off',
+        load: () => import('../examples/calendar/days-off').then((m) => m.CalendarDaysOffExample),
+        defer: 393,
+      },
+    ],
+  },
   chat: {
     id: 'chat',
     importFile: 'snippets/import-chat.ts',
@@ -615,6 +669,88 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
         id: 'server',
         load: () => import('../examples/chat/server').then((m) => m.ChatServerExample),
         defer: 544,
+      },
+    ],
+  },
+  'date-picker': {
+    id: 'date-picker',
+    importFile: 'snippets/import-date-picker.ts',
+    api: [
+      {
+        name: 'NuiDateField',
+        selector: 'nui-date-field',
+        members: [
+          { name: 'value', kind: 'model', type: 'NuiDate | NuiDateTime | null', default: 'null' },
+          {
+            name: 'granularity',
+            kind: 'input',
+            type: "'day' | 'hour' | 'minute' | 'second'",
+            default: "'day'",
+          },
+          { name: 'min, max', kind: 'input', type: 'string | null' },
+          { name: 'placeholder', kind: 'input', type: 'string | null', default: 'now' },
+          { name: 'hourCycle', kind: 'input', type: '12 | 24' },
+          { name: 'minuteStep', kind: 'input', type: 'number', default: '1' },
+          { name: 'disabled, readonly', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'locale', kind: 'input', type: 'string', default: 'LOCALE_ID' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiDateFieldLabels>' },
+          { name: 'invalid', kind: 'property', type: 'Signal<boolean>' },
+          { name: 'focus', kind: 'method', type: '() => void' },
+        ],
+      },
+      {
+        name: 'NuiTimeField',
+        selector: 'nui-time-field',
+        members: [
+          {
+            name: 'granularity',
+            kind: 'input',
+            type: "'hour' | 'minute' | 'second'",
+            default: "'minute'",
+          },
+        ],
+      },
+      {
+        name: 'NuiDatePicker',
+        selector: 'nui-date-picker',
+        members: [
+          { name: 'unavailable', kind: 'input', type: '(date: NuiDate) => boolean' },
+          { name: 'firstDay, weekNumbers', kind: 'input', type: '1 … 7, boolean' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiDatePickerLabels>' },
+          ...customization('corners', 'radius', 'density'),
+          { name: 'show', kind: 'method', type: '() => void' },
+        ],
+      },
+      {
+        name: 'NuiDateRangePicker',
+        selector: 'nui-date-range-picker',
+        members: [
+          { name: 'value', kind: 'model', type: 'NuiDateRange | null', default: 'null' },
+          { name: 'presets', kind: 'input', type: 'NuiDateRangePreset[]', default: '[]' },
+          { name: 'months', kind: 'input', type: 'number', default: '2' },
+        ],
+      },
+      {
+        name: 'NuiDateRangePreset',
+        members: [
+          { name: 'label', kind: 'property', type: 'string' },
+          { name: 'range', kind: 'property', type: 'NuiDateRange | (() => NuiDateRange)' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'fields',
+        load: () => import('../examples/date-picker/fields').then((m) => m.DatePickerFieldsExample),
+      },
+      {
+        id: 'pickers',
+        load: () =>
+          import('../examples/date-picker/pickers').then((m) => m.DatePickerPickersExample),
+      },
+      {
+        id: 'range',
+        load: () => import('../examples/date-picker/range').then((m) => m.DatePickerRangeExample),
       },
     ],
   },
@@ -896,6 +1032,79 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       {
         id: 'average',
         load: () => import('../examples/rating/average').then((m) => m.RatingAverageExample),
+      },
+    ],
+  },
+  scheduler: {
+    id: 'scheduler',
+    importFile: 'snippets/import-scheduler.ts',
+    api: [
+      {
+        name: 'NuiScheduler',
+        selector: 'nui-scheduler',
+        members: [
+          { name: 'events', kind: 'input', type: 'NuiSchedulerEvent<T>[]', default: '[]' },
+          {
+            name: 'view',
+            kind: 'model',
+            type: "'month' | 'week' | 'day' | 'agenda'",
+            default: "'week'",
+          },
+          { name: 'views', kind: 'input', type: 'NuiSchedulerView[]', default: 'all four' },
+          { name: 'date', kind: 'model', type: 'NuiDate', default: 'today' },
+          { name: 'slotMinutes', kind: 'input', type: 'number', default: '30' },
+          { name: 'scrollHour', kind: 'input', type: 'number', default: '8' },
+          { name: 'agendaDays', kind: 'input', type: 'number', default: '30' },
+          { name: 'editable', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'selectable', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'firstDay', kind: 'input', type: '1 … 7' },
+          { name: 'headingLevel', kind: 'input', type: 'number', default: '2' },
+          { name: 'locale', kind: 'input', type: 'string', default: 'LOCALE_ID' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiSchedulerLabels>' },
+          ...customization('corners', 'radius', 'density'),
+          { name: 'eventClick', kind: 'output', type: 'NuiSchedulerEvent<T>' },
+          { name: 'eventChange', kind: 'output', type: '{ event, start, end }' },
+          { name: 'slotSelect', kind: 'output', type: '{ start, end, allDay }' },
+          { name: 'rangeChange', kind: 'output', type: '{ start, end }' },
+        ],
+      },
+      {
+        name: 'NuiSchedulerEvent',
+        members: [
+          { name: 'id, title', kind: 'property', type: 'string' },
+          { name: 'start, end', kind: 'property', type: 'NuiDateTime | NuiDate' },
+          { name: 'allDay', kind: 'property', type: 'boolean' },
+          {
+            name: 'tone',
+            kind: 'property',
+            type: "'accent' | 'neutral' | 'success' | 'warning' | 'danger'",
+            default: "'accent'",
+          },
+          { name: 'editable', kind: 'property', type: 'boolean' },
+          { name: 'data', kind: 'property', type: 'T' },
+        ],
+      },
+      {
+        name: 'NuiSchedulerEventTemplate',
+        selector: 'ng-template[nuiSchedulerEvent]',
+        members: [],
+      },
+    ],
+    examples: [
+      {
+        id: 'planner',
+        load: () => import('../examples/scheduler/planner').then((m) => m.SchedulerPlannerExample),
+        defer: 673,
+      },
+      {
+        id: 'month',
+        load: () => import('../examples/scheduler/month').then((m) => m.SchedulerMonthExample),
+        defer: 640,
+      },
+      {
+        id: 'rooms',
+        load: () => import('../examples/scheduler/rooms').then((m) => m.SchedulerRoomsExample),
+        defer: 640,
       },
     ],
   },

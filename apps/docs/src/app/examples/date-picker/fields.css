@@ -1,0 +1,9 @@
+.field {
+  display: grid;
+  gap: var(--nui-space-1);
+}
+
+label {
+  font-size: var(--nui-font-size-sm);
+  font-weight: var(--nui-font-weight-medium);
+}

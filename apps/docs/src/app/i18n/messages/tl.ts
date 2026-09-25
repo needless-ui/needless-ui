@@ -1558,6 +1558,270 @@ export const messages: Messages = {
           'Nakatago sa mga screen reader ang streaming caret, at hindi ito gumagalaw sa reduced motion.',
         ],
       },
+      calendar: {
+        name: 'Calendar',
+        title: 'Calendar component para sa Angular',
+        summary: 'Pumili ng isang araw, range o ilang araw, pati gamit ang keyboard.',
+        description:
+          'Accessible na Angular calendar: pumili ng isang araw, range o ilang araw, may min at max, mga hindi available na araw, magkakatabing buwan at week number.',
+        apiDescription:
+          'API reference ng Needless UI calendar: mga selection mode ng nui-calendar, min, max at mga hindi available na araw, magkakatabing buwan, at mga label.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI calendar: grid ng mga araw na may pangalan, arrow ayon sa araw at linggo, Page Up at Page Down ayon sa buwan.',
+        overview: [
+          'Pumipili ang calendar ng isang araw, isang range ng mga araw, o ilang araw. Mga plain na ISO date ang mga value, gaya ng <code>2026-09-25</code>, na walang time zone na makakapaglipat sa mga ito, kaya diretso itong maipapadala sa server o sa isang <code>&lt;input type="date"&gt;</code>.',
+          'Nagsisimula ang linggo sa unang araw ayon sa locale, at sinusunod ng mga pangalan at digit ang wika nito. Inaalis ng <code>min</code>, <code>max</code> at <code>unavailable</code> ang ilang araw sa pagpipilian, nagpapakita ang <code>months</code> ng ilang buwan nang magkakatabi, at nagzo-zoom out ang title sa mga buwan at taon para sa malalayong petsa.',
+          'Naaabot ng keyboard ang bawat araw, gaya sa WAI-ARIA date picker, at pinapangalanan ang bawat isa ng buong petsa nito.',
+        ],
+        examples: {
+          delivery: {
+            title: 'Araw ng delivery',
+            text: 'Hindi mapipili ang mga araw bago ngayon, pagkatapos ng <code>max</code> o inalis ng <code>unavailable</code>, pero dumadaan pa rin sa mga ito ang keyboard.',
+          },
+          stay: {
+            title: 'Isang range',
+            text: 'Kapag may <code>selection="range"</code>, sinisimulan ng unang pili ang range at sinusundan ng highlight ang pointer hanggang sa pangalawang pili. Mas marami ang sabay na ipinapakita ng <code>months="2"</code> at <code>weekNumbers</code>.',
+          },
+          'days-off': {
+            title: 'Ilang araw',
+            text: 'Kapag may <code>selection="multiple"</code>, nagdadagdag o nag-aalis ng isang araw ang bawat pili. Sinisimulan ng <code>firstDay</code> ang linggo sa ibang araw kaysa sa locale.',
+          },
+        },
+        api: {
+          NuiCalendar: {
+            summary: 'Isang calendar para pumili ng mga araw.',
+            members: {
+              selection: 'Kung ilang araw ang puwedeng piliin.',
+              value: 'Ang napiling araw.',
+              values: 'Ang mga napiling araw, nang sunod-sunod.',
+              range: 'Ang napiling range, kasama ang dalawang dulo.',
+              month: 'Ang ipinapakitang buwan, ang una kapag ilan ang ipinapakita.',
+              view: 'Mga araw, buwan o taon.',
+              'min, max': 'Ang una at huling araw na puwedeng piliin.',
+              unavailable: 'Inaalis sa pagpipilian ang ibang araw, gaya ng mga holiday.',
+              months: 'Ilang buwan ang magkakatabi.',
+              weekNumbers: 'Ipinapakita ang mga ISO week number.',
+              firstDay: 'Ang unang araw ng linggo, 1 para sa Lunes. Default ang sa locale.',
+              locale:
+                'Fino-format ang mga pangalan at digit, at pinipili ang unang araw ng linggo.',
+              labels: 'Bawat text na ipinapakita o ina-announce ng calendar, para maisalin.',
+              picked: 'Inilalabas ang bawat pili: isang araw, o isang range kapag kumpleto na.',
+              focusDate: 'Inililipat ang keyboard sa isang araw, at ipinapakita ang buwan nito.',
+            },
+          },
+          NuiDateRange: {
+            summary: 'Isang range ng mga araw.',
+            members: { 'start, end': 'Ang una at huling araw, parehong kasama.' },
+          },
+        },
+        keyboard: [
+          ['Left at right arrow', 'Nauna o susunod na araw. Baligtad sa right-to-left na text.'],
+          ['Up at down arrow', 'Nauna o susunod na linggo.'],
+          ['Home at End', 'Una o huling araw ng linggo.'],
+          ['Page Up at Page Down', 'Nauna o susunod na buwan; kapag may Shift, taon.'],
+          ['Enter o Space', 'Pinipili ang araw, o nagzo-zoom in sa isang buwan o taon.'],
+          ['Escape', 'Inaalis ang unang dulo ng range, o nagzo-zoom in ulit.'],
+        ],
+        notes: [
+          'Isang <code>grid</code> ang bawat buwan na pinangalanan ng title nito, at nasa <code>abbr</code> ang buong pangalan ng mga araw ng linggo.',
+          'Pinapangalanan ang bawat araw ng buong petsa nito, na dinadagdagan ng “Today”, “unavailable” at ng mga dulo ng range. Minamarkahan ng <code>aria-selected</code> ang napili, at ng <code>aria-disabled</code> ang hindi puwedeng piliin.',
+          'Iisang tab stop ang grid, na may roving <code>tabindex</code>. Ina-announce ng previous at next button ang bagong buwan.',
+        ],
+      },
+      'date-picker': {
+        name: 'Date picker',
+        title: 'Mga date at time picker component para sa Angular',
+        summary: 'Mag-type ng petsa o oras ayon sa segment, o pumili sa calendar.',
+        description:
+          'Accessible na Angular date, time at range picker: mga segment na tina-type ayon sa ayos ng locale, calendar sa popover, mga preset, at suporta sa form.',
+        apiDescription:
+          'API reference ng Needless UI date picker: nui-date-field, nui-time-field, nui-date-picker at nui-date-range-picker, kasama ang mga preset.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI date picker: isang spinbutton para sa bawat bahagi ng petsa, at calendar sa isang dialog.',
+        overview: [
+          'Tina-type ang mga date at time field ayon sa segment: araw, buwan at taon ayon sa ayos ng locale, saka oras at minuto ayon sa 12- o 24-hour clock nito. Isang spinbutton ang bawat segment: mag-type ng mga digit at kusa itong lilipat sa susunod, o i-step ito gamit ang mga arrow key. Mag-paste ng buong petsa, at mapupunan ang bawat segment.',
+          'Nagdadagdag ang mga picker ng calendar sa isang popover, para sa isang petsa o isang range na may mga preset. Mga plain na ISO string ang mga value, gaya ng <code>2026-09-25</code> o <code>2026-09-25T09:30</code>, at gumagana ang bawat field sa Signal Forms, reactive forms at <code>ngModel</code>.',
+          'Sa site na ito, sinusunod ng mga example ang wika ng page: palitan ito para makitang nagbabago ang ayos, mga separator at mga digit.',
+        ],
+        examples: {
+          fields: {
+            title: 'Mga date at time field',
+            text: 'I-type ang mga digit, o gamitin ang mga arrow key. Bumabalik nang isang segment ang pangalawang Backspace. Itinatakda ng <code>minuteStep</code> kung gaano kalayo inililipat ng mga arrow ang minuto.',
+          },
+          pickers: {
+            title: 'Mga date picker',
+            text: 'Binubuksan ng button ang calendar sa napiling araw, at isinasara ito ng pagpili. Kapag may <code>granularity="minute"</code>, tumatanggap din ng oras ang picker, at petsa lang ang binabago ng calendar.',
+          },
+          range: {
+            title: 'Isang date range',
+            text: 'Dalawang field at isang calendar na may dalawang buwan. Nagdadagdag ang <code>nuiDateRangePresets()</code> ng mga karaniwang range; nananatiling null ang value hanggang ma-set ang dalawang dulo, nang magkasunod.',
+          },
+        },
+        api: {
+          NuiDateField: {
+            summary: 'Isang petsa, o petsa at oras, na tina-type ayon sa segment.',
+            members: {
+              value: 'Ang value, o null hanggang mapunan ang bawat segment.',
+              granularity: 'Humihinto sa araw, o tumutuloy hanggang oras, minuto o segundo.',
+              'min, max':
+                'Ang pinakamaaga at pinakahuling value. Sa labas ng mga ito, invalid ang field.',
+              placeholder:
+                'Kung saan nagsisimula ang mga walang lamang segment kapag ginamit ang mga arrow key.',
+              hourCycle: 'Isang 12- o 24-hour clock. Default ang sa locale.',
+              minuteStep: 'Kung gaano kalayo inililipat ng mga arrow key ang minuto.',
+              'disabled, readonly': 'Pinipigilan ang mga pagbabago.',
+              locale: 'Itinatakda ang ayos, mga separator, mga digit at ang clock.',
+              labels: 'Bawat text na sinasabi ng field, para maisalin.',
+              invalid: 'Kung nasa labas ng <code>min</code> at <code>max</code> ang value.',
+              focus: 'Inililipat ang focus sa unang walang lamang segment.',
+            },
+          },
+          NuiTimeField: {
+            summary:
+              'Isang oras ng araw na tina-type ayon sa segment. Pareho ang mga input nito sa date field.',
+            members: { granularity: 'Humihinto sa oras, minuto o segundo.' },
+          },
+          NuiDatePicker: {
+            summary:
+              'Isang date field na may calendar sa popover. Tinatanggap nito ang mga input ng date field, at ang mga ito.',
+            members: {
+              unavailable: 'Mga araw na hindi pipiliin ng calendar.',
+              'firstDay, weekNumbers': 'Ipinapasa sa calendar.',
+              labels: 'Ang mga text ng field, ng button at ng calendar.',
+              show: 'Binubuksan ang calendar.',
+            },
+          },
+          NuiDateRangePicker: {
+            summary:
+              'Dalawang date field na may range calendar. Tinatanggap nito ang mga input ng date picker, at ang mga ito.',
+            members: {
+              value: 'Ang range, o null hanggang ma-set ang dalawang dulo, nang magkasunod.',
+              presets: 'Mga range na may pangalan, na mapipili sa isang click.',
+              months: 'Ilang buwan ang magkakatabi sa calendar.',
+            },
+          },
+          NuiDateRangePreset: {
+            summary: 'Isang range na may pangalan, fixed o ginagawa kapag pinili.',
+            members: {
+              label: 'Ang pangalan nito.',
+              range: 'Ang range, o isang function na gumagawa nito.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Mga digit',
+            'Tina-type sa segment. Lumilipat ito sa susunod kapag wala nang ibang digit na puwedeng sumunod.',
+          ],
+          [
+            'Up at down arrow',
+            'Nag-i-step ang segment; mas malayo ang step ng Page Up at Page Down.',
+          ],
+          ['Left at right arrow, Tab', 'Nauna o susunod na segment.'],
+          ['Backspace', 'Kini-clear ang segment, saka bumabalik nang isa.'],
+          ['A at P', 'Itinatakda ang AM o PM.'],
+        ],
+        notes: [
+          'Isang <code>group</code> ang field: pangalanan ito gamit ang <code>aria-label</code> o <code>aria-labelledby</code>. Isang <code>spinbutton</code> ang bawat segment na pinangalanan ayon sa bahagi nito, na binabasa ang mga buwan ayon sa pangalan at ang mga walang lamang segment bilang “Empty”.',
+          'Mga editable na text ang mga segment, kaya bumubukas sa mga digit ang mga touch keyboard.',
+          '“Choose a date” ang pangalan ng button ng picker, at isang <code>dialog</code> ang popover nito. Ibinabalik sa button ang focus kapag pumili ng petsa.',
+          'Gumagana ang calendar sa loob gaya ng <a href="/components/calendar">calendar</a> component.',
+        ],
+      },
+      scheduler: {
+        name: 'Scheduler',
+        title: 'Scheduler component para sa Angular',
+        summary: 'Mga event sa isang buwan, linggo, araw o agenda, na puwedeng i-drag sa puwesto.',
+        description:
+          'Accessible na Angular scheduler: buwan, linggo, araw at agenda, magkakatabing overlapping event, i-drag para ilipat at i-resize, at buong kontrol sa keyboard.',
+        apiDescription:
+          'API reference ng Needless UI scheduler: mga view, event, pag-edit at selection ng nui-scheduler, ang mga output nito, at ang template para sa mga event.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI scheduler: mga grid ng araw at oras, mga event na may pangalan, at keyboard na katumbas ng bawat drag.',
+        overview: [
+          'Ipinapakita ng scheduler ang mga event sa isang buwan, linggo, araw o agenda. Plain na data ang mga event na may mga ISO time; naghahati sa lapad ang mga nag-o-overlap, lumalabas sa dalawang araw ang mga event na tumatawid sa hatinggabi, at tumatakbo sa itaas bilang mga bar ang mga all-day event.',
+          'Hindi nito kailanman binabago nang kusa ang mga event mo. I-drag ang isang event, o ang ibabang gilid nito, at iuulat ng <code>eventChange</code> ang mga bagong oras; pumili ng oras sa grid, at iuulat ito ng <code>slotSelect</code>. Sinasabi ng <code>rangeChange</code> kung aling mga araw ang ipinapakita, para ma-load mo ang mga event ng mga ito.',
+          'Lahat ng nagagawa ng pointer, nagagawa rin ng keyboard: iisang tab stop ang grid, gumagalaw sa mga araw at oras ang mga arrow key, at inililipat ng Alt kasama ang mga arrow ang isang event.',
+        ],
+        examples: {
+          planner: {
+            title: 'Isang linggong paplanuhin',
+            text: 'Kapag may <code>editable</code> at <code>selectable</code>, i-drag ang mga event para ilipat ang mga ito, i-drag ang ibabang gilid nila para i-resize ang mga ito, at mag-drag sa bakanteng oras para magdagdag ng bago. Ina-update ng example ang mga event nito mula sa mga output.',
+          },
+          month: {
+            title: 'Isang buwan at isang agenda',
+            text: 'Tumatakbo bilang mga bar ang mga event na tumatawid ng ilang araw; ipinapakita ng abalang araw kung ilan pa ang natitira. Ang buwan at ang agenda lang ng susunod na <code>agendaDays</code> na araw ang inaalok ng <code>views</code>.',
+          },
+          rooms: {
+            title: 'Isang araw ng mga meeting room',
+            text: 'Iginuguhit ng <code>nuiSchedulerEvent</code> ang bawat booking kasama ang room at host nito. Mas pinong mga row ang ginagawa ng <code>slotMinutes="15"</code>.',
+          },
+        },
+        api: {
+          NuiScheduler: {
+            summary: 'Mga event sa isang buwan, linggo, araw o agenda.',
+            members: {
+              events: 'Ang mga event na ipapakita.',
+              view: 'Ang ipinapakitang view.',
+              views: 'Ang mga view na puwedeng pagpalipat-lipatan.',
+              date: 'Ang ipinapakitang araw, at kung nasaan ang keyboard.',
+              slotMinutes:
+                'Mga minuto bawat row ng time grid, at ang step ng paglipat ng mga event.',
+              scrollHour: 'Ang oras kung saan bumubukas ang time grid.',
+              agendaDays: 'Ilang araw pasulong ang sakop ng agenda.',
+              editable: 'Puwedeng ilipat at i-resize ang mga event, gamit ang pointer at keyboard.',
+              selectable: 'Puwedeng pumili ng oras sa grid, para gumawa ng mga event.',
+              firstDay: 'Ang unang araw ng linggo, 1 para sa Lunes. Default ang sa locale.',
+              headingLevel:
+                'Ang heading level ng title; isang level na mas malalim ang mga araw ng agenda.',
+              locale: 'Fino-format ang mga araw at oras.',
+              labels: 'Bawat text na ipinapakita o ina-announce ng scheduler, para maisalin.',
+              eventClick: 'Inilalabas ang event na na-click, o binuksan gamit ang Enter.',
+              eventChange:
+                'Inilalabas ang mga bagong oras ng event pagkatapos itong ilipat o i-resize.',
+              slotSelect: 'Inilalabas ang oras na pinili sa grid.',
+              rangeChange:
+                'Inilalabas ang una at huling araw na ipinapakita kapag nagbago ang mga ito.',
+            },
+          },
+          NuiSchedulerEvent: {
+            summary:
+              'Isang event. Hindi kasama ang dulo ng event na may oras; ang huling araw naman ang dulo ng all-day event.',
+            members: {
+              'id, title': 'Ang key nito, at ang ipinapakita nito.',
+              'start, end': 'Mga petsa at oras, o mga petsa lang para sa mga all-day event.',
+              allDay: 'Bilang default, all-day ito kapag walang oras ang <code>start</code>.',
+              tone: 'Ang kulay nito.',
+              editable: 'Kung puwede itong ilipat, anuman ang sabihin ng scheduler.',
+              data: 'Kahit anong iba pang itatabi kasama nito.',
+            },
+          },
+          NuiSchedulerEventTemplate: {
+            summary:
+              'Iginuguhit ang mga event. Nasa context ang event at ang oras nito bilang text.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Mga arrow key',
+            'Lumilipat ayon sa araw at sa slot. Baligtad sa right-to-left na text.',
+          ],
+          ['Page Up at Page Down', 'Nauna o susunod na buwan, linggo o araw.'],
+          ['Shift + mga arrow key', 'Pinapalawak ang napiling oras.'],
+          ['Enter o Space sa cell', 'Pumapasok sa mga event nito, o pinipili ang oras nito.'],
+          ['Up at down arrow sa event', 'Nauna o susunod na event sa cell.'],
+          ['Alt + mga arrow key sa event', 'Inililipat ito nang isang slot o isang araw.'],
+          ['Alt + Shift + up o down arrow', 'Pinapaikli o pinapahaba ang event.'],
+          ['Escape', 'Bumabalik sa cell, inaalis ang napiling oras, o kinakansela ang drag.'],
+        ],
+        notes: [
+          'Mga <code>grid</code> ang buwan, linggo at araw na pinangalanan ng title nila. Mga araw ang header ng mga column at mga oras ang sa mga row, kaya binabasa ang bawat cell kasama ang araw at oras nito.',
+          'Isang button ang bawat event na pinangalanan ng title, araw at oras nito, gaya ng “Standup, Friday, September 25, 9:00 – 9:30 AM”. Ina-announce ang bagong oras kapag inilipat o ni-resize ito.',
+          'May katumbas sa keyboard ang bawat drag, kaya walang kailangang gumamit ng pointer.',
+          'Mga toggle button sa isang group ang mga view, at ina-announce ang title kapag lumipat sa ibang linggo o buwan.',
+        ],
+      },
     },
   },
 
