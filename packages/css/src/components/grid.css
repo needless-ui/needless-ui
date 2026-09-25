@@ -123,8 +123,9 @@
     cursor: pointer;
   }
 
-  /* The header row sticks to the top. */
-  thead :is(.nui-grid-header, .nui-grid-select) {
+  /* The header row sticks to the top. Rules on table parts start at .nui-grid, so the
+     docs' critical CSS doesn't carry them onto every page that has a table. */
+  .nui-grid thead :is(.nui-grid-header, .nui-grid-select) {
     position: sticky;
     inset-block-start: 0;
     z-index: 2;
@@ -146,7 +147,7 @@
     z-index: 1;
   }
 
-  thead :is(.nui-grid-header, .nui-grid-select)[data-pinned] {
+  .nui-grid thead :is(.nui-grid-header, .nui-grid-select)[data-pinned] {
     z-index: 3;
   }
 
@@ -952,7 +953,7 @@
   }
 
   /* Totals stick to the bottom, as the header sticks to the top. */
-  tfoot :is(.nui-grid-cell, .nui-grid-select) {
+  .nui-grid tfoot :is(.nui-grid-cell, .nui-grid-select) {
     position: sticky;
     inset-block-end: 0;
     z-index: 2;
@@ -962,7 +963,7 @@
     font-weight: var(--nui-font-weight-semibold);
   }
 
-  tfoot :is(.nui-grid-cell, .nui-grid-select)[data-pinned] {
+  .nui-grid tfoot :is(.nui-grid-cell, .nui-grid-select)[data-pinned] {
     z-index: 3;
   }
 
@@ -1029,8 +1030,8 @@
       overflow: visible;
     }
 
-    :is(thead, tfoot) :is(.nui-grid-header, .nui-grid-select, .nui-grid-cell),
-    [data-pinned] {
+    .nui-grid :is(thead, tfoot) :is(.nui-grid-header, .nui-grid-select, .nui-grid-cell),
+    .nui-grid [data-pinned] {
       position: static !important;
     }
 
@@ -1043,7 +1044,7 @@
       display: none;
     }
 
-    thead {
+    .nui-grid thead {
       display: table-header-group;
     }
 

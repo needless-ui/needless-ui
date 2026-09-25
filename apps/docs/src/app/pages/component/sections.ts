@@ -156,10 +156,11 @@ export class OverviewSection extends ComponentSection {
                         <td>
                           <code>{{ member.type }}</code>
                         </td>
-                        <!-- No control flow in a row: identical rows hydrate from one entry. -->
+                        <!-- No control flow in a row: identical rows hydrate from one entry.
+                             The class is an attribute: a class binding leaves class="" on every default. -->
                         <td>
                           <code
-                            [class.api-none]="!member.default"
+                            [attr.class]="member.default ? null : 'api-none'"
                             [attr.aria-hidden]="member.default ? null : 'true'"
                             >{{ member.default || '—' }}</code
                           >

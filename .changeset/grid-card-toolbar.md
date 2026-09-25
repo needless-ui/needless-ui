@@ -13,3 +13,5 @@
 `NuiGridLabels` gains `toolbar`, `sortBy`, `unsorted`, `column` and `activeFilters` for the toolbar's words.
 
 Cards also move the grid's tab stop into the rows. It stayed on the hidden header row, so Tab never reached cards, and the arrow keys and `focusCell()` could go up to a row that isn't there.
+
+The grid's rules for its header, totals and print layout now start at `.nui-grid`. A bare `thead` let critical-CSS tools inline the header's rule into every page with a table, and in print a bare `[data-pinned]` reached elements outside the grid.
