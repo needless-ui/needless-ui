@@ -1,0 +1,10 @@
+nui-chat {
+  flex: 1 1 100%;
+  block-size: 32rem;
+}
+
+.greeting strong {
+  display: block;
+  color: var(--nui-color-text-default);
+  font-size: var(--nui-font-size-lg);
+}

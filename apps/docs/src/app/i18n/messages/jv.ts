@@ -1315,6 +1315,215 @@ export const messages: Messages = {
           'Owah-owahan urutan, saringan lan kaca, uga kesalahan nyunting, diumumake kanthi sopan (polite) ing wilayah status.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'Komponen chat AI kanggo Angular',
+        summary: 'Ngobrol karo model: jawaban streaming, tool, versi lan berkas.',
+        description:
+          'Chat Angular sing aksesibel kanggo asisten AI: jawaban Markdown streaming, reasoning, celukan tool, sumber, coba maneh sing dadi versi, lan berkas.',
+        apiDescription:
+          'Referensi API chat Needless UI: input nui-chat, NuiChatSession sing nge-stream jawaban, pesen, template tool lan pamaca stream.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas chat Needless UI: feed pesen sing duwe jeneng, Page Up lan Page Down, lan jawaban sing diumumake sawise rampung.',
+        overview: [
+          'Chat iku kabeh sing ana ing antarane pangguna panjenengan lan model. Gawe <code>NuiChatSession</code> kanthi fungsi <code>respond</code>, lan <code>&lt;nui-chat&gt;</code> sing ngurus liyane: nge-stream jawaban minangka Markdown, ngetutake jawaban mudhun ing kaca nganti sing maca nggulung munggah, lan ngowahi tombol kirim dadi tombol mandheg sajrone jawaban teka.',
+          '<code>respond</code> mbalekake teks, promise, <code>async function*</code> utawa Observable, dadi API apa wae bisa. Saliyane teks, jawaban bisa nggawa reasoning model, celukan tool-e (digambar nganggo template panjenengan), lan sumber sing dienggo. <code>nuiEventStream</code> maca server-sent events sing di-stream dening akehe API model.',
+          'Ora ana sing ilang: jawaban sing dicoba maneh utawa pitakon sing disunting dadi versi anyar ing sandhinge sing lawas, lan obrolan nyimpen saben cabang. Screen reader krungu saben jawaban sawise rampung, ora tembung saben tembung.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Asisten',
+            text: 'Saran miwiti obrolan. Jawaban di-stream minangka Markdown; mandhegna, coba maneh, wenehi rating, utawa sunting pitakon panjenengan. <code>attach</code> nampa berkas sing dipilih, ditempel utawa diselehake.',
+          },
+          tools: {
+            title: 'Reasoning, tool lan sumber',
+            text: 'Delta nambahake reasoning model, celukan tool lan sumber menyang jawaban. <code>nuiChatTool</code> nggambar tool cuaca minangka kertu; tool liyane dilempit bareng input lan output-e.',
+          },
+          server: {
+            title: 'Streaming saka server',
+            text: '<code>nuiEventStream</code> maca stream event gaya OpenAI, lan <code>NuiChatError</code> nampilake pesene. <code>all()</code> nyimpen obrolan, kalebu kabeh versine.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Obrolan lan kothak kanggo nulis, dadi siji.',
+            members: {
+              session: 'Obrolan sing ditampilake.',
+              assistant: 'Jeneng asisten, ing heading sing dirungokake screen reader.',
+              headingLevel:
+                'Level heading saben pesen, sing mung katon kanggo screen reader. Heading ing jawaban siji level luwih jero.',
+              announce:
+                'Apa sing dirungokake screen reader nalika jawaban rampung: kabeh, kabar cekak, utawa ora ana.',
+              images: 'Nampilake gambar ing jawaban. Yen ora, teks-e dadi pranala menyang gambar.',
+              value: 'Teks sing lagi ditulis.',
+              placeholder: 'Pitunjuk ing kolom kosong.',
+              suggestions: 'Prompt sing dikirim sak klik, nganti pesen kapisan.',
+              sendOn: 'Apa Enter ngirim, utawa Ctrl utawa ⌘ + Enter.',
+              disabled: 'Ngalangi kothak tulis ngirim.',
+              attach: 'Nampa berkas: sing dipilih, ditempel utawa diselehake.',
+              accept: 'Jinis berkas sing ditampa, kaya ing <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Pira berkas sing bisa digawa siji pesen.',
+              maxSize: 'Berkas paling gedhe sing ditampa, ing bita.',
+              labels: 'Saben teks sing ditampilake utawa diumumake chat, kanggo diterjemahake.',
+              rated:
+                'Ngetokake jawaban sing diwenehi rating dening sing maca, bareng rating-e, utawa <code>null</code> yen rating dibatalake.',
+              focus: 'Mindhah fokus menyang kolom teks.',
+              scrollToEnd: 'Nggulung menyang pesen paling anyar, lan ngetutake.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Obrolan, tanpa DOM babar pisan. Gawe ing sawijining komponen, kanthi pilihan <code>respond</code>, <code>messages</code> lan <code>id</code>.',
+            members: {
+              respond:
+                'Duweke panjenengan: nulis jawaban kanggo <code>request.messages</code>, lan mandheg nalika <code>request.signal</code> dibatalake.',
+              messages: 'Obrolan ing layar.',
+              all: 'Saben pesen saka saben versi, kanggo disimpen lan dibalekake minangka <code>messages</code>.',
+              busy: 'Apa ana jawaban sing lagi teka.',
+              send: 'Ngirim pesen lan njaluk jawaban.',
+              stop: 'Mandhegake jawaban, sing wis ditulis tetep ana.',
+              retry: 'Takon maneh. Jawaban anyar dadi versi ing sandhinge sing lawas.',
+              edit: 'Ngirim versi anyar saka salah siji pesen pangguna.',
+              versions: 'Saben versi sawijining pesen, sing paling lawas dhisik.',
+              show: 'Ngalih obrolan menyang versi iki.',
+              rate: 'Nyathet penilaian sing maca marang jawaban.',
+              'remove, load, clear':
+                'Mbusak pesen lan sabanjure, ngganti obrolan, utawa miwiti saka wiwitan.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Siji pesen. Pesen kanthi <code>parent</code> sing padha iku versi siji lan sijine.',
+            members: {
+              'id, parent': 'Kunci pesen, lan kunci pesen sadurunge.',
+              role: 'Sing nulis.',
+              text: 'Markdown saka asisten, teks biasa saka pangguna.',
+              status: 'Tahap jawaban, saka ngenteni nganti rampung.',
+              reasoning: 'Apa sing dipikir model sadurunge njawab.',
+              tools: 'Tool sing diceluk, kanthi kahanan, input lan output-e.',
+              sources: 'Kaca sing dienggo.',
+              attachments: 'Berkas sing dikirim bareng.',
+              rating: 'Penilaian sing maca.',
+              data: 'Apa wae liyane sing disimpen bareng, kayata jeneng model.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Nggambar celukan tool, kayata kertu cuaca. Konteks-e ngemot celukan lan pesene.',
+            members: {
+              nuiChatTool:
+                'Jeneng tool. Yen ora ana, nggambar saben celukan sing ora dijenengi template liya.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Obrolan thok, kanggo tata letak panjenengan dhewe. Nampa input <code>nui-chat</code> sing gegayutan karo obrolan.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Kothak tulis thok. Nampa input <code>nui-chat</code> sing gegayutan karo nulis.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Apa sing diwetokake <code>nuiEventStream</code> kanggo saben event. <code>nuiTextStream</code> maca teks biasa lan <code>nuiJsonStream</code> baris JSON; katelune nampa response <code>fetch</code>.',
+            members: {
+              event: 'Jeneng event.',
+              data: 'Baris data-ne, digabung.',
+              id: 'Id pungkasan sing dikirim stream.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Throw saka <code>respond</code> kanggo nampilake pesene. Error liyane nampilake pesen umum, dadi ora ana rincian internal sing bocor.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down lan Page Up', 'Pindhah menyang pesen sabanjure utawa sadurunge.'],
+          ['Ctrl + End lan Ctrl + Home', 'Metu saka obrolan, maju utawa mundur.'],
+          ['Enter', 'Ngirim. Kanthi Shift, miwiti baris anyar.'],
+          ['Escape', 'Mandheg nyunting pesen.'],
+        ],
+        notes: [
+          'Obrolan yaiku <code>feed</code> isi <code>article</code>. Saben siji dijenengi dening heading sing mung katon kanggo screen reader, kayata “You said”, lan nggawa <code>aria-posinset</code> lan <code>aria-setsize</code>.',
+          'Jawaban sing lagi ditulis nduweni <code>aria-busy</code>. Sawise rampung, diumumake sakabehe; kegagalan langsung diumumake.',
+          'Saben tombol ikon duwe jeneng lan tooltip. Rating yaiku tombol toggle, lan pangalih versi yaiku klompok kanthi jeneng kayata “Version 2 of 3”.',
+          'Reasoning lan celukan tool yaiku disclosure native sing bisa dibukak lan dilempit. Mbusak berkas mbalekake fokus menyang kolom teks.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Komponen renderer Markdown kanggo Angular',
+        summary: 'Render Markdown kanthi aman, sanajan lagi di-stream.',
+        description:
+          'Renderer Markdown Angular sing aman kanggo jawaban AI: tabel GitHub, dhaptar tugas lan blok kode, digambar dadi elemen asli lan lancar nalika streaming.',
+        apiDescription:
+          'Referensi API renderer Markdown Needless UI: input nui-markdown, template kanggo blok kode, lan parser ing mburine.',
+        a11yDescription:
+          'Aksesibilitas renderer Markdown Needless UI: heading, dhaptar lan tabel asli, wilayah gulung sing duwe jeneng, lan tombol salin sing bisa ngomong.',
+        overview: [
+          'Renderer Markdown ngowahi teks kaya sing ditulis model dadi elemen asli: heading, dhaptar lan dhaptar tugas, kutipan, tabel, blok kode kanthi tombol salin, lan pranala. Teks di-parse dadi wit lan digambar nganggo template, dadi HTML mentah tetep dadi teks lan ora ana sing tau dilebokake minangka HTML.',
+          'Kanthi <code>streaming</code>, teks sing lagi separo ditulis wis katon kaya yen wis rampung: code fence sing isih mbukak wis dadi blok kode, <code>**</code> sing dhewekan ngenteni pasangane, lan kursor ngetutake tembung pungkasan. Blok sing ora owah tetep nganggo DOM-e.',
+          'Pranala mung bisa kanggo alamat web, email lan telpon, lan gambar tetep dadi pranala nganti panjenengan ngaktifake <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Dokumen',
+            text: 'Heading diwiwiti saka <code>headingLevel</code>, dadi pas ing sangisore heading kaca dhewe. Tabel lan kode sing amba digulung ing wilayahe dhewe.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'Teks sing padha, sawetara karakter saben wektu. Ora ana simbol Markdown sing kedhip, lan mung blok pungkasan sing di-render maneh.',
+          },
+          highlight: {
+            title: 'Sorotan kode',
+            text: '<code>nuiMarkdownCode</code> nggambar blok kode nganggo template panjenengan, ing kene nganggo highlighter cilik. Nampa kode lan basane.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Nge-render Markdown dadi elemen.',
+            members: {
+              text: 'Markdown-e.',
+              streaming: 'Teks isih lagi teka.',
+              headingLevel: 'Level heading <code>#</code>. Sing luwih jero ngetutake, nganti 6.',
+              images:
+                'Nampilake gambar. Yen ora, teks-e dadi pranala menyang gambar, amarga gambar bisa nglacak.',
+              labels: 'Teks tombol salin lan liya-liyane, kanggo diterjemahake.',
+              codeTemplate:
+                'Template blok kode saka panggonan liya, kayata chat sing ngemot komponen iki.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Nggambar blok kode. Konteks-e ngemot kode, <code>lang</code>, lan <code>open</code> nalika blok isih lagi teka.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Parser lan helper-e, kanggo dienggo tanpa komponen.',
+            members: {
+              nuiParseMarkdown: 'Wit blok lan inline sing digambar komponen.',
+              nuiMarkdownToText:
+                'Teks biasa, siji baris saben blok, kanggo diumumake utawa pratinjau.',
+              nuiSafeUrl: 'Apa pranala tumuju alamat web, email utawa telpon.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Nekani pranala, tombol salin, lan tabel sarta kode sing amba supaya bisa digulung.',
+          ],
+        ],
+        notes: [
+          'Heading, dhaptar, kutipan, tabel kanthi header <code>th</code> lan <code>scope</code>, lan kode yaiku elemen asli.',
+          'Tabel lan blok kode sing amba digulung ing njero wilayah sing bisa difokus; wilayah tabel dijenengi miturut header-e.',
+          'Kothak dhaptar tugas ngandhani apa saben tugas wis rampung. Tombol salin jenenge “Copy code” lan ngomong “Copied” lumantar pesen status.',
+          'Kursor streaming didhelikake saka screen reader, lan meneng yen obah dikurangi.',
+        ],
+      },
     },
   },
 

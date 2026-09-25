@@ -1290,6 +1290,211 @@ export const messages: Messages = {
           '정렬, 필터링, 페이지 이동, 편집 오류는 읽고 있던 내용을 끊지 않는 상태 영역에서 안내됩니다.',
         ],
       },
+      chat: {
+        name: '채팅',
+        title: 'Angular AI 채팅 컴포넌트',
+        summary: '모델과 대화하는 UI로, 스트리밍 응답, 도구, 버전, 파일을 지원합니다.',
+        description:
+          'AI 어시스턴트를 위한 접근성을 갖춘 Angular 채팅입니다. Markdown 응답 스트리밍, 추론, 도구 호출, 출처, 버전으로 남는 재시도, 파일을 지원합니다.',
+        apiDescription:
+          'Needless UI 채팅의 API 레퍼런스입니다. nui-chat 입력, 응답을 스트리밍하는 NuiChatSession, 메시지, 도구 템플릿, 스트림 리더를 설명합니다.',
+        a11yDescription:
+          'Needless UI 채팅의 키보드 동작과 접근성을 다룹니다. 이름이 있는 메시지 피드, Page Up과 Page Down, 완료 후 안내되는 응답을 설명합니다.',
+        overview: [
+          '채팅은 사용자와 모델 사이의 모든 것을 담당합니다. <code>respond</code> 함수로 <code>NuiChatSession</code>을 만들면 나머지는 <code>&lt;nui-chat&gt;</code>이 처리합니다. 응답을 Markdown으로 스트리밍하고, 사용자가 위로 스크롤하기 전까지 응답을 따라 내려가며, 응답이 도착하는 동안에는 전송 버튼을 중지 버튼으로 바꿉니다.',
+          '<code>respond</code>는 텍스트, 프로미스, <code>async function*</code>, Observable 중 무엇이든 반환할 수 있어 어떤 API에도 맞출 수 있습니다. 응답에는 텍스트 외에도 모델의 추론, 도구 호출(직접 만든 템플릿으로 그림), 참고한 출처를 담을 수 있습니다. <code>nuiEventStream</code>은 대부분의 모델 API가 스트리밍하는 서버 전송 이벤트를 읽습니다.',
+          '잃어버리는 것은 없습니다. 다시 시도한 응답이나 수정한 질문은 이전 것 옆에 새 버전으로 남고, 대화는 모든 분기를 보존합니다. 스크린 리더는 각 응답을 한 단어씩 읽지 않고, 완료된 뒤에 읽어 줍니다.',
+        ],
+        examples: {
+          assistant: {
+            title: '어시스턴트',
+            text: '추천 프롬프트로 대화를 시작합니다. 응답은 Markdown으로 스트리밍되며, 중지하거나 다시 시도하거나 평가할 수 있고, 질문을 수정할 수도 있습니다. <code>attach</code>는 선택하거나 붙여 넣거나 끌어다 놓은 파일을 받습니다.',
+          },
+          tools: {
+            title: '추론, 도구, 출처',
+            text: '델타가 모델의 추론, 도구 호출, 출처를 응답에 추가합니다. <code>nuiChatTool</code>은 날씨 도구를 카드로 그리고, 다른 도구는 입력과 출력을 담은 채 접혀 있습니다.',
+          },
+          server: {
+            title: '서버에서 스트리밍',
+            text: '<code>nuiEventStream</code>은 OpenAI 스타일의 이벤트 스트림을 읽고, <code>NuiChatError</code>는 그 메시지를 표시합니다. <code>all()</code>은 버전까지 포함해 대화 전체를 저장합니다.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: '대화와 입력창을 한데 묶은 컴포넌트입니다.',
+            members: {
+              session: '표시할 대화.',
+              assistant: '어시스턴트의 이름. 스크린 리더가 읽는 제목에 쓰입니다.',
+              headingLevel:
+                '스크린 리더에만 보이는 각 메시지 제목의 수준. 응답 안의 제목은 한 단계 더 깊어집니다.',
+              announce: '응답이 완료되면 스크린 리더가 읽어 줄 내용: 전체, 짧은 알림, 또는 없음.',
+              images:
+                '응답 안의 이미지를 표시합니다. 끄면 이미지의 텍스트가 이미지로 가는 링크가 됩니다.',
+              value: '작성 중인 텍스트.',
+              placeholder: '비어 있는 필드에 표시되는 힌트.',
+              suggestions: '클릭 한 번으로 보낼 수 있는 프롬프트. 첫 메시지 전까지 표시됩니다.',
+              sendOn: 'Enter로 보낼지, Ctrl 또는 ⌘ + Enter로 보낼지 여부.',
+              disabled: '입력창에서 메시지를 보내지 못하게 합니다.',
+              attach: '파일을 받습니다: 선택, 붙여넣기, 끌어다 놓기.',
+              accept: '받을 파일 종류. <code>&lt;input type="file"&gt;</code>과 같은 형식입니다.',
+              maxFiles: '메시지 하나에 첨부할 수 있는 파일 수.',
+              maxSize: '받을 수 있는 가장 큰 파일 크기(바이트).',
+              labels: '채팅이 표시하거나 읽어 주는 모든 텍스트. 번역할 때 사용합니다.',
+              rated:
+                '사용자가 평가한 응답을 평가와 함께 내보내며, 평가를 취소하면 <code>null</code>을 내보냅니다.',
+              focus: '텍스트 필드에 포커스를 줍니다.',
+              scrollToEnd: '최신 메시지로 스크롤하고 계속 따라갑니다.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'DOM이 없는 대화 자체입니다. 컴포넌트 안에서 <code>respond</code>, <code>messages</code>, <code>id</code> 옵션으로 만듭니다.',
+            members: {
+              respond:
+                '직접 구현합니다. <code>request.messages</code>에 대한 응답을 작성하고, <code>request.signal</code>이 중단되면 멈춥니다.',
+              messages: '화면에 보이는 대화.',
+              all: '모든 버전의 모든 메시지. 저장했다가 <code>messages</code>로 다시 전달합니다.',
+              busy: '응답을 받는 중인지 여부.',
+              send: '메시지를 보내고 응답을 요청합니다.',
+              stop: '응답을 중지하고, 그때까지 작성된 내용은 유지합니다.',
+              retry: '다시 요청합니다. 새 응답은 이전 응답 옆에 버전으로 남습니다.',
+              edit: '사용자 메시지 중 하나의 새 버전을 보냅니다.',
+              versions: '메시지의 모든 버전. 오래된 것부터 나열됩니다.',
+              show: '대화를 이 버전으로 전환합니다.',
+              rate: '응답에 대한 사용자의 평가를 기록합니다.',
+              'remove, load, clear':
+                '메시지와 그 뒤의 내용을 제거하거나, 대화를 교체하거나, 처음부터 다시 시작합니다.',
+            },
+          },
+          NuiChatMessage: {
+            summary: '메시지 하나입니다. <code>parent</code>가 같은 메시지는 서로의 버전입니다.',
+            members: {
+              'id, parent': '메시지의 키와, 이 메시지가 뒤따르는 메시지의 키.',
+              role: '작성자.',
+              text: '어시스턴트는 Markdown, 사용자는 일반 텍스트.',
+              status: '대기 중부터 완료까지, 응답의 진행 상태.',
+              reasoning: '모델이 답하기 전에 한 생각.',
+              tools: '호출한 도구와 그 상태, 입력, 출력.',
+              sources: '참고한 페이지.',
+              attachments: '함께 보낸 파일.',
+              rating: '사용자의 평가.',
+              data: '모델 이름처럼 함께 보관할 그 밖의 데이터.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              '날씨 카드처럼 도구 호출을 그립니다. 컨텍스트에는 호출과 그 메시지가 들어 있습니다.',
+            members: {
+              nuiChatTool:
+                '도구 이름. 지정하지 않으면 다른 템플릿이 지정하지 않은 모든 호출을 그립니다.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              '직접 만든 레이아웃을 위한, 대화만 있는 컴포넌트입니다. <code>nui-chat</code>의 입력 중 대화에 관한 것을 받습니다.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              '입력창만 있는 컴포넌트입니다. <code>nui-chat</code>의 입력 중 메시지 작성에 관한 것을 받습니다.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              '<code>nuiEventStream</code>이 이벤트마다 내보내는 값입니다. <code>nuiTextStream</code>은 일반 텍스트를, <code>nuiJsonStream</code>은 JSON Lines를 읽으며, 셋 모두 <code>fetch</code> 응답을 받습니다.',
+            members: {
+              event: '이벤트 이름.',
+              data: '이벤트의 data 줄을 이어 붙인 것.',
+              id: '스트림이 마지막으로 보낸 id.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              '<code>respond</code>에서 던지면 그 메시지가 표시됩니다. 다른 오류는 일반적인 메시지로 표시되므로 내부 정보가 새어 나가지 않습니다.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down / Page Up', '다음 또는 이전 메시지로 이동합니다.'],
+          ['Ctrl + End / Ctrl + Home', '대화를 벗어나 뒤쪽 또는 앞쪽 요소로 이동합니다.'],
+          ['Enter', '보냅니다. Shift와 함께 누르면 줄을 바꿉니다.'],
+          ['Esc', '메시지 편집을 멈춥니다.'],
+        ],
+        notes: [
+          '대화는 <code>article</code>로 이루어진 <code>feed</code>입니다. 각 메시지는 ‘You said’처럼 스크린 리더에만 보이는 제목으로 이름이 지정되며, <code>aria-posinset</code>과 <code>aria-setsize</code>를 가집니다.',
+          '작성 중인 응답은 <code>aria-busy</code> 상태입니다. 완료되면 전체가 한 번에 안내되고, 실패는 즉시 안내됩니다.',
+          '모든 아이콘 버튼에는 이름과 툴팁이 있습니다. 평가는 토글 버튼이고, 버전 전환기는 ‘Version 2 of 3’ 같은 이름이 붙은 그룹입니다.',
+          '추론과 도구 호출은 네이티브 접기/펼치기 요소입니다. 파일을 제거하면 포커스가 텍스트 필드로 돌아갑니다.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Angular Markdown 렌더러 컴포넌트',
+        summary: '스트리밍 중에도 Markdown을 안전하게 렌더링합니다.',
+        description:
+          'AI 응답을 위한 안전한 Angular Markdown 렌더러입니다. GitHub 표, 작업 목록, 코드 블록을 실제 요소로 그리며, 스트리밍 중에도 매끄럽게 표시합니다.',
+        apiDescription:
+          'Needless UI Markdown 렌더러의 API 레퍼런스입니다. nui-markdown 입력, 코드 블록 템플릿, 그 밑에서 동작하는 파서를 설명합니다.',
+        a11yDescription:
+          'Needless UI Markdown 렌더러의 접근성을 다룹니다. 실제 제목, 목록, 표, 이름이 있는 스크롤 영역, 결과를 알려 주는 복사 버튼을 설명합니다.',
+        overview: [
+          'Markdown 렌더러는 모델이 쓰는 것 같은 텍스트를 실제 요소로 바꿉니다. 제목, 목록과 작업 목록, 인용문, 표, 복사 버튼이 달린 코드 블록, 링크를 지원합니다. 텍스트를 트리로 파싱한 뒤 템플릿으로 그리므로, 원시 HTML은 텍스트로 남고 HTML로 삽입되는 것은 전혀 없습니다.',
+          '<code>streaming</code>을 지정하면 쓰다 만 텍스트도 완성되었을 때처럼 읽힙니다. 닫히지 않은 코드 펜스는 이미 코드 블록이고, 짝 없는 <code>**</code>는 짝을 기다리며, 캐럿이 마지막 단어를 따라갑니다. 바뀌지 않은 블록은 DOM을 그대로 유지합니다.',
+          '링크는 웹, 메일, 전화 주소에서만 동작하며, 이미지는 <code>images</code>를 켜기 전까지 링크로 남습니다.',
+        ],
+        examples: {
+          document: {
+            title: '문서',
+            text: '제목은 <code>headingLevel</code>부터 시작하므로 페이지 자체의 제목 아래에 알맞게 들어갑니다. 넓은 표와 코드는 각자의 영역 안에서 스크롤됩니다.',
+          },
+          streaming: {
+            title: '스트리밍',
+            text: '같은 텍스트를 몇 글자씩 보여 줍니다. 기호가 잠깐 나타났다 사라지는 일이 없으며, 마지막 블록만 다시 렌더링됩니다.',
+          },
+          highlight: {
+            title: '코드 하이라이팅',
+            text: '<code>nuiMarkdownCode</code>는 직접 만든 템플릿으로 코드 블록을 그리며, 여기서는 작은 하이라이터를 사용합니다. 템플릿은 코드와 그 언어를 받습니다.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Markdown을 요소로 렌더링합니다.',
+            members: {
+              text: 'Markdown 텍스트.',
+              streaming: '텍스트가 아직 도착하는 중인지 여부.',
+              headingLevel: '<code>#</code> 제목의 수준. 더 깊은 제목은 최대 6까지 이어집니다.',
+              images:
+                '이미지를 표시합니다. 이미지는 추적에 쓰일 수 있어서, 끄면 이미지의 텍스트가 링크가 됩니다.',
+              labels: '복사 버튼의 텍스트 등. 번역할 때 사용합니다.',
+              codeTemplate:
+                '다른 곳에서 가져온 코드 블록 템플릿. 예를 들어 이 렌더러를 포함한 채팅의 템플릿입니다.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              '코드 블록을 그립니다. 컨텍스트에는 코드, <code>lang</code>, 그리고 블록이 아직 도착하는 중이면 <code>open</code>이 들어 있습니다.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: '파서와 그 헬퍼 함수로, 컴포넌트 없이 사용할 수 있습니다.',
+            members: {
+              nuiParseMarkdown: '컴포넌트가 그리는 블록과 인라인 요소의 트리.',
+              nuiMarkdownToText:
+                '블록마다 한 줄씩인 일반 텍스트. 안내하거나 미리 보여 줄 때 사용합니다.',
+              nuiSafeUrl: '링크가 웹, 메일, 전화 주소로 연결되는지 여부.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', '링크, 복사 버튼, 그리고 스크롤할 수 있도록 넓은 표와 코드로 이동합니다.'],
+        ],
+        notes: [
+          '제목, 목록, 인용문, <code>th</code> 헤더와 <code>scope</code>를 갖춘 표, 코드는 모두 실제 요소입니다.',
+          '넓은 표와 코드 블록은 포커스를 받을 수 있는 영역 안에서 스크롤됩니다. 표의 영역에는 헤더를 바탕으로 이름이 붙습니다.',
+          '작업 목록의 체크박스는 각 작업의 완료 여부를 알려 줍니다. 복사 버튼의 이름은 ‘Copy code’이며, 상태 메시지로 ‘Copied’를 알려 줍니다.',
+          '스트리밍 캐럿은 스크린 리더에서 숨겨지며, 동작 줄이기 설정에서는 움직이지 않습니다.',
+        ],
+      },
     },
   },
 

@@ -1345,6 +1345,219 @@ export const messages: Messages = {
           'Ina-announce sa isang polite na status region ang sorting, filtering, paging at mga error sa pag-edit.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'AI chat component para sa Angular',
+        summary: 'Makipag-usap sa model: mga naka-stream na sagot, tool, version at file.',
+        description:
+          'Accessible na Angular chat para sa mga AI assistant: naka-stream na Markdown na sagot, reasoning, tool call, source, retry bilang version, at file.',
+        apiDescription:
+          'API reference ng Needless UI chat: mga input ng nui-chat, ang NuiChatSession na nag-i-stream ng sagot, mga mensahe, tool template at stream reader.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI chat: feed ng mga mensaheng may pangalan, Page Up at Page Down, at mga sagot na ina-announce kapag kumpleto na.',
+        overview: [
+          'Ang chat ang lahat ng nasa pagitan ng mga user mo at ng isang model. Gumawa ng <code>NuiChatSession</code> na may <code>respond</code> function, at <code>&lt;nui-chat&gt;</code> na ang bahala sa iba: ini-stream nito ang sagot bilang Markdown, sinusundan ito pababa ng page hanggang mag-scroll pataas ang user, at ginagawang stop button ang send button habang dumarating ang sagot.',
+          'Nagbabalik ang <code>respond</code> ng text, promise, <code>async function*</code> o Observable, kaya babagay ang kahit anong API. Bukod sa text, puwedeng dala ng sagot ang reasoning ng model, ang mga tool call nito (na iginuguhit ng sarili mong mga template), at ang mga source na ginamit nito. Binabasa ng <code>nuiEventStream</code> ang server-sent events na ini-stream ng karamihan ng mga model API.',
+          'Walang nawawala: nagiging bagong version sa tabi ng luma ang sagot na ni-retry o tanong na in-edit, at iniingatan ng usapan ang bawat branch. Naririnig ng mga screen reader ang bawat sagot kapag kumpleto na ito, hindi isa-isang salita.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Isang assistant',
+            text: 'Sinisimulan ng mga mungkahi ang usapan. Dumarating bilang Markdown ang mga naka-stream na sagot; ihinto, i-retry o i-rate ang mga ito, o i-edit ang tanong mo. Tumatanggap ang <code>attach</code> ng mga file na pinili, na-paste o na-drop.',
+          },
+          tools: {
+            title: 'Reasoning, mga tool at mga source',
+            text: 'Idinadagdag ng mga delta sa sagot ang reasoning ng model, mga tool call at mga source. Iginuguhit ng <code>nuiChatTool</code> ang weather tool bilang card; nakatiklop ang ibang tool kasama ang input at output nila.',
+          },
+          server: {
+            title: 'Pag-stream mula sa server',
+            text: 'Binabasa ng <code>nuiEventStream</code> ang isang OpenAI-style na event stream, at ipinapakita ng <code>NuiChatError</code> ang mensahe nito. Sine-save ng <code>all()</code> ang usapan, kasama ang lahat ng version.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Ang usapan at ang box na susulatan, magkasama.',
+            members: {
+              session: 'Ang usapang ipapakita.',
+              assistant:
+                'Ang pangalan ng assistant, sa mga heading na naririnig ng mga screen reader.',
+              headingLevel:
+                'Ang level ng heading ng bawat mensahe, na mga screen reader lang ang nagpapakita. Isang level na mas malalim ang mga heading sa mga sagot.',
+              announce:
+                'Ang naririnig ng mga screen reader kapag kumpleto na ang sagot: lahat ng ito, maikling abiso, o wala.',
+              images:
+                'Ipinapakita ang mga image sa mga sagot. Kung hindi, nagiging link papunta sa mga ito ang text nila.',
+              value: 'Ang text na sinusulat.',
+              placeholder: 'Text na ipinapakita habang walang laman ang field.',
+              suggestions: 'Mga prompt na maipapadala sa isang click, hanggang sa unang mensahe.',
+              sendOn: 'Kung Enter ang nagpapadala, o Ctrl o ⌘ + Enter.',
+              disabled: 'Pinipigilan ang composer na magpadala.',
+              attach: 'Tumatanggap ng mga file: pinili, na-paste o na-drop.',
+              accept:
+                'Ang mga uri ng file na tatanggapin, gaya sa <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Ilang file ang puwedeng dalhin ng isang mensahe.',
+              maxSize: 'Ang pinakamalaking file na tatanggapin, sa byte.',
+              labels: 'Bawat text na ipinapakita o ina-announce ng chat, para maisalin.',
+              rated:
+                'Inilalabas ang sagot na ni-rate ng user, kasama ang rating, o <code>null</code> kapag binawi ito.',
+              focus: 'Inililipat ang focus sa text field.',
+              scrollToEnd: 'Nag-i-scroll sa pinakabagong mensahe, at sinusundan ito.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Ang usapan, nang walang anumang DOM. Gawin ito sa isang component, gamit ang mga opsyong <code>respond</code>, <code>messages</code> at <code>id</code>.',
+            members: {
+              respond:
+                'Sa iyo ito: isinusulat ang sagot sa <code>request.messages</code>, at humihinto kapag nag-abort ang <code>request.signal</code>.',
+              messages: 'Ang usapang nasa screen.',
+              all: 'Bawat mensahe ng bawat version, para i-save at ibalik bilang <code>messages</code>.',
+              busy: 'Kung may sagot na paparating.',
+              send: 'Nagpapadala ng mensahe at humihingi ng sagot.',
+              stop: 'Inihihinto ang sagot, at itinatago ang naisulat na nito.',
+              retry: 'Nagtatanong ulit. Version sa tabi ng luma ang bagong sagot.',
+              edit: 'Nagpapadala ng bagong version ng isa sa mga mensahe ng user.',
+              versions: 'Bawat version ng isang mensahe, pinakaluma muna.',
+              show: 'Inililipat ang usapan sa version na ito.',
+              rate: 'Itinatala ang rating ng user sa isang sagot.',
+              'remove, load, clear':
+                'Inaalis ang isang mensahe at ang mga kasunod nito, pinapalitan ang usapan, o nagsisimula ulit.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Isang mensahe. Mga version ng isa’t isa ang mga mensaheng may parehong <code>parent</code>.',
+            members: {
+              'id, parent': 'Ang key ng mensahe, at ng mensaheng sinusundan nito.',
+              role: 'Kung sino ang sumulat nito.',
+              text: 'Markdown mula sa assistant, plain text mula sa user.',
+              status: 'Kung nasaan na ang sagot, mula paghihintay hanggang tapos.',
+              reasoning: 'Ang inisip ng model bago ito sumagot.',
+              tools: 'Ang mga tool na tinawag nito, kasama ang state, input at output nila.',
+              sources: 'Ang mga page na ginamit nito.',
+              attachments: 'Ang mga file na ipinadala kasama nito.',
+              rating: 'Ang rating ng user.',
+              data: 'Kahit ano pang itatago kasama nito, gaya ng pangalan ng model.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Iginuguhit ang isang tool call, gaya ng card para sa weather. Nasa context ang call at ang mensahe nito.',
+            members: {
+              nuiChatTool:
+                'Ang pangalan ng tool. Kapag wala, iginuguhit nito ang bawat call na hindi pinangalanan ng ibang template.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Ang usapan lang, para sa sarili mong layout. Tinatanggap nito ang mga input ng <code>nui-chat</code> na tungkol sa usapan.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Ang box na susulatan lang. Tinatanggap nito ang mga input ng <code>nui-chat</code> na tungkol sa pagsusulat.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Ang ibinibigay ng <code>nuiEventStream</code> para sa bawat event. Binabasa ng <code>nuiTextStream</code> ang plain text at ng <code>nuiJsonStream</code> ang mga JSON line; tumatanggap ang tatlo ng <code>fetch</code> response.',
+            members: {
+              event: 'Ang pangalan ng event.',
+              data: 'Ang mga data line nito, pinagdugtong.',
+              id: 'Ang huling id na ipinadala ng stream.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'I-throw ito mula sa <code>respond</code> para ipakita ang mensahe nito. Pangkalahatang mensahe ang ipinapakita ng ibang error, kaya walang internal na detalyeng lumalabas.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down at Page Up', 'Lumilipat sa susunod o naunang mensahe.'],
+          ['Ctrl + End at Ctrl + Home', 'Lumalabas sa usapan, pasulong o paatras.'],
+          ['Enter', 'Nagpapadala. Kapag may Shift, nagsisimula ng bagong linya.'],
+          ['Escape', 'Humihinto sa pag-edit ng mensahe.'],
+        ],
+        notes: [
+          'Isang <code>feed</code> ng mga <code>article</code> ang usapan. Pinapangalanan ang bawat isa ng heading na mga screen reader lang ang nakakakita, gaya ng “You said”, at may <code>aria-posinset</code> at <code>aria-setsize</code> ito.',
+          'Naka-<code>aria-busy</code> ang sagot habang sinusulat pa. Kapag kumpleto na, ina-announce ito nang buo; agad namang ina-announce ang pagkabigo.',
+          'May pangalan at tooltip ang bawat icon button. Mga toggle button ang mga rating, at isang group na may pangalang gaya ng “Version 2 of 3” ang version switcher.',
+          'Mga native disclosure ang reasoning at mga tool call. Kapag nag-alis ng file, bumabalik ang focus sa text field.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Markdown renderer component para sa Angular',
+        summary: 'I-render ang Markdown nang ligtas, kahit habang nag-i-stream ito.',
+        description:
+          'Ligtas na Angular Markdown renderer para sa mga sagot ng AI: GitHub table, task list at code block bilang totoong element, smooth kahit nag-i-stream.',
+        apiDescription:
+          'API reference ng Needless UI Markdown renderer: mga input ng nui-markdown, ang template para sa mga code block, at ang parser sa likod nito.',
+        a11yDescription:
+          'Accessibility ng Needless UI Markdown renderer: totoong heading, list at table, mga scroll region na may pangalan, at copy button na nag-a-announce.',
+        overview: [
+          'Ginagawang totoong element ng Markdown renderer ang text na gaya ng isinusulat ng model: heading, list at task list, quote, table, code block na may copy button, at link. Pina-parse nito ang text sa isang tree at iginuguhit ito gamit ang mga template, kaya nananatiling text ang raw HTML at walang kahit anong isinisingit bilang HTML.',
+          'Kapag may <code>streaming</code>, mukha nang kumpleto ang text na kalahati pa lang ang naisulat: code block na agad ang bukas na code fence, hinihintay ng nag-iisang <code>**</code> ang kapares nito, at sinusundan ng caret ang huling salita. Nananatili ang DOM ng mga block na hindi nagbago.',
+          'Gumagana lang ang mga link para sa web, mail at phone address, at nananatiling link ang mga image hanggang i-on mo ang <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Isang dokumento',
+            text: 'Nagsisimula ang mga heading sa <code>headingLevel</code>, kaya kasya ang mga ito sa ilalim ng sariling mga heading ng page. Nag-i-scroll sa sarili nilang region ang malalapad na table at code.',
+          },
+          streaming: {
+            title: 'Pag-stream',
+            text: 'Ang parehong text, ilang character sa bawat pagkakataon. Walang simbolong kumikislap, at ang huling block lang ang nire-render ulit.',
+          },
+          highlight: {
+            title: 'Pag-highlight ng code',
+            text: 'Iginuguhit ng <code>nuiMarkdownCode</code> ang mga code block gamit ang sarili mong template, dito may maliit na highlighter. Natatanggap nito ang code at ang language nito.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Nire-render ang Markdown bilang mga element.',
+            members: {
+              text: 'Ang Markdown.',
+              streaming: 'Dumarating pa ang text.',
+              headingLevel:
+                'Ang level ng isang <code>#</code> heading. Sumusunod ang mas malalalim, hanggang 6.',
+              images:
+                'Ipinapakita ang mga image. Kung hindi, nagiging link papunta sa mga ito ang text nila, dahil puwedeng mang-track ang isang image.',
+              labels: 'Ang mga text ng copy button at iba pa, para maisalin.',
+              codeTemplate:
+                'Code block template mula sa ibang lugar, gaya ng chat na naglalaman nito.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Iginuguhit ang mga code block. Nasa context ang code, ang <code>lang</code>, at ang <code>open</code> habang dumarating pa ang block.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Ang parser at ang mga helper nito, para magamit nang walang component.',
+            members: {
+              nuiParseMarkdown: 'Ang tree ng mga block at inline na iginuguhit ng component.',
+              nuiMarkdownToText:
+                'Ang plain text, isang linya bawat block, para i-announce o i-preview.',
+              nuiSafeUrl: 'Kung papunta sa web, mail o phone address ang isang link.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Inaabot ang mga link, ang mga copy button, at ang malalapad na table at code para ma-scroll ang mga ito.',
+          ],
+        ],
+        notes: [
+          'Mga totoong element ang mga heading, list, quote, table na may <code>th</code> na header at <code>scope</code>, at code.',
+          'Nag-i-scroll sa loob ng focusable na region ang malalapad na table at code block; ipinapangalan ang region ng table sa mga header nito.',
+          'Sinasabi ng mga box ng task list kung tapos na ang bawat task. “Copy code” ang pangalan ng copy button at sinasabi nitong “Copied” sa pamamagitan ng status message.',
+          'Nakatago sa mga screen reader ang streaming caret, at hindi ito gumagalaw sa reduced motion.',
+        ],
+      },
     },
   },
 

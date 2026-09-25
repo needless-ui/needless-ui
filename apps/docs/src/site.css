@@ -804,6 +804,33 @@
     padding-inline-end: var(--nui-space-3);
   }
 
+  .preview-chat {
+    gap: var(--nui-space-2);
+    inline-size: min(16rem, 100%);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .preview-chat .nui-chat-bubble {
+    padding-block: var(--nui-space-1);
+  }
+
+  .preview-chat-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--nui-space-1);
+    padding-inline: var(--nui-space-3) var(--nui-space-1);
+  }
+
+  .preview-chat-box .preview-typed {
+    color: var(--nui-color-text-muted);
+  }
+
+  .preview-markdown {
+    inline-size: min(15rem, 100%);
+    font-size: var(--nui-font-size-sm);
+  }
+
   .preview-toast {
     inline-size: min(17rem, 100%);
     transform: none;
@@ -1100,7 +1127,7 @@
     gap: var(--nui-space-3);
   }
 
-  .example-demo p {
+  .example-demo p:not(:where(.nui-markdown, .nui-chat) p) {
     flex-basis: 100%;
     margin: 0;
     color: var(--nui-color-text-muted);

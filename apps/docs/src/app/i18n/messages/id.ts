@@ -1317,6 +1317,218 @@ export const messages: Messages = {
           'Pengurutan, penyaringan, perpindahan halaman, dan error pengeditan diumumkan secara polite di region status.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'Komponen chat AI untuk Angular',
+        summary: 'Mengobrol dengan model: balasan yang di-stream, tool, versi, dan file.',
+        description:
+          'Chat Angular yang aksesibel untuk asisten AI: balasan Markdown yang di-stream, penalaran, panggilan tool, sumber, percobaan ulang sebagai versi, dan file.',
+        apiDescription:
+          'Referensi API chat Needless UI: input nui-chat, NuiChatSession yang men-stream balasan, pesan, template tool, dan pembaca stream.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas chat Needless UI: feed berisi pesan bernama, Page Up dan Page Down, serta balasan yang diumumkan setelah selesai.',
+        overview: [
+          'Chat adalah segala hal di antara pengguna Anda dan model. Buat <code>NuiChatSession</code> dengan fungsi <code>respond</code>, lalu <code>&lt;nui-chat&gt;</code> mengurus sisanya: men-stream balasan sebagai Markdown, mengikutinya ke bawah halaman sampai pengguna menggulir ke atas, dan mengubah tombol kirim menjadi tombol berhenti selama balasan datang.',
+          '<code>respond</code> mengembalikan teks, promise, <code>async function*</code>, atau Observable, jadi API apa pun cocok. Selain teks, balasan bisa membawa penalaran model, panggilan tool-nya (digambar oleh template Anda), dan sumber yang dipakainya. <code>nuiEventStream</code> membaca server-sent events yang di-stream oleh sebagian besar API model.',
+          'Tidak ada yang hilang: balasan yang dicoba ulang atau pertanyaan yang diedit menjadi versi baru di samping versi lama, dan percakapan menyimpan setiap cabang. Pembaca layar membacakan setiap balasan setelah lengkap, bukan kata demi kata.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Asisten',
+            text: 'Saran memulai percakapan. Balasan di-stream sebagai Markdown; hentikan, coba ulang, beri rating, atau edit pertanyaan Anda. <code>attach</code> menerima file yang dipilih, ditempel, atau di-drop.',
+          },
+          tools: {
+            title: 'Penalaran, tool, dan sumber',
+            text: 'Delta menambahkan penalaran model, panggilan tool, dan sumber ke balasan. <code>nuiChatTool</code> menggambar tool cuaca sebagai kartu; tool lain terlipat beserta input dan output-nya.',
+          },
+          server: {
+            title: 'Streaming dari server',
+            text: '<code>nuiEventStream</code> membaca event stream bergaya OpenAI, dan <code>NuiChatError</code> menampilkan pesannya. <code>all()</code> menyimpan percakapan, lengkap dengan semua versinya.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Percakapan dan kotak untuk menulis, dalam satu komponen.',
+            members: {
+              session: 'Percakapan yang ditampilkan.',
+              assistant: 'Nama asisten, dalam heading yang dibacakan pembaca layar.',
+              headingLevel:
+                'Level heading setiap pesan, yang hanya ditampilkan untuk pembaca layar. Heading di dalam balasan satu level lebih dalam.',
+              announce:
+                'Yang dibacakan pembaca layar saat balasan selesai: seluruhnya, pemberitahuan singkat, atau tidak ada.',
+              images:
+                'Menampilkan gambar di balasan. Jika tidak, teksnya menjadi tautan ke gambar.',
+              value: 'Teks yang sedang ditulis.',
+              placeholder: 'Teks yang ditampilkan saat kolom kosong.',
+              suggestions: 'Prompt yang bisa dikirim dengan sekali klik, sampai pesan pertama.',
+              sendOn: 'Apakah Enter yang mengirim, atau Ctrl atau ⌘ + Enter.',
+              disabled: 'Mencegah kotak tulis mengirim pesan.',
+              attach: 'Menerima file: dipilih, ditempel, atau di-drop.',
+              accept:
+                'Jenis file yang diterima, seperti pada <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Jumlah file yang bisa dibawa satu pesan.',
+              maxSize: 'Ukuran file terbesar yang diterima, dalam byte.',
+              labels: 'Semua teks yang ditampilkan atau diumumkan chat, untuk diterjemahkan.',
+              rated:
+                'Mengirimkan balasan yang diberi rating oleh pengguna, beserta rating-nya, atau <code>null</code> saat rating dibatalkan.',
+              focus: 'Memfokuskan kolom teks.',
+              scrollToEnd: 'Menggulir ke pesan terbaru, lalu mengikutinya.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Percakapan, tanpa DOM sama sekali. Buat di dalam komponen, dengan opsi <code>respond</code>, <code>messages</code>, dan <code>id</code>.',
+            members: {
+              respond:
+                'Fungsi Anda: menulis balasan untuk <code>request.messages</code>, dan berhenti saat <code>request.signal</code> dibatalkan.',
+              messages: 'Percakapan yang tampil di layar.',
+              all: 'Setiap pesan dari setiap versi, untuk disimpan lalu diteruskan kembali sebagai <code>messages</code>.',
+              busy: 'Apakah balasan sedang dalam perjalanan.',
+              send: 'Mengirim pesan dan meminta balasan.',
+              stop: 'Menghentikan balasan, dengan tetap menyimpan yang sudah ditulis.',
+              retry: 'Meminta ulang. Balasan baru menjadi versi di samping yang lama.',
+              edit: 'Mengirim versi baru dari salah satu pesan pengguna.',
+              versions: 'Setiap versi sebuah pesan, dari yang terlama.',
+              show: 'Mengalihkan percakapan ke versi ini.',
+              rate: 'Mencatat penilaian pengguna atas sebuah balasan.',
+              'remove, load, clear':
+                'Menghapus pesan beserta yang mengikutinya, mengganti percakapan, atau memulai dari awal.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Satu pesan. Pesan dengan <code>parent</code> yang sama adalah versi satu sama lain.',
+            members: {
+              'id, parent': 'Kunci pesan, dan kunci pesan yang diikutinya.',
+              role: 'Siapa yang menulisnya.',
+              text: 'Markdown dari asisten, teks biasa dari pengguna.',
+              status: 'Tahap balasan, dari menunggu hingga selesai.',
+              reasoning: 'Apa yang dipikirkan model sebelum menjawab.',
+              tools: 'Tool yang dipanggilnya, beserta status, input, dan output-nya.',
+              sources: 'Halaman yang dipakainya.',
+              attachments: 'File yang dikirim bersamanya.',
+              rating: 'Penilaian pengguna.',
+              data: 'Apa pun yang perlu disimpan bersamanya, misalnya nama model.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Menggambar panggilan tool, misalnya kartu cuaca. Konteksnya berisi panggilan dan pesannya.',
+            members: {
+              nuiChatTool:
+                'Nama tool. Tanpa nama, template ini menggambar setiap panggilan yang tidak disebut template lain.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Percakapan saja, untuk tata letak buatan Anda. Menerima input <code>nui-chat</code> yang berkaitan dengan percakapan.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Kotak untuk menulis saja. Menerima input <code>nui-chat</code> yang berkaitan dengan penulisan.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Yang dihasilkan <code>nuiEventStream</code> untuk setiap event. <code>nuiTextStream</code> membaca teks biasa dan <code>nuiJsonStream</code> baris JSON; ketiganya menerima respons <code>fetch</code>.',
+            members: {
+              event: 'Nama event.',
+              data: 'Baris-baris datanya, digabungkan.',
+              id: 'Id terakhir yang dikirim stream.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Lempar dari <code>respond</code> untuk menampilkan pesannya. Error lain menampilkan pesan umum, jadi tidak ada detail internal yang bocor.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down dan Page Up', 'Pindah ke pesan berikutnya atau sebelumnya.'],
+          ['Ctrl + End dan Ctrl + Home', 'Keluar dari percakapan, ke depan atau ke belakang.'],
+          ['Enter', 'Mengirim. Dengan Shift, memulai baris baru.'],
+          ['Esc', 'Berhenti mengedit pesan.'],
+        ],
+        notes: [
+          'Percakapan adalah <code>feed</code> berisi <code>article</code>. Masing-masing dinamai oleh heading yang hanya dilihat pembaca layar, misalnya “You said”, dan memiliki <code>aria-posinset</code> serta <code>aria-setsize</code>.',
+          'Balasan yang sedang ditulis memiliki <code>aria-busy</code>. Setelah lengkap, balasan diumumkan utuh; kegagalan langsung diumumkan.',
+          'Setiap tombol ikon memiliki nama dan tooltip. Rating berupa tombol toggle, dan pengalih versi adalah grup dengan nama seperti “Version 2 of 3”.',
+          'Penalaran dan panggilan tool adalah disclosure native. Menghapus file mengembalikan fokus ke kolom teks.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Komponen renderer Markdown untuk Angular',
+        summary: 'Render Markdown dengan aman, bahkan saat masih di-stream.',
+        description:
+          'Renderer Markdown Angular yang aman untuk balasan AI: tabel GitHub, daftar tugas, dan blok kode, digambar sebagai elemen asli dan tetap mulus saat streaming.',
+        apiDescription:
+          'Referensi API renderer Markdown Needless UI: input nui-markdown, template untuk blok kode, dan parser di baliknya.',
+        a11yDescription:
+          'Aksesibilitas renderer Markdown Needless UI: heading, daftar, dan tabel asli, region gulir bernama, serta tombol salin yang mengumumkan hasilnya.',
+        overview: [
+          'Renderer Markdown mengubah teks seperti yang ditulis model menjadi elemen asli: heading, daftar dan daftar tugas, kutipan, tabel, blok kode dengan tombol salin, dan tautan. Teks di-parse menjadi pohon lalu digambar dengan template, sehingga HTML mentah tetap menjadi teks dan tidak ada yang pernah disisipkan sebagai HTML.',
+          'Dengan <code>streaming</code>, teks yang setengah jadi terbaca seperti saat sudah lengkap: code fence yang masih terbuka sudah menjadi blok kode, <code>**</code> yang sendirian menunggu pasangannya, dan kursor mengikuti kata terakhir. Blok yang tidak berubah mempertahankan DOM-nya.',
+          'Tautan hanya berfungsi untuk alamat web, email, dan telepon, sedangkan gambar tetap berupa tautan sampai Anda mengaktifkan <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Dokumen',
+            text: 'Heading dimulai dari <code>headingLevel</code>, sehingga pas di bawah heading halaman itu sendiri. Tabel dan kode yang lebar bergulir di region masing-masing.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'Teks yang sama, beberapa karakter setiap kali. Tidak ada simbol yang sempat berkedip, dan hanya blok terakhir yang dirender ulang.',
+          },
+          highlight: {
+            title: 'Penyorotan kode',
+            text: '<code>nuiMarkdownCode</code> menggambar blok kode dengan template Anda, di sini dengan highlighter mungil. Template ini menerima kode dan bahasanya.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Merender Markdown sebagai elemen.',
+            members: {
+              text: 'Teks Markdown-nya.',
+              streaming: 'Teks masih berdatangan.',
+              headingLevel:
+                'Level heading <code>#</code>. Heading yang lebih dalam mengikutinya, hingga 6.',
+              images:
+                'Menampilkan gambar. Jika tidak, teksnya menjadi tautan ke gambar, karena gambar bisa dipakai untuk melacak.',
+              labels: 'Teks tombol salin dan sejenisnya, untuk diterjemahkan.',
+              codeTemplate:
+                'Template blok kode dari tempat lain, misalnya dari chat yang memuat komponen ini.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Menggambar blok kode. Konteksnya berisi kode, <code>lang</code>, dan <code>open</code> selama blok masih berdatangan.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Parser dan helper-nya, untuk dipakai tanpa komponen.',
+            members: {
+              nuiParseMarkdown: 'Pohon blok dan elemen inline yang digambar komponen.',
+              nuiMarkdownToText:
+                'Teks biasa, satu baris per blok, untuk diumumkan atau dipratinjau.',
+              nuiSafeUrl: 'Apakah tautan menuju alamat web, email, atau telepon.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Menjangkau tautan, tombol salin, serta tabel dan kode yang lebar untuk menggulirnya.',
+          ],
+        ],
+        notes: [
+          'Heading, daftar, kutipan, tabel dengan header <code>th</code> dan <code>scope</code>, serta kode adalah elemen asli.',
+          'Tabel dan blok kode yang lebar bergulir di dalam region yang bisa difokus; region tabel dinamai menurut header-nya.',
+          'Kotak di daftar tugas memberi tahu apakah setiap tugas sudah selesai. Tombol salin bernama “Copy code” dan menyampaikan “Copied” lewat pesan status.',
+          'Kursor streaming disembunyikan dari pembaca layar, dan diam saat gerakan dikurangi.',
+        ],
+      },
     },
   },
 

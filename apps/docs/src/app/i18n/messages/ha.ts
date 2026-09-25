@@ -1331,6 +1331,218 @@ export const messages: Messages = {
           'Ana sanar da jerawa, tacewa, sauya shafi da kurakuran gyarawa a yankin yanayi, cikin ladabi (polite).',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'Component na chat na AI don Angular',
+        summary: 'Ku yi magana da model: amsoshi kaɗan-kaɗan, kayan aiki, sigogi da fayiloli.',
+        description:
+          'Chat na Angular mai sauƙin amfani ga kowa don mataimakan AI: amsoshin Markdown kaɗan-kaɗan, tunani, kiran kayan aiki, majiyoyi, sigogi da fayiloli.',
+        apiDescription:
+          'Bayanin API na chat ɗin Needless UI: inputs na nui-chat, NuiChatSession mai kawo amsoshi, saƙonni, templates na kayan aiki da masu karanta stream.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na chat ɗin Needless UI: jerin saƙonni masu suna, Page Up da Page Down, da sanar da amsoshi idan sun kammala.',
+        overview: [
+          'Chat ɗin shi ne duk abin da ke tsakanin masu amfaninku da model. Ku ƙirƙiri <code>NuiChatSession</code> da function na <code>respond</code>, sai <code>&lt;nui-chat&gt;</code> ya yi sauran: yana nuna amsar a matsayin Markdown yayin da take zuwa, yana bin ta zuwa ƙasan shafi har sai mai karatu ya gungura sama, kuma yana mayar da maɓallin aikawa ya zama maɓallin tsayawa har amsar ta iso.',
+          '<code>respond</code> yana dawo da rubutu, promise, <code>async function*</code> ko Observable, don haka kowane API yana dacewa. Bayan rubutu, amsa na iya ɗauke da tunanin model, kiran kayan aikinsa (da templates ɗinku ke zanawa) da majiyoyin da ya yi amfani da su. <code>nuiEventStream</code> yana karanta server-sent events da yawancin APIs na model ke aikowa.',
+          'Babu abin da ke ɓacewa: amsar da aka sake nema ko tambayar da aka gyara tana zama sabuwar siga kusa da tsohuwar, kuma tattaunawar tana riƙe kowane reshe. Manhajojin karanta allo suna karanta kowace amsa idan ta kammala, ba kalma-kalma ba.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Mataimaki',
+            text: 'Shawarwari ne ke fara tattaunawa. Amsoshi suna zuwa kaɗan-kaɗan a matsayin Markdown; ku tsayar da su, ku sake nema, ku ba su ƙima, ko ku gyara tambayarku. <code>attach</code> yana karɓar fayiloli ta zaɓi, liƙawa ko ja da sauke.',
+          },
+          tools: {
+            title: 'Tunani, kayan aiki da majiyoyi',
+            text: 'Deltas suna ƙara tunanin model, kiran kayan aiki da majiyoyi a cikin amsar. <code>nuiChatTool</code> yana zana kayan aikin hasashen yanayi a matsayin kati; sauran kayan aiki suna naɗewa tare da input da output ɗinsu.',
+          },
+          server: {
+            title: 'Streaming daga server',
+            text: '<code>nuiEventStream</code> yana karanta event stream irin na OpenAI, kuma <code>NuiChatError</code> yana nuna saƙonsa. <code>all()</code> yana adana tattaunawar tare da dukan sigoginta.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Tattaunawar da akwatin rubutu, a tare.',
+            members: {
+              session: 'Tattaunawar da za a nuna.',
+              assistant:
+                'Sunan mataimakin, a cikin headings da manhajojin karanta allo ke karantawa.',
+              headingLevel:
+                'Matakin heading na kowane saƙo, wanda manhajojin karanta allo kaɗai ke nunawa. Headings a cikin amsoshi suna sauka mataki ɗaya.',
+              announce:
+                'Abin da manhajojin karanta allo ke sanarwa idan amsa ta kammala: dukanta, gajeriyar sanarwa, ko ba komai.',
+              images:
+                'Yana nuna hotuna a amsoshi. In ba haka ba, rubutunsu mahaɗa ne zuwa gare su.',
+              value: 'Rubutun da ake rubutawa.',
+              placeholder: 'Rubutun da ake nunawa a filin da babu komai.',
+              suggestions: 'Saƙonnin da ake aikawa da dannawa ɗaya, har zuwa saƙon farko.',
+              sendOn: 'Ko Enter ne ke aikawa, ko Ctrl ko ⌘ + Enter.',
+              disabled: 'Yana hana akwatin rubutu aikawa.',
+              attach: 'Yana karɓar fayiloli ta zaɓi, liƙawa ko ja da sauke.',
+              accept:
+                'Irin fayilolin da za a karɓa, kamar a <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Yawan fayilolin da saƙo ɗaya zai iya ɗauka.',
+              maxSize: 'Mafi girman fayil da za a karɓa, a bytes.',
+              labels: 'Kowane rubutu da chat ɗin ke nunawa ko sanarwa, don fassarawa.',
+              rated:
+                'Yana fitar da amsar da mai karatu ya ba ƙima, tare da ƙimar, ko <code>null</code> idan ya janye ta.',
+              focus: 'Yana kai focus kan filin rubutu.',
+              scrollToEnd: 'Yana gungurawa zuwa sabon saƙo, kuma yana bin sa.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Tattaunawar, ba tare da DOM ba. Ku ƙirƙira ta a cikin component, da zaɓuɓɓukan <code>respond</code>, <code>messages</code> da <code>id</code>.',
+            members: {
+              respond:
+                'Function ɗinku: yana rubuta amsa ga <code>request.messages</code>, kuma yana tsayawa idan an soke <code>request.signal</code>.',
+              messages: 'Tattaunawar da ke kan allo.',
+              all: 'Kowane saƙo na kowace siga, don adanawa da mayarwa a matsayin <code>messages</code>.',
+              busy: 'Ko akwai amsa da ke kan hanya.',
+              send: 'Yana aika saƙo kuma yana neman amsa.',
+              stop: 'Yana tsayar da amsar, yana riƙe abin da ta rubuta.',
+              retry: 'Yana sake tambaya. Sabuwar amsar siga ce kusa da tsohuwar.',
+              edit: 'Yana aika sabuwar siga ta ɗaya daga cikin saƙonnin mai amfani.',
+              versions: 'Kowace siga ta saƙo, mafi tsufa da farko.',
+              show: 'Yana sauya tattaunawar zuwa wannan siga.',
+              rate: 'Yana adana ra’ayin mai karatu kan amsa.',
+              'remove, load, clear':
+                'Yana cire saƙo da abin da ke biye da shi, yana maye gurbin tattaunawar, ko yana farawa daga farko.',
+            },
+          },
+          NuiChatMessage: {
+            summary: 'Saƙo ɗaya. Saƙonni masu <code>parent</code> ɗaya sigogin juna ne.',
+            members: {
+              'id, parent': 'Key na saƙon, da saƙon da yake biye da shi.',
+              role: 'Wanda ya rubuta shi.',
+              text: 'Markdown daga mataimakin, rubutu zalla daga mai amfani.',
+              status: 'Matsayin amsa, daga jira zuwa kammalawa.',
+              reasoning: 'Abin da model ya yi tunani kafin ya amsa.',
+              tools: 'Kayan aikin da ya kira, tare da yanayinsu, input da output ɗinsu.',
+              sources: 'Shafukan da ya yi amfani da su.',
+              attachments: 'Fayilolin da aka aika tare da shi.',
+              rating: 'Ra’ayin mai karatu.',
+              data: 'Duk wani abu da za a ajiye tare da shi, kamar sunan model.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Yana zana kiran kayan aiki, kamar kati don hasashen yanayi. Context ɗin yana ɗauke da kiran da saƙonsa.',
+            members: {
+              nuiChatTool:
+                'Sunan kayan aikin. Idan babu, yana zana duk kiran da wani template bai ambata ba.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Tattaunawar ita kaɗai, don tsarin shafi naku. Yana karɓar inputs na <code>nui-chat</code> da suka shafi tattaunawar.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Akwatin rubutu shi kaɗai. Yana karɓar inputs na <code>nui-chat</code> da suka shafi rubutu.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Abin da <code>nuiEventStream</code> ke bayarwa ga kowane event. <code>nuiTextStream</code> yana karanta rubutu zalla, <code>nuiJsonStream</code> kuma layukan JSON; dukansu uku suna karɓar response na <code>fetch</code>.',
+            members: {
+              event: 'Sunan event ɗin.',
+              data: 'Layukan bayanansa, a haɗe.',
+              id: 'Id na ƙarshe da stream ɗin ya aiko.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Ku jefa shi (throw) daga <code>respond</code> don a nuna saƙonsa. Kowane kuskure dabam yana nuna saƙo na gama-gari, don kada wani abu na ciki ya fita.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down da Page Up', 'Suna matsawa zuwa saƙo na gaba ko na baya.'],
+          ['Ctrl + End da Ctrl + Home', 'Suna fita daga tattaunawar, gaba ko baya.'],
+          ['Enter', 'Yana aikawa. Da Shift, yana fara sabon layi.'],
+          ['Escape', 'Yana dakatar da gyaran saƙo.'],
+        ],
+        notes: [
+          'Tattaunawar <code>feed</code> ce ta abubuwan <code>article</code>. Kowanne yana da suna daga heading da manhajojin karanta allo kaɗai ke gani, kamar “You said”, kuma yana ɗauke da <code>aria-posinset</code> da <code>aria-setsize</code>.',
+          'Amsar da ake rubutawa tana da <code>aria-busy</code>. Idan ta kammala, ana sanar da ita gaba ɗaya; ana sanar da kuskure nan take.',
+          'Kowane maɓallin icon yana da suna da tooltip. Maɓallan ƙima maɓallan toggle ne, kuma mai sauya siga rukuni ne mai suna kamar “Version 2 of 3”.',
+          'Tunani da kiran kayan aiki sassa ne na asali da ake buɗewa da rufewa. Cire fayil yana mayar da focus kan filin rubutu.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Component mai nuna Markdown don Angular',
+        summary: 'Ku nuna Markdown lafiya, ko yayin da yake zuwa kaɗan-kaɗan.',
+        description:
+          'Mai nuna Markdown amintacce na Angular don amsoshin AI: teburorin GitHub, jerin ayyuka da tubalan code, duka elements na gaske masu santsi yayin streaming.',
+        apiDescription:
+          'Bayanin API na mai nuna Markdown ɗin Needless UI: inputs na nui-markdown, template na tubalan code, da parser da ke bayansa.',
+        a11yDescription:
+          'Sauƙin amfani na mai nuna Markdown ɗin Needless UI: headings, jeri da teburori na gaske, yankunan gungurawa masu suna, da maɓallin kwafa da ke magana.',
+        overview: [
+          'Mai nuna Markdown yana mayar da rubutu kamar wanda model ke rubutawa ya zama elements na gaske: headings, jeri da jerin ayyuka, ambato, teburori, tubalan code masu maɓallin kwafa, da mahaɗai. Yana mayar da rubutun bishiya kuma yana zana ta da templates, don haka ɗanyen HTML yana zama rubutu, kuma ba a taɓa saka komai a matsayin HTML ba.',
+          'Da <code>streaming</code>, rubutun da aka rubuta rabi yana karantuwa kamar yadda zai kasance idan ya kammala: code fence da ke buɗe tuni tubalin code ne, <code>**</code> guda ɗaya yana jiran abokinsa, kuma cursor yana bin kalma ta ƙarshe. Tubalan da ba su canza ba suna riƙe DOM ɗinsu.',
+          'Mahaɗai suna aiki ne kawai don adireshin yanar gizo, imel da waya, kuma hotuna suna zama mahaɗai har sai kun kunna <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Takarda',
+            text: 'Headings suna farawa daga <code>headingLevel</code>, don su dace a ƙarƙashin na shafin. Faffaɗan teburori da code suna gungurawa a cikin yankunansu.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'Rubutu iri ɗaya, haruffa kaɗan a lokaci guda. Babu alamar da ke bayyana ko na ɗan lokaci, kuma tubali na ƙarshe kaɗai ke sake nunawa.',
+          },
+          highlight: {
+            title: 'Haskaka code',
+            text: '<code>nuiMarkdownCode</code> yana zana tubalan code da template naku, a nan tare da ƙaramin mai haskakawa. Yana samun code ɗin da harshensa.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Yana nuna Markdown a matsayin elements.',
+            members: {
+              text: 'Markdown ɗin.',
+              streaming: 'Rubutun yana ci gaba da zuwa.',
+              headingLevel: 'Matakin heading na <code>#</code>. Masu zurfi suna biye, har zuwa 6.',
+              images:
+                'Yana nuna hotuna. In ba haka ba, rubutunsu mahaɗa ne zuwa gare su, domin hoto na iya bibiyar mutane.',
+              labels: 'Rubutun maɓallin kwafa da makamantansu, don fassarawa.',
+              codeTemplate:
+                'Template na tubalin code daga wani wuri, kamar chat da ke ɗauke da wannan.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Yana zana tubalan code. Context ɗin yana ɗauke da code ɗin, <code>lang</code>, da <code>open</code> yayin da tubalin ke ci gaba da zuwa.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Parser da mataimakansa, don amfani ba tare da component ba.',
+            members: {
+              nuiParseMarkdown:
+                'Bishiyar tubala da abubuwan cikin layi da component ɗin ke zanawa.',
+              nuiMarkdownToText:
+                'Rubutu zalla, layi ɗaya ga kowane tubali, don sanarwa ko samfoti.',
+              nuiSafeUrl: 'Ko mahaɗa tana zuwa adireshin yanar gizo, imel ko waya.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Yana kai ga mahaɗai, maɓallan kwafa, da faffaɗan teburori da code don a gungura su.',
+          ],
+        ],
+        notes: [
+          'Headings, jeri, ambato, teburori masu headers na <code>th</code> da <code>scope</code>, da code, duka elements ne na gaske.',
+          'Faffaɗan teburori da tubalan code suna gungurawa a cikin yanki mai karɓar focus; sunan yankin tebur yana fitowa daga headers ɗinsa.',
+          'Akwatunan jerin ayyuka suna faɗin ko an kammala kowane aiki. Sunan maɓallin kwafa “Copy code” ne, kuma yana cewa “Copied” ta saƙon yanayi.',
+          'Cursor na streaming a ɓoye yake daga manhajojin karanta allo, kuma ba ya motsi a yanayin rage motsi.',
+        ],
+      },
     },
   },
 

@@ -514,6 +514,164 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
   },
+  chat: {
+    id: 'chat',
+    importFile: 'snippets/import-chat.ts',
+    api: [
+      {
+        name: 'NuiChat',
+        selector: 'nui-chat',
+        members: [
+          { name: 'session', kind: 'input', type: 'NuiChatSession' },
+          { name: 'assistant', kind: 'input', type: 'string', default: "'Assistant'" },
+          { name: 'headingLevel', kind: 'input', type: 'number', default: '3' },
+          {
+            name: 'announce',
+            kind: 'input',
+            type: "'reply' | 'notice' | 'off'",
+            default: "'reply'",
+          },
+          { name: 'images', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'value', kind: 'model', type: 'string', default: "''" },
+          { name: 'placeholder', kind: 'input', type: 'string' },
+          { name: 'suggestions', kind: 'input', type: 'string[]', default: '[]' },
+          { name: 'sendOn', kind: 'input', type: "'enter' | 'mod+enter'", default: "'enter'" },
+          { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'attach', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'accept', kind: 'input', type: 'string', default: "''" },
+          { name: 'maxFiles', kind: 'input', type: 'number', default: '10' },
+          { name: 'maxSize', kind: 'input', type: 'number', default: '20_000_000' },
+          { name: 'labels', kind: 'input', type: 'NuiChatLabelsInput' },
+          { name: 'rated', kind: 'output', type: '{ message, rating }' },
+          { name: 'focus', kind: 'method', type: '() => void' },
+          { name: 'scrollToEnd', kind: 'method', type: '(behavior?) => void' },
+        ],
+      },
+      {
+        name: 'NuiChatSession',
+        members: [
+          { name: 'respond', kind: 'property', type: '(request) => NuiChatReply' },
+          { name: 'messages', kind: 'property', type: 'Signal<NuiChatMessage[]>' },
+          { name: 'all', kind: 'property', type: 'Signal<NuiChatMessage[]>' },
+          { name: 'busy', kind: 'property', type: 'Signal<boolean>' },
+          { name: 'send', kind: 'method', type: '(text, files?) => Promise<void>' },
+          { name: 'stop', kind: 'method', type: '() => void' },
+          { name: 'retry', kind: 'method', type: '(message?) => Promise<void>' },
+          { name: 'edit', kind: 'method', type: '(message, text) => Promise<void>' },
+          { name: 'versions', kind: 'method', type: '(message) => NuiChatMessage[]' },
+          { name: 'show', kind: 'method', type: '(message) => void' },
+          { name: 'rate', kind: 'method', type: "(message, 'up' | 'down' | null) => void" },
+          { name: 'remove, load, clear', kind: 'method', type: '(…) => void' },
+        ],
+      },
+      {
+        name: 'NuiChatMessage',
+        members: [
+          { name: 'id, parent', kind: 'property', type: 'string, string | null' },
+          { name: 'role', kind: 'property', type: "'user' | 'assistant'" },
+          { name: 'text', kind: 'property', type: 'string' },
+          {
+            name: 'status',
+            kind: 'property',
+            type: "'pending' | 'streaming' | 'done' | 'stopped' | 'error'",
+          },
+          { name: 'reasoning', kind: 'property', type: 'string' },
+          { name: 'tools', kind: 'property', type: 'NuiChatTool[]' },
+          { name: 'sources', kind: 'property', type: '{ url, title? }[]' },
+          { name: 'attachments', kind: 'property', type: 'NuiChatAttachment[]' },
+          { name: 'rating', kind: 'property', type: "'up' | 'down' | null" },
+          { name: 'data', kind: 'property', type: 'unknown' },
+        ],
+      },
+      {
+        name: 'NuiChatToolTemplate',
+        selector: 'ng-template[nuiChatTool]',
+        members: [{ name: 'nuiChatTool', kind: 'input', type: 'string' }],
+      },
+      { name: 'NuiChatThread', selector: 'nui-chat-thread', members: [] },
+      { name: 'NuiChatComposer', selector: 'nui-chat-composer', members: [] },
+      {
+        name: 'NuiServerEvent',
+        members: [
+          { name: 'event', kind: 'property', type: 'string', default: "'message'" },
+          { name: 'data', kind: 'property', type: 'string' },
+          { name: 'id', kind: 'property', type: 'string' },
+        ],
+      },
+      { name: 'NuiChatError', members: [] },
+    ],
+    examples: [
+      {
+        id: 'assistant',
+        load: () => import('../examples/chat/assistant').then((m) => m.ChatAssistantExample),
+        defer: 576,
+      },
+      {
+        id: 'tools',
+        load: () => import('../examples/chat/tools').then((m) => m.ChatToolsExample),
+        defer: 608,
+      },
+      {
+        id: 'server',
+        load: () => import('../examples/chat/server').then((m) => m.ChatServerExample),
+        defer: 544,
+      },
+    ],
+  },
+  markdown: {
+    id: 'markdown',
+    importFile: 'snippets/import-markdown.ts',
+    api: [
+      {
+        name: 'NuiMarkdown',
+        selector: 'nui-markdown',
+        members: [
+          { name: 'text', kind: 'input', type: 'string', default: "''" },
+          { name: 'streaming', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'headingLevel', kind: 'input', type: 'number', default: '3' },
+          { name: 'images', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiMarkdownLabels>' },
+          { name: 'codeTemplate', kind: 'input', type: 'TemplateRef | null', default: 'null' },
+        ],
+      },
+      {
+        name: 'NuiMarkdownCode',
+        selector: 'ng-template[nuiMarkdownCode]',
+        members: [],
+      },
+      {
+        name: 'nuiParseMarkdown',
+        members: [
+          {
+            name: 'nuiParseMarkdown',
+            kind: 'method',
+            type: '(text, { streaming? }) => NuiMarkdownBlock[]',
+          },
+          { name: 'nuiMarkdownToText', kind: 'method', type: '(text) => string' },
+          { name: 'nuiSafeUrl', kind: 'method', type: '(url) => boolean' },
+        ],
+      },
+    ],
+    examples: [
+      {
+        id: 'document',
+        load: () => import('../examples/markdown/document').then((m) => m.MarkdownDocumentExample),
+        defer: 725,
+      },
+      {
+        id: 'streaming',
+        load: () =>
+          import('../examples/markdown/streaming').then((m) => m.MarkdownStreamingExample),
+        defer: 688,
+      },
+      {
+        id: 'highlight',
+        load: () =>
+          import('../examples/markdown/highlight').then((m) => m.MarkdownHighlightExample),
+        defer: 264,
+      },
+    ],
+  },
   menu: {
     id: 'menu',
     importFile: 'snippets/import-menu.ts',

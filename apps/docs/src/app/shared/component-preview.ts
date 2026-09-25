@@ -44,6 +44,22 @@ import type { ComponentId } from '../docs/ids';
           >
         </div>
       }
+      @case ('chat') {
+        <div class="nui-chat preview-chat">
+          <div class="nui-chat-message" data-role="user">
+            <div class="nui-chat-bubble">Weekend in Lisbon?</div>
+          </div>
+          <div class="nui-chat-message" data-role="assistant">
+            <div class="nui-markdown">
+              <p>Start in <strong>Alfama</strong>, then ride tram 28 west.</p>
+            </div>
+          </div>
+          <div class="nui-chat-box preview-chat-box">
+            <span class="preview-typed">Ask anything</span>
+            <span class="nui-chat-send"></span>
+          </div>
+        </div>
+      }
       @case ('combobox') {
         <div class="preview-stack">
           <div class="nui-combobox">
@@ -117,6 +133,22 @@ import type { ComponentId } from '../docs/ids';
               </tr>
             </tbody>
           </table>
+        </div>
+      }
+      @case ('markdown') {
+        <div class="nui-markdown preview-markdown">
+          <p><strong>Release notes</strong></p>
+          <ul>
+            <li class="nui-markdown-task">
+              <span class="nui-markdown-check" data-checked></span>Faster <em>pages</em>
+            </li>
+            <li class="nui-markdown-task">
+              <span class="nui-markdown-check"></span>Fewer <code>bytes</code>
+            </li>
+          </ul>
+          <div class="nui-markdown-code">
+            <pre><code>count.set(4);</code></pre>
+          </div>
         </div>
       }
       @case ('menu') {

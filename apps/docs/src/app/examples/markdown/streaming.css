@@ -1,0 +1,9 @@
+:host {
+  align-items: flex-start;
+}
+
+nui-markdown {
+  flex: 1 1 100%;
+  max-inline-size: 42rem;
+  min-block-size: 36rem;
+}

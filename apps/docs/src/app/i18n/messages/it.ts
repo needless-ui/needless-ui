@@ -1315,6 +1315,217 @@ export const messages: Messages = {
           'Ordinamento, filtri, paginazione ed errori di modifica vengono annunciati in modo cortese in una regione di stato.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'Componente chat AI per Angular',
+        summary: 'Parla con un modello: risposte in streaming, tool, versioni e file.',
+        description:
+          'Chat Angular accessibile per assistenti AI: risposte Markdown in streaming, ragionamento, chiamate ai tool, fonti, file e nuovi tentativi come versioni.',
+        apiDescription:
+          'Riferimento API della chat Needless UI: input di nui-chat, la NuiChatSession che trasmette le risposte, messaggi, template dei tool e lettori di stream.',
+        a11yDescription:
+          'Tastiera e accessibilità della chat Needless UI: un feed di messaggi con nome, Pag su e Pag giù, e risposte annunciate solo quando sono complete.',
+        overview: [
+          'La chat è tutto ciò che sta tra i tuoi utenti e un modello. Crea una <code>NuiChatSession</code> con una funzione <code>respond</code> e <code>&lt;nui-chat&gt;</code> fa il resto: trasmette la risposta in streaming come Markdown, la segue verso il basso finché chi legge non scorre in su e, mentre arriva, trasforma il pulsante di invio in un pulsante di stop.',
+          '<code>respond</code> restituisce testo, una promise, una <code>async function*</code> o un Observable, quindi va bene qualsiasi API. Oltre al testo, una risposta può contenere il ragionamento del modello, le sue chiamate ai tool (disegnate dai tuoi template) e le fonti usate. <code>nuiEventStream</code> legge i server-sent events che la maggior parte delle API dei modelli invia in streaming.',
+          'Non si perde nulla: una risposta rigenerata o una domanda modificata diventa una nuova versione accanto alla vecchia, e la conversazione conserva ogni ramo. Gli screen reader annunciano ogni risposta quando è completa, non parola per parola.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Un assistente',
+            text: 'I suggerimenti avviano la conversazione. Le risposte arrivano in streaming come Markdown; fermale, rigenerale, valutale o modifica la domanda. <code>attach</code> accetta file scelti, incollati o trascinati.',
+          },
+          tools: {
+            title: 'Ragionamento, tool e fonti',
+            text: 'I delta aggiungono alla risposta il ragionamento del modello, le chiamate ai tool e le fonti. <code>nuiChatTool</code> disegna il tool del meteo come una card; gli altri tool restano chiusi, con il loro input e output.',
+          },
+          server: {
+            title: 'Streaming da un server',
+            text: '<code>nuiEventStream</code> legge uno stream di eventi in stile OpenAI, e un <code>NuiChatError</code> ne mostra il messaggio. <code>all()</code> salva la conversazione, versioni comprese.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'La conversazione e la casella di testo, insieme.',
+            members: {
+              session: 'La conversazione da mostrare.',
+              assistant: 'Il nome dell’assistente, nelle intestazioni lette dagli screen reader.',
+              headingLevel:
+                'Il livello dell’intestazione di ogni messaggio, visibile solo agli screen reader. Le intestazioni nelle risposte scendono di un livello.',
+              announce:
+                'Cosa annunciano gli screen reader quando una risposta è completa: tutta, un breve avviso o niente.',
+              images:
+                'Mostra le immagini nelle risposte. Altrimenti il loro testo è un link all’immagine.',
+              value: 'Il testo che si sta scrivendo.',
+              placeholder: 'Il testo mostrato nel campo vuoto.',
+              suggestions: 'Prompt da inviare con un clic, fino al primo messaggio.',
+              sendOn: 'Se si invia con Invio, o con Ctrl o ⌘ + Invio.',
+              disabled: 'Impedisce l’invio dalla casella di testo.',
+              attach: 'Accetta file: scelti, incollati o trascinati.',
+              accept: 'I tipi di file accettati, come per <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Quanti file può contenere un messaggio.',
+              maxSize: 'La dimensione massima di un file, in byte.',
+              labels: 'Ogni testo che la chat mostra o annuncia, da tradurre.',
+              rated:
+                'Emette una risposta valutata dall’utente, con il giudizio, o <code>null</code> quando lo ritira.',
+              focus: 'Sposta il focus sul campo di testo.',
+              scrollToEnd: 'Scorre fino all’ultimo messaggio e lo segue.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'La conversazione, senza DOM. Creala in un componente, con le opzioni <code>respond</code>, <code>messages</code> e <code>id</code>.',
+            members: {
+              respond:
+                'La tua funzione: scrive la risposta a <code>request.messages</code> e si ferma quando <code>request.signal</code> viene annullato.',
+              messages: 'La conversazione sullo schermo.',
+              all: 'Ogni messaggio di ogni versione, da salvare e ripassare come <code>messages</code>.',
+              busy: 'Se una risposta è in arrivo.',
+              send: 'Invia un messaggio e chiede una risposta.',
+              stop: 'Ferma la risposta, conservando ciò che ha già scritto.',
+              retry: 'Chiede di nuovo. La nuova risposta è una versione accanto alla vecchia.',
+              edit: 'Invia una nuova versione di uno dei messaggi dell’utente.',
+              versions: 'Tutte le versioni di un messaggio, dalla più vecchia.',
+              show: 'Porta la conversazione su questa versione.',
+              rate: 'Registra il giudizio dell’utente su una risposta.',
+              'remove, load, clear':
+                'Rimuove un messaggio e ciò che lo segue, sostituisce la conversazione o ricomincia da capo.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Un messaggio. I messaggi con lo stesso <code>parent</code> sono versioni l’uno dell’altro.',
+            members: {
+              'id, parent': 'La chiave del messaggio, e quella del messaggio a cui fa seguito.',
+              role: 'Chi l’ha scritto.',
+              text: 'Markdown dall’assistente, testo semplice dall’utente.',
+              status: 'A che punto è una risposta, dall’attesa alla fine.',
+              reasoning: 'Cosa ha pensato il modello prima di rispondere.',
+              tools: 'I tool chiamati, con stato, input e output.',
+              sources: 'Le pagine usate.',
+              attachments: 'I file inviati con il messaggio.',
+              rating: 'Il giudizio dell’utente.',
+              data: 'Qualsiasi altra cosa da conservare con il messaggio, come il nome del modello.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Disegna una chiamata a un tool, come una card per il meteo. Il contesto contiene la chiamata e il suo messaggio.',
+            members: {
+              nuiChatTool:
+                'Il nome del tool. Senza nome, disegna ogni chiamata che nessun altro template nomina.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'La conversazione da sola, per un tuo layout. Accetta gli input di <code>nui-chat</code> che riguardano la conversazione.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'La casella di testo da sola. Accetta gli input di <code>nui-chat</code> che riguardano la scrittura.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Ciò che <code>nuiEventStream</code> restituisce per ogni evento. <code>nuiTextStream</code> legge testo semplice e <code>nuiJsonStream</code> righe JSON; tutti e tre accettano una risposta di <code>fetch</code>.',
+            members: {
+              event: 'Il nome dell’evento.',
+              data: 'Le sue righe di dati, unite.',
+              id: 'L’ultimo id inviato dallo stream.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Lancialo da <code>respond</code> per mostrarne il messaggio. Qualsiasi altro errore mostra un messaggio generico, così non trapela nulla di interno.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Pag giù e Pag su', 'Passa al messaggio successivo o precedente.'],
+          ['Ctrl + Fine e Ctrl + Home', 'Esce dalla conversazione, in avanti o all’indietro.'],
+          ['Invio', 'Invia. Con Maiusc, va a capo.'],
+          ['Esc', 'Interrompe la modifica di un messaggio.'],
+        ],
+        notes: [
+          'La conversazione è un <code>feed</code> di <code>article</code>. Ognuno prende il nome da un’intestazione visibile solo agli screen reader, come «You said», e ha <code>aria-posinset</code> e <code>aria-setsize</code>.',
+          'Una risposta in fase di scrittura è <code>aria-busy</code>. Quando è completa viene annunciata per intero; un errore viene annunciato subito.',
+          'Ogni pulsante con icona ha un nome e un tooltip. Le valutazioni sono pulsanti toggle, e il selettore di versione è un gruppo con un nome come «Version 2 of 3».',
+          'Ragionamento e chiamate ai tool sono elementi espandibili nativi. Se rimuovi un file, il focus torna al campo di testo.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Componente renderer Markdown per Angular',
+        summary: 'Renderizza Markdown in modo sicuro, anche mentre arriva in streaming.',
+        description:
+          'Renderer Markdown sicuro per Angular e risposte AI: tabelle GitHub, elenchi di attività e blocchi di codice come elementi reali, fluido anche in streaming.',
+        apiDescription:
+          'Riferimento API del renderer Markdown Needless UI: input di nui-markdown, il template per i blocchi di codice e il parser alla base.',
+        a11yDescription:
+          'Accessibilità del renderer Markdown Needless UI: intestazioni, elenchi e tabelle reali, regioni di scorrimento con nome e un pulsante di copia che parla.',
+        overview: [
+          'Il renderer Markdown trasforma testo come quello scritto da un modello in elementi reali: intestazioni, elenchi ed elenchi di attività, citazioni, tabelle, blocchi di codice con pulsante di copia, e link. Analizza il testo in un albero e lo disegna con i template, così l’HTML grezzo resta testo e niente viene mai inserito come HTML.',
+          'Con <code>streaming</code>, il testo scritto a metà si legge già come sarà una volta completo: un delimitatore di codice aperto è già un blocco di codice, un <code>**</code> isolato aspetta il suo compagno e un cursore segue l’ultima parola. I blocchi che non cambiano mantengono il loro DOM.',
+          'I link funzionano solo per indirizzi web ed email e per numeri di telefono, e le immagini restano link finché non attivi <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Un documento',
+            text: 'Le intestazioni partono da <code>headingLevel</code>, così si inseriscono sotto quelle della pagina. Tabelle larghe e codice scorrono in regioni proprie.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'Lo stesso testo, pochi caratteri alla volta. Nessun simbolo compare nemmeno per un attimo, e solo l’ultimo blocco viene renderizzato di nuovo.',
+          },
+          highlight: {
+            title: 'Evidenziazione del codice',
+            text: '<code>nuiMarkdownCode</code> disegna i blocchi di codice con un tuo template, qui con un minuscolo evidenziatore. Riceve il codice e il suo linguaggio.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Renderizza Markdown come elementi.',
+            members: {
+              text: 'Il Markdown.',
+              streaming: 'Il testo sta ancora arrivando.',
+              headingLevel:
+                'Il livello di un’intestazione <code>#</code>. Quelle più profonde seguono, fino a 6.',
+              images:
+                'Mostra le immagini. Altrimenti il loro testo è un link, perché un’immagine può tracciare.',
+              labels: 'I testi del pulsante di copia e simili, da tradurre.',
+              codeTemplate:
+                'Un template per i blocchi di codice preso altrove, come da una chat che contiene questo renderer.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Disegna i blocchi di codice. Il contesto contiene il codice, <code>lang</code>, e <code>open</code> mentre il blocco sta ancora arrivando.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Il parser e le sue funzioni di supporto, da usare senza il componente.',
+            members: {
+              nuiParseMarkdown: 'L’albero di blocchi ed elementi inline che il componente disegna.',
+              nuiMarkdownToText:
+                'Il testo semplice, una riga per blocco, da annunciare o mostrare in anteprima.',
+              nuiSafeUrl: 'Se un link porta a un indirizzo web o email, o a un numero di telefono.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Raggiunge i link, i pulsanti di copia e le tabelle e il codice larghi, per scorrerli.',
+          ],
+        ],
+        notes: [
+          'Intestazioni, elenchi, citazioni, tabelle con intestazioni <code>th</code> e <code>scope</code>, e codice sono elementi reali.',
+          'Tabelle larghe e blocchi di codice scorrono in una regione focalizzabile; la regione di una tabella prende il nome dalle sue intestazioni.',
+          'Le caselle degli elenchi di attività dicono se ogni attività è completata. Il pulsante di copia si chiama «Copy code» e dice «Copied» tramite un messaggio di stato.',
+          'Il cursore dello streaming è nascosto agli screen reader, e resta fermo con la riduzione del movimento.',
+        ],
+      },
     },
   },
 

@@ -1286,6 +1286,217 @@ export const messages: Messages = {
           'Sıralama, filtreleme, sayfa değişimi ve düzenleme hataları nazik (polite) bir durum bölgesinde duyurulur.',
         ],
       },
+      chat: {
+        name: 'Sohbet',
+        title: 'Angular için yapay zekâ sohbet bileşeni',
+        summary: 'Bir modelle konuşun: akışla gelen yanıtlar, araçlar, sürümler ve dosyalar.',
+        description:
+          'Yapay zekâ asistanları için erişilebilir Angular sohbeti: akışla gelen Markdown yanıtlar, akıl yürütme, araç çağrıları, kaynaklar, sürümler ve dosyalar.',
+        apiDescription:
+          'Needless UI sohbetinin API referansı: nui-chat girdileri, yanıtları akışla ileten NuiChatSession, mesajlar, araç şablonları ve akış okuyucular.',
+        a11yDescription:
+          'Needless UI sohbetinin klavye kullanımı ve erişilebilirliği: adlandırılmış mesajlardan oluşan bir feed, Page Up ve Page Down, tamamlanınca duyurulan yanıtlar.',
+        overview: [
+          'Sohbet, kullanıcılarınızla model arasındaki her şeydir. <code>respond</code> fonksiyonuyla bir <code>NuiChatSession</code> oluşturun, gerisini <code>&lt;nui-chat&gt;</code> halleder: yanıtı Markdown olarak akış hâlinde gösterir, kullanıcı yukarı kaydırana kadar yanıtı sayfada aşağı doğru izler ve yanıt gelirken gönder düğmesini durdurma düğmesine çevirir.',
+          '<code>respond</code> metin, promise, <code>async function*</code> ya da Observable döndürür; böylece her API’ye uyar. Yanıt, metnin yanı sıra modelin akıl yürütmesini, araç çağrılarını (sizin şablonlarınızla çizilir) ve kullandığı kaynakları da taşıyabilir. <code>nuiEventStream</code>, çoğu model API’sinin akış için kullandığı server-sent events biçimini okur.',
+          'Hiçbir şey kaybolmaz: yeniden denenen bir yanıt ya da düzenlenen bir soru, eskisinin yanında yeni bir sürüm olur ve sohbet her dalı saklar. Ekran okuyucular her yanıtı kelime kelime değil, tamamlandığında okur.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Bir asistan',
+            text: 'Sohbeti öneriler başlatır. Yanıtlar Markdown olarak akar; onları durdurun, yeniden deneyin, puanlayın ya da sorunuzu düzenleyin. <code>attach</code>, seçilen, yapıştırılan veya sürükleyip bırakılan dosyaları alır.',
+          },
+          tools: {
+            title: 'Akıl yürütme, araçlar ve kaynaklar',
+            text: 'Deltalar yanıta modelin akıl yürütmesini, araç çağrılarını ve kaynakları ekler. <code>nuiChatTool</code> hava durumu aracını bir kart olarak çizer; diğer araçlar girdi ve çıktılarıyla birlikte katlanır.',
+          },
+          server: {
+            title: 'Sunucudan akış',
+            text: '<code>nuiEventStream</code> OpenAI tarzı bir olay akışını okur, <code>NuiChatError</code> ise kendi mesajını gösterir. <code>all()</code>, sohbeti tüm sürümleriyle birlikte kaydeder.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Sohbet ve mesaj kutusu bir arada.',
+            members: {
+              session: 'Gösterilecek sohbet.',
+              assistant: 'Asistanın adı; ekran okuyucuların okuduğu başlıklarda geçer.',
+              headingLevel:
+                'Her mesajın başlık düzeyi; bu başlıkları yalnızca ekran okuyucular gösterir. Yanıtlardaki başlıklar bir düzey daha derindir.',
+              announce:
+                'Yanıt tamamlandığında ekran okuyucuların ne okuyacağı: tamamı, kısa bir bildirim ya da hiçbir şey.',
+              images:
+                'Yanıtlardaki görselleri gösterir. Aksi hâlde görselin metni ona bağlantı olur.',
+              value: 'Yazılmakta olan metin.',
+              placeholder: 'Alan boşken gösterilen metin.',
+              suggestions: 'İlk mesaja kadar tek tıkla gönderilebilen prompt’lar.',
+              sendOn: 'Enter’ın mı, yoksa Ctrl veya ⌘ + Enter’ın mı gönderdiği.',
+              disabled: 'Mesaj kutusunun göndermesini engeller.',
+              attach: 'Seçilen, yapıştırılan veya sürükleyip bırakılan dosyaları alır.',
+              accept:
+                'Kabul edilen dosya türleri; <code>&lt;input type="file"&gt;</code> ile aynı biçimde.',
+              maxFiles: 'Bir mesajın taşıyabileceği en fazla dosya sayısı.',
+              maxSize: 'Kabul edilen en büyük dosya boyutu, bayt cinsinden.',
+              labels: 'Sohbetin gösterdiği veya duyurduğu her metin; çeviri için.',
+              rated:
+                'Kullanıcının puanladığı yanıtı puanıyla birlikte yayar; puan geri alınırsa <code>null</code> yayar.',
+              focus: 'Odağı metin alanına taşır.',
+              scrollToEnd: 'Son mesaja kaydırır ve onu izlemeye devam eder.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Sohbetin kendisi, DOM olmadan. Bir bileşen içinde <code>respond</code>, <code>messages</code> ve <code>id</code> seçenekleriyle oluşturun.',
+            members: {
+              respond:
+                'Sizin fonksiyonunuz: <code>request.messages</code> için yanıtı yazar, <code>request.signal</code> iptal edildiğinde durur.',
+              messages: 'Ekrandaki sohbet.',
+              all: 'Tüm sürümlerdeki tüm mesajlar; kaydedip <code>messages</code> olarak geri vermek için.',
+              busy: 'Bir yanıtın yolda olup olmadığı.',
+              send: 'Bir mesaj gönderir ve yanıt ister.',
+              stop: 'Yanıtı, o ana kadar yazdıklarını koruyarak durdurur.',
+              retry: 'Yeniden sorar. Yeni yanıt, eskisinin yanında bir sürüm olur.',
+              edit: 'Kullanıcı mesajlarından birinin yeni bir sürümünü gönderir.',
+              versions: 'Bir mesajın tüm sürümleri, en eskisi önce.',
+              show: 'Sohbeti bu sürüme geçirir.',
+              rate: 'Kullanıcının bir yanıta verdiği puanı kaydeder.',
+              'remove, load, clear':
+                'Bir mesajı ve ondan sonrakileri kaldırır, sohbeti değiştirir ya da baştan başlar.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Tek bir mesaj. Aynı <code>parent</code> değerine sahip mesajlar birbirinin sürümleridir.',
+            members: {
+              'id, parent': 'Mesajın anahtarı ve ardından geldiği mesajınki.',
+              role: 'Mesajı kimin yazdığı.',
+              text: 'Asistandan Markdown, kullanıcıdan düz metin.',
+              status: 'Yanıtın aşaması; beklemeden tamamlanmaya kadar.',
+              reasoning: 'Modelin yanıtlamadan önce düşündükleri.',
+              tools: 'Çağırdığı araçlar; durumları, girdileri ve çıktılarıyla.',
+              sources: 'Kullandığı sayfalar.',
+              attachments: 'Mesajla gönderilen dosyalar.',
+              rating: 'Kullanıcının verdiği puan.',
+              data: 'Mesajla saklanacak başka her şey; örneğin modelin adı.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Bir araç çağrısını çizer; örneğin hava durumu için bir kart. Bağlamda çağrı ve mesajı bulunur.',
+            members: {
+              nuiChatTool:
+                'Aracın adı. Ad verilmezse başka hiçbir şablonun adlandırmadığı tüm çağrıları çizer.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Kendi yerleşiminiz için yalnızca sohbet. <code>nui-chat</code> girdilerinden sohbetle ilgili olanları alır.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Yalnızca mesaj kutusu. <code>nui-chat</code> girdilerinden yazmayla ilgili olanları alır.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              '<code>nuiEventStream</code> fonksiyonunun her olay için verdiği değer. <code>nuiTextStream</code> düz metni, <code>nuiJsonStream</code> ise JSON satırlarını okur; üçü de bir <code>fetch</code> yanıtı alır.',
+            members: {
+              event: 'Olayın adı.',
+              data: 'Birleştirilmiş veri satırları.',
+              id: 'Akışın gönderdiği son id.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Mesajını göstermek için <code>respond</code> içinden fırlatın. Diğer hatalar genel bir mesaj gösterir; böylece içeriden hiçbir şey sızmaz.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down ve Page Up', 'Sonraki veya önceki mesaja gider.'],
+          ['Ctrl + End ve Ctrl + Home', 'Sohbetten çıkıp sonraki ya da önceki öğeye geçer.'],
+          ['Enter', 'Gönderir. Shift ile yeni satır başlatır.'],
+          ['Esc', 'Mesaj düzenlemeyi iptal eder.'],
+        ],
+        notes: [
+          'Sohbet, <code>article</code> öğelerinden oluşan bir <code>feed</code> öğesidir. Her biri, “You said” gibi yalnızca ekran okuyucuların gördüğü bir başlıkla adlandırılır ve <code>aria-posinset</code> ile <code>aria-setsize</code> taşır.',
+          'Yazılmakta olan yanıt <code>aria-busy</code> durumundadır. Tamamlanınca bütün olarak duyurulur; hata ise hemen duyurulur.',
+          'Her simge düğmesinin bir adı ve araç ipucu vardır. Puanlama düğmeleri geçiş düğmeleridir; sürüm seçici ise “Version 2 of 3” gibi adlandırılan bir gruptur.',
+          'Akıl yürütme ve araç çağrıları yerel açılır bölümlerdir. Bir dosyayı kaldırmak odağı metin alanına geri verir.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Angular için Markdown render bileşeni',
+        summary: 'Markdown’u güvenle render edin, akış hâlinde gelirken bile.',
+        description:
+          'Yapay zekâ yanıtları için güvenli Angular Markdown bileşeni: GitHub tabloları, görev listeleri ve kod blokları gerçek öğelerle çizilir, akışta da akıcıdır.',
+        apiDescription:
+          'Needless UI Markdown bileşeninin API referansı: nui-markdown girdileri, kod blokları için şablon ve arkasındaki ayrıştırıcı.',
+        a11yDescription:
+          'Needless UI Markdown bileşeninin erişilebilirliği: gerçek başlıklar, listeler ve tablolar, adlandırılmış kaydırma bölgeleri ve duyuru yapan kopyalama düğmesi.',
+        overview: [
+          'Markdown bileşeni, bir modelin yazdığı türden metinleri gerçek öğelere dönüştürür: başlıklar, listeler ve görev listeleri, alıntılar, tablolar, kopyalama düğmeli kod blokları ve bağlantılar. Metni bir ağaca ayrıştırıp şablonlarla çizer; böylece ham HTML metin olarak kalır ve hiçbir şey HTML olarak eklenmez.',
+          '<code>streaming</code> ile yarım yazılmış metin, tamamlandığındaki gibi görünür: kapanmamış bir kod bloğu şimdiden kod bloğudur, tek başına kalan bir <code>**</code> eşini bekler ve son kelimeyi bir imleç izler. Değişmeyen bloklar DOM’larını korur.',
+          'Bağlantılar yalnızca web, e-posta ve telefon adresleri için çalışır; görseller ise siz <code>images</code> girdisini açana kadar bağlantı olarak kalır.',
+        ],
+        examples: {
+          document: {
+            title: 'Bir belge',
+            text: 'Başlıklar <code>headingLevel</code> düzeyinden başlar; böylece sayfanın kendi başlıklarının altına oturur. Geniş tablolar ve kod kendi bölgelerinde kayar.',
+          },
+          streaming: {
+            title: 'Akış',
+            text: 'Aynı metin, her seferinde birkaç karakter. Biçimlendirme işaretleri bir an bile görünmez ve yalnızca son blok yeniden render edilir.',
+          },
+          highlight: {
+            title: 'Kod vurgulama',
+            text: '<code>nuiMarkdownCode</code> kod bloklarını sizin şablonunuzla çizer; burada minicik bir vurgulayıcıyla. Şablon, kodu ve dilini alır.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Markdown’u öğeler olarak render eder.',
+            members: {
+              text: 'Markdown metni.',
+              streaming: 'Metin hâlâ geliyor.',
+              headingLevel:
+                'Bir <code>#</code> başlığının düzeyi. Daha derin başlıklar 6’ya kadar onu izler.',
+              images:
+                'Görselleri gösterir. Aksi hâlde metinleri onlara bağlantı olur, çünkü görseller izleme için kullanılabilir.',
+              labels: 'Kopyalama düğmesinin metinleri ve benzerleri; çeviri için.',
+              codeTemplate:
+                'Başka bir yerden gelen kod bloğu şablonu; örneğin bu bileşeni içeren bir sohbetten.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Kod bloklarını çizer. Bağlamda kod, <code>lang</code> ve blok hâlâ gelirken <code>open</code> bulunur.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Bileşen olmadan kullanmak için ayrıştırıcı ve yardımcıları.',
+            members: {
+              nuiParseMarkdown: 'Bileşenin çizdiği blok ve satır içi öğe ağacı.',
+              nuiMarkdownToText: 'Duyurmak ya da önizlemek için düz metin, blok başına bir satır.',
+              nuiSafeUrl: 'Bağlantının bir web, e-posta veya telefon adresine gidip gitmediği.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Bağlantılara, kopyalama düğmelerine ve kaydırmak için geniş tablolara ve koda ulaşır.',
+          ],
+        ],
+        notes: [
+          'Başlıklar, listeler, alıntılar, <code>th</code> başlıkları ve <code>scope</code> içeren tablolar ve kod gerçek öğelerdir.',
+          'Geniş tablolar ve kod blokları odaklanabilir bir bölgenin içinde kayar; tablonun bölgesi başlıklarına göre adlandırılır.',
+          'Görev listesi kutuları her görevin tamamlanıp tamamlanmadığını söyler. Kopyalama düğmesinin adı “Copy code” olur ve bir durum mesajıyla “Copied” der.',
+          'Akış imleci ekran okuyuculardan gizlenir; azaltılmış hareket açıkken yanıp sönmez.',
+        ],
+      },
     },
   },
 

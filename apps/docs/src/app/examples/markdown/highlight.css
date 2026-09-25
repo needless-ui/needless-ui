@@ -1,0 +1,22 @@
+nui-markdown {
+  flex: 1 1 100%;
+  max-inline-size: 42rem;
+}
+
+.keyword {
+  color: var(--nui-color-accent-text);
+  font-weight: var(--nui-font-weight-semibold);
+}
+
+.string {
+  color: var(--nui-color-success-text);
+}
+
+.number {
+  color: var(--nui-color-warning-text);
+}
+
+.comment {
+  color: var(--nui-color-text-muted);
+  font-style: italic;
+}

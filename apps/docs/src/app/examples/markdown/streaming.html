@@ -1,0 +1,4 @@
+<button type="button" nuiButton variant="soft" (click)="play()">
+  {{ text() ? 'Play again' : 'Play' }}
+</button>
+<nui-markdown [text]="text()" [streaming]="streaming()" />

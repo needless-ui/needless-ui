@@ -1291,6 +1291,210 @@ export const messages: Messages = {
           'Sorting, filtering, paging and editing errors are announced in a polite status region.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'AI chat component for Angular',
+        summary: 'Talk to a model: streamed replies, tools, versions and files.',
+        description:
+          'Accessible Angular chat for AI assistants: streamed Markdown replies, reasoning, tool calls, sources, retries kept as versions, and files.',
+        apiDescription:
+          'API reference for the Needless UI chat: nui-chat inputs, the NuiChatSession that streams replies, messages, tool templates and stream readers.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI chat: a feed of named messages, Page Up and Page Down, and replies announced once complete.',
+        overview: [
+          'The chat is everything between your users and a model. Create a <code>NuiChatSession</code> with a <code>respond</code> function, and <code>&lt;nui-chat&gt;</code> does the rest: it streams the reply as Markdown, follows it down the page until the reader scrolls up, and turns the send button into a stop button while it arrives.',
+          '<code>respond</code> returns text, a promise, an <code>async function*</code> or an Observable, so any API fits. Beyond text, a reply can carry the model’s reasoning, its tool calls (drawn by templates of yours), and the sources it used. <code>nuiEventStream</code> reads the server-sent events most model APIs stream.',
+          'Nothing is lost: a retried reply or an edited question becomes a new version beside the old one, and the conversation keeps every branch. Screen readers hear each reply once it’s complete, not word by word.',
+        ],
+        examples: {
+          assistant: {
+            title: 'An assistant',
+            text: 'Suggestions start the conversation. Replies stream in as Markdown; stop them, retry them, rate them, or edit your question. <code>attach</code> takes files picked, pasted or dropped.',
+          },
+          tools: {
+            title: 'Reasoning, tools and sources',
+            text: 'Deltas add the model’s reasoning, tool calls and sources to the reply. <code>nuiChatTool</code> draws the weather tool as a card; other tools fold away with their input and output.',
+          },
+          server: {
+            title: 'Streaming from a server',
+            text: '<code>nuiEventStream</code> reads an OpenAI-style event stream, and a <code>NuiChatError</code> shows its message. <code>all()</code> saves the conversation, versions and all.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'The conversation and the box to write in, together.',
+            members: {
+              session: 'The conversation to show.',
+              assistant: 'The assistant’s name, in the headings screen readers hear.',
+              headingLevel:
+                'The level of each message’s heading, which only screen readers show. Headings in replies go one deeper.',
+              announce:
+                'What screen readers hear when a reply is complete: all of it, a short notice, or nothing.',
+              images: 'Shows images in replies. Otherwise their text links to them.',
+              value: 'The text being written.',
+              placeholder: 'The hint in the empty field.',
+              suggestions: 'Prompts to send with a click, until the first message.',
+              sendOn: 'Whether Enter sends, or Ctrl or ⌘ + Enter.',
+              disabled: 'Stops the composer from sending.',
+              attach: 'Takes files: picked, pasted or dropped.',
+              accept: 'The kinds of file to take, as for <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'How many files a message can carry.',
+              maxSize: 'The largest file to take, in bytes.',
+              labels: 'Every text the chat shows or announces, to translate.',
+              rated:
+                'Emits a reply the reader rated, with the rating, or <code>null</code> when taken back.',
+              focus: 'Focuses the text field.',
+              scrollToEnd: 'Scrolls to the latest message, and follows it.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'The conversation, without any DOM. Create it in a component, with the options <code>respond</code>, <code>messages</code> and <code>id</code>.',
+            members: {
+              respond:
+                'Yours: writes the reply to <code>request.messages</code>, and stops when <code>request.signal</code> aborts.',
+              messages: 'The conversation on screen.',
+              all: 'Every message of every version, to save and pass back as <code>messages</code>.',
+              busy: 'Whether a reply is on its way.',
+              send: 'Sends a message and asks for a reply.',
+              stop: 'Stops the reply, keeping what it wrote.',
+              retry: 'Asks again. The new reply is a version beside the old one.',
+              edit: 'Sends a new version of one of the user’s messages.',
+              versions: 'Every version of a message, oldest first.',
+              show: 'Switches the conversation to this version.',
+              rate: 'Records the reader’s verdict on a reply.',
+              'remove, load, clear':
+                'Removes a message and what follows it, replaces the conversation, or starts over.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'One message. Messages with the same <code>parent</code> are versions of each other.',
+            members: {
+              'id, parent': 'The message’s key, and the one it follows.',
+              role: 'Who wrote it.',
+              text: 'Markdown from the assistant, plain text from the user.',
+              status: 'Where a reply stands, from waiting to done.',
+              reasoning: 'What the model thought before it answered.',
+              tools: 'The tools it called, with their state, input and output.',
+              sources: 'The pages it used.',
+              attachments: 'The files sent with it.',
+              rating: 'The reader’s verdict.',
+              data: 'Anything else to keep with it, such as the model’s name.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Draws a tool call, such as a card for the weather. The context holds the call and its message.',
+            members: {
+              nuiChatTool:
+                'The tool’s name. Without one, it draws every call no other template names.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'The conversation on its own, for a layout of yours. It takes the inputs of <code>nui-chat</code> that concern the conversation.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'The box to write in, on its own. It takes the inputs of <code>nui-chat</code> that concern writing.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'What <code>nuiEventStream</code> yields for each event. <code>nuiTextStream</code> reads plain text and <code>nuiJsonStream</code> JSON lines; all three take a <code>fetch</code> response.',
+            members: {
+              event: 'The event’s name.',
+              data: 'Its data lines, joined.',
+              id: 'The last id the stream sent.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Throw it from <code>respond</code> to show its message. Any other error shows a general one, so nothing internal leaks.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down and Page Up', 'Move to the next or previous message.'],
+          ['Ctrl + End and Ctrl + Home', 'Leave the conversation, forward or back.'],
+          ['Enter', 'Send. With Shift, start a new line.'],
+          ['Escape', 'Stop editing a message.'],
+        ],
+        notes: [
+          'The conversation is a <code>feed</code> of <code>article</code>s. Each is named by a heading only screen readers see, such as “You said”, and carries <code>aria-posinset</code> and <code>aria-setsize</code>.',
+          'A reply being written is <code>aria-busy</code>. Once complete, it’s announced whole; a failure is announced at once.',
+          'Every icon button has a name and a tooltip. Ratings are toggle buttons, and the version switcher is a group named like “Version 2 of 3”.',
+          'Reasoning and tool calls are native disclosures. Removing a file returns focus to the text field.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Markdown renderer component for Angular',
+        summary: 'Render Markdown safely, even while it streams in.',
+        description:
+          'Safe Angular Markdown renderer for AI replies: GitHub tables, task lists and code blocks, drawn as real elements and smooth while streaming.',
+        apiDescription:
+          'API reference for the Needless UI Markdown renderer: nui-markdown inputs, the template for code blocks, and the parser behind it.',
+        a11yDescription:
+          'Accessibility of the Needless UI Markdown renderer: real headings, lists and tables, scroll regions with names, and a copy button that speaks.',
+        overview: [
+          'The Markdown renderer turns text such as a model writes into real elements: headings, lists and task lists, quotes, tables, code blocks with a copy button, and links. It parses the text into a tree and draws it with templates, so raw HTML stays text and nothing is ever inserted as HTML.',
+          'With <code>streaming</code>, half-written text reads as it will once complete: an open code fence is already a code block, a lone <code>**</code> waits for its partner, and a caret follows the last word. Blocks that didn’t change keep their DOM.',
+          'Links work only for web, mail and phone addresses, and images stay links until you turn on <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'A document',
+            text: 'Headings start at <code>headingLevel</code>, so they fit under the page’s own. Wide tables and code scroll in their own regions.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'The same text, a few characters at a time. Nothing flashes as a symbol, and only the last block re-renders.',
+          },
+          highlight: {
+            title: 'Code highlighting',
+            text: '<code>nuiMarkdownCode</code> draws code blocks with a template of yours, here with a tiny highlighter. It gets the code and its language.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Renders Markdown as elements.',
+            members: {
+              text: 'The Markdown.',
+              streaming: 'The text is still arriving.',
+              headingLevel: 'The level of a <code>#</code> heading. Deeper ones follow, up to 6.',
+              images: 'Shows images. Otherwise their text links to them, since an image can track.',
+              labels: 'The copy button’s texts and the like, to translate.',
+              codeTemplate:
+                'A code block template from elsewhere, such as a chat that holds this one.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Draws code blocks. The context holds the code, <code>lang</code>, and <code>open</code> while the block is still arriving.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'The parser and its helpers, for use without the component.',
+            members: {
+              nuiParseMarkdown: 'The tree of blocks and inlines the component draws.',
+              nuiMarkdownToText: 'The plain text, a line per block, to announce or preview.',
+              nuiSafeUrl: 'Whether a link goes to a web, mail or phone address.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Reach links, the copy buttons, and wide tables and code to scroll them.'],
+        ],
+        notes: [
+          'Headings, lists, quotes, tables with <code>th</code> headers and <code>scope</code>, and code are real elements.',
+          'Wide tables and code blocks scroll inside a focusable region; a table’s region is named after its headers.',
+          'Task list boxes say whether each task is done. The copy button is named “Copy code” and says “Copied” through a status message.',
+          'The streaming caret is hidden from screen readers, and holds still with reduced motion.',
+        ],
+      },
     },
   },
 

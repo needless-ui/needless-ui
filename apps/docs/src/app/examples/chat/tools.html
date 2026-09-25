@@ -1,0 +1,23 @@
+<nui-chat
+  [session]="chat"
+  assistant="Forecaster"
+  placeholder="Ask about the weather"
+  [suggestions]="['What’s the weather in Lisbon?', 'Is it warm in Tokyo?']"
+>
+  <p nuiChatEmpty>Ask about the weather, and watch the model think and call its tools.</p>
+
+  <ng-template nuiChatTool="weather" let-tool>
+    <div class="forecast" [attr.aria-busy]="tool.state === 'running'">
+      @if (forecast(tool); as forecast) {
+        <span class="temperature">{{ forecast.temperature }}°</span>
+        <span>
+          <strong>{{ forecast.city }}</strong>
+          {{ forecast.condition }}, {{ forecast.low }}° to {{ forecast.high }}°
+        </span>
+      } @else {
+        <span class="temperature">…</span>
+        <span>Checking the sky over {{ city(tool) }}</span>
+      }
+    </div>
+  </ng-template>
+</nui-chat>

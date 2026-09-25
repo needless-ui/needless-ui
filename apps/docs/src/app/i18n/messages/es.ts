@@ -1326,6 +1326,221 @@ export const messages: Messages = {
           'El orden, los filtros, la paginación y los errores de edición se anuncian de forma cortés en una región de estado.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'Componente de chat con IA para Angular',
+        summary:
+          'Habla con un modelo: respuestas en streaming, herramientas, versiones y archivos.',
+        description:
+          'Chat accesible en Angular para asistentes de IA: respuestas Markdown en streaming, razonamiento, herramientas, fuentes, archivos y reintentos como versiones.',
+        apiDescription:
+          'Referencia de la API del chat de Needless UI: inputs de nui-chat, la NuiChatSession, mensajes, plantillas de herramientas y lectores de streams de respuesta.',
+        a11yDescription:
+          'Teclado y accesibilidad del chat de Needless UI: un feed de mensajes con nombre, Re Pág y Av Pág, y respuestas que se anuncian al completarse.',
+        overview: [
+          'El chat es todo lo que hay entre tus usuarios y un modelo. Crea una <code>NuiChatSession</code> con una función <code>respond</code> y <code>&lt;nui-chat&gt;</code> hace el resto: transmite la respuesta en Markdown, la sigue página abajo hasta que el usuario se desplaza hacia arriba y, mientras llega, convierte el botón de enviar en uno de detener.',
+          '<code>respond</code> devuelve texto, una promesa, una <code>async function*</code> o un Observable, así que sirve cualquier API. Además de texto, una respuesta puede llevar el razonamiento del modelo, sus llamadas a herramientas (dibujadas con tus plantillas) y las fuentes que usó. <code>nuiEventStream</code> lee los server-sent events que emiten la mayoría de las API de modelos.',
+          'No se pierde nada: una respuesta reintentada o una pregunta editada pasa a ser una nueva versión junto a la anterior, y la conversación conserva todas las ramas. Los lectores de pantalla anuncian cada respuesta cuando está completa, no palabra por palabra.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Un asistente',
+            text: 'Las sugerencias inician la conversación. Las respuestas llegan en streaming como Markdown; detenlas, reinténtalas, valóralas o edita tu pregunta. <code>attach</code> acepta archivos elegidos, pegados o arrastrados.',
+          },
+          tools: {
+            title: 'Razonamiento, herramientas y fuentes',
+            text: 'Los deltas añaden a la respuesta el razonamiento del modelo, las llamadas a herramientas y las fuentes. <code>nuiChatTool</code> dibuja la herramienta del clima como una tarjeta; las demás se pliegan con su entrada y su salida.',
+          },
+          server: {
+            title: 'Streaming desde un servidor',
+            text: '<code>nuiEventStream</code> lee un flujo de eventos al estilo de OpenAI, y un <code>NuiChatError</code> muestra su mensaje. <code>all()</code> guarda la conversación, versiones incluidas.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'La conversación y el cuadro de texto, juntos.',
+            members: {
+              session: 'La conversación que se muestra.',
+              assistant:
+                'El nombre del asistente, en los encabezados que anuncian los lectores de pantalla.',
+              headingLevel:
+                'El nivel del encabezado de cada mensaje, que solo perciben los lectores de pantalla. Los encabezados de las respuestas bajan un nivel más.',
+              announce:
+                'Lo que anuncian los lectores de pantalla cuando una respuesta está completa: todo, un aviso breve o nada.',
+              images: 'Muestra las imágenes de las respuestas. Si no, su texto enlaza a ellas.',
+              value: 'El texto que se está escribiendo.',
+              placeholder: 'El texto que se muestra en el campo vacío.',
+              suggestions: 'Prompts que se envían con un clic, hasta el primer mensaje.',
+              sendOn: 'Si se envía con Intro, o con Ctrl o ⌘ + Intro.',
+              disabled: 'Impide enviar desde el cuadro de texto.',
+              attach: 'Acepta archivos: elegidos, pegados o arrastrados.',
+              accept:
+                'Los tipos de archivo que se aceptan, como en <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Cuántos archivos puede llevar un mensaje.',
+              maxSize: 'El tamaño máximo de archivo, en bytes.',
+              labels: 'Todos los textos que el chat muestra o anuncia, para traducirlos.',
+              rated:
+                'Emite una respuesta que el usuario valoró, con la valoración, o <code>null</code> si la retira.',
+              focus: 'Pone el foco en el campo de texto.',
+              scrollToEnd: 'Se desplaza hasta el último mensaje y lo sigue.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'La conversación, sin nada de DOM. Créala en un componente con las opciones <code>respond</code>, <code>id</code> y <code>messages</code>.',
+            members: {
+              respond:
+                'Tu función: escribe la respuesta a <code>request.messages</code> y se detiene cuando se aborta <code>request.signal</code>.',
+              messages: 'La conversación en pantalla.',
+              all: 'Todos los mensajes de todas las versiones, para guardarlos y volver a pasarlos como <code>messages</code>.',
+              busy: 'Indica si hay una respuesta en camino.',
+              send: 'Envía un mensaje y pide una respuesta.',
+              stop: 'Detiene la respuesta y conserva lo que ya escribió.',
+              retry: 'Vuelve a preguntar. La nueva respuesta es una versión junto a la anterior.',
+              edit: 'Envía una nueva versión de uno de los mensajes del usuario.',
+              versions: 'Todas las versiones de un mensaje, de la más antigua a la más nueva.',
+              show: 'Cambia la conversación a esta versión.',
+              rate: 'Registra la valoración del usuario sobre una respuesta.',
+              'remove, load, clear':
+                'Quita un mensaje y lo que le sigue, reemplaza la conversación o empieza de cero.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Un mensaje. Los mensajes con el mismo <code>parent</code> son versiones entre sí.',
+            members: {
+              'id, parent': 'La clave del mensaje y la del mensaje al que sigue.',
+              role: 'Quién lo escribió.',
+              text: 'Markdown del asistente, texto plano del usuario.',
+              status: 'En qué punto está una respuesta, de la espera al final.',
+              reasoning: 'Lo que pensó el modelo antes de responder.',
+              tools: 'Las herramientas que llamó, con su estado, entrada y salida.',
+              sources: 'Las páginas que usó.',
+              attachments: 'Los archivos enviados con él.',
+              rating: 'La valoración del usuario.',
+              data: 'Cualquier otra cosa que guardar con él, como el nombre del modelo.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Dibuja una llamada a herramienta, como una tarjeta del clima. El contexto contiene la llamada y su mensaje.',
+            members: {
+              nuiChatTool:
+                'El nombre de la herramienta. Sin él, dibuja todas las llamadas que ninguna otra plantilla nombra.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'La conversación por separado, para tu propio diseño. Acepta los inputs de <code>nui-chat</code> relativos a la conversación.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'El cuadro de texto por separado. Acepta los inputs de <code>nui-chat</code> relativos a la escritura.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Lo que <code>nuiEventStream</code> produce por cada evento. <code>nuiTextStream</code> lee texto plano y <code>nuiJsonStream</code>, líneas JSON; los tres reciben una respuesta de <code>fetch</code>.',
+            members: {
+              event: 'El nombre del evento.',
+              data: 'Sus líneas de datos, unidas.',
+              id: 'El último id que envió el flujo.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Lánzalo desde <code>respond</code> para mostrar su mensaje. Cualquier otro error muestra uno genérico, para que no se filtre nada interno.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Av Pág y Re Pág', 'Pasa al mensaje siguiente o al anterior.'],
+          ['Ctrl + Fin y Ctrl + Inicio', 'Sale de la conversación, hacia delante o hacia atrás.'],
+          ['Intro', 'Envía. Con Mayús, empieza una línea nueva.'],
+          ['Esc', 'Deja de editar un mensaje.'],
+        ],
+        notes: [
+          'La conversación es un <code>feed</code> de elementos <code>article</code>. Cada uno toma su nombre de un encabezado que solo perciben los lectores de pantalla, como «You said», y lleva <code>aria-posinset</code> y <code>aria-setsize</code>.',
+          'Una respuesta que se está escribiendo es <code>aria-busy</code>. Al completarse, se anuncia entera; un fallo se anuncia enseguida.',
+          'Cada botón de icono tiene un nombre y un tooltip. Las valoraciones son botones de alternancia, y el selector de versiones es un grupo con un nombre como «Version 2 of 3».',
+          'El razonamiento y las llamadas a herramientas son desplegables nativos. Al quitar un archivo, el foco vuelve al campo de texto.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Componente renderizador de Markdown para Angular',
+        summary: 'Renderiza Markdown de forma segura, incluso mientras llega en streaming.',
+        description:
+          'Renderizador de Markdown seguro en Angular para respuestas de IA: tablas de GitHub, listas de tareas y código como elementos reales, fluido en streaming.',
+        apiDescription:
+          'Referencia de la API del renderizador de Markdown de Needless UI: inputs de nui-markdown, la plantilla de los bloques de código y el parser que lo sustenta.',
+        a11yDescription:
+          'Accesibilidad del renderizador de Markdown de Needless UI: encabezados, listas y tablas reales, regiones de scroll con nombre y un botón de copiar que habla.',
+        overview: [
+          'El renderizador de Markdown convierte texto como el que escribe un modelo en elementos reales: encabezados, listas y listas de tareas, citas, tablas, bloques de código con botón de copiar y enlaces. Pasa el texto a un árbol y lo dibuja con plantillas, así que el HTML en bruto sigue siendo texto y nunca se inserta nada como HTML.',
+          'Con <code>streaming</code>, el texto a medio escribir se lee como se leerá completo: un delimitador de código abierto ya es un bloque de código, un <code>**</code> suelto espera a su pareja y un cursor sigue a la última palabra. Los bloques que no cambiaron conservan su DOM.',
+          'Los enlaces solo funcionan con direcciones web y de correo electrónico y con números de teléfono, y las imágenes siguen siendo enlaces hasta que activas <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Un documento',
+            text: 'Los encabezados empiezan en <code>headingLevel</code>, así que encajan bajo los de la página. Las tablas anchas y el código se desplazan en sus propias regiones.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'El mismo texto, unos pocos caracteres cada vez. Ningún símbolo asoma ni un instante, y solo se vuelve a renderizar el último bloque.',
+          },
+          highlight: {
+            title: 'Resaltado de código',
+            text: '<code>nuiMarkdownCode</code> dibuja los bloques de código con una plantilla tuya, aquí con un resaltador diminuto. Recibe el código y su lenguaje.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Renderiza Markdown como elementos.',
+            members: {
+              text: 'El Markdown.',
+              streaming: 'El texto aún está llegando.',
+              headingLevel:
+                'El nivel de un encabezado <code>#</code>. Los más profundos siguen a partir de él, hasta 6.',
+              images:
+                'Muestra las imágenes. Si no, su texto enlaza a ellas, ya que una imagen puede rastrear.',
+              labels: 'Los textos del botón de copiar y similares, para traducirlos.',
+              codeTemplate:
+                'Una plantilla de bloque de código de otro sitio, como la de un chat que lo contiene.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Dibuja los bloques de código. El contexto contiene el código, <code>lang</code>, y <code>open</code> mientras el bloque sigue llegando.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'El parser y sus funciones auxiliares, para usarlos sin el componente.',
+            members: {
+              nuiParseMarkdown:
+                'El árbol de bloques y elementos en línea que dibuja el componente.',
+              nuiMarkdownToText:
+                'El texto plano, una línea por bloque, para anunciarlo o previsualizarlo.',
+              nuiSafeUrl:
+                'Si un enlace lleva a una dirección web o de correo electrónico, o a un número de teléfono.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Llega a los enlaces, a los botones de copiar y a las tablas y el código anchos, para desplazarlos.',
+          ],
+        ],
+        notes: [
+          'Los encabezados, las listas, las citas, las tablas con encabezados <code>th</code> y <code>scope</code>, y el código son elementos reales.',
+          'Las tablas anchas y los bloques de código se desplazan dentro de una región enfocable; la región de una tabla toma el nombre de sus encabezados.',
+          'Las casillas de las listas de tareas indican si cada tarea está hecha. El botón de copiar se llama «Copy code» y dice «Copied» mediante un mensaje de estado.',
+          'El cursor del streaming está oculto para los lectores de pantalla y se queda quieto con el movimiento reducido.',
+        ],
+      },
     },
   },
 

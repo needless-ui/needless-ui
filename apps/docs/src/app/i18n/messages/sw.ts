@@ -1324,6 +1324,217 @@ export const messages: Messages = {
           'Mabadiliko ya upangaji, uchujaji na kurasa, pamoja na makosa ya uhariri, hutangazwa kwa upole (polite) katika eneo la hali.',
         ],
       },
+      chat: {
+        name: 'Gumzo',
+        title: 'Kijenzi cha gumzo la AI kwa Angular',
+        summary: 'Zungumza na modeli: majibu yanayotiririka, zana, matoleo na faili.',
+        description:
+          'Gumzo la Angular linalofikika kwa wasaidizi wa AI: majibu ya Markdown yanayotiririka, fikra, miito ya zana, vyanzo, majaribio mapya kama matoleo, na faili.',
+        apiDescription:
+          'Marejeleo ya API ya gumzo la Needless UI: input za nui-chat, NuiChatSession inayotiririsha majibu, jumbe, template za zana na visomaji vya mtiririko.',
+        a11yDescription:
+          'Kibodi na ufikivu wa gumzo la Needless UI: feed ya jumbe zenye majina, Page Up na Page Down, na majibu yanayotangazwa yakikamilika.',
+        overview: [
+          'Gumzo ni kila kitu kati ya watumiaji wako na modeli. Unda <code>NuiChatSession</code> yenye function ya <code>respond</code>, na <code>&lt;nui-chat&gt;</code> hufanya mengine: hutiririsha jibu kama Markdown, hulifuata chini ya ukurasa hadi msomaji asogeze juu, na hugeuza kitufe cha kutuma kuwa kitufe cha kusimamisha jibu linapowasili.',
+          '<code>respond</code> hurudisha maandishi, promise, <code>async function*</code> au Observable, hivyo API yoyote inafaa. Mbali na maandishi, jibu linaweza kubeba fikra za modeli, miito yake ya zana (inayochorwa na template zako), na vyanzo ilivyotumia. <code>nuiEventStream</code> husoma server-sent events ambazo API nyingi za modeli hutiririsha.',
+          'Hakuna kinachopotea: jibu lililoombwa upya au swali lililohaririwa huwa toleo jipya kando ya lile la zamani, na mazungumzo hubaki na kila tawi. Visoma skrini husikia kila jibu likikamilika, si neno kwa neno.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Msaidizi',
+            text: 'Mapendekezo huanzisha mazungumzo. Majibu hutiririka kama Markdown; yasimamishe, yaombe upya, yakadirie, au hariri swali lako. <code>attach</code> hupokea faili zilizochaguliwa, zilizobandikwa au zilizodondoshwa.',
+          },
+          tools: {
+            title: 'Fikra, zana na vyanzo',
+            text: 'Delta huongeza fikra za modeli, miito ya zana na vyanzo kwenye jibu. <code>nuiChatTool</code> huchora zana ya hali ya hewa kama kadi; zana nyingine hukunjwa pamoja na input na output zao.',
+          },
+          server: {
+            title: 'Kutiririsha kutoka kwa seva',
+            text: '<code>nuiEventStream</code> husoma mtiririko wa matukio wa mtindo wa OpenAI, na <code>NuiChatError</code> huonyesha ujumbe wake. <code>all()</code> huhifadhi mazungumzo, pamoja na matoleo yote.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Mazungumzo na sehemu ya kuandikia, kwa pamoja.',
+            members: {
+              session: 'Mazungumzo ya kuonyesha.',
+              assistant: 'Jina la msaidizi, katika vichwa ambavyo visoma skrini husikia.',
+              headingLevel:
+                'Kiwango cha kichwa cha kila ujumbe, kinachoonyeshwa kwa visoma skrini pekee. Vichwa ndani ya majibu huwa kiwango kimoja chini.',
+              announce:
+                'Kile visoma skrini husikia jibu likikamilika: lote, taarifa fupi, au hakuna kitu.',
+              images:
+                'Huonyesha picha katika majibu. Vinginevyo maandishi yake huwa kiungo kwa picha hizo.',
+              value: 'Maandishi yanayoandikwa.',
+              placeholder: 'Dokezo katika sehemu tupu.',
+              suggestions: 'Prompt za kutuma kwa mbofyo mmoja, hadi ujumbe wa kwanza.',
+              sendOn: 'Kama Enter hutuma, au Ctrl au ⌘ + Enter.',
+              disabled: 'Huzuia sehemu ya kuandikia isitume.',
+              attach: 'Hupokea faili: zilizochaguliwa, zilizobandikwa au zilizodondoshwa.',
+              accept: 'Aina za faili za kupokea, kama kwa <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Idadi ya faili ambazo ujumbe unaweza kubeba.',
+              maxSize: 'Ukubwa wa juu zaidi wa faili ya kupokea, kwa baiti.',
+              labels: 'Kila maandishi ambayo gumzo huonyesha au hutangaza, ili kuyatafsiri.',
+              rated:
+                'Hutoa jibu ambalo msomaji amelikadiria, pamoja na ukadiriaji, au <code>null</code> ukadiriaji ukiondolewa.',
+              focus: 'Huweka focus kwenye sehemu ya maandishi.',
+              scrollToEnd: 'Husogeza hadi ujumbe wa mwisho, na kuufuata.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Mazungumzo, bila DOM yoyote. Yaunde ndani ya kijenzi, kwa chaguo <code>respond</code>, <code>messages</code> na <code>id</code>.',
+            members: {
+              respond:
+                'Yako: huandika jibu kwa <code>request.messages</code>, na husimama <code>request.signal</code> ikighairiwa.',
+              messages: 'Mazungumzo yaliyo kwenye skrini.',
+              all: 'Kila ujumbe wa kila toleo, ili kuhifadhi na kurudisha kama <code>messages</code>.',
+              busy: 'Kama jibu liko njiani.',
+              send: 'Hutuma ujumbe na kuomba jibu.',
+              stop: 'Husimamisha jibu, na kubakiza lililoandikwa.',
+              retry: 'Huomba tena. Jibu jipya ni toleo kando ya lile la zamani.',
+              edit: 'Hutuma toleo jipya la mojawapo ya jumbe za mtumiaji.',
+              versions: 'Kila toleo la ujumbe, la zamani zaidi kwanza.',
+              show: 'Hubadilisha mazungumzo hadi toleo hili.',
+              rate: 'Hurekodi maoni ya msomaji kuhusu jibu.',
+              'remove, load, clear':
+                'Huondoa ujumbe na vinavyoufuata, hubadilisha mazungumzo, au huanza upya.',
+            },
+          },
+          NuiChatMessage: {
+            summary:
+              'Ujumbe mmoja. Jumbe zenye <code>parent</code> ileile ni matoleo ya ujumbe mmoja.',
+            members: {
+              'id, parent': 'Ufunguo wa ujumbe, na wa ujumbe uliotangulia.',
+              role: 'Aliyeuandika.',
+              text: 'Markdown kutoka kwa msaidizi, maandishi ya kawaida kutoka kwa mtumiaji.',
+              status: 'Hali ya jibu, kuanzia kusubiri hadi kukamilika.',
+              reasoning: 'Kile modeli ilifikiri kabla ya kujibu.',
+              tools: 'Zana ilizoita, pamoja na hali, input na output zao.',
+              sources: 'Kurasa ilizotumia.',
+              attachments: 'Faili zilizotumwa pamoja nao.',
+              rating: 'Maoni ya msomaji.',
+              data: 'Chochote kingine cha kuhifadhi pamoja nao, kama jina la modeli.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Huchora mwito wa zana, kama kadi ya hali ya hewa. Muktadha una mwito huo na ujumbe wake.',
+            members: {
+              nuiChatTool:
+                'Jina la zana. Lisipokuwepo, huchora kila mwito ambao hakuna template nyingine inayoutaja.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Mazungumzo pekee, kwa mpangilio wako mwenyewe. Hupokea input za <code>nui-chat</code> zinazohusu mazungumzo.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Sehemu ya kuandikia pekee. Hupokea input za <code>nui-chat</code> zinazohusu kuandika.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Kile <code>nuiEventStream</code> hutoa kwa kila tukio. <code>nuiTextStream</code> husoma maandishi ya kawaida na <code>nuiJsonStream</code> mistari ya JSON; zote tatu hupokea response ya <code>fetch</code>.',
+            members: {
+              event: 'Jina la tukio.',
+              data: 'Mistari yake ya data, ikiwa imeunganishwa.',
+              id: 'Id ya mwisho iliyotumwa na mtiririko.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Irushe kutoka <code>respond</code> ili kuonyesha ujumbe wake. Hitilafu nyingine yoyote huonyesha ujumbe wa jumla, hivyo hakuna cha ndani kinachovuja.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down na Page Up', 'Huenda kwenye ujumbe unaofuata au uliotangulia.'],
+          ['Ctrl + End na Ctrl + Home', 'Hutoka kwenye mazungumzo, mbele au nyuma.'],
+          ['Enter', 'Hutuma. Kwa Shift, huanza mstari mpya.'],
+          ['Escape', 'Huacha kuhariri ujumbe.'],
+        ],
+        notes: [
+          'Mazungumzo ni <code>feed</code> ya <code>article</code>. Kila moja hupewa jina na kichwa ambacho visoma skrini pekee huona, kama “You said”, na hubeba <code>aria-posinset</code> na <code>aria-setsize</code>.',
+          'Jibu linaloandikwa huwa <code>aria-busy</code>. Likikamilika, hutangazwa lote; kushindwa hutangazwa mara moja.',
+          'Kila kitufe cha ikoni kina jina na tooltip. Ukadiriaji ni vitufe vya kugeuza, na kibadilishaji cha matoleo ni kundi lenye jina kama “Version 2 of 3”.',
+          'Fikra na miito ya zana ni disclosure asilia, zinazofunguka na kukunjika. Kuondoa faili hurudisha focus kwenye sehemu ya maandishi.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Kijenzi cha kuonyesha Markdown kwa Angular',
+        summary: 'Onyesha Markdown kwa usalama, hata inapotiririka.',
+        description:
+          'Kionyeshi cha Markdown cha Angular, salama kwa majibu ya AI: majedwali ya GitHub, orodha za kazi na bloku za msimbo, kama vipengele halisi, laini ikitiririka.',
+        apiDescription:
+          'Marejeleo ya API ya kionyeshi cha Markdown cha Needless UI: input za nui-markdown, template ya bloku za msimbo, na kichanganuzi kilicho nyuma yake.',
+        a11yDescription:
+          'Ufikivu wa kionyeshi cha Markdown cha Needless UI: vichwa, orodha na majedwali halisi, maeneo ya kusogeza yenye majina, na kitufe cha kunakili kinachozungumza.',
+        overview: [
+          'Kionyeshi cha Markdown hugeuza maandishi kama yale ambayo modeli huandika kuwa vipengele halisi: vichwa, orodha na orodha za kazi, manukuu, majedwali, bloku za msimbo zenye kitufe cha kunakili, na viungo. Huchanganua maandishi kuwa mti na kuuchora kwa template, hivyo HTML ghafi hubaki maandishi na hakuna kitu kinachoingizwa kamwe kama HTML.',
+          'Ukiweka <code>streaming</code>, maandishi yaliyoandikwa nusu husomeka kama yatakavyokuwa yakikamilika: code fence iliyo wazi tayari ni bloku ya msimbo, <code>**</code> iliyo peke yake husubiri mwenzake, na kishale hufuata neno la mwisho. Bloku ambazo hazijabadilika hubaki na DOM yao.',
+          'Viungo hufanya kazi kwa anwani za wavuti, barua pepe na simu pekee, na picha hubaki viungo hadi uwashe <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Hati',
+            text: 'Vichwa huanzia <code>headingLevel</code>, hivyo hukaa chini ya vichwa vya ukurasa wenyewe. Majedwali mapana na msimbo husogezwa katika maeneo yao wenyewe.',
+          },
+          streaming: {
+            title: 'Kutiririsha',
+            text: 'Maandishi yaleyale, herufi chache kwa wakati mmoja. Hakuna alama ya Markdown inayomulika, na ni bloku ya mwisho pekee inayochorwa upya.',
+          },
+          highlight: {
+            title: 'Kuangazia msimbo',
+            text: '<code>nuiMarkdownCode</code> huchora bloku za msimbo kwa template yako, hapa kwa kiangazio kidogo. Hupokea msimbo na lugha yake.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Huonyesha Markdown kama vipengele.',
+            members: {
+              text: 'Markdown yenyewe.',
+              streaming: 'Maandishi bado yanawasili.',
+              headingLevel:
+                'Kiwango cha kichwa cha <code>#</code>. Vilivyo ndani zaidi hufuata, hadi 6.',
+              images:
+                'Huonyesha picha. Vinginevyo maandishi yake huwa kiungo kwa picha hizo, kwa kuwa picha inaweza kufuatilia.',
+              labels: 'Maandishi ya kitufe cha kunakili na mengineyo, ili kuyatafsiri.',
+              codeTemplate:
+                'Template ya bloku ya msimbo kutoka mahali pengine, kama gumzo lililo na kijenzi hiki.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Huchora bloku za msimbo. Muktadha una msimbo, <code>lang</code>, na <code>open</code> bloku ikiwa bado inawasili.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Kichanganuzi na visaidizi vyake, kwa matumizi bila kijenzi.',
+            members: {
+              nuiParseMarkdown: 'Mti wa bloku na inline ambao kijenzi huchora.',
+              nuiMarkdownToText:
+                'Maandishi ya kawaida, mstari mmoja kwa kila bloku, ili kutangaza au kuhakiki.',
+              nuiSafeUrl: 'Kama kiungo kinaenda kwenye anwani ya wavuti, barua pepe au simu.',
+            },
+          },
+        },
+        keyboard: [
+          [
+            'Tab',
+            'Hufikia viungo, vitufe vya kunakili, na majedwali mapana na msimbo ili kuvisogeza.',
+          ],
+        ],
+        notes: [
+          'Vichwa, orodha, manukuu, majedwali yenye vichwa vya <code>th</code> na <code>scope</code>, na msimbo ni vipengele halisi.',
+          'Majedwali mapana na bloku za msimbo husogezwa ndani ya eneo linaloweza kupokea focus; eneo la jedwali hupewa jina kutokana na vichwa vyake.',
+          'Checkbox za orodha ya kazi husema kama kila kazi imekamilika. Kitufe cha kunakili kinaitwa “Copy code” na husema “Copied” kupitia ujumbe wa hali.',
+          'Kishale cha kutiririsha kimefichwa kwa visoma skrini, na hutulia mwendo ukiwa umepunguzwa.',
+        ],
+      },
     },
   },
 

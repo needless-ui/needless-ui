@@ -1,0 +1,7 @@
+<nui-markdown [text]="text">
+  <ng-template nuiMarkdownCode let-code>
+    <pre
+      tabindex="0"
+    ><code>@for (token of highlight(code); track $index) {<span [class]="token.kind">{{ token.text }}</span>}</code></pre>
+  </ng-template>
+</nui-markdown>

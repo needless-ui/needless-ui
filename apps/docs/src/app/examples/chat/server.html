@@ -1,0 +1,20 @@
+<nui-chat
+  [session]="chat"
+  assistant="Needle"
+  [suggestions]="['What is a signal in Angular?', 'Show me the rate limit']"
+>
+  <p nuiChatEmpty>
+    Replies stream from a server as events. Reload the page: the conversation stays.
+  </p>
+  <button
+    type="button"
+    nuiButton
+    variant="ghost"
+    tone="neutral"
+    size="sm"
+    [disabled]="!chat.all().length"
+    (click)="chat.clear()"
+  >
+    Clear
+  </button>
+</nui-chat>

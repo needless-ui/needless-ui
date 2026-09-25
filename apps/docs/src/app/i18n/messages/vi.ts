@@ -1298,6 +1298,212 @@ export const messages: Messages = {
           'Việc sắp xếp, lọc, chuyển trang và lỗi chỉnh sửa được đọc lên qua một vùng trạng thái ở chế độ polite.',
         ],
       },
+      chat: {
+        name: 'Chat',
+        title: 'Component chat AI cho Angular',
+        summary: 'Trò chuyện với mô hình: phản hồi dạng stream, công cụ, phiên bản và tệp.',
+        description:
+          'Chat Angular hỗ trợ tiếp cận cho trợ lý AI: phản hồi Markdown dạng stream, suy luận, gọi công cụ, nguồn, tệp và các lần thử lại lưu thành phiên bản.',
+        apiDescription:
+          'Tài liệu API về chat của Needless UI: input của nui-chat, NuiChatSession để stream phản hồi, tin nhắn, template công cụ và bộ đọc stream.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của chat Needless UI: feed gồm các tin nhắn có tên, Page Up và Page Down, phản hồi được đọc lên khi hoàn tất.',
+        overview: [
+          'Chat là mọi thứ nằm giữa người dùng của bạn và mô hình. Tạo một <code>NuiChatSession</code> với hàm <code>respond</code>, và <code>&lt;nui-chat&gt;</code> lo phần còn lại: stream phản hồi dưới dạng Markdown, cuộn theo phản hồi xuống cuối trang cho đến khi người dùng cuộn lên, và biến nút gửi thành nút dừng trong lúc phản hồi đang đến.',
+          '<code>respond</code> trả về văn bản, một promise, một <code>async function*</code> hoặc một Observable, nên API nào cũng dùng được. Ngoài văn bản, phản hồi có thể kèm suy luận của mô hình, các lệnh gọi công cụ (do template của bạn vẽ) và các nguồn đã dùng. <code>nuiEventStream</code> đọc server-sent events mà hầu hết API mô hình dùng để stream.',
+          'Không mất gì cả: phản hồi được thử lại hay câu hỏi được sửa sẽ thành một phiên bản mới cạnh phiên bản cũ, và hội thoại giữ lại mọi nhánh. Trình đọc màn hình đọc mỗi phản hồi khi đã hoàn tất, chứ không đọc từng chữ.',
+        ],
+        examples: {
+          assistant: {
+            title: 'Trợ lý',
+            text: 'Các gợi ý mở đầu hội thoại. Phản hồi được stream về dưới dạng Markdown; bạn có thể dừng, thử lại, đánh giá chúng hoặc sửa câu hỏi của mình. <code>attach</code> nhận tệp được chọn, dán hoặc kéo thả vào.',
+          },
+          tools: {
+            title: 'Suy luận, công cụ và nguồn',
+            text: 'Các delta thêm suy luận của mô hình, lệnh gọi công cụ và nguồn vào phản hồi. <code>nuiChatTool</code> vẽ công cụ thời tiết thành một thẻ; các công cụ khác được thu gọn cùng input và output của chúng.',
+          },
+          server: {
+            title: 'Stream từ máy chủ',
+            text: '<code>nuiEventStream</code> đọc một event stream kiểu OpenAI, và <code>NuiChatError</code> hiển thị thông điệp của nó. <code>all()</code> lưu hội thoại cùng mọi phiên bản.',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: 'Hội thoại và ô soạn tin, gộp làm một.',
+            members: {
+              session: 'Hội thoại cần hiển thị.',
+              assistant: 'Tên của trợ lý, trong các tiêu đề mà trình đọc màn hình đọc lên.',
+              headingLevel:
+                'Cấp heading của mỗi tin nhắn, chỉ trình đọc màn hình mới thấy. Heading trong phản hồi sâu hơn một cấp.',
+              announce:
+                'Trình đọc màn hình đọc gì khi phản hồi hoàn tất: toàn bộ, một thông báo ngắn, hoặc không gì cả.',
+              images:
+                'Hiển thị hình ảnh trong phản hồi. Nếu không, văn bản của ảnh sẽ là liên kết tới ảnh.',
+              value: 'Văn bản đang được soạn.',
+              placeholder: 'Văn bản hiển thị khi ô nhập còn trống.',
+              suggestions: 'Các prompt gửi được bằng một cú nhấp, cho đến tin nhắn đầu tiên.',
+              sendOn: 'Gửi bằng Enter, hay bằng Ctrl hoặc ⌘ + Enter.',
+              disabled: 'Ngăn ô soạn tin gửi đi.',
+              attach: 'Nhận tệp: được chọn, dán hoặc kéo thả vào.',
+              accept: 'Các loại tệp được nhận, như với <code>&lt;input type="file"&gt;</code>.',
+              maxFiles: 'Số tệp tối đa một tin nhắn có thể kèm theo.',
+              maxSize: 'Kích thước tệp lớn nhất được nhận, tính bằng byte.',
+              labels: 'Mọi văn bản mà chat hiển thị hoặc đọc lên, để dịch.',
+              rated:
+                'Phát ra phản hồi mà người dùng đã đánh giá, kèm mức đánh giá, hoặc <code>null</code> khi rút lại.',
+              focus: 'Chuyển focus vào ô nhập văn bản.',
+              scrollToEnd: 'Cuộn tới tin nhắn mới nhất và bám theo nó.',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              'Hội thoại, không có DOM. Tạo nó trong một component, với các tùy chọn <code>respond</code>, <code>messages</code> và <code>id</code>.',
+            members: {
+              respond:
+                'Hàm của bạn: viết phản hồi cho <code>request.messages</code>, và dừng khi <code>request.signal</code> bị hủy.',
+              messages: 'Hội thoại đang hiển thị trên màn hình.',
+              all: 'Mọi tin nhắn của mọi phiên bản, để lưu lại rồi truyền lại qua <code>messages</code>.',
+              busy: 'Có phản hồi nào đang đến hay không.',
+              send: 'Gửi một tin nhắn và yêu cầu phản hồi.',
+              stop: 'Dừng phản hồi, giữ lại những gì đã viết.',
+              retry: 'Hỏi lại. Phản hồi mới là một phiên bản bên cạnh phiên bản cũ.',
+              edit: 'Gửi phiên bản mới của một tin nhắn của người dùng.',
+              versions: 'Mọi phiên bản của một tin nhắn, cũ nhất trước.',
+              show: 'Chuyển hội thoại sang phiên bản này.',
+              rate: 'Ghi lại đánh giá của người dùng về một phản hồi.',
+              'remove, load, clear':
+                'Xóa một tin nhắn và những gì theo sau nó, thay thế hội thoại, hoặc bắt đầu lại.',
+            },
+          },
+          NuiChatMessage: {
+            summary: 'Một tin nhắn. Các tin nhắn cùng <code>parent</code> là phiên bản của nhau.',
+            members: {
+              'id, parent': 'Khóa của tin nhắn, và khóa của tin nhắn mà nó đi sau.',
+              role: 'Ai đã viết nó.',
+              text: 'Markdown từ trợ lý, văn bản thuần từ người dùng.',
+              status: 'Phản hồi đang ở giai đoạn nào, từ chờ đến xong.',
+              reasoning: 'Những gì mô hình đã suy nghĩ trước khi trả lời.',
+              tools: 'Các công cụ nó đã gọi, kèm trạng thái, input và output.',
+              sources: 'Các trang nó đã dùng.',
+              attachments: 'Các tệp gửi kèm.',
+              rating: 'Đánh giá của người dùng.',
+              data: 'Mọi thứ khác cần lưu kèm, chẳng hạn tên mô hình.',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary:
+              'Vẽ một lệnh gọi công cụ, chẳng hạn một thẻ thời tiết. Context chứa lệnh gọi và tin nhắn của nó.',
+            members: {
+              nuiChatTool:
+                'Tên công cụ. Nếu không có, template sẽ vẽ mọi lệnh gọi mà không template nào khác nêu tên.',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              'Riêng phần hội thoại, cho bố cục của riêng bạn. Nhận các input của <code>nui-chat</code> liên quan đến hội thoại.',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary:
+              'Riêng ô soạn tin. Nhận các input của <code>nui-chat</code> liên quan đến việc soạn tin.',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              'Giá trị <code>nuiEventStream</code> trả ra cho mỗi sự kiện. <code>nuiTextStream</code> đọc văn bản thuần và <code>nuiJsonStream</code> đọc các dòng JSON; cả ba đều nhận một response của <code>fetch</code>.',
+            members: {
+              event: 'Tên sự kiện.',
+              data: 'Các dòng dữ liệu, nối lại với nhau.',
+              id: 'Id cuối cùng mà stream đã gửi.',
+            },
+          },
+          NuiChatError: {
+            summary:
+              'Ném nó từ <code>respond</code> để hiển thị thông điệp của nó. Mọi lỗi khác chỉ hiển thị một thông điệp chung, nên không có gì nội bộ bị lộ ra.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down và Page Up', 'Chuyển đến tin nhắn tiếp theo hoặc trước đó.'],
+          ['Ctrl + End và Ctrl + Home', 'Rời khỏi hội thoại, đi tới hoặc lùi lại.'],
+          ['Enter', 'Gửi. Kèm Shift thì xuống dòng mới.'],
+          ['Esc', 'Hủy sửa tin nhắn.'],
+        ],
+        notes: [
+          'Hội thoại là một <code>feed</code> gồm các <code>article</code>. Mỗi mục được đặt tên bằng một tiêu đề chỉ trình đọc màn hình mới thấy, chẳng hạn “You said”, và có <code>aria-posinset</code> cùng <code>aria-setsize</code>.',
+          'Phản hồi đang được viết có <code>aria-busy</code>. Khi hoàn tất, nó được đọc lên trọn vẹn; lỗi thì được đọc lên ngay.',
+          'Mỗi nút chỉ có biểu tượng đều có tên và tooltip. Các nút đánh giá là nút bật/tắt, và bộ chuyển phiên bản là một nhóm có tên như “Version 2 of 3”.',
+          'Suy luận và lệnh gọi công cụ là các khối mở rộng native. Xóa một tệp sẽ trả focus về ô nhập văn bản.',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Component render Markdown cho Angular',
+        summary: 'Render Markdown an toàn, kể cả khi nội dung đang được stream.',
+        description:
+          'Component Markdown an toàn cho phản hồi AI trong Angular: bảng GitHub, danh sách công việc và khối mã, vẽ bằng phần tử thật và mượt khi stream.',
+        apiDescription:
+          'Tài liệu API về Markdown của Needless UI: input của nui-markdown, template cho khối mã và bộ phân tích cú pháp đằng sau nó.',
+        a11yDescription:
+          'Khả năng tiếp cận của Markdown trong Needless UI: tiêu đề, danh sách và bảng thật, vùng cuộn có tên và nút sao chép có thông báo.',
+        overview: [
+          'Component Markdown biến văn bản kiểu như mô hình viết ra thành phần tử thật: tiêu đề, danh sách và danh sách công việc, trích dẫn, bảng, khối mã có nút sao chép, và liên kết. Nó phân tích văn bản thành một cây rồi vẽ bằng template, nên HTML thô vẫn là văn bản và không có gì được chèn vào dưới dạng HTML.',
+          'Với <code>streaming</code>, văn bản đang viết dở hiển thị như khi đã hoàn tất: code fence còn mở đã là một khối mã, một <code>**</code> đứng lẻ sẽ chờ cặp của nó, và một con trỏ đi theo chữ cuối cùng. Các khối không thay đổi giữ nguyên DOM.',
+          'Liên kết chỉ hoạt động với địa chỉ web, email và số điện thoại, còn hình ảnh vẫn là liên kết cho đến khi bạn bật <code>images</code>.',
+        ],
+        examples: {
+          document: {
+            title: 'Tài liệu',
+            text: 'Tiêu đề bắt đầu từ <code>headingLevel</code>, nên nằm gọn dưới tiêu đề của chính trang. Bảng và mã rộng cuộn trong vùng riêng của chúng.',
+          },
+          streaming: {
+            title: 'Streaming',
+            text: 'Cùng văn bản đó, mỗi lần vài ký tự. Không ký hiệu nào lóe lên, và chỉ khối cuối cùng được render lại.',
+          },
+          highlight: {
+            title: 'Tô sáng mã',
+            text: '<code>nuiMarkdownCode</code> vẽ khối mã bằng template của bạn, ở đây với một bộ tô sáng cú pháp tí hon. Template nhận mã và ngôn ngữ của mã.',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: 'Render Markdown thành các phần tử.',
+            members: {
+              text: 'Nội dung Markdown.',
+              streaming: 'Văn bản vẫn đang đến.',
+              headingLevel:
+                'Cấp của tiêu đề <code>#</code>. Các cấp sâu hơn nối tiếp, tối đa là 6.',
+              images:
+                'Hiển thị hình ảnh. Nếu không, văn bản của ảnh sẽ là liên kết tới ảnh, vì ảnh có thể dùng để theo dõi.',
+              labels: 'Văn bản của nút sao chép và các văn bản tương tự, để dịch.',
+              codeTemplate:
+                'Template khối mã lấy từ nơi khác, chẳng hạn từ chat chứa component này.',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              'Vẽ khối mã. Context chứa mã, <code>lang</code>, và <code>open</code> khi khối vẫn đang đến.',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: 'Bộ phân tích cú pháp và các hàm hỗ trợ, để dùng mà không cần component.',
+            members: {
+              nuiParseMarkdown: 'Cây gồm các khối và phần tử inline mà component vẽ ra.',
+              nuiMarkdownToText: 'Văn bản thuần, mỗi khối một dòng, để đọc lên hoặc xem trước.',
+              nuiSafeUrl: 'Liên kết có trỏ tới địa chỉ web, email hay số điện thoại hay không.',
+            },
+          },
+        },
+        keyboard: [
+          ['Tab', 'Đi tới các liên kết, nút sao chép, và các bảng, khối mã rộng để cuộn chúng.'],
+        ],
+        notes: [
+          'Tiêu đề, danh sách, trích dẫn, bảng có tiêu đề <code>th</code> và <code>scope</code>, cùng mã đều là phần tử thật.',
+          'Bảng và khối mã rộng cuộn bên trong một vùng có thể nhận focus; vùng của bảng được đặt tên theo tiêu đề cột.',
+          'Ô đánh dấu trong danh sách công việc cho biết từng việc đã xong hay chưa. Nút sao chép có tên “Copy code” và báo “Copied” qua một thông báo trạng thái.',
+          'Con trỏ khi stream được ẩn khỏi trình đọc màn hình, và đứng yên khi giảm chuyển động.',
+        ],
+      },
     },
   },
 

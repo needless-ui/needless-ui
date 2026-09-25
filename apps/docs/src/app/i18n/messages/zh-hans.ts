@@ -1233,6 +1233,200 @@ export const messages: Messages = {
           '排序、筛选、翻页和编辑错误，会通过不打断当前朗读的状态区域播报。',
         ],
       },
+      chat: {
+        name: '聊天',
+        title: 'Angular AI 聊天组件',
+        summary: '与模型对话：流式回复、工具、版本和文件。',
+        description:
+          '面向 AI 助手的无障碍 Angular 聊天组件：以 Markdown 流式输出回复，支持推理过程、工具调用、来源、以版本保留的重试和文件。',
+        apiDescription:
+          'Needless UI 聊天组件的 API 参考：nui-chat 的输入属性、以流式输出回复的 NuiChatSession、消息、工具模板和流读取函数。',
+        a11yDescription:
+          'Needless UI 聊天组件的键盘交互与无障碍支持：由具名消息组成的 feed、Page Up 和 Page Down，以及完成后才播报的回复。',
+        overview: [
+          '聊天组件包揽了用户与模型之间的一切。用一个 <code>respond</code> 函数创建 <code>NuiChatSession</code>，其余交给 <code>&lt;nui-chat&gt;</code>：它以 Markdown 流式呈现回复，自动向下跟随，直到用户向上滚动为止；回复到达期间，发送按钮会变成停止按钮。',
+          '<code>respond</code> 可以返回文本、Promise、<code>async function*</code> 或 Observable，因此任何 API 都能接入。除了文本，回复还可以带有模型的推理过程、工具调用（由你的模板绘制）以及所引用的来源。<code>nuiEventStream</code> 可读取大多数模型 API 以流式发送的服务器发送事件。',
+          '什么都不会丢失：重试的回复或编辑过的问题会成为旧版本旁边的新版本，对话会保留每一个分支。屏幕阅读器会在每条回复完成后才播报，而不是逐词播报。',
+        ],
+        examples: {
+          assistant: {
+            title: '助手',
+            text: '点击建议即可开始对话。回复以 Markdown 流式呈现；你可以停止、重试、评价回复，或编辑自己的问题。<code>attach</code> 接收选择、粘贴或拖放的文件。',
+          },
+          tools: {
+            title: '推理、工具与来源',
+            text: '增量数据会把模型的推理过程、工具调用和来源加入回复。<code>nuiChatTool</code> 把天气工具绘制成卡片；其他工具连同输入和输出一起折叠起来。',
+          },
+          server: {
+            title: '从服务器流式传输',
+            text: '<code>nuiEventStream</code> 读取 OpenAI 风格的事件流，<code>NuiChatError</code> 会显示其中的消息。<code>all()</code> 会保存整个对话，包括所有版本。',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: '对话与输入框，合为一体。',
+            members: {
+              session: '要显示的对话。',
+              assistant: '助手的名称，用在屏幕阅读器读到的标题中。',
+              headingLevel:
+                '每条消息标题的级别，这些标题仅对屏幕阅读器可见。回复中的标题再低一级。',
+              announce: '回复完成时屏幕阅读器播报的内容：全部内容、简短通知或不播报。',
+              images: '显示回复中的图片；否则以图片的文字链接到图片。',
+              value: '正在输入的文本。',
+              placeholder: '输入框为空时显示的提示。',
+              suggestions: '点击即可发送的提示词，在第一条消息发出前显示。',
+              sendOn: '按 Enter 发送，还是按 Ctrl 或 ⌘ + Enter 发送。',
+              disabled: '禁止输入框发送消息。',
+              attach: '接收文件：选择、粘贴或拖放均可。',
+              accept: '可接收的文件类型，写法同 <code>&lt;input type="file"&gt;</code>。',
+              maxFiles: '一条消息最多可附带的文件数。',
+              maxSize: '可接收的最大文件大小，单位为字节。',
+              labels: '聊天组件显示或播报的所有文本，供翻译使用。',
+              rated: '发出用户评价的回复及其评价；撤回评价时为 <code>null</code>。',
+              focus: '让文本框获得焦点。',
+              scrollToEnd: '滚动到最新消息，并持续跟随。',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              '不含任何 DOM 的对话本身。在组件中通过 <code>respond</code>、<code>messages</code> 和 <code>id</code> 选项创建。',
+            members: {
+              respond:
+                '由你实现：为 <code>request.messages</code> 写出回复，并在 <code>request.signal</code> 中止时停止。',
+              messages: '屏幕上显示的对话。',
+              all: '所有版本的所有消息，可保存下来，再作为 <code>messages</code> 传回。',
+              busy: '是否有回复正在生成。',
+              send: '发送一条消息并请求回复。',
+              stop: '停止回复，保留已写出的内容。',
+              retry: '重新提问。新回复会作为一个版本，与旧回复并列。',
+              edit: '为用户的某条消息发送一个新版本。',
+              versions: '一条消息的所有版本，从旧到新。',
+              show: '把对话切换到这个版本。',
+              rate: '记录用户对回复的评价。',
+              'remove, load, clear': '删除一条消息及其之后的内容、替换整个对话，或从头开始。',
+            },
+          },
+          NuiChatMessage: {
+            summary: '一条消息。<code>parent</code> 相同的消息互为版本。',
+            members: {
+              'id, parent': '消息的 key，以及它所接续的那条消息。',
+              role: '由谁撰写。',
+              text: '助手发来的是 Markdown，用户发来的是纯文本。',
+              status: '回复所处的阶段，从等待到完成。',
+              reasoning: '模型在作答前的思考。',
+              tools: '它调用的工具，及其状态、输入和输出。',
+              sources: '它引用的网页。',
+              attachments: '随消息发送的文件。',
+              rating: '用户的评价。',
+              data: '需要一并保存的其他数据，例如模型名称。',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary: '绘制一次工具调用，例如一张天气卡片。上下文中包含该调用及其所属消息。',
+            members: {
+              nuiChatTool: '工具名称。不指定时，绘制所有未被其他模板指定的调用。',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              '单独的对话区域，用于你自己的布局。接收 <code>nui-chat</code> 中与对话相关的输入属性。',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary: '单独的输入框。接收 <code>nui-chat</code> 中与撰写消息相关的输入属性。',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              '<code>nuiEventStream</code> 为每个事件产出的对象。<code>nuiTextStream</code> 读取纯文本，<code>nuiJsonStream</code> 读取 JSON Lines；三者都接收 <code>fetch</code> 的响应。',
+            members: {
+              event: '事件名称。',
+              data: '拼接后的 data 行。',
+              id: '流最后发送的 id。',
+            },
+          },
+          NuiChatError: {
+            summary:
+              '在 <code>respond</code> 中抛出它，即可显示其消息。其他错误只显示通用消息，因此不会泄露内部信息。',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down / Page Up', '移到下一条或上一条消息。'],
+          ['Ctrl + End / Ctrl + Home', '离开对话，移到其后或其前的元素。'],
+          ['Enter', '发送。按住 Shift 时换行。'],
+          ['Esc', '停止编辑消息。'],
+        ],
+        notes: [
+          '对话是由 <code>article</code> 组成的 <code>feed</code>。每条消息都以仅对屏幕阅读器可见的标题命名，例如“You said”，并带有 <code>aria-posinset</code> 和 <code>aria-setsize</code>。',
+          '正在生成的回复带有 <code>aria-busy</code>。完成后会被完整播报一次；出错时则立即播报。',
+          '每个图标按钮都有名称和工具提示。评价按钮是切换按钮，版本切换器是一个名称形如“Version 2 of 3”的分组。',
+          '推理过程和工具调用都是原生的可折叠控件。移除文件后，焦点会回到文本框。',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Angular Markdown 渲染组件',
+        summary: '安全渲染 Markdown，流式输出时也不例外。',
+        description:
+          '面向 AI 回复的安全 Angular Markdown 渲染器：GitHub 风格的表格、任务列表和代码块，均以真实元素绘制，流式输出时依然流畅。',
+        apiDescription:
+          'Needless UI Markdown 渲染器的 API 参考：nui-markdown 的输入属性、代码块模板，以及背后的解析器。',
+        a11yDescription:
+          'Needless UI Markdown 渲染器的无障碍支持：真实的标题、列表和表格，具名的滚动区域，以及会播报结果的复制按钮。',
+        overview: [
+          'Markdown 渲染器把模型所写的那类文本变成真实的元素：标题、列表和任务列表、引用、表格、带复制按钮的代码块，以及链接。它先把文本解析成树，再用模板绘制，因此原始 HTML 始终是文本，任何内容都不会作为 HTML 插入。',
+          '启用 <code>streaming</code> 后，写到一半的文本也会像完成后那样呈现：未闭合的代码围栏已经是代码块，落单的 <code>**</code> 会等待与它配对的另一半，光标则跟在最后一个词后面。没有变化的块会保留原有的 DOM。',
+          '链接只对网页、邮件和电话地址生效；在你开启 <code>images</code> 之前，图片都显示为链接。',
+        ],
+        examples: {
+          document: {
+            title: '文档',
+            text: '标题从 <code>headingLevel</code> 开始，因此能嵌在页面自身的标题之下。过宽的表格和代码在各自的区域中滚动。',
+          },
+          streaming: {
+            title: '流式输出',
+            text: '同一段文本，每次只来几个字符。不会有符号一闪而过，只有最后一个块会重新渲染。',
+          },
+          highlight: {
+            title: '代码高亮',
+            text: '<code>nuiMarkdownCode</code> 用你的模板绘制代码块，这里配了一个迷你高亮器。模板会拿到代码及其语言。',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: '把 Markdown 渲染为元素。',
+            members: {
+              text: 'Markdown 文本。',
+              streaming: '文本仍在陆续到达。',
+              headingLevel: '<code>#</code> 标题的级别。更深的标题依次递增，最深到 6 级。',
+              images: '显示图片。否则以图片的文字链接到图片，因为图片可能被用来跟踪用户。',
+              labels: '复制按钮的文本等，供翻译使用。',
+              codeTemplate: '来自别处的代码块模板，例如来自包含它的聊天组件。',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              '绘制代码块。上下文中包含代码、<code>lang</code>，以及代码块仍在到达时的 <code>open</code>。',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: '解析器及其辅助函数，可脱离组件使用。',
+            members: {
+              nuiParseMarkdown: '组件所绘制的、由块和行内元素组成的树。',
+              nuiMarkdownToText: '纯文本，每个块一行，用于播报或预览。',
+              nuiSafeUrl: '链接是否指向网页、邮件或电话地址。',
+            },
+          },
+        },
+        keyboard: [['Tab', '移到链接、复制按钮，以及可滚动的宽表格和代码。']],
+        notes: [
+          '标题、列表、引用、带有 <code>th</code> 表头和 <code>scope</code> 的表格，以及代码，都是真实的元素。',
+          '过宽的表格和代码块在可聚焦的区域中滚动；表格的区域以其表头命名。',
+          '任务列表的复选框会说明每项任务是否已完成。复制按钮名为“Copy code”，并通过状态消息播报“Copied”。',
+          '流式输出时的光标对屏幕阅读器隐藏，在开启减少动态效果时保持静止。',
+        ],
+      },
     },
   },
 

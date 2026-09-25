@@ -1232,6 +1232,200 @@ export const messages: Messages = {
           '排序、篩選、換頁和編輯錯誤，會透過不打斷目前朗讀的狀態區域朗讀出來。',
         ],
       },
+      chat: {
+        name: '聊天',
+        title: 'Angular AI 聊天元件',
+        summary: '與模型對話：串流回覆、工具、版本和檔案。',
+        description:
+          '專為 AI 助理打造的無障礙 Angular 聊天元件：以 Markdown 串流回覆，支援推理過程、工具呼叫、來源、以版本保留的重試和檔案。',
+        apiDescription:
+          'Needless UI 聊天元件的 API 參考文件：nui-chat 的輸入屬性、串流回覆的 NuiChatSession、訊息、工具範本和串流讀取函式。',
+        a11yDescription:
+          'Needless UI 聊天元件的鍵盤互動與無障礙支援：由具名訊息組成的 feed、Page Up 和 Page Down，以及完成後才朗讀的回覆。',
+        overview: [
+          '聊天元件涵蓋使用者與模型之間的一切。用一個 <code>respond</code> 函式建立 <code>NuiChatSession</code>，其餘交給 <code>&lt;nui-chat&gt;</code>：它以 Markdown 串流顯示回覆，自動往下跟隨，直到使用者往上捲動為止；回覆送達期間，傳送按鈕會變成停止按鈕。',
+          '<code>respond</code> 可以傳回文字、Promise、<code>async function*</code> 或 Observable，因此任何 API 都能接上。除了文字，回覆還能帶有模型的推理過程、工具呼叫（由你的範本繪製），以及它引用的來源。<code>nuiEventStream</code> 會讀取大多數模型 API 以串流傳送的伺服器傳送事件。',
+          '什麼都不會遺失：重試的回覆或編輯過的問題會成為舊版本旁的新版本，對話會保留每一個分支。螢幕閱讀器會等每則回覆完成後才朗讀，而不是逐字朗讀。',
+        ],
+        examples: {
+          assistant: {
+            title: '助理',
+            text: '點擊建議即可開始對話。回覆以 Markdown 串流顯示；你可以停止、重試、評分回覆，或編輯自己的問題。<code>attach</code> 會接收選取、貼上或拖放的檔案。',
+          },
+          tools: {
+            title: '推理、工具與來源',
+            text: '增量資料會把模型的推理過程、工具呼叫和來源加入回覆。<code>nuiChatTool</code> 把天氣工具繪製成卡片；其他工具則連同輸入和輸出收合起來。',
+          },
+          server: {
+            title: '從伺服器串流',
+            text: '<code>nuiEventStream</code> 會讀取 OpenAI 風格的事件串流，<code>NuiChatError</code> 會顯示它的訊息。<code>all()</code> 會儲存整段對話，連同所有版本。',
+          },
+        },
+        api: {
+          NuiChat: {
+            summary: '對話和輸入框，合而為一。',
+            members: {
+              session: '要顯示的對話。',
+              assistant: '助理的名稱，用於螢幕閱讀器朗讀的標題中。',
+              headingLevel:
+                '每則訊息標題的層級，這些標題只有螢幕閱讀器看得到。回覆中的標題再低一層。',
+              announce: '回覆完成時螢幕閱讀器朗讀的內容：全部、簡短通知或不朗讀。',
+              images: '顯示回覆中的圖片；否則以圖片的文字作為指向圖片的連結。',
+              value: '正在輸入的文字。',
+              placeholder: '輸入框為空時顯示的提示。',
+              suggestions: '點一下就能送出的提示詞，會顯示到第一則訊息送出為止。',
+              sendOn: '按 Enter 送出，還是按 Ctrl 或 ⌘ + Enter 送出。',
+              disabled: '禁止輸入框送出訊息。',
+              attach: '接收檔案：選取、貼上或拖放皆可。',
+              accept: '可接收的檔案類型，寫法同 <code>&lt;input type="file"&gt;</code>。',
+              maxFiles: '一則訊息最多可附加的檔案數。',
+              maxSize: '可接收的最大檔案大小，單位為位元組。',
+              labels: '聊天元件顯示或朗讀的所有文字，供翻譯使用。',
+              rated: '發出使用者評分的回覆及其評分；收回評分時為 <code>null</code>。',
+              focus: '讓文字欄位取得焦點。',
+              scrollToEnd: '捲動到最新訊息，並持續跟隨。',
+            },
+          },
+          NuiChatSession: {
+            summary:
+              '不含任何 DOM 的對話本身。在元件中以 <code>respond</code>、<code>messages</code> 和 <code>id</code> 選項建立它。',
+            members: {
+              respond:
+                '由你實作：針對 <code>request.messages</code> 寫出回覆，並在 <code>request.signal</code> 中止時停止。',
+              messages: '畫面上的對話。',
+              all: '所有版本的所有訊息，可儲存後再以 <code>messages</code> 傳回。',
+              busy: '是否有回覆正在傳送中。',
+              send: '送出一則訊息並要求回覆。',
+              stop: '停止回覆，並保留已寫出的內容。',
+              retry: '重新提問。新回覆會成為與舊回覆並列的一個版本。',
+              edit: '為使用者的某則訊息送出新版本。',
+              versions: '一則訊息的所有版本，由舊到新排列。',
+              show: '將對話切換到這個版本。',
+              rate: '記錄使用者對某則回覆的評分。',
+              'remove, load, clear': '移除一則訊息及其後的內容、取代整段對話，或從頭開始。',
+            },
+          },
+          NuiChatMessage: {
+            summary: '一則訊息。<code>parent</code> 相同的訊息互為版本。',
+            members: {
+              'id, parent': '訊息的 key，以及它所接續的那則訊息。',
+              role: '由誰撰寫。',
+              text: '助理傳來的是 Markdown，使用者傳來的是純文字。',
+              status: '回覆目前的階段，從等待到完成。',
+              reasoning: '模型在回答前的思考內容。',
+              tools: '它呼叫的工具，以及工具的狀態、輸入和輸出。',
+              sources: '它引用的網頁。',
+              attachments: '隨訊息送出的檔案。',
+              rating: '使用者的評分。',
+              data: '需要一併保存的其他資料，例如模型名稱。',
+            },
+          },
+          NuiChatToolTemplate: {
+            summary: '繪製工具呼叫，例如一張天氣卡片。其 context 包含該次呼叫和它所屬的訊息。',
+            members: {
+              nuiChatTool: '工具名稱。未指定時，會繪製其他範本都未指定的所有呼叫。',
+            },
+          },
+          NuiChatThread: {
+            summary:
+              '單獨的對話部分，用於你自己的版面。它接收 <code>nui-chat</code> 中與對話有關的輸入屬性。',
+            members: {},
+          },
+          NuiChatComposer: {
+            summary: '單獨的輸入框。它接收 <code>nui-chat</code> 中與撰寫訊息有關的輸入屬性。',
+            members: {},
+          },
+          NuiServerEvent: {
+            summary:
+              '<code>nuiEventStream</code> 為每個事件產出的物件。<code>nuiTextStream</code> 讀取純文字，<code>nuiJsonStream</code> 讀取 JSON Lines；三者都接收 <code>fetch</code> 的回應。',
+            members: {
+              event: '事件名稱。',
+              data: '串接後的 data 行。',
+              id: '串流最後傳送的 id。',
+            },
+          },
+          NuiChatError: {
+            summary:
+              '從 <code>respond</code> 擲出它，就會顯示它的訊息。其他錯誤只會顯示一般訊息，因此不會洩漏內部資訊。',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Page Down / Page Up', '移到下一則或上一則訊息。'],
+          ['Ctrl + End / Ctrl + Home', '離開對話，移到它之後或之前的元素。'],
+          ['Enter', '送出。按住 Shift 時換行。'],
+          ['Esc', '停止編輯訊息。'],
+        ],
+        notes: [
+          '對話是由 <code>article</code> 組成的 <code>feed</code>。每則訊息都以只有螢幕閱讀器看得到的標題命名，例如「You said」，並帶有 <code>aria-posinset</code> 和 <code>aria-setsize</code>。',
+          '正在撰寫的回覆帶有 <code>aria-busy</code>。完成後會一次完整朗讀；失敗則會立即朗讀。',
+          '每個圖示按鈕都有名稱和工具提示。評分按鈕是切換按鈕，版本切換器是名稱類似「Version 2 of 3」的群組。',
+          '推理過程和工具呼叫都是原生的可收合元件。移除檔案後，焦點會回到文字欄位。',
+        ],
+      },
+      markdown: {
+        name: 'Markdown',
+        title: 'Angular Markdown 渲染元件',
+        summary: '安全地渲染 Markdown，串流時也不例外。',
+        description:
+          '適用於 AI 回覆的安全 Angular Markdown 渲染器：GitHub 風格的表格、工作清單和程式碼區塊，以真實元素繪製，串流時依然流暢。',
+        apiDescription:
+          'Needless UI Markdown 渲染器的 API 參考文件：nui-markdown 的輸入屬性、程式碼區塊的範本，以及背後的解析器。',
+        a11yDescription:
+          'Needless UI Markdown 渲染器的無障礙支援：真實的標題、清單和表格，具名的捲動區域，以及會朗讀結果的複製按鈕。',
+        overview: [
+          'Markdown 渲染器會把模型所寫的那類文字轉成真實的元素：標題、清單與工作清單、引言、表格、附複製按鈕的程式碼區塊，以及連結。它先把文字解析成一棵樹，再用範本繪製，因此原始 HTML 一律維持為文字，任何內容都不會以 HTML 插入。',
+          '啟用 <code>streaming</code> 後，寫到一半的文字也會呈現得像完成時一樣：尚未閉合的程式碼圍欄已經是程式碼區塊，落單的 <code>**</code> 會等待另一半，游標則跟在最後一個字後面。沒有變動的區塊會保留原本的 DOM。',
+          '連結只適用於網頁、電子郵件和電話地址；在你開啟 <code>images</code> 之前，圖片都會保持為連結。',
+        ],
+        examples: {
+          document: {
+            title: '文件',
+            text: '標題從 <code>headingLevel</code> 開始，因此能接在頁面本身的標題之下。過寬的表格和程式碼會在各自的區域內捲動。',
+          },
+          streaming: {
+            title: '串流',
+            text: '同樣的文字，每次只來幾個字元。不會有符號一閃而過，而且只有最後一個區塊會重新渲染。',
+          },
+          highlight: {
+            title: '語法醒目提示',
+            text: '<code>nuiMarkdownCode</code> 用你的範本繪製程式碼區塊，這裡搭配了一個迷你的醒目提示工具。範本會取得程式碼及其語言。',
+          },
+        },
+        api: {
+          NuiMarkdown: {
+            summary: '將 Markdown 渲染為元素。',
+            members: {
+              text: 'Markdown 文字。',
+              streaming: '文字仍在陸續送達。',
+              headingLevel: '<code>#</code> 標題的層級。更深的標題依序遞增，最多到 6。',
+              images: '顯示圖片。否則以圖片的文字作為指向圖片的連結，因為圖片可能被用來追蹤。',
+              labels: '複製按鈕的文字等，供翻譯使用。',
+              codeTemplate: '來自其他地方的程式碼區塊範本，例如來自包含它的聊天元件。',
+            },
+          },
+          NuiMarkdownCode: {
+            summary:
+              '繪製程式碼區塊。其 context 包含程式碼、<code>lang</code>，以及區塊仍在送達時的 <code>open</code>。',
+            members: {},
+          },
+          nuiParseMarkdown: {
+            summary: '解析器及其輔助函式，可在不使用元件時使用。',
+            members: {
+              nuiParseMarkdown: '元件所繪製、由區塊和行內元素組成的樹。',
+              nuiMarkdownToText: '純文字，每個區塊一行，用於朗讀或預覽。',
+              nuiSafeUrl: '判斷連結是否指向網頁、電子郵件或電話地址。',
+            },
+          },
+        },
+        keyboard: [['Tab', '移到連結、複製按鈕，以及可捲動的過寬表格和程式碼。']],
+        notes: [
+          '標題、清單、引言、帶有 <code>th</code> 欄標題和 <code>scope</code> 的表格，以及程式碼，都是真實的元素。',
+          '過寬的表格和程式碼區塊會在可取得焦點的區域內捲動；表格所在的區域會以它的欄標題命名。',
+          '工作清單的核取方塊會說明每項工作是否已完成。複製按鈕的名稱是「Copy code」，並透過狀態訊息朗讀「Copied」。',
+          '串流時的游標對螢幕閱讀器隱藏，並在開啟減少動態效果時保持靜止。',
+        ],
+      },
     },
   },
 

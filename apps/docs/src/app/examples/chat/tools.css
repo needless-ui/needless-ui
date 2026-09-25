@@ -1,0 +1,26 @@
+nui-chat {
+  flex: 1 1 100%;
+  block-size: 34rem;
+}
+
+.forecast {
+  display: flex;
+  align-items: center;
+  gap: var(--nui-space-3);
+  inline-size: fit-content;
+  padding: var(--nui-space-3) var(--nui-space-4);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  border-radius: var(--nui-radius-lg);
+  background: var(--nui-color-bg-subtle);
+  font-size: var(--nui-font-size-sm);
+}
+
+.forecast strong {
+  display: block;
+}
+
+.temperature {
+  color: var(--nui-color-accent-text);
+  font-size: var(--nui-font-size-2xl);
+  font-weight: var(--nui-font-weight-semibold);
+}
