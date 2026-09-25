@@ -1,0 +1,660 @@
+/*
+ * Scheduler: see specs/scheduler.md for the contract.
+ *
+ *   <nui-scheduler class="nui-scheduler" data-view="week">
+ *     <div class="nui-scheduler-toolbar">
+ *       <div class="nui-scheduler-nav">…Today, previous, next…</div>
+ *       <div class="nui-scheduler-title" role="heading">Sep 20 – 26, 2026</div>
+ *       <div class="nui-scheduler-views" role="group"><button class="nui-scheduler-view" aria-pressed="true">Week</button>…</div>
+ *     </div>
+ *     <div class="nui-scheduler-body">
+ *       <table class="nui-scheduler-grid" role="grid" data-view="week">
+ *         <thead>…<tr class="nui-scheduler-all-day">…</tr></thead>
+ *         <tbody>
+ *           <tr data-slot-row="18" data-hour>
+ *             <th class="nui-scheduler-time">9:00 AM</th>
+ *             <td class="nui-scheduler-cell" data-cell="2026-09-25|18" data-today>
+ *               <button class="nui-scheduler-event" data-kind="timed" data-tone="accent"
+ *                 style="--_offset: 0; --_length: 1; --_column: 0; --_columns: 2; --_width: 1">…</button>
+ *               <span class="nui-scheduler-now" style="--_offset: 0.4"></span>
+ *             </td>…
+ *
+ * The scheduler sets where each event goes as custom properties, and this sheet
+ * turns them into positions: `--_offset` and `--_length` in slots, `--_column`,
+ * `--_columns` and `--_width` side by side, `--_lane` and `--_span` for bars.
+ * Give `.nui-scheduler` a height: the grid scrolls inside it.
+ */
+@layer nui.components {
+  .nui-scheduler {
+    --_slot: max(1.5rem, 1.75rem * var(--nui-density));
+    --_bar: 1.375rem;
+    --_time: 4.75rem;
+    --_radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    --_icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m10 3.5-4.5 4.5 4.5 4.5'/%3E%3C/svg%3E");
+
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+  }
+
+  /* Toolbar: navigation, the title, and the views. */
+  .nui-scheduler-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--nui-space-2) var(--nui-space-3);
+    padding-block-end: var(--nui-space-3);
+  }
+
+  .nui-scheduler-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-1);
+  }
+
+  .nui-scheduler-page {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2rem;
+    block-size: 2rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-scheduler-page::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-chevron) center / contain no-repeat;
+  }
+
+  .nui-scheduler-page[data-direction='next']::before,
+  .nui-scheduler-page[data-direction='previous']:dir(rtl)::before {
+    rotate: 180deg;
+  }
+
+  .nui-scheduler-page[data-direction='next']:dir(rtl)::before {
+    rotate: none;
+  }
+
+  /* On narrow screens, the views wrap under the title. */
+  .nui-scheduler-title {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    font-size: var(--nui-font-size-lg);
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: var(--nui-line-height-tight);
+  }
+
+  .nui-scheduler-views {
+    display: inline-flex;
+    gap: 0.125rem;
+    padding: 0.1875rem;
+    border-radius: calc(var(--_radius) + 0.1875rem);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-neutral-soft);
+  }
+
+  .nui-scheduler-view {
+    margin: 0;
+    padding: 0.25rem var(--nui-space-3);
+    border: 0;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    font: inherit;
+    font-weight: var(--nui-font-weight-medium);
+    cursor: pointer;
+  }
+
+  .nui-scheduler-view[aria-pressed='true'] {
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-text-default);
+    box-shadow: var(--nui-shadow-sm);
+  }
+
+  @media (hover: hover) {
+    .nui-scheduler-page:hover,
+    .nui-scheduler-view:not([aria-pressed='true']):hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  :is(.nui-scheduler-page, .nui-scheduler-view):focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  /* The body scrolls; the day headers stay on top. */
+  .nui-scheduler-body {
+    flex: 1;
+    min-block-size: 0;
+    overflow: auto;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+  }
+
+  .nui-scheduler-grid {
+    inline-size: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  .nui-scheduler-grid[data-view='week'] {
+    min-inline-size: calc(var(--_time) + 7 * 5.5rem);
+  }
+
+  .nui-scheduler-grid[data-view='month'] {
+    min-inline-size: 20rem;
+  }
+
+  .nui-scheduler-grid thead {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 4;
+    background-color: var(--nui-color-bg-canvas);
+  }
+
+  .nui-scheduler-grid thead th {
+    padding: var(--nui-space-2) var(--nui-space-1);
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    text-align: center;
+  }
+
+  .nui-scheduler-corner {
+    inline-size: var(--_time);
+  }
+
+  .nui-scheduler-day {
+    vertical-align: bottom;
+  }
+
+  .nui-scheduler-weekday {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .nui-scheduler-day .nui-scheduler-date {
+    display: inline-grid;
+    place-items: center;
+    min-inline-size: 2rem;
+    block-size: 2rem;
+    margin-block-start: 0.125rem;
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-lg);
+    font-weight: var(--nui-font-weight-regular);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :is(.nui-scheduler-day, .nui-scheduler-cell)[data-today] .nui-scheduler-date {
+    background-color: var(--nui-color-accent-solid);
+    color: var(--nui-color-accent-on-solid);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .nui-scheduler-time {
+    inline-size: var(--_time);
+    padding: 0 var(--nui-space-2);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-regular);
+    text-align: end;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  /* Hours read on their line. */
+  tbody .nui-scheduler-time > span {
+    display: inline-block;
+    translate: 0 -0.55lh;
+  }
+
+  /* Cells. */
+  .nui-scheduler-cell {
+    position: relative;
+    padding: 0;
+    border-block-end: var(--nui-border-width-thin) solid transparent;
+    border-inline-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    outline: none;
+    vertical-align: top;
+    scroll-margin-block: 5rem 1rem;
+  }
+
+  tbody .nui-scheduler-cell {
+    block-size: var(--_slot);
+  }
+
+  tbody tr:not([data-hour]) .nui-scheduler-cell {
+    border-block-start: var(--nui-border-width-thin) dashed var(--nui-color-border-subtle);
+  }
+
+  tbody tr[data-hour] .nui-scheduler-cell {
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+  }
+
+  .nui-scheduler-grid:not([data-view='month']) tbody .nui-scheduler-cell[data-today] {
+    background-color: color-mix(in oklab, var(--nui-color-accent-soft) 40%, transparent);
+  }
+
+  .nui-scheduler-all-day .nui-scheduler-cell {
+    block-size: calc(max(1, var(--_lanes)) * var(--_bar) + 0.375rem);
+    border-block-end: 2px solid var(--nui-color-border-default);
+  }
+
+  .nui-scheduler-all-day .nui-scheduler-time {
+    padding-block-start: 0.25rem;
+    border-block-end: 2px solid var(--nui-color-border-default);
+    vertical-align: top;
+  }
+
+  .nui-scheduler-cell[data-selected] {
+    background-color: var(--nui-color-accent-soft);
+  }
+
+  .nui-scheduler-cell:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: calc(-1 * var(--nui-focus-ring-width));
+    z-index: 3;
+  }
+
+  /* Events. The tone sets three colors; every kind of event paints with them. */
+  .nui-scheduler-event {
+    --_soft: var(--nui-color-accent-soft);
+    --_solid: var(--nui-color-accent-solid);
+    --_text: var(--nui-color-accent-text);
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0.125rem 0.375rem;
+    overflow: hidden;
+    border: 0;
+    border-inline-start: 3px solid var(--_solid);
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--_soft);
+    color: var(--_text);
+    font: inherit;
+    font-size: var(--nui-font-size-xs);
+    line-height: var(--nui-line-height-tight);
+    text-align: start;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .nui-scheduler-event[data-tone='neutral'] {
+    --_soft: var(--nui-color-neutral-soft);
+    --_solid: var(--nui-color-neutral-solid);
+    --_text: var(--nui-color-neutral-text);
+  }
+
+  .nui-scheduler-event[data-tone='success'] {
+    --_soft: var(--nui-color-success-soft);
+    --_solid: var(--nui-color-success-solid);
+    --_text: var(--nui-color-success-text);
+  }
+
+  .nui-scheduler-event[data-tone='warning'] {
+    --_soft: var(--nui-color-warning-soft);
+    --_solid: var(--nui-color-warning-solid);
+    --_text: var(--nui-color-warning-text);
+  }
+
+  .nui-scheduler-event[data-tone='danger'] {
+    --_soft: var(--nui-color-danger-soft);
+    --_solid: var(--nui-color-danger-solid);
+    --_text: var(--nui-color-danger-text);
+  }
+
+  @media (hover: hover) {
+    .nui-scheduler-event:not([data-ghost]):hover {
+      background-color: color-mix(in oklab, var(--_soft), var(--_solid) 12%);
+    }
+  }
+
+  .nui-scheduler-event:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+    z-index: 3;
+  }
+
+  .nui-scheduler-event-title {
+    display: block;
+    overflow: hidden;
+    font-weight: var(--nui-font-weight-semibold);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nui-scheduler-event-time {
+    display: block;
+    white-space: nowrap;
+  }
+
+  /* Timed events: placed by slot, side by side where they overlap. */
+  .nui-scheduler-event[data-kind='timed'] {
+    position: absolute;
+    inset-block-start: calc(var(--_offset) * var(--_slot) + 1px);
+    inset-inline-start: calc(var(--_column) / var(--_columns) * 100% + 1px);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    inline-size: calc(var(--_width) / var(--_columns) * 100% - 3px);
+    block-size: calc(var(--_length) * var(--_slot) - 2px);
+    min-block-size: calc(var(--_slot) / 2 - 2px);
+  }
+
+  /* The title leads; a short event puts its time beside it, on one line. */
+  .nui-scheduler-event[data-kind='timed'] > .nui-scheduler-event-title {
+    order: -1;
+  }
+
+  .nui-scheduler-event[data-kind='timed'][data-short] {
+    flex-direction: row;
+    gap: 0.375rem;
+    align-items: baseline;
+  }
+
+  .nui-scheduler-event[data-kind='timed'][data-short] > .nui-scheduler-event-title {
+    flex-shrink: 1;
+    min-inline-size: 0;
+  }
+
+  .nui-scheduler-event[data-kind='timed'][data-short] > .nui-scheduler-event-time {
+    overflow: hidden;
+  }
+
+  .nui-scheduler-event[data-kind='timed'][data-before] {
+    border-start-start-radius: 0;
+    border-start-end-radius: 0;
+  }
+
+  .nui-scheduler-event[data-kind='timed'][data-after] {
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  .nui-scheduler-resize {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 0.375rem;
+    cursor: ns-resize;
+  }
+
+  /* Bars: across days, in lanes, in the all-day row and the month. */
+  .nui-scheduler-event[data-kind='bar'] {
+    position: absolute;
+    inset-block-start: calc(var(--_top, 0.1875rem) + var(--_lane) * var(--_bar));
+    inset-inline-start: 0.125rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    inline-size: calc(var(--_span) * 100% - 0.25rem);
+    block-size: calc(var(--_bar) - 0.125rem);
+    padding-block: 0;
+    border-inline-start: 0;
+  }
+
+  .nui-scheduler-event[data-kind='bar'][data-before] {
+    inset-inline-start: 0;
+    inline-size: calc(var(--_span) * 100% - 0.125rem);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+
+  .nui-scheduler-event[data-kind='bar'][data-after] {
+    inline-size: calc(var(--_span) * 100% - 0.125rem);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  .nui-scheduler-event[data-kind='bar'] .nui-scheduler-event-title,
+  .nui-scheduler-event[data-kind='bar'] .nui-scheduler-event-time {
+    display: inline;
+  }
+
+  /* In the month, a timed event is a line with a dot, not a bar. */
+  .nui-scheduler-grid[data-view='month']
+    .nui-scheduler-event[data-kind='bar']:not([data-all-day], [data-ghost]) {
+    background-color: transparent;
+    color: var(--nui-color-text-default);
+  }
+
+  .nui-scheduler-grid[data-view='month']
+    .nui-scheduler-event[data-kind='bar']:not([data-all-day], [data-ghost])::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--_solid);
+  }
+
+  .nui-scheduler-grid[data-view='month']
+    .nui-scheduler-event[data-kind='bar']:not([data-all-day])
+    .nui-scheduler-event-time {
+    color: var(--nui-color-text-muted);
+  }
+
+  /* While dragging: the event fades where it was, and a ghost shows where it'll go. */
+  .nui-scheduler-event[data-moving] {
+    opacity: 0.4;
+  }
+
+  .nui-scheduler-event[data-ghost] {
+    z-index: 2;
+    outline: 2px dashed var(--_solid);
+    outline-offset: -2px;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .nui-scheduler[data-dragging] {
+    user-select: none;
+  }
+
+  .nui-scheduler[data-dragging='move'] {
+    cursor: grabbing;
+  }
+
+  .nui-scheduler[data-dragging='resize'] {
+    cursor: ns-resize;
+  }
+
+  .nui-scheduler[data-dragging] .nui-scheduler-event:not([data-ghost]) {
+    pointer-events: none;
+  }
+
+  /* Now: a line across today, with a dot at its start. */
+  .nui-scheduler-now {
+    position: absolute;
+    inset-block-start: calc(var(--_offset) * var(--_slot));
+    inset-inline: 0;
+    z-index: 2;
+    border-block-start: 2px solid var(--nui-color-danger-solid);
+    pointer-events: none;
+  }
+
+  .nui-scheduler-now::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -0.3125rem;
+    inset-inline-start: -0.3125rem;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--nui-color-danger-solid);
+  }
+
+  /* The month: days with their number, bars below it, and "N more". */
+  .nui-scheduler-grid[data-view='month'] .nui-scheduler-cell {
+    --_top: 1.875rem;
+
+    block-size: calc(1.875rem + 3 * var(--_bar) + 1.375rem);
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  }
+
+  .nui-scheduler-grid[data-view='month'] tbody tr:first-child .nui-scheduler-cell {
+    border-block-start: 0;
+  }
+
+  .nui-scheduler-grid[data-view='month'] :is(th, td):first-child {
+    border-inline-start: 0;
+  }
+
+  .nui-scheduler-cell > .nui-scheduler-date {
+    display: inline-grid;
+    place-items: center;
+    min-inline-size: 1.5rem;
+    block-size: 1.5rem;
+    margin: 0.25rem;
+    padding-inline: 0.25rem;
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nui-scheduler-cell[data-outside] > .nui-scheduler-date {
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-scheduler-more {
+    position: absolute;
+    inset-block-end: 0.125rem;
+    inset-inline-start: 0.25rem;
+    margin: 0;
+    padding: 0 0.25rem;
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    font: inherit;
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .nui-scheduler-more:hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  /* The agenda: a list of days, each with its events. */
+  .nui-scheduler-agenda {
+    padding: 0 var(--nui-space-4);
+  }
+
+  .nui-scheduler-agenda-day {
+    display: grid;
+    grid-template-columns: minmax(9rem, 12rem) 1fr;
+    gap: var(--nui-space-3);
+    padding-block: var(--nui-space-3);
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  }
+
+  .nui-scheduler-agenda-day:last-child {
+    border-block-end: 0;
+  }
+
+  .nui-scheduler-agenda-date {
+    padding-block-start: var(--nui-space-1);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .nui-scheduler-agenda-day[data-today] .nui-scheduler-agenda-date {
+    color: var(--nui-color-accent-text);
+  }
+
+  .nui-scheduler-agenda ul {
+    display: grid;
+    gap: var(--nui-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nui-scheduler-event[data-kind='agenda'] {
+    display: flex;
+    gap: var(--nui-space-3);
+    align-items: baseline;
+    inline-size: 100%;
+    padding: var(--nui-space-2) var(--nui-space-3);
+    background-color: transparent;
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-scheduler-event[data-kind='agenda'] .nui-scheduler-event-time {
+    flex-shrink: 0;
+    min-inline-size: 7.5rem;
+    color: var(--nui-color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nui-scheduler-empty {
+    margin: 0;
+    padding: var(--nui-space-8);
+    color: var(--nui-color-text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 40rem) {
+    .nui-scheduler-agenda-day {
+      grid-template-columns: 1fr;
+      gap: var(--nui-space-1);
+    }
+  }
+
+  .nui-scheduler-hidden,
+  .nui-scheduler-status {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (forced-colors: active) {
+    .nui-scheduler-page::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
+    .nui-scheduler-event {
+      border: 1px solid CanvasText;
+    }
+
+    .nui-scheduler-cell[data-selected] {
+      forced-color-adjust: none;
+      background-color: Highlight;
+    }
+
+    .nui-scheduler-now {
+      forced-color-adjust: none;
+      border-color: Mark;
+    }
+  }
+}

@@ -1,0 +1,326 @@
+<div class="nui-scheduler-toolbar">
+  <div class="nui-scheduler-nav">
+    <button type="button" nuiButton variant="outline" tone="neutral" size="sm" (click)="goToday()">
+      {{ words().today }}
+    </button>
+    <button
+      type="button"
+      class="nui-scheduler-page"
+      data-direction="previous"
+      [attr.aria-label]="words().previous[view()]"
+      [attr.title]="words().previous[view()]"
+      (click)="page(-1)"
+    ></button>
+    <button
+      type="button"
+      class="nui-scheduler-page"
+      data-direction="next"
+      [attr.aria-label]="words().next[view()]"
+      [attr.title]="words().next[view()]"
+      (click)="page(1)"
+    ></button>
+  </div>
+  <div class="nui-scheduler-title" role="heading" [attr.aria-level]="headingLevel()">
+    {{ title() }}
+  </div>
+  @if (views().length > 1) {
+    <div class="nui-scheduler-views" role="group" [attr.aria-label]="words().view">
+      @for (option of views(); track option) {
+        <button
+          type="button"
+          class="nui-scheduler-view"
+          [attr.aria-pressed]="view() === option"
+          (click)="setView(option)"
+        >
+          {{ words().views[option] }}
+        </button>
+      }
+    </div>
+  }
+</div>
+<span class="nui-scheduler-status" role="status">{{ announcement() }}</span>
+
+<ng-template #content let-span>
+  @if (eventTemplate(); as custom) {
+    <ng-container *ngTemplateOutlet="custom; context: context(span)" />
+  } @else {
+    @if (!span.allDay) {
+      <span class="nui-scheduler-event-time">{{
+        view() === 'month' ? startTime(span) : time(span)
+      }}</span>
+    }
+    <span class="nui-scheduler-event-title" dir="auto">{{ span.event.title }}</span>
+  }
+</ng-template>
+
+@switch (view()) {
+  @case ('month') {
+    <div #body class="nui-scheduler-body">
+      <table
+        class="nui-scheduler-grid"
+        role="grid"
+        data-view="month"
+        [attr.aria-label]="title()"
+        [attr.aria-multiselectable]="selectable() || null"
+        (keydown)="onKeydown($event)"
+        (pointerdown)="onPointerdown($event)"
+      >
+        <thead>
+          <tr>
+            @for (name of weekdays(); track $index) {
+              <th scope="col" [attr.abbr]="name.long">{{ name.short }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (week of weeks(); track week[0].day) {
+            <tr>
+              @for (cell of week; track cell.day; let i = $index) {
+                <td
+                  class="nui-scheduler-cell"
+                  [attr.data-cell]="cell.day"
+                  [attr.tabindex]="isCursor(cell.day, null) ? 0 : -1"
+                  [attr.aria-selected]="selectable() ? isSelected(cell.day, null) : null"
+                  [attr.data-selected]="isSelected(cell.day, null) || null"
+                  [attr.data-outside]="cell.outside || null"
+                  [attr.data-today]="cell.day === today() || null"
+                  [attr.aria-current]="cell.day === today() ? 'date' : null"
+                  (focus)="onCellFocus(cell.day, null)"
+                >
+                  <span class="nui-scheduler-date" aria-hidden="true">{{ cell.number }}</span>
+                  <span class="nui-scheduler-hidden">{{ cell.label }}</span>
+                  @for (bar of cell.bars; track bar.span.event.id) {
+                    <button
+                      type="button"
+                      tabindex="-1"
+                      class="nui-scheduler-event"
+                      data-kind="bar"
+                      [attr.data-event-id]="bar.span.event.id"
+                      [attr.data-tone]="bar.span.event.tone ?? 'accent'"
+                      [attr.data-all-day]="bar.span.allDay || null"
+                      [attr.data-before]="bar.before || null"
+                      [attr.data-after]="bar.after || null"
+                      [attr.data-moving]="preview()?.span?.event?.id === bar.span.event.id || null"
+                      [style.--_lane]="bar.lane"
+                      [style.--_span]="bar.to - bar.from + 1"
+                      [attr.aria-label]="label(bar.span)"
+                      (click)="onEventClick($any($event.currentTarget))"
+                    >
+                      <ng-container *ngTemplateOutlet="content; context: { $implicit: bar.span }" />
+                    </button>
+                  }
+                  @if (ghostAt(cell.day, null, i); as ghost) {
+                    <span
+                      class="nui-scheduler-event"
+                      data-kind="bar"
+                      data-ghost
+                      aria-hidden="true"
+                      [attr.data-tone]="preview()!.span.event.tone ?? 'accent'"
+                      [style.--_lane]="0"
+                      [style.--_span]="ghost.span"
+                      >{{ preview()!.span.event.title }}</span
+                    >
+                  }
+                  @if (cell.more) {
+                    <button
+                      type="button"
+                      tabindex="-1"
+                      class="nui-scheduler-more"
+                      (click)="openDay(cell.day)"
+                    >
+                      {{ words().more(cell.more) }}
+                    </button>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @case ('agenda') {
+    <div #body class="nui-scheduler-body nui-scheduler-agenda">
+      @for (group of agenda(); track group.day) {
+        <section class="nui-scheduler-agenda-day" [attr.data-today]="group.day === today() || null">
+          <div
+            class="nui-scheduler-agenda-date"
+            role="heading"
+            [attr.aria-level]="headingLevel() + 1"
+          >
+            {{ group.label }}
+          </div>
+          <ul>
+            @for (span of group.spans; track span.event.id) {
+              <li>
+                <button
+                  type="button"
+                  class="nui-scheduler-event"
+                  data-kind="agenda"
+                  [attr.data-event-id]="span.event.id"
+                  [attr.data-tone]="span.event.tone ?? 'accent'"
+                  [attr.aria-label]="label(span)"
+                  (click)="onEventClick($any($event.currentTarget))"
+                >
+                  <span class="nui-scheduler-event-time">{{ time(span) }}</span>
+                  <span class="nui-scheduler-event-title" dir="auto">{{ span.event.title }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        </section>
+      } @empty {
+        <p class="nui-scheduler-empty">{{ words().empty }}</p>
+      }
+    </div>
+  }
+  @default {
+    <div #body class="nui-scheduler-body">
+      <table
+        class="nui-scheduler-grid"
+        role="grid"
+        [attr.data-view]="view()"
+        [attr.aria-label]="title()"
+        [attr.aria-multiselectable]="selectable() || null"
+        [style.--_lanes]="topLanes()"
+        (keydown)="onKeydown($event)"
+        (pointerdown)="onPointerdown($event)"
+      >
+        <thead>
+          <tr>
+            <th scope="col" class="nui-scheduler-corner">
+              <span class="nui-scheduler-hidden">{{ words().time }}</span>
+            </th>
+            @for (day of days(); track day) {
+              <th
+                scope="col"
+                class="nui-scheduler-day"
+                [attr.data-today]="day === today() || null"
+                [attr.aria-label]="dayName(day)"
+              >
+                <span class="nui-scheduler-weekday">{{ weekday(day) }}</span>
+                <span class="nui-scheduler-date">{{ dayNumber(day) }}</span>
+              </th>
+            }
+          </tr>
+          <tr class="nui-scheduler-all-day">
+            <th scope="row" class="nui-scheduler-time">{{ words().allDay }}</th>
+            @for (day of days(); track day; let i = $index) {
+              <td
+                class="nui-scheduler-cell"
+                [attr.data-cell]="day + '|all'"
+                [attr.tabindex]="isCursor(day, 'all') ? 0 : -1"
+                [attr.aria-selected]="selectable() ? isSelected(day, 'all') : null"
+                [attr.data-selected]="isSelected(day, 'all') || null"
+                (focus)="onCellFocus(day, 'all')"
+              >
+                @for (bar of barsAt(i); track bar.span.event.id) {
+                  <button
+                    type="button"
+                    tabindex="-1"
+                    class="nui-scheduler-event"
+                    data-kind="bar"
+                    [attr.data-event-id]="bar.span.event.id"
+                    [attr.data-tone]="bar.span.event.tone ?? 'accent'"
+                    [attr.data-before]="bar.before || null"
+                    [attr.data-after]="bar.after || null"
+                    [attr.data-moving]="preview()?.span?.event?.id === bar.span.event.id || null"
+                    [style.--_lane]="bar.lane"
+                    [style.--_span]="bar.to - bar.from + 1"
+                    [attr.aria-label]="label(bar.span)"
+                    (click)="onEventClick($any($event.currentTarget))"
+                  >
+                    <ng-container *ngTemplateOutlet="content; context: { $implicit: bar.span }" />
+                  </button>
+                }
+                @if (ghostAt(day, 'all', i); as ghost) {
+                  <span
+                    class="nui-scheduler-event"
+                    data-kind="bar"
+                    data-ghost
+                    aria-hidden="true"
+                    [attr.data-tone]="preview()!.span.event.tone ?? 'accent'"
+                    [style.--_lane]="0"
+                    [style.--_span]="ghost.span"
+                    >{{ preview()!.span.event.title }}</span
+                  >
+                }
+              </td>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (minutes of slots(); track minutes; let s = $index) {
+            <tr [attr.data-slot-row]="s" [attr.data-hour]="minutes % 60 === 0 || null">
+              <th scope="row" class="nui-scheduler-time">
+                <span [class.nui-scheduler-hidden]="minutes % 60 !== 0">{{ slotLabels()[s] }}</span>
+              </th>
+              @for (day of days(); track day) {
+                <td
+                  class="nui-scheduler-cell"
+                  [attr.data-cell]="day + '|' + s"
+                  [attr.tabindex]="isCursor(day, s) ? 0 : -1"
+                  [attr.aria-selected]="selectable() ? isSelected(day, s) : null"
+                  [attr.data-selected]="isSelected(day, s) || null"
+                  [attr.data-today]="day === today() || null"
+                  (focus)="onCellFocus(day, s)"
+                >
+                  @for (part of placedAt(day, s); track part.span.event.id) {
+                    <button
+                      type="button"
+                      tabindex="-1"
+                      class="nui-scheduler-event"
+                      data-kind="timed"
+                      [attr.data-event-id]="part.span.event.id"
+                      [attr.data-tone]="part.span.event.tone ?? 'accent'"
+                      [attr.data-before]="part.before || null"
+                      [attr.data-after]="part.after || null"
+                      [attr.data-moving]="preview()?.span?.event?.id === part.span.event.id || null"
+                      [style.--_offset]="offset(part)"
+                      [style.--_length]="length(part)"
+                      [style.--_column]="part.column"
+                      [style.--_columns]="part.columns"
+                      [style.--_width]="part.width"
+                      [attr.data-short]="length(part) <= 1 || null"
+                      [attr.aria-label]="label(part.span)"
+                      (click)="onEventClick($any($event.currentTarget))"
+                    >
+                      <ng-container
+                        *ngTemplateOutlet="content; context: { $implicit: part.span }"
+                      />
+                      @if (canEdit(part.span) && !part.after) {
+                        <span class="nui-scheduler-resize" aria-hidden="true"></span>
+                      }
+                    </button>
+                  }
+                  @if (ghostAt(day, s, 0); as ghost) {
+                    <span
+                      class="nui-scheduler-event"
+                      data-kind="timed"
+                      data-ghost
+                      aria-hidden="true"
+                      [attr.data-tone]="preview()!.span.event.tone ?? 'accent'"
+                      [style.--_offset]="ghost.offset"
+                      [style.--_length]="ghost.length"
+                      [style.--_column]="0"
+                      [style.--_columns]="1"
+                      [style.--_width]="1"
+                      >{{ preview()!.span.event.title }}</span
+                    >
+                  }
+                  @if (nowAt(day, s); as now) {
+                    <span
+                      class="nui-scheduler-now"
+                      aria-hidden="true"
+                      [style.--_offset]="now.offset"
+                    ></span>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+}
