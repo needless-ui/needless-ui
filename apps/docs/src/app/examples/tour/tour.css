@@ -54,3 +54,10 @@
   margin: 0;
   color: var(--nui-color-text-muted);
 }
+
+/* Safari on iPhone zooms into a field under 16px when it's focused. */
+@media (pointer: coarse) {
+  .search {
+    font-size: max(1rem, 1em);
+  }
+}

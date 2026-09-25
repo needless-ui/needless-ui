@@ -1,5 +1,7 @@
 .narrow {
-  max-inline-size: 22rem;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: min(22rem, 100%);
   padding: var(--nui-space-2);
   border: 1px dashed var(--nui-color-border-default);
 }

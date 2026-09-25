@@ -1410,7 +1410,8 @@ export const messages: Messages = {
               value: 'Maandishi yanayoandikwa.',
               placeholder: 'Dokezo katika sehemu tupu.',
               suggestions: 'Prompt za kutuma kwa mbofyo mmoja, hadi ujumbe wa kwanza.',
-              sendOn: 'Kama Enter hutuma, au Ctrl au ⌘ + Enter.',
+              sendOn:
+                'Kama Enter hutuma, au Ctrl au ⌘ + Enter. <code>auto</code> hutuma kwa Enter pale penye kibodi; kwenye skrini za kugusa, Return huanza mstari mpya na kitufe ndicho hutuma.',
               disabled: 'Huzuia sehemu ya kuandikia isitume.',
               attach: 'Hupokea faili: zilizochaguliwa, zilizobandikwa au zilizodondoshwa.',
               accept: 'Aina za faili za kupokea, kama kwa <code>&lt;input type="file"&gt;</code>.',
@@ -1716,7 +1717,7 @@ export const messages: Messages = {
             members: {
               value: 'Kipindi, au null hadi mwanzo na mwisho viwekwe, kwa mpangilio.',
               presets: 'Vipindi vyenye majina vya kuchagua kwa mbofyo mmoja.',
-              months: 'Miezi kando kwa kando katika kalenda.',
+              months: 'Miezi kando kwa kando katika kalenda; mmoja kwenye skrini nyembamba.',
             },
           },
           NuiDateRangePreset: {
@@ -2511,6 +2512,109 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Mfumo unapoomba mwendo mdogo, springi hugeuka kuwa badiliko la papo hapo, na athari za kubonyeza na za kuingia huacha kusogea. Msongamano haushushi kamwe kidhibiti chini ya eneo la kubofya la 24px linalotakiwa na WCAG 2.2, na hakuna preset inayogusa rangi, kwa hivyo kila ukaguzi wa utofautishaji bado ni halali. Vivinjari visivyo na <code>corner-shape</code> huchora kila pembe kwa mviringo.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Uoanifu wa vivinjari',
+        description:
+          'Vivinjari vinavyotumika na kujaribiwa na Needless UI: matoleo ya Chrome, Edge, Firefox na Safari, simu, skrini za kugusa na mapungufu ya vivinjari vya zamani.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI imejengwa juu ya vipengele asilia na uwezo mpya wa jukwaa la wavuti, kama Popover API. Vivinjari vilivyo hapa chini vinatumika kuanzia toleo lililoorodheshwa. Kwenye matoleo ya zamani zaidi, menyu, select na popover hazifunguki.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Vivinjari vinavyotumika' },
+          {
+            kind: 'table',
+            caption: 'Matoleo ya zamani zaidi yanayotumika',
+            head: ['Kivinjari', 'Kuanzia toleo', 'Linahitajika kwa'],
+            rows: [
+              [
+                'Chrome na Edge, kwenye kompyuta na Android',
+                '120',
+                'Ikoni zinazochorwa kwa mask za CSS, na <code>:dir()</code> kwa maandishi ya kulia kwenda kushoto',
+              ],
+              ['Firefox, kwenye kompyuta na Android', '125', 'Popover API'],
+              ['Safari kwenye Mac', '17', 'Popover API'],
+              ['Kila kivinjari kwenye iPhone na iPad', 'iOS 17', 'Popover API'],
+              ['Kivinjari cha Samsung Internet', '25', 'Sawa na Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Vivinjari vingine vilivyojengwa juu ya Chromium, kama Opera na Brave, hufuata matoleo ya Chrome. Angular 22 yenyewe inahitaji Chrome, Edge na Firefox 119, pamoja na Safari 17. Internet Explorer na Edge ya zamani, ya kabla ya Chromium, havitumiki.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Vivinjari vinavyojaribiwa' },
+          {
+            kind: 'p',
+            html: 'Kila badiliko huendesha majaribio ya kila kijenzi kwenye injini za Chrome, Firefox na Safari. Kabla ya kila toleo jipya, kila ukurasa wa nyaraka hizi hukaguliwa kwenye kila injini, kwenye kompyuta na kwenye simu kwa mguso: lazima uanze, ufungue kila menyu na kidirisha ibukizi, utoshee kwenye skrini na upite ukaguzi wa ufikivu.',
+          },
+          {
+            kind: 'table',
+            caption: 'Vivinjari vilivyojaribiwa',
+            head: ['Injini', 'Toleo', 'Hujaribiwa kwenye'],
+            rows: [
+              ['Chromium (ya Chrome na Edge)', '153', 'Kompyuta, na simu ya Android kwa mguso'],
+              ['Firefox', '155', 'Kompyuta, na skrini ya kugusa ya ukubwa wa simu'],
+              ['WebKit (ya Safari)', '26.6', 'Kompyuta, na iPhone kwa mguso'],
+              ['Safari kwenye iPhone', 'iOS 17.5 na 18.6', 'Simulator ya iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Matoleo yaliyo kati ya lile la zamani zaidi linalotumika na yale yanayojaribiwa hayajaribiwi moja moja: yanatumika kwa sababu yana kila uwezo ambao vijenzi vinahitaji.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Ziada kwenye vivinjari vipya' },
+          {
+            kind: 'p',
+            html: 'Mambo machache ya ziada hutumia uwezo ulio kwenye vivinjari vipya pekee. Vivinjari vingine huyaacha, na hakuna kinachoharibika:',
+          },
+          {
+            kind: 'table',
+            caption: 'Mambo yanayohitaji vivinjari vipya',
+            head: ['Ziada', 'Vivinjari', 'Vivinjari vingine'],
+            rows: [
+              [
+                'Popover, menyu na vidirisha huingia na kutoka kwa uhuishaji',
+                'Chrome na Edge, Firefox 129, Safari 17.5',
+                'Hutokea na kutoweka papo hapo',
+              ],
+              [
+                'Pembe za squircle (<code>corner-shape</code>)',
+                'Chrome na Edge 139',
+                'Pembe za mviringo',
+              ],
+              [
+                'Kuchagua rangi kutoka popote kwenye skrini',
+                'Chrome na Edge kwenye kompyuta',
+                'Hakuna kitufe cha eyedropper',
+              ],
+              [
+                'Kuchagua folda nzima kwenye eneo la kudondosha',
+                'Vivinjari kwenye kompyuta',
+                'Faili pekee',
+              ],
+              [
+                'Pete ya kidhibiti cha mzunguko cha onyesho la slaidi hujaa taratibu',
+                'Chrome na Edge, Firefox 128, Safari',
+                'Hujaa mara moja',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Simu na skrini za kugusa' },
+          {
+            kind: 'p',
+            html: 'Kila kijenzi hufanya kazi kwa mguso. Vishikio vya kigawanya paneli, eneo la rangi, kingo za safu wima na toast hufuata kidole bila kusogeza ukurasa, onyesho la slaidi hutelezeshwa kwa usogezaji wa kivinjari chenyewe, na kubonyeza kwa muda mrefu huinua tukio kwenye kipanga ratiba. Kwenye skrini za kugusa, maandishi ya sehemu ni angalau 16px, hivyo iPhone hazivuti karibu kwenye sehemu hizo, na maneno kutoka kwenye kibodi zinazoyatunga, kama zifanyavyo kibodi za Android, hufika yakiwa kamili.',
+          },
+          {
+            kind: 'p',
+            html: 'Skrini za kugusa haziwezi kufanya hover, kwa hivyo hovercard huongeza tu juu ya kilichopo kwenye ukurasa: usiweke ndani yake kitu chochote muhimu. Kwenye simu, kitufe cha Return katika gumzo huanza mstari mpya, na kitufe cha kutuma ndicho hutuma.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Kibodi kwenye Safari' },
+          {
+            kind: 'p',
+            html: 'Kwa chaguomsingi, kitufe cha Tab kwenye Safari husogea tu kati ya sehemu za maandishi na menyu ibukizi. Ili kufikia kila kitufe na kiungo, washa “Bonyeza Tab ili kuangazia kila kipengee kwenye ukurasa wa wavuti” (Press Tab to highlight each item on a webpage) katika mipangilio ya “Kina” (Advanced) ya Safari, au bonyeza Option-Tab. Pia, Safari haiweki focus kwenye kitufe kinapobofywa; vijenzi hufidia hilo, hivyo kibodi huendelea baada ya kubofya kama ilivyo kwenye vivinjari vingine.',
           },
         ],
       },

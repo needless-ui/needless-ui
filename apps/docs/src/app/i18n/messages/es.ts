@@ -1413,7 +1413,8 @@ export const messages: Messages = {
               value: 'El texto que se está escribiendo.',
               placeholder: 'El texto que se muestra en el campo vacío.',
               suggestions: 'Prompts que se envían con un clic, hasta el primer mensaje.',
-              sendOn: 'Si se envía con Intro, o con Ctrl o ⌘ + Intro.',
+              sendOn:
+                'Si se envía con Intro, o con Ctrl o ⌘ + Intro. <code>auto</code> envía con Intro cuando hay teclado; en las pantallas táctiles, Intro añade un salto de línea y el botón envía.',
               disabled: 'Impide enviar desde el cuadro de texto.',
               attach: 'Acepta archivos: elegidos, pegados o arrastrados.',
               accept:
@@ -1724,7 +1725,7 @@ export const messages: Messages = {
             members: {
               value: 'El rango, o null hasta que se fijan ambos extremos, en orden.',
               presets: 'Rangos con nombre para elegir con un clic.',
-              months: 'Meses lado a lado en el calendario.',
+              months: 'Meses lado a lado en el calendario; uno solo en pantallas estrechas.',
             },
           },
           NuiDateRangePreset: {
@@ -2517,6 +2518,113 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Cuando el sistema pide reducir el movimiento, los resortes se vuelven instantáneos, y ni los efectos al pulsar ni las animaciones de entrada se mueven. La densidad nunca deja un control por debajo del tamaño mínimo de objetivo de 24 px de las WCAG 2.2, y ningún valor predefinido toca los colores, así que todas las comprobaciones de contraste se siguen cumpliendo. Los navegadores sin <code>corner-shape</code> dibujan todas las esquinas redondeadas.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Compatibilidad con navegadores',
+        description:
+          'Qué navegadores admite y prueba Needless UI: versiones de Chrome, Edge, Firefox y Safari, móviles y pantallas táctiles, y qué omiten los navegadores antiguos.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI se basa en elementos nativos y en funciones recientes de la plataforma web, como la API Popover. Es compatible con los siguientes navegadores a partir de la versión indicada. En versiones anteriores, los menús, los selects y los popovers no se abren.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Navegadores compatibles' },
+          {
+            kind: 'table',
+            caption: 'Versiones compatibles más antiguas',
+            head: ['Navegador', 'Desde la versión', 'Necesaria para'],
+            rows: [
+              [
+                'Chrome y Edge, en escritorio y en Android',
+                '120',
+                'Iconos dibujados con máscaras CSS y <code>:dir()</code> para el texto de derecha a izquierda',
+              ],
+              ['Firefox, en escritorio y en Android', '125', 'La API Popover'],
+              ['Safari en Mac', '17', 'La API Popover'],
+              ['Todos los navegadores en iPhone y iPad', 'iOS 17', 'La API Popover'],
+              ['Samsung Internet en Android', '25', 'Lo mismo que Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Otros navegadores basados en Chromium, como Opera y Brave, siguen las versiones de Chrome. El propio Angular 22 necesita Chrome, Edge y Firefox 119, además de Safari 17. Internet Explorer y el antiguo Edge, anterior a Chromium, no son compatibles.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Navegadores probados' },
+          {
+            kind: 'p',
+            html: 'Con cada cambio, las pruebas de cada componente se ejecutan en los motores de Chrome, Firefox y Safari. Antes de publicar una versión, cada página de esta documentación se comprueba en todos los motores, en escritorio y en un móvil con entrada táctil: tiene que cargar, abrir cada menú y cada elemento emergente, caber en la pantalla y superar las comprobaciones de accesibilidad.',
+          },
+          {
+            kind: 'table',
+            caption: 'Navegadores probados',
+            head: ['Motor', 'Versión', 'Probado en'],
+            rows: [
+              [
+                'Chromium (en Chrome y Edge)',
+                '153',
+                'Escritorio y un móvil Android con entrada táctil',
+              ],
+              ['Firefox', '155', 'Escritorio y una pantalla táctil del tamaño de un móvil'],
+              ['WebKit (en Safari)', '26.6', 'Escritorio y un iPhone con entrada táctil'],
+              ['Safari en iPhone', 'iOS 17.5 y 18.6', 'El simulador de iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Las versiones intermedias, entre la más antigua compatible y las probadas, no se comprueban una por una: son compatibles porque tienen todas las funciones que necesitan los componentes.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Extras en navegadores recientes' },
+          {
+            kind: 'p',
+            html: 'Algunos detalles usan funciones que solo tienen los navegadores más recientes. Los demás navegadores los omiten sin que nada se rompa:',
+          },
+          {
+            kind: 'table',
+            caption: 'Detalles que necesitan navegadores recientes',
+            head: ['Detalle', 'Navegadores', 'En los demás'],
+            rows: [
+              [
+                'Los popovers, los menús y los diálogos se animan al abrirse y al cerrarse',
+                'Chrome y Edge, Firefox 129, Safari 17.5',
+                'Aparecen y desaparecen al instante',
+              ],
+              [
+                'Esquinas squircle (<code>corner-shape</code>)',
+                'Chrome y Edge 139',
+                'Esquinas redondeadas',
+              ],
+              [
+                'Tomar un color de cualquier punto de la pantalla',
+                'Chrome y Edge de escritorio',
+                'Sin botón de cuentagotas',
+              ],
+              [
+                'Elegir una carpeta entera en la zona de arrastre',
+                'Navegadores de escritorio',
+                'Solo archivos',
+              ],
+              [
+                'El anillo del control de rotación del carrusel se llena con suavidad',
+                'Chrome y Edge, Firefox 128, Safari',
+                'Se llena de golpe',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Móviles y pantallas táctiles' },
+          {
+            kind: 'p',
+            html: 'Todos los componentes funcionan con entrada táctil. Los divisores del splitter, el área de color, los bordes de las columnas y los toasts siguen al dedo sin desplazar la página, el carrusel se desliza con el desplazamiento nativo del navegador y, en el planificador, una pulsación larga levanta un evento. En las pantallas táctiles, el texto de los campos mide al menos 16 px, para que los iPhone no hagan zoom sobre ellos, y las palabras que algunos teclados van componiendo, como los de Android, llegan enteras.',
+          },
+          {
+            kind: 'p',
+            html: 'Las pantallas táctiles no permiten pasar el puntero por encima, así que una hovercard solo complementa lo que ya hay en la página: no pongas en ella nada esencial. En el móvil, la tecla Intro del chat añade un salto de línea y el botón envía.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'El teclado en Safari' },
+          {
+            kind: 'p',
+            html: 'Por defecto, en Safari la tecla Tab solo pasa por campos de texto y menús desplegables. Para llegar a todos los botones y enlaces, activa «Pulsar Tab para resaltar cada elemento de una página web» («Press Tab to highlight each item on a webpage») en la sección Avanzado de los ajustes de Safari, o pulsa Opción + Tab. Además, Safari no pone el foco en un botón al hacer clic en él; los componentes lo compensan, así que después de un clic el teclado sigue desde ahí, como en otros navegadores.',
           },
         ],
       },

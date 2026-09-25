@@ -49,3 +49,10 @@
 .error {
   color: var(--nui-color-danger-text);
 }
+
+/* Safari on iPhone zooms into a field under 16px when it's focused. */
+@media (pointer: coarse) {
+  .field input {
+    font-size: max(1rem, 1em);
+  }
+}

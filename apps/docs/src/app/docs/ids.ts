@@ -32,7 +32,12 @@ export const COMPONENT_IDS = [
 ] as const;
 export type ComponentId = (typeof COMPONENT_IDS)[number];
 
-export const GUIDE_IDS = ['getting-started', 'theming', 'customization'] as const;
+export const GUIDE_IDS = [
+  'getting-started',
+  'theming',
+  'customization',
+  'browser-support',
+] as const;
 export type GuideId = (typeof GUIDE_IDS)[number];
 
 export const isComponentId = (id: string): id is ComponentId =>

@@ -1374,7 +1374,8 @@ export const messages: Messages = {
               value: 'The text being written.',
               placeholder: 'The hint in the empty field.',
               suggestions: 'Prompts to send with a click, until the first message.',
-              sendOn: 'Whether Enter sends, or Ctrl or ⌘ + Enter.',
+              sendOn:
+                'Whether Enter sends, or Ctrl or ⌘ + Enter. <code>auto</code> sends with Enter where there’s a keyboard; on touch screens, Return makes a new line and the button sends.',
               disabled: 'Stops the composer from sending.',
               attach: 'Takes files: picked, pasted or dropped.',
               accept: 'The kinds of file to take, as for <code>&lt;input type="file"&gt;</code>.',
@@ -1670,7 +1671,7 @@ export const messages: Messages = {
             members: {
               value: 'The range, or null until both ends are set, in order.',
               presets: 'Named ranges to choose in one click.',
-              months: 'Months side by side in the calendar.',
+              months: 'Months side by side in the calendar; one on a narrow screen.',
             },
           },
           NuiDateRangePreset: {
@@ -2414,6 +2415,105 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'When the system asks for reduced motion, springs collapse to an instant, and presses and entrances stop moving. Density never takes a control below the 24px target size of WCAG 2.2, and no preset touches colors, so every contrast check still holds. Browsers without <code>corner-shape</code> draw every corner round.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Browser support',
+        description:
+          'The browsers Needless UI supports and tests: Chrome, Edge, Firefox and Safari versions, phones and touch screens, and what older browsers leave out.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI builds on native elements and recent web platform features, such as the Popover API. It supports the browsers below from the version listed on. In older ones, menus, selects and popovers don’t open.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Supported browsers' },
+          {
+            kind: 'table',
+            caption: 'Oldest supported versions',
+            head: ['Browser', 'From version', 'Needed for'],
+            rows: [
+              [
+                'Chrome and Edge, on computers and Android',
+                '120',
+                'Icons drawn with CSS masks, and <code>:dir()</code> for right-to-left text',
+              ],
+              ['Firefox, on computers and Android', '125', 'The Popover API'],
+              ['Safari on Mac', '17', 'The Popover API'],
+              ['Every browser on iPhone and iPad', 'iOS 17', 'The Popover API'],
+              ['Samsung Internet', '25', 'The same as Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Other browsers built on Chromium, such as Opera and Brave, follow Chrome’s versions. Angular 22 itself needs Chrome, Edge and Firefox 119 and Safari 17. Internet Explorer and the old Edge, from before Chromium, aren’t supported.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Tested browsers' },
+          {
+            kind: 'p',
+            html: 'Every change runs each component’s tests in the engines of Chrome, Firefox and Safari. Before a release, each page of these docs is checked in every engine, on a computer and on a phone with touch: it has to start, open each menu and popup, fit the screen and pass the accessibility checks.',
+          },
+          {
+            kind: 'table',
+            caption: 'Browsers tested',
+            head: ['Engine', 'Version', 'Tested on'],
+            rows: [
+              ['Chromium (Chrome, Edge)', '153', 'A computer, and an Android phone with touch'],
+              ['Firefox', '155', 'A computer, and a phone-sized touch screen'],
+              ['WebKit (Safari)', '26.6', 'A computer, and an iPhone with touch'],
+              ['Safari on iPhone', 'iOS 17.5 and 18.6', 'The iPhone simulator'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Versions between the oldest supported and the ones tested aren’t tested one by one: they’re supported because they have every feature the components need.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Extras in newer browsers' },
+          {
+            kind: 'p',
+            html: 'A few details use features only newer browsers have. Other browsers leave them out, and nothing breaks:',
+          },
+          {
+            kind: 'table',
+            caption: 'Details that need newer browsers',
+            head: ['Detail', 'Browsers', 'Elsewhere'],
+            rows: [
+              [
+                'Popovers, menus and dialogs animate in and out',
+                'Chrome and Edge, Firefox 129, Safari 17.5',
+                'They appear and disappear at once',
+              ],
+              [
+                'Squircle corners (<code>corner-shape</code>)',
+                'Chrome and Edge 139',
+                'Round corners',
+              ],
+              [
+                'Picking a color from anywhere on the screen',
+                'Chrome and Edge on computers',
+                'No eyedropper button',
+              ],
+              ['Choosing a whole folder in the dropzone', 'Browsers on computers', 'Files only'],
+              [
+                'The ring of the carousel’s rotation control fills smoothly',
+                'Chrome and Edge, Firefox 128, Safari',
+                'It fills at once',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Phones and touch screens' },
+          {
+            kind: 'p',
+            html: 'Every component works with touch. Splitter handles, the color area, column edges and toasts follow a finger without scrolling the page, the carousel swipes with the browser’s own scrolling, and a long press picks a scheduler event up. On touch screens, fields have at least 16px of text, so iPhones don’t zoom in on them, and words from keyboards that compose them, as Android keyboards do, arrive whole.',
+          },
+          {
+            kind: 'p',
+            html: 'Touch screens can’t hover, so a hovercard only adds to what’s on the page: don’t put anything essential in one. On a phone, the chat’s Return key makes a new line, and its button sends.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'The keyboard in Safari' },
+          {
+            kind: 'p',
+            html: 'By default, the Tab key in Safari moves only between text fields and pop-up menus. To reach every button and link, turn on “Press Tab to highlight each item on a webpage” in Safari’s Advanced settings, or press Option-Tab. Safari also doesn’t focus a button when it’s clicked; the components make up for that, so the keyboard carries on after a click as in other browsers.',
           },
         ],
       },

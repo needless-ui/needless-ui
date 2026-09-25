@@ -1373,7 +1373,8 @@ export const messages: Messages = {
               value: '작성 중인 텍스트.',
               placeholder: '비어 있는 필드에 표시되는 힌트.',
               suggestions: '클릭 한 번으로 보낼 수 있는 프롬프트. 첫 메시지 전까지 표시됩니다.',
-              sendOn: 'Enter로 보낼지, Ctrl 또는 ⌘ + Enter로 보낼지 여부.',
+              sendOn:
+                'Enter로 보낼지, Ctrl 또는 ⌘ + Enter로 보낼지 여부. <code>auto</code>는 물리 키보드가 있으면 Enter로 보내고, 터치스크린에서는 Return 키로 줄을 바꾸고 버튼으로 보냅니다.',
               disabled: '입력창에서 메시지를 보내지 못하게 합니다.',
               attach: '파일을 받습니다: 선택, 붙여넣기, 끌어다 놓기.',
               accept: '받을 파일 종류. <code>&lt;input type="file"&gt;</code>과 같은 형식입니다.',
@@ -1680,7 +1681,7 @@ export const messages: Messages = {
             members: {
               value: '기간. 양 끝이 순서대로 설정될 때까지는 null입니다.',
               presets: '한 번의 클릭으로 고를 수 있는, 이름이 붙은 기간.',
-              months: '캘린더에 나란히 표시할 달의 수.',
+              months: '캘린더에 나란히 표시할 달의 수. 좁은 화면에서는 한 달만 표시합니다.',
             },
           },
           NuiDateRangePreset: {
@@ -2447,6 +2448,97 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '시스템에서 동작 줄이기를 요청하면 스프링은 즉시 끝나고, 누르기와 등장 효과도 움직이지 않습니다. 밀도를 어떻게 설정해도 컨트롤이 WCAG 2.2의 타깃 크기인 24px보다 작아지지 않으며, 어떤 프리셋도 색상을 건드리지 않으므로 모든 명도 대비 검사가 그대로 유효합니다. <code>corner-shape</code>를 지원하지 않는 브라우저에서는 모든 모서리가 둥글게 그려집니다.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: '브라우저 지원',
+        description:
+          'Needless UI가 지원하고 테스트하는 브라우저입니다. Chrome, Edge, Firefox, Safari 버전과 휴대폰·터치스크린, 오래된 브라우저에서 빠지는 기능을 다룹니다.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI는 네이티브 요소와 Popover API 같은 최신 웹 플랫폼 기능을 바탕으로 만들어졌습니다. 아래 표의 브라우저를 표시된 버전부터 지원합니다. 그보다 오래된 버전에서는 메뉴, 셀렉트, 팝오버가 열리지 않습니다.',
+          },
+          { kind: 'h2', id: 'supported', text: '지원 브라우저' },
+          {
+            kind: 'table',
+            caption: '지원하는 가장 오래된 버전',
+            head: ['브라우저', '최소 버전', '필요한 기능'],
+            rows: [
+              [
+                '컴퓨터와 Android의 Chrome, Edge',
+                '120',
+                'CSS 마스크로 그리는 아이콘, 그리고 오른쪽에서 왼쪽으로 쓰는 텍스트를 위한 <code>:dir()</code>',
+              ],
+              ['컴퓨터와 Android의 Firefox', '125', 'Popover API'],
+              ['Mac의 Safari', '17', 'Popover API'],
+              ['iPhone과 iPad의 모든 브라우저', 'iOS 17', 'Popover API'],
+              ['Samsung Internet(삼성 인터넷)', '25', 'Chrome과 같음'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Opera, Brave처럼 Chromium을 기반으로 한 다른 브라우저는 Chrome의 버전을 따릅니다. Angular 22 자체도 Chrome, Edge, Firefox는 119 이상, Safari는 17 이상을 요구합니다. Internet Explorer와 Chromium 이전의 구형 Edge는 지원하지 않습니다.',
+          },
+          { kind: 'h2', id: 'tested', text: '테스트하는 브라우저' },
+          {
+            kind: 'p',
+            html: '변경 사항이 생길 때마다 각 컴포넌트의 테스트를 Chrome, Firefox, Safari의 엔진에서 실행합니다. 릴리스 전에는 이 문서의 모든 페이지를 모든 엔진에서, 컴퓨터와 터치로 조작하는 휴대폰 양쪽에서 확인합니다. 각 페이지는 문제없이 시작되고, 모든 메뉴와 팝업이 열리고, 화면에 맞게 표시되고, 접근성 검사를 통과해야 합니다.',
+          },
+          {
+            kind: 'table',
+            caption: '테스트에 쓰는 브라우저',
+            head: ['엔진', '버전', '테스트 환경'],
+            rows: [
+              ['Chromium(Chrome, Edge)', '153', '컴퓨터, 그리고 터치로 조작하는 Android 휴대폰'],
+              ['Firefox', '155', '컴퓨터, 그리고 휴대폰 크기의 터치스크린'],
+              ['WebKit(Safari)', '26.6', '컴퓨터, 그리고 터치로 조작하는 iPhone'],
+              ['iPhone의 Safari', 'iOS 17.5와 18.6', 'iPhone 시뮬레이터'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: '지원하는 가장 오래된 버전과 테스트하는 버전 사이의 버전은 하나하나 테스트하지 않습니다. 컴포넌트에 필요한 기능을 모두 갖추고 있으므로 지원 대상입니다.',
+          },
+          { kind: 'h2', id: 'newer', text: '최신 브라우저의 추가 기능' },
+          {
+            kind: 'p',
+            html: '몇몇 세부 사항은 최신 브라우저에만 있는 기능을 사용합니다. 다른 브라우저에서는 이 부분이 빠질 뿐이며, 망가지는 것은 없습니다.',
+          },
+          {
+            kind: 'table',
+            caption: '최신 브라우저가 필요한 세부 사항',
+            head: ['세부 사항', '브라우저', '다른 브라우저에서는'],
+            rows: [
+              [
+                '팝오버, 메뉴, 다이얼로그가 애니메이션과 함께 열리고 닫힘',
+                'Chrome과 Edge, Firefox 129, Safari 17.5',
+                '바로 나타나고 사라짐',
+              ],
+              ['스쿼클 모서리(<code>corner-shape</code>)', 'Chrome과 Edge 139', '둥근 모서리'],
+              ['화면 어디에서나 색 집어 오기', '컴퓨터의 Chrome과 Edge', '스포이트 버튼 없음'],
+              ['드롭존에서 폴더 통째로 선택하기', '컴퓨터의 브라우저', '파일만 선택 가능'],
+              [
+                '캐러셀 자동 재생 버튼의 링이 부드럽게 차오름',
+                'Chrome과 Edge, Firefox 128, Safari',
+                '한 번에 차오름',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: '휴대폰과 터치스크린' },
+          {
+            kind: 'p',
+            html: '모든 컴포넌트는 터치로 조작할 수 있습니다. 스플리터 핸들, 색상 선택기의 영역, 데이터 그리드의 열 경계, 토스트는 페이지를 스크롤하지 않고 손가락을 따라 움직입니다. 캐러셀은 브라우저 자체의 스크롤로 스와이프되고, 스케줄러의 일정은 길게 눌러 집어 옮길 수 있습니다. 터치스크린에서는 입력 필드의 글자 크기가 16px 이상이라 iPhone이 입력 필드를 확대하지 않으며, Android 키보드처럼 단어를 조합하며 입력하는 키보드에서도 단어가 온전히 입력됩니다.',
+          },
+          {
+            kind: 'p',
+            html: '터치스크린에서는 호버할 수 없으므로, 호버 카드는 페이지에 있는 내용을 보충하는 역할만 합니다. 호버 카드에는 꼭 필요한 내용을 넣지 마십시오. 휴대폰에서는 채팅의 Return 키가 줄을 바꾸고, 전송은 버튼으로 합니다.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Safari의 키보드 조작' },
+          {
+            kind: 'p',
+            html: '기본적으로 Safari에서 Tab 키는 텍스트 필드와 팝업 메뉴 사이만 이동합니다. 모든 버튼과 링크로 이동하려면 Safari의 고급 설정에서 ‘Tab을 눌러 웹 페이지에 있는 각 항목을 하이라이트’를 켜거나, Option + Tab 키를 누르십시오. 또한 Safari는 버튼을 클릭해도 그 버튼에 포커스를 주지 않습니다. 컴포넌트가 이를 보완하므로, 클릭한 뒤에도 다른 브라우저에서처럼 키보드로 계속 조작할 수 있습니다.',
           },
         ],
       },

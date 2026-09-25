@@ -1395,7 +1395,8 @@ export const messages: Messages = {
               value: 'O texto sendo escrito.',
               placeholder: 'O texto mostrado no campo vazio.',
               suggestions: 'Prompts para enviar com um clique, até a primeira mensagem.',
-              sendOn: 'Se o Enter envia, ou Ctrl ou ⌘ + Enter.',
+              sendOn:
+                'Se o Enter envia, ou Ctrl ou ⌘ + Enter. <code>auto</code> envia com Enter onde há teclado; em telas touch, o Enter quebra a linha e o botão envia.',
               disabled: 'Impede o envio pela caixa de texto.',
               attach: 'Aceita arquivos: escolhidos, colados ou arrastados.',
               accept:
@@ -1708,7 +1709,7 @@ export const messages: Messages = {
             members: {
               value: 'O intervalo, ou null até que as duas pontas sejam definidas, em ordem.',
               presets: 'Intervalos com nome para escolher com um clique.',
-              months: 'Meses lado a lado no calendário.',
+              months: 'Meses lado a lado no calendário; só um em telas estreitas.',
             },
           },
           NuiDateRangePreset: {
@@ -2496,6 +2497,113 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Quando o sistema pede menos movimento, as molas se tornam instantâneas, e os efeitos ao pressionar e as animações de entrada param de se mover. A densidade nunca deixa um controle abaixo do tamanho mínimo de alvo de 24 px das WCAG 2.2, e nenhum preset mexe nas cores, então todas as verificações de contraste continuam valendo. Navegadores sem <code>corner-shape</code> desenham todos os cantos arredondados.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Suporte a navegadores',
+        description:
+          'Os navegadores que o Needless UI suporta e testa: versões do Chrome, Edge, Firefox e Safari, celulares e telas touch, e o que os mais antigos deixam de fora.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'O Needless UI se baseia em elementos nativos e em recursos recentes da plataforma web, como a API Popover. Ele suporta os navegadores abaixo a partir da versão indicada. Em versões mais antigas, menus, selects e popovers não abrem.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Navegadores suportados' },
+          {
+            kind: 'table',
+            caption: 'Versões mais antigas suportadas',
+            head: ['Navegador', 'A partir da versão', 'Necessária para'],
+            rows: [
+              [
+                'Chrome e Edge, no computador e no Android',
+                '120',
+                'Ícones desenhados com máscaras CSS e <code>:dir()</code> para textos da direita para a esquerda',
+              ],
+              ['Firefox, no computador e no Android', '125', 'A API Popover'],
+              ['Safari no Mac', '17', 'A API Popover'],
+              ['Todos os navegadores no iPhone e no iPad', 'iOS 17', 'A API Popover'],
+              ['Samsung Internet no Android', '25', 'O mesmo que o Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Outros navegadores baseados no Chromium, como Opera e Brave, seguem as versões do Chrome. O próprio Angular 22 exige Chrome, Edge e Firefox 119, além do Safari 17. O Internet Explorer e o Edge antigo, de antes do Chromium, não são suportados.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Navegadores testados' },
+          {
+            kind: 'p',
+            html: 'A cada mudança, os testes de todos os componentes rodam nos motores do Chrome, do Firefox e do Safari. Antes de cada lançamento, todas as páginas desta documentação são verificadas em cada motor, em um computador e em um celular com entrada por toque: cada uma precisa carregar, abrir cada menu e pop-up, caber na tela e passar nas verificações de acessibilidade.',
+          },
+          {
+            kind: 'table',
+            caption: 'Navegadores testados',
+            head: ['Motor', 'Versão', 'Testado em'],
+            rows: [
+              [
+                'Chromium (no Chrome e no Edge)',
+                '153',
+                'Um computador e um celular Android com entrada por toque',
+              ],
+              ['Firefox', '155', 'Um computador e uma tela touch do tamanho de um celular'],
+              ['WebKit (no Safari)', '26.6', 'Um computador e um iPhone com entrada por toque'],
+              ['Safari no iPhone', 'iOS 17.5 e 18.6', 'O simulador de iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'As versões intermediárias, entre a mais antiga suportada e as testadas, não são verificadas uma a uma: elas são suportadas porque têm todos os recursos de que os componentes precisam.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Extras nos navegadores mais novos' },
+          {
+            kind: 'p',
+            html: 'Alguns detalhes usam recursos que só os navegadores mais novos têm. Os outros navegadores os deixam de fora, sem quebrar nada:',
+          },
+          {
+            kind: 'table',
+            caption: 'Detalhes que precisam de navegadores mais novos',
+            head: ['Detalhe', 'Navegadores', 'Nos demais'],
+            rows: [
+              [
+                'Popovers, menus e diálogos têm animação ao abrir e ao fechar',
+                'Chrome e Edge, Firefox 129, Safari 17.5',
+                'Eles aparecem e somem na hora',
+              ],
+              [
+                'Cantos squircle (<code>corner-shape</code>)',
+                'Chrome e Edge 139',
+                'Cantos arredondados',
+              ],
+              [
+                'Pegar uma cor de qualquer lugar da tela',
+                'Chrome e Edge no computador',
+                'Sem botão de conta-gotas',
+              ],
+              [
+                'Escolher uma pasta inteira na dropzone',
+                'Navegadores no computador',
+                'Só arquivos',
+              ],
+              [
+                'O anel do controle de rotação do carrossel se enche suavemente',
+                'Chrome e Edge, Firefox 128, Safari',
+                'Ele se enche de uma vez',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Celulares e telas touch' },
+          {
+            kind: 'p',
+            html: 'Todos os componentes funcionam com toque. As alças do splitter, a área de cor, as bordas das colunas e os toasts acompanham o dedo sem rolar a página, o carrossel desliza com a rolagem nativa do navegador, e um toque longo pega um evento do agendador. Em telas touch, os campos têm texto de pelo menos 16 px, para que os iPhones não deem zoom neles, e as palavras que alguns teclados compõem, como os do Android, chegam inteiras.',
+          },
+          {
+            kind: 'p',
+            html: 'Telas touch não têm hover, então um hovercard só complementa o que já está na página: não coloque nada essencial nele. No celular, a tecla Enter do chat quebra a linha, e o botão envia.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'O teclado no Safari' },
+          {
+            kind: 'p',
+            html: 'Por padrão, no Safari a tecla Tab só passa por campos de texto e menus pop-up. Para chegar a todos os botões e links, ative “Pressionar Tab para destacar cada item de uma página web” (“Press Tab to highlight each item on a webpage”) na aba Avançado dos ajustes do Safari, ou pressione Option + Tab. O Safari também não dá foco a um botão quando ele é clicado; os componentes compensam isso, então o teclado continua de onde parou depois de um clique, como nos outros navegadores.',
           },
         ],
       },

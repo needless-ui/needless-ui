@@ -1419,7 +1419,8 @@ export const messages: Messages = {
               value: 'Rubutun da ake rubutawa.',
               placeholder: 'Rubutun da ake nunawa a filin da babu komai.',
               suggestions: 'Saƙonnin da ake aikawa da dannawa ɗaya, har zuwa saƙon farko.',
-              sendOn: 'Ko Enter ne ke aikawa, ko Ctrl ko ⌘ + Enter.',
+              sendOn:
+                'Ko Enter ne ke aikawa, ko Ctrl ko ⌘ + Enter. <code>auto</code> yana aikawa da Enter inda akwai allon madannai; a allon taɓawa, Return yana fara sabon layi, maɓallin kuma yana aikawa.',
               disabled: 'Yana hana akwatin rubutu aikawa.',
               attach: 'Yana karɓar fayiloli ta zaɓi, liƙawa ko ja da sauke.',
               accept:
@@ -1731,7 +1732,7 @@ export const messages: Messages = {
               value:
                 'Kwanakin a jere, ko null har sai an saita farko da ƙarshe a tsarin da ya dace.',
               presets: 'Kwanaki a jere masu suna, da ake zaɓa da danna ɗaya.',
-              months: 'Watanni kusa da juna a cikin kalandar.',
+              months: 'Watanni kusa da juna a cikin kalandar; ɗaya a ƙaramin allo.',
             },
           },
           NuiDateRangePreset: {
@@ -2517,6 +2518,109 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Idan tsarin ya nemi rage motsi, springs suna zama nan take, kuma tasirin dannawa da shigowa suna daina motsi. Saitin sarari ba ya taɓa sa wani control ya yi ƙasa da girman wurin taɓawa na pixels 24 na WCAG 2.2, kuma babu preset da ke taɓa launuka, don haka duk gwajin bambancin launi yana nan daram. Burauzoji marasa <code>corner-shape</code> suna zana kowace kusurwa a zagaye.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Tallafin burauzoji',
+        description:
+          'Burauzojin da Needless UI ke tallafawa da gwadawa: sigogin Chrome, Edge, Firefox da Safari, wayoyi da allon taɓawa, da abin da tsofaffin burauzoji ke rasawa.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI ya ginu ne a kan elements na asali da sababbin fasalolin dandalin yanar gizo, kamar Popover API. Yana tallafa wa burauzojin da ke ƙasa tun daga sigar da aka lissafa ga kowace ɗaya. A tsofaffin sigogi, menus, selects da popovers ba sa buɗewa.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Burauzojin da ake tallafawa' },
+          {
+            kind: 'table',
+            caption: 'Mafi tsufan sigogin da ake tallafawa',
+            head: ['Burauza', 'Daga siga', 'Ana buƙata don'],
+            rows: [
+              [
+                'Chrome da Edge, a kwamfuta da Android',
+                '120',
+                'Icons da ake zanawa da masks na CSS, da <code>:dir()</code> don rubutu daga dama zuwa hagu',
+              ],
+              ['Firefox, a kwamfuta da Android', '125', 'Popover API'],
+              ['Safari a Mac', '17', 'Popover API'],
+              ['Kowace burauza a iPhone da iPad', 'iOS 17', 'Popover API'],
+              ['Burauzar Samsung Internet', '25', 'Kamar Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Sauran burauzojin da aka gina a kan Chromium, kamar Opera da Brave, suna bin sigogin Chrome. Angular 22 kansa yana buƙatar Chrome, Edge da Firefox 119 da Safari 17. Ba a tallafa wa Internet Explorer da tsohon Edge na kafin Chromium ba.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Burauzojin da ake gwadawa' },
+          {
+            kind: 'p',
+            html: 'A kowane canji, ana gudanar da gwaje-gwajen kowane component a cikin injunan Chrome, Firefox da Safari. Kafin fitar da kowace sabuwar siga, ana duba kowane shafi na waɗannan bayanai a kowane inji, a kwamfuta da kuma a waya ta hanyar taɓawa: dole ne ya fara aiki, ya buɗe kowane menu da popup, ya dace da allo, kuma ya wuce gwaje-gwajen sauƙin amfani ga kowa.',
+          },
+          {
+            kind: 'table',
+            caption: 'Burauzojin da ake gwadawa a kansu',
+            head: ['Inji', 'Siga', 'Inda ake gwadawa'],
+            rows: [
+              [
+                'Chromium (injin Chrome da Edge)',
+                '153',
+                'Kwamfuta, da wayar Android ta hanyar taɓawa',
+              ],
+              ['Firefox', '155', 'Kwamfuta, da allon taɓawa mai girman waya'],
+              ['WebKit (injin Safari)', '26.6', 'Kwamfuta, da iPhone ta hanyar taɓawa'],
+              ['Safari a iPhone', 'iOS 17.5 da 18.6', 'Simulator na iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Ba a gwada sigogin da ke tsakanin mafi tsufa da ake tallafawa da waɗanda ake gwadawa ɗaya bayan ɗaya ba: ana tallafa musu ne saboda suna da duk fasalolin da components ke buƙata.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Ƙarin abubuwa a sababbin burauzoji' },
+          {
+            kind: 'p',
+            html: 'Wasu ƙananan abubuwa suna amfani da fasalolin da sababbin burauzoji kaɗai ke da su. Sauran burauzoji suna tsallake su, kuma babu abin da ke lalacewa:',
+          },
+          {
+            kind: 'table',
+            caption: 'Ƙananan abubuwan da ke buƙatar sababbin burauzoji',
+            head: ['Abu', 'Burauzoji', 'A sauran burauzoji'],
+            rows: [
+              [
+                'Popovers, menus da dialogs suna shigowa da fita da motsi',
+                'Chrome da Edge, Firefox 129, Safari 17.5',
+                'Suna bayyana da ɓacewa nan take',
+              ],
+              [
+                'Kusurwoyin squircle (<code>corner-shape</code>)',
+                'Chrome da Edge 139',
+                'Kusurwoyi masu zagaye',
+              ],
+              [
+                'Ɗaukar launi daga ko’ina a kan allo',
+                'Chrome da Edge a kwamfuta',
+                'Babu maɓallin eyedropper',
+              ],
+              ['Zaɓar dukan folder a cikin dropzone', 'Burauzoji a kwamfuta', 'Fayiloli kawai'],
+              [
+                'Zoben maɓallin juyawa na carousel yana cika a hankali',
+                'Chrome da Edge, Firefox 128, Safari',
+                'Yana cika nan take',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Wayoyi da allon taɓawa' },
+          {
+            kind: 'p',
+            html: 'Kowane component yana aiki da taɓawa. Handles na splitter, akwatin launuka na color picker, gefunan ginshiƙai na data grid da toasts suna bin yatsa ba tare da shafin ya gungura ba, ana jan carousel da yatsa ta gungurawar burauzar kanta, kuma dannawa da riƙewa yana ɗaga event na scheduler. A allon taɓawa, rubutun filaye yana da girman pixels 16 aƙalla, don kada iPhone ya ƙara girman shafi a kansu, kuma kalmomin da allon madannai ke haɗawa yayin rubutu, kamar yadda na Android ke yi, suna isowa cikakku.',
+          },
+          {
+            kind: 'p',
+            html: 'Allon taɓawa ba shi da linzamin da zai tsaya a kan abu, don haka hovercard ƙari ne kawai ga abin da ke shafin: kada ku sa wani abu mai muhimmanci a cikinsa. A waya, Return a cikin chat yana fara sabon layi, maɓallin aikawa kuma yana aikawa.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Allon madannai a Safari' },
+          {
+            kind: 'p',
+            html: 'A asali, maɓallin Tab a Safari yana matsar da focus tsakanin filayen rubutu da menus masu buɗewa kawai. Don isa ga kowane maɓalli da mahaɗi, ku kunna “Danna Tab don haskaka kowane abu a shafin yanar gizo” (Press Tab to highlight each item on a webpage) a cikin saitunan Safari na ci gaba (Advanced), ko ku danna Option-Tab. Haka kuma Safari ba ya sa focus a kan maɓalli idan an danna shi; components suna cike wannan giɓi, don haka allon madannai yana ci gaba daga nan bayan dannawa kamar a sauran burauzoji.',
           },
         ],
       },

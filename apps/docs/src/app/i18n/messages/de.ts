@@ -1441,7 +1441,8 @@ export const messages: Messages = {
               value: 'Der Text, der gerade geschrieben wird.',
               placeholder: 'Der Hinweis im leeren Feld.',
               suggestions: 'Prompts, die per Klick gesendet werden, bis zur ersten Nachricht.',
-              sendOn: 'Ob Enter sendet oder Ctrl bzw. ⌘ + Enter.',
+              sendOn:
+                'Ob Enter sendet oder Ctrl bzw. ⌘ + Enter. <code>auto</code> sendet mit Enter, wo eine Tastatur vorhanden ist; auf Touchscreens fügt Enter einen Zeilenumbruch ein, und der Button sendet.',
               disabled: 'Verhindert das Senden aus dem Eingabefeld.',
               attach: 'Nimmt Dateien an: ausgewählt, eingefügt oder hineingezogen.',
               accept: 'Die erlaubten Dateitypen, wie bei <code>&lt;input type="file"&gt;</code>.',
@@ -1751,7 +1752,7 @@ export const messages: Messages = {
               value:
                 'Der Zeitraum oder null, bis beide Enden in der richtigen Reihenfolge gesetzt sind.',
               presets: 'Benannte Zeiträume, mit einem Klick wählbar.',
-              months: 'Monate nebeneinander im Kalender.',
+              months: 'Monate nebeneinander im Kalender; auf schmalen Bildschirmen nur einer.',
             },
           },
           NuiDateRangePreset: {
@@ -2574,6 +2575,109 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Wünscht das System reduzierte Bewegung, schrumpfen Federn auf einen Augenblick zusammen, und Druckeffekte und Eingangsanimationen bewegen sich nicht mehr. Die Dichte drückt kein Bedienelement unter die Mindestzielgröße der WCAG 2.2 von 24 px, und kein Preset verändert Farben, sodass jede Kontrastprüfung weiterhin gilt. Browser ohne <code>corner-shape</code> zeichnen alle Ecken rund.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Browserunterstützung',
+        description:
+          'Welche Browser Needless UI unterstützt und testet: Chrome-, Edge-, Firefox- und Safari-Versionen, Smartphones, Touchscreens und was ältere Browser weglassen.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI baut auf nativen Elementen und neueren Funktionen der Webplattform auf, etwa der Popover-API. Unterstützt werden die unten aufgeführten Browser ab der jeweils angegebenen Version. In älteren Versionen öffnen sich Menüs, Selects und Popover nicht.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Unterstützte Browser' },
+          {
+            kind: 'table',
+            caption: 'Älteste unterstützte Versionen',
+            head: ['Browser', 'Ab Version', 'Nötig für'],
+            rows: [
+              [
+                'Chrome und Edge, auf dem Computer und unter Android',
+                '120',
+                'Mit CSS-Masken gezeichnete Icons und <code>:dir()</code> für Text von rechts nach links',
+              ],
+              ['Firefox, auf dem Computer und unter Android', '125', 'Die Popover-API'],
+              ['Safari auf dem Mac', '17', 'Die Popover-API'],
+              ['Alle Browser auf iPhone und iPad', 'iOS 17', 'Die Popover-API'],
+              ['Samsung Internet unter Android', '25', 'Wie bei Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Andere Browser auf Chromium-Basis wie Opera und Brave richten sich nach den Versionen von Chrome. Angular 22 selbst braucht Chrome, Edge und Firefox 119 sowie Safari 17. Internet Explorer und der alte Edge aus der Zeit vor Chromium werden nicht unterstützt.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Getestete Browser' },
+          {
+            kind: 'p',
+            html: 'Bei jeder Änderung laufen die Tests jeder Komponente in den Engines von Chrome, Firefox und Safari. Vor einem Release wird jede Seite dieser Dokumentation in jeder Engine geprüft, auf einem Computer und auf einem Smartphone mit Touch-Eingabe: Sie muss laden, jedes Menü und jedes Pop-up öffnen, auf den Bildschirm passen und die Barrierefreiheitsprüfungen bestehen.',
+          },
+          {
+            kind: 'table',
+            caption: 'Getestete Browser',
+            head: ['Engine', 'Version', 'Getestet auf'],
+            rows: [
+              [
+                'Chromium (in Chrome und Edge)',
+                '153',
+                'Computer und Android-Smartphone mit Touch-Eingabe',
+              ],
+              ['Firefox', '155', 'Computer und Touchscreen in Smartphone-Größe'],
+              ['WebKit (in Safari)', '26.6', 'Computer und iPhone mit Touch-Eingabe'],
+              ['Safari auf dem iPhone', 'iOS 17.5 und 18.6', 'iPhone-Simulator'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Die Versionen zwischen der ältesten unterstützten und den getesteten werden nicht einzeln geprüft: Sie werden unterstützt, weil sie alle Funktionen haben, die die Komponenten brauchen.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Extras in neueren Browsern' },
+          {
+            kind: 'p',
+            html: 'Ein paar Details nutzen Funktionen, die nur neuere Browser haben. Andere Browser lassen sie weg, und nichts geht kaputt:',
+          },
+          {
+            kind: 'table',
+            caption: 'Details, die neuere Browser brauchen',
+            head: ['Detail', 'Browser', 'In anderen Browsern'],
+            rows: [
+              [
+                'Popover, Menüs und Dialoge werden beim Ein- und Ausblenden animiert',
+                'Chrome und Edge, Firefox 129, Safari 17.5',
+                'Sie erscheinen und verschwinden sofort',
+              ],
+              ['Squircle-Ecken (<code>corner-shape</code>)', 'Chrome und Edge 139', 'Runde Ecken'],
+              [
+                'Eine Farbe irgendwo auf dem Bildschirm aufnehmen',
+                'Chrome und Edge auf dem Computer',
+                'Kein Pipetten-Button',
+              ],
+              [
+                'Einen ganzen Ordner in der Dropzone auswählen',
+                'Browser auf dem Computer',
+                'Nur Dateien',
+              ],
+              [
+                'Der Ring an der Rotationssteuerung des Karussells füllt sich fließend',
+                'Chrome und Edge, Firefox 128, Safari',
+                'Er füllt sich auf einen Schlag',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Smartphones und Touchscreens' },
+          {
+            kind: 'p',
+            html: 'Jede Komponente lässt sich per Touch bedienen. Die Griffe des Splitters, die Farbfläche, Spaltenränder und Toasts folgen dem Finger, ohne dass die Seite scrollt; das Karussell nutzt zum Wischen das native Scrollen des Browsers, und ein langes Drücken hebt einen Termin im Terminplaner an. Auf Touchscreens haben Felder mindestens 16 px große Schrift, damit iPhones nicht hineinzoomen, und Wörter, die die Tastatur erst zusammensetzt, wie es Android-Tastaturen tun, kommen vollständig an.',
+          },
+          {
+            kind: 'p',
+            html: 'Touchscreens kennen kein Hovern, deshalb ergänzt eine Hovercard nur, was ohnehin auf der Seite steht: Leg nichts Wesentliches hinein. Auf dem Smartphone fügt die Enter-Taste im Chat einen Zeilenumbruch ein, und gesendet wird mit dem Button.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Die Tastatur in Safari' },
+          {
+            kind: 'p',
+            html: 'Standardmäßig springt die Tab-Taste in Safari nur zwischen Textfeldern und Einblendmenüs. Um jeden Button und jeden Link zu erreichen, aktiviere in den Safari-Einstellungen unter „Erweitert“ die Option „Tab drücken, um jedes Objekt auf einer Webseite hervorzuheben“ („Press Tab to highlight each item on a webpage“) oder drücke Wahltaste + Tab. Außerdem fokussiert Safari einen Button nicht, wenn man ihn anklickt; die Komponenten gleichen das aus, sodass die Tastaturbedienung nach einem Klick wie in anderen Browsern weitergeht.',
           },
         ],
       },

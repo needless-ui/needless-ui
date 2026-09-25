@@ -1403,7 +1403,8 @@ export const messages: Messages = {
               value: 'Teks yang sedang ditulis.',
               placeholder: 'Teks yang ditampilkan saat kolom kosong.',
               suggestions: 'Prompt yang bisa dikirim dengan sekali klik, sampai pesan pertama.',
-              sendOn: 'Apakah Enter yang mengirim, atau Ctrl atau ⌘ + Enter.',
+              sendOn:
+                'Apakah Enter yang mengirim, atau Ctrl atau ⌘ + Enter. <code>auto</code> mengirim dengan Enter jika ada keyboard; di layar sentuh, Return membuat baris baru dan pesan dikirim dengan tombol.',
               disabled: 'Mencegah kotak tulis mengirim pesan.',
               attach: 'Menerima file: dipilih, ditempel, atau di-drop.',
               accept:
@@ -1711,7 +1712,8 @@ export const messages: Messages = {
             members: {
               value: 'Rentangnya, atau null sampai kedua ujung diisi secara berurutan.',
               presets: 'Rentang bernama yang bisa dipilih dengan sekali klik.',
-              months: 'Jumlah bulan yang ditampilkan berdampingan di kalender.',
+              months:
+                'Jumlah bulan yang ditampilkan berdampingan di kalender; satu bulan di layar sempit.',
             },
           },
           NuiDateRangePreset: {
@@ -2491,6 +2493,109 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Saat sistem meminta gerakan dikurangi, pegas selesai seketika, sedangkan efek tekan dan animasi masuk berhenti bergerak. Kepadatan tidak pernah membuat kontrol lebih kecil dari ukuran target 24px WCAG 2.2, dan tidak ada preset yang mengubah warna, sehingga semua pemeriksaan kontras tetap terpenuhi. Browser tanpa dukungan <code>corner-shape</code> menggambar semua sudut membulat.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Dukungan browser',
+        description:
+          'Browser yang didukung dan diuji Needless UI: versi Chrome, Edge, Firefox, dan Safari, ponsel dan layar sentuh, serta fitur yang tidak ada di browser lama.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI dibangun di atas elemen native dan fitur platform web terbaru, seperti Popover API. Browser di bawah ini didukung mulai dari versi yang tercantum. Di versi yang lebih lama, menu, select, dan popover tidak bisa dibuka.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Browser yang didukung' },
+          {
+            kind: 'table',
+            caption: 'Versi tertua yang didukung',
+            head: ['Browser', 'Mulai versi', 'Diperlukan untuk'],
+            rows: [
+              [
+                'Chrome dan Edge, di komputer dan Android',
+                '120',
+                'Ikon yang digambar dengan mask CSS, dan <code>:dir()</code> untuk teks kanan-ke-kiri',
+              ],
+              ['Firefox, di komputer dan Android', '125', 'Popover API'],
+              ['Safari di Mac', '17', 'Popover API'],
+              ['Semua browser di iPhone dan iPad', 'iOS 17', 'Popover API'],
+              ['Browser Samsung Internet', '25', 'Sama seperti Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Browser lain berbasis Chromium, seperti Opera dan Brave, mengikuti versi Chrome. Angular 22 sendiri membutuhkan Chrome, Edge, dan Firefox 119 serta Safari 17. Internet Explorer dan Edge lama, yang belum berbasis Chromium, tidak didukung.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Browser yang diuji' },
+          {
+            kind: 'p',
+            html: 'Pada setiap perubahan, pengujian setiap komponen dijalankan di engine Chrome, Firefox, dan Safari. Sebelum rilis, setiap halaman dokumentasi ini diperiksa di setiap engine, di komputer dan di ponsel dengan input sentuh: halaman harus bisa dimuat, setiap menu dan popup-nya harus bisa dibuka, tampilannya harus pas di layar, dan harus lolos pemeriksaan aksesibilitas.',
+          },
+          {
+            kind: 'table',
+            caption: 'Browser untuk pengujian',
+            head: ['Engine', 'Versi', 'Diuji di'],
+            rows: [
+              [
+                'Chromium (engine Chrome dan Edge)',
+                '153',
+                'Komputer, dan ponsel Android dengan input sentuh',
+              ],
+              ['Firefox', '155', 'Komputer, dan layar sentuh seukuran ponsel'],
+              ['WebKit (engine Safari)', '26.6', 'Komputer, dan iPhone dengan input sentuh'],
+              ['Safari di iPhone', 'iOS 17.5 dan 18.6', 'Simulator iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Versi di antara versi tertua yang didukung dan versi yang diuji tidak diuji satu per satu: versi-versi itu didukung karena memiliki semua fitur yang dibutuhkan komponen.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Tambahan di browser yang lebih baru' },
+          {
+            kind: 'p',
+            html: 'Beberapa detail memakai fitur yang hanya ada di browser yang lebih baru. Browser lain melewatinya, dan tidak ada yang rusak:',
+          },
+          {
+            kind: 'table',
+            caption: 'Detail yang membutuhkan browser lebih baru',
+            head: ['Detail', 'Browser', 'Di browser lain'],
+            rows: [
+              [
+                'Popover, menu, dan dialog muncul dan menghilang dengan animasi',
+                'Chrome dan Edge, Firefox 129, Safari 17.5',
+                'Langsung muncul dan menghilang',
+              ],
+              [
+                'Sudut squircle (<code>corner-shape</code>)',
+                'Chrome dan Edge 139',
+                'Sudut membulat',
+              ],
+              [
+                'Mengambil warna dari bagian mana pun di layar',
+                'Chrome dan Edge di komputer',
+                'Tanpa tombol pipet warna',
+              ],
+              ['Memilih seluruh folder di area unggah', 'Browser di komputer', 'Hanya file'],
+              [
+                'Cincin pada kontrol rotasi carousel terisi dengan mulus',
+                'Chrome dan Edge, Firefox 128, Safari',
+                'Langsung terisi penuh',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Ponsel dan layar sentuh' },
+          {
+            kind: 'p',
+            html: 'Setiap komponen bisa dipakai dengan sentuhan. Handle pemisah panel, area warna, tepi kolom, dan toast mengikuti jari tanpa menggulir halaman, carousel digeser dengan pengguliran bawaan browser, dan tekan lama pada acara di penjadwal akan mengangkatnya untuk dipindahkan. Di layar sentuh, teks di kolom input berukuran minimal 16px, sehingga iPhone tidak memperbesar tampilan saat kolom itu diisi, dan kata yang disusun keyboard selama mengetik, seperti pada keyboard Android, diterima secara utuh.',
+          },
+          {
+            kind: 'p',
+            html: 'Layar sentuh tidak mengenal hover, jadi hovercard hanya melengkapi apa yang sudah ada di halaman: jangan taruh hal penting apa pun di dalamnya. Di ponsel, tombol Return di chat membuat baris baru, sedangkan pesan dikirim dengan tombol kirim.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Keyboard di Safari' },
+          {
+            kind: 'p',
+            html: 'Secara default, tombol Tab di Safari hanya berpindah di antara kolom teks dan menu pop-up. Untuk menjangkau setiap tombol dan tautan, nyalakan “Tekan Tab untuk menyorot tiap item pada halaman web” di pengaturan Lanjutan Safari, atau tekan Option-Tab. Safari juga tidak memfokuskan tombol saat tombol itu diklik; komponen menutupi kekurangan ini, sehingga navigasi keyboard tetap berlanjut setelah klik seperti di browser lain.',
           },
         ],
       },

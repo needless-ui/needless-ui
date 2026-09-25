@@ -368,6 +368,14 @@
     gap: var(--nui-space-1);
   }
 
+  /* On a phone, a fixed button would sit over the text: there it waits below the footer. */
+  @media (max-width: 48rem) {
+    .emergency-unit {
+      position: static;
+      margin-block-end: var(--nui-space-8);
+    }
+  }
+
   .emergency-housing {
     position: relative;
     display: grid;
@@ -1467,6 +1475,11 @@
 
   .table-wrap td code {
     white-space: nowrap;
+  }
+
+  /* Guide tables hold sentences: their headers wrap too, so a phone needn't scroll. */
+  .table-wrap.guide-table th {
+    white-space: normal;
   }
 
   /* No default: a plain dash, not a code chip. */

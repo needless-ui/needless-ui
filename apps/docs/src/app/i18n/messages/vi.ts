@@ -1383,7 +1383,8 @@ export const messages: Messages = {
               value: 'Văn bản đang được soạn.',
               placeholder: 'Văn bản hiển thị khi ô nhập còn trống.',
               suggestions: 'Các prompt gửi được bằng một cú nhấp, cho đến tin nhắn đầu tiên.',
-              sendOn: 'Gửi bằng Enter, hay bằng Ctrl hoặc ⌘ + Enter.',
+              sendOn:
+                'Gửi bằng Enter, hay bằng Ctrl hoặc ⌘ + Enter. <code>auto</code> gửi bằng Enter khi có bàn phím; trên màn hình cảm ứng, Return sẽ xuống dòng và nút gửi mới gửi tin nhắn.',
               disabled: 'Ngăn ô soạn tin gửi đi.',
               attach: 'Nhận tệp: được chọn, dán hoặc kéo thả vào.',
               accept: 'Các loại tệp được nhận, như với <code>&lt;input type="file"&gt;</code>.',
@@ -1684,7 +1685,8 @@ export const messages: Messages = {
             members: {
               value: 'Khoảng ngày, hoặc null cho đến khi cả hai đầu được đặt theo đúng thứ tự.',
               presets: 'Các khoảng ngày có tên, chọn bằng một cú nhấp.',
-              months: 'Số tháng hiển thị cạnh nhau trong lịch.',
+              months:
+                'Số tháng hiển thị cạnh nhau trong lịch; trên màn hình hẹp chỉ hiện một tháng.',
             },
           },
           NuiDateRangePreset: {
@@ -2450,6 +2452,113 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Khi hệ thống yêu cầu giảm chuyển động, lò xo hoàn tất ngay lập tức, còn hiệu ứng nhấn và hiệu ứng xuất hiện ngừng chuyển động. Mật độ không bao giờ khiến một phần tử điều khiển nhỏ hơn vùng nhấn 24px của WCAG 2.2, và không preset nào thay đổi màu sắc, nên mọi kiểm tra độ tương phản vẫn đạt. Trình duyệt không hỗ trợ <code>corner-shape</code> sẽ vẽ mọi góc bo tròn.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Hỗ trợ trình duyệt',
+        description:
+          'Những trình duyệt Needless UI hỗ trợ và kiểm thử: phiên bản Chrome, Edge, Firefox và Safari, điện thoại, màn hình cảm ứng và những gì trình duyệt cũ bỏ qua.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI được xây dựng trên các phần tử native và những tính năng mới của nền tảng web, như Popover API. Thư viện hỗ trợ các trình duyệt bên dưới kể từ phiên bản được liệt kê. Ở các phiên bản cũ hơn, menu, select và popover sẽ không mở được.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Trình duyệt được hỗ trợ' },
+          {
+            kind: 'table',
+            caption: 'Phiên bản cũ nhất được hỗ trợ',
+            head: ['Trình duyệt', 'Từ phiên bản', 'Cần cho'],
+            rows: [
+              [
+                'Chrome và Edge, trên máy tính và Android',
+                '120',
+                'Biểu tượng vẽ bằng CSS mask, và <code>:dir()</code> cho văn bản viết từ phải sang trái',
+              ],
+              ['Firefox, trên máy tính và Android', '125', 'Popover API'],
+              ['Safari trên Mac', '17', 'Popover API'],
+              ['Mọi trình duyệt trên iPhone và iPad', 'iOS 17', 'Popover API'],
+              ['Trình duyệt Samsung Internet', '25', 'Giống như Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Các trình duyệt khác dựa trên Chromium, như Opera và Brave, đi theo phiên bản của Chrome. Bản thân Angular 22 cần Chrome, Edge và Firefox 119 cùng Safari 17. Internet Explorer và Edge cũ, từ trước khi chuyển sang Chromium, không được hỗ trợ.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Trình duyệt được kiểm thử' },
+          {
+            kind: 'p',
+            html: 'Với mỗi thay đổi, bộ kiểm thử của từng component đều được chạy trên engine của Chrome, Firefox và Safari. Trước mỗi bản phát hành, từng trang của tài liệu này được kiểm tra trên mọi engine, trên máy tính và trên điện thoại dùng cảm ứng: trang phải tải được, mở được mọi menu và popup, vừa khít màn hình và vượt qua các bước kiểm tra khả năng tiếp cận.',
+          },
+          {
+            kind: 'table',
+            caption: 'Các trình duyệt dùng để kiểm thử',
+            head: ['Engine', 'Phiên bản', 'Kiểm thử trên'],
+            rows: [
+              [
+                'Chromium (engine của Chrome và Edge)',
+                '153',
+                'Máy tính, và điện thoại Android dùng cảm ứng',
+              ],
+              ['Firefox', '155', 'Máy tính, và màn hình cảm ứng cỡ điện thoại'],
+              ['WebKit (engine của Safari)', '26.6', 'Máy tính, và iPhone dùng cảm ứng'],
+              ['Safari trên iPhone', 'iOS 17.5 và 18.6', 'Trình mô phỏng iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Các phiên bản nằm giữa phiên bản cũ nhất được hỗ trợ và các phiên bản được kiểm thử không được kiểm thử riêng từng bản: chúng vẫn được hỗ trợ vì có đủ mọi tính năng mà các component cần.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Điểm cộng trên trình duyệt mới' },
+          {
+            kind: 'p',
+            html: 'Một vài chi tiết dùng những tính năng chỉ có ở trình duyệt mới hơn. Các trình duyệt khác bỏ qua chúng, và không có gì bị hỏng:',
+          },
+          {
+            kind: 'table',
+            caption: 'Các chi tiết cần trình duyệt mới hơn',
+            head: ['Chi tiết', 'Trình duyệt', 'Ở trình duyệt khác'],
+            rows: [
+              [
+                'Popover, menu và hộp thoại có hiệu ứng khi xuất hiện và biến mất',
+                'Chrome và Edge, Firefox 129, Safari 17.5',
+                'Xuất hiện và biến mất ngay lập tức',
+              ],
+              [
+                'Góc bo kiểu squircle (<code>corner-shape</code>)',
+                'Chrome và Edge 139',
+                'Góc bo tròn',
+              ],
+              [
+                'Lấy màu từ bất kỳ đâu trên màn hình',
+                'Chrome và Edge trên máy tính',
+                'Không có nút hút màu',
+              ],
+              [
+                'Chọn cả một thư mục trong vùng thả tệp',
+                'Trình duyệt trên máy tính',
+                'Chỉ chọn được tệp',
+              ],
+              [
+                'Vòng tròn trên nút tự động chuyển của carousel đầy dần một cách mượt mà',
+                'Chrome và Edge, Firefox 128, Safari',
+                'Đầy ngay lập tức',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Điện thoại và màn hình cảm ứng' },
+          {
+            kind: 'p',
+            html: 'Mọi component đều dùng được bằng cảm ứng. Tay nắm của bộ chia ngăn, vùng màu, cạnh cột và toast di chuyển theo ngón tay mà không làm cuộn trang, carousel được vuốt nhờ chính cơ chế cuộn của trình duyệt, và nhấn giữ sẽ nhấc một sự kiện trong bộ lập lịch lên để kéo. Trên màn hình cảm ứng, chữ trong các ô nhập có cỡ ít nhất 16px, nên iPhone không tự phóng to khi bạn nhập, và những từ đến từ bàn phím ghép chữ trong lúc gõ, như bàn phím Android, được nhận trọn vẹn.',
+          },
+          {
+            kind: 'p',
+            html: 'Màn hình cảm ứng không có thao tác hover, nên hovercard chỉ bổ sung cho những gì đã có trên trang: đừng đặt thứ gì thiết yếu vào đó. Trên điện thoại, phím Return của chat sẽ xuống dòng, còn nút gửi mới gửi tin nhắn.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Bàn phím trong Safari' },
+          {
+            kind: 'p',
+            html: 'Theo mặc định, phím Tab trong Safari chỉ di chuyển giữa các ô nhập văn bản và menu bật lên. Để đến được mọi nút và liên kết, hãy bật “Nhấn Tab để tô sáng từng mục trên trang web” trong cài đặt Nâng cao của Safari, hoặc nhấn Option-Tab. Safari cũng không focus vào nút khi nút được bấm; các component bù lại điều đó, nên thao tác bàn phím vẫn tiếp tục sau cú nhấp như ở các trình duyệt khác.',
           },
         ],
       },

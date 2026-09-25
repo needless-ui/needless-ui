@@ -1,4 +1,4 @@
-import type { ComponentId } from '../../docs/ids';
+import type { ComponentId, GuideId } from '../../docs/ids';
 
 /**
  * Shape of every language's content. Each locale file is typed with it, so a
@@ -91,7 +91,7 @@ export interface Messages {
   };
   guides: {
     title: string;
-    items: Record<'getting-started' | 'theming' | 'customization', GuideText>;
+    items: Record<GuideId, GuideText>;
     playground: PlaygroundText;
   };
   notFound: { title: string; description: string; text: string; home: string; components: string };
@@ -137,7 +137,9 @@ export type ProseBlock = { kind: 'p'; html: string } | { kind: 'h2'; id: string;
 export type GuideBlock =
   | ProseBlock
   | { kind: 'code'; file: string }
-  | { kind: 'demo'; demo: 'nested-themes' | 'playground' };
+  | { kind: 'demo'; demo: 'nested-themes' | 'playground' }
+  /** A table: `caption` names it for screen readers, the first cell of each row heads it; cells are html. */
+  | { kind: 'table'; caption: string; head: string[]; rows: string[][] };
 
 export interface LegalText {
   title: string;

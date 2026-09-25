@@ -62,6 +62,39 @@ import { TrustedHtml } from '../../shared/trusted';
                   @case ('code') {
                     <docs-code [key]="block.file" />
                   }
+                  @case ('table') {
+                    <div
+                      class="table-wrap guide-table"
+                      tabindex="0"
+                      role="region"
+                      [attr.aria-label]="block.caption"
+                    >
+                      <table>
+                        <caption class="visually-hidden">
+                          {{
+                            block.caption
+                          }}
+                        </caption>
+                        <thead>
+                          <tr>
+                            @for (cell of block.head; track $index) {
+                              <th scope="col">{{ cell }}</th>
+                            }
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (row of block.rows; track $index) {
+                            <tr>
+                              <th scope="row" [innerHTML]="row[0] | trusted"></th>
+                              @for (cell of row.slice(1); track $index) {
+                                <td [innerHTML]="cell | trusted"></td>
+                              }
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
                   @case ('demo') {
                     @if (block.demo === 'playground') {
                       <!--

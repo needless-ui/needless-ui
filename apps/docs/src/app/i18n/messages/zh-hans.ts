@@ -1309,7 +1309,8 @@ export const messages: Messages = {
               value: '正在输入的文本。',
               placeholder: '输入框为空时显示的提示。',
               suggestions: '点击即可发送的提示词，在第一条消息发出前显示。',
-              sendOn: '按 Enter 发送，还是按 Ctrl 或 ⌘ + Enter 发送。',
+              sendOn:
+                '按 Enter 发送，还是按 Ctrl 或 ⌘ + Enter 发送。<code>auto</code> 在有物理键盘时按 Enter 发送；在触摸屏上，Return 键换行，由按钮发送。',
               disabled: '禁止输入框发送消息。',
               attach: '接收文件：选择、粘贴或拖放均可。',
               accept: '可接收的文件类型，写法同 <code>&lt;input type="file"&gt;</code>。',
@@ -1594,7 +1595,7 @@ export const messages: Messages = {
             members: {
               value: '日期范围；在按顺序设置好两端之前为 null。',
               presets: '一键即可选择的具名范围。',
-              months: '日历中并排显示的月份数。',
+              months: '日历中并排显示的月份数；在窄屏上只显示一个月。',
             },
           },
           NuiDateRangePreset: {
@@ -2329,6 +2330,97 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '当系统要求减少动态效果时，弹簧会瞬间完成，按压和入场效果也不再运动。无论密度如何设置，控件都不会小于 WCAG 2.2 规定的 24px 目标尺寸；而且没有任何预设会改动颜色，因此所有对比度检查依然成立。不支持 <code>corner-shape</code> 的浏览器会把所有边角都绘制成圆角。',
+          },
+        ],
+      },
+      'browser-support': {
+        title: '浏览器支持',
+        description:
+          'Needless UI 支持并测试的浏览器：Chrome、Edge、Firefox 和 Safari 的版本要求，手机与触摸屏上的表现，以及旧版浏览器会省略的功能。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI 基于原生元素和较新的 Web 平台特性（例如 Popover API）构建。它从下表所列的版本起支持以下浏览器。在更旧的版本中，菜单、选择器和弹出框无法打开。',
+          },
+          { kind: 'h2', id: 'supported', text: '支持的浏览器' },
+          {
+            kind: 'table',
+            caption: '支持的最低版本',
+            head: ['浏览器', '最低版本', '所需特性'],
+            rows: [
+              [
+                '电脑和 Android 上的 Chrome 与 Edge',
+                '120',
+                '用 CSS 遮罩绘制的图标，以及用于从右到左文本的 <code>:dir()</code>',
+              ],
+              ['电脑和 Android 上的 Firefox', '125', 'Popover API'],
+              ['Mac 上的 Safari', '17', 'Popover API'],
+              ['iPhone 和 iPad 上的所有浏览器', 'iOS 17', 'Popover API'],
+              ['Samsung Internet（三星浏览器）', '25', '与 Chrome 相同'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: '其他基于 Chromium 的浏览器（例如 Opera 和 Brave）跟随 Chrome 的版本。Angular 22 本身就要求 Chrome、Edge 和 Firefox 不低于 119，Safari 不低于 17。不支持 Internet Explorer，以及改用 Chromium 之前的旧版 Edge。',
+          },
+          { kind: 'h2', id: 'tested', text: '经过测试的浏览器' },
+          {
+            kind: 'p',
+            html: '每次改动都会在 Chrome、Firefox 和 Safari 的引擎中运行每个组件的测试。每次发布前，本文档的每个页面都会在每种引擎中，分别在电脑和支持触摸的手机上接受检查：页面必须能正常启动、打开每个菜单和弹出层、适配屏幕，并通过无障碍检查。',
+          },
+          {
+            kind: 'table',
+            caption: '测试所用的浏览器',
+            head: ['引擎', '版本', '测试环境'],
+            rows: [
+              ['Chromium（Chrome、Edge）', '153', '电脑，以及支持触摸的 Android 手机'],
+              ['Firefox', '155', '电脑，以及手机尺寸的触摸屏'],
+              ['WebKit（Safari）', '26.6', '电脑，以及支持触摸的 iPhone'],
+              ['iPhone 上的 Safari', 'iOS 17.5 和 18.6', 'iPhone 模拟器'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: '介于最低支持版本与测试版本之间的版本不会逐一测试：它们具备组件所需的全部特性，因此同样受支持。',
+          },
+          { kind: 'h2', id: 'newer', text: '新版浏览器中的额外功能' },
+          {
+            kind: 'p',
+            html: '少数细节用到了只有新版浏览器才有的特性。其他浏览器会省略这些细节，但不会出现任何问题：',
+          },
+          {
+            kind: 'table',
+            caption: '需要新版浏览器的细节',
+            head: ['细节', '浏览器', '其他浏览器中'],
+            rows: [
+              [
+                '弹出框、菜单和对话框的入场与退场动画',
+                'Chrome 与 Edge、Firefox 129、Safari 17.5',
+                '立即出现和消失',
+              ],
+              ['超椭圆圆角（<code>corner-shape</code>）', 'Chrome 与 Edge 139', '普通圆角'],
+              ['从屏幕上任意位置取色', '电脑上的 Chrome 与 Edge', '没有吸管按钮'],
+              ['在文件拖放区中选择整个文件夹', '电脑上的浏览器', '只能选择文件'],
+              [
+                '轮播的自动轮播按钮上，圆环平滑地填满',
+                'Chrome 与 Edge、Firefox 128、Safari',
+                '一次性填满',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: '手机和触摸屏' },
+          {
+            kind: 'p',
+            html: '每个组件都支持触摸操作。分隔面板的分隔条、颜色选择器的取色区域、数据表格的列边界和 Toast 都会跟随手指移动，而不会滚动页面；轮播借助浏览器自身的滚动来滑动；长按日程表中的日程即可拖动它。在触摸屏上，输入框的文字至少为 16px，因此 iPhone 不会放大输入框；像 Android 键盘那样先组字再上屏的键盘，输入的词语也会完整送达。',
+          },
+          {
+            kind: 'p',
+            html: '触摸屏无法悬停，所以悬停卡片只能补充页面上已有的内容：不要把任何必不可少的内容放在其中。在手机上，聊天组件的 Return 键会换行，发送则由按钮完成。',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Safari 中的键盘操作' },
+          {
+            kind: 'p',
+            html: '默认情况下，Safari 中的 Tab 键只会在文本框和弹出式菜单之间移动。要移到每个按钮和链接，请在 Safari 的“高级”设置中打开“按下 Tab 键以高亮标记网页上的每一项”，或按 Option + Tab 键。此外，Safari 不会让被点击的按钮获得焦点；组件弥补了这一点，因此点击之后也能像在其他浏览器中一样继续用键盘操作。',
           },
         ],
       },

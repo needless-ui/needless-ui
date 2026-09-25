@@ -1372,7 +1372,8 @@ export const messages: Messages = {
               value: 'Yazılmakta olan metin.',
               placeholder: 'Alan boşken gösterilen metin.',
               suggestions: 'İlk mesaja kadar tek tıkla gönderilebilen prompt’lar.',
-              sendOn: 'Enter’ın mı, yoksa Ctrl veya ⌘ + Enter’ın mı gönderdiği.',
+              sendOn:
+                'Enter’ın mı, yoksa Ctrl veya ⌘ + Enter’ın mı gönderdiği. <code>auto</code>, klavye olan yerlerde Enter ile gönderir; dokunmatik ekranlarda Return yeni satır başlatır, gönderme işini düğme yapar.',
               disabled: 'Mesaj kutusunun göndermesini engeller.',
               attach: 'Seçilen, yapıştırılan veya sürükleyip bırakılan dosyaları alır.',
               accept:
@@ -1674,7 +1675,7 @@ export const messages: Messages = {
             members: {
               value: 'Aralık; iki uç da sırayla girilene kadar null.',
               presets: 'Tek tıkla seçilen adlandırılmış aralıklar.',
-              months: 'Takvimde yan yana gösterilen ay sayısı.',
+              months: 'Takvimde yan yana gösterilen ay sayısı; dar ekranda tek ay.',
             },
           },
           NuiDateRangePreset: {
@@ -2449,6 +2450,117 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Sistem azaltılmış hareket istediğinde yaylar anında tamamlanır; basma ve giriş efektleri de hareketsiz kalır. Yoğunluk hiçbir kontrolü WCAG 2.2’nin 24px hedef boyutunun altına indirmez ve hiçbir hazır ayar renklere dokunmaz; bu sayede tüm kontrast denetimleri geçerliliğini korur. <code>corner-shape</code> desteği olmayan tarayıcılar tüm köşeleri yuvarlak çizer.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Tarayıcı desteği',
+        description:
+          'Needless UI hangi tarayıcılarda çalışır ve test edilir: Chrome, Edge, Firefox ve Safari sürümleri, telefon ve dokunmatik ekranlar, eski tarayıcıların eksikleri.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI, yerel öğeler ile Popover API gibi yeni web platformu özellikleri üzerine kuruludur. Aşağıdaki tarayıcıları, belirtilen sürümden itibaren destekler. Daha eski sürümlerde menüler, select’ler ve popover’lar açılmaz.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Desteklenen tarayıcılar' },
+          {
+            kind: 'table',
+            caption: 'Desteklenen en eski sürümler',
+            head: ['Tarayıcı', 'En düşük sürüm', 'Gerektiren özellik'],
+            rows: [
+              [
+                'Chrome ve Edge, bilgisayarlarda ve Android’de',
+                '120',
+                'CSS maskeleriyle çizilen simgeler ve sağdan sola metin için <code>:dir()</code>',
+              ],
+              ['Firefox, bilgisayarlarda ve Android’de', '125', 'Popover API'],
+              ['Mac’te Safari', '17', 'Popover API'],
+              ['iPhone ve iPad’deki tüm tarayıcılar', 'iOS 17', 'Popover API'],
+              ['Samsung Internet tarayıcısı', '25', 'Chrome ile aynı'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Opera ve Brave gibi Chromium tabanlı diğer tarayıcılar Chrome’un sürümlerini izler. Angular 22’nin kendisi de Chrome, Edge ve Firefox 119 ile Safari 17 gerektirir. Internet Explorer ve Chromium öncesindeki eski Edge desteklenmez.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Test edilen tarayıcılar' },
+          {
+            kind: 'p',
+            html: 'Her değişiklikte tüm bileşenlerin testleri Chrome, Firefox ve Safari motorlarında çalıştırılır. Bir sürüm yayımlanmadan önce de bu dokümantasyonun her sayfası her motorda, hem bilgisayarda hem de dokunmatik bir telefonda denetlenir: sayfa yüklenmeli, tüm menüleri ve açılır pencereleri açılmalı, ekrana sığmalı ve erişilebilirlik denetimlerinden geçmelidir.',
+          },
+          {
+            kind: 'table',
+            caption: 'Testlerde kullanılan tarayıcılar',
+            head: ['Motor', 'Sürüm', 'Test ortamı'],
+            rows: [
+              [
+                'Chromium (Chrome ve Edge’in motoru)',
+                '153',
+                'Bir bilgisayar ve dokunmayla kullanılan bir Android telefon',
+              ],
+              ['Firefox', '155', 'Bir bilgisayar ve telefon boyutunda bir dokunmatik ekran'],
+              [
+                'WebKit (Safari’nin motoru)',
+                '26.6',
+                'Bir bilgisayar ve dokunmayla kullanılan bir iPhone',
+              ],
+              ['iPhone’da Safari', 'iOS 17.5 ve 18.6', 'iPhone simülatörü'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Desteklenen en eski sürüm ile test edilen sürüm arasında kalanlar tek tek test edilmez: bileşenlerin ihtiyaç duyduğu tüm özelliklere sahip oldukları için desteklenirler.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Yeni tarayıcılardaki ekstralar' },
+          {
+            kind: 'p',
+            html: 'Bazı ayrıntılar yalnızca yeni tarayıcılarda bulunan özellikleri kullanır. Diğer tarayıcılar bunları atlar ve hiçbir şey bozulmaz:',
+          },
+          {
+            kind: 'table',
+            caption: 'Yeni tarayıcı gerektiren ayrıntılar',
+            head: ['Ayrıntı', 'Tarayıcılar', 'Diğerlerinde'],
+            rows: [
+              [
+                'Popover’lar, menüler ve diyaloglar animasyonla belirip kaybolur',
+                'Chrome ve Edge, Firefox 129, Safari 17.5',
+                'Bir anda belirip kaybolurlar',
+              ],
+              [
+                'Squircle köşeler (<code>corner-shape</code>)',
+                'Chrome ve Edge 139',
+                'Yuvarlak köşeler',
+              ],
+              [
+                'Ekranın herhangi bir yerinden renk seçme',
+                'Bilgisayarlarda Chrome ve Edge',
+                'Damlalık düğmesi yok',
+              ],
+              [
+                'Dosya bırakma alanında bütün bir klasörü seçme',
+                'Bilgisayarlardaki tarayıcılar',
+                'Yalnızca dosyalar',
+              ],
+              [
+                'Carousel’in otomatik geçiş düğmesindeki halka akıcı biçimde dolar',
+                'Chrome ve Edge, Firefox 128, Safari',
+                'Halka bir anda dolar',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Telefonlar ve dokunmatik ekranlar' },
+          {
+            kind: 'p',
+            html: 'Her bileşen dokunmayla çalışır. Ayırıcı tutamaçları, renk alanı, sütun kenarları ve toast bildirimleri sayfayı kaydırmadan parmağı izler; carousel, tarayıcının kendi kaydırmasıyla parmakla kaydırılır ve planlayıcıdaki bir etkinlik uzun basılarak tutulup taşınabilir. Dokunmatik ekranlarda alanlardaki metin en az 16px boyutunda olur; böylece iPhone’lar bu alanlarda sayfayı yakınlaştırmaz. Android klavyeleri gibi kelimeleri yazılırken birleştiren klavyelerden gelen kelimeler de bütün hâlinde ulaşır.',
+          },
+          {
+            kind: 'p',
+            html: 'Dokunmatik ekranlarda üzerine gelme olmadığından hovercard yalnızca sayfada zaten bulunanı tamamlar: içine vazgeçilmez hiçbir şey koymayın. Telefonda sohbetin Return tuşu yeni satır başlatır, gönderme işini ise düğmesi yapar.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Safari’de klavye' },
+          {
+            kind: 'p',
+            html: 'Safari’de Tab tuşu varsayılan olarak yalnızca metin alanları ve açılır menüler arasında gezinir. Tüm düğmelere ve bağlantılara ulaşmak için Safari’nin İleri Düzey ayarlarında “Web sayfasındaki her bir öğeyi vurgulamak için Tab’a basın” seçeneğini açın ya da Option-Tab tuşlarına basın. Safari ayrıca tıklanan düğmeye odaklanmaz; bileşenler bunu telafi eder, böylece tıklamadan sonra klavye, diğer tarayıcılarda olduğu gibi kaldığı yerden devam eder.',
           },
         ],
       },

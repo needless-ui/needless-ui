@@ -1432,7 +1432,8 @@ export const messages: Messages = {
               value: 'Ang text na sinusulat.',
               placeholder: 'Text na ipinapakita habang walang laman ang field.',
               suggestions: 'Mga prompt na maipapadala sa isang click, hanggang sa unang mensahe.',
-              sendOn: 'Kung Enter ang nagpapadala, o Ctrl o ⌘ + Enter.',
+              sendOn:
+                'Kung Enter ang nagpapadala, o Ctrl o ⌘ + Enter. Nagpapadala ang <code>auto</code> gamit ang Enter kapag may keyboard; sa mga touch screen, gumagawa ng bagong linya ang Return at ang button ang nagpapadala.',
               disabled: 'Pinipigilan ang composer na magpadala.',
               attach: 'Tumatanggap ng mga file: pinili, na-paste o na-drop.',
               accept:
@@ -1739,7 +1740,7 @@ export const messages: Messages = {
             members: {
               value: 'Ang range, o null hanggang ma-set ang dalawang dulo, nang magkasunod.',
               presets: 'Mga range na may pangalan, na mapipili sa isang click.',
-              months: 'Ilang buwan ang magkakatabi sa calendar.',
+              months: 'Ilang buwan ang magkakatabi sa calendar; isa lang sa makitid na screen.',
             },
           },
           NuiDateRangePreset: {
@@ -2531,6 +2532,109 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Kapag humiling ang system ng reduced motion, agad na natatapos ang mga spring, at hindi na gumagalaw ang mga press effect at paglitaw. Hindi kailanman pinapaliit ng density ang isang control nang lampas sa 24px na target size ng WCAG 2.2, at walang preset na nagbabago ng kulay, kaya pasado pa rin ang bawat contrast check. Ginagawang bilog ng mga browser na walang <code>corner-shape</code> ang bawat sulok.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Suporta sa mga browser',
+        description:
+          'Mga browser na sinusuportahan at tine-test ng Needless UI: mga version ng Chrome, Edge, Firefox at Safari, phone at touch screen, at ang wala sa lumang browser.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Nakabatay ang Needless UI sa mga native element at sa mga bagong feature ng web platform, gaya ng Popover API. Sinusuportahan nito ang mga browser sa ibaba mula sa nakalistang version. Sa mas lumang mga version, hindi bumubukas ang mga menu, select at popover.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Mga sinusuportahang browser' },
+          {
+            kind: 'table',
+            caption: 'Mga pinakalumang version na sinusuportahan',
+            head: ['Browser', 'Mula sa version', 'Kailangan para sa'],
+            rows: [
+              [
+                'Chrome at Edge, sa computer at Android',
+                '120',
+                'Mga icon na iginuguhit gamit ang CSS mask, at <code>:dir()</code> para sa right-to-left na text',
+              ],
+              ['Firefox, sa computer at Android', '125', 'Ang Popover API'],
+              ['Safari sa Mac', '17', 'Ang Popover API'],
+              ['Lahat ng browser sa iPhone at iPad', 'iOS 17', 'Ang Popover API'],
+              ['Samsung Internet browser', '25', 'Pareho sa Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Sinusundan ng ibang browser na nakabatay sa Chromium, gaya ng Opera at Brave, ang mga version ng Chrome. Kailangan ng Angular 22 mismo ang Chrome, Edge at Firefox 119 at ang Safari 17. Hindi sinusuportahan ang Internet Explorer at ang lumang Edge na hindi pa nakabatay sa Chromium.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Mga tine-test na browser' },
+          {
+            kind: 'p',
+            html: 'Sa bawat pagbabago, pinapatakbo ang mga test ng bawat component sa mga engine ng Chrome, Firefox at Safari. Bago ang isang release, sinusuri ang bawat page ng dokumentasyong ito sa bawat engine, sa computer at sa phone na may touch: kailangan nitong mag-load, mabuksan ang bawat menu at popup nito, magkasya sa screen at pumasa sa mga accessibility check.',
+          },
+          {
+            kind: 'table',
+            caption: 'Mga browser na ginagamit sa pag-test',
+            head: ['Engine', 'Version', 'Tine-test sa'],
+            rows: [
+              [
+                'Chromium (engine ng Chrome at Edge)',
+                '153',
+                'Computer, at Android phone na may touch',
+              ],
+              ['Firefox', '155', 'Computer, at touch screen na kasinlaki ng phone'],
+              ['WebKit (engine ng Safari)', '26.6', 'Computer, at iPhone na may touch'],
+              ['Safari sa iPhone', 'iOS 17.5 at 18.6', 'Ang iPhone simulator'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Hindi isa-isang tine-test ang mga version sa pagitan ng pinakalumang sinusuportahan at ng mga tine-test: sinusuportahan ang mga ito dahil nasa kanila ang bawat feature na kailangan ng mga component.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Mga extra sa mas bagong browser' },
+          {
+            kind: 'p',
+            html: 'May ilang detalye na gumagamit ng mga feature na nasa mas bagong browser lang. Nilalaktawan ang mga ito ng ibang browser, at walang nasisira:',
+          },
+          {
+            kind: 'table',
+            caption: 'Mga detalyeng nangangailangan ng mas bagong browser',
+            head: ['Detalye', 'Mga browser', 'Sa ibang browser'],
+            rows: [
+              [
+                'May animation ang paglitaw at pagkawala ng mga popover, menu at dialog',
+                'Chrome at Edge, Firefox 129, Safari 17.5',
+                'Biglang lumilitaw at nawawala',
+              ],
+              [
+                'Mga squircle na sulok (<code>corner-shape</code>)',
+                'Chrome at Edge 139',
+                'Mga bilog na sulok',
+              ],
+              [
+                'Pagpili ng kulay mula saanman sa screen',
+                'Chrome at Edge sa computer',
+                'Walang eyedropper button',
+              ],
+              ['Pagpili ng buong folder sa dropzone', 'Mga browser sa computer', 'Mga file lang'],
+              [
+                'Unti-unting napupuno ang ring ng rotation control ng carousel',
+                'Chrome at Edge, Firefox 128, Safari',
+                'Biglang napupuno',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Mga phone at touch screen' },
+          {
+            kind: 'p',
+            html: 'Gumagana sa touch ang bawat component. Sinusundan ng mga handle ng splitter, ng color area, ng mga gilid ng column at ng mga toast ang daliri nang hindi nag-i-scroll ang page, sina-swipe ang carousel gamit ang sariling scrolling ng browser, at napupulot ang isang event sa scheduler sa pamamagitan ng long press. Sa mga touch screen, hindi bababa sa 16px ang text ng mga field, kaya hindi nagzo-zoom in ang mga iPhone sa mga ito, at buo ang dating ng mga salita mula sa mga keyboard na bumubuo sa mga ito habang nagta-type, gaya ng mga Android keyboard.',
+          },
+          {
+            kind: 'p',
+            html: 'Walang hover sa mga touch screen, kaya pandagdag lang ang hovercard sa kung ano ang nasa page: huwag maglagay ng anumang mahalaga rito. Sa phone, gumagawa ng bagong linya ang Return key ng chat, at ang button nito ang nagpapadala.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Ang keyboard sa Safari' },
+          {
+            kind: 'p',
+            html: 'Bilang default, sa pagitan lang ng mga text field at pop-up menu lumilipat ang Tab key sa Safari. Para maabot ang bawat button at link, i-on ang “Pindutin ang Tab para i-highlight ang bawat item sa webpage” (“Press Tab to highlight each item on a webpage”) sa Advanced settings ng Safari, o pindutin ang Option-Tab. Hindi rin inilalagay ng Safari ang focus sa isang button kapag na-click ito; binabawi ito ng mga component, kaya tuloy-tuloy ang paggamit ng keyboard pagkatapos ng click, gaya sa ibang browser.',
           },
         ],
       },

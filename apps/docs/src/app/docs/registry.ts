@@ -621,7 +621,12 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
           { name: 'value', kind: 'model', type: 'string', default: "''" },
           { name: 'placeholder', kind: 'input', type: 'string' },
           { name: 'suggestions', kind: 'input', type: 'string[]', default: '[]' },
-          { name: 'sendOn', kind: 'input', type: "'enter' | 'mod+enter'", default: "'enter'" },
+          {
+            name: 'sendOn',
+            kind: 'input',
+            type: "'auto' | 'enter' | 'mod+enter'",
+            default: "'auto'",
+          },
           { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
           { name: 'attach', kind: 'input', type: 'boolean', default: 'false' },
           { name: 'accept', kind: 'input', type: 'string', default: "''" },

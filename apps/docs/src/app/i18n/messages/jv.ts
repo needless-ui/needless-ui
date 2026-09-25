@@ -1400,7 +1400,8 @@ export const messages: Messages = {
               value: 'Teks sing lagi ditulis.',
               placeholder: 'Pitunjuk ing kolom kosong.',
               suggestions: 'Prompt sing dikirim sak klik, nganti pesen kapisan.',
-              sendOn: 'Apa Enter ngirim, utawa Ctrl utawa ⌘ + Enter.',
+              sendOn:
+                'Apa Enter ngirim, utawa Ctrl utawa ⌘ + Enter. <code>auto</code> ngirim nganggo Enter yen ana keyboard; ing layar sentuh, Return nggawe baris anyar lan tombol sing ngirim.',
               disabled: 'Ngalangi kothak tulis ngirim.',
               attach: 'Nampa berkas: sing dipilih, ditempel utawa diselehake.',
               accept: 'Jinis berkas sing ditampa, kaya ing <code>&lt;input type="file"&gt;</code>.',
@@ -1705,7 +1706,7 @@ export const messages: Messages = {
             members: {
               value: 'Rentange, utawa null nganti wiwitan lan pungkasan disetel, kanthi urut.',
               presets: 'Rentang kanthi jeneng kanggo dipilih sepisan klik.',
-              months: 'Sasi sing dijejerake ing kalender.',
+              months: 'Sasi sing dijejerake ing kalender; mung siji ing layar sing ciut.',
             },
           },
           NuiDateRangePreset: {
@@ -2483,6 +2484,109 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Yen sistem nyuwun obah sing luwih sithik, pegas dadi owah-owahan sanalika, lan efek pencetan sarta animasi mlebu mandheg obah. Kapadhetan ora tau ndadekake kontrol luwih cilik tinimbang ukuran target 24px saka WCAG 2.2, lan ora ana preset sing ndemek werna, dadi saben pamriksan kontras tetep laku. Browser tanpa <code>corner-shape</code> nggambar saben pojok bunder.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Dhukungan browser',
+        description:
+          'Browser sing didhukung lan dites Needless UI: versi Chrome, Edge, Firefox lan Safari, HP lan layar sentuh, sarta apa sing ora ana ing browser lawas.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI dibangun ing elemen native lan fitur-fitur anyar platform web, kayata Popover API. Browser ing ngisor iki didhukung wiwit versi sing kacathet. Ing versi sing luwih lawas, menu, select lan popover ora bisa kabukak.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Browser sing didhukung' },
+          {
+            kind: 'table',
+            caption: 'Versi paling lawas sing didhukung',
+            head: ['Browser', 'Wiwit versi', 'Dibutuhake kanggo'],
+            rows: [
+              [
+                'Chrome lan Edge, ing komputer lan Android',
+                '120',
+                'Ikon sing digambar nganggo mask CSS, lan <code>:dir()</code> kanggo teks tengen-menyang-kiwa',
+              ],
+              ['Firefox, ing komputer lan Android', '125', 'Popover API'],
+              ['Safari ing Mac', '17', 'Popover API'],
+              ['Saben browser ing iPhone lan iPad', 'iOS 17', 'Popover API'],
+              ['Browser Samsung Internet', '25', 'Padha karo Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Browser liyane sing dibangun saka Chromium, kayata Opera lan Brave, ngetutake versi Chrome. Angular 22 dhewe mbutuhake Chrome, Edge lan Firefox 119, sarta Safari 17. Internet Explorer lan Edge lawas saka jaman sadurunge Chromium ora didhukung.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Browser sing dites' },
+          {
+            kind: 'p',
+            html: 'Saben owah-owahan nglakokake tes saben komponen ing mesin Chrome, Firefox lan Safari. Sadurunge saben rilis, saben kaca dokumentasi iki dipriksa ing saben mesin, ing komputer lan ing HP kanthi sentuhan: kaca kudu bisa mlaku, mbukak saben menu lan popup, pas ing layar lan lulus pamriksan aksesibilitas.',
+          },
+          {
+            kind: 'table',
+            caption: 'Browser sing dienggo tes',
+            head: ['Mesin', 'Versi', 'Dites ing'],
+            rows: [
+              [
+                'Chromium (dienggo Chrome lan Edge)',
+                '153',
+                'Komputer, lan HP Android kanthi sentuhan',
+              ],
+              ['Firefox', '155', 'Komputer, lan layar sentuh saukuran HP'],
+              ['WebKit (dienggo Safari)', '26.6', 'Komputer, lan iPhone kanthi sentuhan'],
+              ['Safari ing iPhone', 'iOS 17.5 lan 18.6', 'Simulator iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Versi ing antarane versi paling lawas sing didhukung lan versi sing dites ora dites siji-siji: versi-versi kasebut didhukung amarga nduweni kabeh fitur sing dibutuhake komponen.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Tambahan ing browser anyar' },
+          {
+            kind: 'p',
+            html: 'Sawetara detail nganggo fitur sing mung ana ing browser anyar. Browser liyane ora nganggo detail kasebut, lan ora ana sing rusak:',
+          },
+          {
+            kind: 'table',
+            caption: 'Detail sing mbutuhake browser anyar',
+            head: ['Detail', 'Browser', 'Browser liyane'],
+            rows: [
+              [
+                'Popover, menu lan dialog mlebu lan metu kanthi animasi',
+                'Chrome lan Edge, Firefox 129, Safari 17.5',
+                'Langsung katon lan langsung ilang',
+              ],
+              ['Pojok squircle (<code>corner-shape</code>)', 'Chrome lan Edge 139', 'Pojok bunder'],
+              [
+                'Njupuk werna saka ngendi wae ing layar',
+                'Chrome lan Edge ing komputer',
+                'Ora ana tombol pipet',
+              ],
+              [
+                'Milih folder sakabehe ing area seleh berkas',
+                'Browser ing komputer',
+                'Mung berkas',
+              ],
+              [
+                'Bunderan ing kontrol rotasi korsel kebak kanthi alus',
+                'Chrome lan Edge, Firefox 128, Safari',
+                'Langsung kebak',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'HP lan layar sentuh' },
+          {
+            kind: 'p',
+            html: 'Saben komponen bisa dienggo kanthi sentuhan. Gagang pamisah panel, area pamilih werna, pinggir kolom grid data lan toast ngetutake driji tanpa nggulung kaca, korsel digeser nganggo gulungan browser dhewe, lan pencetan suwe ngangkat acara ing pangatur jadhwal. Ing layar sentuh, teks ing kolom isian paling ora 16px, dadi iPhone ora nge-zoom kolom kasebut, lan tembung saka keyboard sing nyusun tembung, kaya keyboard Android, tekan kanthi wutuh.',
+          },
+          {
+            kind: 'p',
+            html: 'Layar sentuh ora bisa hover, dadi hovercard mung nambahi apa sing wis ana ing kaca: aja nyelehake apa wae sing wigati ing kono. Ing HP, tombol Return ing chat nggawe baris anyar, lan tombol kirime sing ngirim.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Keyboard ing Safari' },
+          {
+            kind: 'p',
+            html: 'Gawane, tombol Tab ing Safari mung pindhah ing antarane kolom teks lan menu pop-up. Supaya bisa tekan saben tombol lan pranala, uripake “Pencet Tab kanggo nyorot saben item ing kaca web” (Press Tab to highlight each item on a webpage) ing setelan “Lanjutan” (Advanced) Safari, utawa pencet Option-Tab. Safari uga ora menehi fokus marang tombol sing diklik; komponen-komponen nutupi kekurangan kasebut, dadi sawise klik, keyboard bisa nerusake saka kono kaya ing browser liyane.',
           },
         ],
       },

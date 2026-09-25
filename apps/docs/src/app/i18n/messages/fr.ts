@@ -1423,7 +1423,8 @@ export const messages: Messages = {
               value: 'Le texte en cours de saisie.',
               placeholder: 'L’indication dans le champ vide.',
               suggestions: 'Des prompts à envoyer d’un clic, jusqu’au premier message.',
-              sendOn: 'Si l’envoi se fait avec Entrée, ou avec Ctrl ou ⌘ + Entrée.',
+              sendOn:
+                'Si l’envoi se fait avec Entrée, ou avec Ctrl ou ⌘ + Entrée. <code>auto</code> envoie avec Entrée quand il y a un clavier ; sur les écrans tactiles, Entrée passe à la ligne et c’est le bouton qui envoie.',
               disabled: 'Empêche l’envoi depuis la zone de saisie.',
               attach: 'Accepte des fichiers : choisis, collés ou déposés.',
               accept:
@@ -1737,7 +1738,7 @@ export const messages: Messages = {
               value:
                 'La plage, ou null tant que les deux bornes ne sont pas définies, dans l’ordre.',
               presets: 'Des plages nommées, à choisir en un clic.',
-              months: 'Mois côte à côte dans le calendrier.',
+              months: 'Mois côte à côte dans le calendrier ; un seul sur un écran étroit.',
             },
           },
           NuiDateRangePreset: {
@@ -2548,6 +2549,113 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Quand le système demande moins d’animations, les ressorts deviennent instantanés, et les effets d’appui et les animations d’entrée ne bougent plus. La densité ne fait jamais passer un élément interactif sous la taille de cible minimale de 24 px des WCAG 2.2, et aucun préréglage ne touche aux couleurs : toutes les vérifications de contraste restent valables. Les navigateurs qui ne prennent pas en charge <code>corner-shape</code> dessinent tous les coins arrondis.',
+          },
+        ],
+      },
+      'browser-support': {
+        title: 'Prise en charge des navigateurs',
+        description:
+          'Les navigateurs que Needless UI prend en charge et teste : versions de Chrome, Edge, Firefox et Safari, mobiles, écrans tactiles, et ce qui manque aux anciens.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Needless UI s’appuie sur des éléments natifs et sur des fonctionnalités récentes de la plateforme web, comme l’API Popover. Les navigateurs ci-dessous sont pris en charge à partir de la version indiquée. Dans les versions plus anciennes, les menus, les selects et les popovers ne s’ouvrent pas.',
+          },
+          { kind: 'h2', id: 'supported', text: 'Navigateurs pris en charge' },
+          {
+            kind: 'table',
+            caption: 'Plus anciennes versions prises en charge',
+            head: ['Navigateur', 'Version minimale', 'Nécessaire pour'],
+            rows: [
+              [
+                'Chrome et Edge, sur ordinateur et Android',
+                '120',
+                'Les icônes dessinées avec des masques CSS et <code>:dir()</code> pour le texte de droite à gauche',
+              ],
+              ['Firefox, sur ordinateur et Android', '125', 'L’API Popover'],
+              ['Safari sur Mac', '17', 'L’API Popover'],
+              ['Tous les navigateurs sur iPhone et iPad', 'iOS 17', 'L’API Popover'],
+              ['Samsung Internet sur Android', '25', 'Comme pour Chrome'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Les autres navigateurs basés sur Chromium, comme Opera et Brave, suivent les versions de Chrome. Angular 22 exige lui-même Chrome, Edge et Firefox 119, ainsi que Safari 17. Internet Explorer et l’ancien Edge, antérieur à Chromium, ne sont pas pris en charge.',
+          },
+          { kind: 'h2', id: 'tested', text: 'Navigateurs testés' },
+          {
+            kind: 'p',
+            html: 'À chaque modification, les tests de tous les composants s’exécutent dans les moteurs de Chrome, Firefox et Safari. Avant chaque publication, toutes les pages de cette documentation sont vérifiées dans chaque moteur, sur un ordinateur et sur un téléphone en mode tactile : chacune doit se charger, ouvrir chaque menu et chaque pop-up, tenir dans l’écran et réussir les contrôles d’accessibilité.',
+          },
+          {
+            kind: 'table',
+            caption: 'Navigateurs testés',
+            head: ['Moteur', 'Version', 'Testé sur'],
+            rows: [
+              [
+                'Chromium (dans Chrome et Edge)',
+                '153',
+                'Un ordinateur et un téléphone Android en mode tactile',
+              ],
+              ['Firefox', '155', 'Un ordinateur et un écran tactile de la taille d’un téléphone'],
+              ['WebKit (dans Safari)', '26.6', 'Un ordinateur et un iPhone en mode tactile'],
+              ['Safari sur iPhone', 'iOS 17.5 et 18.6', 'Le simulateur d’iPhone'],
+            ],
+          },
+          {
+            kind: 'p',
+            html: 'Les versions intermédiaires, entre la plus ancienne prise en charge et celles qui sont testées, ne sont pas vérifiées une à une : elles sont prises en charge parce qu’elles ont toutes les fonctionnalités dont les composants ont besoin.',
+          },
+          { kind: 'h2', id: 'newer', text: 'Les extras des navigateurs récents' },
+          {
+            kind: 'p',
+            html: 'Quelques détails utilisent des fonctionnalités que seuls les navigateurs récents proposent. Les autres navigateurs s’en passent, sans que rien ne casse :',
+          },
+          {
+            kind: 'table',
+            caption: 'Détails qui demandent un navigateur récent',
+            head: ['Détail', 'Navigateurs', 'Ailleurs'],
+            rows: [
+              [
+                'Les popovers, menus et boîtes de dialogue s’animent à l’ouverture et à la fermeture',
+                'Chrome et Edge, Firefox 129, Safari 17.5',
+                'Ils apparaissent et disparaissent instantanément',
+              ],
+              [
+                'Coins en squircle (<code>corner-shape</code>)',
+                'Chrome et Edge 139',
+                'Coins arrondis',
+              ],
+              [
+                'Prélever une couleur n’importe où sur l’écran',
+                'Chrome et Edge sur ordinateur',
+                'Pas de bouton pipette',
+              ],
+              [
+                'Choisir un dossier entier dans la zone de dépôt',
+                'Navigateurs sur ordinateur',
+                'Fichiers uniquement',
+              ],
+              [
+                'L’anneau du contrôle de rotation du carrousel se remplit en douceur',
+                'Chrome et Edge, Firefox 128, Safari',
+                'Il se remplit d’un coup',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'touch', text: 'Téléphones et écrans tactiles' },
+          {
+            kind: 'p',
+            html: 'Tous les composants fonctionnent en tactile. Les poignées du splitter, la zone de couleur, les bords de colonne et les toasts suivent le doigt sans faire défiler la page, le carrousel suit le balayage grâce au défilement natif du navigateur, et un appui long saisit un événement du planificateur. Sur les écrans tactiles, le texte des champs fait au moins 16 px, pour que les iPhone ne zooment pas dessus, et les mots que certains claviers composent, comme ceux d’Android, arrivent entiers.',
+          },
+          {
+            kind: 'p',
+            html: 'Les écrans tactiles ne connaissent pas le survol, donc une hovercard ne fait que compléter le contenu de la page : n’y mettez rien d’essentiel. Sur un téléphone, la touche Entrée du chat passe à la ligne, et c’est le bouton qui envoie.',
+          },
+          { kind: 'h2', id: 'keyboard', text: 'Le clavier dans Safari' },
+          {
+            kind: 'p',
+            html: 'Par défaut, dans Safari, la touche Tab ne passe que d’un champ de texte ou d’un menu déroulant à l’autre. Pour atteindre chaque bouton et chaque lien, activez « Appuyer sur Tab pour mettre en évidence chaque élément d’une page web » (« Press Tab to highlight each item on a webpage ») dans l’onglet Avancées des réglages de Safari, ou appuyez sur Option + Tab. Safari ne donne pas non plus le focus à un bouton quand on clique dessus ; les composants y remédient, pour que la navigation au clavier reprenne après un clic comme dans les autres navigateurs.',
           },
         ],
       },
