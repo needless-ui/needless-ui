@@ -18,9 +18,15 @@ import { fileURLToPath } from 'node:url';
 const DIST = fileURLToPath(new URL('../../../dist/docs/browser/', import.meta.url));
 const MAIN_SCRIPT = /<script src="(main-[\w-]+\.js)" type="module"><\/script>/g;
 
-/** Inline script: import the app once the first contentful paint is on screen. */
+/**
+ * Inline script: import the app once the first contentful paint is on screen.
+ * The address resolves against `<base href>` (`document.baseURI`), as the preload
+ * does: WebKit resolves an inline module's relative `import()` against the page
+ * instead, so `/components/menu` asked for `/components/main-*.js`, a 404, and
+ * Safari never hydrated a page below the root.
+ */
 const hydrateAfterPaint = (src: string) =>
-  `const load = () => import('./${src}');` +
+  `const load = () => import(new URL('${src}', document.baseURI).href);` +
   "if (PerformanceObserver.supportedEntryTypes.includes('paint')) {" +
   'new PerformanceObserver((list, observer) => {' +
   "if (list.getEntriesByName('first-contentful-paint').length) { observer.disconnect(); load(); }" +
