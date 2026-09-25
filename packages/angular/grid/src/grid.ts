@@ -147,8 +147,8 @@ export class NuiGrid<T> {
   /** `table`; `list` shows each row as a card; `auto` does below a width. */
   readonly layout = input<'table' | 'list' | 'auto'>('table');
   /**
-   * A bar above the rows that sorts and opens the column panel: always, never, or
-   * `auto` with cards, which have no header row.
+   * A bar above the rows that sorts them, selects them all and opens the column panel:
+   * always, never, or `auto` with cards, which have no header row.
    */
   readonly toolbar = input<boolean | 'auto', unknown>('auto', {
     transform: (value) => (value === 'auto' ? 'auto' : booleanAttribute(value)),
@@ -182,7 +182,10 @@ export class NuiGrid<T> {
   protected readonly showToolbar = computed(() => {
     const toolbar = this.toolbar();
     const shown = toolbar === 'auto' ? this.cards() : toolbar;
-    return shown && (this.sortChoices().length > 0 || this.filterable());
+    return (
+      shown &&
+      (this.selection() === 'multiple' || this.sortChoices().length > 0 || this.filterable())
+    );
   });
 
   /** The model: filtering, sorting, paging, selection, columns and the active cell. */

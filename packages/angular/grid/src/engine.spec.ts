@@ -119,6 +119,8 @@ describe('NuiGridEngine', () => {
     expect(grid.someSelected()).toBe(true);
 
     grid.setFilter('status', { op: 'in', value: ['shipped'] });
+    // What select all acts on: the rows that pass, in their order.
+    expect(grid.selectableKeys()).toEqual([4, 3, 1]);
     grid.toggleAll();
     expect([...grid.selected()].sort()).toEqual([1, 2, 3, 4]);
     expect(grid.allSelected()).toBe(true);

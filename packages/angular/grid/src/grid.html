@@ -9,7 +9,8 @@
   <div class="nui-grid-progress" role="progressbar" [attr.aria-label]="t.loading"></div>
 }
 
-<!-- What the header row does, for cards, which have none: sort, and open the column panel. -->
+<!-- What the header row does, for cards, which have none: sort, select every row, and
+     open the column panel. -->
 @if (showToolbar()) {
   @let first = firstSort();
   <div class="nui-grid-toolbar" role="group" [attr.aria-label]="t.toolbar">
@@ -52,6 +53,21 @@
           (click)="sortDirection('desc')"
         ></button>
       </span>
+    }
+    @if (selection() === 'multiple') {
+      @let all = engine.allSelected();
+      <!-- The header's checkbox, with its name shown. The attribute is for the server's HTML. -->
+      <label class="nui-grid-select-all">
+        <input
+          type="checkbox"
+          [checked]="all"
+          [attr.checked]="all ? '' : null"
+          [indeterminate]="engine.someSelected()"
+          [disabled]="!engine.selectableKeys().length"
+          (change)="engine.toggleAll()"
+        />
+        {{ t.selectAll }}
+      </label>
     }
     @if (filterable()) {
       <button
@@ -118,6 +134,7 @@
                 tabindex="-1"
                 [checked]="engine.allSelected()"
                 [indeterminate]="engine.someSelected()"
+                [disabled]="!engine.selectableKeys().length"
                 [attr.aria-label]="t.selectAll"
                 (click)="$event.stopPropagation(); engine.toggleAll()"
               />

@@ -38,19 +38,23 @@ const columns: NuiGridColumn<Sale>[] = [
       [columns]="columns"
       [layout]="layout()"
       [toolbar]="toolbar()"
+      [selection]="selection()"
       [(sort)]="sort"
       [(filters)]="filters"
+      [(selected)]="selected"
     />
   `,
 })
 class Host {
   readonly rows = sales;
-  readonly columns = columns;
+  columns = columns;
   readonly layout = signal<'table' | 'list'>('list');
   /** `''` is the bare attribute, `<nui-grid toolbar>`. */
   readonly toolbar = signal<boolean | 'auto' | ''>('auto');
+  readonly selection = signal<'none' | 'single' | 'multiple'>('none');
   readonly sort = signal<readonly NuiGridSort[]>([]);
   readonly filters = signal<Readonly<Record<string, NuiGridFilter>>>({});
+  readonly selected = signal<readonly unknown[]>([]);
 }
 
 async function setup(change?: (host: Host) => void) {
@@ -74,6 +78,8 @@ async function setup(change?: (host: Host) => void) {
     direction: (direction: 'asc' | 'desc') =>
       root.querySelector<HTMLButtonElement>(`.nui-grid-direction[data-direction="${direction}"]`)!,
     filterButton: () => root.querySelector<HTMLButtonElement>('.nui-grid-filter-button')!,
+    selectAll: () => root.querySelector<HTMLInputElement>('.nui-grid-select-all input')!,
+    checks: () => [...root.querySelectorAll<HTMLInputElement>('tbody .nui-grid-select input')],
     panel: () => root.querySelector<HTMLElement>('.nui-grid-panel')!,
     cities: () =>
       [...root.querySelectorAll('tbody tr[data-index]')].map((row) =>
@@ -211,6 +217,99 @@ describe('NuiGrid cards', () => {
       'Region',
       'Note',
     ]);
+  });
+
+  it('selects every card from the toolbar, as the header checkbox does', async () => {
+    const { host, root, settle, toolbar, selectAll, checks } = await setup((h) =>
+      h.selection.set('multiple'),
+    );
+    // A native checkbox named by its label on screen, after the sort and before the filter.
+    const label = selectAll().labels![0];
+    expect(label.textContent!.trim()).toBe('Select all rows');
+    expect([...toolbar()!.children].map((child) => child.className)).toEqual([
+      'nui-grid-sort-by',
+      'nui-grid-directions',
+      'nui-grid-select-all',
+      'nui-grid-filter-button',
+    ]);
+    expect(selectAll().checked).toBe(false);
+    expect(selectAll().indeterminate).toBe(false);
+
+    await userEvent.click(checks()[1]);
+    await settle();
+    expect(host.selected()).toEqual([2]);
+    expect(selectAll().indeterminate).toBe(true);
+
+    // A tap on the label's words, as a finger would.
+    await userEvent.click(label);
+    await settle();
+    expect([...host.selected()].sort()).toEqual([1, 2, 3, 4]);
+    expect(selectAll().checked).toBe(true);
+    expect(selectAll().indeterminate).toBe(false);
+    // The attribute too, for the server's HTML.
+    expect(selectAll().hasAttribute('checked')).toBe(true);
+    expect(root.querySelectorAll('tbody tr[aria-selected="true"]').length).toBe(4);
+    expect(checks().every((check) => check.checked)).toBe(true);
+
+    // Space on the checkbox, from the keyboard.
+    selectAll().focus();
+    await userEvent.keyboard(' ');
+    await settle();
+    expect(host.selected()).toEqual([]);
+    expect(selectAll().checked).toBe(false);
+    expect(selectAll().hasAttribute('checked')).toBe(false);
+  });
+
+  it('selects the cards that pass the filters, and is off while none do', async () => {
+    const { host, root, settle, selectAll } = await setup((h) => {
+      h.selection.set('multiple');
+      h.filters.set({ region: { op: 'contains', value: 'Asia' } });
+    });
+    await userEvent.click(selectAll());
+    await settle();
+    expect([...host.selected()].sort()).toEqual([2, 4]);
+    expect(selectAll().checked).toBe(true);
+
+    host.filters.set({ region: { op: 'contains', value: 'Mars' } });
+    await settle();
+    expect(selectAll().disabled).toBe(true);
+    expect(selectAll().checked).toBe(false);
+    // Rows that don't pass stay selected.
+    expect([...host.selected()].sort()).toEqual([2, 4]);
+
+    // The header's checkbox, over a table, is off too.
+    host.layout.set('table');
+    await settle();
+    expect(root.querySelector('.nui-grid-select-all')).toBeNull();
+    expect(root.querySelector<HTMLInputElement>('thead input[type="checkbox"]')!.disabled).toBe(
+      true,
+    );
+    host.filters.set({});
+    await settle();
+    expect(root.querySelector<HTMLInputElement>('thead input[type="checkbox"]')!.disabled).toBe(
+      false,
+    );
+  });
+
+  it('shows select all only with multiple selection, with or without columns to sort', async () => {
+    const { host, settle, toolbar, selectAll } = await setup((h) => {
+      h.columns = columns.map((column) => ({ ...column, sortable: false, filterable: false }));
+    });
+    // Nothing to sort, filter or select: no toolbar.
+    expect(toolbar()).toBeNull();
+    host.selection.set('single');
+    await settle();
+    expect(toolbar()).toBeNull();
+
+    host.selection.set('multiple');
+    await settle();
+    expect(toolbar()!.getAttribute('role')).toBe('group');
+    expect(toolbar()!.querySelectorAll('select, button').length).toBe(0);
+    expect(selectAll()).not.toBeNull();
+
+    host.selection.set('none');
+    await settle();
+    expect(toolbar()).toBeNull();
   });
 
   it('makes the first card the tab stop, since cards have no header row', async () => {

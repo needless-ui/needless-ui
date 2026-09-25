@@ -152,6 +152,7 @@ export interface NuiGridEdit<T> {
 
 /** Every text the grid shows or announces. */
 export interface NuiGridLabels {
+  /** Names the header's checkbox, and labels the toolbar's on screen. */
   selectAll: string;
   selectRow: string;
   /** Selects every row of a group. */

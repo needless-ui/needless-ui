@@ -771,25 +771,28 @@ export class NuiGridEngine<T> {
     this.selected.set([...keys]);
   }
 
-  /** Every row that passes the filters (every page); in server mode, the rows shown. */
-  private readonly selectable = computed(() =>
+  /**
+   * The keys that select all acts on: every row that passes the filters (every page),
+   * or in server mode the rows shown.
+   */
+  readonly selectableKeys = computed(() =>
     (this.mode() === 'server' ? this.rows() : this.sorted()).map((row) => this.key(row)),
   );
 
   readonly allSelected = computed(() => {
-    const keys = this.selectable();
+    const keys = this.selectableKeys();
     const selected = this.selectedKeys();
     return keys.length > 0 && keys.every((key) => selected.has(key));
   });
 
   readonly someSelected = computed(() => {
     const selected = this.selectedKeys();
-    return !this.allSelected() && this.selectable().some((key) => selected.has(key));
+    return !this.allSelected() && this.selectableKeys().some((key) => selected.has(key));
   });
 
   toggleAll(): void {
     if (this.selection() !== 'multiple') return;
-    const keys = this.selectable();
+    const keys = this.selectableKeys();
     const inView = new Set(keys);
     const rest = this.selected().filter((key) => !inView.has(key));
     this.selected.set(this.allSelected() ? rest : [...rest, ...keys]);
