@@ -50,6 +50,8 @@ The menu also takes the [customization](customization.md) presets `enter`, `moti
 
 Choosing an item closes the menu and returns focus to the trigger. Moving focus outside the trigger and menu also closes it.
 
+A close request (Android's back gesture or button, in browsers with the CloseWatcher API) closes only the innermost open menu. A submenu closes as ← does, focus back on its item, and its menu stays open; the menu closes as Escape does, focus back on the trigger. Escape itself still closes the whole menu.
+
 ## Positioning
 
 The menu renders as a popover in the top layer. It opens below the trigger, aligned to the start edge, and flips above when there's more room there. Submenus open toward the inline end and flip at the viewport edge. Everything stays at least 8px inside the viewport, and tall menus scroll. The position follows the trigger while the page scrolls or resizes. The menu grows out of the side it opened on, which it reports in `data-side`.
@@ -64,5 +66,5 @@ The menu renders as a popover in the top layer. It opens below the trigger, alig
 
 ## Implementation notes
 
-- **Angular:** behavior comes from Angular Aria (`Menu`, `MenuItem`, `MenuTrigger`, composed as host directives). Needless UI adds the styles, the popover, positioning, and a per-item `(selected)` output. Aria chooses the item to focus before the popover is visible, so `nuiMenu` moves focus there once it shows.
+- **Angular:** behavior comes from Angular Aria (`Menu`, `MenuItem`, `MenuTrigger`, composed as host directives). Needless UI adds the styles, the popover, positioning, and a per-item `(selected)` output. Aria chooses the item to focus before the popover is visible, so `nuiMenu` moves focus there once it shows. Each open menu with a trigger or parent item has a close watcher (`nuiOnCloseRequest()`), which closes it through Aria's own `close()`. Aria prevents the Escape it handles, so the watchers never see that key and nothing closes twice.
 - **React (planned):** same markup and attributes, with behavior from React Aria's menu.

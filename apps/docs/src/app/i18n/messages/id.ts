@@ -2581,6 +2581,11 @@ export const messages: Messages = {
                 'Chrome dan Edge, Firefox 128, Safari',
                 'Langsung terisi penuh',
               ],
+              [
+                'Gestur kembali Android menutup menu, daftar combobox, dan hovercard, serta mengakhiri tur terpandu',
+                'Chrome dan Edge 126, Firefox 149',
+                'Gestur kembali membuka halaman sebelumnya',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Ponsel dan layar sentuh' },

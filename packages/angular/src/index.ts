@@ -8,6 +8,7 @@
  * The primary entry point holds what components share: types, the customization
  * inputs and the spring compiler.
  */
+export { nuiOnCloseRequest } from './close';
 export {
   nuiAddDays,
   nuiAddMinutes,

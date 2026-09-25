@@ -2641,6 +2641,11 @@ export const messages: Messages = {
                 'Chrome et Edge, Firefox 128, Safari',
                 'Il se remplit d’un coup',
               ],
+              [
+                'Le geste Retour d’Android ferme les menus, les listes des combobox et les hovercards, et met fin aux visites guidées',
+                'Chrome et Edge 126, Firefox 149',
+                'Le geste Retour ramène à la page précédente',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Téléphones et écrans tactiles' },

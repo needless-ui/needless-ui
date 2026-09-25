@@ -2404,6 +2404,11 @@ export const messages: Messages = {
                 'Chrome 與 Edge、Firefox 128、Safari',
                 '一次填滿',
               ],
+              [
+                'Android 的返回手勢可以關閉選單、Combobox 清單和懸停卡片，並結束引導式導覽',
+                'Chrome 與 Edge 126、Firefox 149',
+                '返回手勢會回到上一頁',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: '手機和觸控螢幕' },

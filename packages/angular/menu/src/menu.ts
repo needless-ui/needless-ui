@@ -13,7 +13,7 @@ import {
   output,
   PLATFORM_ID,
 } from '@angular/core';
-import { NuiPersonality } from '@needless-ui/angular';
+import { nuiOnCloseRequest, NuiPersonality } from '@needless-ui/angular';
 import { positionMenu } from './position';
 
 const VIEWPORT_MARGIN = 8;
@@ -57,7 +57,8 @@ export class NuiMenuTrigger {
 /**
  * A menu of actions. It renders as a popover in the top layer, placed next to its
  * trigger (or beside its parent item, for a submenu), and it stays inside the
- * viewport while the page scrolls or resizes.
+ * viewport while the page scrolls or resizes. Android's back gesture closes the
+ * innermost open menu, where the browser has the CloseWatcher API.
  *
  * The `ngMenu` export is the Angular Aria `Menu` that triggers and `[submenu]` take.
  *
@@ -89,6 +90,7 @@ export class NuiMenu {
     const view = isPlatformBrowser(inject(PLATFORM_ID)) ? this.document.defaultView : null;
     let shown = false;
     let frame = 0;
+    let unwatch: (() => void) | null = null;
 
     // Focus leaving the menu closes it. So does a press anywhere else, for touch
     // screens: a tapped trigger doesn't always take focus, and then focus never
@@ -127,7 +129,11 @@ export class NuiMenu {
         this.position();
         this.focusActiveItem();
         follow(true);
+        // A menu without a trigger or item to open it never closes.
+        if (this.menu.parent()) unwatch = nuiOnCloseRequest(() => this.onCloseRequest());
       } else {
+        unwatch?.();
+        unwatch = null;
         follow(false);
         element.hidePopover?.();
       }
@@ -135,8 +141,31 @@ export class NuiMenu {
 
     inject(DestroyRef).onDestroy(() => {
       follow(false);
+      unwatch?.();
       view?.cancelAnimationFrame(frame);
     });
+  }
+
+  /**
+   * A close request (Android's back gesture, or an Escape nothing else handled)
+   * goes to the innermost open menu, and closes only that one. A submenu closes
+   * as the collapse key closes it, focus back on its item, and the menu it opens
+   * from stays open. A menu closes as Escape closes it, focus back on its trigger
+   * (or as its menubar closes it). An Escape pressed in the menu or on its trigger
+   * never gets here: Angular Aria prevents the key's default, so no watcher sees
+   * it and nothing closes twice.
+   */
+  private onCloseRequest(): void {
+    const parent = this.menu.parent();
+    if (parent instanceof MenuTrigger) {
+      parent.close();
+      parent.element.focus();
+    } else if (parent?.parent instanceof MenuBar) {
+      parent.parent.close();
+    } else if (parent) {
+      parent.close();
+      parent.element.focus();
+    }
   }
 
   /**

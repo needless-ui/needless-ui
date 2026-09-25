@@ -20,7 +20,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { nuiFollow } from '@needless-ui/angular';
+import { nuiFollow, nuiOnCloseRequest } from '@needless-ui/angular';
 import { nuiFindOptions, type NuiOption, NuiOptionEngine, type NuiOptionRow } from './engine';
 import { NuiOptionList, NuiOptionTemplate } from './list';
 
@@ -205,6 +205,7 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
   private readonly document = inject(DOCUMENT);
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
   private stopFollowing: (() => void) | null = null;
+  private stopWatching: (() => void) | null = null;
   /** Options chosen earlier, so their labels survive a new list from the server. */
   private readonly remembered = signal<readonly NuiOption<V>[]>([]);
 
@@ -274,6 +275,7 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
     inject(DestroyRef).onDestroy(() => {
       this.document.removeEventListener('pointerdown', onPointerDown, true);
       this.stopFollowing?.();
+      this.stopWatching?.();
     });
   }
 
@@ -308,11 +310,15 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
     this.open.set(open);
     this.openChange.emit(open);
     this.stopFollowing?.();
-    this.stopFollowing = null;
+    this.stopWatching?.();
+    this.stopFollowing = this.stopWatching = null;
     if (open) {
       this.stopFollowing = nuiFollow(this.host, this.popupRef().nativeElement, {
         matchWidth: true,
       });
+      // Android's back gesture closes the list, as Escape does. (Escape itself is
+      // handled in onKeydown, which prevents its default: the watcher never sees it.)
+      this.stopWatching = nuiOnCloseRequest(() => this.hide());
     } else {
       // Unfinished text goes: a single combobox shows its value again.
       this.text.set(this.multiple() ? '' : (this.chosen()[0]?.label ?? ''));

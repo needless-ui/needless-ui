@@ -2600,6 +2600,11 @@ export const messages: Messages = {
                 'Chrome na Edge, Firefox 128, Safari',
                 'Hujaa mara moja',
               ],
+              [
+                'Ishara ya kurudi nyuma ya Android hufunga menyu, orodha za combobox na hovercard, na humaliza ziara ya kuongozwa',
+                'Chrome na Edge 126, Firefox 149',
+                'Ishara ya kurudi nyuma hurudi kwenye ukurasa uliotangulia',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Simu na skrini za kugusa' },

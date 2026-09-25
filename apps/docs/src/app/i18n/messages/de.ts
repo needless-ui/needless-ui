@@ -2663,6 +2663,11 @@ export const messages: Messages = {
                 'Chrome und Edge, Firefox 128, Safari',
                 'Er füllt sich auf einen Schlag',
               ],
+              [
+                'Die Zurück-Geste von Android schließt Menüs, Combobox-Listen und Hovercards und beendet Touren',
+                'Chrome und Edge 126, Firefox 149',
+                'Die Zurück-Geste führt zur vorherigen Seite',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Smartphones und Touchscreens' },

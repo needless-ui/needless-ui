@@ -14,7 +14,13 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { type NuiAlign, nuiFollow, NuiPersonality, type NuiSide } from '@needless-ui/angular';
+import {
+  type NuiAlign,
+  nuiFollow,
+  nuiOnCloseRequest,
+  NuiPersonality,
+  type NuiSide,
+} from '@needless-ui/angular';
 
 const PERSONALITY = {
   directive: NuiPersonality,
@@ -144,7 +150,8 @@ export class NuiPopoverTrigger {
  * A rich tooltip: text that describes its trigger, shown after a short hover or
  * on focus. It stays open while the pointer travels to it (through the triangle
  * between the pointer and the card), and Escape hides it without moving focus or
- * the pointer (WCAG 1.4.13). Keep it free of controls; use a popover for those.
+ * the pointer (WCAG 1.4.13), as does Android's back gesture where the browser has
+ * the CloseWatcher API. Keep it free of controls; use a popover for those.
  *
  * ```html
  * <a href="/u/ada" [nuiHovercardTrigger]="ada">@ada</a>
@@ -175,6 +182,7 @@ export class NuiHovercard extends Floating {
   private readonly document = inject(DOCUMENT);
   private timer?: ReturnType<typeof setTimeout>;
   private stopTracking?: () => void;
+  private stopWatching?: () => void;
 
   constructor() {
     super();
@@ -186,7 +194,22 @@ export class NuiHovercard extends Floating {
     inject(DestroyRef).onDestroy(() => {
       this.document.removeEventListener('keydown', onKeydown);
       this.cancel();
+      this.stopWatching?.();
     });
+  }
+
+  /**
+   * @internal Android's back gesture hides the card, as Escape does. The watcher
+   * also gets the Escape that the keydown listener above hides the card on, right
+   * after the listener: hiding again does nothing, and the Escape ends there
+   * rather than closing a dialog or popover behind the card. So the watcher stops
+   * at the next toggle event, never during the keydown.
+   */
+  protected override onToggle(event: ToggleEvent): void {
+    super.onToggle(event);
+    this.stopWatching?.();
+    this.stopWatching =
+      event.newState === 'open' ? nuiOnCloseRequest(() => this.hide()) : undefined;
   }
 
   /** Opens next to `anchor` after `delay` milliseconds (the open delay by default). */

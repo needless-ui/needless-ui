@@ -2524,6 +2524,11 @@ export const messages: Messages = {
                 'Chrome과 Edge, Firefox 128, Safari',
                 '한 번에 차오름',
               ],
+              [
+                'Android의 뒤로 가기 제스처로 메뉴, 콤보박스 목록, 호버 카드가 닫히고 가이드 투어가 끝남',
+                'Chrome과 Edge 126, Firefox 149',
+                '뒤로 가기 제스처를 하면 이전 페이지로 돌아감',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: '휴대폰과 터치스크린' },

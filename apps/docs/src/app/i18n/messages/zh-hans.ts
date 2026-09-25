@@ -2406,6 +2406,11 @@ export const messages: Messages = {
                 'Chrome 与 Edge、Firefox 128、Safari',
                 '一次性填满',
               ],
+              [
+                'Android 的返回手势可以关闭菜单、组合框列表和悬停卡片，并结束漫游式引导',
+                'Chrome 与 Edge 126、Firefox 149',
+                '返回手势会回到上一页',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: '手机和触摸屏' },

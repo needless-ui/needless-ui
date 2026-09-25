@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { nuiOnCloseRequest } from '@needless-ui/angular';
 import { userEvent } from 'vitest/browser';
+import { closeRequest, hasCloseWatcher, withoutCloseWatcher } from '../../src/testing';
 import { NuiTour, type NuiTourStep } from './tour';
 
 @Component({
@@ -113,5 +115,81 @@ describe('NuiTour', () => {
     await settle();
     expect(host.events).toEqual(['dismissed 0']);
     expect(host.open()).toBe(false);
+  });
+
+  /** Starts the tour from the keyboard, and goes on to its interactive step. */
+  async function toInteractiveStep(root: HTMLElement, settle: () => Promise<void>) {
+    const start = root.querySelector<HTMLButtonElement>('#start')!;
+    start.focus();
+    await userEvent.keyboard('{Enter}');
+    await settle();
+    await userEvent.keyboard('{Enter}');
+    await settle();
+    return start;
+  }
+
+  it.runIf(hasCloseWatcher)(
+    'ends on a close request as on Escape, on an interactive step too, focus going back',
+    async () => {
+      const { host, root, dialog, settle } = await setup();
+      const start = await toInteractiveStep(root, settle);
+      expect(dialog.matches(':popover-open')).toBe(true);
+
+      await closeRequest();
+      await settle();
+      expect(host.events).toEqual(['dismissed 1']);
+      expect(host.open()).toBe(false);
+      expect(dialog.matches(':popover-open')).toBe(false);
+      expect(document.activeElement).toBe(start);
+    },
+  );
+
+  it.runIf(hasCloseWatcher)(
+    'ends once per close request or Escape, and lets go of its watcher',
+    async () => {
+      // A watcher behind the tour, as a dialog it's in has.
+      let behind = 0;
+      const stop = nuiOnCloseRequest(() => behind++);
+      try {
+        const { host, root, dialog, settle } = await setup();
+        await toInteractiveStep(root, settle);
+        await userEvent.keyboard('{Escape}');
+        await settle();
+        expect(host.events).toEqual(['dismissed 1']);
+        expect(behind).toBe(0);
+
+        // Back to a modal step: its dialog takes close requests itself.
+        host.step.set(0);
+        await toInteractiveStep(root, settle);
+        dialog.querySelector<HTMLButtonElement>('.nui-tour-footer button')!.click();
+        await settle();
+        expect(dialog.matches(':modal')).toBe(true);
+        await closeRequest();
+        await settle();
+        expect(host.events).toEqual(['dismissed 1', 'dismissed 0']);
+        expect(host.open()).toBe(false);
+
+        await closeRequest();
+        expect(behind).toBe(1);
+        expect(host.events).toEqual(['dismissed 1', 'dismissed 0']);
+      } finally {
+        stop();
+      }
+    },
+  );
+
+  it('ends on Escape alone on an interactive step where the browser has no CloseWatcher', async () => {
+    await withoutCloseWatcher(async () => {
+      const { host, root, dialog, settle } = await setup();
+      await toInteractiveStep(root, settle);
+
+      await closeRequest();
+      await settle();
+      expect(dialog.matches(':popover-open')).toBe(true);
+      expect(host.events).toEqual([]);
+      await userEvent.keyboard('{Escape}');
+      await settle();
+      expect(host.events).toEqual(['dismissed 1']);
+    });
   });
 });

@@ -2620,6 +2620,11 @@ export const messages: Messages = {
                 'Chrome at Edge, Firefox 128, Safari',
                 'Biglang napupuno',
               ],
+              [
+                'Isinasara ng back gesture ng Android ang mga menu, listahan ng combobox at hovercard, at tinatapos nito ang tour',
+                'Chrome at Edge 126, Firefox 149',
+                'Bumabalik sa naunang page ang back gesture',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Mga phone at touch screen' },

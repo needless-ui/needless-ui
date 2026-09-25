@@ -2510,6 +2510,11 @@ export const messages: Messages = {
                 'Chrome وEdge، وFirefox 128، وSafari',
                 'تمتلئ فورًا',
               ],
+              [
+                'إيماءة الرجوع في Android تغلق القوائم وقوائم اقتراحات Combobox وبطاقات التحويم، وتنهي الجولة الإرشادية',
+                'Chrome وEdge 126، وFirefox 149',
+                'تعود إيماءة الرجوع إلى الصفحة السابقة',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'الهواتف وشاشات اللمس' },

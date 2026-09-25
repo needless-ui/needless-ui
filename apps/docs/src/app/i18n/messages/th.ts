@@ -2494,6 +2494,11 @@ export const messages: Messages = {
                 'Chrome, Edge, Firefox 128 และ Safari',
                 'เต็มทันทีในครั้งเดียว',
               ],
+              [
+                'ท่าทางย้อนกลับของ Android ปิดเมนู รายการของ Combobox และ Hovercard ได้ และจบทัวร์',
+                'Chrome และ Edge 126, Firefox 149',
+                'ท่าทางย้อนกลับจะกลับไปยังหน้าก่อนหน้า',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'โทรศัพท์และหน้าจอสัมผัส' },

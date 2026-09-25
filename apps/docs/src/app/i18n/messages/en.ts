@@ -2499,6 +2499,11 @@ export const messages: Messages = {
                 'Chrome and Edge, Firefox 128, Safari',
                 'It fills at once',
               ],
+              [
+                'Android’s back gesture closes menus, combobox lists and hovercards, and ends tours',
+                'Chrome and Edge 126, Firefox 149',
+                'The back gesture goes to the previous page',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Phones and touch screens' },

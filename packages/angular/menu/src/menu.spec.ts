@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { nuiOnCloseRequest } from '@needless-ui/angular';
 import { userEvent } from 'vitest/browser';
+import { closeRequest, hasCloseWatcher, withoutCloseWatcher } from '../../src/testing';
 import { NuiMenu, NuiMenuItem, NuiMenuSeparator, NuiMenuTrigger } from './menu';
 
 @Component({
@@ -32,7 +34,7 @@ async function setup() {
   await fixture.whenStable();
   const root: HTMLElement = fixture.nativeElement;
   const trigger = root.querySelector<HTMLButtonElement>('#trigger')!;
-  const menu = root.querySelector<HTMLElement>('.nui-menu')!;
+  const [menu, submenu] = Array.from(root.querySelectorAll<HTMLElement>('.nui-menu'));
   const items = Array.from(root.querySelectorAll<HTMLElement>('.nui-menu-item'));
   const isOpen = () => menu.matches(':popover-open');
   const settle = async () => {
@@ -49,6 +51,7 @@ async function setup() {
     host: fixture.componentInstance,
     trigger,
     menu,
+    submenu,
     items,
     isOpen,
     settle,
@@ -167,5 +170,125 @@ describe('NuiMenu', () => {
     expect(host.renamed()).toBe(1);
     expect(host.picked()).toBe('rename');
     expect(isOpen()).toBe(false);
+  });
+
+  it.runIf(hasCloseWatcher)(
+    'closes on a close request as on Escape, with focus back on the trigger',
+    async () => {
+      const { trigger, isOpen, settle, clickOpen } = await setup();
+      await clickOpen();
+
+      await closeRequest();
+      await settle();
+      expect(isOpen()).toBe(false);
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      expect(document.activeElement).toBe(trigger);
+    },
+  );
+
+  it.runIf(hasCloseWatcher)(
+    'closes only the innermost menu on a close request, a submenu back to its item',
+    async () => {
+      const { trigger, submenu, items, isOpen, settle, clickOpen } = await setup();
+      const [, , , more, archive] = items;
+      await clickOpen();
+      await userEvent.keyboard('{End}{ArrowRight}');
+      await settle();
+      expect(document.activeElement).toBe(archive);
+
+      await closeRequest();
+      await settle();
+      expect(submenu.matches(':popover-open')).toBe(false);
+      expect(isOpen()).toBe(true);
+      expect(more.getAttribute('aria-expanded')).toBe('false');
+      expect(document.activeElement).toBe(more);
+
+      await closeRequest();
+      await settle();
+      expect(isOpen()).toBe(false);
+      expect(document.activeElement).toBe(trigger);
+    },
+  );
+
+  it.runIf(hasCloseWatcher)(
+    'closes once on Escape: no watcher gets the key, and its watchers go with it',
+    async () => {
+      // A watcher behind the menu, as a dialog it opens from has.
+      let behind = 0;
+      const stop = nuiOnCloseRequest(() => behind++);
+      try {
+        const { trigger, submenu, isOpen, settle, clickOpen } = await setup();
+        await clickOpen();
+        await userEvent.keyboard('{End}{ArrowRight}');
+        await settle();
+        expect(submenu.matches(':popover-open')).toBe(true);
+
+        // Escape closes the whole menu, submenu included.
+        await userEvent.keyboard('{Escape}');
+        await settle();
+        expect(isOpen()).toBe(false);
+        expect(submenu.matches(':popover-open')).toBe(false);
+        expect(document.activeElement).toBe(trigger);
+        expect(behind).toBe(0);
+
+        await closeRequest();
+        expect(behind).toBe(1);
+      } finally {
+        stop();
+      }
+    },
+  );
+
+  it.runIf(hasCloseWatcher)(
+    'keeps its own watcher when a submenu closes on its own, and lets go of it on close',
+    async () => {
+      let behind = 0;
+      const stop = nuiOnCloseRequest(() => behind++);
+      try {
+        const { trigger, submenu, items, isOpen, settle, clickOpen } = await setup();
+        await clickOpen();
+        await userEvent.keyboard('{End}{ArrowRight}');
+        await settle();
+
+        // The collapse key closes the submenu alone.
+        await userEvent.keyboard('{ArrowLeft}');
+        await settle();
+        expect(submenu.matches(':popover-open')).toBe(false);
+        expect(isOpen()).toBe(true);
+        expect(document.activeElement).toBe(items[3]);
+
+        await closeRequest();
+        await settle();
+        expect(isOpen()).toBe(false);
+        expect(document.activeElement).toBe(trigger);
+        expect(behind).toBe(0);
+
+        // Closed by choosing an item, it leaves close requests to what's behind it.
+        await clickOpen();
+        await userEvent.click(items[0]);
+        await settle();
+        expect(isOpen()).toBe(false);
+        await closeRequest();
+        expect(behind).toBe(1);
+      } finally {
+        stop();
+      }
+    },
+  );
+
+  it('closes on Escape alone where the browser has no CloseWatcher', async () => {
+    await withoutCloseWatcher(async () => {
+      const { trigger, isOpen, settle, clickOpen } = await setup();
+      await clickOpen();
+
+      await closeRequest();
+      await settle();
+      expect(isOpen()).toBe(true);
+
+      await userEvent.keyboard('{Escape}');
+      await settle();
+      expect(isOpen()).toBe(false);
+      expect(document.activeElement).toBe(trigger);
+    });
   });
 });

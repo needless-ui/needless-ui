@@ -36,6 +36,7 @@ The card is a dialog (`nui-tour`, full screen and transparent) in the top layer.
 - Next on the last step says Done, and finishes the tour. Back is there from the second step.
 - The card flips to the other side of the target when there's no room, and stays in the viewport.
 - When the tour ends, focus goes back where it was when it started.
+- Android's back gesture ends the tour as Escape does, as dismissed. A modal card is a dialog, which gets the close request from the browser (its `cancel` event); an interactive step's card is a manual popover, so it listens with a close watcher while it shows, in browsers with the CloseWatcher API.
 
 ## Keyboard
 

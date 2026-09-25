@@ -2610,6 +2610,11 @@ export const messages: Messages = {
                 'Chrome y Edge, Firefox 128, Safari',
                 'Se llena de golpe',
               ],
+              [
+                'El gesto Atrás de Android cierra los menús, las listas de los combobox y las hovercards, y termina los recorridos guiados',
+                'Chrome y Edge 126, Firefox 149',
+                'El gesto Atrás vuelve a la página anterior',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Móviles y pantallas táctiles' },

@@ -2582,6 +2582,11 @@ export const messages: Messages = {
                 'Chrome ed Edge, Firefox 128, Safari',
                 'Si riempie di colpo',
               ],
+              [
+                'Il gesto Indietro di Android chiude menu, liste delle combobox e hovercard, e termina i tour',
+                'Chrome ed Edge 126, Firefox 149',
+                'Il gesto Indietro torna alla pagina precedente',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Telefoni e schermi touch' },

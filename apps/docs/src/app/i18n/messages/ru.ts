@@ -2571,6 +2571,11 @@ export const messages: Messages = {
                 'Chrome и Edge, Firefox 128, Safari',
                 'Заполняется сразу',
               ],
+              [
+                'Жест «Назад» на Android закрывает меню, списки combobox и hovercard, а также завершает пошаговый тур',
+                'Chrome и Edge 126, Firefox 149',
+                'Жест «Назад» ведёт на предыдущую страницу',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Телефоны и сенсорные экраны' },

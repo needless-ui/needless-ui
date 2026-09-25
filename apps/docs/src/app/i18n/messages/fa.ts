@@ -2539,6 +2539,11 @@ export const messages: Messages = {
                 'Chrome و Edge، Firefox 128، Safari',
                 'یک‌باره پر می‌شود',
               ],
+              [
+                'ژست بازگشت در Android منوها، فهرست‌های Combobox و hovercard‌ها را می‌بندد و تور راهنما را به پایان می‌رساند',
+                'Chrome و Edge 126، Firefox 149',
+                'ژست بازگشت به صفحهٔ قبل می‌رود',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'گوشی‌ها و صفحه‌های لمسی' },

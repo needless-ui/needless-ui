@@ -2606,6 +2606,11 @@ export const messages: Messages = {
                 'Chrome da Edge, Firefox 128, Safari',
                 'Yana cika nan take',
               ],
+              [
+                'Alamar komawa baya ta Android tana rufe menus, jerin combobox da hovercards, kuma tana kammala tour',
+                'Chrome da Edge 126, Firefox 149',
+                'Alamar komawa baya tana komawa shafin da ya gabata',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Wayoyi da allon taɓawa' },

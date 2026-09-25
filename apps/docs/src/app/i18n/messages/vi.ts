@@ -2544,6 +2544,11 @@ export const messages: Messages = {
                 'Chrome và Edge, Firefox 128, Safari',
                 'Đầy ngay lập tức',
               ],
+              [
+                'Cử chỉ quay lại của Android đóng menu, danh sách của combobox và hovercard, cũng như kết thúc tour hướng dẫn',
+                'Chrome và Edge 126, Firefox 149',
+                'Cử chỉ quay lại chuyển về trang trước',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Điện thoại và màn hình cảm ứng' },

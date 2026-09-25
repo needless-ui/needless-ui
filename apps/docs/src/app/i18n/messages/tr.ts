@@ -2546,6 +2546,11 @@ export const messages: Messages = {
                 'Chrome ve Edge, Firefox 128, Safari',
                 'Halka bir anda dolar',
               ],
+              [
+                'Android’in geri hareketi menüleri, combobox listelerini ve hovercard’ları kapatır, rehberli turu bitirir',
+                'Chrome ve Edge 126, Firefox 149',
+                'Geri hareketiyle önceki sayfaya dönülür',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Telefonlar ve dokunmatik ekranlar' },

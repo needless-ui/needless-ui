@@ -35,6 +35,7 @@ Both are placed by `nuiFollow()` from `@needless-ui/angular`, which writes `top`
 - A hovercard opens after `openDelay` on hover (mouse or pen, not touch) and at once when its trigger gets keyboard focus. It stays open while the pointer is over it or travelling to it, through the triangle between the pointer and the card, and closes `closeDelay` after the pointer leaves both.
 - Touch screens can't hover, so a finger never opens a hovercard: its text only adds to what the page shows, and is read with its trigger by screen readers (`aria-describedby`). Put anything a person needs in the page, or in a popover.
 - Both follow their trigger when the page scrolls or resizes.
+- Android's back gesture closes either, as Escape does: the browser closes the popover, and the hovercard (a manual popover) listens with a close watcher while it's open, in browsers with the CloseWatcher API. The watcher also takes the Escape that hides the card, so a dialog or popover behind the card doesn't close with it.
 
 ## Keyboard
 

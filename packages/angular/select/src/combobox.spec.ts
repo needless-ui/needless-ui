@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { nuiOnCloseRequest } from '@needless-ui/angular';
 import { userEvent } from 'vitest/browser';
+import { closeRequest, hasCloseWatcher, withoutCloseWatcher } from '../../src/testing';
 import { NuiCombobox } from './combobox';
 import type { NuiOption } from './engine';
 
@@ -202,5 +204,74 @@ describe('NuiCombobox', () => {
     host.users.set([]);
     await settle();
     expect(input.value).toBe('Ada Lovelace');
+  });
+
+  it.runIf(hasCloseWatcher)(
+    'closes the list on a close request as on Escape, focus staying in the field',
+    async () => {
+      const { host, settle, part } = await setup();
+      const { input, popup } = part('single');
+      host.country.set('it');
+      await settle();
+
+      await userEvent.fill(input, 'Jap');
+      await settle();
+      expect(popup.matches(':popover-open')).toBe(true);
+      await closeRequest();
+      await settle();
+      expect(popup.matches(':popover-open')).toBe(false);
+      expect(input.getAttribute('aria-expanded')).toBe('false');
+      expect(input.value).toBe('Italy');
+      expect(host.country()).toBe('it');
+      expect(document.activeElement).toBe(input);
+    },
+  );
+
+  it.runIf(hasCloseWatcher)(
+    'closes once on Escape, and lets go of its watcher however the list closes',
+    async () => {
+      // A watcher behind the field, as a dialog it's in has.
+      let behind = 0;
+      const stop = nuiOnCloseRequest(() => behind++);
+      try {
+        const { host, settle, part } = await setup();
+        const { input, popup } = part('single');
+
+        await userEvent.type(input, 'ice');
+        await settle();
+        await userEvent.keyboard('{Escape}');
+        await settle();
+        expect(popup.matches(':popover-open')).toBe(false);
+        expect(behind).toBe(0);
+
+        // Closed by choosing, the list leaves close requests to what's behind it.
+        await userEvent.type(input, 'ice');
+        await settle();
+        await userEvent.keyboard('{Enter}');
+        await settle();
+        expect(host.country()).toBe('is');
+        expect(popup.matches(':popover-open')).toBe(false);
+        await closeRequest();
+        expect(behind).toBe(1);
+      } finally {
+        stop();
+      }
+    },
+  );
+
+  it('closes on Escape alone where the browser has no CloseWatcher', async () => {
+    await withoutCloseWatcher(async () => {
+      const { settle, part } = await setup();
+      const { input, popup } = part('single');
+      await userEvent.type(input, 'ice');
+      await settle();
+
+      await closeRequest();
+      await settle();
+      expect(popup.matches(':popover-open')).toBe(true);
+      await userEvent.keyboard('{Escape}');
+      await settle();
+      expect(popup.matches(':popover-open')).toBe(false);
+    });
   });
 });

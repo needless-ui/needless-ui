@@ -2572,6 +2572,11 @@ export const messages: Messages = {
                 'Chrome lan Edge, Firefox 128, Safari',
                 'Langsung kebak',
               ],
+              [
+                'Gestur bali ing Android nutup menu, dhaptar combobox lan hovercard, uga mungkasi tur tuntunan',
+                'Chrome lan Edge 126, Firefox 149',
+                'Gestur bali mbukak kaca sadurunge',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'HP lan layar sentuh' },

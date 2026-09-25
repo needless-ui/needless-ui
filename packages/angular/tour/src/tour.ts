@@ -17,7 +17,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { type NuiAlign, nuiFollow, type NuiSide } from '@needless-ui/angular';
+import { type NuiAlign, nuiFollow, nuiOnCloseRequest, type NuiSide } from '@needless-ui/angular';
 import { NuiButton } from '@needless-ui/angular/button';
 
 /** One stop of a tour. */
@@ -75,6 +75,8 @@ let nextId = 0;
  * Each card is a dialog. It's modal, so focus stays in it, unless the step is
  * `interactive`: then its target can be used, and the rest of the page is still
  * blocked to the pointer. Escape ends the tour, and focus goes back where it was.
+ * So does Android's back gesture (on interactive steps, where the browser has the
+ * CloseWatcher API).
  */
 @Component({
   selector: 'nui-tour',
@@ -183,6 +185,7 @@ export class NuiTour {
   protected readonly clip = signal<string | null>(null);
 
   private stopFollow: (() => void) | null = null;
+  private stopWatching: (() => void) | null = null;
   private frame = 0;
   private returnFocus: HTMLElement | null = null;
   private token = 0;
@@ -270,9 +273,17 @@ export class NuiTour {
     // Modal unless the step asks people to use its target.
     const modal = !step.interactive;
     if (dialog.matches(':modal') && !modal) dialog.close();
-    if (dialog.matches(':popover-open') && modal) dialog.hidePopover();
+    if (dialog.matches(':popover-open') && modal) {
+      this.unwatch();
+      dialog.hidePopover();
+    }
     if (modal && !dialog.open) dialog.showModal();
-    else if (!modal && !dialog.matches(':popover-open')) dialog.showPopover();
+    else if (!modal && !dialog.matches(':popover-open')) {
+      dialog.showPopover();
+      // A modal card gets close requests as a dialog (its cancel event); a manual
+      // popover doesn't, so Android's back gesture ends the tour here, as Escape does.
+      this.stopWatching = nuiOnCloseRequest(() => this.end(false));
+    }
 
     afterNextRender(
       () => {
@@ -341,6 +352,9 @@ export class NuiTour {
   private hide(): void {
     this.token++;
     this.stop();
+    // Whether or not the card still shows: when the view is destroyed, its dialog
+    // can leave the page first, which closes the popover without a toggle event.
+    this.unwatch();
     if (!this.browser) return;
     const dialog = this.dialog().nativeElement;
     const wasOpen = dialog.open || dialog.matches(':popover-open');
@@ -350,6 +364,12 @@ export class NuiTour {
     this.target.set(null);
     if (wasOpen) this.returnFocus?.focus();
     this.returnFocus = null;
+  }
+
+  /** Stops the non-modal card's close requests. */
+  private unwatch(): void {
+    this.stopWatching?.();
+    this.stopWatching = null;
   }
 }
 

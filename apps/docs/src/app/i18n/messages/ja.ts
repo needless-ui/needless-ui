@@ -2564,6 +2564,11 @@ export const messages: Messages = {
                 'Chrome と Edge、Firefox 128、Safari',
                 '一気に満ちる',
               ],
+              [
+                'Android の「戻る」ジェスチャーでメニュー、コンボボックスのリスト、ホバーカードが閉じ、ガイドツアーが終わる',
+                'Chrome と Edge 126、Firefox 149',
+                '「戻る」ジェスチャーで前のページへ移動する',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'スマートフォンとタッチスクリーン' },

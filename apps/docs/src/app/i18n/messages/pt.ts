@@ -2589,6 +2589,11 @@ export const messages: Messages = {
                 'Chrome e Edge, Firefox 128, Safari',
                 'Ele se enche de uma vez',
               ],
+              [
+                'O gesto de voltar do Android fecha menus, listas de combobox e hovercards, e encerra tours',
+                'Chrome e Edge 126, Firefox 149',
+                'O gesto de voltar vai para a página anterior',
+              ],
             ],
           },
           { kind: 'h2', id: 'touch', text: 'Celulares e telas touch' },

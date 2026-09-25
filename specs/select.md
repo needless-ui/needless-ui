@@ -40,6 +40,7 @@ Every visible string (`placeholder`, `emptyLabel`, `removeLabel`, …) is an inp
 - The combobox opens as you type or click. A single combobox shows the chosen label and puts it back when you leave unfinished text; a multiple one clears the text after each pick and stays open. `create` adds an "Add …" option when the text isn't an option yet. Labels of chosen options are remembered, so they survive a new list from the server.
 - Long lists render only the rows in view (measured, so rows can have any height). The active option always stays rendered, since `aria-activedescendant` points at it.
 - The popup follows its field, flips above it when there's no room below, and is as wide as the field.
+- Android's back gesture closes the list as Escape does. The select's popup is `popover="auto"`, which the browser closes itself; the combobox's is a manual popover (the field keeps focus), so it listens with a close watcher while it's open, in browsers with the CloseWatcher API.
 
 ## Keyboard
 
