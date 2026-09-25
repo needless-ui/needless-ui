@@ -29,7 +29,7 @@
 
 ## Components
 
-[Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Combobox](specs/select.md), [Command palette](specs/command.md), [Data grid](specs/grid.md), [Dialog](specs/dialog.md), [Empty state](specs/empty.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Popover and hovercard](specs/popover.md), [Rating](specs/rating.md), [Select](specs/select.md), [Skeleton](specs/skeleton.md) and [Toast](specs/toast.md) so far, with an AI chat, date pickers and a scheduler on the way. Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
+[AI chat](specs/chat.md), [Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Combobox](specs/select.md), [Command palette](specs/command.md), [Data grid](specs/grid.md), [Dialog](specs/dialog.md), [Empty state](specs/empty.md), [Markdown](specs/markdown.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Popover and hovercard](specs/popover.md), [Rating](specs/rating.md), [Select](specs/select.md), [Skeleton](specs/skeleton.md) and [Toast](specs/toast.md) so far, with date pickers and a scheduler on the way. Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
 
 ## Quick start (Angular)
 

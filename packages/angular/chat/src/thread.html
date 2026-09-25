@@ -1,0 +1,288 @@
+<button
+  type="button"
+  class="nui-chat-jump"
+  [hidden]="atEnd()"
+  [attr.aria-label]="words().jump"
+  [attr.title]="words().jump"
+  (click)="jump()"
+></button>
+
+<div #scroller class="nui-chat-scroll">
+  @if (!session().messages().length) {
+    <div class="nui-chat-empty"><ng-content /></div>
+  }
+  <!-- A feed must hold articles, so it's only a feed once it has messages. -->
+  <div
+    #feed
+    class="nui-chat-feed"
+    [attr.role]="session().messages().length ? 'feed' : null"
+    [attr.aria-label]="session().messages().length ? words().thread : null"
+    (keydown)="onKeydown($event)"
+    (focusin)="onFocusin($event)"
+  >
+    @for (message of session().messages(); track $index; let i = $index, count = $count) {
+      @let key = id + '-' + i;
+      <article
+        class="nui-chat-message"
+        [attr.data-role]="message.role"
+        [attr.data-status]="message.status"
+        [attr.data-last]="i === count - 1 || null"
+        [attr.tabindex]="i === roving() ? 0 : -1"
+        [attr.aria-posinset]="i + 1"
+        [attr.aria-setsize]="count"
+        [attr.aria-labelledby]="key"
+        [attr.aria-describedby]="message.text && editing() !== message.id ? key + '-text' : null"
+        [attr.aria-busy]="!ended(message) || null"
+      >
+        <div class="nui-chat-author" role="heading" [attr.aria-level]="headingLevel()" [id]="key">
+          {{ message.role === 'user' ? words().you : words().said(assistant()) }}
+        </div>
+
+        @if (message.attachments?.length) {
+          <ul class="nui-chat-files" [attr.aria-label]="words().attachments">
+            @for (file of message.attachments; track file.id) {
+              <li class="nui-chat-file" [attr.data-image]="isImage(file) || null">
+                @if (isImage(file)) {
+                  <img [src]="file.url" [alt]="file.name" loading="lazy" decoding="async" />
+                } @else {
+                  <span class="nui-chat-file-name">{{ file.name }}</span>
+                  <span class="nui-chat-file-size">{{ words().bytes(file.size) }}</span>
+                }
+              </li>
+            }
+          </ul>
+        }
+
+        @if (message.role === 'user') {
+          @if (editing() === message.id) {
+            <div class="nui-chat-edit">
+              <textarea
+                #editor
+                class="nui-chat-edit-input"
+                [attr.aria-label]="words().edit"
+                [value]="message.text"
+                (keydown)="onEditKeydown($event, message, editor, i)"
+              ></textarea>
+              <div class="nui-chat-edit-actions">
+                <button
+                  type="button"
+                  nuiButton
+                  variant="ghost"
+                  tone="neutral"
+                  size="sm"
+                  (click)="cancelEdit(i)"
+                >
+                  {{ words().cancel }}
+                </button>
+                <button
+                  type="button"
+                  nuiButton
+                  size="sm"
+                  (click)="saveEdit(message, editor.value, i)"
+                >
+                  {{ words().save }}
+                </button>
+              </div>
+            </div>
+          } @else if (message.text) {
+            <div class="nui-chat-bubble" dir="auto" [id]="key + '-text'">{{ message.text }}</div>
+          }
+        } @else {
+          @if (message.reasoning) {
+            <details class="nui-chat-reasoning" [attr.data-active]="thinking(message) || null">
+              <summary>
+                @if (thinking(message)) {
+                  {{ words().thinking }}
+                } @else if (message.reasoningTime !== undefined) {
+                  {{ words().thought(seconds(message.reasoningTime)) }}
+                } @else {
+                  {{ words().reasoning }}
+                }
+              </summary>
+              <nui-markdown
+                class="nui-chat-reasoning-text"
+                [text]="message.reasoning"
+                [streaming]="thinking(message)"
+                [headingLevel]="headingLevel() + 1"
+                [labels]="words().markdown"
+              />
+            </details>
+          }
+
+          @for (tool of message.tools ?? []; track tool.id) {
+            @if (toolTemplate(tool.name); as custom) {
+              <ng-container *ngTemplateOutlet="custom; context: { $implicit: tool, message }" />
+            } @else {
+              <details class="nui-chat-tool" [attr.data-state]="tool.state">
+                <summary>
+                  @switch (tool.state) {
+                    @case ('running') {
+                      {{ words().running(tool.name) }}
+                    }
+                    @case ('error') {
+                      {{ words().failed(tool.name) }}
+                    }
+                    @default {
+                      {{ words().ran(tool.name) }}
+                    }
+                  }
+                </summary>
+                @if (tool.input !== undefined) {
+                  <div class="nui-chat-tool-part">
+                    <span>{{ words().input }}</span>
+                    <pre tabindex="0">{{ json(tool.input) }}</pre>
+                  </div>
+                }
+                @if (tool.output !== undefined) {
+                  <div class="nui-chat-tool-part">
+                    <span>{{ words().output }}</span>
+                    <pre tabindex="0">{{ json(tool.output) }}</pre>
+                  </div>
+                }
+              </details>
+            }
+          }
+
+          @if (message.status === 'pending') {
+            <div class="nui-chat-typing" role="img" [attr.aria-label]="words().thinking">
+              <span></span><span></span><span></span>
+            </div>
+          }
+
+          @if (message.text) {
+            <nui-markdown
+              class="nui-chat-text"
+              [id]="key + '-text'"
+              [text]="message.text"
+              [streaming]="message.status === 'streaming'"
+              [headingLevel]="headingLevel() + 1"
+              [images]="images()"
+              [labels]="words().markdown"
+              [codeTemplate]="code()"
+            />
+          }
+
+          @if (message.sources?.length) {
+            <div class="nui-chat-sources">
+              <span class="nui-chat-sources-label" [id]="key + '-sources'">{{
+                words().sources
+              }}</span>
+              <ul [attr.aria-labelledby]="key + '-sources'">
+                @for (source of message.sources; track source.url) {
+                  @if (safe(source.url)) {
+                    <li>
+                      <a
+                        class="nui-chat-source"
+                        [href]="source.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span class="nui-chat-source-title">{{
+                          source.title || site(source.url)
+                        }}</span>
+                        @if (source.title) {
+                          <span class="nui-chat-source-site">{{ site(source.url) }}</span>
+                        }
+                      </a>
+                    </li>
+                  }
+                }
+              </ul>
+            </div>
+          }
+
+          @if (message.status === 'error') {
+            <p class="nui-chat-error">{{ message.error || words().error }}</p>
+          } @else if (message.status === 'stopped') {
+            <p class="nui-chat-note">{{ words().stopped }}</p>
+          }
+        }
+
+        @if (ended(message) && editing() !== message.id) {
+          <div class="nui-chat-actions">
+            @let version = versionOf(message);
+            @if (version.versions.length > 1) {
+              <div
+                class="nui-chat-versions"
+                role="group"
+                [attr.aria-label]="words().version(version.index + 1, version.versions.length)"
+              >
+                <button
+                  type="button"
+                  class="nui-chat-action"
+                  data-action="previous"
+                  [attr.aria-label]="words().previous"
+                  [attr.title]="words().previous"
+                  [attr.aria-disabled]="version.index === 0 || null"
+                  (click)="show(version.versions[version.index - 1])"
+                ></button>
+                <span aria-hidden="true"
+                  >{{ version.index + 1 }} / {{ version.versions.length }}</span
+                >
+                <button
+                  type="button"
+                  class="nui-chat-action"
+                  data-action="next"
+                  [attr.aria-label]="words().next"
+                  [attr.title]="words().next"
+                  [attr.aria-disabled]="version.index === version.versions.length - 1 || null"
+                  (click)="show(version.versions[version.index + 1])"
+                ></button>
+              </div>
+            }
+            @if (message.text) {
+              <button
+                type="button"
+                class="nui-chat-action"
+                data-action="copy"
+                [attr.data-copied]="copied() === message.id || null"
+                [attr.aria-label]="copied() === message.id ? words().copied : words().copy"
+                [attr.title]="words().copy"
+                (click)="copy(message)"
+              ></button>
+            }
+            @if (message.role === 'user') {
+              <button
+                type="button"
+                class="nui-chat-action"
+                data-action="edit"
+                [attr.aria-label]="words().edit"
+                [attr.title]="words().edit"
+                (click)="edit(message, i)"
+              ></button>
+            } @else {
+              <button
+                type="button"
+                class="nui-chat-action"
+                data-action="retry"
+                [attr.aria-label]="words().retry"
+                [attr.title]="words().retry"
+                (click)="retry(message, i)"
+              ></button>
+              @if (message.status !== 'error') {
+                <button
+                  type="button"
+                  class="nui-chat-action"
+                  data-action="good"
+                  [attr.aria-label]="words().good"
+                  [attr.title]="words().good"
+                  [attr.aria-pressed]="message.rating === 'up'"
+                  (click)="rate(message, 'up')"
+                ></button>
+                <button
+                  type="button"
+                  class="nui-chat-action"
+                  data-action="bad"
+                  [attr.aria-label]="words().bad"
+                  [attr.title]="words().bad"
+                  [attr.aria-pressed]="message.rating === 'down'"
+                  (click)="rate(message, 'down')"
+                ></button>
+              }
+            }
+          </div>
+        }
+      </article>
+    }
+  </div>
+</div>

@@ -1,0 +1,296 @@
+/*
+ * Markdown: see specs/markdown.md for the contract.
+ *
+ *   <nui-markdown class="nui-markdown" data-streaming="true">
+ *     <h3>Title</h3>
+ *     <p>Some <strong>bold</strong>, <em>em</em> and <code>code</code>.</p>
+ *     <div class="nui-markdown-code">
+ *       <div class="nui-markdown-code-bar">
+ *         <span class="nui-markdown-lang">ts</span>
+ *         <button class="nui-markdown-copy" aria-label="Copy code">Copy</button>
+ *       </div>
+ *       <pre tabindex="0"><code>…</code></pre>
+ *     </div>
+ *     <div class="nui-markdown-table" role="region" tabindex="0"><table>…</table></div>
+ *     <ul><li class="nui-markdown-task"><span class="nui-markdown-check" data-checked></span>Done</li></ul>
+ *     <p>Still arriv<span class="nui-markdown-caret" aria-hidden="true"></span></p>
+ *     <span class="nui-markdown-status" role="status"></span>
+ *   </nui-markdown>
+ *
+ * Reading text: blocks are spaced by what comes before them, so the first sits
+ * flush with the top and the last with the bottom, as a chat bubble wants.
+ */
+@layer nui.components {
+  .nui-markdown {
+    --_icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5 5.5-6' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    display: block;
+    min-inline-size: 0;
+    color: var(--nui-color-text-default);
+    line-height: var(--nui-line-height-normal);
+    overflow-wrap: break-word;
+  }
+
+  .nui-markdown :where(p, ul, ol, blockquote, hr, pre, table, h1, h2, h3, h4, h5, h6) {
+    margin-block: 0;
+  }
+
+  .nui-markdown
+    :where(*)
+    + :where(p, ul, ol, blockquote, hr, .nui-markdown-code, .nui-markdown-table) {
+    margin-block-start: var(--nui-space-3);
+  }
+
+  .nui-markdown :where(*) + :where(h1, h2, h3, h4, h5, h6) {
+    margin-block-start: var(--nui-space-6);
+  }
+
+  .nui-markdown :where(h1, h2, h3, h4, h5, h6) + * {
+    margin-block-start: var(--nui-space-2);
+  }
+
+  .nui-markdown :is(h1, h2, h3, h4, h5, h6) {
+    font-weight: var(--nui-font-weight-semibold);
+    line-height: var(--nui-line-height-tight);
+    text-wrap: balance;
+  }
+
+  .nui-markdown h1 {
+    font-size: 1.5em;
+  }
+
+  .nui-markdown h2 {
+    font-size: 1.3em;
+  }
+
+  .nui-markdown h3 {
+    font-size: 1.15em;
+  }
+
+  .nui-markdown :is(h4, h5, h6) {
+    font-size: 1em;
+  }
+
+  .nui-markdown :is(ul, ol) {
+    padding-inline-start: 1.5em;
+  }
+
+  .nui-markdown li::marker {
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-markdown li + li,
+  .nui-markdown li > :is(ul, ol) {
+    margin-block-start: var(--nui-space-1);
+  }
+
+  /* A loose list: its items are paragraphs, so they're spaced like them. */
+  .nui-markdown :is(ul, ol):has(> li > p) > li + li {
+    margin-block-start: var(--nui-space-3);
+  }
+
+  .nui-markdown .nui-markdown-task {
+    list-style: none;
+  }
+
+  .nui-markdown-check {
+    display: inline-block;
+    box-sizing: border-box;
+    inline-size: 1em;
+    block-size: 1em;
+    margin-inline: -1.35em 0.35em;
+    border: 1.5px solid var(--nui-color-border-strong);
+    border-radius: 0.25em;
+    vertical-align: -0.15em;
+  }
+
+  .nui-markdown-check[data-checked] {
+    border-color: var(--nui-color-accent-solid);
+    background-color: var(--nui-color-accent-solid);
+  }
+
+  .nui-markdown-check[data-checked]::before {
+    content: '';
+    display: block;
+    block-size: 100%;
+    background-color: var(--nui-color-accent-on-solid);
+    mask: var(--_icon-check) center / contain no-repeat;
+  }
+
+  .nui-markdown blockquote {
+    margin-inline: 0;
+    padding-inline-start: var(--nui-space-4);
+    border-inline-start: 3px solid var(--nui-color-border-default);
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-markdown hr {
+    block-size: 0;
+    border: 0;
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+  }
+
+  .nui-markdown a {
+    color: var(--nui-color-accent-text);
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.15em;
+  }
+
+  .nui-markdown a:focus-visible {
+    border-radius: 2px;
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .nui-markdown img {
+    max-inline-size: 100%;
+    block-size: auto;
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    vertical-align: middle;
+  }
+
+  .nui-markdown :not(pre) > code {
+    padding: 0.1em 0.3em;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background-color: var(--nui-color-bg-muted);
+    font-family: var(--nui-font-family-mono);
+    font-size: 0.875em;
+    overflow-wrap: anywhere;
+    /* Code keeps its own direction inside right-to-left text. */
+    unicode-bidi: isolate;
+  }
+
+  /* Code blocks: a bar with the language and a copy button, then the code. */
+  .nui-markdown-code {
+    overflow: hidden;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-subtle);
+  }
+
+  .nui-markdown-code-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--nui-space-2);
+    padding-block: var(--nui-space-1);
+    padding-inline: var(--nui-space-3) var(--nui-space-1);
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    line-height: 1.5rem;
+  }
+
+  .nui-markdown-copy {
+    margin: 0;
+    padding: 0 var(--nui-space-2);
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .nui-markdown-copy:hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-markdown-copy:focus-visible,
+  .nui-markdown-code pre:focus-visible,
+  .nui-markdown-table:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: calc(-1 * var(--nui-focus-ring-width));
+  }
+
+  .nui-markdown-code pre {
+    padding: var(--nui-space-3);
+    overflow-x: auto;
+    font-family: var(--nui-font-family-mono);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+    /* Code reads left to right, even inside right-to-left text. */
+    direction: ltr;
+    text-align: left;
+    overflow-wrap: normal;
+    white-space: pre;
+    tab-size: 2;
+  }
+
+  /* Tables scroll inside their region when they're wider than the text. */
+  .nui-markdown-table {
+    overflow-x: auto;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+  }
+
+  .nui-markdown table {
+    min-inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-markdown :is(th, td) {
+    padding: var(--nui-space-2) var(--nui-space-3);
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .nui-markdown tbody > tr:last-child > td {
+    border-block-end: 0;
+  }
+
+  .nui-markdown th {
+    background-color: var(--nui-color-bg-subtle);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  /* The caret after the text that's still arriving. */
+  .nui-markdown-caret {
+    display: inline-block;
+    inline-size: 0.55em;
+    block-size: 0.55em;
+    margin-inline-start: 0.25em;
+    border-radius: 50%;
+    background-color: currentColor;
+    vertical-align: 0.05em;
+    animation: nui-markdown-caret 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes nui-markdown-caret {
+    to {
+      opacity: 0.25;
+    }
+  }
+
+  .nui-markdown-status {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-markdown-caret {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-markdown-check[data-checked]::before,
+    .nui-markdown-caret {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

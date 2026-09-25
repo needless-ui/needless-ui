@@ -1,0 +1,948 @@
+/*
+ * Chat: see specs/chat.md for the contract. Replies render with markdown.css.
+ *
+ *   <nui-chat class="nui-chat">
+ *     <nui-chat-thread class="nui-chat-thread">
+ *       <button class="nui-chat-jump" aria-label="Jump to the latest message" hidden></button>
+ *       <div class="nui-chat-scroll">
+ *         <div class="nui-chat-feed" role="feed" aria-label="Conversation">
+ *           <article class="nui-chat-message" data-role="user" data-status="done" tabindex="-1">
+ *             <div class="nui-chat-author" role="heading" aria-level="3">You said</div>
+ *             <div class="nui-chat-bubble">Hi!</div>
+ *             <div class="nui-chat-actions"><button class="nui-chat-action" data-action="edit"></button>…</div>
+ *           </article>
+ *           <article class="nui-chat-message" data-role="assistant" data-status="streaming" data-last>
+ *             <details class="nui-chat-reasoning" data-active><summary>Thinking</summary>…</details>
+ *             <details class="nui-chat-tool" data-state="running"><summary>Running search</summary>…</details>
+ *             <nui-markdown class="nui-markdown nui-chat-text">…</nui-markdown>
+ *             <div class="nui-chat-sources">…</div>
+ *           </article>
+ *         </div>
+ *       </div>
+ *     </nui-chat-thread>
+ *     <nui-chat-composer class="nui-chat-composer">
+ *       <div class="nui-chat-suggestions"><button class="nui-chat-suggestion">…</button></div>
+ *       <div class="nui-chat-box">
+ *         <ul class="nui-chat-files">…</ul>
+ *         <textarea class="nui-chat-input"></textarea>
+ *         <div class="nui-chat-bar">
+ *           <button class="nui-chat-attach"></button>
+ *           <button class="nui-chat-send" data-action="send"></button>
+ *         </div>
+ *       </div>
+ *     </nui-chat-composer>
+ *   </nui-chat>
+ *
+ * Give `.nui-chat` a height: the conversation scrolls inside it. Its text keeps
+ * to a readable column in the middle.
+ */
+@layer nui.components {
+  .nui-chat,
+  .nui-chat-thread,
+  .nui-chat-composer {
+    --_width: 48rem;
+    --_icon-send: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 13V3.5M3.75 7.5 8 3.25l4.25 4.25'/%3E%3C/svg%3E");
+    --_icon-stop: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='4' y='4' width='8' height='8' rx='1.5'/%3E%3C/svg%3E");
+    --_icon-attach: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m13.25 7.4-5.6 5.6a3.4 3.4 0 0 1-4.8-4.8l5.9-5.9a2.25 2.25 0 0 1 3.2 3.2L6.05 11.4a1.1 1.1 0 0 1-1.6-1.6l5.3-5.3'/%3E%3C/svg%3E");
+    --_icon-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='m4.5 4.5 7 7m0-7-7 7'/%3E%3C/svg%3E");
+    --_icon-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3v9.5M3.75 8.5 8 12.75l4.25-4.25'/%3E%3C/svg%3E");
+    --_icon-copy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linejoin='round'%3E%3Crect x='5.5' y='5.5' width='8' height='8' rx='1.5'/%3E%3Cpath d='M10.5 5.5V4A1.5 1.5 0 0 0 9 2.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5'/%3E%3C/svg%3E");
+    --_icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E");
+    --_icon-edit: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linejoin='round'%3E%3Cpath d='m10.25 3.25 2.5 2.5L6 12.5l-3 .5.5-3z'/%3E%3C/svg%3E");
+    --_icon-retry: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 8a5 5 0 1 1-1.5-3.55'/%3E%3Cpath d='M12 2v2.75H9.25'/%3E%3C/svg%3E");
+    --_icon-thumb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linejoin='round'%3E%3Cpath d='M5.5 7 8 2.5c.9 0 1.6.8 1.45 1.7L9 6.75h3.2a1.5 1.5 0 0 1 1.47 1.8l-.78 3.75A1.5 1.5 0 0 1 11.42 13.5H5.5zm0 0H3v6.5h2.5'/%3E%3C/svg%3E");
+    --_icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 3.5 4.5 4.5L6 12.5'/%3E%3C/svg%3E");
+    --_icon-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6.5' fill='none' stroke='black' stroke-width='1.4'/%3E%3Cpath d='M8 4.75v3.75' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='11' r='.9'/%3E%3C/svg%3E");
+  }
+
+  .nui-chat {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    color: var(--nui-color-text-default);
+  }
+
+  /* The conversation: it scrolls, and its jump button floats over its end. */
+  .nui-chat-thread {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-block-size: 0;
+  }
+
+  .nui-chat-scroll {
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  .nui-chat-feed,
+  .nui-chat-empty {
+    box-sizing: border-box;
+    inline-size: 100%;
+    max-inline-size: var(--_width);
+    margin-inline: auto;
+    padding: var(--nui-space-4);
+  }
+
+  .nui-chat-feed {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--nui-space-6) * var(--nui-density));
+  }
+
+  .nui-chat-feed:empty {
+    padding: 0;
+  }
+
+  .nui-chat-empty {
+    padding-block: var(--nui-space-12) var(--nui-space-4);
+    color: var(--nui-color-text-muted);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .nui-chat-empty > :first-child {
+    margin-block-start: 0;
+  }
+
+  .nui-chat-empty > :last-child {
+    margin-block-end: 0;
+  }
+
+  .nui-chat-message {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--nui-space-2);
+    min-inline-size: 0;
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    outline: none;
+  }
+
+  .nui-chat-message:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: var(--nui-space-2);
+  }
+
+  /* The newest messages spring in from --nui-enter. */
+  .nui-chat-message:nth-last-child(-n + 2) {
+    transition:
+      opacity var(--nui-duration-fast) var(--nui-easing-enter),
+      transform var(--nui-motion);
+  }
+
+  @starting-style {
+    .nui-chat-message:nth-last-child(-n + 2) {
+      opacity: var(--nui-enter-opacity);
+      transform: var(--nui-enter);
+    }
+  }
+
+  .nui-chat-message[data-role='user'] {
+    align-items: flex-end;
+  }
+
+  .nui-chat-author {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .nui-chat-bubble {
+    max-inline-size: min(85%, 36rem);
+    padding: calc(var(--nui-space-2) * var(--nui-density)) var(--nui-space-4);
+    border-radius: calc(var(--nui-radius-xl) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-muted);
+    line-height: var(--nui-line-height-normal);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    /* Each paragraph reads in its own direction. */
+    unicode-bidi: plaintext;
+  }
+
+  /* Waiting for the first words. */
+  .nui-chat-typing {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    block-size: calc(1em * var(--nui-line-height-normal));
+  }
+
+  .nui-chat-typing > span {
+    inline-size: 0.45rem;
+    block-size: 0.45rem;
+    border-radius: 50%;
+    background-color: var(--nui-color-text-muted);
+    animation: nui-chat-typing 1.2s ease-in-out infinite;
+  }
+
+  .nui-chat-typing > span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .nui-chat-typing > span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes nui-chat-typing {
+    0%,
+    60%,
+    100% {
+      opacity: 0.35;
+      translate: 0;
+    }
+
+    30% {
+      opacity: 1;
+      translate: 0 -0.2rem;
+    }
+  }
+
+  /* Reasoning and tool calls: folded, with a chevron that turns. */
+  :is(.nui-chat-reasoning, .nui-chat-tool) > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-1);
+    inline-size: fit-content;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-sm);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  :is(.nui-chat-reasoning, .nui-chat-tool) > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  :is(.nui-chat-reasoning, .nui-chat-tool) > summary::after {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+    background-color: currentColor;
+    mask: var(--_icon-chevron) center / contain no-repeat;
+    transition: rotate var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  :is(.nui-chat-reasoning, .nui-chat-tool) > summary:dir(rtl)::after {
+    rotate: 180deg;
+  }
+
+  :is(.nui-chat-reasoning, .nui-chat-tool)[open] > summary::after {
+    rotate: 90deg;
+  }
+
+  @media (hover: hover) {
+    :is(.nui-chat-reasoning, .nui-chat-tool) > summary:hover {
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  :is(.nui-chat-reasoning, .nui-chat-tool) > summary:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Thinking: a light passes over the words. */
+  .nui-chat-reasoning[data-active] > summary {
+    background: linear-gradient(
+        90deg,
+        var(--nui-color-text-muted) 40%,
+        var(--nui-color-text-default) 50%,
+        var(--nui-color-text-muted) 60%
+      )
+      0 0 / 300% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: nui-chat-shimmer 2s linear infinite;
+  }
+
+  .nui-chat-reasoning[data-active] > summary::after {
+    background-color: var(--nui-color-text-muted);
+  }
+
+  @keyframes nui-chat-shimmer {
+    from {
+      background-position: 100% 0;
+    }
+
+    to {
+      background-position: 0 0;
+    }
+  }
+
+  .nui-chat-reasoning-text {
+    margin-block-start: var(--nui-space-2);
+    padding-inline-start: var(--nui-space-3);
+    border-inline-start: 2px solid var(--nui-color-border-default);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-chat-tool > summary::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+    background-color: var(--nui-color-success-text);
+    mask: var(--_icon-check) center / contain no-repeat;
+  }
+
+  .nui-chat-tool[data-state='error'] > summary::before {
+    background-color: var(--nui-color-danger-text);
+    mask-image: var(--_icon-close);
+  }
+
+  .nui-chat-tool[data-state='running'] > summary::before {
+    box-sizing: border-box;
+    border: 2px solid var(--nui-color-border-default);
+    border-block-start-color: var(--nui-color-accent-solid);
+    border-radius: 50%;
+    background: none;
+    mask: none;
+    animation: nui-chat-spin 0.8s linear infinite;
+  }
+
+  @keyframes nui-chat-spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  .nui-chat-tool-part {
+    display: grid;
+    gap: var(--nui-space-1);
+    margin-block-start: var(--nui-space-2);
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .nui-chat-tool-part > pre {
+    max-block-size: 16rem;
+    margin: 0;
+    padding: var(--nui-space-2) var(--nui-space-3);
+    overflow: auto;
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    background-color: var(--nui-color-bg-subtle);
+    color: var(--nui-color-text-default);
+    font-family: var(--nui-font-family-mono);
+    direction: ltr;
+    text-align: left;
+  }
+
+  .nui-chat-tool-part > pre:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: calc(-1 * var(--nui-focus-ring-width));
+  }
+
+  /* Sources: small links, one per page. */
+  .nui-chat-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-2);
+    align-items: center;
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .nui-chat-sources-label {
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-chat-sources > ul {
+    display: contents;
+    list-style: none;
+  }
+
+  .nui-chat-source {
+    display: inline-flex;
+    gap: var(--nui-space-1);
+    align-items: baseline;
+    max-inline-size: 16rem;
+    padding: 0.125rem var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    color: var(--nui-color-text-default);
+    text-decoration: none;
+  }
+
+  .nui-chat-source-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nui-chat-source-site {
+    flex-shrink: 0;
+    color: var(--nui-color-text-muted);
+  }
+
+  @media (hover: hover) {
+    .nui-chat-source:hover {
+      border-color: var(--nui-color-border-strong);
+    }
+  }
+
+  .nui-chat-source:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  .nui-chat-error,
+  .nui-chat-note {
+    display: flex;
+    gap: var(--nui-space-2);
+    align-items: center;
+    margin: 0;
+    font-size: var(--nui-font-size-sm);
+  }
+
+  .nui-chat-error {
+    color: var(--nui-color-danger-text);
+  }
+
+  .nui-chat-error::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-alert) center / contain no-repeat;
+  }
+
+  .nui-chat-note {
+    color: var(--nui-color-text-muted);
+  }
+
+  /* Attachments, in a message and in the composer. */
+  .nui-chat-files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nui-chat-file {
+    display: inline-flex;
+    gap: var(--nui-space-2);
+    align-items: center;
+    max-inline-size: 100%;
+    padding: var(--nui-space-1) var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .nui-chat-file > img {
+    inline-size: 2rem;
+    block-size: 2rem;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    object-fit: cover;
+  }
+
+  .nui-chat-message .nui-chat-file[data-image] {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .nui-chat-message .nui-chat-file[data-image] > img {
+    min-inline-size: 2.5rem;
+    min-block-size: 2.5rem;
+    inline-size: auto;
+    max-inline-size: min(16rem, 100%);
+    block-size: auto;
+    max-block-size: 12rem;
+    border-radius: 0;
+  }
+
+  .nui-chat-file-name {
+    min-inline-size: 0;
+    max-inline-size: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nui-chat-file-size {
+    flex-shrink: 0;
+    color: var(--nui-color-text-muted);
+  }
+
+  /* Icon buttons: a message's actions, and the composer's. */
+  :is(.nui-chat-action, .nui-chat-attach, .nui-chat-file-remove, .nui-chat-send, .nui-chat-jump) {
+    --_size: 1.75rem;
+    --_press: var(--nui-press);
+    --_press-motion: var(--nui-motion);
+
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    margin: 0;
+    padding: 0;
+    border: var(--nui-border-width-thin) solid transparent;
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+    transition:
+      background-color var(--nui-duration-fast) var(--nui-easing-standard),
+      color var(--nui-duration-fast) var(--nui-easing-standard),
+      transform var(--_press-motion);
+  }
+
+  :is(
+    .nui-chat-action,
+    .nui-chat-attach,
+    .nui-chat-file-remove,
+    .nui-chat-send,
+    .nui-chat-jump
+  )::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon) center / contain no-repeat;
+  }
+
+  @media (hover: hover) {
+    :is(.nui-chat-action, .nui-chat-attach, .nui-chat-file-remove, .nui-chat-jump):not(
+        [aria-disabled='true'],
+        :disabled
+      ):hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  :is(
+      .nui-chat-action,
+      .nui-chat-attach,
+      .nui-chat-file-remove,
+      .nui-chat-send,
+      .nui-chat-jump
+    ):not([aria-disabled='true'], :disabled):active {
+    --_press-motion: var(--nui-duration-fast) var(--nui-easing-standard);
+
+    transform: var(--_press);
+  }
+
+  :is(
+    .nui-chat-action,
+    .nui-chat-attach,
+    .nui-chat-file-remove,
+    .nui-chat-send,
+    .nui-chat-jump
+  ):focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  :is(.nui-chat-action, .nui-chat-attach, .nui-chat-file-remove, .nui-chat-send, .nui-chat-jump):is(
+    [aria-disabled='true'],
+    :disabled
+  ) {
+    cursor: default;
+    opacity: 0.45;
+  }
+
+  .nui-chat-action[data-action='copy'] {
+    --_icon: var(--_icon-copy);
+  }
+
+  .nui-chat-action[data-action='copy'][data-copied] {
+    --_icon: var(--_icon-check);
+
+    color: var(--nui-color-success-text);
+  }
+
+  .nui-chat-action[data-action='edit'] {
+    --_icon: var(--_icon-edit);
+  }
+
+  .nui-chat-action[data-action='retry'] {
+    --_icon: var(--_icon-retry);
+  }
+
+  .nui-chat-action:is([data-action='good'], [data-action='bad']) {
+    --_icon: var(--_icon-thumb);
+  }
+
+  .nui-chat-action[data-action='bad']::before {
+    scale: 1 -1;
+  }
+
+  .nui-chat-action[aria-pressed='true'] {
+    background-color: var(--nui-color-accent-soft);
+    color: var(--nui-color-accent-text);
+  }
+
+  .nui-chat-action:is([data-action='previous'], [data-action='next']) {
+    --_icon: var(--_icon-chevron);
+    --_size: 1.5rem;
+  }
+
+  .nui-chat-action[data-action='previous']::before,
+  .nui-chat-action[data-action='next']:dir(rtl)::before {
+    rotate: 180deg;
+  }
+
+  .nui-chat-action[data-action='previous']:dir(rtl)::before {
+    rotate: none;
+  }
+
+  .nui-chat-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem;
+    align-items: center;
+    margin-inline-start: calc(-1 * var(--nui-space-1));
+    transition: opacity var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  .nui-chat-message[data-role='user'] > .nui-chat-actions {
+    margin-inline: 0 calc(-1 * var(--nui-space-1));
+  }
+
+  /* Earlier messages show their actions on hover or focus, where there's hover. */
+  @media (hover: hover) {
+    .nui-chat-message:not([data-last], :hover, :focus-within) > .nui-chat-actions {
+      opacity: 0;
+    }
+  }
+
+  .nui-chat-versions {
+    display: inline-flex;
+    align-items: center;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Editing a message: its text in a field, with Cancel and Send. */
+  .nui-chat-edit {
+    display: grid;
+    gap: var(--nui-space-2);
+    box-sizing: border-box;
+    inline-size: min(100%, 36rem);
+    padding: var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-xl) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+  }
+
+  .nui-chat-edit:focus-within {
+    border-color: var(--nui-color-accent-border);
+  }
+
+  .nui-chat-edit:has(.nui-chat-edit-input:focus-visible) {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  .nui-chat-edit-actions {
+    display: flex;
+    gap: var(--nui-space-2);
+    justify-content: flex-end;
+  }
+
+  /* The jump button: over the end of the conversation, in the middle. */
+  .nui-chat-jump {
+    --_icon: var(--_icon-down);
+    --_size: 2.25rem;
+
+    position: absolute;
+    inset-block-end: var(--nui-space-3);
+    inset-inline: 0;
+    z-index: 1;
+    margin-inline: auto;
+    border-color: var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-text-default);
+    box-shadow: var(--nui-shadow-md);
+    transition-property: opacity, transform, display;
+    transition-duration: var(--nui-duration-fast);
+    transition-behavior: allow-discrete;
+  }
+
+  .nui-chat-jump[hidden] {
+    display: none;
+    opacity: 0;
+  }
+
+  @starting-style {
+    .nui-chat-jump:not([hidden]) {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+
+  /* The composer: suggestions, then a box with the field and its buttons. */
+  .nui-chat-composer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nui-space-2);
+    box-sizing: border-box;
+    inline-size: 100%;
+    max-inline-size: var(--_width);
+    margin-inline: auto;
+    padding: 0 var(--nui-space-4) var(--nui-space-4);
+  }
+
+  .nui-chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-2);
+  }
+
+  .nui-chat-suggestion {
+    margin: 0;
+    padding: calc(var(--nui-space-1) * var(--nui-density) + 0.125rem) var(--nui-space-3);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-text-default);
+    font: inherit;
+    font-size: var(--nui-font-size-sm);
+    text-align: start;
+    cursor: pointer;
+    transition:
+      background-color var(--nui-duration-fast) var(--nui-easing-standard),
+      transform var(--nui-motion);
+  }
+
+  @media (hover: hover) {
+    .nui-chat-suggestion:hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+    }
+  }
+
+  .nui-chat-suggestion:active {
+    transform: var(--nui-press);
+    transition-duration: var(--nui-duration-fast);
+  }
+
+  .nui-chat-suggestion:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  .nui-chat-box {
+    position: relative;
+    display: grid;
+    gap: var(--nui-space-1);
+    padding: var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-xl) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-raised);
+    box-shadow: var(--nui-shadow-sm);
+    transition: border-color var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  .nui-chat-box:focus-within {
+    border-color: var(--nui-color-accent-border);
+  }
+
+  .nui-chat-box:has(.nui-chat-input:focus-visible) {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  .nui-chat-box > .nui-chat-files {
+    padding: var(--nui-space-1);
+  }
+
+  :is(.nui-chat-input, .nui-chat-edit-input) {
+    box-sizing: border-box;
+    min-block-size: calc(1lh + 2 * var(--nui-space-2));
+    max-block-size: calc(10lh + 2 * var(--nui-space-2));
+    margin: 0;
+    padding: var(--nui-space-2);
+    overflow-y: auto;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: var(--nui-font-size-md);
+    line-height: var(--nui-line-height-normal);
+    resize: none;
+    field-sizing: content;
+    /* Typed text keeps its own direction and lines up with the page (see select.css). */
+    unicode-bidi: plaintext;
+    text-align: left;
+  }
+
+  :is(.nui-chat-input, .nui-chat-edit-input):dir(rtl) {
+    text-align: right;
+  }
+
+  .nui-chat-edit-input {
+    padding: var(--nui-space-1) var(--nui-space-2);
+  }
+
+  .nui-chat-input::placeholder {
+    color: var(--nui-color-text-muted);
+    opacity: 1;
+  }
+
+  .nui-chat-bar {
+    display: flex;
+    gap: var(--nui-space-1);
+    align-items: center;
+  }
+
+  .nui-chat-attach {
+    --_icon: var(--_icon-attach);
+    --_size: 2rem;
+  }
+
+  .nui-chat-send {
+    --_icon: var(--_icon-send);
+    --_size: 2rem;
+
+    margin-inline-start: auto;
+    border-radius: calc(var(--nui-radius-full) * var(--nui-radius-scale));
+    background-color: var(--nui-color-accent-solid);
+    color: var(--nui-color-accent-on-solid);
+  }
+
+  @media (hover: hover) {
+    .nui-chat-send:not([aria-disabled='true'], :disabled):hover {
+      background-color: var(--nui-color-accent-solid-hover);
+    }
+
+    .nui-chat-send[data-action='stop']:hover {
+      background-color: var(--nui-color-neutral-solid-hover);
+    }
+  }
+
+  .nui-chat-send[aria-disabled='true'] {
+    background-color: var(--nui-color-neutral-soft);
+    color: var(--nui-color-text-muted);
+    opacity: 1;
+  }
+
+  .nui-chat-send[data-action='stop'] {
+    --_icon: var(--_icon-stop);
+
+    background-color: var(--nui-color-neutral-solid);
+    color: var(--nui-color-neutral-on-solid);
+  }
+
+  .nui-chat-file-remove {
+    --_icon: var(--_icon-close);
+    --_size: 1.5rem;
+
+    margin-inline-end: calc(-1 * var(--nui-space-1));
+  }
+
+  /* Files held over the box. */
+  .nui-chat-drop {
+    position: absolute;
+    inset: 0;
+    display: none;
+    place-items: center;
+    border: 2px dashed var(--nui-color-accent-border);
+    border-radius: inherit;
+    background-color: var(--nui-color-accent-soft);
+    color: var(--nui-color-accent-text);
+    font-size: var(--nui-font-size-sm);
+    font-weight: var(--nui-font-weight-medium);
+    pointer-events: none;
+  }
+
+  .nui-chat-composer[data-dragging] .nui-chat-drop {
+    display: grid;
+  }
+
+  .nui-chat-problem {
+    margin: 0;
+    color: var(--nui-color-danger-text);
+    font-size: var(--nui-font-size-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nui-chat-message:nth-last-child(-n + 2) {
+      transition: opacity var(--nui-duration-fast) var(--nui-easing-enter);
+    }
+
+    @starting-style {
+      .nui-chat-message:nth-last-child(-n + 2) {
+        transform: none;
+      }
+    }
+
+    .nui-chat-typing > span,
+    .nui-chat-reasoning[data-active] > summary {
+      animation: none;
+    }
+
+    .nui-chat-reasoning[data-active] > summary {
+      background: none;
+      color: var(--nui-color-text-muted);
+    }
+
+    :is(
+      .nui-chat-action,
+      .nui-chat-attach,
+      .nui-chat-file-remove,
+      .nui-chat-send,
+      .nui-chat-jump,
+      .nui-chat-suggestion
+    ) {
+      --_press: none;
+    }
+
+    .nui-chat-suggestion:active {
+      transform: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :is(
+      .nui-chat-action,
+      .nui-chat-attach,
+      .nui-chat-file-remove,
+      .nui-chat-send,
+      .nui-chat-jump
+    )::before,
+    :is(.nui-chat-reasoning, .nui-chat-tool) > summary::after,
+    .nui-chat-tool:not([data-state='running']) > summary::before,
+    .nui-chat-error::before,
+    .nui-chat-typing > span {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
+    .nui-chat-reasoning[data-active] > summary {
+      background: none;
+      color: CanvasText;
+    }
+
+    .nui-chat-action[aria-pressed='true'] {
+      outline: 2px solid Highlight;
+    }
+  }
+}
