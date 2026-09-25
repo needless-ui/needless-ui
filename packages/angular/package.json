@@ -1,6 +1,6 @@
 {
   "name": "@needless-ui/angular",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Angular components for Needless UI: signal-based, zoneless-ready, styled by @needless-ui/css.",
   "license": "MIT",
   "type": "module",
