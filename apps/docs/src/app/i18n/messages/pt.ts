@@ -1220,6 +1220,10 @@ export const messages: Messages = {
             title: 'Dados ao vivo, exportação e impressão',
             text: 'Os preços mudam a cada dois segundos, e <code>flash</code> mostra quais células mudaram. <code>exportXlsx()</code> baixa uma planilha de verdade, <code>print()</code> imprime todas as linhas, e <code>layout="auto"</code> mostra cards em telas estreitas.',
           },
+          cards: {
+            title: 'Cards no celular',
+            text: '<code>layout="list"</code> mostra as linhas como cards, e <code>auto</code> faz isso abaixo de 36rem. Os cards não têm linha de cabeçalho, então uma barra de ferramentas os ordena, e o botão “Filter” dela abre o painel da coluna que você escolher. <code>toolbar</code> também pode mostrá-la acima de uma tabela, ou omiti-la.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1263,6 +1267,8 @@ export const messages: Messages = {
                 'Uma linha de agregados sobre todas as linhas filtradas; células que piscam quando o texto delas muda, em linhas com um <code>rowId</code> estável.',
               layout:
                 '<code>list</code> mostra as linhas como cards, e <code>auto</code> faz isso em telas estreitas.',
+              toolbar:
+                'Uma barra que ordena as linhas e abre o painel da coluna: sempre, nunca, ou <code>auto</code> com cards.',
               'exportXlsx, print':
                 'As linhas filtradas e ordenadas como planilha; imprime todas as linhas.',
             },
@@ -1349,6 +1355,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> e <code>aria-colindex</code> continuam corretos quando as linhas são paginadas ou virtualizadas.',
           'Ordenação, filtros, paginação e erros de edição são anunciados de forma educada em uma região de status.',
           'Linhas agrupadas ou aninhadas fazem da tabela uma <code>treegrid</code>: as linhas têm <code>aria-level</code>, <code>aria-setsize</code> e <code>aria-posinset</code>, e <code>aria-expanded</code> quando podem ser abertas. Os agregados são lidos com o tipo, como “Sum: 475”.',
+          'Os cards não têm linha de cabeçalho, então uma barra de ferramentas vem primeiro: um grupo chamado “Sort and filter” com um select rotulado para a coluna pela qual ordenar, botões de alternância para a direção e um botão “Filter” que abre o painel da coluna, onde um select escolhe a coluna. A parada de tabulação da grade passa para o primeiro card.',
         ],
       },
       chat: {

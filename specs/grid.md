@@ -15,6 +15,7 @@ A native `<table role="grid">` (a `treegrid` when rows are grouped or nest) insi
 - **The column panel** (`nui-grid-panel`), a popover. It holds sorting, the filter for the column, pinning, moving, fitting and hiding, and the list of every column to show or hide.
 - **Groups** (`nui-grid-group`): a row per group of rows, with its toggle (`nui-grid-toggle`), its column's value and count, and each column's aggregate. **Tree data** indents rows by depth (`nui-grid-tree`) with a toggle for the ones with children. **Details** (`nui-grid-detail`) open under a row from a column of toggles, and a **totals row** (in `tfoot`) sums up every row that passes the filters.
 - **The pager** (`nui-grid-pager`), when rows come in pages: rows per page, the range shown, and first, previous, next and last buttons.
+- **The toolbar** (`nui-grid-toolbar`), above cards, which have no header row (and above a table, with `toolbar`): a "Sort by" select (`nui-grid-sort-by`), ascending and descending buttons (`nui-grid-direction`), and a filter button (`nui-grid-filter-button`) that opens the column panel, with the number of columns that filter (`nui-grid-count`).
 - **States:** a progress bar and skeleton rows while `loading`, and a message row when there are no rows (`nui-grid-empty`).
 
 The grid's model (`NuiGridEngine`: filtering, sorting, paging, selection, column state and the active cell) has no DOM and is exported.
@@ -45,6 +46,7 @@ The grid's model (`NuiGridEngine`: filtering, sorting, paging, selection, column
 | `tfoot`                      | `totals`                                       | a row with each column's aggregate over every filtered row                              | false               |
 | `data-flash`                 | `flash`                                        | cells whose text changes when `rows` change flash                                       | false               |
 | `data-cards`                 | `layout`                                       | `table`; `list` shows rows as cards; `auto` does below 36rem                            | `table`             |
+| `nui-grid-toolbar`           | `toolbar`                                      | the bar that sorts and opens the column panel: always, never, or `auto` with cards      | `auto`              |
 | —                            | `exportXlsx()`, `print()`, `expandAll()`       | a spreadsheet (.xlsx) of the filtered, sorted rows; print every row; open or close all  | —                   |
 
 Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header), `nuiGridEmpty` (the empty message) and `nuiGridDetail` (a row's details). Personality inputs: `corners`, `radius` and `density`.
@@ -81,10 +83,11 @@ Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header)
 - **Live data:** with `flash`, cells whose text changes when `rows` do flash for a moment (a ring under reduced motion). Rows need a key that lasts across updates (`rowId`), so the grid can tell a row changed rather than came new.
 - **Export and print:** `exportXlsx()` writes a real spreadsheet: typed cells (numbers, dates, booleans), the columns' number formats, a bold, frozen header with filters. `print()`, and the browser's own print, lay out every row with nothing sticky or virtual.
 - **Cards:** with `layout="list"`, or `auto` below 36rem, rows show as cards, each cell with its column's name.
+- **The toolbar** stands in for the header row, which cards don't have. "Sort by" lists the visible columns that sort (and the one sorted by, even hidden) and shows the first column of the sort: choosing one replaces the sort, keeping its direction, and "None" clears it. The two buttons turn the first column around and leave the rest of a sort by several columns as it is. The filter button opens the column panel, which gains a select for its column; it starts on the column it showed last, else the first that filters, else the first that can. Cards have no pinned edges or widths, so there the panel leaves out pinning and fitting. `toolbar` shows the bar over a table too (`true`) or never (`false`); a bar with no column to sort or filter isn't shown.
 
 ## Keyboard
 
-The grid is one tab stop, and the arrow keys move between cells (header cells included).
+The grid is one tab stop, and the arrow keys move between cells (header cells included; cards have none, so there the keys stay in the rows). The toolbar's controls come before it in the tab order.
 
 | Key                                                 | Behavior                                                      |
 | --------------------------------------------------- | ------------------------------------------------------------- |
@@ -113,5 +116,7 @@ The grid is one tab stop, and the arrow keys move between cells (header cells in
 - Focus moves with a roving `tabindex`, so screen readers follow the cell with its row and column headers. A cell being edited holds a labeled field; `aria-invalid` and the message it's described by show what's wrong.
 - `aria-rowcount`, `aria-rowindex` and `aria-colindex` are right while rows are virtualized, paged or hidden.
 - The column panel is a dialog named after the column, and closing it returns focus to the header. Sort changes, row counts and paging are announced through a polite status region.
+- The toolbar is a group ("Sort and filter"). "Sort by" is a native select named by its label, the direction buttons are toggle buttons (`aria-pressed`) named "Ascending" and "Descending", and the filter button has `aria-haspopup="dialog"` and `aria-expanded`, with the number of columns that filter said after its name ("Filter 2 active"). Opened from there, the panel's first control is the select that picks its column, and closing the panel returns focus to the button. A sort chosen in the toolbar is announced as one chosen in a header is.
+- With cards, the grid's tab stop is in the rows: the header row isn't drawn, so the keyboard doesn't go there.
 - Grouped or nested rows make the table a `treegrid`: rows carry `aria-level`, `aria-setsize`, `aria-posinset`, and `aria-expanded` when they open. Toggles and the details' buttons are named and say whether they're open. Aggregates are read with their kind ("Sum: 475").
 - Angular Aria's grid moves through the cells that are rendered. This grid moves through the data, so it can render only what's in view.

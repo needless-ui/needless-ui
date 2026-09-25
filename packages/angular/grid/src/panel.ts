@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal, output, untracked } from '@angular/core';
+import { Component, computed, input, linkedSignal, model, output, untracked } from '@angular/core';
 import { nuiParseNumber } from '@needless-ui/angular/number-field';
 import type { NuiGridEngine } from './engine';
 import { nuiGridOperators } from './format';
@@ -16,7 +16,20 @@ const BARE: readonly NuiGridFilterOp[] = ['empty', 'notEmpty'];
   host: { class: 'nui-grid-panel-body' },
   template: `
     @let text = labels();
-    <p class="nui-grid-panel-title">{{ column().header }}</p>
+    @if (pick()) {
+      <label class="nui-grid-panel-section">
+        <span class="nui-grid-panel-label">{{ text.column }}</span>
+        <select class="nui-grid-panel-select" (change)="columnId.set($any($event.target).value)">
+          @for (choice of choices(); track choice.id) {
+            <option [value]="choice.id" [selected]="choice.id === columnId()">
+              {{ choice.header }}
+            </option>
+          }
+        </select>
+      </label>
+    } @else {
+      <p class="nui-grid-panel-title">{{ column().header }}</p>
+    }
 
     @if (column().sortable !== false) {
       <div class="nui-grid-panel-section" role="group" [attr.aria-label]="text.sort">
@@ -124,35 +137,38 @@ const BARE: readonly NuiGridFilterOp[] = ['empty', 'notEmpty'];
       </div>
     }
 
-    <div class="nui-grid-panel-section" role="group" [attr.aria-label]="text.pin">
-      <span class="nui-grid-panel-label" aria-hidden="true">{{ text.pin }}</span>
-      <div class="nui-grid-panel-buttons">
-        <button
-          type="button"
-          class="nui-grid-panel-button"
-          [attr.aria-pressed]="pinned() === 'start'"
-          (click)="engine().pin(columnId(), 'start')"
-        >
-          {{ text.pinStart }}
-        </button>
-        <button
-          type="button"
-          class="nui-grid-panel-button"
-          [attr.aria-pressed]="pinned() === null"
-          (click)="engine().pin(columnId(), null)"
-        >
-          {{ text.unpin }}
-        </button>
-        <button
-          type="button"
-          class="nui-grid-panel-button"
-          [attr.aria-pressed]="pinned() === 'end'"
-          (click)="engine().pin(columnId(), 'end')"
-        >
-          {{ text.pinEnd }}
-        </button>
+    <!-- Cards have no edges to pin to, and no widths. -->
+    @if (!cards()) {
+      <div class="nui-grid-panel-section" role="group" [attr.aria-label]="text.pin">
+        <span class="nui-grid-panel-label" aria-hidden="true">{{ text.pin }}</span>
+        <div class="nui-grid-panel-buttons">
+          <button
+            type="button"
+            class="nui-grid-panel-button"
+            [attr.aria-pressed]="pinned() === 'start'"
+            (click)="engine().pin(columnId(), 'start')"
+          >
+            {{ text.pinStart }}
+          </button>
+          <button
+            type="button"
+            class="nui-grid-panel-button"
+            [attr.aria-pressed]="pinned() === null"
+            (click)="engine().pin(columnId(), null)"
+          >
+            {{ text.unpin }}
+          </button>
+          <button
+            type="button"
+            class="nui-grid-panel-button"
+            [attr.aria-pressed]="pinned() === 'end'"
+            (click)="engine().pin(columnId(), 'end')"
+          >
+            {{ text.pinEnd }}
+          </button>
+        </div>
       </div>
-    </div>
+    }
 
     <div class="nui-grid-panel-actions">
       <button
@@ -173,7 +189,7 @@ const BARE: readonly NuiGridFilterOp[] = ['empty', 'notEmpty'];
       >
         {{ text.moveForward }}
       </button>
-      @if (column().resizable !== false) {
+      @if (column().resizable !== false && !cards()) {
         <button type="button" class="nui-grid-panel-action" data-icon="fit" (click)="fit.emit()">
           {{ text.fit }}
         </button>
@@ -210,15 +226,27 @@ const BARE: readonly NuiGridFilterOp[] = ['empty', 'notEmpty'];
 })
 export class NuiGridPanel<T> {
   readonly engine = input.required<NuiGridEngine<T>>();
-  readonly columnId = input.required<string>();
+  /** The column shown. It changes here when `pick` is on. */
+  readonly columnId = model.required<string>();
   readonly labels = input.required<NuiGridLabels>();
   readonly locale = input('en');
+  /** Opened from the toolbar, not a header: a select picks the column. */
+  readonly pick = input(false);
+  /** Rows show as cards, which have no pinned edges or widths. */
+  readonly cards = input(false);
   /** Fit the column to its content: the grid measures it. */
   readonly fit = output<void>();
   /** Hide the column: the grid moves focus away first. */
   readonly hide = output<void>();
 
   protected readonly column = computed(() => this.engine().byId().get(this.columnId())!);
+  /** The columns to pick from: the visible ones, and the one shown even when it's hidden. */
+  protected readonly choices = computed(() => {
+    const visible = this.engine()
+      .layout()
+      .map((layout) => layout.column);
+    return visible.includes(this.column()) ? visible : [...visible, this.column()];
+  });
   protected readonly type = computed(() => this.column().type ?? 'text');
   protected readonly filter = computed(() => this.engine().filters()[this.columnId()] ?? null);
   protected readonly operators = computed(() => nuiGridOperators(this.column()));

@@ -1163,6 +1163,10 @@ export const messages: Messages = {
             title: '实时数据、导出与打印',
             text: '价格每两秒变化一次，<code>flash</code> 会让发生变化的单元格闪烁一下。<code>exportXlsx()</code> 会下载一个真正的电子表格，<code>print()</code> 打印所有行，<code>layout="auto"</code> 则在窄屏上以卡片显示行。',
           },
+          cards: {
+            title: '手机上的卡片',
+            text: '<code>layout="list"</code> 以卡片显示行，<code>auto</code> 则在宽度小于 36rem 时这样显示。卡片没有表头行，因此由工具栏来排序，工具栏的“Filter”按钮会为你所选的列打开列面板。<code>toolbar</code> 还可以让工具栏显示在表格上方，或者不显示它。',
+          },
         },
         api: {
           NuiGrid: {
@@ -1201,6 +1205,8 @@ export const messages: Messages = {
               'totals, flash':
                 '一行汇总所有筛选后行的聚合值；以及文本变化时会闪烁的单元格，仅适用于具有固定 <code>rowId</code> 的行。',
               layout: '<code>list</code> 以卡片显示行，<code>auto</code> 则只在窄屏上这样显示。',
+              toolbar:
+                '对行排序并打开列面板的工具栏：始终、从不，或 <code>auto</code>（显示卡片时出现）。',
               'exportXlsx, print': '以电子表格形式导出筛选和排序后的行；打印所有行。',
             },
           },
@@ -1265,6 +1271,7 @@ export const messages: Messages = {
           '在分页或虚拟化时，<code>aria-rowcount</code>、<code>aria-rowindex</code> 和 <code>aria-colindex</code> 也始终保持正确。',
           '排序、筛选、翻页和编辑错误，会通过不打断当前朗读的状态区域播报。',
           '有分组或嵌套的行时，表格就成了 <code>treegrid</code>：行带有 <code>aria-level</code>、<code>aria-setsize</code> 和 <code>aria-posinset</code>，可展开的行还带有 <code>aria-expanded</code>。聚合值会连同其类型一起朗读，例如“Sum: 475”。',
+          '卡片没有表头行，因此工具栏排在最前面：一个名为“Sort and filter”的分组，内含一个带标签的选择器，用来选择按哪一列排序；一组切换按钮，用来选择排序方向；以及一个“Filter”按钮，用来打开列面板，在面板中用选择器选择列。表格在 Tab 键顺序中所占的位置会移到第一张卡片上。',
         ],
       },
       chat: {

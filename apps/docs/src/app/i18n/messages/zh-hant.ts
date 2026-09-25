@@ -1162,6 +1162,10 @@ export const messages: Messages = {
             title: '即時資料、匯出與列印',
             text: '價格每兩秒變動一次，<code>flash</code> 會讓有變動的儲存格閃爍一下。<code>exportXlsx()</code> 會下載真正的試算表，<code>print()</code> 會列印所有列，<code>layout="auto"</code> 則會在窄螢幕上以卡片顯示列。',
           },
+          cards: {
+            title: '手機上的卡片',
+            text: '<code>layout="list"</code> 以卡片顯示列，<code>auto</code> 則在寬度小於 36rem 時這樣顯示。卡片沒有標題列，因此由工具列來排序，工具列的「Filter」按鈕會為你所選的欄開啟欄面板。<code>toolbar</code> 也能讓工具列顯示在表格上方，或是不顯示。',
+          },
         },
         api: {
           NuiGrid: {
@@ -1200,6 +1204,8 @@ export const messages: Messages = {
               'totals, flash':
                 '彙總所有篩選後列的一列；以及文字變動時會閃爍的儲存格，僅適用於具有固定 <code>rowId</code> 的列。',
               layout: '<code>list</code> 以卡片顯示列，<code>auto</code> 則只在窄螢幕上這樣顯示。',
+              toolbar:
+                '對列排序並開啟欄面板的工具列：一律、從不，或 <code>auto</code>（顯示卡片時出現）。',
               'exportXlsx, print': '以試算表形式匯出篩選和排序後的列；列印所有列。',
             },
           },
@@ -1263,6 +1269,7 @@ export const messages: Messages = {
           '分頁或虛擬化時，<code>aria-rowcount</code>、<code>aria-rowindex</code> 和 <code>aria-colindex</code> 仍會保持正確。',
           '排序、篩選、換頁和編輯錯誤，會透過不打斷目前朗讀的狀態區域朗讀出來。',
           '有分組或巢狀的列時，表格會成為 <code>treegrid</code>：列帶有 <code>aria-level</code>、<code>aria-setsize</code> 和 <code>aria-posinset</code>，可展開的列還帶有 <code>aria-expanded</code>。彙總值會連同類型一起朗讀，例如「Sum: 475」。',
+          '卡片沒有標題列，因此工具列排在最前面：一個名為「Sort and filter」的群組，內含一個有標籤的下拉式選單，用來選擇依哪一欄排序；一組切換按鈕，用來選擇排序方向；以及一個「Filter」按鈕，用來開啟欄面板，在面板中用下拉式選單選擇欄。表格在 Tab 鍵順序中所佔的位置會移到第一張卡片上。',
         ],
       },
       chat: {

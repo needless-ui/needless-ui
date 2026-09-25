@@ -1229,6 +1229,10 @@ export const messages: Messages = {
             title: 'ライブデータ、エクスポート、印刷',
             text: '価格は2秒ごとに変わり、<code>flash</code> は変わったセルを一瞬光らせて示します。<code>exportXlsx()</code> は本物のスプレッドシートをダウンロードし、<code>print()</code> はすべての行を印刷し、<code>layout="auto"</code> は狭い画面で行をカードとして表示します。',
           },
+          cards: {
+            title: 'スマートフォンでのカード表示',
+            text: '<code>layout="list"</code> は行をカードとして表示し、<code>auto</code> は幅が 36rem 未満のときにそうします。カードにはヘッダー行がないため、ツールバーで並べ替えます。ツールバーの「Filter」ボタンは、選んだ列のパネルを開きます。<code>toolbar</code> で、ツールバーをテーブルの上に表示することも、表示しないこともできます。',
+          },
         },
         api: {
           NuiGrid: {
@@ -1269,6 +1273,8 @@ export const messages: Messages = {
                 '絞り込まれたすべての行を集計する行と、テキストが変わると一瞬光るセル。後者は、更新後も変わらない <code>rowId</code> を持つ行が対象です。',
               layout:
                 '<code>list</code> は行をカードとして表示し、<code>auto</code> は狭い画面でだけそうします。',
+              toolbar:
+                '行を並べ替え、列のパネルを開くバー。常に表示する、表示しない、カード表示のときに表示する <code>auto</code> のいずれか。',
               'exportXlsx, print':
                 '前者は絞り込みと並べ替えを適用した行をスプレッドシートとして書き出し、後者はすべての行を印刷します。',
             },
@@ -1351,6 +1357,7 @@ export const messages: Messages = {
           'ページングや仮想化の最中も、<code>aria-rowcount</code>、<code>aria-rowindex</code>、<code>aria-colindex</code> は正しい値を保ちます。',
           '並べ替え、絞り込み、ページの切り替え、編集エラーは、読み上げ中の内容に割り込まないステータス領域で読み上げられます。',
           'グループ化または入れ子にした行があると、テーブルは <code>treegrid</code> になります。行には <code>aria-level</code>、<code>aria-setsize</code>、<code>aria-posinset</code> が付き、開閉できる行には <code>aria-expanded</code> も付きます。集計値は「Sum: 475」のように種類とともに読み上げられます。',
+          'カードにはヘッダー行がないため、ツールバーが先に来ます。ツールバーは「Sort and filter」という名前の付いたグループで、並べ替える列を選ぶラベル付きのセレクト、並べ替えの方向を選ぶトグルボタン、列のパネルを開く「Filter」ボタンがあります。パネルでは、セレクトで列を選びます。グリッドのタブストップは最初のカードに移ります。',
         ],
       },
       chat: {

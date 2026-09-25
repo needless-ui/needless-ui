@@ -1235,6 +1235,10 @@ export const messages: Messages = {
             title: 'Datos en vivo, exportación e impresión',
             text: 'Los precios cambian cada dos segundos, y <code>flash</code> muestra qué celdas han cambiado. <code>exportXlsx()</code> descarga una hoja de cálculo de verdad, <code>print()</code> imprime todas las filas, y <code>layout="auto"</code> muestra tarjetas en pantallas estrechas.',
           },
+          cards: {
+            title: 'Tarjetas en móviles',
+            text: '<code>layout="list"</code> muestra las filas como tarjetas, y <code>auto</code> lo hace por debajo de 36rem. Las tarjetas no tienen fila de encabezado, así que una barra de herramientas las ordena, y su botón «Filter» abre el panel de la columna que elijas. <code>toolbar</code> también puede mostrarla encima de una tabla, u omitirla.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1279,6 +1283,8 @@ export const messages: Messages = {
                 'Una fila de agregados sobre todas las filas filtradas; celdas que destellan cuando cambia su texto, en filas con un <code>rowId</code> estable.',
               layout:
                 '<code>list</code> muestra las filas como tarjetas, y <code>auto</code> lo hace en pantallas estrechas.',
+              toolbar:
+                'Una barra que ordena las filas y abre el panel de la columna: siempre, nunca, o <code>auto</code> con tarjetas.',
               'exportXlsx, print':
                 'Las filas filtradas y ordenadas, como hoja de cálculo; imprime todas las filas.',
             },
@@ -1366,6 +1372,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> y <code>aria-colindex</code> siguen siendo correctos cuando las filas se paginan o se virtualizan.',
           'El orden, los filtros, la paginación y los errores de edición se anuncian de forma cortés en una región de estado.',
           'Las filas agrupadas o anidadas convierten la tabla en un <code>treegrid</code>: las filas llevan <code>aria-level</code>, <code>aria-setsize</code> y <code>aria-posinset</code>, y <code>aria-expanded</code> cuando se pueden abrir. Los agregados se leen con su tipo, como «Sum: 475».',
+          'Las tarjetas no tienen fila de encabezado, así que primero viene una barra de herramientas: un grupo llamado «Sort and filter» con un select etiquetado para la columna por la que ordenar, botones de alternancia para la dirección y un botón «Filter» que abre el panel de la columna, donde un select elige la columna. La parada de tabulación de la cuadrícula pasa a la primera tarjeta.',
         ],
       },
       chat: {

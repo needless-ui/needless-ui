@@ -1,0 +1,10 @@
+/* As wide as a phone: cards, and the toolbar that sorts and filters them. */
+:host {
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+nui-grid {
+  inline-size: 100%;
+  max-inline-size: 24rem;
+}

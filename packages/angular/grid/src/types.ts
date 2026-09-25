@@ -166,6 +166,15 @@ export interface NuiGridLabels {
   /** Read before an aggregate's value. */
   aggregates: Record<'sum' | 'avg' | 'min' | 'max' | 'count' | 'custom', string>;
   columnOptions: (header: string) => string;
+  /** The bar that sorts and filters, above cards. */
+  toolbar: string;
+  sortBy: string;
+  /** The sort's choice for none. */
+  unsorted: string;
+  /** Picks the column the panel shows, when the toolbar opened it. */
+  column: string;
+  /** Said after the toolbar's filter button: how many columns filter the rows. */
+  activeFilters: (count: number) => string;
   sort: string;
   ascending: string;
   descending: string;
@@ -220,6 +229,11 @@ export const NUI_GRID_LABELS: NuiGridLabels = {
     custom: 'Summary',
   },
   columnOptions: (header) => `${header} column options`,
+  toolbar: 'Sort and filter',
+  sortBy: 'Sort by',
+  unsorted: 'None',
+  column: 'Column',
+  activeFilters: (count) => `${count.toLocaleString('en')} active`,
   sort: 'Sort',
   ascending: 'Ascending',
   descending: 'Descending',

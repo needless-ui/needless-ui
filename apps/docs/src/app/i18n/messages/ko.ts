@@ -1204,6 +1204,10 @@ export const messages: Messages = {
             title: '실시간 데이터, 내보내기, 인쇄',
             text: '가격이 2초마다 바뀌고, <code>flash</code>는 바뀐 셀을 잠깐 반짝여 보여 줍니다. <code>exportXlsx()</code>는 진짜 스프레드시트를 내려받고, <code>print()</code>는 모든 행을 인쇄하며, <code>layout="auto"</code>는 좁은 화면에서 행을 카드로 보여 줍니다.',
           },
+          cards: {
+            title: '휴대폰의 카드 보기',
+            text: '<code>layout="list"</code>는 행을 카드로 보여 주고, <code>auto</code>는 너비가 36rem 미만일 때 그렇게 합니다. 카드에는 헤더 행이 없으므로 툴바로 정렬하고, 툴바의 ‘Filter’ 버튼은 고른 열의 패널을 엽니다. <code>toolbar</code>로 표 위에 툴바를 보여 줄 수도 있고, 아예 뺄 수도 있습니다.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1243,6 +1247,8 @@ export const messages: Messages = {
                 '필터링된 모든 행을 집계한 행, 그리고 텍스트가 바뀔 때 반짝이는 셀. 셀 반짝임은 계속 유지되는 <code>rowId</code>가 있는 행에서 동작합니다.',
               layout:
                 '<code>list</code>는 행을 카드로 보여 주고, <code>auto</code>는 좁은 화면에서만 그렇게 합니다.',
+              toolbar:
+                '행을 정렬하고 열 패널을 여는 툴바: 항상, 안 함, 또는 카드일 때 나타나는 <code>auto</code>.',
               'exportXlsx, print':
                 '각각 필터링하고 정렬한 행을 스프레드시트로 내보내고, 모든 행을 인쇄합니다.',
             },
@@ -1328,6 +1334,7 @@ export const messages: Messages = {
           '행을 페이지로 나누거나 가상화해도 <code>aria-rowcount</code>, <code>aria-rowindex</code>, <code>aria-colindex</code>는 올바른 값을 유지합니다.',
           '정렬, 필터링, 페이지 이동, 편집 오류는 읽고 있던 내용을 끊지 않는 상태 영역에서 안내됩니다.',
           '그룹화되거나 중첩된 행이 있으면 표는 <code>treegrid</code>가 됩니다. 행에는 <code>aria-level</code>, <code>aria-setsize</code>, <code>aria-posinset</code>이 지정되고, 열 수 있는 행에는 <code>aria-expanded</code>도 지정됩니다. 집계 값은 ‘Sum: 475’처럼 종류와 함께 읽힙니다.',
+          '카드에는 헤더 행이 없으므로 툴바가 먼저 나옵니다. 툴바는 ‘Sort and filter’라는 이름이 붙은 그룹이며, 정렬할 열을 고르는 레이블이 있는 셀렉트, 정렬 방향을 정하는 토글 버튼, 열 패널을 여는 ‘Filter’ 버튼이 들어 있습니다. 열 패널에서는 셀렉트로 열을 고릅니다. 탭 순서에서 그리드가 멈추는 곳은 첫 번째 카드로 옮겨 갑니다.',
         ],
       },
       chat: {
