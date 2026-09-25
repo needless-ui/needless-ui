@@ -33,6 +33,7 @@ Both are placed by `nuiFollow()` from `@needless-ui/angular`, which writes `top`
 
 - A popover opens and closes with its trigger, closes on Escape and on clicks outside (the browser's light dismiss), and returns focus to the trigger. Only one auto popover is open at a time, unless nested.
 - A hovercard opens after `openDelay` on hover (mouse or pen, not touch) and at once when its trigger gets keyboard focus. It stays open while the pointer is over it or travelling to it, through the triangle between the pointer and the card, and closes `closeDelay` after the pointer leaves both.
+- Touch screens can't hover, so a finger never opens a hovercard: its text only adds to what the page shows, and is read with its trigger by screen readers (`aria-describedby`). Put anything a person needs in the page, or in a popover.
 - Both follow their trigger when the page scrolls or resizes.
 
 ## Keyboard

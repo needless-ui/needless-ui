@@ -51,6 +51,20 @@ describe('NuiOtp', () => {
     expect(host.completed).toEqual(['123456']);
   });
 
+  it('cleans up what an input method composed, once it is done', async () => {
+    const { fixture, host, input, text } = await setup();
+    input.focus();
+    // A composing keyboard's text can't be refused as it's typed: the browser writes it.
+    input.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, '12-3a');
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, isComposing: true }));
+    input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    await fixture.whenStable();
+    expect(input.value).toBe('123');
+    expect(text()).toBe('123');
+    expect(host.code()).toBe('123');
+  });
+
   it('cleans up a pasted code', async () => {
     const { fixture, host, input, text } = await setup();
     input.focus();

@@ -53,6 +53,9 @@ export const NUI_CAROUSEL_LABELS: NuiCarouselLabels = {
 
 let nextId = 0;
 
+/** Listens for nothing; its presence is what counts (see the constructor). */
+const touches = () => undefined;
+
 /**
  * A slide of a `nui-carousel`. Name it when it has a title: the name is read
  * before its position. It's a `group`, so put it on an element that can be one
@@ -165,6 +168,7 @@ export class NuiCarouselSlide {
       tabindex="0"
       [id]="trackId"
       [attr.aria-label]="words().slides"
+      (pointerdown)="onTrackPress($event)"
       (scroll)="onScroll()"
       (scrollend)="onScrollEnd()"
     >
@@ -256,6 +260,9 @@ export class NuiCarousel {
   constructor() {
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
+      // Safari on iOS matches :active, which its buttons' presses style, only on
+      // pages that listen for touches. The same listener added twice is one.
+      document.addEventListener('touchstart', touches, { passive: true });
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) this.rotating.set(false);
       const visibility = () => this.hidden.set(document.hidden);
       document.addEventListener('visibilitychange', visibility);
@@ -325,6 +332,11 @@ export class NuiCarousel {
     // rotation control itself: the control is there to start it again.
     const on = event.target as HTMLElement;
     if (!on.classList.contains('nui-carousel-play')) this.rotating.set(false);
+  }
+
+  /** A finger on the slides is someone swiping: rotation stops for good, as for focus. */
+  protected onTrackPress(event: PointerEvent): void {
+    if (event.pointerType === 'touch') this.rotating.set(false);
   }
 
   protected onFocusOut(_event: FocusEvent): void {

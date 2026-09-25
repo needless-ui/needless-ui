@@ -96,6 +96,28 @@
     }
   }
 
+  /* A finger needs more than a line to grab, and can't hover to find it: the
+     handle reaches over the panes' edges (their sizes don't change), and its
+     grip always shows. */
+  @media (pointer: coarse) {
+    .nui-splitter-handle {
+      z-index: 1;
+      inline-size: 1.5rem;
+      margin-inline: -0.375rem;
+    }
+
+    .nui-splitter[data-orientation='vertical'] > .nui-splitter-handle {
+      inline-size: auto;
+      block-size: 1.5rem;
+      margin-inline: 0;
+      margin-block: -0.375rem;
+    }
+
+    .nui-splitter-handle:not([aria-disabled='true'])::after {
+      opacity: 1;
+    }
+  }
+
   .nui-splitter-handle:focus-visible::after,
   .nui-splitter-handle[data-dragging]::after {
     background-color: var(--nui-color-accent-solid);

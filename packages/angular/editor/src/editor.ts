@@ -861,21 +861,39 @@ export class NuiEditor implements ControlValueAccessor {
 
   protected onCompositionEnd(): void {
     this.composing = false;
-    this.readBack(true);
+    // While composing, the document took the text without being drawn again. If
+    // the last of it is already read, draw it now, or the view would go on
+    // measuring the block as it was before the word (Android keyboards compose
+    // every word).
+    if (!this.readBack(true)) this.redraw();
   }
 
-  /** Reads what the browser typed into a block (input methods, anything unhandled) back into the document. */
-  private readBack(render: boolean): void {
+  /** Draws the document again, keeping the caret where it is. */
+  private redraw(): void {
     if (!this.view) return;
+    const selection = this.view.readSelection() ?? this.selection();
+    this.view.render(this.doc());
+    this.selection.set(selection);
+    if (this.document.activeElement === this.content().nativeElement) {
+      this.view.writeSelection(selection);
+    }
+  }
+
+  /**
+   * Reads what the browser typed into a block (input methods, anything unhandled)
+   * back into the document. Whether there was anything to read.
+   */
+  private readBack(render: boolean): boolean {
+    if (!this.view) return false;
     const selection = this.view.readSelection();
-    if (!selection) return;
+    if (!selection) return false;
     const index = selection.focus.block;
     const doc = this.doc();
     const block = doc[index];
-    if (!block) return;
+    if (!block) return false;
     const old = blockText(block);
     const now = this.view.textOf(index);
-    if (old === now) return;
+    if (old === now) return false;
     let start = 0;
     while (start < old.length && start < now.length && old[start] === now[start]) start++;
     let endOld = old.length;
@@ -889,6 +907,7 @@ export class NuiEditor implements ControlValueAccessor {
     const inserted = now.slice(start, endNew);
     if (inserted) change = insertText(change.doc, point(index, start), inserted, marks);
     this.commit({ doc: change.doc, selection }, 'type', render);
+    return true;
   }
 
   protected onKeydown(event: KeyboardEvent): void {

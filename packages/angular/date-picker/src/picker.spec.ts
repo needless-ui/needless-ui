@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import type { NuiDateRange } from '@needless-ui/angular/calendar';
-import { userEvent } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 import { NuiDatePicker, NuiDateRangePicker, type NuiDateRangePreset } from './picker';
 
 @Component({
@@ -79,6 +79,9 @@ describe('NuiDatePicker', () => {
 });
 
 describe('NuiDateRangePicker', () => {
+  // Vitest's default viewport, for the tests after these.
+  afterEach(() => page.viewport(414, 896));
+
   it('takes both ends typed, in order', async () => {
     const { host, root, settle } = await setup();
     const [start, end] = [...root.querySelectorAll<HTMLElement>('#range nui-date-field')];
@@ -99,6 +102,7 @@ describe('NuiDateRangePicker', () => {
   });
 
   it('picks a range in two months, or from a preset', async () => {
+    await page.viewport(1024, 768);
     const { host, root, settle } = await setup();
     root.querySelector<HTMLButtonElement>('#range .nui-date-picker-button')!.click();
     await settle();
@@ -111,5 +115,13 @@ describe('NuiDateRangePicker', () => {
     expect(root.querySelector('#range .nui-date-picker-popover')!.matches(':popover-open')).toBe(
       false,
     );
+  });
+
+  it('shows one month where two side by side would not fit', async () => {
+    await page.viewport(390, 700);
+    const { root, settle } = await setup();
+    root.querySelector<HTMLButtonElement>('#range .nui-date-picker-button')!.click();
+    await settle();
+    expect(root.querySelectorAll('#range .nui-calendar-grid').length).toBe(1);
   });
 });

@@ -69,6 +69,13 @@
     padding-inline-end: var(--nui-space-1);
   }
 
+  /* Too narrow for both dates on one line (a small phone): the end date wraps. */
+  .nui-date-range-picker {
+    flex-wrap: wrap;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
   .nui-date-picker .nui-date-field {
     min-block-size: 0;
     padding: 0;
@@ -235,6 +242,15 @@
     .nui-date-picker-button::before {
       forced-color-adjust: none;
       background-color: CanvasText;
+    }
+  }
+
+  /* Safari on iPhone zooms into a field whose text is under 16px when it's
+     focused: on touch screens, fields are at least 16px. */
+  @media (pointer: coarse) {
+    .nui-date-field,
+    .nui-date-picker {
+      font-size: max(1rem, var(--nui-font-size-sm));
     }
   }
 }

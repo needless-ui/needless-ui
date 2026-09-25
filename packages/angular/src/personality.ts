@@ -1,6 +1,10 @@
-import { computed, Directive, input } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { computed, Directive, DOCUMENT, inject, input, PLATFORM_ID } from '@angular/core';
 import { springTransition, type NuiSpring } from './spring';
 import type { NuiCorners, NuiDensity, NuiEnter, NuiMotion, NuiPress, NuiRadius } from './types';
+
+/** Listens for nothing; its presence is what counts (see below). */
+const touches = () => undefined;
 
 /**
  * The customization inputs every component shares. Each one reflects to the
@@ -42,4 +46,12 @@ export class NuiPersonality {
     const spring = this.spring();
     return spring ? springTransition(spring) : null;
   });
+
+  constructor() {
+    // Safari on iOS matches :active, which presses style, only on pages that listen
+    // for touches. The same listener added twice is one.
+    if (isPlatformBrowser(inject(PLATFORM_ID))) {
+      inject(DOCUMENT).addEventListener('touchstart', touches, { passive: true });
+    }
+  }
 }

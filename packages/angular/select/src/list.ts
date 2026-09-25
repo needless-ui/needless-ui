@@ -123,7 +123,7 @@ type Item<V> = { key: string; row: NuiOptionRow<V>; index: number } | { key: str
             [attr.aria-expanded]="tree() && row.expandable ? row.expanded : null"
             [style.--_depth]="row.depth || null"
             (click)="choose.emit(row)"
-            (pointermove)="engine().activate(item.index)"
+            (pointermove)="hover($event, item.index)"
           >
             @if (tree()) {
               @if (row.expandable) {
@@ -236,6 +236,14 @@ export class NuiOptionList<V = unknown> {
 
   protected onScroll(): void {
     this.scrollTop.set(this.element.scrollTop);
+  }
+
+  /**
+   * The row under a mouse or pen is active. Not under a finger: it would move
+   * the active row, and the list with it, while the finger scrolls.
+   */
+  protected hover(event: PointerEvent, index: number): void {
+    if (event.pointerType !== 'touch') this.engine().activate(index);
   }
 
   private reveal(index: number): void {

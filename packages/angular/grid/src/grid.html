@@ -346,6 +346,8 @@
                 [style.--_offset.px]="column.pinned ? column.offset : null"
                 [tabindex]="tab(r, lead + c)"
                 (dblclick)="onCellDblclick(row, r, lead + c)"
+                (pointerdown)="onCellPress($event, r, lead + c)"
+                (click)="onCellTap(r, lead + c)"
               >
                 @if (c === 0 && nested) {
                   <span class="nui-grid-tree">

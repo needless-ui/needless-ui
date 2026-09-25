@@ -79,7 +79,7 @@ export class NuiChat {
   /** Prompts to start with, shown until the first message. */
   readonly suggestions = input<readonly string[]>([]);
   /** Which keys send. */
-  readonly sendOn = input<NuiChatSendOn>('enter');
+  readonly sendOn = input<NuiChatSendOn>('auto');
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Take files: picked, pasted or dropped. */
   readonly attach = input(false, { transform: booleanAttribute });

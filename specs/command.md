@@ -28,6 +28,7 @@ Shortcuts are text: `mod+shift+p`, `alt+enter`, `?`. `mod` is ⌘ on Apple devic
 ## Behavior
 
 - The hotkey opens and closes the palette from anywhere. It opens empty on the top page with the search field focused, and closing returns focus where it was.
+- Phones and tablets on their own have no hotkey: give the palette a button there too (`show()`). On them the key hints and shortcuts are hidden.
 - Search is fuzzy and reaches into pages: a match inside a page shows the page's name. Choosing a command closes the palette first and then runs it (`run()`, then `(run)`), so the command can move focus. Choosing a command with `children` opens it as a page.
 - With `bindShortcuts`, a command's shortcut runs it anywhere on the page. Shortcuts without Ctrl, Alt or ⌘ don't fire while typing in a field.
 - Letters typed on a non-Latin layout (or changed by Alt on a Mac) still match by the key's position.

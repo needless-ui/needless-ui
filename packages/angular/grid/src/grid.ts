@@ -605,6 +605,24 @@ export class NuiGrid<T> {
     if (!this.startEdit(index, col)) this.rowActivate.emit(row);
   }
 
+  /** A finger on the cell that was already active: the tap that follows edits it. */
+  private tapToEdit: { row: number; col: number } | null = null;
+
+  protected onCellPress(event: PointerEvent, row: number, col: number): void {
+    const active = this.engine.active();
+    this.tapToEdit =
+      event.pointerType === 'touch' && active.row === row && active.col === col
+        ? { row, col }
+        : null;
+  }
+
+  /** Touch screens have no double click: a tap on the active cell starts editing it. */
+  protected onCellTap(row: number, col: number): void {
+    const tap = this.tapToEdit;
+    this.tapToEdit = null;
+    if (tap?.row === row && tap.col === col) this.startEdit(row, col);
+  }
+
   protected onCheck(row: T, event: MouseEvent): void {
     event.stopPropagation();
     if (event.shiftKey) this.engine.selectRange(row);
@@ -640,9 +658,13 @@ export class NuiGrid<T> {
     this.go(-1, col);
   }
 
-  /** Drag the header to move the column among its pinned group. */
+  /**
+   * Drag the header to move the column among its pinned group. Not by touch: a
+   * finger on a header scrolls the grid (the column menu moves columns there).
+   */
   protected onHeaderPointerDown(column: NuiGridLayoutColumn<T>, event: PointerEvent): void {
-    if (event.button !== 0 || column.column.reorderable === false) return;
+    if (event.button !== 0 || event.pointerType === 'touch') return;
+    if (column.column.reorderable === false) return;
     if ((event.target as HTMLElement).closest('.nui-grid-menu-button, .nui-grid-resize')) return;
     const header = event.currentTarget as HTMLElement;
     const view = header.ownerDocument.defaultView!;
@@ -656,13 +678,17 @@ export class NuiGrid<T> {
       }
       this.drop.set(this.dropTarget(column, e.clientX));
     };
-    const end = () => {
+    const stop = () => {
       view.removeEventListener('pointermove', move);
       view.removeEventListener('pointerup', end);
-      view.removeEventListener('pointercancel', end);
+      view.removeEventListener('pointercancel', stop);
       delete header.dataset['dragging'];
       const drop = this.drop();
       this.drop.set(null);
+      return drop;
+    };
+    const end = () => {
+      const drop = stop();
       if (!dragging) return;
       // The click that follows the drop isn't a sort.
       this.dragged = true;
@@ -671,7 +697,8 @@ export class NuiGrid<T> {
     };
     view.addEventListener('pointermove', move);
     view.addEventListener('pointerup', end);
-    view.addEventListener('pointercancel', end);
+    // The browser took the gesture back: nothing moves.
+    view.addEventListener('pointercancel', stop);
   }
 
   protected startResize(column: NuiGridLayoutColumn<T>, event: PointerEvent): void {

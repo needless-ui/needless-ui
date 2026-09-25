@@ -40,9 +40,12 @@
     --_icon-fail: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m4.5 4.5 7 7m0-7-7 7'/%3E%3C/svg%3E");
 
     display: inline-grid;
+    /* One column that narrows with the room, however wide the area's canvas. */
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--nui-space-3);
     box-sizing: border-box;
     inline-size: 16rem;
+    min-inline-size: 0;
     max-inline-size: 100%;
     color: var(--nui-color-text-default);
     font-size: var(--nui-font-size-sm);
@@ -212,6 +215,28 @@
     box-shadow:
       0 0 0 1px rgb(0 0 0 / 0.35),
       inset 0 0 0 1px rgb(0 0 0 / 0.2);
+  }
+
+  /* A finger needs a bigger thumb: 24px on a taller track. */
+  @media (pointer: coarse) {
+    .nui-color-slider::-webkit-slider-runnable-track {
+      block-size: 1rem;
+    }
+
+    .nui-color-slider::-moz-range-track {
+      block-size: 1rem;
+    }
+
+    .nui-color-slider::-webkit-slider-thumb {
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
+      margin-block-start: -0.25rem;
+    }
+
+    .nui-color-slider::-moz-range-thumb {
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
+    }
   }
 
   .nui-color-slider:focus-visible {
@@ -418,6 +443,14 @@
 
     .nui-color-swatch[aria-pressed='true'] {
       outline-color: Highlight;
+    }
+  }
+
+  /* Safari on iPhone zooms into a field whose text is under 16px when it's
+     focused: on touch screens, fields are at least 16px. */
+  @media (pointer: coarse) {
+    .nui-color-input {
+      font-size: max(1rem, var(--nui-font-size-xs));
     }
   }
 }

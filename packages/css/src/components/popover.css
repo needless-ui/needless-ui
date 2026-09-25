@@ -87,6 +87,15 @@
     overflow: visible;
   }
 
+  /* Taller than the room it has (a short screen): it scrolls, without its arrow. */
+  :is(.nui-popover, .nui-hovercard)[data-arrow][data-overflow] {
+    overflow: auto;
+  }
+
+  :is(.nui-popover, .nui-hovercard)[data-arrow][data-overflow]::before {
+    content: none;
+  }
+
   :is(.nui-popover, .nui-hovercard)[data-arrow]::before {
     content: '';
     position: absolute;

@@ -19,7 +19,7 @@ Without an `upload` function, the dropzone holds files for a form. With one, it 
 | —               | `[(files)]`                | the files held, in order                                            | `[]`     |
 | —               | `accept`                   | the kinds of file to take, as `<input type="file">`: `image/*,.pdf` | any      |
 | —               | `multiple`                 | more than one file                                                  | true     |
-| —               | `directory`                | offers a button to choose a folder                                  | false    |
+| —               | `directory`                | offers a button to choose a folder (not on phones and tablets)      | false    |
 | —               | `maxFiles`                 | how many files it holds                                             | no limit |
 | —               | `maxSize`, `minSize`       | the largest and smallest file, in bytes                             | —        |
 | —               | `validate`                 | checks each file; a message turns it away                           | —        |

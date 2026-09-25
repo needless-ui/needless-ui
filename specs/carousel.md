@@ -31,7 +31,7 @@ The track is native scrolling: swiping, trackpads, the scrollbar-less wheel and 
 
 - Buttons and dots scroll smoothly (instantly under reduced motion) to a slide; with several in view, the last stop is the last full view.
 - The dots follow a swipe as it goes, and the carousel announces where it lands, politely. Rotation stays quiet.
-- Rotation pauses while the pointer is over the carousel or the page is hidden, and stops for good when keyboard focus comes into it (except on the rotation control), as the WAI-ARIA pattern asks. The rotation control starts it again. Under reduced motion, rotation starts stopped.
+- Rotation pauses while the pointer is over the carousel or the page is hidden, and stops for good when keyboard focus comes into it (except on the rotation control), as the WAI-ARIA pattern asks, or a finger touches the slides. The rotation control starts it again. Under reduced motion, rotation starts stopped.
 - Rotation always goes round, whatever `loop` says; the buttons stop at the ends unless `loop` is on.
 - In right-to-left text, the slides run from the right, and the buttons and swiping follow.
 

@@ -44,8 +44,9 @@ const clamp = (value: number, min: number, max: number) =>
 /**
  * Places a floating element next to its anchor, inside the viewport. It flips to
  * the opposite side when that side has more room than a too-small preferred side,
- * slides along the edge to stay on screen, and says how much room it got. Pure,
- * so it's tested without a DOM.
+ * goes below (or above) when it fits beside the anchor on neither side, slides
+ * along the edge to stay on screen, and says how much room it got. Pure, so it's
+ * tested without a DOM.
  */
 export function nuiPlace(request: NuiPlaceRequest): NuiPlacement {
   const { anchor, floating, viewport } = request;
@@ -87,6 +88,10 @@ export function nuiPlace(request: NuiPlaceRequest): NuiPlacement {
   const toRight = (side === 'end') !== rtl;
   const spaceRight = viewport.width - right - offset - margin;
   const spaceLeft = anchor.left - offset - margin;
+  // No room beside the anchor on either side (a phone): below it, or above, instead.
+  if (floating.width > Math.max(spaceRight, spaceLeft)) {
+    return nuiPlace({ ...request, side: 'bottom', align: 'center' });
+  }
   const preferred = toRight ? spaceRight : spaceLeft;
   const other = toRight ? spaceLeft : spaceRight;
   const flipped = floating.width > preferred && other > preferred;
@@ -119,8 +124,9 @@ export interface NuiFollowOptions extends Pick<
 /**
  * Keeps a fixed-position `floating` element (a popover in the top layer) next to
  * `anchor` while the page scrolls or resizes, or either element changes size. It
- * writes `top`, `left`, the max sizes, `data-side`, and `--nui-anchor-center`
- * (where the anchor's middle falls along the floating element's edge, for arrows).
+ * writes `top`, `left`, the max sizes, `data-side`, `data-overflow` (when it's
+ * taller than the room it has), and `--nui-anchor-center` (where the anchor's
+ * middle falls along the floating element's edge, for arrows).
  * Returns a function that stops following.
  */
 export function nuiFollow(
@@ -140,22 +146,33 @@ export function nuiFollow(
     style.maxWidth = '';
     if (options.matchWidth) style.minWidth = `${anchor.getBoundingClientRect().width}px`;
     const box = anchor.getBoundingClientRect();
+    // What's visible of the page: the on-screen keyboard (and pinch zoom) leave a
+    // smaller visual viewport inside the layout one that fixed positions use.
+    const visual = view.visualViewport;
+    const x = visual?.offsetLeft ?? 0;
+    const y = visual?.offsetTop ?? 0;
+    const height = floating.offsetHeight;
     const placement = nuiPlace({
       ...options,
-      anchor: box,
-      floating: { width: floating.offsetWidth, height: floating.offsetHeight },
-      viewport: { width: root.clientWidth, height: root.clientHeight },
+      anchor: { top: box.top - y, left: box.left - x, width: box.width, height: box.height },
+      floating: { width: floating.offsetWidth, height },
+      viewport: {
+        width: Math.min(root.clientWidth, visual?.width ?? Infinity),
+        height: Math.min(root.clientHeight, visual?.height ?? Infinity),
+      },
       direction: view.getComputedStyle(anchor).direction === 'rtl' ? 'rtl' : 'ltr',
     });
-    style.top = `${placement.top}px`;
-    style.left = `${placement.left}px`;
+    style.top = `${placement.top + y}px`;
+    style.left = `${placement.left + x}px`;
     style.maxHeight = `${placement.maxHeight}px`;
     style.maxWidth = `${placement.maxWidth}px`;
     floating.dataset['side'] = placement.side;
+    // Taller than the room it has: it scrolls (and an arrow, which needs overflow, goes).
+    floating.toggleAttribute('data-overflow', height > placement.maxHeight);
     const vertical = placement.side === 'top' || placement.side === 'bottom';
     const center = vertical
-      ? box.left + box.width / 2 - placement.left
-      : box.top + box.height / 2 - placement.top;
+      ? box.left - x + box.width / 2 - placement.left
+      : box.top - y + box.height / 2 - placement.top;
     style.setProperty('--nui-anchor-center', `${Math.round(center)}px`);
   };
   const schedule = () => {
@@ -165,6 +182,9 @@ export function nuiFollow(
   update();
   view.addEventListener('scroll', schedule, { capture: true, passive: true });
   view.addEventListener('resize', schedule);
+  // The keyboard coming up or going resizes and moves the visual viewport alone.
+  view.visualViewport?.addEventListener('resize', schedule);
+  view.visualViewport?.addEventListener('scroll', schedule);
   const observer = new ResizeObserver(schedule);
   observer.observe(anchor);
   observer.observe(floating);
@@ -172,6 +192,8 @@ export function nuiFollow(
     view.cancelAnimationFrame(frame);
     view.removeEventListener('scroll', schedule, { capture: true });
     view.removeEventListener('resize', schedule);
+    view.visualViewport?.removeEventListener('resize', schedule);
+    view.visualViewport?.removeEventListener('scroll', schedule);
     observer.disconnect();
   };
 }

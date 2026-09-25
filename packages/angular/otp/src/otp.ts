@@ -149,13 +149,14 @@ export class NuiOtp {
     '[attr.inputmode]': 'otp.pattern() === "digits" ? "numeric" : "text"',
     '[attr.maxlength]': 'otp.length()',
     '[attr.pattern]': 'otp.pattern() === "digits" ? "[0-9]*" : null',
-    '(input)': 'sync()',
+    '(input)': 'sync($event)',
+    '(compositionend)': 'cleanUp()',
     '(beforeinput)': 'filter($event)',
     '(paste)': 'paste($event)',
     '(keydown)': 'move($event)',
     '(focus)': 'focusSlot()',
     '(blur)': 'otp.selection.set(null)',
-    '(pointerup)': 'pointTo($event)',
+    '(click)': 'pointTo($event)',
   },
 })
 export class NuiOtpInput {
@@ -212,8 +213,10 @@ export class NuiOtpInput {
     });
   }
 
-  protected sync(): void {
+  protected sync(event?: Event): void {
     if (this.pasted !== null) return this.finishPaste();
+    // An input method's text can't be refused as it's typed: it's cleaned up once done.
+    if (!(event as InputEvent | undefined)?.isComposing && this.cleanUp()) return;
     this.otp.value.set(this.element.value);
     if (this.deleting) this.record();
     else this.focusSlot();
@@ -263,8 +266,11 @@ export class NuiOtpInput {
     this.write(code.length >= this.otp.length() ? code : this.clean(this.element.value));
   }
 
-  /** A click lands on a slot: select its character, or the first empty slot. */
-  protected pointTo(event: PointerEvent): void {
+  /**
+   * A click lands on a slot: select its character, or the first empty slot. On
+   * click, not pointerup: a tap places the browser's caret after pointerup.
+   */
+  protected pointTo(event: MouseEvent): void {
     const slots = this.element.parentElement?.querySelectorAll('.nui-otp-slot');
     if (!slots?.length) return;
     const index = [...slots].findIndex((slot) => {
@@ -299,6 +305,15 @@ export class NuiOtpInput {
     const { selectionStart, selectionEnd, value } = this.element;
     const start = selectionStart ?? value.length;
     this.otp.selection.set({ start, end: selectionEnd ?? start });
+  }
+
+  /** Takes out what the pattern doesn't allow (such as text from an input method). Whether it did. */
+  protected cleanUp(): boolean {
+    const value = this.element.value;
+    const clean = this.clean(value);
+    if (clean === value) return false;
+    this.write(clean);
+    return true;
   }
 
   private clean(text: string): string {

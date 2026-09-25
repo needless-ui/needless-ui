@@ -268,7 +268,11 @@ export class NuiSplitter {
         let handles = 0;
         for (const handle of this.element.querySelectorAll(':scope > .nui-splitter-handle')) {
           const box = handle.getBoundingClientRect();
-          handles += horizontal ? box.width : box.height;
+          // With its margins: on touch screens a handle reaches over the panes.
+          const style = getComputedStyle(handle);
+          handles += horizontal
+            ? box.width + parseFloat(style.marginLeft) + parseFloat(style.marginRight)
+            : box.height + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
         }
         this.room.set(Math.max(0, total - handles));
       };

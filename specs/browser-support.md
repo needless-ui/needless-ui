@@ -42,29 +42,32 @@ Required: a component breaks without it.
 
 Progressive: older supported browsers skip it, and nothing breaks.
 
-| Feature                                                          | Browsers                         | Without it                                                         |
-| ---------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------ |
-| `@starting-style`, `transition-behavior` (animated popups)       | Chrome 117, Firefox 129, Safari 17.5 | Popovers, menus and dialogs appear and disappear at once        |
-| `linear()` spring easing                                         | Chrome 113, Firefox 112, Safari 17.2 | The transitions that use it don't run                          |
-| `corner-shape`                                                   | Chrome 139                       | Round corners                                                      |
-| `field-sizing: content` (chat composer)                          | Chrome 123                       | A script grows the field                                           |
-| Scroll-driven animations (breadcrumb edges)                      | Chrome 115, Safari 26            | No fading edges                                                    |
-| `@property` (carousel rotation ring)                             | Chrome, Firefox 128, Safari      | The ring fills at once                                             |
-| `::backdrop` reading custom properties (dialog backdrop color)   | Chrome 122, Safari 17.4          | A fixed fallback color                                             |
-| `scrollend` (carousel, tour)                                     | Chrome, Firefox                  | Timeouts                                                           |
-| `Intl.Locale#getWeekInfo()` (first day of the week)              | Chrome 130, Safari 17            | A built-in table of regions                                        |
-| EyeDropper (color picker)                                        | Chrome and Edge on computers     | No eyedropper button                                               |
-| Display-P3 canvas (color picker area)                            | Chrome, Safari                   | sRGB                                                               |
-| `webkitdirectory` (dropzone folders)                             | Every browser on computers       | Files only                                                         |
-| `showPopover({ source })` (focus returns to the anchor)          | Chrome 133, Safari 26            | Focus returns to what was focused before                           |
+| Feature                                                        | Browsers                             | Without it                                               |
+| -------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------- |
+| `@starting-style`, `transition-behavior` (animated popups)     | Chrome 117, Firefox 129, Safari 17.5 | Popovers, menus and dialogs appear and disappear at once |
+| `linear()` spring easing                                       | Chrome 113, Firefox 112, Safari 17.2 | The transitions that use it don't run                    |
+| `corner-shape`                                                 | Chrome 139                           | Round corners                                            |
+| `field-sizing: content` (chat composer)                        | Chrome 123                           | A script grows the field                                 |
+| Scroll-driven animations (breadcrumb edges)                    | Chrome 115, Safari 26                | No fading edges                                          |
+| `@property` (carousel rotation ring)                           | Chrome, Firefox 128, Safari          | The ring fills at once                                   |
+| `::backdrop` reading custom properties (dialog backdrop color) | Chrome 122, Safari 17.4              | A fixed fallback color                                   |
+| `scrollend` (carousel, tour)                                   | Chrome, Firefox                      | Timeouts                                                 |
+| `Intl.Locale` week info (first day of the week)                | Chrome, Edge, Safari                 | A built-in table of regions (Firefox)                    |
+| EyeDropper (color picker)                                      | Chrome and Edge on computers         | No eyedropper button                                     |
+| Display-P3 canvas (color picker area)                          | Chrome, Safari                       | sRGB                                                     |
+| `webkitdirectory` (dropzone folders)                           | Every browser on computers           | Files only                                               |
+| `showPopover({ source })` (focus returns to the anchor)        | Chrome 133                           | Focus returns to what was focused before                 |
 
 ## Touch and small screens
 
-- Every interaction works with touch. Drags (splitter handles, the color area, grid column edges, swiping toasts away) use pointer events, handle `pointercancel`, and set `touch-action` so the page doesn't scroll under the finger. The carousel swipes with native scroll snapping.
-- Hover only adds: nothing essential is reachable by hover alone. Hovercards also open on keyboard focus; touch screens can't hover, so they don't show there. Hover styles sit behind `@media (hover: hover)`.
-- Targets are at least 24 by 24 CSS pixels (WCAG 2.2, 2.5.8).
-- Popups stay inside the viewport and follow it as it scrolls or resizes.
-- Platform limits, not bugs: iPhones can't drag files between apps into a page before iPadOS-style multitasking (the dropzone's button opens the file picker), folders can't be picked on iOS before 18.4, and there's no EyeDropper on phones.
+- **Drags** (splitter handles, the color area, grid column edges, swiping toasts away) use pointer events, set `touch-action` so the page doesn't scroll under the finger, and do nothing when the browser takes the gesture back (`pointercancel`). The scheduler picks an event up with a long press, since a finger that moves at once scrolls the page. The carousel swipes with native scroll snapping, and a finger on its slides stops its rotation.
+- **Taps** do what clicks do, and stand in where there's no second click: a tap on the active grid cell starts editing it. Reordering columns by dragging their headers is left to the column menu on touch.
+- **Fields** have at least 16px of text on touch screens, or Safari on iPhone zooms the page into them. Text from keyboards that compose (Android keyboards compose every word) is read when each composition ends: the editor, date and time fields, OTP and mask.
+- **Targets** are at least 24 by 24 CSS pixels (WCAG 2.2, 2.5.8); splitter handles, grid column edges and slider thumbs grow on coarse pointers.
+- **Hover only adds.** A hovercard doesn't open by touch. On a touch screen with nothing that hovers, the command palette hides its key hints, the dropzone its folder button, and the chat's Return makes a new line while its button sends (`sendOn: 'auto'`).
+- **Small screens.** Components narrow with their container down to 320px wide: lists scroll and fields wrap. Popups stay in the visible part of the page (above the on-screen keyboard), go below their anchor when there's no room beside it, and scroll when they're taller than the room they have. The range picker shows one month under 40rem.
+- **iOS.** Presses show (`:active` needs a touch listener there), and a tap outside closes a menu even when the tapped trigger never took focus.
+- **Platform limits, not bugs.** Phones and tablets mostly can't pick folders, and have no EyeDropper. Android's back gesture closes dialogs and popovers that close on their own (`popover="auto"`), but not menus, combobox lists or hovercards.
 
 ## Safari and focus
 

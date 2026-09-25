@@ -138,6 +138,36 @@ describe('NuiEditor', () => {
     expect(host.value()).toBe('# Title\n\nSome *text!*');
   });
 
+  it('reads words an input method composes, and types on after them', async () => {
+    const { host, content, stable } = await setup();
+    await userEvent.click(content);
+    // As Android keyboards do for every word: the browser writes the text itself.
+    const compose = async (word: string) => {
+      content.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+      const block = content.lastElementChild!;
+      const text = document.createTextNode(word);
+      block.insertBefore(text, block.querySelector('br'));
+      getSelection()!.collapse(text, word.length);
+      content.dispatchEvent(
+        new InputEvent('input', {
+          bubbles: true,
+          isComposing: true,
+          inputType: 'insertCompositionText',
+          data: word,
+        }),
+      );
+      content.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true, data: word }));
+      await stable();
+    };
+    await compose('Dear');
+    await userEvent.keyboard(' ');
+    await compose('Ada');
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard('Hi');
+    await stable();
+    expect(host.value()).toBe('<p>Dear Ada</p><p>Hi</p>');
+  });
+
   it('adds links from its popover', async () => {
     const { host, root, content, stable } = await setup();
     await userEvent.type(content, 'Read the docs');

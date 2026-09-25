@@ -26,6 +26,8 @@
     display: inline-flex;
     align-items: stretch;
     box-sizing: border-box;
+    min-inline-size: 0;
+    max-inline-size: 100%;
     min-block-size: var(--_height);
     border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
     border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
@@ -130,5 +132,13 @@
 
   .nui-phone-input:disabled {
     cursor: not-allowed;
+  }
+
+  /* Safari on iPhone zooms into a field whose text is under 16px when it's
+     focused: on touch screens, fields are at least 16px. */
+  @media (pointer: coarse) {
+    .nui-phone {
+      font-size: max(1rem, var(--nui-font-size-sm));
+    }
   }
 }

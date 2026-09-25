@@ -44,4 +44,14 @@ describe('nuiPlace', () => {
     });
     expect(place({ ...anchor, left: 850 }, { side: 'end' }).side).toBe('left');
   });
+
+  it('goes below when it fits beside the anchor on neither side', () => {
+    const phone = { width: 360, height: 740 };
+    const anchor = { top: 100, left: 120, width: 120, height: 40 };
+    expect(place(anchor, { side: 'end', viewport: phone })).toMatchObject({
+      side: 'bottom',
+      top: 144,
+      left: 80,
+    });
+  });
 });

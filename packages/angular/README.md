@@ -116,6 +116,18 @@ Every component takes the customization presets as inputs. Leave one unset and i
 
 `spring` takes any `{ stiffness, damping, mass }` and compiles it to CSS with `springTransition()`, the same solver that builds the spring tokens. `NuiPersonality` gives your own components the same inputs as a host directive.
 
+## Browser support
+
+| Browser                                   | From   |
+| ----------------------------------------- | ------ |
+| Chrome and Edge, on computers and Android | 120    |
+| Firefox, on computers and Android         | 125    |
+| Safari on Mac                             | 17     |
+| Every browser on iPhone and iPad          | iOS 17 |
+| Samsung Internet                          | 25     |
+
+Tested in Chromium, Firefox and WebKit, on computers and touch screens. Older browsers aren't supported: without the Popover API, menus, selects and popovers don't open. See the [browser support guide](https://www.needlessui.com/guides/browser-support).
+
 ## License
 
 MIT

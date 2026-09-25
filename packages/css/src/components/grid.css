@@ -310,6 +310,26 @@
     opacity: 1;
   }
 
+  /* A finger needs a wider edge, and can't hover to find it. The column menu
+     button moves inward to make room for it. */
+  @media (pointer: coarse) {
+    .nui-grid-header {
+      padding-inline-end: calc(var(--_pad) + 2.75rem);
+    }
+
+    .nui-grid-menu-button {
+      inset-inline-end: 1.25rem;
+    }
+
+    .nui-grid-resize {
+      inline-size: 1rem;
+    }
+
+    .nui-grid-resize::after {
+      opacity: 1;
+    }
+  }
+
   /* Moving a column: the header being dragged, and where it will land. */
   .nui-grid-header[data-dragging] {
     opacity: 0.6;
@@ -910,6 +930,17 @@
 
     .nui-grid-panel-button[aria-pressed='true'] {
       outline: 2px solid Highlight;
+    }
+  }
+
+  /* Safari on iPhone zooms into a field whose text is under 16px when it's
+     focused: on touch screens, fields are at least 16px. */
+  @media (pointer: coarse) {
+    .nui-grid-editor,
+    .nui-grid-panel-input,
+    .nui-grid-panel-select,
+    .nui-grid-page-size select {
+      font-size: max(1rem, 1em);
     }
   }
 }

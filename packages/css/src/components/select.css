@@ -526,4 +526,12 @@
       background-color: CanvasText;
     }
   }
+
+  /* Safari on iPhone zooms into a field whose text is under 16px when it's
+     focused: on touch screens, fields are at least 16px. */
+  @media (pointer: coarse) {
+    .nui-combobox {
+      font-size: max(1rem, var(--nui-font-size-sm));
+    }
+  }
 }

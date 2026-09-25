@@ -109,11 +109,13 @@ const TEMPLATE = `
         [attr.aria-invalid]="invalid() || null"
         [attr.aria-readonly]="readonly() || null"
         [attr.aria-disabled]="off() || null"
+        [textContent]="display(segment, $index)"
         (keydown)="onKeydown($event, $index)"
         (beforeinput)="onBeforeinput($event, $index)"
+        (compositionend)="onCompositionend($event, $index)"
         (paste)="onPaste($event)"
         (focus)="onFocus($index)"
-      >{{ display(segment, $index) }}</span>
+      ></span>
     }
   }
 `;
@@ -327,10 +329,22 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
 
   /** Text from touch keyboards and other input without key events. */
   protected onBeforeinput(event: InputEvent, index: number): void {
+    // An input method's text can't be refused: it's read once it's done.
+    if (event.isComposing || event.inputType === 'insertCompositionText') return;
     event.preventDefault();
     if (!this.editable()) return;
     if (event.inputType.startsWith('delete')) this.erase(index);
     else for (const char of event.data ?? '') this.type(index, char);
+  }
+
+  /**
+   * The end of an input method's text (some phone keyboards compose even digits).
+   * The segment shows its own text again, and takes the composed text as typed.
+   */
+  protected onCompositionend(event: CompositionEvent, index: number): void {
+    const segment = event.target as HTMLElement;
+    segment.textContent = this.display(this.segments()[index], index);
+    if (this.editable()) for (const char of event.data ?? '') this.type(index, char);
   }
 
   protected onPaste(event: ClipboardEvent): void {

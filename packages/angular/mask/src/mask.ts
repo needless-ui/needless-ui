@@ -41,8 +41,8 @@ import {
  * literal deletes the character before it.
  *
  * ```html
- * <input nuiInput nuiMask="0000 0000 0000 0000" [(value)]="card" />
- * <input nuiInput [nuiMask]="cardMask" unmask [formField]="form.card" />
+ * <input nuiMask="0000 0000 0000 0000" [(value)]="card" />
+ * <input [nuiMask]="cardMask" unmask [formField]="form.card" />
  * ```
  *
  * The value is what's shown, or only the data with `unmask`. Works with Signal
@@ -57,6 +57,9 @@ import {
     { provide: NG_VALIDATORS, useExisting: forwardRef(() => NuiMask), multi: true },
   ],
   host: {
+    // Masked data isn't prose: phone keyboards shouldn't correct or flag it.
+    autocorrect: 'off',
+    spellcheck: 'false',
     '[attr.inputmode]': 'inputMode()',
     '(beforeinput)': 'onBeforeInput($event)',
     '(input)': 'onInput($event)',

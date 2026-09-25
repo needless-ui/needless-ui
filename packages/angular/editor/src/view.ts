@@ -197,7 +197,9 @@ export class NuiEditorView {
     range.setStart(block, 0);
     range.setEnd(node, offset);
     const offsetInBlock = length(range.cloneContents());
-    return point(index, Math.min(offsetInBlock, blockText(this.doc[index]).length));
+    // Against the text on screen: while an input method composes, it's ahead of
+    // the document last drawn.
+    return point(index, Math.min(offsetInBlock, length(block)));
   }
 
   /** The DOM place of a document place. */

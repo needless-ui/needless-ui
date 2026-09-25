@@ -7,6 +7,7 @@ import {
   Directive,
   DOCUMENT,
   effect,
+  ElementRef,
   inject,
   input,
   output,
@@ -37,8 +38,21 @@ const VIEWPORT_MARGIN = 8;
   selector: '[nuiMenuTrigger]',
   exportAs: 'nuiMenuTrigger',
   hostDirectives: [{ directive: MenuTrigger, inputs: ['menu: nuiMenuTrigger'] }],
+  host: { '(click)': 'onClick()' },
 })
-export class NuiMenuTrigger {}
+export class NuiMenuTrigger {
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
+  /**
+   * Safari doesn't focus a button it clicks. Focused, the trigger hands focus
+   * on to the menu as it opens, so its keys work after a click too.
+   */
+  protected onClick(): void {
+    if (this.element.ownerDocument.activeElement !== this.element) {
+      this.element.focus({ preventScroll: true });
+    }
+  }
+}
 
 /**
  * A menu of actions. It renders as a popover in the top layer, placed next to its
@@ -76,17 +90,31 @@ export class NuiMenu {
     let shown = false;
     let frame = 0;
 
+    // Focus leaving the menu closes it. So does a press anywhere else, for touch
+    // screens: a tapped trigger doesn't always take focus, and then focus never
+    // enters the menu to leave it.
+    const onPress = (event: PointerEvent) => {
+      const target = event.target as Node;
+      const opener = this.menu.parent()?.element;
+      if (this.menu.element.contains(target) || opener?.contains(target)) return;
+      this.menu.close();
+    };
+
     const reposition = () => {
       view?.cancelAnimationFrame(frame);
       frame = view?.requestAnimationFrame(() => this.position()) ?? 0;
     };
     const follow = (on: boolean) => {
+      // Submenus close with the menu they open from (a menubar's menus are roots).
+      const root = !this.menu.parent()?.element.closest('.nui-menu');
       if (on) {
         view?.addEventListener('resize', reposition);
         view?.addEventListener('scroll', reposition, { capture: true, passive: true });
+        if (root) this.document.addEventListener('pointerdown', onPress, true);
       } else {
         view?.removeEventListener('resize', reposition);
         view?.removeEventListener('scroll', reposition, { capture: true });
+        this.document.removeEventListener('pointerdown', onPress, true);
       }
     };
 

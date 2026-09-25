@@ -28,6 +28,8 @@
 
 @layer nui.components {
   .nui-breadcrumbs {
+    /* In a row or grid, it narrows (its list scrolls) instead of pushing out. */
+    min-inline-size: 0;
     font-size: var(--nui-font-size-sm);
   }
 

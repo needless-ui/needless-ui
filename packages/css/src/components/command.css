@@ -207,6 +207,14 @@
     font-size: var(--nui-font-size-xs);
   }
 
+  /* A phone or a tablet on its own has no keys for the hints and shortcuts to name. */
+  @media (hover: none) and (pointer: coarse) {
+    .nui-command-hints,
+    .nui-command-shortcut {
+      display: none;
+    }
+  }
+
   .nui-command-hints span {
     display: inline-flex;
     align-items: center;

@@ -48,14 +48,16 @@
     pointer-events: none;
   }
 
+  /* Clear of a phone's notch and home indicator, on pages that cover them
+     (viewport-fit=cover); elsewhere the insets are 0. */
   .nui-toaster[data-position^='top'] {
     --_dir: 1;
 
-    inset-block-start: var(--_edge);
+    inset-block-start: calc(var(--_edge) + env(safe-area-inset-top, 0px));
   }
 
   .nui-toaster:not([data-position^='top']) {
-    inset-block-end: var(--_edge);
+    inset-block-end: calc(var(--_edge) + env(safe-area-inset-bottom, 0px));
   }
 
   .nui-toaster[data-position$='start'] {

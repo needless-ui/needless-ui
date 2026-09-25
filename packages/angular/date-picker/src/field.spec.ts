@@ -163,6 +163,33 @@ describe('NuiDateField', () => {
     expect(nuiReadDigits('٢٠٢٦')).toBe('2026');
   });
 
+  it('takes text an input method composed, once, and shows its own again', async () => {
+    const { host, segments, text, stable } = await setup();
+    // As some phone keyboards do even for digits: the browser writes into the segment.
+    const compose = async (segment: HTMLElement, data: string) => {
+      segment.focus();
+      segment.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+      segment.append(data);
+      segment.dispatchEvent(
+        new InputEvent('beforeinput', {
+          bubbles: true,
+          isComposing: true,
+          inputType: 'insertCompositionText',
+          data,
+        }),
+      );
+      segment.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true, data }));
+      await stable();
+    };
+    const [hour, minute, period] = segments('time');
+    await compose(hour, '9');
+    await compose(minute, '4');
+    await compose(minute, '5');
+    await compose(period, 'p');
+    expect(text('time')).toBe('09:45PM');
+    expect(host.time()).toBe('21:45');
+  });
+
   it('shows placeholders from the locale’s names for the fields', async () => {
     const { text, stable, fixture } = await setup((h) => h.locale.set('de-DE'));
     expect(text('date')).toBe('TT.MM.JJJJ');

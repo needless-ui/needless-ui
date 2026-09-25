@@ -130,6 +130,14 @@
     outline-offset: 1px;
   }
 
+  /* Phones and tablets mostly can't pick folders: the folder chooser would pick
+     a file there. */
+  @media (hover: none) and (pointer: coarse) {
+    .nui-dropzone-folder {
+      display: none;
+    }
+  }
+
   .nui-dropzone-problems {
     display: grid;
     gap: var(--nui-space-1);

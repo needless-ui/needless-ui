@@ -31,6 +31,7 @@ import {
   nuiMarkdownToText,
   nuiSafeUrl,
 } from '@needless-ui/angular/markdown';
+import { nuiTouchFirst } from './composer';
 import type { NuiChatSession } from './session';
 import {
   type NuiChatAttachment,
@@ -92,6 +93,9 @@ let nextId = 0;
  * Keyboard: Page Down and Page Up move between messages; Control+End and
  * Control+Home leave the conversation, forward and back.
  */
+/** Listens for nothing; its presence is what counts (see the constructor). */
+const touches = () => undefined;
+
 @Component({
   selector: 'nui-chat-thread',
   imports: [NgTemplateOutlet, NuiButton, NuiMarkdown],
@@ -149,6 +153,9 @@ export class NuiChatThread {
     destroyRef.onDestroy(() => clearTimeout(this.timer));
 
     afterNextRender(() => {
+      // Safari on iOS matches :active, which the actions' presses style, only on
+      // pages that listen for touches. The same listener added twice is one.
+      document.addEventListener('touchstart', touches, { passive: true });
       const scroller = this.scroller().nativeElement;
       const onScroll = () => this.onScroll();
       const onWheel = (event: WheelEvent) => {
@@ -325,7 +332,9 @@ export class NuiChatThread {
       event.key === 'Enter' &&
       !event.shiftKey &&
       !event.isComposing &&
-      event.keyCode !== 229
+      event.keyCode !== 229 &&
+      // On a touch screen, Return is the only way to a new line; Save saves.
+      !nuiTouchFirst(editor.ownerDocument.defaultView)
     ) {
       event.preventDefault();
       this.saveEdit(message, editor.value, index);

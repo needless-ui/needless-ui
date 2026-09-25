@@ -87,7 +87,9 @@
   .nui-tour-card[data-centered] {
     inset: 0;
     block-size: fit-content;
+    max-block-size: calc(100dvh - 2 * var(--nui-space-4));
     margin: auto;
+    overflow-y: auto;
   }
 
   /* The arrow, toward the target: data-side is the side of the target the card is on. */

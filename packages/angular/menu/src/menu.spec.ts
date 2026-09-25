@@ -146,6 +146,18 @@ describe('NuiMenu', () => {
     expect(document.activeElement).toBe(trigger);
   });
 
+  it('closes on a press outside, whether or not focus leaves it', async () => {
+    const { trigger, isOpen, settle } = await setup();
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await settle();
+    expect(isOpen()).toBe(true);
+    // A press that moves no focus, as a tap in Safari: no focusout closes the menu.
+    document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    await settle();
+    expect(isOpen()).toBe(false);
+  });
+
   it("emits the item's own (selected) output on click", async () => {
     const { host, trigger, items, isOpen, settle, clickOpen } = await setup();
     await clickOpen();

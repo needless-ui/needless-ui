@@ -1,10 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
+  afterNextRender,
   afterRenderEffect,
   booleanAttribute,
   Component,
   computed,
   DestroyRef,
+  DOCUMENT,
   ElementRef,
   inject,
   input,
@@ -17,8 +19,17 @@ import {
 import type { NuiChatSession } from './session';
 import { type NuiChatAttachment, type NuiChatLabelsInput, nuiChatWords } from './types';
 
-/** Which keys send: Enter (Shift+Enter for a new line), or Control/Command+Enter. */
-export type NuiChatSendOn = 'enter' | 'mod+enter';
+/**
+ * Which keys send: Enter (Shift+Enter for a new line), Control/Command+Enter, or
+ * `auto`: Enter where there's a keyboard and a pointer, and on touch screens the
+ * send button, since their Return key is the only way to start a new line.
+ */
+export type NuiChatSendOn = 'auto' | 'enter' | 'mod+enter';
+
+/** A touch screen with nothing that hovers: a phone or a tablet on its own. */
+export function nuiTouchFirst(view: Window | null | undefined): boolean {
+  return !!view?.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
+}
 
 let nextId = 0;
 
@@ -47,6 +58,9 @@ function accepts(file: File, accept: string): boolean {
  *
  * Its content goes in the bar beside the send button, such as a model picker.
  */
+/** Listens for nothing; its presence is what counts (see the constructor). */
+const touches = () => undefined;
+
 @Component({
   selector: 'nui-chat-composer',
   host: {
@@ -98,6 +112,7 @@ function accepts(file: File, accept: string): boolean {
         [placeholder]="placeholder() ?? words().placeholder"
         [value]="value()"
         [disabled]="disabled()"
+        [attr.enterkeyhint]="enterSends() ? 'send' : 'enter'"
         (input)="value.set(field.value)"
         (keydown)="onKeydown($event)"
         (paste)="onPaste($event)"
@@ -152,7 +167,13 @@ export class NuiChatComposer {
   /** Prompts to send with a click, such as ideas for a first message. */
   readonly suggestions = input<readonly string[]>([]);
   /** Which keys send. */
-  readonly sendOn = input<NuiChatSendOn>('enter');
+  readonly sendOn = input<NuiChatSendOn>('auto');
+  private readonly touchFirst = nuiTouchFirst(inject(DOCUMENT).defaultView);
+  /** Whether Return, alone, sends. */
+  protected readonly enterSends = computed(() => {
+    const on = this.sendOn();
+    return on === 'enter' || (on === 'auto' && !this.touchFirst);
+  });
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Take files: picked, pasted or dropped. */
   readonly attach = input(false, { transform: booleanAttribute });
@@ -174,6 +195,9 @@ export class NuiChatComposer {
   private readonly field = viewChild.required<ElementRef<HTMLTextAreaElement>>('field');
 
   constructor() {
+    // Safari on iOS matches :active, which the buttons' presses style, only on
+    // pages that listen for touches. The same listener added twice is one.
+    afterNextRender(() => document.addEventListener('touchstart', touches, { passive: true }));
     // Without CSS `field-sizing`, grow the field by hand.
     const sizes = typeof CSS !== 'undefined' && CSS.supports('field-sizing', 'content');
     afterRenderEffect(() => {
@@ -246,7 +270,8 @@ export class NuiChatComposer {
   protected onKeydown(event: KeyboardEvent): void {
     if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) return;
     const mod = event.ctrlKey || event.metaKey;
-    if (this.sendOn() === 'enter' ? event.shiftKey : !mod) return;
+    const sends = this.sendOn() === 'mod+enter' ? mod : this.enterSends() && !event.shiftKey;
+    if (!sends) return;
     event.preventDefault();
     this.submit();
   }

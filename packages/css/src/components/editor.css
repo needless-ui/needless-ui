@@ -387,4 +387,12 @@
       outline: 2px solid Highlight;
     }
   }
+
+  /* Safari on iPhone zooms into a field whose text is under 16px when it's
+     focused: on touch screens, fields are at least 16px. */
+  @media (pointer: coarse) {
+    .nui-editor-link-input {
+      font-size: max(1rem, 1em);
+    }
+  }
 }

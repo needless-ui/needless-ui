@@ -50,6 +50,10 @@ The `$value` is the closest cubic-bezier, for other DTCG tools. This package's c
 
 `--nui-radius-scale` and `--nui-density` multiply every component radius and every control size. The `data-nui-*` presets in `@needless-ui/css` set all three for a subtree.
 
+## Browser support
+
+Colors are `oklch()` (Chrome and Edge 111, Firefox 113, Safari 15.4 and later); springs are `linear()` easings (Chrome and Edge 113, Firefox 112, Safari 17.2), and transitions that use one don't run in older browsers. The components need a little more; see the [browser support guide](https://www.needlessui.com/guides/browser-support).
+
 ## License
 
 MIT

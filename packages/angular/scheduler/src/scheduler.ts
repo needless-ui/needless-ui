@@ -149,6 +149,10 @@ interface Drag {
 /** Bars shown in a month cell before "N more". */
 const LANES = 3;
 const DAY = 1440;
+/** How long a finger holds still to pick an event up; moving sooner scrolls. */
+const LONG_PRESS = 400;
+/** How far a finger may drift during that press. */
+const SLOP = 8;
 
 /**
  * A scheduler: events in a month, a week, a day or an agenda. It shows what you
@@ -829,34 +833,88 @@ export class NuiScheduler<T = unknown> {
     const element = target.closest<HTMLElement>('.nui-scheduler-event');
     const origin = this.cellAt(event.clientX, event.clientY) ?? this.cellOf(target);
     if (!origin) return;
+    let drag: Drag;
     if (element) {
       const span = this.spanOf(element);
       if (!span || !this.canEdit(span)) return;
       const kind = target.closest('.nui-scheduler-resize') ? 'resize' : 'move';
-      this.drag.set({ kind, span, origin, x: event.clientX, y: event.clientY, moved: false });
+      drag = { kind, span, origin, x: event.clientX, y: event.clientY, moved: false };
     } else if (this.selectable()) {
-      this.drag.set({ kind: 'select', origin, x: event.clientX, y: event.clientY, moved: false });
+      drag = { kind: 'select', origin, x: event.clientX, y: event.clientY, moved: false };
     } else {
       return;
     }
-    const move = (e: PointerEvent) => this.onPointermove(e);
-    const up = (e: PointerEvent) => {
-      document.removeEventListener('pointermove', move);
-      document.removeEventListener('pointerup', up);
-      document.removeEventListener('keydown', escape, true);
-      this.onPointerup(e);
+
+    // A mouse or pen drags at once. A finger that moves at once scrolls the page:
+    // it picks an event up (or starts choosing time) only after a long press.
+    const pointer = event.pointerId;
+    let held = event.pointerType !== 'touch';
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const listening = new AbortController();
+    const { signal } = listening;
+    const stop = () => {
+      clearTimeout(timer);
+      listening.abort();
     };
-    const escape = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      e.preventDefault();
-      e.stopPropagation();
+    const cancel = () => {
+      stop();
       this.drag.set(null);
       this.preview.set(null);
       this.selection.set(null);
     };
-    document.addEventListener('pointermove', move);
-    document.addEventListener('pointerup', up);
-    document.addEventListener('keydown', escape, true);
+    if (held) {
+      this.drag.set(drag);
+    } else {
+      timer = setTimeout(() => {
+        held = true;
+        // Picked up: it shows where it would land, and follows the finger.
+        this.drag.set({ ...drag, moved: true });
+        if (drag.kind === 'select') this.selection.set({ anchor: drag.origin, focus: drag.origin });
+        else this.preview.set({ span: drag.span!, start: drag.span!.start, end: drag.span!.end });
+        // A tick to feel, where the page may vibrate (after the first tap on it).
+        if (navigator.userActivation?.hasBeenActive !== false) navigator.vibrate?.(10);
+      }, LONG_PRESS);
+    }
+    document.addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerId !== pointer) return;
+        if (held) this.onPointermove(e);
+        else if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > SLOP) cancel();
+      },
+      { signal },
+    );
+    document.addEventListener(
+      'pointerup',
+      (e) => {
+        if (e.pointerId !== pointer) return;
+        stop();
+        // A tap before the long press is a click: it chooses its cell.
+        if (!held) this.drag.set(drag);
+        this.onPointerup(e);
+      },
+      { signal },
+    );
+    // The browser took the gesture (a scroll, a zoom): nothing moves.
+    document.addEventListener('pointercancel', (e) => e.pointerId === pointer && cancel(), {
+      signal,
+    });
+    // Once an event is held, the finger drags it, not the page.
+    document.addEventListener('touchmove', (e) => held && e.cancelable && e.preventDefault(), {
+      signal,
+      passive: false,
+    });
+    document.addEventListener('contextmenu', (e) => held && e.preventDefault(), { signal });
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key !== 'Escape') return;
+        e.preventDefault();
+        e.stopPropagation();
+        cancel();
+      },
+      { signal, capture: true },
+    );
   }
 
   private onPointermove(event: PointerEvent): void {

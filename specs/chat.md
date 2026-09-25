@@ -66,7 +66,7 @@ Throwing a `NuiChatError` shows its message; any other error shows `labels.error
 | —                     | `images`                                  | render images in replies                                                        | false               |
 | `nui-chat-suggestion` | `suggestions`                             | prompts to send with a click; `nui-chat` shows them until the first message     | `[]`                |
 | —                     | `[(value)]`, `placeholder`                | the text being written                                                          | `''`                |
-| —                     | `sendOn`                                  | `enter` (Shift+Enter for a new line) or `mod+enter`                             | `enter`             |
+| —                     | `sendOn`                                  | `auto`, `enter` (Shift+Enter for a new line) or `mod+enter`                     | `auto`              |
 | `data-dragging`       | `attach`, `accept`, `maxFiles`, `maxSize` | take files, picked, pasted or dropped; which kinds, how many, how large (bytes) | off, any, 10, 20 MB |
 | —                     | `disabled`, `labels`                      | the composer can't send; every text, for translation                            | —                   |
 | —                     | `(rated)`                                 | the reader rated a reply, or took it back                                       | —                   |
@@ -82,6 +82,7 @@ Content marked `nuiChatEmpty` is the greeting; other content goes in the compose
 - A reply's reasoning shows "Thinking" while it arrives, then how long it took. Tool calls show their state, and their input and output when opened.
 - Actions stay visible on the last message and on touch screens; on earlier ones they show on hover or focus.
 - The composer sends with Enter, but never mid-composition (IME). While a reply arrives, Enter waits and the send button stops the reply.
+- `auto` sends with Enter where there's a keyboard and a pointer that hovers. On a touch screen with nothing that hovers (a phone, a tablet on its own), Return makes a new line, as it's the only way to one there, and the send button sends; `enterkeyhint` names the key accordingly. Editing a sent message works the same way.
 - Files are checked against `accept`, `maxSize` and `maxFiles`; what's refused is said below the field and announced. Images get previews, whose object URLs are released when the files are removed before sending.
 - Links in replies and sources work only for web, mail and phone addresses.
 

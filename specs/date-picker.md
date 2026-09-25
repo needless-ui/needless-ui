@@ -26,7 +26,7 @@ Values are plain ISO strings with no time zone, as native inputs hold them: `202
 | `data-placeholder` | `placeholder`                       | where empty segments start from with the arrow keys                         | now                         |
 | —                  | `hourCycle`, `minuteStep`           | a 12- or 24-hour clock; how far the arrows move minutes                     | the locale's; 1             |
 | —                  | `presets`                           | named ranges, such as `nuiDateRangePresets()` (range picker)                | `[]`                        |
-| —                  | `months`, `firstDay`, `weekNumbers` | the calendar's (pickers)                                                    | 1 or 2; the locale's; false |
+| —                  | `months`, `firstDay`, `weekNumbers` | the calendar's (pickers; a range picker shows one month under 40rem)        | 1 or 2; the locale's; false |
 | `data-disabled`    | `disabled`, `readonly`              | booleans                                                                    | false                       |
 | —                  | `locale`, `labels`                  | names, digits and order; every text, for translation                        | `LOCALE_ID`                 |
 | —                  | `focus()`, `show()`                 | focus the first empty segment; open the calendar                            | —                           |

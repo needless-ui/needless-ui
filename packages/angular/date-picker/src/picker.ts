@@ -3,6 +3,7 @@ import {
   booleanAttribute,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
   forwardRef,
@@ -372,7 +373,7 @@ export class NuiDatePicker implements ControlValueAccessor {
             selection="range"
             [range]="value()"
             (picked)="pick($any($event))"
-            [months]="months()"
+            [months]="shownMonths()"
             [min]="min()"
             [max]="max()"
             [unavailable]="unavailable()"
@@ -396,8 +397,11 @@ export class NuiDateRangePicker implements ControlValueAccessor {
   readonly unavailable = input<(date: NuiDate) => boolean>(() => false);
   /** Ranges to choose in one click. */
   readonly presets = input<readonly NuiDateRangePreset[]>([]);
-  /** Months side by side in the calendar. */
+  /** Months side by side in the calendar (one on a phone, where two don't fit). */
   readonly months = input(2, { transform: numberAttribute });
+  /** Too narrow for months side by side: they'd stack, taller than the screen. */
+  private readonly narrow = signal(false);
+  protected readonly shownMonths = computed(() => (this.narrow() ? 1 : this.months()));
   readonly firstDay = input<number | undefined, unknown>(undefined, {
     transform: (value: unknown) =>
       value == null || value === '' ? undefined : numberAttribute(value),
@@ -437,6 +441,14 @@ export class NuiDateRangePicker implements ControlValueAccessor {
       if (value === this.emitted) return;
       this.start.set(value?.start ?? null);
       this.end.set(value?.end ?? null);
+    });
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      const query = matchMedia('(max-width: 40rem)');
+      const update = () => this.narrow.set(query.matches);
+      update();
+      query.addEventListener('change', update);
+      destroyRef.onDestroy(() => query.removeEventListener('change', update));
     });
   }
 

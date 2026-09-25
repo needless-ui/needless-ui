@@ -93,7 +93,7 @@ let nextId = 0;
     >
       @if (current(); as step) {
         <div class="nui-tour-spotlight" [style.clip-path]="clip()"></div>
-        <div #card class="nui-tour-card" [attr.data-centered]="target() ? null : true">
+        <div #card class="nui-tour-card" [attr.data-centered]="centered() || null">
           <button
             type="button"
             class="nui-tour-close"
@@ -177,6 +177,8 @@ export class NuiTour {
     return shown === null ? null : (this.steps()[shown] ?? null);
   });
   protected readonly target = signal<Element | null>(null);
+  /** The card sits in the middle: no target, or no room beside it. */
+  protected readonly centered = signal(true);
   /** The spotlight's shape: the viewport less a rounded hole around the target. */
   protected readonly clip = signal<string | null>(null);
 
@@ -276,11 +278,24 @@ export class NuiTour {
       () => {
         if (token !== this.token) return;
         const card = this.card()?.nativeElement;
-        if (card && target instanceof HTMLElement) {
+        // Where the last step put the card doesn't carry over.
+        for (const name of ['top', 'left', 'max-height', 'max-width']) {
+          card?.style.removeProperty(name);
+        }
+        delete card?.dataset['side'];
+        const offset = 12 + (step.padding ?? 8);
+        // A target that leaves no room for the card above or below it (a tall one,
+        // a short screen): the card goes in the middle, over it, rather than
+        // shrinking until its buttons are out of reach.
+        const box = target?.getBoundingClientRect();
+        const room = box ? Math.max(box.top, window.innerHeight - box.bottom) - offset - 8 : 0;
+        const fits = !!card && room >= card.offsetHeight;
+        this.centered.set(!fits);
+        if (card && fits && target instanceof HTMLElement) {
           this.stopFollow = nuiFollow(target, card, {
             side: step.side ?? 'bottom',
             align: step.align ?? 'center',
-            offset: 12 + (step.padding ?? 8),
+            offset,
           });
         }
         this.track(step);

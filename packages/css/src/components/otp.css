@@ -22,6 +22,8 @@
 
     position: relative;
     display: inline-flex;
+    min-inline-size: 0;
+    max-inline-size: 100%;
     vertical-align: middle;
   }
 
@@ -56,6 +58,7 @@
   .nui-otp-slots {
     display: flex;
     align-items: center;
+    min-inline-size: 0;
     gap: calc(var(--nui-space-2) * var(--nui-density));
   }
 
@@ -67,7 +70,9 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    inline-size: calc(var(--_slot) * 0.9);
+    /* Narrower when six don't fit (a small phone), never under 24px. */
+    flex: 0 1 calc(var(--_slot) * 0.9);
+    min-inline-size: 24px;
     block-size: var(--_slot);
     border: var(--nui-border-width-thin) solid var(--_border);
     border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));

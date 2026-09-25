@@ -46,6 +46,18 @@ describe('nuiParseNumber', () => {
     expect(nuiParseNumber('15 %', 'de-DE', { style: 'percent' })).toBe(0.15);
     expect(nuiParseNumber('abc', 'en-US')).toBeNull();
   });
+
+  it('reads the other separator as a decimal point, unless it groups', () => {
+    // A phone keypad has its region's separator, whatever the page's locale.
+    expect(nuiParseNumber('12.50', 'de-DE')).toBe(12.5);
+    expect(nuiParseNumber('12.5', 'fr-FR')).toBe(12.5);
+    expect(nuiParseNumber('1,5', 'en-US')).toBe(1.5);
+    // Three digits after it: grouping, as before.
+    expect(nuiParseNumber('1,250', 'en-US')).toBe(1250);
+    expect(nuiParseNumber('1.250', 'de-DE')).toBe(1250);
+    // Whole numbers only: grouping.
+    expect(nuiParseNumber('1.25', 'de-DE', { maximumFractionDigits: 0 })).toBe(125);
+  });
 });
 
 describe('NuiNumberField', () => {

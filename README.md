@@ -91,6 +91,18 @@ See the [customization spec](specs/customization.md), or play with it at [needle
 - **Override a token** anywhere, e.g. `:root { --nui-color-accent-solid: oklch(0.55 0.2 150); }`.
 - **Change the brand palette** by editing the palette config in [`packages/tokens/scripts/palette.ts`](packages/tokens/scripts/palette.ts) and regenerating. Contrast is re-checked automatically.
 
+## Browser support
+
+| Browser                                   | From   |
+| ----------------------------------------- | ------ |
+| Chrome and Edge, on computers and Android | 120    |
+| Firefox, on computers and Android         | 125    |
+| Safari on Mac                             | 17     |
+| Every browser on iPhone and iPad          | iOS 17 |
+| Samsung Internet                          | 25     |
+
+Every change runs the component tests in Chromium, Firefox and WebKit, and every docs page is checked in each of them, on a computer and on a touch screen. Components work with touch and down to 320px wide. Older browsers aren't supported: without the Popover API, menus, selects and popovers don't open there. What sets each version, what newer browsers add, and how it's tested: the [browser support guide](https://www.needlessui.com/guides/browser-support) and the [spec](specs/browser-support.md).
+
 ## Repository layout
 
 ```
