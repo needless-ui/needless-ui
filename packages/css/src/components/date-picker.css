@@ -1,0 +1,240 @@
+/*
+ * Date and time fields and pickers: see specs/date-picker.md for the contract.
+ * The calendar in the popover is calendar.css; the popover is popover.css.
+ *
+ *   <nui-date-field class="nui-date-field" role="group" aria-label="Birthday">
+ *     <span class="nui-date-segment" role="spinbutton" data-type="month" contenteditable>09</span>
+ *     <span class="nui-date-literal">/</span>
+ *     <span class="nui-date-segment" role="spinbutton" data-type="day" data-placeholder>dd</span>…
+ *   </nui-date-field>
+ *
+ *   <nui-date-picker class="nui-date-picker" role="group" data-open>
+ *     <nui-date-field class="nui-date-field">…</nui-date-field>
+ *     <button class="nui-date-picker-button" popovertarget="…" aria-label="Choose a date"></button>
+ *     <div class="nui-popover nui-date-picker-popover" popover role="dialog">
+ *       <nui-calendar class="nui-calendar">…</nui-calendar>
+ *     </div>
+ *   </nui-date-picker>
+ *
+ * The range picker adds a second field after `nui-date-range-dash`, and presets
+ * (`nui-date-range-preset`) beside its two-month calendar.
+ */
+@layer nui.components {
+  /* The box: a field on its own, or a picker around its fields. */
+  .nui-date-field,
+  .nui-date-picker {
+    --_height: max(24px, var(--nui-control-height-md) * var(--nui-density));
+    --_icon-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linejoin='round'%3E%3Crect x='2.5' y='3.5' width='11' height='10' rx='1.5'/%3E%3Cpath d='M2.5 6.5h11M5.5 2v3M10.5 2v3' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-block-size: var(--_height);
+    padding-inline: calc(var(--nui-space-3) * var(--nui-density));
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--nui-line-height-tight);
+    white-space: nowrap;
+    cursor: text;
+    transition: border-color var(--nui-duration-fast) var(--nui-easing-standard);
+  }
+
+  @media (hover: hover) {
+    :is(.nui-date-field, .nui-date-picker):not([data-disabled]):hover {
+      border-color: var(--nui-color-border-strong);
+    }
+  }
+
+  :is(.nui-date-field, .nui-date-picker):has(:focus-visible) {
+    border-color: var(--nui-color-accent-border);
+  }
+
+  :is(.nui-date-field, .nui-date-picker)[data-invalid] {
+    border-color: var(--nui-color-danger-border-hover);
+  }
+
+  :is(.nui-date-field, .nui-date-picker)[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Inside a picker, the fields are only their segments. */
+  .nui-date-picker {
+    gap: var(--nui-space-1);
+    padding-inline-end: var(--nui-space-1);
+  }
+
+  .nui-date-picker .nui-date-field {
+    min-block-size: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  /*
+   * Segments: at least 24 pixels each way, the smallest target WCAG allows, even
+   * with one-letter placeholders. A solid fill shows the one being typed in.
+   */
+  .nui-date-segment {
+    display: inline-block;
+    box-sizing: border-box;
+    min-inline-size: 1.5rem;
+    min-block-size: 1.5rem;
+    padding: 0.125rem;
+    border-radius: 0.1875rem;
+    caret-color: transparent;
+    outline: none;
+    line-height: 1.25rem;
+    text-align: center;
+  }
+
+  .nui-date-segment[data-placeholder] {
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-date-segment:focus {
+    background-color: var(--nui-color-accent-solid);
+    color: var(--nui-color-accent-on-solid);
+  }
+
+  .nui-date-literal {
+    padding-inline: 0.0625rem;
+    color: var(--nui-color-text-muted);
+    white-space: pre;
+  }
+
+  .nui-date-range-dash {
+    padding-inline: var(--nui-space-2);
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-date-picker-button {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    inline-size: calc(var(--_height) - 0.5rem);
+    block-size: calc(var(--_height) - 0.5rem);
+    margin: 0;
+    margin-inline-start: auto;
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-date-picker-button::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-calendar) center / contain no-repeat;
+  }
+
+  @media (hover: hover) {
+    .nui-date-picker-button:not(:disabled):hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-date-picker[data-open] .nui-date-picker-button {
+    background-color: var(--nui-color-neutral-soft);
+    color: var(--nui-color-text-default);
+  }
+
+  .nui-date-picker-button:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 0;
+  }
+
+  .nui-date-picker-button:disabled {
+    cursor: not-allowed;
+  }
+
+  /* The popover: as wide as its months need. */
+  .nui-date-picker-popover.nui-popover {
+    max-inline-size: calc(100vw - 2 * var(--nui-space-2));
+    padding: calc(var(--nui-space-3) * var(--nui-density));
+  }
+
+  .nui-date-range-body {
+    display: flex;
+    gap: var(--nui-space-4);
+  }
+
+  .nui-date-range-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-inline-size: 8rem;
+    padding-inline-end: var(--nui-space-4);
+    border-inline-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  }
+
+  .nui-date-range-preset {
+    margin: 0;
+    padding: var(--nui-space-2) var(--nui-space-3);
+    border: 0;
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    corner-shape: var(--nui-corner-shape);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: var(--nui-font-size-sm);
+    text-align: start;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .nui-date-range-preset:hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+    }
+  }
+
+  .nui-date-range-preset[aria-pressed='true'] {
+    background-color: var(--nui-color-accent-soft);
+    color: var(--nui-color-accent-text);
+    font-weight: var(--nui-font-weight-medium);
+  }
+
+  .nui-date-range-preset:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: calc(-1 * var(--nui-focus-ring-width));
+  }
+
+  /* On narrow screens the presets go above the months. */
+  @media (max-width: 40rem) {
+    .nui-date-range-body {
+      flex-direction: column;
+    }
+
+    .nui-date-range-presets {
+      flex-flow: row wrap;
+      padding: 0 0 var(--nui-space-3);
+      border-inline-end: 0;
+      border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .nui-date-segment:focus {
+      forced-color-adjust: none;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    .nui-date-picker-button::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+  }
+}

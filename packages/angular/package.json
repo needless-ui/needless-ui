@@ -23,7 +23,8 @@
     "@angular/aria": "^22.0.0",
     "@angular/cdk": "^22.0.0",
     "@angular/common": "^22.0.0",
-    "@angular/core": "^22.0.0"
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0"
   },
   "dependencies": {
     "@needless-ui/css": "workspace:^",

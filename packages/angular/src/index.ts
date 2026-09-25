@@ -8,6 +8,47 @@
  * The primary entry point holds what components share: types, the customization
  * inputs and the spring compiler.
  */
+export {
+  nuiAddDays,
+  nuiAddMinutes,
+  nuiAddMonths,
+  nuiAddToMonth,
+  nuiAddYears,
+  nuiClampDate,
+  nuiDate,
+  type NuiDate,
+  nuiDateFormat,
+  type NuiDateParts,
+  nuiDateParts,
+  type NuiDateTime,
+  nuiDayNumber,
+  nuiDaysBetween,
+  nuiDaysInMonth,
+  nuiFormatDate,
+  nuiFromDayNumber,
+  nuiIsDate,
+  nuiIsLeapYear,
+  nuiIsoWeek,
+  nuiMinutes,
+  type NuiMonth,
+  nuiMonthNames,
+  nuiMonthOf,
+  nuiMonthWeeks,
+  nuiNow,
+  nuiSplitDateTime,
+  nuiStartOfWeek,
+  type NuiTime,
+  nuiTime,
+  type NuiTimeParts,
+  nuiTimeParts,
+  nuiToday,
+  nuiUses12Hours,
+  nuiUtc,
+  nuiWeekday,
+  nuiWeekdayNames,
+  type NuiWeekInfo,
+  nuiWeekInfo,
+} from './date';
 export { nuiFuzzyMatch, nuiHighlight, type NuiMatch } from './fuzzy';
 export { NuiPersonality } from './personality';
 export {

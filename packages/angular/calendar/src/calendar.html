@@ -1,0 +1,179 @@
+<div class="nui-calendar-months">
+  @for (grid of grids(); track grid.month; let i = $index, isFirst = $first, isLast = $last) {
+    <div class="nui-calendar-month">
+      <div class="nui-calendar-header">
+        @if (isFirst) {
+          <button
+            type="button"
+            class="nui-calendar-nav"
+            data-direction="previous"
+            [attr.aria-label]="navLabel(-1)"
+            [attr.title]="navLabel(-1)"
+            [attr.aria-disabled]="!canPage(-1) || null"
+            (click)="page(-1)"
+          ></button>
+        }
+        @if (count() === 1) {
+          <button
+            type="button"
+            class="nui-calendar-title"
+            [id]="id + '-title'"
+            [attr.aria-label]="
+              view() === 'year'
+                ? title()
+                : title() + ', ' + (view() === 'day' ? words().chooseMonth : words().chooseYear)
+            "
+            [attr.aria-disabled]="view() === 'year' || null"
+            (click)="zoomOut()"
+          >
+            {{ title() }}
+          </button>
+        } @else {
+          <span class="nui-calendar-title" [id]="id + '-title-' + i">{{ grid.title }}</span>
+        }
+        @if (isLast) {
+          <button
+            type="button"
+            class="nui-calendar-nav"
+            data-direction="next"
+            [attr.aria-label]="navLabel(1)"
+            [attr.title]="navLabel(1)"
+            [attr.aria-disabled]="!canPage(1) || null"
+            (click)="page(1)"
+          ></button>
+        }
+      </div>
+
+      @switch (view()) {
+        @case ('month') {
+          <table
+            class="nui-calendar-grid"
+            role="grid"
+            data-view="month"
+            [attr.aria-labelledby]="id + '-title'"
+            (keydown)="onGridKeydown($event)"
+          >
+            <tbody>
+              @for (row of [0, 1, 2, 3]; track row) {
+                <tr>
+                  @for (cell of monthCells().slice(row * 3, row * 3 + 3); track cell.month) {
+                    <td
+                      class="nui-calendar-cell"
+                      [attr.data-month]="cell.month"
+                      [attr.tabindex]="cell.month === focused().slice(0, 7) ? 0 : -1"
+                      [attr.aria-selected]="cell.chosen"
+                      [attr.aria-disabled]="cell.disabled || null"
+                      [attr.aria-current]="cell.current ? 'date' : null"
+                      [attr.data-current]="cell.current || null"
+                      (click)="pickMonth(cell.month, cell.disabled)"
+                    >
+                      {{ cell.name }}
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+        @case ('year') {
+          <table
+            class="nui-calendar-grid"
+            role="grid"
+            data-view="year"
+            [attr.aria-labelledby]="id + '-title'"
+            (keydown)="onGridKeydown($event)"
+          >
+            <tbody>
+              @for (row of [0, 1, 2, 3, 4]; track row) {
+                <tr>
+                  @for (cell of yearCells().slice(row * 4, row * 4 + 4); track cell.year) {
+                    <td
+                      class="nui-calendar-cell"
+                      [attr.data-year]="cell.year"
+                      [attr.tabindex]="cell.year === +focused().slice(0, 4) ? 0 : -1"
+                      [attr.aria-selected]="cell.chosen"
+                      [attr.aria-disabled]="cell.disabled || null"
+                      [attr.aria-current]="cell.current ? 'date' : null"
+                      [attr.data-current]="cell.current || null"
+                      (click)="pickYear(cell.year, cell.disabled)"
+                    >
+                      {{ cell.name }}
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+        @default {
+          <table
+            class="nui-calendar-grid"
+            role="grid"
+            [attr.aria-labelledby]="count() === 1 ? id + '-title' : id + '-title-' + i"
+            [attr.aria-multiselectable]="selection() === 'single' ? null : true"
+            (keydown)="onGridKeydown($event)"
+            (pointerleave)="hovered.set(null)"
+          >
+            <thead>
+              <tr>
+                @if (weekNumbers()) {
+                  <th scope="col" class="nui-calendar-week">{{ words().week }}</th>
+                }
+                @for (name of weekdays(); track $index) {
+                  <th scope="col" [attr.abbr]="name.long">{{ name.short }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (week of grid.weeks; track $index) {
+                <tr>
+                  @if (weekNumbers()) {
+                    @if (week.number === null) {
+                      <td class="nui-calendar-week"></td>
+                    } @else {
+                      <th
+                        scope="row"
+                        class="nui-calendar-week"
+                        [attr.aria-label]="words().weekNumber(week.number)"
+                      >
+                        {{ week.number }}
+                      </th>
+                    }
+                  }
+                  @for (day of week.days; track $index) {
+                    @if (day) {
+                      <td
+                        class="nui-calendar-day"
+                        [attr.data-date]="day.date"
+                        [attr.tabindex]="day.date === focused() ? 0 : -1"
+                        [attr.aria-label]="rangeLabel(day)"
+                        [attr.aria-selected]="isChosen(day.date) || inRange(day.date)"
+                        [attr.aria-disabled]="day.disabled || null"
+                        [attr.aria-current]="day.today ? 'date' : null"
+                        [attr.data-outside]="day.outside || null"
+                        [attr.data-weekend]="day.weekend || null"
+                        [attr.data-today]="day.today || null"
+                        [attr.data-selected]="isChosen(day.date) || null"
+                        [attr.data-in-range]="inRange(day.date) || null"
+                        [attr.data-range-start]="shownRange()?.start === day.date || null"
+                        [attr.data-range-end]="shownRange()?.end === day.date || null"
+                        [attr.data-preview]="anchor() ? true : null"
+                        (click)="pick(day.date)"
+                        (pointerenter)="hovered.set(day.date)"
+                      >
+                        {{ day.text }}
+                      </td>
+                    } @else {
+                      <td class="nui-calendar-day" data-outside></td>
+                    }
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+    </div>
+  }
+</div>
+<span class="nui-calendar-status" role="status">{{ announcement() }}</span>

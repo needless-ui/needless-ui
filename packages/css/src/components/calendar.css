@@ -1,0 +1,283 @@
+/*
+ * Calendar: see specs/calendar.md for the contract.
+ *
+ *   <nui-calendar class="nui-calendar" data-view="day" data-selection="range">
+ *     <div class="nui-calendar-months">
+ *       <div class="nui-calendar-month">
+ *         <div class="nui-calendar-header">
+ *           <button class="nui-calendar-nav" data-direction="previous" aria-label="Previous month"></button>
+ *           <button class="nui-calendar-title">September 2026</button>
+ *           <button class="nui-calendar-nav" data-direction="next" aria-label="Next month"></button>
+ *         </div>
+ *         <table class="nui-calendar-grid" role="grid">
+ *           <thead><tr><th abbr="Monday">Mon</th>…</tr></thead>
+ *           <tbody>
+ *             <tr>
+ *               <td class="nui-calendar-day" data-outside>31</td>
+ *               <td class="nui-calendar-day" data-range-start data-in-range aria-selected="true">1</td>
+ *               <td class="nui-calendar-day" data-today aria-current="date">2</td>…
+ *             </tr>
+ *           </tbody>
+ *         </table>
+ *       </div>
+ *     </div>
+ *   </nui-calendar>
+ *
+ * The month and year views put `nui-calendar-cell`s in the same grid.
+ */
+@layer nui.components {
+  .nui-calendar {
+    --_size: max(2rem, 2.25rem * var(--nui-density));
+    --_radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    --_icon-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m10 3.5-4.5 4.5 4.5 4.5'/%3E%3C/svg%3E");
+
+    display: inline-block;
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    line-height: var(--nui-line-height-normal);
+    user-select: none;
+  }
+
+  .nui-calendar-months {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nui-space-6);
+  }
+
+  .nui-calendar-header {
+    display: flex;
+    align-items: center;
+    gap: var(--nui-space-1);
+    margin-block-end: var(--nui-space-2);
+  }
+
+  .nui-calendar-title {
+    flex: 1;
+    min-inline-size: 0;
+    margin: 0;
+    padding: var(--nui-space-1) var(--nui-space-2);
+    border: 0;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: var(--nui-font-weight-semibold);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  button.nui-calendar-title:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+
+  .nui-calendar-nav {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-calendar-nav::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-chevron) center / contain no-repeat;
+  }
+
+  .nui-calendar-nav[data-direction='next']::before,
+  .nui-calendar-nav[data-direction='previous']:dir(rtl)::before {
+    rotate: 180deg;
+  }
+
+  .nui-calendar-nav[data-direction='next']:dir(rtl)::before {
+    rotate: none;
+  }
+
+  .nui-calendar-nav[aria-disabled='true'] {
+    cursor: default;
+    opacity: 0.4;
+  }
+
+  @media (hover: hover) {
+    :is(.nui-calendar-nav, button.nui-calendar-title):not([aria-disabled='true']):hover,
+    :is(.nui-calendar-day, .nui-calendar-cell):not(
+        [aria-disabled='true'],
+        [aria-selected='true'],
+        [data-outside]:empty
+      ):hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  .nui-calendar-grid {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .nui-calendar-grid th {
+    block-size: var(--_size);
+    padding: 0;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    text-align: center;
+  }
+
+  .nui-calendar-grid th.nui-calendar-week {
+    padding-inline-end: var(--nui-space-2);
+    font-weight: var(--nui-font-weight-regular);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Days: the band of a range runs through them, and the ends round off. */
+  .nui-calendar-day {
+    position: relative;
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    padding: 0;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .nui-calendar-day[data-outside] {
+    color: var(--nui-color-text-muted);
+  }
+
+  .nui-calendar-day:empty {
+    cursor: default;
+  }
+
+  .nui-calendar-day[data-today] {
+    color: var(--nui-color-accent-text);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .nui-calendar-day[data-today]::after {
+    content: '';
+    position: absolute;
+    inset-block-end: 0.3rem;
+    inset-inline-start: calc(50% - 0.125rem);
+    inline-size: 0.25rem;
+    block-size: 0.25rem;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+
+  .nui-calendar-day[aria-disabled='true'] {
+    color: var(--nui-color-text-muted);
+    cursor: default;
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  .nui-calendar-day[data-in-range] {
+    border-radius: 0;
+    background-color: var(--nui-color-accent-soft);
+    color: var(--nui-color-accent-text);
+  }
+
+  .nui-calendar-day[data-in-range]:first-of-type,
+  .nui-calendar-day[data-range-start] {
+    border-start-start-radius: var(--_radius);
+    border-end-start-radius: var(--_radius);
+  }
+
+  .nui-calendar-day[data-in-range]:last-of-type,
+  .nui-calendar-day[data-range-end] {
+    border-start-end-radius: var(--_radius);
+    border-end-end-radius: var(--_radius);
+  }
+
+  .nui-calendar-day:is([data-selected], [data-range-start], [data-range-end]),
+  .nui-calendar-cell[aria-selected='true'] {
+    background-color: var(--nui-color-accent-solid);
+    color: var(--nui-color-accent-on-solid);
+  }
+
+  /* While the second end is being chosen, the band is only a proposal. */
+  .nui-calendar-day[data-preview][data-in-range]:not([data-range-start], [data-range-end]) {
+    background-color: transparent;
+    background-image: linear-gradient(var(--nui-color-accent-soft), var(--nui-color-accent-soft));
+    background-size: 100% 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  :is(.nui-calendar-day, .nui-calendar-cell):focus-visible,
+  :is(.nui-calendar-nav, .nui-calendar-title):focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: calc(-1 * var(--nui-focus-ring-width));
+  }
+
+  /* Months and years: bigger cells, three or four to a row. */
+  .nui-calendar-cell {
+    inline-size: calc(var(--_size) * 7 / 3);
+    block-size: calc(var(--_size) * 1.5);
+    padding: 0;
+    border-radius: var(--_radius);
+    corner-shape: var(--nui-corner-shape);
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .nui-calendar-grid[data-view='year'] .nui-calendar-cell {
+    inline-size: calc(var(--_size) * 7 / 4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nui-calendar-cell[data-current]:not([aria-selected='true']) {
+    color: var(--nui-color-accent-text);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .nui-calendar-cell[aria-disabled='true'] {
+    color: var(--nui-color-text-muted);
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .nui-calendar-status {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (forced-colors: active) {
+    .nui-calendar-nav::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
+    .nui-calendar-day:is([data-selected], [data-range-start], [data-range-end]),
+    .nui-calendar-cell[aria-selected='true'] {
+      forced-color-adjust: none;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+
+    .nui-calendar-day[data-in-range]:not([data-range-start], [data-range-end]) {
+      outline: 1px dashed Highlight;
+      outline-offset: -3px;
+    }
+  }
+}
