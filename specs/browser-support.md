@@ -61,7 +61,7 @@ Progressive: older supported browsers skip it, and nothing breaks.
 ## Touch and small screens
 
 - **Drags** (splitter handles, the color area, grid column edges, swiping toasts away) use pointer events, set `touch-action` so the page doesn't scroll under the finger, and do nothing when the browser takes the gesture back (`pointercancel`). The scheduler picks an event up with a long press, since a finger that moves at once scrolls the page. The carousel swipes with native scroll snapping, and a finger on its slides stops its rotation.
-- **Taps** do what clicks do, and stand in where there's no second click: a tap on the active grid cell starts editing it. Reordering columns by dragging their headers is left to the column menu on touch.
+- **Taps** do what clicks do, and stand in where there's no second click: a tap on the active grid cell starts editing it. Reordering columns by dragging their headers is left to the column menu on touch, and grid cards, which have no header row, sort and open the column menu from a toolbar.
 - **Fields** have at least 16px of text on touch screens, or Safari on iPhone zooms the page into them. Text from keyboards that compose (Android keyboards compose every word) is read when each composition ends: the editor, date and time fields, OTP and mask.
 - **Targets** are at least 24 by 24 CSS pixels (WCAG 2.2, 2.5.8); splitter handles, grid column edges and slider thumbs grow on coarse pointers.
 - **Hover only adds.** A hovercard doesn't open by touch. On a touch screen with nothing that hovers, the command palette hides its key hints, the dropzone its folder button, and the chat's Return makes a new line while its button sends (`sendOn: 'auto'`).

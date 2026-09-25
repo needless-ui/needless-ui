@@ -9,6 +9,70 @@
   <div class="nui-grid-progress" role="progressbar" [attr.aria-label]="t.loading"></div>
 }
 
+<!-- What the header row does, for cards, which have none: sort, and open the column panel. -->
+@if (showToolbar()) {
+  @let first = firstSort();
+  <div class="nui-grid-toolbar" role="group" [attr.aria-label]="t.toolbar">
+    @if (sortChoices().length) {
+      <!-- The attribute is for the server's HTML, which has no properties; the property
+           keeps the choice right once someone has made one. -->
+      <label class="nui-grid-sort-by">
+        {{ t.sortBy }}
+        <select (change)="sortBy($any($event.target).value)">
+          <option value="" [selected]="!first" [attr.selected]="first ? null : ''">
+            {{ t.unsorted }}
+          </option>
+          @for (column of sortChoices(); track column.id) {
+            @let chosen = column.id === first?.column;
+            <option [value]="column.id" [selected]="chosen" [attr.selected]="chosen ? '' : null">
+              {{ column.header }}
+            </option>
+          }
+        </select>
+      </label>
+      <span class="nui-grid-directions">
+        <button
+          type="button"
+          class="nui-grid-direction"
+          data-direction="asc"
+          [attr.aria-label]="t.ascending"
+          [attr.title]="t.ascending"
+          [attr.aria-pressed]="first?.direction === 'asc'"
+          [disabled]="!first"
+          (click)="sortDirection('asc')"
+        ></button>
+        <button
+          type="button"
+          class="nui-grid-direction"
+          data-direction="desc"
+          [attr.aria-label]="t.descending"
+          [attr.title]="t.descending"
+          [attr.aria-pressed]="first?.direction === 'desc'"
+          [disabled]="!first"
+          (click)="sortDirection('desc')"
+        ></button>
+      </span>
+    }
+    @if (filterable()) {
+      <button
+        #filterButton
+        type="button"
+        class="nui-grid-filter-button"
+        aria-haspopup="dialog"
+        [attr.aria-expanded]="panel.open() && panelPick()"
+        (pointerdown)="onFilterPress()"
+        (click)="onFilterClick($event)"
+      >
+        {{ t.filter }}
+        @if (filterCount(); as count) {
+          <span class="nui-grid-count" aria-hidden="true">{{ count }}</span>
+          <span class="nui-grid-hidden">{{ t.activeFilters(count) }}</span>
+        }
+      </button>
+    }
+  </div>
+}
+
 <div #scroll class="nui-grid-scroll" [style.--_height]="maxHeight()" (scroll)="onScroll()">
   <table
     class="nui-grid-table"
@@ -118,7 +182,7 @@
               class="nui-grid-menu-button"
               tabindex="-1"
               aria-haspopup="dialog"
-              [attr.aria-expanded]="panel.open() && panelColumn() === column.id"
+              [attr.aria-expanded]="panel.open() && !panelPick() && panelColumn() === column.id"
               [attr.aria-label]="t.columnOptions(column.column.header)"
               (click)="openPanel(column.id, $event)"
             ></button>
@@ -503,6 +567,9 @@
       [columnId]="id"
       [labels]="t"
       [locale]="locale()"
+      [pick]="panelPick()"
+      [cards]="cards()"
+      (columnIdChange)="panelColumn.set($event)"
       (fit)="fit(id)"
       (hide)="hideColumn(id)"
     />

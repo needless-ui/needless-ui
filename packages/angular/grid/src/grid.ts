@@ -146,6 +146,13 @@ export class NuiGrid<T> {
   readonly flash = input(false, { transform: booleanAttribute });
   /** `table`; `list` shows each row as a card; `auto` does below a width. */
   readonly layout = input<'table' | 'list' | 'auto'>('table');
+  /**
+   * A bar above the rows that sorts and opens the column panel: always, never, or
+   * `auto` with cards, which have no header row.
+   */
+  readonly toolbar = input<boolean | 'auto', unknown>('auto', {
+    transform: (value) => (value === 'auto' ? 'auto' : booleanAttribute(value)),
+  });
 
   protected readonly text = computed<NuiGridLabels>(() => {
     const labels = this.labels();
@@ -170,6 +177,12 @@ export class NuiGrid<T> {
       layout === 'list' ||
       (layout === 'auto' && this.engine.containerWidth() > 0 && this.engine.containerWidth() < 576)
     );
+  });
+  /** The toolbar shows when asked (with cards under `auto`) and has something to do. */
+  protected readonly showToolbar = computed(() => {
+    const toolbar = this.toolbar();
+    const shown = toolbar === 'auto' ? this.cards() : toolbar;
+    return shown && (this.sortChoices().length > 0 || this.filterable());
   });
 
   /** The model: filtering, sorting, paging, selection, columns and the active cell. */
@@ -198,6 +211,7 @@ export class NuiGrid<T> {
     children: this.children,
     hasDetails: this.hasDetails,
     footerRows: computed(() => (this.showTotals() ? 1 : 0)),
+    header: computed(() => !this.cards()),
   });
 
   private readonly cellDefs = contentChildren(NuiGridCell);
@@ -280,6 +294,8 @@ export class NuiGrid<T> {
 
   protected readonly editing = signal<Editing<T> | null>(null);
   protected readonly panelColumn = signal<string | null>(null);
+  /** The toolbar opened the panel, rather than a header: the panel picks its column. */
+  protected readonly panelPick = signal(false);
   protected readonly drop = signal<{ id: string; side: 'before' | 'after' } | null>(null);
   protected readonly status = signal('');
   private dragged = false;
@@ -302,6 +318,39 @@ export class NuiGrid<T> {
     );
   });
 
+  // Toolbar ------------------------------------------------------------------------
+
+  /** The sort that comes first: the toolbar shows its column and direction. */
+  protected readonly firstSort = computed(() => this.engine.sort()[0] ?? null);
+
+  /** What the toolbar sorts by: the visible columns that sort, and the one sorted by. */
+  protected readonly sortChoices = computed(() => {
+    const columns = this.engine
+      .layout()
+      .map((layout) => layout.column)
+      .filter((column) => column.sortable !== false);
+    const first = this.firstSort();
+    const sorted = first ? this.engine.byId().get(first.column) : undefined;
+    return sorted && !columns.includes(sorted) ? [...columns, sorted] : columns;
+  });
+
+  /** The toolbar's filter button shows when a visible column can filter. */
+  protected readonly filterable = computed(() =>
+    this.engine.layout().some((layout) => layout.column.filterable !== false),
+  );
+
+  /** How many columns filter the rows, hidden ones included. */
+  protected readonly filterCount = computed(() => {
+    const byId = this.engine.byId();
+    return Object.entries(this.engine.filters()).filter(
+      ([id, filter]) => byId.has(id) && nuiGridFilterActive(filter),
+    ).length;
+  });
+
+  private readonly filterButton = viewChild<ElementRef<HTMLElement>>('filterButton');
+  /** The panel was open when the filter button was pressed, so the press closes it. */
+  private panelWasOpen = false;
+
   constructor() {
     const engine = this.engine;
     const destroyRef = inject(DestroyRef);
@@ -312,11 +361,20 @@ export class NuiGrid<T> {
       untracked(() => this.queryChange.emit(query));
     });
 
-    // Keep the active cell inside the grid when rows or columns go.
+    // Keep the active cell inside the grid when rows or columns go, or the header row does.
     effect(() => {
       engine.shown();
       engine.colCount();
+      engine.header();
       untracked(() => engine.setActive(engine.active().row, engine.active().col));
+    });
+
+    // The panel's anchor, a header or the toolbar's button, comes or goes with cards.
+    let cards: boolean | undefined;
+    effect(() => {
+      const now = this.cards();
+      if (cards !== undefined && cards !== now) untracked(() => this.panelRef().hide());
+      cards = now;
     });
 
     // Measure the rows that rendered; a row taller or shorter than guessed re-lays the list.
@@ -500,7 +558,10 @@ export class NuiGrid<T> {
     this.engine.expandAll(open);
   }
 
-  /** Focuses a cell: `row` -1 is the header, `col` counts the checkbox column. */
+  /**
+   * Focuses a cell: `row` -1 is the header (cards have none: the first row), `col`
+   * counts the checkbox column.
+   */
   focusCell(row: number, col: number): void {
     this.go(row, col);
   }
@@ -634,28 +695,92 @@ export class NuiGrid<T> {
     const header = this.headerCell(id);
     if (!header) return;
     this.panelColumn.set(id);
+    this.panelPick.set(false);
     this.panelRef().show(header);
     this.requestFocus('panel');
   }
 
-  /** When the panel closes, focus goes back to its column's header if it was inside. */
+  protected onFilterPress(): void {
+    this.panelWasOpen = this.panelPick() && this.panelRef().open();
+  }
+
+  /**
+   * The toolbar's filter button opens the panel, which picks its column: the one
+   * it showed last, else the first that filters or can. Pressed again, it closes.
+   */
+  protected onFilterClick(event: MouseEvent): void {
+    const button = event.currentTarget as HTMLElement;
+    const panel = this.panelRef();
+    // A press outside the open panel already closed it (light dismiss) by the time of the click.
+    const open = this.panelWasOpen || (this.panelPick() && panel.element.matches(':popover-open'));
+    this.panelWasOpen = false;
+    if (open) {
+      panel.hide();
+      return;
+    }
+    const layout = this.engine.layout();
+    const last = layout.find((column) => column.id === this.panelColumn());
+    const id = (
+      last ??
+      layout.find((column) => column.filtered) ??
+      layout.find((column) => column.column.filterable !== false) ??
+      layout[0]
+    )?.id;
+    if (!id) return;
+    // Safari doesn't focus a button it clicks; focused, it's where focus comes back to.
+    if (button.ownerDocument.activeElement !== button) button.focus({ preventScroll: true });
+    this.panelColumn.set(id);
+    this.panelPick.set(true);
+    panel.show(button);
+    this.requestFocus('panel');
+  }
+
+  /** The toolbar sorts by a column (none for `''`), keeping the direction it had. */
+  protected sortBy(id: string): void {
+    const first = this.firstSort();
+    if (!id) {
+      if (!first) return;
+      this.engine.setSort(first.column, null);
+      this.announceSort(first.column);
+      return;
+    }
+    this.engine.setSort(id, first?.direction ?? 'asc');
+    this.announceSort(id);
+  }
+
+  /** The toolbar turns the first sort around; the columns after it stay as they are. */
+  protected sortDirection(direction: 'asc' | 'desc'): void {
+    const first = this.firstSort();
+    if (!first || first.direction === direction) return;
+    this.engine.setSort(first.column, direction, true);
+    this.announceSort(first.column);
+  }
+
+  /**
+   * When the panel closes with focus inside, focus goes back to what opened it:
+   * the toolbar's button, or the column's header.
+   */
   protected onPanelChange(open: boolean): void {
     if (open) return;
     const focus = this.host.ownerDocument.activeElement;
     const inside =
       !focus || focus === this.host.ownerDocument.body || this.panelRef().element.contains(focus);
-    const id = this.panelColumn();
-    if (inside && id) {
-      const index = this.engine.layout().findIndex((column) => column.id === id);
-      if (index >= 0) this.go(-1, this.lead() + index);
+    if (!inside) return;
+    if (this.panelPick()) {
+      this.filterButton()?.nativeElement.focus();
+      return;
     }
+    const id = this.panelColumn();
+    const index = this.engine.layout().findIndex((column) => column.id === id);
+    if (index >= 0 && this.engine.header()) this.go(-1, this.lead() + index);
   }
 
   protected hideColumn(id: string): void {
     this.panelRef().hide();
     const { col } = this.engine.active();
     this.engine.hide(id);
-    this.go(-1, col);
+    if (this.panelPick()) this.filterButton()?.nativeElement.focus();
+    else this.go(-1, col);
   }
 
   /**
@@ -1123,14 +1248,20 @@ export class NuiGrid<T> {
   private sortColumn(column: NuiGridLayoutColumn<T>, add: boolean): void {
     if (column.column.sortable === false) return;
     this.engine.toggleSort(column.id, add);
-    const sort = this.engine.sort().find((s) => s.column === column.id);
+    this.announceSort(column.id);
+  }
+
+  /** Says how a column sorts now, after a header or the toolbar changed it. */
+  private announceSort(id: string): void {
+    const sort = this.engine.sort().find((s) => s.column === id);
+    const header = this.engine.byId().get(id)?.header ?? '';
     const text = this.text();
     this.announce(
       !sort
         ? text.sortCleared
         : sort.direction === 'asc'
-          ? text.sortedAscending(column.column.header)
-          : text.sortedDescending(column.column.header),
+          ? text.sortedAscending(header)
+          : text.sortedDescending(header),
     );
   }
 

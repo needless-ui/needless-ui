@@ -27,6 +27,16 @@
  * The header sticks to the top and pinned columns to their edge (--_offset away
  * from it), on opaque backgrounds so scrolled cells pass beneath. Focus draws
  * inside the cell, so neighbours and sticky edges never cut it.
+ *
+ * Cards (data-cards) have no header row. A toolbar comes first instead:
+ *
+ *   <div class="nui-grid-toolbar" role="group">
+ *     <label class="nui-grid-sort-by">Sort by <select>…</select></label>
+ *     <span class="nui-grid-directions">
+ *       <button class="nui-grid-direction" data-direction="asc" aria-pressed="true"></button>…
+ *     </span>
+ *     <button class="nui-grid-filter-button">Filter <span class="nui-grid-count">2</span></button>
+ *   </div>
  */
 @layer nui.components {
   .nui-grid {
@@ -502,6 +512,7 @@
   }
 
   .nui-grid-page-size select,
+  .nui-grid-sort-by select,
   .nui-grid-panel-select,
   .nui-grid-panel-input {
     box-sizing: border-box;
@@ -570,10 +581,149 @@
     opacity: 0.4;
   }
 
-  :is(.nui-grid-page, .nui-grid-clear):focus-visible,
-  :is(.nui-grid-page-size select, .nui-grid-panel-select, .nui-grid-panel-input):focus-visible {
+  :is(.nui-grid-page, .nui-grid-clear, .nui-grid-direction, .nui-grid-filter-button):focus-visible,
+  :is(
+    .nui-grid-page-size select,
+    .nui-grid-sort-by select,
+    .nui-grid-panel-select,
+    .nui-grid-panel-input
+  ):focus-visible {
     outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
     outline-offset: 1px;
+  }
+
+  /* The toolbar: what the header row does, for cards. Its controls share one
+     height, taller for a finger. */
+
+  .nui-grid-toolbar {
+    --_tool: max(28px, var(--nui-control-height-sm) * var(--nui-density));
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--nui-space-2);
+    padding: calc(var(--nui-space-2) * var(--nui-density)) var(--_pad);
+    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    background-color: var(--nui-color-bg-subtle);
+  }
+
+  .nui-grid-sort-by {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nui-space-2);
+    min-inline-size: 0;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+  }
+
+  .nui-grid-sort-by select {
+    min-inline-size: 0;
+    max-inline-size: 12rem;
+    block-size: var(--_tool);
+    text-overflow: ellipsis;
+  }
+
+  .nui-grid-directions {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
+    background-color: var(--nui-color-neutral-soft);
+  }
+
+  .nui-grid-direction {
+    display: grid;
+    place-items: center;
+    inline-size: calc(var(--_tool) - 4px);
+    block-size: calc(var(--_tool) - 4px);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background: transparent;
+    color: var(--nui-color-text-muted);
+    cursor: pointer;
+  }
+
+  .nui-grid-direction::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-sort) center / contain no-repeat;
+  }
+
+  .nui-grid-direction[data-direction='desc']::before {
+    rotate: 180deg;
+  }
+
+  .nui-grid-direction[aria-pressed='true'] {
+    background-color: var(--nui-color-bg-raised);
+    color: var(--nui-color-accent-text);
+    box-shadow: var(--nui-shadow-sm);
+  }
+
+  .nui-grid-direction:disabled {
+    cursor: default;
+    opacity: 0.4;
+  }
+
+  .nui-grid-filter-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nui-space-1);
+    box-sizing: border-box;
+    block-size: var(--_tool);
+    margin: 0;
+    margin-inline-start: auto;
+    padding-inline: var(--nui-space-2);
+    border: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+    border-radius: calc(var(--nui-radius-sm) * var(--nui-radius-scale));
+    background-color: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .nui-grid-filter-button::before {
+    content: '';
+    flex: none;
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
+    background-color: currentColor;
+    mask: var(--_icon-filter) center / contain no-repeat;
+  }
+
+  .nui-grid-filter-button[aria-expanded='true'] {
+    background-color: var(--nui-color-neutral-soft);
+  }
+
+  .nui-grid-count {
+    min-inline-size: 1.25rem;
+    padding-inline: var(--nui-space-1);
+    box-sizing: border-box;
+    border-radius: var(--nui-radius-full);
+    background-color: var(--nui-color-accent-soft);
+    color: var(--nui-color-accent-text);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-medium);
+    line-height: 1.25rem;
+    text-align: center;
+  }
+
+  @media (hover: hover) {
+    .nui-grid-direction:hover:not(:disabled, [aria-pressed='true']),
+    .nui-grid-filter-button:hover {
+      background-color: var(--nui-color-neutral-soft-hover);
+      color: var(--nui-color-text-default);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .nui-grid-toolbar {
+      --_tool: max(28px, var(--nui-control-height-md) * var(--nui-density));
+    }
   }
 
   /* The column panel */
@@ -886,6 +1036,7 @@
 
     .nui-grid-menu-button,
     .nui-grid-resize,
+    .nui-grid-toolbar,
     .nui-grid-pager,
     .nui-grid-progress,
     .nui-grid-toggle {
@@ -917,10 +1068,21 @@
   }
 
   @media (forced-colors: active) {
-    :is(.nui-grid-sort, .nui-grid-filtered, .nui-grid-menu-button, .nui-grid-page)::before,
+    :is(
+      .nui-grid-sort,
+      .nui-grid-filtered,
+      .nui-grid-menu-button,
+      .nui-grid-page,
+      .nui-grid-direction,
+      .nui-grid-filter-button
+    )::before,
     .nui-grid-check[data-checked] {
       forced-color-adjust: none;
       background-color: CanvasText;
+    }
+
+    .nui-grid-direction:disabled::before {
+      background-color: GrayText;
     }
 
     .nui-grid-row[aria-selected='true'] > td {
@@ -928,7 +1090,7 @@
       color: HighlightText;
     }
 
-    .nui-grid-panel-button[aria-pressed='true'] {
+    :is(.nui-grid-panel-button, .nui-grid-direction)[aria-pressed='true'] {
       outline: 2px solid Highlight;
     }
   }
@@ -939,7 +1101,8 @@
     .nui-grid-editor,
     .nui-grid-panel-input,
     .nui-grid-panel-select,
-    .nui-grid-page-size select {
+    .nui-grid-page-size select,
+    .nui-grid-sort-by select {
       font-size: max(1rem, 1em);
     }
   }

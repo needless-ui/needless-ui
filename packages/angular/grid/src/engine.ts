@@ -80,6 +80,8 @@ export interface NuiGridSources<T> {
   hasDetails?: Signal<boolean>;
   /** Rows drawn after the data that the keyboard reaches too, such as totals. */
   footerRows?: Signal<number>;
+  /** The header row is drawn, so the keyboard reaches it. Cards have none. */
+  header?: Signal<boolean>;
 }
 
 const defaultId = (row: unknown) => (row as { id?: unknown } | null)?.id ?? row;
@@ -115,6 +117,7 @@ export class NuiGridEngine<T> {
   readonly children: Signal<((row: T) => readonly T[] | null | undefined) | null>;
   readonly hasDetails: Signal<boolean>;
   readonly footerRows: Signal<number>;
+  readonly header: Signal<boolean>;
   /** Width of the scroll container, which `flex` columns share. */
   readonly containerWidth = signal(0);
   /** The active cell. Row -1 is the header; columns count the leading ones. */
@@ -145,6 +148,7 @@ export class NuiGridEngine<T> {
     this.children = from.children ?? signal(null);
     this.hasDetails = from.hasDetails ?? signal(false);
     this.footerRows = from.footerRows ?? signal(0);
+    this.header = from.header ?? signal(true);
   }
 
   // Columns ------------------------------------------------------------------
@@ -900,11 +904,13 @@ export class NuiGridEngine<T> {
     this.setActive(row + rows, col + cols);
   }
 
+  /** Moves the active cell, kept inside the grid: in the rows when the header isn't drawn. */
   setActive(row: number, col: number): void {
     const lastRow = this.shown().length - 1 + (this.shown().length ? this.footerRows() : 0);
+    const firstRow = this.header() || lastRow < 0 ? -1 : 0;
     const lastCol = this.colCount() - 1;
     this.active.set({
-      row: Math.max(-1, Math.min(lastRow, row)),
+      row: Math.max(firstRow, Math.min(lastRow, row)),
       col: Math.max(0, Math.min(lastCol, col)),
     });
   }

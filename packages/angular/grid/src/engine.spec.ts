@@ -195,4 +195,23 @@ describe('NuiGridEngine', () => {
     grid.setActive(99, 99);
     expect(grid.active()).toEqual({ row: 3, col: 4 });
   });
+
+  it('keeps the active cell in the rows when the header row isn’t drawn', () => {
+    const header = signal(false);
+    const grid = new NuiGridEngine<Order>({
+      rows: signal(orders),
+      columns: signal(columns),
+      header,
+    });
+    grid.setActive(-1, 2);
+    expect(grid.active()).toEqual({ row: 0, col: 2 });
+    header.set(true);
+    grid.moveActive(-1, 0);
+    expect(grid.active()).toEqual({ row: -1, col: 2 });
+    // With no rows, there's nowhere else to be.
+    header.set(false);
+    grid.rows.set([]);
+    grid.setActive(3, 0);
+    expect(grid.active()).toEqual({ row: -1, col: 0 });
+  });
 });
