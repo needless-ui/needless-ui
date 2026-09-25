@@ -1181,6 +1181,142 @@ export const messages: Messages = {
           'Beri nama dengan <code>&lt;label for&gt;</code> yang menunjuk ke <code>triggerId</code>, atau dengan <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Data grid',
+        title: 'Komponen data grid untuk Angular',
+        summary: 'Urutkan, saring, pilih, edit, dan gulir baris sebanyak apa pun.',
+        description:
+          'Data grid Angular yang aksesibel berbasis tabel native: pengurutan multikolom, filter, paginasi atau virtual scrolling, pemilihan, edit, dan pemindahan kolom.',
+        apiDescription:
+          'Referensi API data grid Needless UI: input dan model nui-grid, definisi NuiGridColumn, serta template untuk sel kustom.',
+        a11yDescription:
+          'Keyboard dan aksesibilitas data grid Needless UI: tabel native dengan role grid, satu perhentian tab, tombol panah, dan pengumuman.',
+        overview: [
+          'Data grid adalah tabel native dengan pengurutan, penyaringan, paginasi, dan pengeditan. Definisikan <code>columns</code>, teruskan <code>rows</code>, dan setiap sel diformat menurut tipenya sesuai locale: angka, mata uang, tanggal, ya dan tidak, serta label untuk nilai <code>enum</code>.',
+          'Statusnya ada di model yang bisa Anda hubungkan, simpan, dan kirim ke server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, serta <code>columnState</code> untuk lebar, urutan, penyematan, dan kolom tersembunyi pilihan pengguna. Tanpa paginasi, hanya baris yang terlihat yang dirender, sehingga 100.000 baris bergulir semulus sepuluh baris.',
+          'Setiap sel bisa dijangkau dengan keyboard, dan panel setiap kolom bisa mengurutkan, menyaring, menyematkan, memindahkan, menyesuaikan lebar, dan menyembunyikan kolom tersebut.',
+        ],
+        examples: {
+          orders: {
+            title: 'Pencarian, pengurutan, dan halaman',
+            text: 'Ketik untuk mencari di semua kolom. Klik header untuk mengurutkan, dan Shift + klik untuk menambahkan kolom kedua. <code>nuiGridCell</code> menggambar status, dan <code>exportCsv()</code> mengekspor data yang ditampilkan.',
+          },
+          selection: {
+            title: 'Pemilihan',
+            text: '<code>selection="multiple"</code> menambahkan checkbox dan menghubungkan kunci baris yang dipilih. Shift + klik memilih rentang; kotak di header memilih semua baris yang cocok.',
+          },
+          editing: {
+            title: 'Pengeditan',
+            text: 'Klik dua kali sebuah sel, tekan Enter, atau langsung ketik. <code>validate</code> membuat editor tetap terbuka dengan pesan; edit yang diterapkan memperbarui <code>rows</code> dan mengirimkan <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100.000 baris',
+            text: 'Tanpa paginasi, hanya baris yang terlihat yang dirender. Kolom yang disematkan tetap di tepi, dan <code>columnState</code> menyimpan tata letak yang dibuat pengguna.',
+          },
+          server: {
+            title: 'Data dari server',
+            text: 'Dalam mode <code>server</code>, grid menampilkan baris apa adanya dan melaporkan setiap perubahan lewat <code>queryChange</code>. Tetapkan <code>loading</code> selama mengambil data.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Data grid di atas tabel native.',
+            members: {
+              rows: 'Datanya. Pengeditan mengganti baris, jadi hubungkan dengan <code>[(rows)]</code>.',
+              columns: 'Kolom-kolomnya, sebagai objek <code>NuiGridColumn</code>.',
+              rowId: 'Kunci baris, untuk pemilihan dan pelacakan.',
+              label: 'Nama aksesibel grid.',
+              selection: 'Apakah baris bisa dipilih, dan berapa banyak.',
+              selected: 'Kunci baris yang dipilih.',
+              sort: 'Pengurutan, sebagai objek <code>{ column, direction }</code>; yang pertama diutamakan.',
+              filters: 'Satu filter per id kolom: operator dan nilai.',
+              search: 'Kata-kata yang semuanya harus ada dalam satu baris.',
+              pageSize: 'Baris per halaman, atau 0 untuk satu daftar yang bergulir.',
+              page: 'Halaman yang ditampilkan, mulai dari 0.',
+              pageSizes: 'Pilihan ukuran halaman di paginator.',
+              virtual:
+                'Hanya merender baris yang terlihat: selalu, tidak pernah, atau <code>auto</code> jika lebih dari 100 baris tanpa paginasi.',
+              height: 'Panjang CSS yang membatasi grid; isinya bergulir di dalam.',
+              columnState:
+                'Lebar, urutan, penyematan, dan visibilitas setiap kolom, untuk disimpan dan dipulihkan.',
+              mode: '<code>server</code> menampilkan baris apa adanya dan menyerahkan pengurutan, penyaringan, serta paginasi kepada Anda.',
+              total: 'Jumlah baris di server.',
+              loading: 'Menampilkan bilah progres, dan baris placeholder selama belum ada baris.',
+              locale: 'Memformat angka dan tanggal, serta membaca angka yang diketik.',
+              labels: 'Semua teks yang ditampilkan atau diumumkan grid, untuk diterjemahkan.',
+              rowActivate: 'Mengirimkan baris yang dibuka dengan Enter atau klik dua kali.',
+              cellEdit: 'Mengirimkan setiap edit yang diterapkan.',
+              queryChange:
+                'Mengirimkan pengurutan, filter, pencarian, dan halaman setiap kali berubah.',
+              exportCsv: 'Baris yang tersaring dan terurut dari kolom yang terlihat, sebagai CSV.',
+              focusCell: 'Memfokuskan sel; baris <code>-1</code> adalah header.',
+              clearFilters: 'Mengosongkan semua filter dan pencarian.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Satu kolom. Hanya <code>id</code> dan <code>header</code> yang wajib.',
+            members: {
+              id: 'Unik; menjadi kunci dalam pengurutan, filter, dan status kolom.',
+              header: 'Teks header.',
+              value: 'Properti baris, atau fungsi dari baris. Default-nya <code>row[id]</code>.',
+              type: 'Menentukan perataan, pengurutan, filter, dan editor.',
+              format:
+                'Opsi <code>Intl</code> untuk angka dan tanggal, atau fungsi yang membuat teksnya.',
+              options: 'Pilihan kolom <code>enum</code>, sebagai objek <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'Dalam piksel.',
+              flex: 'Berbagi sisa ruang dengan kolom <code>flex</code> lainnya.',
+              align: 'Default-nya mengikuti tipe: angka dan tanggal rata akhir.',
+              'pinned, hidden': 'Penyematan dan visibilitas awal kolom.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Masing-masing bisa dimatikan dengan <code>false</code>.',
+              compare: 'Pengurutan kustom.',
+              'editable, validate': 'Apakah sel bisa diedit, dan pesan saat nilai tidak valid.',
+              set: 'Membuat baris hasil edit. Default-nya salinan dengan nilai baru.',
+            },
+          },
+          NuiGridCell: {
+            summary: 'Menggambar sel-sel kolom. Konteksnya berisi baris, nilai, dan teksnya.',
+            members: { nuiGridCell: 'Id kolom.' },
+          },
+          NuiGridHeader: {
+            summary: 'Menggambar header kolom.',
+            members: { nuiGridHeader: 'Id kolom.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Yang ditampilkan saat tidak ada baris. Konteksnya memberi tahu apakah filter menyembunyikannya.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Tombol panah', 'Pindah satu sel. Kiri dan kanan dicerminkan pada teks kanan-ke-kiri.'],
+          ['Home dan End', 'Menuju sel pertama atau terakhir di baris; dengan Ctrl, di grid.'],
+          ['Page Down dan Page Up', 'Melompat satu layar baris.'],
+          [
+            'Enter atau Spasi pada header',
+            'Mengurutkan menurut kolom; dengan Shift, menambahkannya ke pengurutan.',
+          ],
+          ['Alt + panah bawah pada header', 'Membuka panel kolom.'],
+          [
+            'Alt + panah kiri atau kanan pada header',
+            'Menyempitkan atau melebarkan kolom; dengan Shift, memindahkannya.',
+          ],
+          ['Enter pada sel', 'Mengedit sel, atau membuka baris jika sel tidak bisa diedit.'],
+          ['F2, atau mengetik', 'Mengedit sel.'],
+          [
+            'Enter, Esc, dan Tab saat mengedit',
+            'Menerapkan, membatalkan, atau menerapkan lalu pindah.',
+          ],
+          ['Spasi', 'Memilih baris; dengan Shift, semua baris dari yang terakhir dipilih.'],
+          ['Ctrl + A', 'Memilih semua baris.'],
+        ],
+        notes: [
+          '<code>&lt;table&gt;</code> native dengan <code>role="grid"</code>, yang diberi nama lewat <code>label</code>. Header memiliki <code>aria-sort</code>, dan baris yang bisa dipilih memiliki <code>aria-selected</code>.',
+          'Grid hanya satu perhentian tab. Fokus berpindah dari sel ke sel dengan roving <code>tabindex</code>, sehingga pembaca layar membacakan setiap sel beserta header baris dan kolomnya.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code>, dan <code>aria-colindex</code> tetap benar saat baris dipaginasi atau divirtualisasi.',
+          'Pengurutan, penyaringan, perpindahan halaman, dan error pengeditan diumumkan secara polite di region status.',
+        ],
+      },
     },
   },
 

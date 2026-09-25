@@ -1151,6 +1151,145 @@ export const messages: Messages = {
           '<code>triggerId</code>를 가리키는 <code>&lt;label for&gt;</code> 또는 <code>label</code>로 이름을 지정합니다.',
         ],
       },
+      grid: {
+        name: '데이터 그리드',
+        title: 'Angular 데이터 그리드 컴포넌트',
+        summary: '행이 아무리 많아도 정렬, 필터링, 선택, 편집, 스크롤을 할 수 있습니다.',
+        description:
+          '네이티브 table 요소로 만든 접근성을 갖춘 Angular 데이터 그리드입니다. 다중 열 정렬, 필터, 페이지네이션 또는 가상 스크롤, 선택, 편집, 열 이동을 지원합니다.',
+        apiDescription:
+          'Needless UI 데이터 그리드의 API 레퍼런스입니다. nui-grid의 입력과 양방향 바인딩, NuiGridColumn 정의, 사용자 지정 셀 템플릿을 설명합니다.',
+        a11yDescription:
+          'Needless UI 데이터 그리드의 키보드 동작과 접근성을 다룹니다. grid 역할을 가진 네이티브 표, 한 번만 멈추는 탭 순서, 화살표 키, 안내를 설명합니다.',
+        overview: [
+          '데이터 그리드는 정렬, 필터링, 페이지 나누기, 편집을 지원하는 네이티브 표입니다. <code>columns</code>를 정의하고 <code>rows</code>를 전달하면 각 셀이 타입에 따라 로케일에 맞는 서식으로 표시됩니다. 숫자, 통화, 날짜, 예/아니요, <code>enum</code> 값의 레이블을 지원합니다.',
+          '상태는 바인딩하고, 저장하고, 서버로 보낼 수 있는 모델에 담깁니다. 모델은 <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, 그리고 사용자가 정한 열 너비, 순서, 고정, 숨김을 담는 <code>columnState</code>입니다. 페이지를 나누지 않으면 보이는 행만 렌더링하므로, 10만 행도 10행처럼 스크롤됩니다.',
+          '모든 셀에 키보드로 이동할 수 있으며, 각 열의 패널에서는 그 열을 정렬, 필터링, 고정, 이동하거나 너비를 맞추거나 숨길 수 있습니다.',
+        ],
+        examples: {
+          orders: {
+            title: '검색, 정렬, 페이지 나누기',
+            text: '입력하면 모든 열을 검색합니다. 헤더를 클릭하면 정렬하고, Shift 키를 누른 채 클릭하면 두 번째 열을 정렬에 추가합니다. <code>nuiGridCell</code>이 상태를 그리고, <code>exportCsv()</code>는 표시된 내용을 내보냅니다.',
+          },
+          selection: {
+            title: '선택',
+            text: '<code>selection="multiple"</code>은 체크박스를 추가하고 선택된 행의 키를 바인딩합니다. Shift 키를 누른 채 클릭하면 범위를 선택하고, 헤더의 체크박스는 필터 조건에 맞는 모든 행을 선택합니다.',
+          },
+          editing: {
+            title: '편집',
+            text: '셀을 더블클릭하거나, Enter 키를 누르거나, 그냥 입력해 보십시오. <code>validate</code>는 메시지와 함께 편집기를 열어 둡니다. 확정된 편집은 <code>rows</code>를 갱신하고 <code>cellEdit</code>를 내보냅니다.',
+          },
+          big: {
+            title: '10만 행',
+            text: '페이지를 나누지 않으면 보이는 행만 렌더링합니다. 고정된 열은 가장자리에 머물며, <code>columnState</code>는 사용자가 만든 레이아웃을 유지합니다.',
+          },
+          server: {
+            title: '서버 데이터',
+            text: '<code>server</code> 모드에서는 그리드가 받은 행을 그대로 표시하고, 변경될 때마다 <code>queryChange</code>로 알립니다. 데이터를 가져오는 동안에는 <code>loading</code>을 설정합니다.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: '네이티브 표로 만든 데이터 그리드입니다.',
+            members: {
+              rows: '데이터. 편집하면 행이 교체되므로 <code>[(rows)]</code>로 바인딩합니다.',
+              columns: '열 목록. <code>NuiGridColumn</code> 객체로 지정합니다.',
+              rowId: '선택과 추적에 사용하는 행의 키.',
+              label: '그리드의 접근 가능한 이름.',
+              selection: '행을 선택할 수 있는지, 몇 개까지 선택할 수 있는지.',
+              selected: '선택된 행의 키 목록.',
+              sort: '정렬. <code>{ column, direction }</code> 객체로 지정하며, 앞에 있는 것이 먼저 적용됩니다.',
+              filters: '열 id별 필터. 연산자와 값으로 지정합니다.',
+              search: '한 행에 모두 나타나야 하는 단어.',
+              pageSize: '페이지당 행 수. 0이면 스크롤되는 하나의 목록이 됩니다.',
+              page: '표시할 페이지. 0부터 셉니다.',
+              pageSizes: '페이저에 표시되는 선택지.',
+              virtual:
+                '보이는 행만 렌더링합니다: 항상, 안 함, 또는 페이지를 나누지 않을 때 100행을 넘으면 켜지는 <code>auto</code>.',
+              height: '그리드의 높이를 제한하는 CSS 길이. 그리드 안에서 스크롤됩니다.',
+              columnState: '저장하고 복원할 수 있는 각 열의 너비, 순서, 고정, 표시 여부.',
+              mode: '<code>server</code>는 받은 행을 그대로 표시하고, 정렬, 필터링, 페이지 나누기는 직접 처리하도록 맡깁니다.',
+              total: '서버에 있는 행의 수.',
+              loading: '진행 표시줄을 보여 주고, 행이 없는 동안에는 자리 표시자 행을 보여 줍니다.',
+              locale: '숫자와 날짜의 서식을 지정하고 입력된 숫자를 읽는 데 사용하는 로케일.',
+              labels: '그리드가 표시하거나 읽어 주는 모든 텍스트. 번역할 때 사용합니다.',
+              rowActivate: 'Enter 키나 더블클릭으로 연 행을 내보냅니다.',
+              cellEdit: '확정된 편집을 하나씩 내보냅니다.',
+              queryChange: '정렬, 필터, 검색, 페이지가 바뀔 때마다 이를 내보냅니다.',
+              exportCsv: '필터링하고 정렬한 행을 보이는 열만 CSV로 반환합니다.',
+              focusCell: '셀에 포커스를 줍니다. 행 <code>-1</code>은 헤더입니다.',
+              clearFilters: '모든 필터와 검색을 지웁니다.',
+            },
+          },
+          NuiGridColumn: {
+            summary: '열 하나입니다. <code>id</code>와 <code>header</code>만 필수입니다.',
+            members: {
+              id: '고유한 값. 정렬, 필터, 열 상태에서 키로 쓰입니다.',
+              header: '헤더 텍스트.',
+              value: '행의 키 또는 행을 받는 함수. 기본값은 <code>row[id]</code>입니다.',
+              type: '맞춤, 정렬, 필터, 편집기를 결정합니다.',
+              format: '숫자와 날짜에 쓰는 <code>Intl</code> 옵션, 또는 텍스트를 만드는 함수.',
+              options: '<code>enum</code> 열의 선택지. <code>NuiOption</code> 객체로 지정합니다.',
+              'width, minWidth, maxWidth': '픽셀 단위.',
+              flex: '남는 공간을 다른 <code>flex</code> 열과 나눠 가집니다.',
+              align: '기본값은 타입에 따라 다르며, 숫자와 날짜는 끝에 맞춥니다.',
+              'pinned, hidden': '열의 초기 고정 상태와 표시 여부.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                '각각 <code>false</code>로 끌 수 있습니다.',
+              compare: '사용자 지정 정렬.',
+              'editable, validate': '셀을 편집할 수 있는지 여부와, 값이 올바르지 않을 때의 메시지.',
+              set: '편집된 행을 만듭니다. 기본값은 새 값을 넣은 복사본입니다.',
+            },
+          },
+          NuiGridCell: {
+            summary: '열의 셀을 그립니다. 컨텍스트에는 행, 그 값, 텍스트가 들어 있습니다.',
+            members: { nuiGridCell: '열의 id.' },
+          },
+          NuiGridHeader: {
+            summary: '열의 헤더를 그립니다.',
+            members: { nuiGridHeader: '열의 id.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              '행이 없을 때 표시되는 내용입니다. 컨텍스트로 필터 때문에 행이 숨겨졌는지 알 수 있습니다.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['화살표 키', '한 셀 이동합니다. 오른쪽에서 왼쪽으로 쓰는 언어에서는 좌우가 반대입니다.'],
+          [
+            'Home / End',
+            '행(Ctrl과 함께 누르면 그리드 전체)의 첫 번째 또는 마지막 셀로 이동합니다.',
+          ],
+          ['Page Down / Page Up', '한 화면 분량의 행만큼 이동합니다.'],
+          [
+            '헤더에서 Enter 또는 Space',
+            '그 열로 정렬합니다. Shift와 함께 누르면 정렬에 추가합니다.',
+          ],
+          ['헤더에서 Alt + 아래쪽 화살표', '열 패널을 엽니다.'],
+          [
+            '헤더에서 Alt + 왼쪽 또는 오른쪽 화살표',
+            '열을 좁히거나 넓힙니다. Shift와 함께 누르면 열을 이동합니다.',
+          ],
+          ['셀에서 Enter', '셀을 편집합니다. 편집할 수 없으면 행을 엽니다.'],
+          ['F2 또는 문자 입력', '셀을 편집합니다.'],
+          [
+            '편집 중 Enter, Esc, Tab',
+            'Enter는 확정, Esc는 취소, Tab은 확정 후 다음으로 이동합니다.',
+          ],
+          [
+            'Space',
+            '행을 선택합니다. Shift와 함께 누르면 마지막으로 선택한 행부터 범위를 선택합니다.',
+          ],
+          ['Ctrl + A', '모든 행을 선택합니다.'],
+        ],
+        notes: [
+          '<code>role="grid"</code>를 가진 네이티브 <code>&lt;table&gt;</code>이며, <code>label</code>로 이름을 지정합니다. 헤더에는 <code>aria-sort</code>가, 선택할 수 있는 행에는 <code>aria-selected</code>가 지정됩니다.',
+          '그리드는 탭 순서에서 한 번만 멈춥니다. 포커스는 로빙 <code>tabindex</code>로 셀 사이를 이동하므로, 스크린 리더는 각 셀을 행 헤더, 열 헤더와 함께 읽어 줍니다.',
+          '행을 페이지로 나누거나 가상화해도 <code>aria-rowcount</code>, <code>aria-rowindex</code>, <code>aria-colindex</code>는 올바른 값을 유지합니다.',
+          '정렬, 필터링, 페이지 이동, 편집 오류는 읽고 있던 내용을 끊지 않는 상태 영역에서 안내됩니다.',
+        ],
+      },
     },
   },
 

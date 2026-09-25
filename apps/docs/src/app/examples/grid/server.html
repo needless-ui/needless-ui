@@ -1,0 +1,19 @@
+<input
+  type="search"
+  class="search"
+  placeholder="Search customers or countries"
+  aria-label="Search customers or countries"
+  [value]="search()"
+  (input)="search.set($any($event.target).value)"
+/>
+<nui-grid
+  label="Orders on the server"
+  mode="server"
+  [rows]="rows()"
+  [total]="total()"
+  [loading]="loading()"
+  [columns]="columns"
+  [(search)]="search"
+  [pageSize]="10"
+  (queryChange)="load($event)"
+/>

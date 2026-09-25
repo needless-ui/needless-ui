@@ -1202,6 +1202,149 @@ export const messages: Messages = {
           'Pangalanan ito gamit ang isang <code>&lt;label for&gt;</code> na nakaturo sa <code>triggerId</code>, o gamit ang <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Data grid',
+        title: 'Data grid component para sa Angular',
+        summary: 'I-sort, i-filter, piliin, i-edit at i-scroll ang kahit ilang row.',
+        description:
+          'Accessible na Angular data grid sa native na table: multi-column sorting, mga filter, paging o virtual scrolling, selection, pag-edit at nalilipat na column.',
+        apiDescription:
+          'API reference ng Needless UI data grid: mga input at model ng nui-grid, ang NuiGridColumn definition, at mga template para sa custom na cell.',
+        a11yDescription:
+          'Keyboard at accessibility ng Needless UI data grid: native na table na may grid role, iisang tab stop, mga arrow key at mga announcement.',
+        overview: [
+          'Native na table ang data grid na may sorting, filtering, paging at pag-edit. Ilarawan ang <code>columns</code>, ipasa ang <code>rows</code>, at naka-format ang bawat cell ayon sa type nito para sa locale: mga numero, currency, petsa, oo at hindi, at mga label para sa mga value ng <code>enum</code>.',
+          'Nasa mga model ang state nito na puwede mong i-bind, i-save at ipadala sa server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, at <code>columnState</code> para sa mga lapad, pagkakasunod-sunod, pin at nakatagong column na pinili ng mga user. Kapag walang page, ang mga row na nakikita lang ang nire-render, kaya kasingkinis ng sampu ang pag-scroll sa 100,000 row.',
+          'Naaabot ng keyboard ang bawat cell, at sa panel ng bawat column, puwede itong i-sort, i-filter, i-pin, ilipat, i-fit at itago.',
+        ],
+        examples: {
+          orders: {
+            title: 'Paghahanap, pag-sort at mga page',
+            text: 'Mag-type para mag-search sa bawat column. Mag-click sa header para mag-sort, at mag-Shift-click para magdagdag ng pangalawang column. Iginuguhit ng <code>nuiGridCell</code> ang status, at ibinibigay ng <code>exportCsv()</code> ang nakikita.',
+          },
+          selection: {
+            title: 'Pagpili',
+            text: 'Nagdadagdag ang <code>selection="multiple"</code> ng mga checkbox at bina-bind nito ang mga key ng mga napiling row. Pumipili ng range ang Shift-click; pinipili ng box sa header ang bawat row na tumutugma.',
+          },
+          editing: {
+            title: 'Pag-edit',
+            text: 'Mag-double click sa isang cell, pindutin ang Enter o basta mag-type. Pinapanatiling bukas ng <code>validate</code> ang editor na may mensahe; ina-update ng na-commit na edit ang <code>rows</code> at inilalabas nito ang <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100,000 row',
+            text: 'Kapag walang page, ang mga row na nakikita lang ang nire-render. Nananatili sa mga gilid ang mga naka-pin na column, at iniingatan ng <code>columnState</code> ang layout na ginawa ng mga user.',
+          },
+          server: {
+            title: 'Data mula sa server',
+            text: 'Sa <code>server</code> mode, ipinapakita ng grid ang mga row kung paano dumating ang mga ito at iniuulat ang bawat pagbabago sa <code>queryChange</code>. I-set ang <code>loading</code> habang nagfe-fetch ka.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Isang data grid sa native na table.',
+            members: {
+              rows: 'Ang data. Pinapalitan ng mga edit ang mga row, kaya i-bind ito gamit ang <code>[(rows)]</code>.',
+              columns: 'Ang mga column, bilang mga <code>NuiGridColumn</code> object.',
+              rowId: 'Key ng isang row, para sa selection at tracking.',
+              label: 'Accessible name ng grid.',
+              selection: 'Kung puwedeng pumili ng mga row, at kung ilan.',
+              selected: 'Mga key ng mga napiling row.',
+              sort: 'Ang sort, bilang mga <code>{ column, direction }</code> object; nauunang mag-sort ang una.',
+              filters: 'Isang filter bawat column id: isang operator at isang value.',
+              search: 'Mga salitang dapat lumabas lahat sa isang row.',
+              pageSize: 'Mga row bawat page, o 0 para sa iisang listahang nag-i-scroll.',
+              page: 'Ang ipinapakitang page, mula 0.',
+              pageSizes: 'Mga pagpipilian sa pager.',
+              virtual:
+                'Nire-render lang ang mga row na nakikita: palagi, hindi kailanman, o <code>auto</code> kapag lampas 100 row nang walang page.',
+              height: 'Isang CSS length na naglilimita sa grid; sa loob ito nag-i-scroll.',
+              columnState:
+                'Lapad, pagkakasunod, pin at visibility ng bawat column, para i-save at i-restore.',
+              mode: 'Ipinapakita ng <code>server</code> ang mga row kung paano dumating ang mga ito, at ipinapaubaya sa iyo ang sorting, filtering at paging.',
+              total: 'Bilang ng mga row sa server.',
+              loading: 'Nagpapakita ng progress bar, at mga placeholder row habang wala pang row.',
+              locale: 'Fino-format ang mga numero at petsa, at binabasa ang mga itinipang numero.',
+              labels: 'Bawat text na ipinapakita o ina-announce ng grid, para maisalin.',
+              rowActivate: 'Inilalabas ang row na binuksan gamit ang Enter o double click.',
+              cellEdit: 'Inilalabas ang bawat na-commit na edit.',
+              queryChange:
+                'Inilalabas ang sort, mga filter, search at page tuwing nagbabago ang mga ito.',
+              exportCsv:
+                'Ang mga na-filter at na-sort na row ng mga nakikitang column, bilang CSV.',
+              focusCell: 'Inililipat ang focus sa isang cell; header ang row <code>-1</code>.',
+              clearFilters: 'Kini-clear ang bawat filter at ang search.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Isang column. <code>id</code> at <code>header</code> lang ang required.',
+            members: {
+              id: 'Natatangi; ang key sa sort, mga filter at column state.',
+              header: 'Ang text ng header.',
+              value: 'Isang key ng row, o function ng row. <code>row[id]</code> ang default.',
+              type: 'Pinipili ang alignment, sort, filter at editor.',
+              format:
+                'Mga <code>Intl</code> option para sa mga numero at petsa, o function na gumagawa ng text.',
+              options:
+                'Mga pagpipilian ng isang <code>enum</code> column, bilang mga <code>NuiOption</code> object.',
+              'width, minWidth, maxWidth': 'Sa pixel.',
+              flex: 'Hinahati ang natitirang espasyo sa iba pang <code>flex</code> column.',
+              align: 'Nakadepende sa type ang default: nasa dulo ang mga numero at petsa.',
+              'pinned, hidden': 'Ang paunang pin at visibility ng column.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Puwedeng i-off ang bawat isa gamit ang <code>false</code>.',
+              compare: 'Isang custom na sort.',
+              'editable, validate':
+                'Kung puwedeng i-edit ang mga cell, at mensahe kapag hindi valid ang value.',
+              set: 'Ginagawa ang na-edit na row. Kopyang may bagong value ang default.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Iginuguhit ang mga cell ng isang column. Nasa context ang row, ang value nito at ang text nito.',
+            members: { nuiGridCell: 'Ang id ng column.' },
+          },
+          NuiGridHeader: {
+            summary: 'Iginuguhit ang header ng isang column.',
+            members: { nuiGridHeader: 'Ang id ng column.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Ang ipinapakita kapag walang row. Sinasabi ng context kung mga filter ang nagtago sa mga ito.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Mga arrow key',
+            'Lumilipat nang isang cell. Baligtad ang left at right sa right-to-left na text.',
+          ],
+          ['Home at End', 'Pumupunta sa una o huling cell sa row; kapag may Ctrl, sa grid.'],
+          ['Page Down at Page Up', 'Lumilipat nang isang screen ng mga row.'],
+          [
+            'Enter o Space sa header',
+            'Nagso-sort ayon sa column; kapag may Shift, idinadagdag ito sa sort.',
+          ],
+          ['Alt + down arrow sa header', 'Binubuksan ang panel ng column.'],
+          [
+            'Alt + left o right arrow sa header',
+            'Pinapakitid o pinapalapad ang column; kapag may Shift, inililipat ito.',
+          ],
+          ['Enter sa cell', 'Ine-edit ito, o binubuksan ang row kapag hindi ito ma-edit.'],
+          ['F2, o pag-type', 'Ine-edit ang cell.'],
+          [
+            'Enter, Escape at Tab habang nag-e-edit',
+            'Kino-commit, kinakansela, o kino-commit at lumilipat sa susunod.',
+          ],
+          ['Space', 'Pinipili ang row; kapag may Shift, ang mga row mula sa huling napili.'],
+          ['Ctrl + A', 'Pinipili ang bawat row.'],
+        ],
+        notes: [
+          'Isang native na <code>&lt;table&gt;</code> na may <code>role="grid"</code>, na pinangalanan ng <code>label</code>. May <code>aria-sort</code> ang mga header, at may <code>aria-selected</code> ang mga row na puwedeng piliin.',
+          'Iisang tab stop ang grid. Lumilipat ang focus mula cell hanggang cell gamit ang roving <code>tabindex</code>, kaya binabasa ng mga screen reader ang bawat cell kasama ang mga header ng row at column nito.',
+          'Nananatiling tama ang <code>aria-rowcount</code>, <code>aria-rowindex</code> at <code>aria-colindex</code> habang naka-page o naka-virtualize ang mga row.',
+          'Ina-announce sa isang polite na status region ang sorting, filtering, paging at mga error sa pag-edit.',
+        ],
+      },
     },
   },
 

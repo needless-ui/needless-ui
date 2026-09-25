@@ -3,11 +3,12 @@ import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { InAppLinks } from '../../shared/in-app-links';
 import { OPERATOR } from '../../site';
+import { TrustedHtml } from '../../shared/trusted';
 
 /** The legal notice and the privacy policy; the route's data picks which one. */
 @Component({
   selector: 'docs-legal-page',
-  imports: [InAppLinks],
+  imports: [InAppLinks, TrustedHtml],
   template: `
     @let legal = i18n.t().legal;
     <div class="container page">
@@ -48,7 +49,7 @@ import { OPERATOR } from '../../site';
         @for (block of blocks(); track $index) {
           @switch (block.kind) {
             @case ('p') {
-              <p [innerHTML]="block.html"></p>
+              <p [innerHTML]="block.html | trusted"></p>
             }
             @case ('h2') {
               <h2 [id]="block.id">{{ block.text }}</h2>

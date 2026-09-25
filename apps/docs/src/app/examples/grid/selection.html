@@ -1,0 +1,14 @@
+<div class="toolbar">
+  <p>{{ count() }} selected</p>
+  <button nuiButton tone="danger" variant="soft" [disabled]="!count()" (click)="archive()">
+    Archive
+  </button>
+</div>
+<nui-grid
+  label="Orders to archive"
+  selection="multiple"
+  [(rows)]="orders"
+  [(selected)]="selected"
+  [columns]="columns"
+  [pageSize]="5"
+/>

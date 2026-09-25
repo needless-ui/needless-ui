@@ -791,6 +791,19 @@
     background-color: var(--nui-color-accent-solid);
   }
 
+  .preview-grid {
+    inline-size: min(15rem, 100%);
+    box-shadow: var(--nui-shadow-md);
+  }
+
+  .preview-grid .nui-grid-table {
+    inline-size: 100%;
+  }
+
+  .preview-grid .nui-grid-header {
+    padding-inline-end: var(--nui-space-3);
+  }
+
   .preview-toast {
     inline-size: min(17rem, 100%);
     transform: none;
@@ -1073,6 +1086,12 @@
     padding: var(--nui-space-8) var(--nui-space-6);
   }
 
+  /* Where a heavy example will render, once it's near the viewport. */
+  .example-placeholder {
+    border-radius: var(--nui-radius-lg);
+    background: var(--nui-color-bg-subtle);
+  }
+
   /* Each example's host element lays out its content in a row. */
   .example-demo > * {
     display: flex;
@@ -1190,25 +1209,25 @@
     border-radius: var(--nui-radius-lg);
   }
 
-  table {
+  /* The site's own tables (API, keyboard); components bring their own. */
+  .table-wrap table {
     inline-size: 100%;
     border-collapse: collapse;
     font-size: var(--nui-font-size-sm);
   }
 
-  th,
-  td {
+  .table-wrap :is(th, td) {
     padding: var(--nui-space-3);
     border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
     text-align: start;
     vertical-align: top;
   }
 
-  tr:last-child > * {
+  .table-wrap tr:last-child > * {
     border-block-end: 0;
   }
 
-  thead th {
+  .table-wrap thead th {
     background: var(--nui-color-bg-subtle);
     color: var(--nui-color-text-muted);
     font-size: var(--nui-font-size-xs);
@@ -1218,12 +1237,12 @@
     white-space: nowrap;
   }
 
-  tbody th {
+  .table-wrap tbody th {
     font-weight: var(--nui-font-weight-regular);
     white-space: nowrap;
   }
 
-  td code {
+  .table-wrap td code {
     white-space: nowrap;
   }
 

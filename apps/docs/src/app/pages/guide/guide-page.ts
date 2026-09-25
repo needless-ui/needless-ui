@@ -9,6 +9,7 @@ import { NestedThemesDemo } from '../../shared/nested-themes-demo';
 import { Playground } from '../../shared/playground';
 import { Toc } from '../../shared/toc';
 import { NotFoundPage } from '../not-found/not-found-page';
+import { TrustedHtml } from '../../shared/trusted';
 
 @Component({
   selector: 'docs-guide-page',
@@ -21,6 +22,7 @@ import { NotFoundPage } from '../not-found/not-found-page';
     Playground,
     Toc,
     NotFoundPage,
+    TrustedHtml,
   ],
   template: `
     @let guides = i18n.t().guides;
@@ -52,7 +54,7 @@ import { NotFoundPage } from '../not-found/not-found-page';
               @for (block of guide.blocks; track $index) {
                 @switch (block.kind) {
                   @case ('p') {
-                    <p [innerHTML]="block.html"></p>
+                    <p [innerHTML]="block.html | trusted"></p>
                   }
                   @case ('h2') {
                     <h2 [id]="block.id">{{ block.text }}</h2>

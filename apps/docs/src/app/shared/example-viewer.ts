@@ -1,23 +1,33 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal, type Type } from '@angular/core';
 import { NuiButton } from '@needless-ui/angular/button';
 import type { ExampleEntry } from '../docs/registry';
 import type { ComponentId } from '../docs/ids';
-import { CODE } from '../generated/code';
+import { EXAMPLE_FILES } from '../generated/code';
 import { I18n } from '../i18n/i18n';
 import { CodeBlock } from './code-block';
+import { TrustedHtml } from './trusted';
 
 /** A live example with its title, explanation and source files. */
 @Component({
   selector: 'docs-example',
-  imports: [NgComponentOutlet, NuiButton, CodeBlock],
+  imports: [NgComponentOutlet, NuiButton, CodeBlock, TrustedHtml],
   template: `
     <section class="example">
       <h2 [id]="example().id">{{ text().title }}</h2>
-      <p class="example-text" [innerHTML]="text().text"></p>
+      <p class="example-text" [innerHTML]="text().text | trusted"></p>
       <div class="example-frame">
         <div class="example-demo">
-          <ng-container *ngComponentOutlet="example().component" />
+          @if (example().defer; as height) {
+            <!-- Heavy examples render in the browser, near the viewport. -->
+            @defer (on viewport) {
+              <ng-container *ngComponentOutlet="type()" />
+            } @placeholder {
+              <div class="example-placeholder" [style.min-height.px]="height"></div>
+            }
+          } @else {
+            <ng-container *ngComponentOutlet="type()" />
+          }
         </div>
         <div class="example-bar">
           <button
@@ -48,6 +58,8 @@ import { CodeBlock } from './code-block';
 export class ExampleViewer {
   readonly component = input.required<ComponentId>();
   readonly example = input.required<ExampleEntry>();
+  /** The example's component, loaded by the route. */
+  readonly type = input<Type<unknown> | null>(null);
 
   private readonly i18n = inject(I18n);
   protected readonly showCode = signal(false);
@@ -59,6 +71,6 @@ export class ExampleViewer {
   protected readonly files = computed(() =>
     ['html', 'ts', 'css']
       .map((ext) => `examples/${this.component()}/${this.example().id}.${ext}`)
-      .filter((key) => key in CODE),
+      .filter((key) => EXAMPLE_FILES.includes(key)),
   );
 }

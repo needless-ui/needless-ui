@@ -1,4 +1,5 @@
 import type { Routes } from '@angular/router';
+import { examplesResolver } from './docs/examples';
 import { loadLocale } from './i18n/i18n';
 import { PREFIXED_LOCALES } from './i18n/locales';
 
@@ -24,6 +25,7 @@ const pages: Routes = [
     children: [
       {
         path: '',
+        resolve: { examples: examplesResolver },
         loadComponent: () => import('./pages/component/sections').then((m) => m.OverviewSection),
       },
       {

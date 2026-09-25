@@ -1185,6 +1185,152 @@ export const messages: Messages = {
           'Ku ba shi suna da <code>&lt;label for&gt;</code> da ke nuni zuwa <code>triggerId</code>, ko da <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Data grid',
+        title: 'Component na data grid don Angular',
+        summary: 'Ku jera, ku tace, ku zaɓa, ku gyara kuma ku gungura layuka, komai yawansu.',
+        description:
+          'Data grid na Angular mai sauƙin amfani ga kowa a kan tebur na asali: jerawa da ginshiƙai da yawa, tacewa, shafuka ko virtual scrolling, zaɓi da gyarawa.',
+        apiDescription:
+          'Bayanin API na data grid ɗin Needless UI: inputs da models na nui-grid, ma’anar NuiGridColumn, da templates don cells na musamman.',
+        a11yDescription:
+          'Aiki da allon madannai da sauƙin amfani na data grid ɗin Needless UI: tebur na asali mai matsayin grid, wuri ɗaya a jerin Tab, maɓallan kibiya da sanarwa.',
+        overview: [
+          'Data grid tebur ne na asali da ke jerawa, tacewa, raba shafuka da gyarawa. Ku bayyana <code>columns</code>, ku ba shi <code>rows</code>, kuma ana tsara kowane cell bisa irinsa da yankin (locale): lambobi, kuɗi, kwanan wata, “Ee” da “A’a”, da lakabai na ƙimomin <code>enum</code>.',
+          'Yanayinsa yana cikin models da za ku iya haɗawa, adanawa da aikawa zuwa server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, da <code>columnState</code> don faɗin ginshiƙai, jerinsu, kafewarsu da ɓoyewarsu yadda mutane suka zaɓa. Idan babu shafuka, layukan da ake gani kawai ake nunawa, don haka layuka 100,000 suna gungurawa kamar goma.',
+          'Ana iya isa ga kowane cell da allon madannai, kuma panel na kowane ginshiƙi yana jera shi, tace shi, kafe shi, matsar da shi, daidaita faɗinsa da abun ciki, da ɓoye shi.',
+        ],
+        examples: {
+          orders: {
+            title: 'Bincike, jerawa da shafuka',
+            text: 'Ku rubuta don bincika dukan ginshiƙai. Ku danna taken ginshiƙi don jerawa, kuma ku danna tare da Shift don ƙara ginshiƙi na biyu. <code>nuiGridCell</code> yana zana yanayin oda, <code>exportCsv()</code> kuma yana ba ku abin da ake nunawa.',
+          },
+          selection: {
+            title: 'Zaɓar layuka',
+            text: '<code>selection="multiple"</code> yana ƙara checkboxes kuma yana haɗa keys na layukan da aka zaɓa. Danna tare da Shift yana zaɓar layuka a jere; checkbox na layin take yana zaɓar duk layukan da suka dace.',
+          },
+          editing: {
+            title: 'Gyarawa',
+            text: 'Ku danna cell sau biyu, ku danna Enter ko ku fara rubutu kawai. <code>validate</code> yana barin editor a buɗe tare da saƙo; gyaran da aka tabbatar yana sabunta <code>rows</code> kuma yana fitar da <code>cellEdit</code>.',
+          },
+          big: {
+            title: 'Layuka 100,000',
+            text: 'Idan babu shafuka, layukan da ake gani kawai ake nunawa. Ginshiƙan da aka kafe suna zama a gefuna, kuma <code>columnState</code> yana adana tsarin da mutane suka yi.',
+          },
+          server: {
+            title: 'Bayanai daga server',
+            text: 'A yanayin <code>server</code>, grid ɗin yana nuna layuka yadda suke zuwa kuma yana ba da rahoton kowane canji a <code>queryChange</code>. Ku saita <code>loading</code> yayin da kuke ɗauko bayanai.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Data grid a kan tebur na asali.',
+            members: {
+              rows: 'Bayanan. Gyara yana maye gurbin layuka, don haka ku haɗa da <code>[(rows)]</code>.',
+              columns: 'Ginshiƙan, a matsayin objects na <code>NuiGridColumn</code>.',
+              rowId: 'Key na layi, don zaɓi da bibiya.',
+              label: 'Sunan da ake sanarwa na grid ɗin.',
+              selection: 'Ko ana iya zaɓar layuka, da guda nawa.',
+              selected: 'Keys na layukan da aka zaɓa.',
+              sort: 'Jerawar, a matsayin objects na <code>{ column, direction }</code>; na farko ne ke da fifiko.',
+              filters: 'Tacewa ɗaya ga kowane id na ginshiƙi: operator da ƙima.',
+              search: 'Kalmomin da dole ne duka su kasance a cikin layi.',
+              pageSize: 'Layuka a kowane shafi, ko 0 don jeri ɗaya mai gungurawa.',
+              page: 'Shafin da ake nunawa, daga 0.',
+              pageSizes: 'Zaɓuɓɓukan da ke cikin pager.',
+              virtual:
+                'Yana nuna layukan da ake gani kawai: koyaushe, ba ko kaɗan, ko <code>auto</code> idan layuka sun wuce 100 ba tare da shafuka ba.',
+              height: 'Tsawon CSS da ke iyakance grid ɗin; yana gungurawa a ciki.',
+              columnState:
+                'Faɗi, matsayi, kafewa da bayyanar kowane ginshiƙi, don adanawa da maidowa.',
+              mode: '<code>server</code> yana nuna layuka yadda suke zuwa, kuma yana bar muku jerawa, tacewa da raba shafuka.',
+              total: 'Yawan layuka a server.',
+              loading: 'Yana nuna sandar ci gaba, da layukan riƙe wuri idan babu layuka.',
+              locale:
+                'Yana tsara lambobi da kwanan wata, kuma yana karanta lambobin da aka rubuta.',
+              labels: 'Kowane rubutu da grid ɗin ke nunawa ko sanarwa, don fassarawa.',
+              rowActivate: 'Yana fitar da layin da aka buɗe da Enter ko danna sau biyu.',
+              cellEdit: 'Yana fitar da kowane gyaran da aka tabbatar.',
+              queryChange:
+                'Yana fitar da jerawa, tacewa, bincike da shafi duk lokacin da suka canza.',
+              exportCsv: 'Layukan da aka tace aka jera na ginshiƙan da ake gani, a matsayin CSV.',
+              focusCell: 'Yana kai focus kan cell; layi <code>-1</code> shi ne layin take.',
+              clearFilters: 'Yana share kowace tacewa da binciken.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Ginshiƙi ɗaya. <code>id</code> da <code>header</code> kaɗai ake buƙata.',
+            members: {
+              id: 'Ba a maimaita shi; shi ne key a jerawa, tacewa da yanayin ginshiƙai.',
+              header: 'Rubutun taken ginshiƙi.',
+              value:
+                'Key na layin, ko function na layin. Idan ba a saita ba, <code>row[id]</code> ne.',
+              type: 'Yana zaɓar daidaitawa, jerawa, tacewa da editor.',
+              format:
+                'Zaɓuɓɓukan <code>Intl</code> don lambobi da kwanan wata, ko function da ke samar da rubutun.',
+              options:
+                'Zaɓuɓɓukan ginshiƙin <code>enum</code>, a matsayin objects na <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'A pixels.',
+              flex: 'Yana raba sararin da ya rage da sauran ginshiƙan <code>flex</code>.',
+              align: 'Ya danganta da iri: lambobi da kwanan wata a ƙarshe.',
+              'pinned, hidden': 'Kafewa da bayyanar ginshiƙin ta farko.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Ana iya kashe kowanne da <code>false</code>.',
+              compare: 'Jerawa ta musamman.',
+              'editable, validate': 'Ko ana iya gyara cells, da saƙo idan ƙima ba ta da inganci.',
+              set: 'Yana samar da layin da aka gyara. Idan ba a saita ba, kwafi ne mai sabuwar ƙimar.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Yana zana cells na ginshiƙi. Context ɗin yana ɗauke da layin, ƙimarsa da rubutunsa.',
+            members: { nuiGridCell: 'Id na ginshiƙin.' },
+          },
+          NuiGridHeader: {
+            summary: 'Yana zana taken ginshiƙi.',
+            members: { nuiGridHeader: 'Id na ginshiƙin.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Abin da ake nunawa idan babu layuka. Context ɗin yana faɗa ko tacewa ce ta ɓoye su.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Maɓallan kibiya',
+            'Suna matsawa cell ɗaya. Hagu da dama suna juyawa a rubutu daga dama zuwa hagu.',
+          ],
+          [
+            'Home da End',
+            'Suna zuwa cell na farko ko na ƙarshe a layin; da Ctrl, a cikin grid ɗin.',
+          ],
+          ['Page Down da Page Up', 'Suna matsawa allo ɗaya na layuka.'],
+          [
+            'Enter ko Space a kan taken ginshiƙi',
+            'Yana jera bisa ginshiƙin; da Shift, yana ƙara shi cikin jerawar.',
+          ],
+          ['Alt + kibiyar ƙasa a kan taken ginshiƙi', 'Yana buɗe panel na ginshiƙin.'],
+          [
+            'Alt + kibiyar hagu ko ta dama a kan taken ginshiƙi',
+            'Yana rage ko ƙara faɗin ginshiƙin; da Shift, yana matsar da shi.',
+          ],
+          ['Enter a kan cell', 'Yana gyara shi, ko yana buɗe layin idan ba a iya gyara shi.'],
+          ['F2, ko rubutu', 'Yana gyara cell ɗin.'],
+          [
+            'Enter, Escape da Tab yayin gyarawa',
+            'Tabbatarwa, sokewa, ko tabbatarwa da wucewa gaba.',
+          ],
+          ['Space', 'Yana zaɓar layin; da Shift, layukan tun daga na ƙarshe da aka zaɓa.'],
+          ['Ctrl + A', 'Yana zaɓar kowane layi.'],
+        ],
+        notes: [
+          '<code>&lt;table&gt;</code> ne na asali mai <code>role="grid"</code>, mai suna daga <code>label</code>. Taken kowane ginshiƙi yana ɗauke da <code>aria-sort</code>, layukan da ake iya zaɓa kuma <code>aria-selected</code>.',
+          'Grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab. Focus yana tafiya daga cell zuwa cell ta <code>tabindex</code> mai yawo (roving), don haka manhajojin karanta allo suna karanta kowane cell tare da taken layinsa da na ginshiƙinsa.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> da <code>aria-colindex</code> suna zama daidai yayin da aka raba layuka zuwa shafuka ko ake nuna wasu kawai.',
+          'Ana sanar da jerawa, tacewa, sauya shafi da kurakuran gyarawa a yankin yanayi, cikin ladabi (polite).',
+        ],
+      },
     },
   },
 

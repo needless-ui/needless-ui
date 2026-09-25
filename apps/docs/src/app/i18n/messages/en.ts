@@ -1160,6 +1160,137 @@ export const messages: Messages = {
           'Name it with a <code>&lt;label for&gt;</code> that points at <code>triggerId</code>, or with <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Data grid',
+        title: 'Data grid component for Angular',
+        summary: 'Sort, filter, select, edit and scroll through any number of rows.',
+        description:
+          'Accessible Angular data grid on a native table: multi-column sorting, filters, pages or virtual scrolling, selection, editing and movable columns.',
+        apiDescription:
+          'API reference for the Needless UI data grid: nui-grid inputs and models, the NuiGridColumn definition, and templates for custom cells.',
+        a11yDescription:
+          'Keyboard and accessibility of the Needless UI data grid: a native table with grid roles, one tab stop, arrow keys and announcements.',
+        overview: [
+          'The data grid is a native table that sorts, filters, pages and edits. Describe the <code>columns</code>, pass the <code>rows</code>, and each cell is formatted by type for the locale: numbers, currencies, dates, yes and no, and labels for <code>enum</code> values.',
+          'Its state lives in models you can bind, save and send to a server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, and <code>columnState</code> for the widths, order, pins and hidden columns people choose. Without pages, only the rows in view are rendered, so 100,000 rows scroll like ten.',
+          'Every cell is reachable from the keyboard, and each column’s panel sorts, filters, pins, moves, fits and hides it.',
+        ],
+        examples: {
+          orders: {
+            title: 'Search, sort and pages',
+            text: 'Type to search every column. Click a header to sort, and Shift-click to add a second column. <code>nuiGridCell</code> draws the status, and <code>exportCsv()</code> hands over what’s shown.',
+          },
+          selection: {
+            title: 'Selection',
+            text: '<code>selection="multiple"</code> adds checkboxes and binds the keys of the selected rows. Shift-click selects a range; the header box selects every row that matches.',
+          },
+          editing: {
+            title: 'Editing',
+            text: 'Double-click a cell, press Enter or just type. <code>validate</code> keeps the editor open with a message; a committed edit updates <code>rows</code> and emits <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100,000 rows',
+            text: 'Without pages, only the rows in view are rendered. Pinned columns stay at the edges, and <code>columnState</code> keeps the layout people make.',
+          },
+          server: {
+            title: 'Server data',
+            text: 'In <code>server</code> mode the grid shows rows as they come and reports each change in <code>queryChange</code>. Set <code>loading</code> while you fetch.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'A data grid on a native table.',
+            members: {
+              rows: 'The data. Edits replace rows, so bind with <code>[(rows)]</code>.',
+              columns: 'The columns, as <code>NuiGridColumn</code> objects.',
+              rowId: 'A row’s key, for selection and tracking.',
+              label: 'The grid’s accessible name.',
+              selection: 'Whether rows can be selected, and how many.',
+              selected: 'The keys of the selected rows.',
+              sort: 'The sort, as <code>{ column, direction }</code> objects; the first sorts first.',
+              filters: 'A filter per column id: an operator and a value.',
+              search: 'Words that must all appear in a row.',
+              pageSize: 'Rows per page, or 0 for one scrolling list.',
+              page: 'The page shown, from 0.',
+              pageSizes: 'The choices in the pager.',
+              virtual:
+                'Renders only the rows in view: always, never, or <code>auto</code> past 100 rows without pages.',
+              height: 'A CSS length that bounds the grid; it scrolls inside.',
+              columnState: 'Each column’s width, order, pin and visibility, to save and restore.',
+              mode: '<code>server</code> shows rows as they come and leaves sorting, filtering and paging to you.',
+              total: 'The number of rows on the server.',
+              loading: 'Shows a progress bar, and placeholder rows while there are none.',
+              locale: 'Formats numbers and dates, and reads typed numbers.',
+              labels: 'Every text the grid shows or announces, to translate.',
+              rowActivate: 'Emits a row opened with Enter or a double click.',
+              cellEdit: 'Emits each committed edit.',
+              queryChange: 'Emits the sort, filters, search and page whenever they change.',
+              exportCsv: 'The filtered, sorted rows of the visible columns, as CSV.',
+              focusCell: 'Focuses a cell; row <code>-1</code> is the header.',
+              clearFilters: 'Clears every filter and the search.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'One column. Only <code>id</code> and <code>header</code> are required.',
+            members: {
+              id: 'Unique; the key in the sort, filters and column state.',
+              header: 'The header text.',
+              value:
+                'A key of the row, or a function of the row. Defaults to <code>row[id]</code>.',
+              type: 'Picks the alignment, sort, filter and editor.',
+              format:
+                '<code>Intl</code> options for numbers and dates, or a function that makes the text.',
+              options:
+                'The choices of an <code>enum</code> column, as <code>NuiOption</code> objects.',
+              'width, minWidth, maxWidth': 'In pixels.',
+              flex: 'Shares the room left over with the other <code>flex</code> columns.',
+              align: 'Defaults by type: numbers and dates at the end.',
+              'pinned, hidden': 'The column’s first pin and visibility.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Each can be turned off with <code>false</code>.',
+              compare: 'A custom sort.',
+              'editable, validate':
+                'Whether cells can be edited, and a message when a value isn’t valid.',
+              set: 'Makes the edited row. Defaults to a copy with the new value.',
+            },
+          },
+          NuiGridCell: {
+            summary: 'Draws a column’s cells. The context holds the row, its value and its text.',
+            members: { nuiGridCell: 'The column’s id.' },
+          },
+          NuiGridHeader: {
+            summary: 'Draws a column’s header.',
+            members: { nuiGridHeader: 'The column’s id.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'What shows when there are no rows. The context says whether filters hid them.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Arrow keys', 'Move one cell. Left and right are mirrored in right-to-left text.'],
+          ['Home and End', 'Go to the first or last cell in the row; with Ctrl, in the grid.'],
+          ['Page Down and Page Up', 'Move one screen of rows.'],
+          ['Enter or Space on a header', 'Sort by the column; with Shift, add it to the sort.'],
+          ['Alt + down arrow on a header', 'Open the column panel.'],
+          [
+            'Alt + left or right arrow on a header',
+            'Make the column narrower or wider; with Shift, move it.',
+          ],
+          ['Enter on a cell', 'Edit it, or open the row when it can’t be edited.'],
+          ['F2, or typing', 'Edit the cell.'],
+          ['Enter, Escape and Tab while editing', 'Commit, cancel, or commit and move on.'],
+          ['Space', 'Select the row; with Shift, the rows since the last one.'],
+          ['Ctrl + A', 'Select every row.'],
+        ],
+        notes: [
+          'A native <code>&lt;table&gt;</code> with <code>role="grid"</code>, named by <code>label</code>. Headers carry <code>aria-sort</code>, and selectable rows <code>aria-selected</code>.',
+          'The grid is one tab stop. Focus moves from cell to cell with a roving <code>tabindex</code>, so screen readers read each cell with its row and column headers.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> and <code>aria-colindex</code> stay right while rows are paged or virtualized.',
+          'Sorting, filtering, paging and editing errors are announced in a polite status region.',
+        ],
+      },
     },
   },
 

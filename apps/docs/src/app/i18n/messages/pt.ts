@@ -1167,6 +1167,148 @@ export const messages: Messages = {
           'Dê um nome ao select com um <code>&lt;label for&gt;</code> que aponte para <code>triggerId</code>, ou com <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Grade de dados',
+        title: 'Componente de grade de dados para Angular',
+        summary: 'Ordene, filtre, selecione, edite e role por qualquer quantidade de linhas.',
+        description:
+          'Grade de dados acessível para Angular sobre tabela nativa: ordenação por várias colunas, filtros, páginas ou rolagem virtual, seleção, edição e colunas móveis.',
+        apiDescription:
+          'Referência da API da grade de dados do Needless UI: inputs e models de nui-grid, a definição de NuiGridColumn e templates para células personalizadas.',
+        a11yDescription:
+          'Teclado e acessibilidade da grade de dados do Needless UI: tabela nativa com papéis de grid, uma única parada de tabulação, setas e anúncios.',
+        overview: [
+          'A grade de dados é uma tabela nativa com ordenação, filtros, paginação e edição. Descreva as <code>columns</code>, passe as <code>rows</code>, e cada célula é formatada pelo tipo e pela localidade: números, moedas, datas, sim e não, e rótulos para valores <code>enum</code>.',
+          'O estado dela fica em models que você pode vincular, salvar e enviar a um servidor: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> e <code>columnState</code> para as larguras, a ordem, as colunas fixadas e as ocultas que os usuários escolhem. Sem paginação, só as linhas visíveis são renderizadas, então 100.000 linhas rolam como dez.',
+          'Todas as células são alcançáveis pelo teclado, e o painel de cada coluna permite ordená-la, filtrá-la, fixá-la, movê-la, ajustá-la ao conteúdo e ocultá-la.',
+        ],
+        examples: {
+          orders: {
+            title: 'Busca, ordenação e paginação',
+            text: 'Digite para buscar em todas as colunas. Clique em um cabeçalho para ordenar e use Shift + clique para adicionar uma segunda coluna. <code>nuiGridCell</code> desenha o status, e <code>exportCsv()</code> entrega o que está na tela.',
+          },
+          selection: {
+            title: 'Seleção',
+            text: '<code>selection="multiple"</code> adiciona caixas de seleção e vincula as chaves das linhas selecionadas. Shift + clique seleciona um intervalo; a caixa do cabeçalho seleciona todas as linhas que correspondem.',
+          },
+          editing: {
+            title: 'Edição',
+            text: 'Clique duas vezes em uma célula, pressione Enter ou simplesmente digite. <code>validate</code> mantém o editor aberto com uma mensagem; uma edição confirmada atualiza <code>rows</code> e emite <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100.000 linhas',
+            text: 'Sem paginação, só as linhas visíveis são renderizadas. As colunas fixadas ficam nas bordas, e <code>columnState</code> guarda o layout que os usuários montam.',
+          },
+          server: {
+            title: 'Dados do servidor',
+            text: 'No modo <code>server</code>, a grade mostra as linhas conforme chegam e informa cada mudança em <code>queryChange</code>. Defina <code>loading</code> enquanto busca os dados.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Uma grade de dados sobre uma tabela nativa.',
+            members: {
+              rows: 'Os dados. Edições substituem linhas, então vincule com <code>[(rows)]</code>.',
+              columns: 'As colunas, como objetos <code>NuiGridColumn</code>.',
+              rowId: 'A chave de uma linha, para seleção e rastreamento.',
+              label: 'Nome acessível da grade.',
+              selection: 'Se as linhas podem ser selecionadas, e quantas.',
+              selected: 'As chaves das linhas selecionadas.',
+              sort: 'A ordenação, como objetos <code>{ column, direction }</code>; o primeiro ordena primeiro.',
+              filters: 'Um filtro por id de coluna: um operador e um valor.',
+              search: 'Palavras que precisam aparecer todas em uma linha.',
+              pageSize: 'Linhas por página, ou 0 para uma única lista rolável.',
+              page: 'A página mostrada, a partir de 0.',
+              pageSizes: 'As opções do paginador.',
+              virtual:
+                'Renderiza só as linhas visíveis: sempre, nunca, ou <code>auto</code> acima de 100 linhas sem paginação.',
+              height: 'Um comprimento CSS que limita a grade; o conteúdo rola dentro dela.',
+              columnState:
+                'A largura, a ordem, a fixação e a visibilidade de cada coluna, para salvar e restaurar.',
+              mode: '<code>server</code> mostra as linhas conforme chegam e deixa a ordenação, a filtragem e a paginação com você.',
+              total: 'O número de linhas no servidor.',
+              loading:
+                'Mostra uma barra de progresso, e linhas provisórias enquanto não há nenhuma.',
+              locale: 'Formata números e datas, e lê números digitados.',
+              labels: 'Todo texto que a grade mostra ou anuncia, para traduzir.',
+              rowActivate: 'Emite uma linha aberta com Enter ou com um clique duplo.',
+              cellEdit: 'Emite cada edição confirmada.',
+              queryChange: 'Emite a ordenação, os filtros, a busca e a página sempre que mudam.',
+              exportCsv: 'As linhas filtradas e ordenadas das colunas visíveis, em CSV.',
+              focusCell: 'Move o foco para uma célula; a linha <code>-1</code> é o cabeçalho.',
+              clearFilters: 'Limpa todos os filtros e a busca.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Uma coluna. Só <code>id</code> e <code>header</code> são obrigatórios.',
+            members: {
+              id: 'Único; a chave na ordenação, nos filtros e no estado das colunas.',
+              header: 'O texto do cabeçalho.',
+              value: 'Uma chave da linha, ou uma função da linha. O padrão é <code>row[id]</code>.',
+              type: 'Define o alinhamento, a ordenação, o filtro e o editor.',
+              format:
+                'Opções de <code>Intl</code> para números e datas, ou uma função que gera o texto.',
+              options:
+                'As opções de uma coluna <code>enum</code>, como objetos <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'Em pixels.',
+              flex: 'Divide o espaço restante com as outras colunas <code>flex</code>.',
+              align: 'O padrão depende do tipo: números e datas no final.',
+              'pinned, hidden': 'A fixação e a visibilidade iniciais da coluna.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Cada uma pode ser desativada com <code>false</code>.',
+              compare: 'Uma ordenação personalizada.',
+              'editable, validate':
+                'Se as células podem ser editadas, e uma mensagem quando um valor não é válido.',
+              set: 'Cria a linha editada. O padrão é uma cópia com o novo valor.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Desenha as células de uma coluna. O contexto contém a linha, o valor e o texto.',
+            members: { nuiGridCell: 'O id da coluna.' },
+          },
+          NuiGridHeader: {
+            summary: 'Desenha o cabeçalho de uma coluna.',
+            members: { nuiGridHeader: 'O id da coluna.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'O que aparece quando não há linhas. O contexto informa se os filtros as ocultaram.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Setas',
+            'Movem uma célula. Esquerda e direita se invertem em textos da direita para a esquerda.',
+          ],
+          ['Home e End', 'Vai para a primeira ou a última célula da linha; com Ctrl, da grade.'],
+          ['Page Down e Page Up', 'Avança ou recua uma tela de linhas.'],
+          [
+            'Enter ou Espaço em um cabeçalho',
+            'Ordena pela coluna; com Shift, adiciona a coluna à ordenação.',
+          ],
+          ['Alt + seta para baixo em um cabeçalho', 'Abre o painel da coluna.'],
+          [
+            'Alt + seta para a esquerda ou para a direita em um cabeçalho',
+            'Estreita ou alarga a coluna; com Shift, move a coluna.',
+          ],
+          ['Enter em uma célula', 'Edita a célula, ou abre a linha quando ela não é editável.'],
+          ['F2, ou digitar', 'Edita a célula.'],
+          [
+            'Enter, Esc e Tab durante a edição',
+            'Confirma, cancela, ou confirma e segue em frente.',
+          ],
+          ['Espaço', 'Seleciona a linha; com Shift, as linhas desde a última selecionada.'],
+          ['Ctrl + A', 'Seleciona todas as linhas.'],
+        ],
+        notes: [
+          'Uma <code>&lt;table&gt;</code> nativa com <code>role="grid"</code>, nomeada por <code>label</code>. Os cabeçalhos têm <code>aria-sort</code>, e as linhas selecionáveis, <code>aria-selected</code>.',
+          'A grade é uma única parada de tabulação. O foco passa de célula em célula com um <code>tabindex</code> móvel, então os leitores de tela leem cada célula com os cabeçalhos da linha e da coluna.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> e <code>aria-colindex</code> continuam corretos quando as linhas são paginadas ou virtualizadas.',
+          'Ordenação, filtros, paginação e erros de edição são anunciados de forma educada em uma região de status.',
+        ],
+      },
     },
   },
 

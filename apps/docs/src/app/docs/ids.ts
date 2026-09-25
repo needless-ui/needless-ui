@@ -7,6 +7,7 @@ export const COMPONENT_IDS = [
   'command',
   'dialog',
   'empty',
+  'grid',
   'menu',
   'number-field',
   'otp',

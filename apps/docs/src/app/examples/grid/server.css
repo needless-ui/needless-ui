@@ -1,0 +1,21 @@
+/* One column, as wide as the page: a wrapping one would grow to the table's width. */
+:host {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+.search {
+  max-inline-size: 20rem;
+  block-size: var(--nui-control-height-md);
+  padding-inline: var(--nui-space-3);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-strong);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-canvas);
+  color: inherit;
+  font: inherit;
+}
+
+.search:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+  outline-offset: var(--nui-focus-ring-offset);
+}

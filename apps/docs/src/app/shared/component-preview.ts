@@ -91,6 +91,34 @@ import type { ComponentId } from '../docs/ids';
           <p class="nui-empty-title">Inbox zero</p>
         </div>
       }
+      @case ('grid') {
+        <div class="nui-grid preview-grid">
+          <table class="nui-grid-table">
+            <thead>
+              <tr>
+                <th class="nui-grid-header">
+                  Customer<span class="nui-grid-sort" data-direction="asc"></span>
+                </th>
+                <th class="nui-grid-header" data-align="end">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="nui-grid-row">
+                <td class="nui-grid-cell">Ada Lovelace</td>
+                <td class="nui-grid-cell" data-align="end" data-type="number">480.00</td>
+              </tr>
+              <tr class="nui-grid-row">
+                <td class="nui-grid-cell">Alan Turing</td>
+                <td class="nui-grid-cell" data-align="end" data-type="number">120.50</td>
+              </tr>
+              <tr class="nui-grid-row">
+                <td class="nui-grid-cell">Grace Hopper</td>
+                <td class="nui-grid-cell" data-align="end" data-type="number">1,290.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
       @case ('menu') {
         <div class="nui-menu preview-menu">
           <div class="nui-menu-item">Edit <span class="nui-menu-shortcut">⌘E</span></div>

@@ -1,4 +1,4 @@
-import { Component, computed, Directive, effect, inject, input } from '@angular/core';
+import { Component, computed, Directive, effect, inject, input, type Type } from '@angular/core';
 import { type ComponentId, isComponentId } from '../../docs/ids';
 import { type ApiEntry, COMPONENT_DOCS } from '../../docs/registry';
 import { I18n } from '../../i18n/i18n';
@@ -7,6 +7,7 @@ import { CodeBlock } from '../../shared/code-block';
 import { ExampleViewer } from '../../shared/example-viewer';
 import { InAppLinks } from '../../shared/in-app-links';
 import { Toc } from '../../shared/toc';
+import { TrustedHtml } from '../../shared/trusted';
 
 type Section = 'overview' | 'api' | 'accessibility';
 
@@ -59,17 +60,21 @@ abstract class ComponentSection {
 
 @Component({
   selector: 'docs-component-overview',
-  imports: [ExampleViewer, Toc],
+  imports: [ExampleViewer, Toc, TrustedHtml],
   template: `
     <div class="doc-grid">
       <article class="doc-article">
         <div class="prose">
           @for (paragraph of text().overview; track $index) {
-            <p [innerHTML]="paragraph"></p>
+            <p [innerHTML]="paragraph | trusted"></p>
           }
         </div>
         @for (example of doc().examples; track example.id) {
-          <docs-example [component]="component()" [example]="example" />
+          <docs-example
+            [component]="component()"
+            [example]="example"
+            [type]="examples()[example.id] ?? null"
+          />
         }
       </article>
       <docs-toc [items]="toc()" />
@@ -77,6 +82,8 @@ abstract class ComponentSection {
   `,
 })
 export class OverviewSection extends ComponentSection {
+  /** The page's example components, loaded by the route (see `examplesResolver`). */
+  readonly examples = input<Record<string, Type<unknown>>>({});
   protected readonly section = 'overview';
   protected readonly toc = computed(() =>
     this.doc().examples.map((example) => ({
@@ -88,7 +95,7 @@ export class OverviewSection extends ComponentSection {
 
 @Component({
   selector: 'docs-component-api',
-  imports: [CodeBlock, InAppLinks, Toc],
+  imports: [CodeBlock, InAppLinks, Toc, TrustedHtml],
   template: `
     @let labels = i18n.t().components.api;
     <div class="doc-grid">
@@ -100,7 +107,7 @@ export class OverviewSection extends ComponentSection {
           @let entryText = text().api[entry.name];
           <section class="api-entry">
             <h2 [id]="entry.name">{{ entry.name }}</h2>
-            <p [innerHTML]="entryText.summary"></p>
+            <p [innerHTML]="entryText.summary | trusted"></p>
             @if (entry.selector) {
               <dl class="api-meta">
                 <dt>{{ labels.selector }}</dt>
@@ -158,9 +165,10 @@ export class OverviewSection extends ComponentSection {
                         </td>
                         <td
                           [innerHTML]="
-                            member.customization
+                            (member.customization
                               ? labels.customization.members[member.customization]
                               : entryText.members[member.name]
+                            ) | trusted
                           "
                         ></td>
                       </tr>
@@ -169,7 +177,7 @@ export class OverviewSection extends ComponentSection {
                 </table>
               </div>
               @if (hasCustomization(entry)) {
-                <p class="api-note" [innerHTML]="labels.customization.note"></p>
+                <p class="api-note" [innerHTML]="labels.customization.note | trusted"></p>
               }
               @if (entry.texts; as texts) {
                 <p class="api-note">
@@ -202,7 +210,7 @@ export class ApiSection extends ComponentSection {
 
 @Component({
   selector: 'docs-component-accessibility',
-  imports: [Toc],
+  imports: [Toc, TrustedHtml],
   template: `
     @let labels = i18n.t().components.a11y;
     <div class="doc-grid">
@@ -235,7 +243,7 @@ export class ApiSection extends ComponentSection {
         <h2 id="notes">{{ labels.notes }}</h2>
         <ul class="notes">
           @for (note of text().notes; track $index) {
-            <li [innerHTML]="note"></li>
+            <li [innerHTML]="note | trusted"></li>
           }
         </ul>
       </article>

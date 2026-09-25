@@ -1,0 +1,5 @@
+/* One column, as wide as the page: a wrapping one would grow to the table's width. */
+:host {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}

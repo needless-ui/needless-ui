@@ -1162,6 +1162,142 @@ export const messages: Messages = {
           'Đặt tên cho nó bằng một <code>&lt;label for&gt;</code> trỏ tới <code>triggerId</code>, hoặc bằng <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Bảng dữ liệu',
+        title: 'Component bảng dữ liệu cho Angular',
+        summary: 'Sắp xếp, lọc, chọn, chỉnh sửa và cuộn qua bao nhiêu dòng cũng được.',
+        description:
+          'Bảng dữ liệu Angular hỗ trợ tiếp cận dựa trên phần tử table native: sắp xếp nhiều cột, bộ lọc, phân trang hoặc cuộn ảo, chọn dòng, chỉnh sửa và di chuyển cột.',
+        apiDescription:
+          'Tài liệu API về bảng dữ liệu của Needless UI: input và model của nui-grid, định nghĩa NuiGridColumn và template cho ô tùy biến.',
+        a11yDescription:
+          'Bàn phím và khả năng tiếp cận của bảng dữ liệu Needless UI: phần tử table native với vai trò grid, một điểm dừng Tab, phím mũi tên và thông báo.',
+        overview: [
+          'Bảng dữ liệu dựa trên phần tử table native, có sắp xếp, lọc, phân trang và chỉnh sửa. Mô tả <code>columns</code>, truyền <code>rows</code>, và mỗi ô sẽ được định dạng theo kiểu dữ liệu và locale: số, tiền tệ, ngày tháng, có/không, và nhãn cho các giá trị <code>enum</code>.',
+          'Trạng thái nằm trong các model mà bạn có thể liên kết, lưu và gửi lên máy chủ: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, và <code>columnState</code> cho độ rộng, thứ tự, ghim và các cột ẩn mà người dùng chọn. Khi không phân trang, chỉ các dòng đang hiển thị được render, nên 100.000 dòng vẫn cuộn mượt như mười dòng.',
+          'Mọi ô đều đến được bằng bàn phím, và panel của mỗi cột có thể sắp xếp, lọc, ghim, di chuyển, chỉnh vừa độ rộng và ẩn cột đó.',
+        ],
+        examples: {
+          orders: {
+            title: 'Tìm kiếm, sắp xếp và phân trang',
+            text: 'Gõ để tìm trên mọi cột. Nhấp vào tiêu đề cột để sắp xếp, và Shift + nhấp để thêm cột thứ hai. <code>nuiGridCell</code> vẽ trạng thái, còn <code>exportCsv()</code> xuất ra những gì đang hiển thị.',
+          },
+          selection: {
+            title: 'Chọn dòng',
+            text: '<code>selection="multiple"</code> thêm checkbox và liên kết khóa của các dòng được chọn. Shift + nhấp để chọn một khoảng; ô chọn ở tiêu đề sẽ chọn mọi dòng khớp bộ lọc.',
+          },
+          editing: {
+            title: 'Chỉnh sửa',
+            text: 'Nhấp đúp vào một ô, nhấn Enter hoặc cứ thế gõ. <code>validate</code> giữ trình chỉnh sửa mở kèm thông báo; thay đổi đã xác nhận sẽ cập nhật <code>rows</code> và phát ra <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100.000 dòng',
+            text: 'Khi không phân trang, chỉ các dòng đang hiển thị được render. Cột được ghim nằm yên ở hai mép, và <code>columnState</code> giữ lại bố cục mà người dùng tạo ra.',
+          },
+          server: {
+            title: 'Dữ liệu máy chủ',
+            text: 'Ở chế độ <code>server</code>, bảng hiển thị các dòng đúng như nhận được và báo mỗi thay đổi qua <code>queryChange</code>. Hãy đặt <code>loading</code> trong lúc tải dữ liệu.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Bảng dữ liệu dựa trên phần tử table native.',
+            members: {
+              rows: 'Dữ liệu. Chỉnh sửa sẽ thay thế dòng, nên hãy liên kết bằng <code>[(rows)]</code>.',
+              columns: 'Các cột, dưới dạng đối tượng <code>NuiGridColumn</code>.',
+              rowId: 'Khóa của một dòng, dùng để chọn và theo dõi.',
+              label: 'Accessible name của bảng.',
+              selection: 'Có cho chọn dòng hay không, và chọn được bao nhiêu.',
+              selected: 'Khóa của các dòng được chọn.',
+              sort: 'Thứ tự sắp xếp, dưới dạng đối tượng <code>{ column, direction }</code>; đối tượng đầu được ưu tiên.',
+              filters: 'Một bộ lọc cho mỗi id cột: toán tử và giá trị.',
+              search: 'Các từ đều phải xuất hiện trong một dòng.',
+              pageSize: 'Số dòng mỗi trang, hoặc 0 để hiển thị một danh sách cuộn.',
+              page: 'Trang đang hiển thị, tính từ 0.',
+              pageSizes: 'Các lựa chọn trong thanh phân trang.',
+              virtual:
+                'Chỉ render các dòng đang hiển thị: luôn luôn, không bao giờ, hoặc <code>auto</code> khi quá 100 dòng mà không phân trang.',
+              height: 'Độ dài CSS giới hạn chiều cao bảng; nội dung cuộn bên trong.',
+              columnState: 'Độ rộng, thứ tự, ghim và hiển thị của từng cột, để lưu và khôi phục.',
+              mode: '<code>server</code> hiển thị dòng đúng như nhận được và để việc sắp xếp, lọc, phân trang cho bạn.',
+              total: 'Số dòng trên máy chủ.',
+              loading: 'Hiển thị thanh tiến trình, và các dòng giữ chỗ khi chưa có dòng nào.',
+              locale: 'Định dạng số và ngày, và đọc số được gõ vào.',
+              labels: 'Mọi văn bản mà bảng hiển thị hoặc đọc lên, để dịch.',
+              rowActivate: 'Phát ra dòng được mở bằng Enter hoặc nhấp đúp.',
+              cellEdit: 'Phát ra mỗi lần sửa đã xác nhận.',
+              queryChange: 'Phát ra sắp xếp, bộ lọc, tìm kiếm và trang mỗi khi chúng thay đổi.',
+              exportCsv: 'Các dòng đã lọc và sắp xếp của những cột đang hiển thị, dưới dạng CSV.',
+              focusCell: 'Chuyển focus vào một ô; dòng <code>-1</code> là tiêu đề.',
+              clearFilters: 'Xóa mọi bộ lọc và tìm kiếm.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Một cột. Chỉ <code>id</code> và <code>header</code> là bắt buộc.',
+            members: {
+              id: 'Duy nhất; là khóa trong sắp xếp, bộ lọc và trạng thái cột.',
+              header: 'Văn bản tiêu đề cột.',
+              value:
+                'Một thuộc tính của dòng, hoặc một hàm nhận dòng. Mặc định là <code>row[id]</code>.',
+              type: 'Quyết định cách căn lề, sắp xếp, bộ lọc và trình chỉnh sửa.',
+              format: 'Tùy chọn <code>Intl</code> cho số và ngày, hoặc một hàm tạo ra văn bản.',
+              options:
+                'Các lựa chọn của cột <code>enum</code>, dưới dạng đối tượng <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'Tính bằng pixel.',
+              flex: 'Chia phần không gian còn lại với các cột <code>flex</code> khác.',
+              align: 'Mặc định theo kiểu: số và ngày căn về cuối.',
+              'pinned, hidden': 'Trạng thái ghim và hiển thị ban đầu của cột.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Có thể tắt từng thuộc tính bằng <code>false</code>.',
+              compare: 'Sắp xếp tùy biến.',
+              'editable, validate':
+                'Ô có chỉnh sửa được không, và thông báo khi giá trị không hợp lệ.',
+              set: 'Tạo dòng đã chỉnh sửa. Mặc định là một bản sao mang giá trị mới.',
+            },
+          },
+          NuiGridCell: {
+            summary: 'Vẽ các ô của một cột. Context chứa dòng, giá trị và văn bản của ô.',
+            members: { nuiGridCell: 'Id của cột.' },
+          },
+          NuiGridHeader: {
+            summary: 'Vẽ tiêu đề của một cột.',
+            members: { nuiGridHeader: 'Id của cột.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Nội dung khi không có dòng nào. Context cho biết bộ lọc có ẩn chúng hay không.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Phím mũi tên',
+            'Di chuyển một ô. Trái và phải đảo ngược với văn bản viết từ phải sang trái.',
+          ],
+          ['Home và End', 'Đến ô đầu tiên hoặc cuối cùng của dòng; kèm Ctrl thì của cả bảng.'],
+          ['Page Down và Page Up', 'Di chuyển lên hoặc xuống một màn hình.'],
+          [
+            'Enter hoặc Phím cách trên tiêu đề cột',
+            'Sắp xếp theo cột; kèm Shift thì thêm cột vào thứ tự sắp xếp.',
+          ],
+          ['Alt + mũi tên xuống trên tiêu đề cột', 'Mở panel của cột.'],
+          [
+            'Alt + mũi tên trái hoặc phải trên tiêu đề cột',
+            'Thu hẹp hoặc nới rộng cột; kèm Shift thì di chuyển cột.',
+          ],
+          ['Enter trên một ô', 'Chỉnh sửa ô, hoặc mở dòng nếu ô không chỉnh sửa được.'],
+          ['F2, hoặc gõ phím', 'Chỉnh sửa ô.'],
+          ['Enter, Esc và Tab khi đang chỉnh sửa', 'Xác nhận, hủy, hoặc xác nhận rồi chuyển tiếp.'],
+          ['Phím cách', 'Chọn dòng; kèm Shift thì chọn các dòng kể từ dòng chọn gần nhất.'],
+          ['Ctrl + A', 'Chọn mọi dòng.'],
+        ],
+        notes: [
+          'Một <code>&lt;table&gt;</code> native với <code>role="grid"</code>, được đặt tên bằng <code>label</code>. Tiêu đề cột có <code>aria-sort</code>, còn các dòng có thể chọn có <code>aria-selected</code>.',
+          'Bảng chỉ chiếm một điểm dừng Tab. Focus di chuyển giữa các ô bằng roving <code>tabindex</code>, nên trình đọc màn hình đọc từng ô kèm tiêu đề dòng và cột của nó.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> và <code>aria-colindex</code> vẫn đúng khi các dòng được phân trang hoặc ảo hóa.',
+          'Việc sắp xếp, lọc, chuyển trang và lỗi chỉnh sửa được đọc lên qua một vùng trạng thái ở chế độ polite.',
+        ],
+      },
     },
   },
 

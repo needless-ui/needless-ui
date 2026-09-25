@@ -1,45 +1,4 @@
-import { AvatarGroupExample } from '../examples/avatar/group';
-import { AvatarPeopleExample } from '../examples/avatar/people';
-import { BreadcrumbsLongExample } from '../examples/breadcrumbs/long';
-import { BreadcrumbsTrailExample } from '../examples/breadcrumbs/trail';
 import type { Type } from '@angular/core';
-import { ButtonLinksExample } from '../examples/button/links';
-import { ButtonPressesExample } from '../examples/button/presses';
-import { ButtonShapesExample } from '../examples/button/shapes';
-import { ButtonSizesExample } from '../examples/button/sizes';
-import { ButtonTonesExample } from '../examples/button/tones';
-import { ButtonVariantsExample } from '../examples/button/variants';
-import { ComboboxCountryExample } from '../examples/combobox/country';
-import { ComboboxPeopleExample } from '../examples/combobox/people';
-import { ComboboxTagsExample } from '../examples/combobox/tags';
-import { CommandPaletteExample } from '../examples/command/palette';
-import { CommandPeopleExample } from '../examples/command/people';
-import { DialogConfirmExample } from '../examples/dialog/confirm';
-import { DialogDismissibleExample } from '../examples/dialog/dismissible';
-import { DialogEntrancesExample } from '../examples/dialog/entrances';
-import { EmptyPicturesExample } from '../examples/empty/pictures';
-import { EmptySearchExample } from '../examples/empty/search';
-import { DialogFormExample } from '../examples/dialog/form';
-import { MenuActionsExample } from '../examples/menu/actions';
-import { MenuCheckableExample } from '../examples/menu/checkable';
-import { MenuEntrancesExample } from '../examples/menu/entrances';
-import { MenuSubmenuExample } from '../examples/menu/submenu';
-import { NumberFieldFormatsExample } from '../examples/number-field/formats';
-import { NumberFieldGuestsExample } from '../examples/number-field/guests';
-import { OtpLettersExample } from '../examples/otp/letters';
-import { OtpVerifyExample } from '../examples/otp/verify';
-import { PopoverFiltersExample } from '../examples/popover/filters';
-import { PopoverProfileExample } from '../examples/popover/profile';
-import { PopoverSidesExample } from '../examples/popover/sides';
-import { RatingAverageExample } from '../examples/rating/average';
-import { RatingPickExample } from '../examples/rating/pick';
-import { SelectCountriesExample } from '../examples/select/countries';
-import { SelectFoldersExample } from '../examples/select/folders';
-import { SelectToppingsExample } from '../examples/select/toppings';
-import { SelectZonesExample } from '../examples/select/zones';
-import { SkeletonCardExample } from '../examples/skeleton/card';
-import { ToastActionsExample } from '../examples/toast/actions';
-import { ToastTonesExample } from '../examples/toast/tones';
 import type { ComponentId } from './ids';
 
 export interface ApiMember {
@@ -64,7 +23,13 @@ export interface ApiEntry {
 export interface ExampleEntry {
   /** Anchor id and key into the locale's example texts; files live in examples/<component>/<id>.* */
   id: string;
-  component: Type<unknown>;
+  /** Each example is its own chunk: a page loads only its own (see `examplesResolver`). */
+  load: () => Promise<Type<unknown>>;
+  /**
+   * Renders in the browser once scrolled near, in a placeholder this tall (px), for
+   * examples too heavy for the page's first round trip.
+   */
+  defer?: number;
 }
 
 /** Language-neutral facts about a component. Prose lives in the locale files. */
@@ -152,8 +117,14 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { name: 'NuiAvatarGroup', selector: '[nuiAvatarGroup]', members: [] },
     ],
     examples: [
-      { id: 'people', component: AvatarPeopleExample },
-      { id: 'group', component: AvatarGroupExample },
+      {
+        id: 'people',
+        load: () => import('../examples/avatar/people').then((m) => m.AvatarPeopleExample),
+      },
+      {
+        id: 'group',
+        load: () => import('../examples/avatar/group').then((m) => m.AvatarGroupExample),
+      },
     ],
   },
   breadcrumbs: {
@@ -167,8 +138,14 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'trail', component: BreadcrumbsTrailExample },
-      { id: 'long', component: BreadcrumbsLongExample },
+      {
+        id: 'trail',
+        load: () => import('../examples/breadcrumbs/trail').then((m) => m.BreadcrumbsTrailExample),
+      },
+      {
+        id: 'long',
+        load: () => import('../examples/breadcrumbs/long').then((m) => m.BreadcrumbsLongExample),
+      },
     ],
   },
   button: {
@@ -194,12 +171,30 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'variants', component: ButtonVariantsExample },
-      { id: 'tones', component: ButtonTonesExample },
-      { id: 'sizes', component: ButtonSizesExample },
-      { id: 'links', component: ButtonLinksExample },
-      { id: 'presses', component: ButtonPressesExample },
-      { id: 'shapes', component: ButtonShapesExample },
+      {
+        id: 'variants',
+        load: () => import('../examples/button/variants').then((m) => m.ButtonVariantsExample),
+      },
+      {
+        id: 'tones',
+        load: () => import('../examples/button/tones').then((m) => m.ButtonTonesExample),
+      },
+      {
+        id: 'sizes',
+        load: () => import('../examples/button/sizes').then((m) => m.ButtonSizesExample),
+      },
+      {
+        id: 'links',
+        load: () => import('../examples/button/links').then((m) => m.ButtonLinksExample),
+      },
+      {
+        id: 'presses',
+        load: () => import('../examples/button/presses').then((m) => m.ButtonPressesExample),
+      },
+      {
+        id: 'shapes',
+        load: () => import('../examples/button/shapes').then((m) => m.ButtonShapesExample),
+      },
     ],
   },
   combobox: {
@@ -250,9 +245,18 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       ...OPTION_TEMPLATES,
     ],
     examples: [
-      { id: 'country', component: ComboboxCountryExample },
-      { id: 'tags', component: ComboboxTagsExample },
-      { id: 'people', component: ComboboxPeopleExample },
+      {
+        id: 'country',
+        load: () => import('../examples/combobox/country').then((m) => m.ComboboxCountryExample),
+      },
+      {
+        id: 'tags',
+        load: () => import('../examples/combobox/tags').then((m) => m.ComboboxTagsExample),
+      },
+      {
+        id: 'people',
+        load: () => import('../examples/combobox/people').then((m) => m.ComboboxPeopleExample),
+      },
     ],
   },
   command: {
@@ -311,8 +315,14 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'palette', component: CommandPaletteExample },
-      { id: 'people', component: CommandPeopleExample },
+      {
+        id: 'palette',
+        load: () => import('../examples/command/palette').then((m) => m.CommandPaletteExample),
+      },
+      {
+        id: 'people',
+        load: () => import('../examples/command/people').then((m) => m.CommandPeopleExample),
+      },
     ],
   },
   dialog: {
@@ -343,10 +353,23 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'confirm', component: DialogConfirmExample },
-      { id: 'form', component: DialogFormExample },
-      { id: 'dismissible', component: DialogDismissibleExample },
-      { id: 'entrances', component: DialogEntrancesExample },
+      {
+        id: 'confirm',
+        load: () => import('../examples/dialog/confirm').then((m) => m.DialogConfirmExample),
+      },
+      {
+        id: 'form',
+        load: () => import('../examples/dialog/form').then((m) => m.DialogFormExample),
+      },
+      {
+        id: 'dismissible',
+        load: () =>
+          import('../examples/dialog/dismissible').then((m) => m.DialogDismissibleExample),
+      },
+      {
+        id: 'entrances',
+        load: () => import('../examples/dialog/entrances').then((m) => m.DialogEntrancesExample),
+      },
     ],
   },
   empty: {
@@ -366,8 +389,129 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { name: 'NuiEmptyActions', selector: '[nuiEmptyActions]', members: [] },
     ],
     examples: [
-      { id: 'search', component: EmptySearchExample },
-      { id: 'pictures', component: EmptyPicturesExample },
+      {
+        id: 'search',
+        load: () => import('../examples/empty/search').then((m) => m.EmptySearchExample),
+      },
+      {
+        id: 'pictures',
+        load: () => import('../examples/empty/pictures').then((m) => m.EmptyPicturesExample),
+      },
+    ],
+  },
+  grid: {
+    id: 'grid',
+    importFile: 'snippets/import-grid.ts',
+    api: [
+      {
+        name: 'NuiGrid',
+        selector: 'nui-grid',
+        members: [
+          { name: 'rows', kind: 'model', type: 'readonly T[]' },
+          { name: 'columns', kind: 'input', type: 'NuiGridColumn<T>[]' },
+          { name: 'rowId', kind: 'input', type: '(row: T) => unknown', default: 'row.id ?? row' },
+          { name: 'label', kind: 'input', type: 'string' },
+          {
+            name: 'selection',
+            kind: 'input',
+            type: "'none' | 'single' | 'multiple'",
+            default: "'none'",
+          },
+          { name: 'selected', kind: 'model', type: 'unknown[]', default: '[]' },
+          { name: 'sort', kind: 'model', type: 'NuiGridSort[]', default: '[]' },
+          { name: 'filters', kind: 'model', type: 'Record<string, NuiGridFilter>', default: '{}' },
+          { name: 'search', kind: 'model', type: 'string', default: "''" },
+          { name: 'pageSize', kind: 'model', type: 'number', default: '0' },
+          { name: 'page', kind: 'model', type: 'number', default: '0' },
+          { name: 'pageSizes', kind: 'input', type: 'number[]', default: '[10, 25, 50, 100]' },
+          { name: 'virtual', kind: 'input', type: "boolean | 'auto'", default: "'auto'" },
+          { name: 'height', kind: 'input', type: 'string' },
+          { name: 'columnState', kind: 'model', type: 'NuiGridColumnState[]', default: '[]' },
+          { name: 'mode', kind: 'input', type: "'client' | 'server'", default: "'client'" },
+          { name: 'total', kind: 'input', type: 'number' },
+          { name: 'loading', kind: 'input', type: 'boolean', default: 'false' },
+          { name: 'locale', kind: 'input', type: 'string', default: 'LOCALE_ID' },
+          { name: 'labels', kind: 'input', type: 'Partial<NuiGridLabels>' },
+          ...customization('corners', 'radius', 'density'),
+          { name: 'rowActivate', kind: 'output', type: 'T' },
+          { name: 'cellEdit', kind: 'output', type: 'NuiGridEdit<T>' },
+          { name: 'queryChange', kind: 'output', type: 'NuiGridQuery' },
+          { name: 'exportCsv', kind: 'method', type: '(options?) => string' },
+          { name: 'focusCell', kind: 'method', type: '(row: number, col: number) => void' },
+          { name: 'clearFilters', kind: 'method', type: '() => void' },
+        ],
+      },
+      {
+        name: 'NuiGridColumn',
+        members: [
+          { name: 'id', kind: 'property', type: 'string' },
+          { name: 'header', kind: 'property', type: 'string' },
+          { name: 'value', kind: 'property', type: 'keyof T | ((row: T) => V)' },
+          {
+            name: 'type',
+            kind: 'property',
+            type: "'text' | 'number' | 'date' | 'boolean' | 'enum'",
+            default: "'text'",
+          },
+          { name: 'format', kind: 'property', type: 'Intl options | ((value, row) => string)' },
+          { name: 'options', kind: 'property', type: 'NuiOption<V>[]' },
+          { name: 'width, minWidth, maxWidth', kind: 'property', type: 'number' },
+          { name: 'flex', kind: 'property', type: 'number' },
+          { name: 'align', kind: 'property', type: "'start' | 'center' | 'end'" },
+          { name: 'pinned, hidden', kind: 'property', type: "'start' | 'end', boolean" },
+          {
+            name: 'sortable, filterable, resizable, reorderable, hideable',
+            kind: 'property',
+            type: 'boolean',
+            default: 'true',
+          },
+          { name: 'compare', kind: 'property', type: '(a: V, b: V) => number' },
+          {
+            name: 'editable, validate',
+            kind: 'property',
+            type: 'boolean | ((row) => boolean), (value, row) => string | null',
+          },
+          { name: 'set', kind: 'property', type: '(row: T, value: V) => T' },
+        ],
+      },
+      {
+        name: 'NuiGridCell',
+        selector: 'ng-template[nuiGridCell]',
+        members: [{ name: 'nuiGridCell', kind: 'input', type: 'string' }],
+      },
+      {
+        name: 'NuiGridHeader',
+        selector: 'ng-template[nuiGridHeader]',
+        members: [{ name: 'nuiGridHeader', kind: 'input', type: 'string' }],
+      },
+      { name: 'NuiGridEmpty', selector: 'ng-template[nuiGridEmpty]', members: [] },
+    ],
+    examples: [
+      {
+        id: 'orders',
+        load: () => import('../examples/grid/orders').then((m) => m.GridOrdersExample),
+        defer: 440,
+      },
+      {
+        id: 'selection',
+        load: () => import('../examples/grid/selection').then((m) => m.GridSelectionExample),
+        defer: 330,
+      },
+      {
+        id: 'editing',
+        load: () => import('../examples/grid/editing').then((m) => m.GridEditingExample),
+        defer: 250,
+      },
+      {
+        id: 'big',
+        load: () => import('../examples/grid/big').then((m) => m.GridBigExample),
+        defer: 440,
+      },
+      {
+        id: 'server',
+        load: () => import('../examples/grid/server').then((m) => m.GridServerExample),
+        defer: 500,
+      },
     ],
   },
   menu: {
@@ -415,10 +559,22 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       { name: 'NuiMenuShortcut', selector: '[nuiMenuShortcut]', members: [] },
     ],
     examples: [
-      { id: 'actions', component: MenuActionsExample },
-      { id: 'submenu', component: MenuSubmenuExample },
-      { id: 'checkable', component: MenuCheckableExample },
-      { id: 'entrances', component: MenuEntrancesExample },
+      {
+        id: 'actions',
+        load: () => import('../examples/menu/actions').then((m) => m.MenuActionsExample),
+      },
+      {
+        id: 'submenu',
+        load: () => import('../examples/menu/submenu').then((m) => m.MenuSubmenuExample),
+      },
+      {
+        id: 'checkable',
+        load: () => import('../examples/menu/checkable').then((m) => m.MenuCheckableExample),
+      },
+      {
+        id: 'entrances',
+        load: () => import('../examples/menu/entrances').then((m) => m.MenuEntrancesExample),
+      },
     ],
   },
   'number-field': {
@@ -450,8 +606,16 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'guests', component: NumberFieldGuestsExample },
-      { id: 'formats', component: NumberFieldFormatsExample },
+      {
+        id: 'guests',
+        load: () =>
+          import('../examples/number-field/guests').then((m) => m.NumberFieldGuestsExample),
+      },
+      {
+        id: 'formats',
+        load: () =>
+          import('../examples/number-field/formats').then((m) => m.NumberFieldFormatsExample),
+      },
     ],
   },
   otp: {
@@ -481,8 +645,14 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'verify', component: OtpVerifyExample },
-      { id: 'letters', component: OtpLettersExample },
+      {
+        id: 'verify',
+        load: () => import('../examples/otp/verify').then((m) => m.OtpVerifyExample),
+      },
+      {
+        id: 'letters',
+        load: () => import('../examples/otp/letters').then((m) => m.OtpLettersExample),
+      },
     ],
   },
   popover: {
@@ -527,9 +697,18 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'filters', component: PopoverFiltersExample },
-      { id: 'profile', component: PopoverProfileExample },
-      { id: 'sides', component: PopoverSidesExample },
+      {
+        id: 'filters',
+        load: () => import('../examples/popover/filters').then((m) => m.PopoverFiltersExample),
+      },
+      {
+        id: 'profile',
+        load: () => import('../examples/popover/profile').then((m) => m.PopoverProfileExample),
+      },
+      {
+        id: 'sides',
+        load: () => import('../examples/popover/sides').then((m) => m.PopoverSidesExample),
+      },
     ],
   },
   rating: {
@@ -552,8 +731,14 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'pick', component: RatingPickExample },
-      { id: 'average', component: RatingAverageExample },
+      {
+        id: 'pick',
+        load: () => import('../examples/rating/pick').then((m) => m.RatingPickExample),
+      },
+      {
+        id: 'average',
+        load: () => import('../examples/rating/average').then((m) => m.RatingAverageExample),
+      },
     ],
   },
   select: {
@@ -591,10 +776,22 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       ...OPTION_TEMPLATES,
     ],
     examples: [
-      { id: 'countries', component: SelectCountriesExample },
-      { id: 'toppings', component: SelectToppingsExample },
-      { id: 'folders', component: SelectFoldersExample },
-      { id: 'zones', component: SelectZonesExample },
+      {
+        id: 'countries',
+        load: () => import('../examples/select/countries').then((m) => m.SelectCountriesExample),
+      },
+      {
+        id: 'toppings',
+        load: () => import('../examples/select/toppings').then((m) => m.SelectToppingsExample),
+      },
+      {
+        id: 'folders',
+        load: () => import('../examples/select/folders').then((m) => m.SelectFoldersExample),
+      },
+      {
+        id: 'zones',
+        load: () => import('../examples/select/zones').then((m) => m.SelectZonesExample),
+      },
     ],
   },
   skeleton: {
@@ -609,7 +806,12 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
         ],
       },
     ],
-    examples: [{ id: 'card', component: SkeletonCardExample }],
+    examples: [
+      {
+        id: 'card',
+        load: () => import('../examples/skeleton/card').then((m) => m.SkeletonCardExample),
+      },
+    ],
   },
   toast: {
     id: 'toast',
@@ -650,8 +852,14 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
-      { id: 'tones', component: ToastTonesExample },
-      { id: 'actions', component: ToastActionsExample },
+      {
+        id: 'tones',
+        load: () => import('../examples/toast/tones').then((m) => m.ToastTonesExample),
+      },
+      {
+        id: 'actions',
+        load: () => import('../examples/toast/actions').then((m) => m.ToastActionsExample),
+      },
     ],
   },
 };

@@ -1197,6 +1197,159 @@ export const messages: Messages = {
           'Benenne das Select mit einem <code>&lt;label for&gt;</code>, das auf <code>triggerId</code> zeigt, oder mit <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Data Grid',
+        title: 'Data-Grid-Komponente für Angular',
+        summary:
+          'Beliebig viele Zeilen sortieren, filtern, auswählen, bearbeiten und durchscrollen.',
+        description:
+          'Barrierefreies Angular-Data-Grid auf nativer Tabelle: Mehrfachsortierung, Filter, Seiten oder virtuelles Scrollen, Auswahl, Bearbeitung, verschiebbare Spalten.',
+        apiDescription:
+          'API-Referenz des Data Grids von Needless UI: Inputs und Models von nui-grid, die Definition von NuiGridColumn und Templates für eigene Zellen.',
+        a11yDescription:
+          'Tastaturbedienung und Barrierefreiheit des Data Grids von Needless UI: native Tabelle mit Grid-Rollen, ein Tab-Stopp, Pfeiltasten und Ansagen.',
+        overview: [
+          'Das Data Grid ist eine native Tabelle mit Sortierung, Filtern, Paginierung und Bearbeitung. Beschreibe die <code>columns</code>, übergib die <code>rows</code>, und jede Zelle wird nach ihrem Typ passend zur Locale formatiert: Zahlen, Währungen, Datumsangaben, Ja und Nein sowie Beschriftungen für <code>enum</code>-Werte.',
+          'Sein Zustand steckt in Models, die du binden, speichern und an einen Server schicken kannst: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> und <code>columnState</code> für Breiten, Reihenfolge, Fixierung und ausgeblendete Spalten, wie Nutzer sie festlegen. Ohne Paginierung werden nur die sichtbaren Zeilen gerendert, sodass 100.000 Zeilen so flüssig scrollen wie zehn.',
+          'Jede Zelle ist per Tastatur erreichbar, und im Panel jeder Spalte lässt sie sich sortieren, filtern, fixieren, verschieben, an den Inhalt anpassen und ausblenden.',
+        ],
+        examples: {
+          orders: {
+            title: 'Suche, Sortierung und Paginierung',
+            text: 'Tippe, um alle Spalten zu durchsuchen. Klicke auf einen Spaltenkopf, um zu sortieren, und mit Umschalt + Klick fügst du eine zweite Spalte hinzu. <code>nuiGridCell</code> zeichnet den Status, und <code>exportCsv()</code> liefert, was angezeigt wird.',
+          },
+          selection: {
+            title: 'Auswahl',
+            text: '<code>selection="multiple"</code> ergänzt Checkboxen und bindet die Schlüssel der ausgewählten Zeilen. Umschalt + Klick wählt einen Bereich aus; die Checkbox im Tabellenkopf wählt alle passenden Zeilen aus.',
+          },
+          editing: {
+            title: 'Bearbeitung',
+            text: 'Doppelklicke auf eine Zelle, drücke Enter oder tippe einfach los. <code>validate</code> hält den Editor mit einer Meldung offen; eine übernommene Änderung aktualisiert <code>rows</code> und emittiert <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100.000 Zeilen',
+            text: 'Ohne Paginierung werden nur die sichtbaren Zeilen gerendert. Fixierte Spalten bleiben am Rand, und <code>columnState</code> behält das Layout, das Nutzer einrichten.',
+          },
+          server: {
+            title: 'Serverdaten',
+            text: 'Im Modus <code>server</code> zeigt das Grid die Zeilen, wie sie ankommen, und meldet jede Änderung über <code>queryChange</code>. Setze <code>loading</code>, während du Daten abrufst.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Ein Data Grid auf einer nativen Tabelle.',
+            members: {
+              rows: 'Die Daten. Änderungen ersetzen Zeilen, also binde mit <code>[(rows)]</code>.',
+              columns: 'Die Spalten als <code>NuiGridColumn</code>-Objekte.',
+              rowId: 'Der Schlüssel einer Zeile, für Auswahl und Tracking.',
+              label: 'Zugänglicher Name des Grids.',
+              selection: 'Ob sich Zeilen auswählen lassen, und wie viele.',
+              selected: 'Die Schlüssel der ausgewählten Zeilen.',
+              sort: 'Die Sortierung als <code>{ column, direction }</code>-Objekte; das erste sortiert zuerst.',
+              filters: 'Ein Filter pro Spalten-ID: ein Operator und ein Wert.',
+              search: 'Wörter, die alle in einer Zeile vorkommen müssen.',
+              pageSize: 'Zeilen pro Seite oder 0 für eine durchgehende Liste.',
+              page: 'Die angezeigte Seite, ab 0.',
+              pageSizes: 'Die Optionen der Seitennavigation.',
+              virtual:
+                'Rendert nur die sichtbaren Zeilen: immer, nie oder <code>auto</code> bei mehr als 100 Zeilen ohne Paginierung.',
+              height: 'Eine CSS-Länge, die das Grid begrenzt; der Inhalt scrollt darin.',
+              columnState:
+                'Breite, Reihenfolge, Fixierung und Sichtbarkeit jeder Spalte, zum Speichern und Wiederherstellen.',
+              mode: '<code>server</code> zeigt die Zeilen, wie sie ankommen, und überlässt dir Sortieren, Filtern und Paginieren.',
+              total: 'Die Anzahl der Zeilen auf dem Server.',
+              loading:
+                'Zeigt einen Fortschrittsbalken und, solange Zeilen fehlen, Platzhalterzeilen.',
+              locale: 'Formatiert Zahlen und Datumsangaben und liest eingegebene Zahlen ein.',
+              labels: 'Alle Texte, die das Grid anzeigt oder ansagt, zum Übersetzen.',
+              rowActivate: 'Emittiert eine per Enter oder Doppelklick geöffnete Zeile.',
+              cellEdit: 'Emittiert jede übernommene Änderung.',
+              queryChange: 'Emittiert Sortierung, Filter, Suche und Seite, sobald sie sich ändern.',
+              exportCsv: 'Die gefilterten, sortierten Zeilen der sichtbaren Spalten als CSV.',
+              focusCell: 'Fokussiert eine Zelle; Zeile <code>-1</code> ist die Kopfzeile.',
+              clearFilters: 'Setzt alle Filter und die Suche zurück.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Eine Spalte. Nur <code>id</code> und <code>header</code> sind Pflicht.',
+            members: {
+              id: 'Eindeutig; der Schlüssel in Sortierung, Filtern und Spaltenzustand.',
+              header: 'Der Text des Spaltenkopfs.',
+              value:
+                'Ein Schlüssel der Zeile oder eine Funktion der Zeile. Standardmäßig <code>row[id]</code>.',
+              type: 'Bestimmt Ausrichtung, Sortierung, Filter und Editor.',
+              format:
+                '<code>Intl</code>-Optionen für Zahlen und Datumsangaben oder eine Funktion, die den Text erzeugt.',
+              options:
+                'Die Optionen einer <code>enum</code>-Spalte als <code>NuiOption</code>-Objekte.',
+              'width, minWidth, maxWidth': 'In Pixeln.',
+              flex: 'Teilt den restlichen Platz mit den anderen <code>flex</code>-Spalten.',
+              align: 'Standardmäßig nach Typ: Zahlen und Datumsangaben am Ende.',
+              'pinned, hidden': 'Anfängliche Fixierung und Sichtbarkeit der Spalte.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Einzeln mit <code>false</code> abschaltbar.',
+              compare: 'Eine eigene Sortierung.',
+              'editable, validate':
+                'Ob Zellen bearbeitbar sind, und eine Meldung, wenn ein Wert ungültig ist.',
+              set: 'Erzeugt die bearbeitete Zeile. Standardmäßig eine Kopie mit dem neuen Wert.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Zeichnet die Zellen einer Spalte. Der Kontext enthält die Zeile, den Wert und den Text.',
+            members: { nuiGridCell: 'Die ID der Spalte.' },
+          },
+          NuiGridHeader: {
+            summary: 'Zeichnet den Kopf einer Spalte.',
+            members: { nuiGridHeader: 'Die ID der Spalte.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Was erscheint, wenn es keine Zeilen gibt. Der Kontext verrät, ob Filter sie ausgeblendet haben.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Pfeiltasten',
+            'Springen eine Zelle weiter. Links und rechts sind bei Text von rechts nach links vertauscht.',
+          ],
+          [
+            'Pos1 und Ende',
+            'Springt zur ersten oder letzten Zelle der Zeile; mit Ctrl im ganzen Grid.',
+          ],
+          ['Bild ab und Bild auf', 'Springt eine Bildschirmseite nach unten oder oben.'],
+          [
+            'Enter oder Leertaste auf einem Spaltenkopf',
+            'Sortiert nach der Spalte; mit Umschalt kommt sie zur Sortierung hinzu.',
+          ],
+          ['Alt + Pfeil nach unten auf einem Spaltenkopf', 'Öffnet das Spalten-Panel.'],
+          [
+            'Alt + Pfeil nach links oder rechts auf einem Spaltenkopf',
+            'Macht die Spalte schmaler oder breiter; mit Umschalt wird sie verschoben.',
+          ],
+          [
+            'Enter auf einer Zelle',
+            'Bearbeitet die Zelle oder öffnet die Zeile, falls sie nicht bearbeitbar ist.',
+          ],
+          ['F2 oder Tippen', 'Bearbeitet die Zelle.'],
+          [
+            'Enter, Esc und Tab beim Bearbeiten',
+            'Übernimmt, bricht ab oder übernimmt und springt weiter.',
+          ],
+          [
+            'Leertaste',
+            'Wählt die Zeile aus; mit Umschalt alle Zeilen seit der zuletzt gewählten.',
+          ],
+          ['Ctrl + A', 'Wählt alle Zeilen aus.'],
+        ],
+        notes: [
+          'Ein natives <code>&lt;table&gt;</code> mit <code>role="grid"</code>, benannt über <code>label</code>. Spaltenköpfe tragen <code>aria-sort</code> und auswählbare Zeilen <code>aria-selected</code>.',
+          'Das Grid ist ein einziger Tab-Stopp. Der Fokus springt mit einem wandernden <code>tabindex</code> von Zelle zu Zelle, sodass Screenreader jede Zelle mit ihren Zeilen- und Spaltenköpfen vorlesen.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> und <code>aria-colindex</code> bleiben korrekt, auch wenn Zeilen paginiert oder virtualisiert sind.',
+          'Sortierung, Filter, Seitenwechsel und Bearbeitungsfehler werden höflich über eine Statusregion angesagt.',
+        ],
+      },
     },
   },
 

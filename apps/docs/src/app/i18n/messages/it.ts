@@ -1176,6 +1176,145 @@ export const messages: Messages = {
           'Dai un nome alla select con un <code>&lt;label for&gt;</code> che punta a <code>triggerId</code>, o con <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Griglia dati',
+        title: 'Componente griglia dati per Angular',
+        summary: 'Ordina, filtra, seleziona, modifica e scorri un numero qualsiasi di righe.',
+        description:
+          'Griglia dati Angular accessibile su tabella nativa: ordinamento su più colonne, filtri, pagine o scorrimento virtuale, selezione, modifica e colonne spostabili.',
+        apiDescription:
+          'Riferimento API della griglia dati Needless UI: input e model di nui-grid, la definizione di NuiGridColumn e i template per celle personalizzate.',
+        a11yDescription:
+          'Tastiera e accessibilità della griglia dati Needless UI: tabella nativa con ruoli grid, un solo tab stop, frecce e annunci.',
+        overview: [
+          'La griglia dati è una tabella nativa con ordinamento, filtri, paginazione e modifica. Descrivi le <code>columns</code>, passa le <code>rows</code> e ogni cella viene formattata in base al tipo e al locale: numeri, valute, date, sì e no, ed etichette per i valori <code>enum</code>.',
+          'Tutto il suo stato è nei model, che puoi collegare, salvare e inviare a un server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> e <code>columnState</code> per larghezze, ordine, colonne bloccate e nascoste scelte dagli utenti. Senza paginazione vengono renderizzate solo le righe visibili, così 100.000 righe scorrono come dieci.',
+          'Ogni cella è raggiungibile da tastiera, e il pannello di ogni colonna permette di ordinarla, filtrarla, bloccarla, spostarla, adattarla al contenuto e nasconderla.',
+        ],
+        examples: {
+          orders: {
+            title: 'Ricerca, ordinamento e paginazione',
+            text: 'Scrivi per cercare in tutte le colonne. Fai clic su un’intestazione per ordinare; con Maiusc + clic aggiungi una seconda colonna. <code>nuiGridCell</code> disegna lo stato, e <code>exportCsv()</code> restituisce ciò che è visibile.',
+          },
+          selection: {
+            title: 'Selezione',
+            text: '<code>selection="multiple"</code> aggiunge le checkbox e collega le chiavi delle righe selezionate. Maiusc + clic seleziona un intervallo; la checkbox nell’intestazione seleziona tutte le righe che corrispondono.',
+          },
+          editing: {
+            title: 'Modifica',
+            text: 'Fai doppio clic su una cella, premi Invio o inizia a scrivere. <code>validate</code> tiene aperto l’editor con un messaggio; una modifica confermata aggiorna <code>rows</code> ed emette <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100.000 righe',
+            text: 'Senza paginazione vengono renderizzate solo le righe visibili. Le colonne bloccate restano ai bordi, e <code>columnState</code> conserva il layout scelto dagli utenti.',
+          },
+          server: {
+            title: 'Dati dal server',
+            text: 'In modalità <code>server</code> la griglia mostra le righe man mano che arrivano e segnala ogni cambiamento con <code>queryChange</code>. Imposta <code>loading</code> mentre carichi i dati.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Una griglia dati su una tabella nativa.',
+            members: {
+              rows: 'I dati. Le modifiche sostituiscono le righe, quindi collegali con <code>[(rows)]</code>.',
+              columns: 'Le colonne, come oggetti <code>NuiGridColumn</code>.',
+              rowId: 'La chiave di una riga, per la selezione e il tracciamento.',
+              label: 'Nome accessibile della griglia.',
+              selection: 'Se le righe si possono selezionare, e quante.',
+              selected: 'Le chiavi delle righe selezionate.',
+              sort: 'L’ordinamento, come oggetti <code>{ column, direction }</code>; il primo ordina per primo.',
+              filters: 'Un filtro per ogni id di colonna: un operatore e un valore.',
+              search: 'Parole che devono comparire tutte in una riga.',
+              pageSize: 'Righe per pagina, o 0 per un unico elenco a scorrimento.',
+              page: 'La pagina mostrata, a partire da 0.',
+              pageSizes: 'Le scelte nel paginatore.',
+              virtual:
+                'Renderizza solo le righe visibili: sempre, mai, o <code>auto</code> oltre 100 righe senza paginazione.',
+              height: 'Una lunghezza CSS che limita la griglia; il contenuto scorre all’interno.',
+              columnState:
+                'Larghezza, ordine, blocco e visibilità di ogni colonna, da salvare e ripristinare.',
+              mode: '<code>server</code> mostra le righe man mano che arrivano e lascia a te ordinamento, filtri e paginazione.',
+              total: 'Il numero di righe sul server.',
+              loading: 'Mostra una barra di avanzamento, e righe segnaposto quando non ce ne sono.',
+              locale: 'Formatta numeri e date, e legge i numeri digitati.',
+              labels: 'Ogni testo che la griglia mostra o annuncia, da tradurre.',
+              rowActivate: 'Emette una riga aperta con Invio o con un doppio clic.',
+              cellEdit: 'Emette ogni modifica confermata.',
+              queryChange: 'Emette ordinamento, filtri, ricerca e pagina a ogni cambiamento.',
+              exportCsv: 'Le righe filtrate e ordinate delle colonne visibili, in CSV.',
+              focusCell: 'Sposta il focus su una cella; la riga <code>-1</code> è l’intestazione.',
+              clearFilters: 'Azzera tutti i filtri e la ricerca.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Una colonna. Solo <code>id</code> e <code>header</code> sono obbligatori.',
+            members: {
+              id: 'Univoco; la chiave in ordinamento, filtri e stato delle colonne.',
+              header: 'Il testo dell’intestazione.',
+              value:
+                'Una chiave della riga, o una funzione della riga. Di default è <code>row[id]</code>.',
+              type: 'Stabilisce allineamento, ordinamento, filtro ed editor.',
+              format:
+                'Opzioni di <code>Intl</code> per numeri e date, o una funzione che produce il testo.',
+              options:
+                'Le opzioni di una colonna <code>enum</code>, come oggetti <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'In pixel.',
+              flex: 'Divide lo spazio rimasto con le altre colonne <code>flex</code>.',
+              align: 'Di default dipende dal tipo: numeri e date alla fine.',
+              'pinned, hidden': 'Blocco e visibilità iniziali della colonna.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Ognuna si può disattivare con <code>false</code>.',
+              compare: 'Un ordinamento personalizzato.',
+              'editable, validate':
+                'Se le celle si possono modificare, e un messaggio quando un valore non è valido.',
+              set: 'Crea la riga modificata. Di default è una copia con il nuovo valore.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Disegna le celle di una colonna. Il contesto contiene la riga, il valore e il testo.',
+            members: { nuiGridCell: 'L’id della colonna.' },
+          },
+          NuiGridHeader: {
+            summary: 'Disegna l’intestazione di una colonna.',
+            members: { nuiGridHeader: 'L’id della colonna.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Cosa si vede quando non ci sono righe. Il contesto indica se le hanno nascoste i filtri.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Frecce',
+            'Spostano di una cella. Sinistra e destra si invertono nel testo da destra a sinistra.',
+          ],
+          ['Home e Fine', 'Va alla prima o all’ultima cella della riga; con Ctrl, della griglia.'],
+          ['Pag giù e Pag su', 'Si sposta di una schermata di righe.'],
+          [
+            'Invio o Spazio su un’intestazione',
+            'Ordina per la colonna; con Maiusc, la aggiunge all’ordinamento.',
+          ],
+          ['Alt + freccia giù su un’intestazione', 'Apre il pannello della colonna.'],
+          [
+            'Alt + freccia sinistra o destra su un’intestazione',
+            'Restringe o allarga la colonna; con Maiusc, la sposta.',
+          ],
+          ['Invio su una cella', 'Modifica la cella, o apre la riga se non è modificabile.'],
+          ['F2, o digitare', 'Modifica la cella.'],
+          ['Invio, Esc e Tab durante la modifica', 'Conferma, annulla, o conferma e passa oltre.'],
+          ['Spazio', 'Seleziona la riga; con Maiusc, le righe dall’ultima selezionata.'],
+          ['Ctrl + A', 'Seleziona tutte le righe.'],
+        ],
+        notes: [
+          'Una <code>&lt;table&gt;</code> nativa con <code>role="grid"</code> e il nome dato da <code>label</code>. Le intestazioni hanno <code>aria-sort</code>, e le righe selezionabili <code>aria-selected</code>.',
+          'La griglia è un unico tab stop. Il focus passa da una cella all’altra con un <code>tabindex</code> mobile, così gli screen reader leggono ogni cella con le intestazioni di riga e di colonna.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> e <code>aria-colindex</code> restano corretti anche con righe paginate o virtualizzate.',
+          'Ordinamento, filtri, paginazione ed errori di modifica vengono annunciati in modo cortese in una regione di stato.',
+        ],
+      },
     },
   },
 

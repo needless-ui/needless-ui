@@ -1,0 +1,23 @@
+<div class="toolbar">
+  <input
+    type="search"
+    class="search"
+    placeholder="Search orders"
+    aria-label="Search orders"
+    [value]="search()"
+    (input)="search.set($any($event.target).value)"
+  />
+  <button nuiButton variant="outline" tone="neutral" (click)="download(grid)">Export CSV</button>
+</div>
+<nui-grid
+  #grid
+  label="Orders"
+  [(rows)]="orders"
+  [columns]="columns"
+  [(search)]="search"
+  [pageSize]="8"
+>
+  <ng-template nuiGridCell="status" let-order let-text="text">
+    <span class="status" [attr.data-status]="order.status">{{ text }}</span>
+  </ng-template>
+</nui-grid>

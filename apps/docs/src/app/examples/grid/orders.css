@@ -1,0 +1,52 @@
+/* One column, as wide as the page: a wrapping one would grow to the table's width. */
+:host {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nui-space-3);
+  justify-content: space-between;
+}
+
+.search {
+  flex: 1;
+  max-inline-size: 18rem;
+  block-size: var(--nui-control-height-md);
+  padding-inline: var(--nui-space-3);
+  border: var(--nui-border-width-thin) solid var(--nui-color-border-strong);
+  border-radius: var(--nui-radius-md);
+  background: var(--nui-color-bg-canvas);
+  color: inherit;
+  font: inherit;
+}
+
+.search:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+  outline-offset: var(--nui-focus-ring-offset);
+}
+
+.status {
+  padding: 0.125rem var(--nui-space-2);
+  border-radius: var(--nui-radius-full);
+  background: var(--nui-color-neutral-soft);
+  font-size: var(--nui-font-size-xs);
+  font-weight: var(--nui-font-weight-medium);
+}
+
+.status[data-status='pending'] {
+  background: var(--nui-color-warning-soft);
+  color: var(--nui-color-warning-text);
+}
+
+.status[data-status='paid'] {
+  background: var(--nui-color-accent-soft);
+  color: var(--nui-color-accent-text);
+}
+
+.status[data-status='shipped'] {
+  background: var(--nui-color-success-soft);
+  color: var(--nui-color-success-text);
+}

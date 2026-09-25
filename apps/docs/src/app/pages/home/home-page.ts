@@ -7,10 +7,11 @@ import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
 import { InAppLinks } from '../../shared/in-app-links';
 import { ComponentPreview } from '../../shared/component-preview';
+import { TrustedHtml } from '../../shared/trusted';
 
 @Component({
   selector: 'docs-home-page',
-  imports: [RouterLink, NuiButton, CodeBlock, ComponentPreview, InAppLinks],
+  imports: [RouterLink, NuiButton, CodeBlock, ComponentPreview, InAppLinks, TrustedHtml],
   template: `
     @let home = i18n.t().home;
     <div class="home">
@@ -18,7 +19,7 @@ import { ComponentPreview } from '../../shared/component-preview';
         <div class="hero-text">
           <p class="eyebrow">{{ home.eyebrow }}</p>
           <h1 id="hero-title">{{ home.heading }}</h1>
-          <p class="hero-lead" [innerHTML]="home.lead"></p>
+          <p class="hero-lead" [innerHTML]="home.lead | trusted"></p>
           <div class="hero-actions">
             <a nuiButton size="lg" [routerLink]="i18n.link('/guides/getting-started')">
               {{ home.getStarted }}
@@ -47,7 +48,7 @@ import { ComponentPreview } from '../../shared/component-preview';
           @for (feature of home.features; track feature.title) {
             <li class="feature">
               <h3>{{ feature.title }}</h3>
-              <p [innerHTML]="feature.text"></p>
+              <p [innerHTML]="feature.text | trusted"></p>
             </li>
           }
         </ul>

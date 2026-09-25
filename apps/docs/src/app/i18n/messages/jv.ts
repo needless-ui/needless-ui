@@ -1171,6 +1171,150 @@ export const messages: Messages = {
           'Wenehana jeneng nganggo <code>&lt;label for&gt;</code> sing nuding <code>triggerId</code>, utawa nganggo <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Grid data',
+        title: 'Komponen grid data kanggo Angular',
+        summary: 'Urutna, saring, pilih, sunting lan gulung baris, sepira wae akehe.',
+        description:
+          'Grid data Angular sing aksesibel ing tabel native: ngurutake pirang-pirang kolom, saringan, kaca utawa virtual scrolling, milih, nyunting lan mindhah kolom.',
+        apiDescription:
+          'Referensi API grid data Needless UI: input lan model nui-grid, definisi NuiGridColumn, lan template kanggo sel kustom.',
+        a11yDescription:
+          'Keyboard lan aksesibilitas grid data Needless UI: tabel native kanthi role grid, siji tab stop, tombol panah lan pengumuman.',
+        overview: [
+          'Grid data yaiku tabel native sing bisa ngurutake, nyaring, mbagi kaca lan nyunting. Terangna <code>columns</code>, wenehana <code>rows</code>, lan saben sel diformat miturut jinise kanggo locale: angka, mata uang, tanggal, ya lan ora, uga label kanggo nilai <code>enum</code>.',
+          'Kahanane ana ing model sing bisa panjenengan bind, simpen lan kirim menyang server: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, lan <code>columnState</code> kanggo ambane, urutan, lan kolom sing disemat utawa didhelikake miturut pilihane pangguna. Tanpa kaca, mung baris sing katon sing digambar, dadi 100.000 baris digulung kaya sepuluh.',
+          'Saben sel bisa ditekani nganggo keyboard, lan panel saben kolom bisa ngurutake, nyaring, nyemat, mindhah, nyetel ambane lan ndhelikake kolom kasebut.',
+        ],
+        examples: {
+          orders: {
+            title: 'Panelusuran, urutan lan kaca',
+            text: 'Ketik kanggo nelusuri kabeh kolom. Klik header kanggo ngurutake, lan Shift-klik kanggo nambah kolom kapindho. <code>nuiGridCell</code> nggambar status, lan <code>exportCsv()</code> nyerahake apa sing ditampilake.',
+          },
+          selection: {
+            title: 'Milih baris',
+            text: '<code>selection="multiple"</code> nambahake checkbox lan bind kunci baris sing dipilih. Shift-klik milih sarangkaian baris; checkbox ing header milih kabeh baris sing cocog.',
+          },
+          editing: {
+            title: 'Nyunting',
+            text: 'Klik kaping pindho ing sel, pencet Enter utawa langsung ngetik. <code>validate</code> njaga editor tetep kabukak kanthi pesen; suntingan sing wis ditetepake nganyari <code>rows</code> lan ngetokake <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100.000 baris',
+            text: 'Tanpa kaca, mung baris sing katon sing digambar. Kolom sing disemat tetep ana ing pinggir, lan <code>columnState</code> nyimpen tata letak sing digawe pangguna.',
+          },
+          server: {
+            title: 'Data saka server',
+            text: 'Ing mode <code>server</code>, grid nampilake baris kaya tekane lan nglaporake saben owah-owahan ing <code>queryChange</code>. Setel <code>loading</code> sajrone njupuk data.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Grid data ing tabel native.',
+            members: {
+              rows: 'Data. Suntingan ngganti baris, dadi bind nganggo <code>[(rows)]</code>.',
+              columns: 'Kolom-kolom, minangka obyek <code>NuiGridColumn</code>.',
+              rowId: 'Kunci baris, kanggo milih lan nglacak.',
+              label: 'Jeneng aksesibel grid.',
+              selection: 'Apa baris bisa dipilih, lan pira.',
+              selected: 'Kunci baris-baris sing dipilih.',
+              sort: 'Urutan, minangka obyek <code>{ column, direction }</code>; sing kapisan ngurutake dhisik.',
+              filters: 'Saringan saben id kolom: operator lan nilai.',
+              search: 'Tembung-tembung sing kabeh kudu ana ing baris.',
+              pageSize: 'Baris saben kaca, utawa 0 kanggo siji dhaptar sing digulung.',
+              page: 'Kaca sing ditampilake, wiwit 0.',
+              pageSizes: 'Pilihan ing navigasi kaca.',
+              virtual:
+                'Mung nggambar baris sing katon: tansah, ora tau, utawa kanthi <code>auto</code> yen luwih saka 100 baris tanpa kaca.',
+              height: 'Dawa CSS sing mbatesi grid; isine digulung ing njero.',
+              columnState:
+                'Ambane, urutan, status semat lan visibilitas saben kolom, kanggo disimpen lan dibalekake.',
+              mode: '<code>server</code> nampilake baris kaya tekane lan masrahake urutan, saringan lan kaca marang panjenengan.',
+              total: 'Cacahe baris ing server.',
+              loading: 'Nampilake bar progres, lan baris placeholder nalika durung ana baris.',
+              locale: 'Ngformat angka lan tanggal, lan maca angka sing diketik.',
+              labels: 'Saben teks sing ditampilake utawa diumumake grid, kanggo diterjemahake.',
+              rowActivate: 'Ngetokake baris sing dibukak nganggo Enter utawa klik kaping pindho.',
+              cellEdit: 'Ngetokake saben suntingan sing wis ditetepake.',
+              queryChange:
+                'Ngetokake urutan, saringan, panelusuran lan kaca saben ana owah-owahan.',
+              exportCsv:
+                'Baris sing wis disaring lan diurutake saka kolom sing katon, minangka CSV.',
+              focusCell: 'Mindhah fokus menyang sel; baris <code>-1</code> yaiku header.',
+              clearFilters: 'Mbusak kabeh saringan lan panelusuran.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Siji kolom. Mung <code>id</code> lan <code>header</code> sing wajib.',
+            members: {
+              id: 'Unik; kunci ing urutan, saringan lan kahanan kolom.',
+              header: 'Teks header.',
+              value: 'Kunci saka baris, utawa fungsi saka baris. Gawane <code>row[id]</code>.',
+              type: 'Nemtokake perataan, urutan, saringan lan editor.',
+              format:
+                'Pilihan <code>Intl</code> kanggo angka lan tanggal, utawa fungsi sing nggawe teks.',
+              options: 'Pilihan kolom <code>enum</code>, minangka obyek <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'Ing piksel.',
+              flex: 'Mbagi papan sing isih turah karo kolom <code>flex</code> liyane.',
+              align: 'Gawane miturut jinis: angka lan tanggal ing pungkasan.',
+              'pinned, hidden': 'Status semat lan visibilitas wiwitan kolom.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Saben siji bisa dipateni nganggo <code>false</code>.',
+              compare: 'Urutan kustom.',
+              'editable, validate': 'Apa sel bisa disunting, lan pesen nalika nilaine ora valid.',
+              set: 'Nggawe baris sing wis disunting. Gawane salinan kanthi nilai anyar.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Nggambar sel-sel sawijining kolom. Konteks-e ngemot baris, nilaine lan teks-e.',
+            members: { nuiGridCell: 'Id kolom.' },
+          },
+          NuiGridHeader: {
+            summary: 'Nggambar header sawijining kolom.',
+            members: { nuiGridHeader: 'Id kolom.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Apa sing katon nalika ora ana baris. Konteks-e ngandhani apa baris-baris didhelikake saringan.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Tombol panah',
+            'Pindhah siji sel. Kiwa lan tengen kewalik ing teks tengen-menyang-kiwa.',
+          ],
+          [
+            'Home lan End',
+            'Pindhah menyang sel kapisan utawa pungkasan ing baris; kanthi Ctrl, ing grid.',
+          ],
+          ['Page Down lan Page Up', 'Pindhah sak layar baris.'],
+          [
+            'Enter utawa Spasi ing header',
+            'Ngurutake miturut kolom kasebut; kanthi Shift, nambahake menyang urutan.',
+          ],
+          ['Alt + panah mudhun ing header', 'Mbukak panel kolom.'],
+          [
+            'Alt + panah kiwa utawa tengen ing header',
+            'Nyiyutake utawa ngambakake kolom; kanthi Shift, mindhah kolom.',
+          ],
+          ['Enter ing sel', 'Nyunting sel, utawa mbukak baris yen ora bisa disunting.'],
+          ['F2, utawa ngetik', 'Nyunting sel.'],
+          [
+            'Enter, Escape lan Tab nalika nyunting',
+            'Netepake, mbatalake, utawa netepake lan pindhah terus.',
+          ],
+          ['Spasi', 'Milih baris; kanthi Shift, kabeh baris wiwit pilihan pungkasan.'],
+          ['Ctrl + A', 'Milih kabeh baris.'],
+        ],
+        notes: [
+          '<code>&lt;table&gt;</code> native kanthi <code>role="grid"</code>, dijenengi dening <code>label</code>. Header nggawa <code>aria-sort</code>, lan baris sing bisa dipilih nggawa <code>aria-selected</code>.',
+          'Grid mung dadi siji tab stop. Fokus pindhah saka sel menyang sel nganggo roving <code>tabindex</code>, dadi screen reader maca saben sel bareng header baris lan kolome.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> lan <code>aria-colindex</code> tetep bener nalika baris dibagi dadi kaca utawa nganggo virtual scrolling.',
+          'Owah-owahan urutan, saringan lan kaca, uga kesalahan nyunting, diumumake kanthi sopan (polite) ing wilayah status.',
+        ],
+      },
     },
   },
 

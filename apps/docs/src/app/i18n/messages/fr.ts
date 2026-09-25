@@ -1187,6 +1187,156 @@ export const messages: Messages = {
           'Nommez-le avec un <code>&lt;label for&gt;</code> qui pointe vers <code>triggerId</code>, ou avec <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Grille de données',
+        title: 'Composant grille de données pour Angular',
+        summary:
+          'Triez, filtrez, sélectionnez, modifiez et faites défiler un nombre illimité de lignes.',
+        description:
+          'Grille de données Angular accessible sur un tableau natif : tri multicolonne, filtres, pagination ou virtualisation, sélection, édition et colonnes déplaçables.',
+        apiDescription:
+          'Référence de l’API de la grille de données Needless UI : inputs et modèles de nui-grid, la définition NuiGridColumn et les templates de cellules sur mesure.',
+        a11yDescription:
+          'Clavier et accessibilité de la grille de données Needless UI : tableau natif avec rôles grid, un seul arrêt de tabulation, flèches et annonces.',
+        overview: [
+          'La grille de données est un tableau natif avec tri, filtres, pagination et édition. Décrivez les <code>columns</code>, passez les <code>rows</code>, et chaque cellule est formatée selon son type et les paramètres régionaux : nombres, devises, dates, oui et non, et libellés des valeurs <code>enum</code>.',
+          'Son état réside dans des modèles que vous pouvez lier, enregistrer et envoyer à un serveur : <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, et <code>columnState</code> pour les largeurs, l’ordre, les colonnes épinglées et masquées que choisissent les utilisateurs. Sans pagination, seules les lignes visibles sont rendues : 100 000 lignes défilent comme dix.',
+          'Chaque cellule est accessible au clavier, et le panneau de chaque colonne permet de la trier, la filtrer, l’épingler, la déplacer, l’ajuster au contenu et la masquer.',
+        ],
+        examples: {
+          orders: {
+            title: 'Recherche, tri et pagination',
+            text: 'Saisissez du texte pour chercher dans toutes les colonnes. Cliquez sur un en-tête pour trier ; Maj + clic ajoute une deuxième colonne. <code>nuiGridCell</code> dessine le statut, et <code>exportCsv()</code> fournit ce qui est affiché.',
+          },
+          selection: {
+            title: 'Sélection',
+            text: '<code>selection="multiple"</code> ajoute des cases à cocher et lie les clés des lignes sélectionnées. Maj + clic sélectionne une plage ; la case de l’en-tête sélectionne toutes les lignes correspondantes.',
+          },
+          editing: {
+            title: 'Édition',
+            text: 'Double-cliquez sur une cellule, appuyez sur Entrée ou tapez directement. <code>validate</code> garde l’éditeur ouvert avec un message ; une modification validée met à jour <code>rows</code> et émet <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100 000 lignes',
+            text: 'Sans pagination, seules les lignes visibles sont rendues. Les colonnes épinglées restent sur les bords, et <code>columnState</code> conserve la disposition choisie par l’utilisateur.',
+          },
+          server: {
+            title: 'Données du serveur',
+            text: 'En mode <code>server</code>, la grille affiche les lignes telles qu’elles arrivent et signale chaque changement dans <code>queryChange</code>. Activez <code>loading</code> pendant le chargement.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Une grille de données sur un tableau natif.',
+            members: {
+              rows: 'Les données. Les modifications remplacent des lignes : liez-les avec <code>[(rows)]</code>.',
+              columns: 'Les colonnes, sous forme d’objets <code>NuiGridColumn</code>.',
+              rowId: 'La clé d’une ligne, pour la sélection et le suivi.',
+              label: 'Nom accessible de la grille.',
+              selection: 'Si les lignes sont sélectionnables, et combien.',
+              selected: 'Les clés des lignes sélectionnées.',
+              sort: 'Le tri, sous forme d’objets <code>{ column, direction }</code> ; le premier trie en premier.',
+              filters: 'Un filtre par id de colonne : un opérateur et une valeur.',
+              search: 'Des mots qui doivent tous figurer dans une ligne.',
+              pageSize: 'Lignes par page, ou 0 pour une seule liste défilante.',
+              page: 'La page affichée, à partir de 0.',
+              pageSizes: 'Les choix de la pagination.',
+              virtual:
+                'Ne rend que les lignes visibles : toujours, jamais, ou <code>auto</code> au-delà de 100 lignes sans pagination.',
+              height: 'Une longueur CSS qui limite la grille ; elle défile à l’intérieur.',
+              columnState:
+                'La largeur, l’ordre, l’épinglage et la visibilité de chaque colonne, à enregistrer et restaurer.',
+              mode: '<code>server</code> affiche les lignes telles qu’elles arrivent et vous laisse le tri, le filtrage et la pagination.',
+              total: 'Le nombre de lignes sur le serveur.',
+              loading:
+                'Affiche une barre de progression, et des lignes provisoires tant qu’il n’y en a aucune.',
+              locale: 'Formate les nombres et les dates, et lit les nombres saisis.',
+              labels: 'Tous les textes que la grille affiche ou annonce, à traduire.',
+              rowActivate: 'Émet une ligne ouverte avec Entrée ou un double clic.',
+              cellEdit: 'Émet chaque modification validée.',
+              queryChange: 'Émet le tri, les filtres, la recherche et la page à chaque changement.',
+              exportCsv: 'Les lignes filtrées et triées des colonnes visibles, en CSV.',
+              focusCell: 'Place le focus sur une cellule ; la ligne <code>-1</code> est l’en-tête.',
+              clearFilters: 'Efface tous les filtres et la recherche.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Une colonne. Seuls <code>id</code> et <code>header</code> sont obligatoires.',
+            members: {
+              id: 'Unique ; la clé dans le tri, les filtres et l’état des colonnes.',
+              header: 'Le texte de l’en-tête.',
+              value:
+                'Une clé de la ligne, ou une fonction de la ligne. Par défaut, <code>row[id]</code>.',
+              type: 'Détermine l’alignement, le tri, le filtre et l’éditeur.',
+              format:
+                'Options <code>Intl</code> pour les nombres et les dates, ou une fonction qui produit le texte.',
+              options:
+                'Les options d’une colonne <code>enum</code>, sous forme d’objets <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'En pixels.',
+              flex: 'Partage l’espace restant avec les autres colonnes <code>flex</code>.',
+              align: 'Par défaut, selon le type : nombres et dates à la fin.',
+              'pinned, hidden': 'L’épinglage et la visibilité initiaux de la colonne.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Chacun se désactive avec <code>false</code>.',
+              compare: 'Un tri personnalisé.',
+              'editable, validate':
+                'Si les cellules sont modifiables, et un message quand une valeur n’est pas valide.',
+              set: 'Produit la ligne modifiée. Par défaut, une copie avec la nouvelle valeur.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Dessine les cellules d’une colonne. Le contexte contient la ligne, la valeur et le texte.',
+            members: { nuiGridCell: 'L’id de la colonne.' },
+          },
+          NuiGridHeader: {
+            summary: 'Dessine l’en-tête d’une colonne.',
+            members: { nuiGridHeader: 'L’id de la colonne.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Ce qui s’affiche quand il n’y a aucune ligne. Le contexte indique si des filtres les ont masquées.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Touches fléchées',
+            'Déplacent d’une cellule. Gauche et droite s’inversent dans un texte de droite à gauche.',
+          ],
+          [
+            'Début et Fin',
+            'Va à la première ou à la dernière cellule de la ligne ; avec Ctrl, de la grille.',
+          ],
+          ['Page suivante et Page précédente', 'Avance ou recule d’un écran de lignes.'],
+          ['Entrée ou Espace sur un en-tête', 'Trie selon la colonne ; avec Maj, l’ajoute au tri.'],
+          ['Alt + flèche bas sur un en-tête', 'Ouvre le panneau de la colonne.'],
+          [
+            'Alt + flèche gauche ou droite sur un en-tête',
+            'Rétrécit ou élargit la colonne ; avec Maj, la déplace.',
+          ],
+          [
+            'Entrée sur une cellule',
+            'Modifie la cellule, ou ouvre la ligne si elle n’est pas modifiable.',
+          ],
+          ['F2, ou saisie', 'Modifie la cellule.'],
+          [
+            'Entrée, Échap et Tab pendant l’édition',
+            'Valide, annule, ou valide et passe à la suite.',
+          ],
+          [
+            'Espace',
+            'Sélectionne la ligne ; avec Maj, les lignes depuis la dernière sélectionnée.',
+          ],
+          ['Ctrl + A', 'Sélectionne toutes les lignes.'],
+        ],
+        notes: [
+          'Un <code>&lt;table&gt;</code> natif avec <code>role="grid"</code>, nommé par <code>label</code>. Les en-têtes portent <code>aria-sort</code>, et les lignes sélectionnables <code>aria-selected</code>.',
+          'La grille ne compte qu’un seul arrêt de tabulation. Le focus passe de cellule en cellule grâce à un <code>tabindex</code> itinérant : les lecteurs d’écran lisent chaque cellule avec ses en-têtes de ligne et de colonne.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> et <code>aria-colindex</code> restent justes quand les lignes sont paginées ou virtualisées.',
+          'Le tri, le filtrage, la pagination et les erreurs d’édition sont annoncés poliment dans une région d’état.',
+        ],
+      },
     },
   },
 

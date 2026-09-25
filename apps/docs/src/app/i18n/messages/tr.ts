@@ -1157,6 +1157,135 @@ export const messages: Messages = {
           '<code>triggerId</code> değerini gösteren bir <code>&lt;label for&gt;</code> ya da <code>label</code> ile adlandırın.',
         ],
       },
+      grid: {
+        name: 'Veri tablosu',
+        title: 'Angular için veri tablosu bileşeni',
+        summary: 'İstediğiniz sayıda satırı sıralayın, filtreleyin, seçin, düzenleyin ve kaydırın.',
+        description:
+          'Yerel tablo üzerine kurulu erişilebilir Angular veri tablosu: çok sütunlu sıralama, filtreler, sayfalama veya sanal kaydırma, seçim, düzenleme ve sütun taşıma.',
+        apiDescription:
+          'Needless UI veri tablosunun API referansı: nui-grid girdileri ve modelleri, NuiGridColumn tanımı ve özel hücreler için şablonlar.',
+        a11yDescription:
+          'Needless UI veri tablosunun klavye kullanımı ve erişilebilirliği: grid rollü yerel tablo, tek sekme durağı, ok tuşları ve duyurular.',
+        overview: [
+          'Veri tablosu yerel bir tablodur: sıralar, filtreler, sayfalara böler ve düzenler. Sütunları <code>columns</code> ile tanımlayıp satırları <code>rows</code> ile verin; her hücre türüne ve yerel ayara göre biçimlendirilir: sayılar, para birimleri, tarihler, evet/hayır ve <code>enum</code> değerlerinin etiketleri.',
+          'Tablonun durumu, bağlayıp kaydedebileceğiniz ve sunucuya gönderebileceğiniz modellerde tutulur: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> ve kullanıcıların seçtiği genişlik, sıra, sabitleme ve gizli sütunlar için <code>columnState</code>. Sayfalama yoksa yalnızca görünen satırlar render edilir; böylece 100.000 satır da on satır kadar akıcı kayar.',
+          'Her hücreye klavyeyle ulaşılabilir; her sütunun paneli sütunu sıralar, filtreler, sabitler, taşır, içeriğe sığdırır ve gizler.',
+        ],
+        examples: {
+          orders: {
+            title: 'Arama, sıralama ve sayfalar',
+            text: 'Tüm sütunlarda aramak için yazın. Sıralamak için bir başlığa tıklayın, ikinci bir sütun eklemek için Shift ile tıklayın. <code>nuiGridCell</code> durumu çizer, <code>exportCsv()</code> ise gösterileni dışa aktarır.',
+          },
+          selection: {
+            title: 'Seçim',
+            text: '<code>selection="multiple"</code> onay kutuları ekler ve seçili satırların anahtarlarını bağlar. Shift ile tıklamak bir aralık seçer; başlıktaki kutu eşleşen tüm satırları seçer.',
+          },
+          editing: {
+            title: 'Düzenleme',
+            text: 'Hücreye çift tıklayın, Enter’a basın ya da yazmaya başlayın. <code>validate</code> düzenleyiciyi mesajla açık tutar; onaylanan düzenleme <code>rows</code> değerini günceller ve <code>cellEdit</code> olayını tetikler.',
+          },
+          big: {
+            title: '100.000 satır',
+            text: 'Sayfalama yoksa yalnızca görünen satırlar render edilir. Sabitlenen sütunlar kenarlarda kalır; <code>columnState</code> ise kullanıcıların oluşturduğu düzeni saklar.',
+          },
+          server: {
+            title: 'Sunucu verisi',
+            text: '<code>server</code> modunda tablo, satırları geldiği gibi gösterir ve her değişikliği <code>queryChange</code> ile bildirir. Veriyi çekerken <code>loading</code> ayarlayın.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Yerel tabloya dayalı veri tablosu.',
+            members: {
+              rows: 'Veri. Düzenlemeler satırları yenileriyle değiştirir; <code>[(rows)]</code> ile bağlayın.',
+              columns: '<code>NuiGridColumn</code> nesneleri biçiminde sütunlar.',
+              rowId: 'Seçim ve takip için satırın anahtarı.',
+              label: 'Tablonun erişilebilir adı.',
+              selection: 'Satır seçilip seçilemeyeceği ve kaç tane.',
+              selected: 'Seçili satırların anahtarları.',
+              sort: '<code>{ column, direction }</code> nesneleri biçiminde sıralama; ilki önceliklidir.',
+              filters: 'Sütun id’si başına bir filtre: bir operatör ve bir değer.',
+              search: 'Bir satırda hepsinin geçmesi gereken sözcükler.',
+              pageSize: 'Sayfa başına satır; tek kaydırılabilir liste için 0.',
+              page: 'Gösterilen sayfa, 0’dan başlar.',
+              pageSizes: 'Sayfalayıcıdaki seçenekler.',
+              virtual:
+                'Yalnızca görünen satırları render eder: her zaman, hiçbir zaman ya da <code>auto</code> ile sayfalama yokken 100 satırı aşınca.',
+              height: 'Tabloyu sınırlayan CSS uzunluğu; tablo içeride kayar.',
+              columnState:
+                'Her sütunun genişliği, sırası, sabitlemesi ve görünürlüğü; kaydedip geri yüklemek için.',
+              mode: '<code>server</code>, satırları geldiği gibi gösterir; sıralama, filtreleme ve sayfalamayı size bırakır.',
+              total: 'Sunucudaki satır sayısı.',
+              loading: 'Bir ilerleme çubuğu, satır yokken de yer tutucu satırlar gösterir.',
+              locale: 'Sayıları ve tarihleri biçimlendirir, yazılan sayıları okur.',
+              labels: 'Tablonun gösterdiği veya duyurduğu her metin; çeviri için.',
+              rowActivate: 'Enter veya çift tıklamayla açılan satırı yayar.',
+              cellEdit: 'Onaylanan her düzenlemeyi yayar.',
+              queryChange: 'Sıralama, filtreler, arama veya sayfa her değiştiğinde bunları yayar.',
+              exportCsv: 'Görünür sütunların filtrelenmiş ve sıralanmış satırları, CSV olarak.',
+              focusCell: 'Hücreye odaklanır; satır <code>-1</code> başlıktır.',
+              clearFilters: 'Tüm filtreleri ve aramayı temizler.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Tek bir sütun. Yalnızca <code>id</code> ve <code>header</code> zorunludur.',
+            members: {
+              id: 'Benzersiz; sıralamada, filtrelerde ve sütun durumunda anahtardır.',
+              header: 'Başlık metni.',
+              value:
+                'Satırdaki bir anahtar ya da satırı alan bir fonksiyon. Varsayılan: <code>row[id]</code>.',
+              type: 'Hizalamayı, sıralamayı, filtreyi ve düzenleyiciyi belirler.',
+              format:
+                'Sayılar ve tarihler için <code>Intl</code> seçenekleri ya da metni üreten bir fonksiyon.',
+              options:
+                'Bir <code>enum</code> sütununun seçenekleri; <code>NuiOption</code> nesneleri biçiminde.',
+              'width, minWidth, maxWidth': 'Piksel cinsinden.',
+              flex: 'Kalan alanı diğer <code>flex</code> sütunlarıyla paylaşır.',
+              align: 'Varsayılanı türe göre: sayılar ve tarihler sonda.',
+              'pinned, hidden': 'Sütunun ilk sabitlemesi ve görünürlüğü.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Her biri <code>false</code> ile kapatılabilir.',
+              compare: 'Özel bir sıralama.',
+              'editable, validate':
+                'Hücrelerin düzenlenip düzenlenemeyeceği ve değer geçersizken gösterilecek mesaj.',
+              set: 'Düzenlenen satırı oluşturur. Varsayılan: yeni değeri taşıyan bir kopya.',
+            },
+          },
+          NuiGridCell: {
+            summary: 'Bir sütunun hücrelerini çizer. Bağlamda satır, değer ve metin bulunur.',
+            members: { nuiGridCell: 'Sütunun id’si.' },
+          },
+          NuiGridHeader: {
+            summary: 'Bir sütunun başlığını çizer.',
+            members: { nuiGridHeader: 'Sütunun id’si.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Satır yokken gösterilen içerik. Bağlam, satırları filtrelerin gizleyip gizlemediğini söyler.',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['Ok tuşları', 'Bir hücre ilerler. Sağdan sola metinde sol ve sağ yer değiştirir.'],
+          ['Home ve End', 'Satırın ilk veya son hücresine gider; Ctrl ile tablonunkine.'],
+          ['Page Down ve Page Up', 'Bir ekranlık satır atlar.'],
+          ['Başlıkta Enter veya Boşluk', 'Sütuna göre sıralar; Shift ile sütunu sıralamaya ekler.'],
+          ['Başlıkta Alt + aşağı ok', 'Sütun panelini açar.'],
+          ['Başlıkta Alt + sol veya sağ ok', 'Sütunu daraltır veya genişletir; Shift ile taşır.'],
+          ['Hücrede Enter', 'Hücreyi düzenler; düzenlenemiyorsa satırı açar.'],
+          ['F2 veya metin girişi', 'Hücreyi düzenler.'],
+          ['Düzenlerken Enter, Esc ve Tab', 'Onaylar, iptal eder ya da onaylayıp sonrakine geçer.'],
+          ['Boşluk', 'Satırı seçer; Shift ile son seçilenden buna kadar olanları.'],
+          ['Ctrl + A', 'Tüm satırları seçer.'],
+        ],
+        notes: [
+          '<code>role="grid"</code> taşıyan ve <code>label</code> ile adlandırılan yerel bir <code>&lt;table&gt;</code>. Başlıklar <code>aria-sort</code>, seçilebilir satırlar ise <code>aria-selected</code> taşır.',
+          'Tablo tek bir sekme durağıdır. Odak, gezici bir <code>tabindex</code> ile hücreden hücreye geçer; böylece ekran okuyucular her hücreyi satır ve sütun başlıklarıyla birlikte okur.',
+          'Satırlar sayfalandığında veya sanallaştırıldığında da <code>aria-rowcount</code>, <code>aria-rowindex</code> ve <code>aria-colindex</code> doğru kalır.',
+          'Sıralama, filtreleme, sayfa değişimi ve düzenleme hataları nazik (polite) bir durum bölgesinde duyurulur.',
+        ],
+      },
     },
   },
 

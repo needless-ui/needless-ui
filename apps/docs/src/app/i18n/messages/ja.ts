@@ -1176,6 +1176,143 @@ export const messages: Messages = {
           '<code>triggerId</code> を指す <code>&lt;label for&gt;</code>、または <code>label</code> で名前を付けてください。',
         ],
       },
+      grid: {
+        name: 'データグリッド',
+        title: 'Angular 用データグリッドコンポーネント',
+        summary: '何行あっても、並べ替え、絞り込み、選択、編集、スクロールができます。',
+        description:
+          'ネイティブの table 要素で構築したアクセシブルな Angular データグリッド。複数列の並べ替え、フィルター、ページングや仮想スクロール、選択、編集、列の移動に対応します。',
+        apiDescription:
+          'Needless UI のデータグリッドの API リファレンス。nui-grid の入力と双方向バインディング、NuiGridColumn の定義、カスタムセル用のテンプレートを解説します。',
+        a11yDescription:
+          'Needless UI のデータグリッドのキーボード操作とアクセシビリティ。grid ロールを持つネイティブのテーブル、1つのタブストップ、矢印キー、読み上げを解説します。',
+        overview: [
+          'データグリッドは、並べ替え、絞り込み、ページング、編集ができるネイティブのテーブルです。<code>columns</code> を定義して <code>rows</code> を渡すと、各セルは型に応じてロケールの書式で表示されます。数値、通貨、日付、はい・いいえ、<code>enum</code> の値のラベルに対応しています。',
+          '状態はモデルに保持され、バインド、保存、サーバーへの送信ができます。モデルは <code>sort</code>、<code>filters</code>、<code>search</code>、<code>page</code>、<code>selected</code>、そしてユーザーが選んだ列の幅、順序、固定、非表示を保持する <code>columnState</code> です。ページングしない場合は表示範囲の行だけがレンダリングされるため、10万行でも10行と同じようにスクロールできます。',
+          'すべてのセルにキーボードで移動できます。各列のパネルからは、その列の並べ替え、絞り込み、固定、移動、幅の自動調整、非表示ができます。',
+        ],
+        examples: {
+          orders: {
+            title: '検索、並べ替え、ページング',
+            text: '入力するとすべての列を検索します。ヘッダーをクリックすると並べ替え、Shift キーを押しながらクリックすると2つ目の列を並べ替えに加えます。<code>nuiGridCell</code> がステータスを描画し、<code>exportCsv()</code> は表示中の内容を書き出します。',
+          },
+          selection: {
+            title: '選択',
+            text: '<code>selection="multiple"</code> はチェックボックスを追加し、選択された行のキーをバインドします。Shift キーを押しながらクリックすると範囲を選択でき、ヘッダーのチェックボックスは絞り込み条件に一致するすべての行を選択します。',
+          },
+          editing: {
+            title: '編集',
+            text: 'セルをダブルクリックするか、Enter キーを押すか、そのまま入力してみてください。<code>validate</code> はメッセージを表示してエディターを開いたままにします。確定した編集は <code>rows</code> を更新し、<code>cellEdit</code> を出力します。',
+          },
+          big: {
+            title: '10万行',
+            text: 'ページングしない場合は、表示範囲の行だけがレンダリングされます。固定した列は端にとどまり、<code>columnState</code> はユーザーが作ったレイアウトを保持します。',
+          },
+          server: {
+            title: 'サーバーのデータ',
+            text: '<code>server</code> モードでは、グリッドは受け取った行をそのまま表示し、変更のたびに <code>queryChange</code> で知らせます。データの取得中は <code>loading</code> を設定します。',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'ネイティブのテーブルで構築したデータグリッド。',
+            members: {
+              rows: 'データ。編集すると行が置き換わるため、<code>[(rows)]</code> でバインドします。',
+              columns: '列。<code>NuiGridColumn</code> オブジェクトで指定します。',
+              rowId: '行のキー。選択と追跡に使います。',
+              label: 'グリッドのアクセシブルな名前。',
+              selection: '行を選択できるかどうかと、選択できる数。',
+              selected: '選択された行のキー。',
+              sort: '並べ替え。<code>{ column, direction }</code> オブジェクトで指定し、先頭のものが優先されます。',
+              filters: '列 id ごとのフィルター。演算子と値で指定します。',
+              search: '行にすべて含まれている必要がある語。',
+              pageSize: '1ページあたりの行数。0 にすると、スクロールする1つのリストになります。',
+              page: '表示するページ。0 から数えます。',
+              pageSizes: 'ページャーの選択肢。',
+              virtual:
+                '表示範囲の行だけをレンダリングします。常に行う、行わない、ページングなしで100行を超えたら行う <code>auto</code> のいずれか。',
+              height: 'グリッドの高さを制限する CSS の長さ。内部がスクロールします。',
+              columnState: '各列の幅、順序、固定、表示状態。保存と復元に使います。',
+              mode: '<code>server</code> は受け取った行をそのまま表示し、並べ替え、絞り込み、ページングはアプリ側に任せます。',
+              total: 'サーバー上の行数。',
+              loading: 'プログレスバーを表示し、行がない間はプレースホルダーの行を表示します。',
+              locale: '数値と日付の書式設定、および入力された数値の読み取りに使うロケール。',
+              labels: 'グリッドが表示または読み上げるすべてのテキスト。翻訳に使います。',
+              rowActivate: 'Enter キーまたはダブルクリックで開かれた行を出力します。',
+              cellEdit: '編集が確定するたびに、その編集を出力します。',
+              queryChange: '並べ替え、フィルター、検索、ページが変わるたびに、それらを出力します。',
+              exportCsv: '絞り込みと並べ替えを適用した行の、表示中の列を CSV で返します。',
+              focusCell: 'セルにフォーカスします。行 <code>-1</code> はヘッダーです。',
+              clearFilters: 'すべてのフィルターと検索をクリアします。',
+            },
+          },
+          NuiGridColumn: {
+            summary: '1つの列。必須なのは <code>id</code> と <code>header</code> だけです。',
+            members: {
+              id: '一意の値。並べ替え、フィルター、列の状態でキーとして使われます。',
+              header: 'ヘッダーのテキスト。',
+              value: '行のキー、または行を受け取る関数。デフォルトは <code>row[id]</code> です。',
+              type: '配置、並べ替え、フィルター、エディターを決めます。',
+              format: '数値と日付用の <code>Intl</code> のオプション、またはテキストを作る関数。',
+              options:
+                '<code>enum</code> 列の選択肢。<code>NuiOption</code> オブジェクトで指定します。',
+              'width, minWidth, maxWidth': 'ピクセル単位。',
+              flex: '残りのスペースを、ほかの <code>flex</code> 列と分け合います。',
+              align: 'デフォルトは型によって決まり、数値と日付は末尾側に揃えます。',
+              'pinned, hidden': '列の初期の固定状態と表示状態。',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'それぞれ <code>false</code> でオフにできます。',
+              compare: '独自の並べ替え。',
+              'editable, validate': 'セルを編集できるかどうかと、値が無効なときのメッセージ。',
+              set: '編集後の行を作ります。デフォルトでは、新しい値を入れたコピーです。',
+            },
+          },
+          NuiGridCell: {
+            summary: '列のセルを描画します。コンテキストには行、その値、テキストが入っています。',
+            members: { nuiGridCell: '列の id。' },
+          },
+          NuiGridHeader: {
+            summary: '列のヘッダーを描画します。',
+            members: { nuiGridHeader: '列の id。' },
+          },
+          NuiGridEmpty: {
+            summary:
+              '行がないときに表示する内容。コンテキストから、フィルターで行が隠れたかどうかがわかります。',
+            members: {},
+          },
+        },
+        keyboard: [
+          ['矢印キー', '1セル移動します。右から左に書く言語では左右が逆になります。'],
+          ['Home / End', '行（Ctrl を併用するとグリッド全体）の最初または最後のセルに移動します。'],
+          ['Page Down / Page Up', '1画面分の行を移動します。'],
+          [
+            'ヘッダー上で Enter または Space',
+            'その列で並べ替えます。Shift を併用すると並べ替えに追加します。',
+          ],
+          ['ヘッダー上で Alt + 下矢印キー', '列のパネルを開きます。'],
+          [
+            'ヘッダー上で Alt + 左または右矢印キー',
+            '列の幅を狭めたり広げたりします。Shift を併用すると列を移動します。',
+          ],
+          ['セル上で Enter', 'セルを編集します。編集できない場合は行を開きます。'],
+          ['F2 または文字入力', 'セルを編集します。'],
+          [
+            '編集中の Enter、Esc、Tab',
+            'Enter で確定、Esc でキャンセル、Tab で確定して次へ移動します。',
+          ],
+          [
+            'Space',
+            '行を選択します。Shift を併用すると、最後に選択した行からここまでを選択します。',
+          ],
+          ['Ctrl + A', 'すべての行を選択します。'],
+        ],
+        notes: [
+          '<code>role="grid"</code> を持つネイティブの <code>&lt;table&gt;</code> で、<code>label</code> で名前を付けます。ヘッダーには <code>aria-sort</code>、選択できる行には <code>aria-selected</code> が付きます。',
+          'グリッドのタブストップは1つだけです。フォーカスはロービング <code>tabindex</code> でセルからセルへ移動するため、スクリーンリーダーは各セルを行と列のヘッダーとともに読み上げます。',
+          'ページングや仮想化の最中も、<code>aria-rowcount</code>、<code>aria-rowindex</code>、<code>aria-colindex</code> は正しい値を保ちます。',
+          '並べ替え、絞り込み、ページの切り替え、編集エラーは、読み上げ中の内容に割り込まないステータス領域で読み上げられます。',
+        ],
+      },
     },
   },
 

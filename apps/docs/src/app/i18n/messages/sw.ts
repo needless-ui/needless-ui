@@ -1179,6 +1179,151 @@ export const messages: Messages = {
           'Ipe jina kwa <code>&lt;label for&gt;</code> inayoelekeza kwenye <code>triggerId</code>, au kwa <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Gridi ya data',
+        title: 'Kijenzi cha gridi ya data kwa Angular',
+        summary: 'Panga, chuja, chagua, hariri na pitia safu, hata ziwe nyingi kiasi gani.',
+        description:
+          'Gridi ya data ya Angular inayofikika juu ya jedwali asilia: kupanga na kuhamisha safu wima, vichujio, kurasa au virtual scrolling, uchaguzi na uhariri.',
+        apiDescription:
+          'Marejeleo ya API ya gridi ya data ya Needless UI: input na model za nui-grid, ufafanuzi wa NuiGridColumn, na template za visanduku maalum.',
+        a11yDescription:
+          'Kibodi na ufikivu wa gridi ya data ya Needless UI: jedwali asilia lenye majukumu ya grid, kituo kimoja cha Tab, vitufe vya mishale na matangazo.',
+        overview: [
+          'Gridi ya data ni jedwali asilia linalopanga, kuchuja, kugawa kurasa na kuhariri. Eleza <code>columns</code>, pitisha <code>rows</code>, na kila kisanduku huumbizwa kwa aina yake kulingana na locale: namba, sarafu, tarehe, ndiyo na hapana, na lebo za thamani za <code>enum</code>.',
+          'Hali yake iko kwenye model unazoweza kuunganisha, kuhifadhi na kutuma kwa seva: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code>, na <code>columnState</code> kwa upana, mpangilio, ubandikaji na ufichaji wa safu wima ambao watu huchagua. Bila kurasa, ni safu zinazoonekana tu zinazochorwa, hivyo safu 100,000 husogezwa kama kumi.',
+          'Kila kisanduku kinafikika kwa kibodi, na paneli ya kila safu wima huipanga, huichuja, huibandika, huihamisha, hurekebisha upana wake na huificha.',
+        ],
+        examples: {
+          orders: {
+            title: 'Utafutaji, upangaji na kurasa',
+            text: 'Andika ili kutafuta katika safu wima zote. Bofya kichwa ili kupanga, na ubofye ukishikilia Shift ili kuongeza safu wima ya pili. <code>nuiGridCell</code> huchora hali, na <code>exportCsv()</code> hutoa kinachoonyeshwa.',
+          },
+          selection: {
+            title: 'Uchaguzi',
+            text: '<code>selection="multiple"</code> huongeza checkbox na huunganisha funguo za safu zilizochaguliwa. Kubofya ukishikilia Shift huchagua safu mfululizo; checkbox ya kichwa huchagua kila safu inayolingana.',
+          },
+          editing: {
+            title: 'Uhariri',
+            text: 'Bofya kisanduku mara mbili, bonyeza Enter au anza kuandika tu. <code>validate</code> huacha kihariri wazi pamoja na ujumbe; uhariri uliothibitishwa husasisha <code>rows</code> na hutoa <code>cellEdit</code>.',
+          },
+          big: {
+            title: 'Safu 100,000',
+            text: 'Bila kurasa, ni safu zinazoonekana tu zinazochorwa. Safu wima zilizobandikwa hubaki kwenye kingo, na <code>columnState</code> huhifadhi mpangilio ambao watu huunda.',
+          },
+          server: {
+            title: 'Data ya seva',
+            text: 'Katika hali ya <code>server</code>, gridi huonyesha safu jinsi zinavyofika na huripoti kila badiliko katika <code>queryChange</code>. Weka <code>loading</code> unapoleta data.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Gridi ya data juu ya jedwali asilia.',
+            members: {
+              rows: 'Data. Uhariri hubadilisha safu kwa mpya, hivyo unganisha kwa <code>[(rows)]</code>.',
+              columns: 'Safu wima, kama vitu vya <code>NuiGridColumn</code>.',
+              rowId: 'Ufunguo wa safu, kwa uchaguzi na ufuatiliaji.',
+              label: 'Jina linalofikika la gridi.',
+              selection: 'Kama safu zinaweza kuchaguliwa, na ngapi.',
+              selected: 'Funguo za safu zilizochaguliwa.',
+              sort: 'Upangaji, kama vitu vya <code>{ column, direction }</code>; cha kwanza hupanga kwanza.',
+              filters: 'Kichujio kwa kila id ya safu wima: opereta na thamani.',
+              search: 'Maneno ambayo yote lazima yawe katika safu.',
+              pageSize: 'Safu kwa kila ukurasa, au 0 kwa orodha moja inayosogezwa.',
+              page: 'Ukurasa unaoonyeshwa, kuanzia 0.',
+              pageSizes: 'Chaguo katika kidhibiti cha kurasa.',
+              virtual:
+                'Huchora safu zinazoonekana pekee: daima, kamwe, au kwa <code>auto</code> safu zikizidi 100 bila kurasa.',
+              height: 'Urefu wa CSS unaoiwekea gridi kikomo; husogezwa ndani yake.',
+              columnState:
+                'Upana, mpangilio, ubandikaji na uonekano wa kila safu wima, ili kuhifadhi na kurejesha.',
+              mode: '<code>server</code> huonyesha safu jinsi zinavyofika na hukuachia upangaji, uchujaji na kurasa.',
+              total: 'Idadi ya safu kwenye seva.',
+              loading: 'Huonyesha upau wa maendeleo, na safu za kishika nafasi wakati hakuna safu.',
+              locale: 'Huumbiza namba na tarehe, na husoma namba zilizoandikwa.',
+              labels: 'Kila maandishi ambayo gridi huonyesha au hutangaza, ili kuyatafsiri.',
+              rowActivate: 'Hutoa safu iliyofunguliwa kwa Enter au kwa kubofya mara mbili.',
+              cellEdit: 'Hutoa kila uhariri uliothibitishwa.',
+              queryChange: 'Hutoa upangaji, vichujio, utafutaji na ukurasa kila vinapobadilika.',
+              exportCsv: 'Safu zilizochujwa na kupangwa, za safu wima zinazoonekana, kama CSV.',
+              focusCell: 'Huweka focus kwenye kisanduku; safu <code>-1</code> ni kichwa.',
+              clearFilters: 'Hufuta kila kichujio na utafutaji.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Safu wima moja. Ni <code>id</code> na <code>header</code> pekee zinazohitajika.',
+            members: {
+              id: 'Ya kipekee; ufunguo katika upangaji, vichujio na hali ya safu wima.',
+              header: 'Maandishi ya kichwa.',
+              value: 'Ufunguo wa safu, au function ya safu. Chaguomsingi ni <code>row[id]</code>.',
+              type: 'Huamua jinsi ya kupangilia, kupanga, kuchuja na kuhariri.',
+              format:
+                'Chaguo za <code>Intl</code> kwa namba na tarehe, au function inayotunga maandishi.',
+              options:
+                'Chaguo za safu wima ya <code>enum</code>, kama vitu vya <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'Kwa pikseli.',
+              flex: 'Hugawana nafasi iliyobaki na safu wima nyingine za <code>flex</code>.',
+              align: 'Chaguomsingi hutegemea aina: namba na tarehe mwishoni.',
+              'pinned, hidden': 'Ubandikaji na uonekano wa awali wa safu wima.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Kila kimoja kinaweza kuzimwa kwa <code>false</code>.',
+              compare: 'Upangaji maalum.',
+              'editable, validate':
+                'Kama visanduku vinaweza kuhaririwa, na ujumbe thamani isipokuwa sahihi.',
+              set: 'Huunda safu iliyohaririwa. Chaguomsingi ni nakala yenye thamani mpya.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Huchora visanduku vya safu wima. Muktadha una safu, thamani yake na maandishi yake.',
+            members: { nuiGridCell: 'Id ya safu wima.' },
+          },
+          NuiGridHeader: {
+            summary: 'Huchora kichwa cha safu wima.',
+            members: { nuiGridHeader: 'Id ya safu wima.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Kinachoonyeshwa wakati hakuna safu. Muktadha husema kama vichujio vimezificha.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Vitufe vya mishale',
+            'Husogea kisanduku kimoja. Kushoto na kulia hubadilishana katika maandishi ya kulia kwenda kushoto.',
+          ],
+          [
+            'Home na End',
+            'Huenda kwenye kisanduku cha kwanza au cha mwisho cha safu; kwa Ctrl, cha gridi nzima.',
+          ],
+          ['Page Down na Page Up', 'Husogea skrini moja ya safu.'],
+          [
+            'Enter au Space kwenye kichwa',
+            'Hupanga kwa safu wima hiyo; kwa Shift, huiongeza kwenye upangaji.',
+          ],
+          ['Alt + mshale wa chini kwenye kichwa', 'Hufungua paneli ya safu wima.'],
+          [
+            'Alt + mshale wa kushoto au kulia kwenye kichwa',
+            'Hupunguza au huongeza upana wa safu wima; kwa Shift, huihamisha.',
+          ],
+          ['Enter kwenye kisanduku', 'Hukihariri, au hufungua safu kama hakiwezi kuhaririwa.'],
+          ['F2, au kuandika', 'Huhariri kisanduku.'],
+          [
+            'Enter, Escape na Tab wakati wa kuhariri',
+            'Huthibitisha, hughairi, au huthibitisha na kuendelea.',
+          ],
+          ['Space', 'Huchagua safu; kwa Shift, safu zote tangu ile ya mwisho.'],
+          ['Ctrl + A', 'Huchagua safu zote.'],
+        ],
+        notes: [
+          '<code>&lt;table&gt;</code> asilia yenye <code>role="grid"</code>, inayopewa jina na <code>label</code>. Vichwa hubeba <code>aria-sort</code>, na safu zinazoweza kuchaguliwa hubeba <code>aria-selected</code>.',
+          'Gridi ni kituo kimoja cha Tab. Focus huhama kutoka kisanduku hadi kisanduku kwa roving <code>tabindex</code>, hivyo visoma skrini husoma kila kisanduku pamoja na vichwa vya safu na safu wima yake.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> na <code>aria-colindex</code> hubaki sahihi safu zikigawanywa kwa kurasa au kwa virtual scrolling.',
+          'Mabadiliko ya upangaji, uchujaji na kurasa, pamoja na makosa ya uhariri, hutangazwa kwa upole (polite) katika eneo la hali.',
+        ],
+      },
     },
   },
 

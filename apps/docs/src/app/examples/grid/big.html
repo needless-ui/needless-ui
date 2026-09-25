@@ -1,0 +1,12 @@
+<nui-grid
+  label="One hundred thousand orders"
+  height="24rem"
+  [(rows)]="orders"
+  [columns]="columns"
+  [columnState]="layout()"
+  (columnStateChange)="keep($event)"
+/>
+<div class="toolbar">
+  <p>Drag a header to move it, or its edge to resize it. The layout stays in this browser.</p>
+  <button nuiButton variant="ghost" tone="neutral" size="sm" (click)="reset()">Reset layout</button>
+</div>

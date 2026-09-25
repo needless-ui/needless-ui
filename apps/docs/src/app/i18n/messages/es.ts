@@ -1182,6 +1182,150 @@ export const messages: Messages = {
           'Ponle nombre con un <code>&lt;label for&gt;</code> que apunte a <code>triggerId</code>, o con <code>label</code>.',
         ],
       },
+      grid: {
+        name: 'Cuadrícula de datos',
+        title: 'Componente de cuadrícula de datos para Angular',
+        summary: 'Ordena, filtra, selecciona, edita y desplázate por cualquier cantidad de filas.',
+        description:
+          'Cuadrícula de datos accesible para Angular sobre tabla nativa: orden multicolumna, filtros, páginas o scroll virtual, selección, edición y columnas movibles.',
+        apiDescription:
+          'Referencia de la API de la cuadrícula de datos de Needless UI: inputs y modelos de nui-grid, la forma de NuiGridColumn y plantillas para celdas personalizadas.',
+        a11yDescription:
+          'Teclado y accesibilidad de la cuadrícula de datos de Needless UI: tabla nativa con roles de grid, una sola parada de tabulación, flechas y anuncios.',
+        overview: [
+          'La cuadrícula de datos es una tabla nativa que ordena, filtra, pagina y edita. Describe las <code>columns</code>, pasa las <code>rows</code> y cada celda se formatea según su tipo y la configuración regional: números, monedas, fechas, sí y no, y etiquetas para los valores <code>enum</code>.',
+          'Su estado está en modelos que puedes enlazar, guardar y enviar a un servidor: <code>sort</code>, <code>filters</code>, <code>search</code>, <code>page</code>, <code>selected</code> y <code>columnState</code> para los anchos, el orden, las columnas fijadas y las ocultas que elijan los usuarios. Sin paginación, solo se renderizan las filas visibles, así que 100 000 filas se desplazan igual que diez.',
+          'Todas las celdas se alcanzan con el teclado, y el panel de cada columna permite ordenarla, filtrarla, fijarla, moverla, ajustarla al contenido y ocultarla.',
+        ],
+        examples: {
+          orders: {
+            title: 'Búsqueda, orden y paginación',
+            text: 'Escribe para buscar en todas las columnas. Haz clic en un encabezado para ordenar, y usa Mayús + clic para añadir una segunda columna. <code>nuiGridCell</code> dibuja el estado, y <code>exportCsv()</code> entrega lo que se muestra.',
+          },
+          selection: {
+            title: 'Selección',
+            text: '<code>selection="multiple"</code> añade casillas y enlaza las claves de las filas seleccionadas. Mayús + clic selecciona un rango; la casilla del encabezado selecciona todas las filas que coinciden.',
+          },
+          editing: {
+            title: 'Edición',
+            text: 'Haz doble clic en una celda, pulsa Intro o simplemente escribe. <code>validate</code> mantiene el editor abierto con un mensaje; una edición confirmada actualiza <code>rows</code> y emite <code>cellEdit</code>.',
+          },
+          big: {
+            title: '100 000 filas',
+            text: 'Sin paginación, solo se renderizan las filas visibles. Las columnas fijadas se quedan en los bordes, y <code>columnState</code> conserva la disposición que eligen los usuarios.',
+          },
+          server: {
+            title: 'Datos del servidor',
+            text: 'En el modo <code>server</code>, la cuadrícula muestra las filas tal como llegan y notifica cada cambio en <code>queryChange</code>. Activa <code>loading</code> mientras obtienes los datos.',
+          },
+        },
+        api: {
+          NuiGrid: {
+            summary: 'Una cuadrícula de datos sobre una tabla nativa.',
+            members: {
+              rows: 'Los datos. Las ediciones reemplazan filas, así que enlázalos con <code>[(rows)]</code>.',
+              columns: 'Las columnas, como objetos <code>NuiGridColumn</code>.',
+              rowId: 'La clave de una fila, para selección y seguimiento.',
+              label: 'Nombre accesible de la cuadrícula.',
+              selection: 'Si se pueden seleccionar filas, y cuántas.',
+              selected: 'Las claves de las filas seleccionadas.',
+              sort: 'El orden, como objetos <code>{ column, direction }</code>; el primero ordena primero.',
+              filters: 'Un filtro por id de columna: un operador y un valor.',
+              search: 'Palabras que deben aparecer todas en una fila.',
+              pageSize: 'Filas por página, o 0 para una sola lista desplazable.',
+              page: 'La página mostrada, desde 0.',
+              pageSizes: 'Las opciones del paginador.',
+              virtual:
+                'Renderiza solo las filas visibles: siempre, nunca, o <code>auto</code> con más de 100 filas sin paginación.',
+              height: 'Una longitud CSS que limita la cuadrícula; se desplaza por dentro.',
+              columnState:
+                'Ancho, orden, fijación y visibilidad de cada columna, para guardar y restaurar.',
+              mode: '<code>server</code> muestra las filas tal como llegan y te deja a ti ordenar, filtrar y paginar.',
+              total: 'El número de filas en el servidor.',
+              loading:
+                'Muestra una barra de progreso, y filas provisionales mientras no hay ninguna.',
+              locale: 'Da formato a números y fechas, y lee los números escritos.',
+              labels: 'Todos los textos que la cuadrícula muestra o anuncia, para traducirlos.',
+              rowActivate: 'Emite una fila abierta con Intro o con doble clic.',
+              cellEdit: 'Emite cada edición confirmada.',
+              queryChange:
+                'Emite el orden, los filtros, la búsqueda y la página cada vez que cambian.',
+              exportCsv: 'Las filas filtradas y ordenadas de las columnas visibles, en CSV.',
+              focusCell: 'Pone el foco en una celda; la fila <code>-1</code> es el encabezado.',
+              clearFilters: 'Borra todos los filtros y la búsqueda.',
+            },
+          },
+          NuiGridColumn: {
+            summary: 'Una columna. Solo <code>id</code> y <code>header</code> son obligatorios.',
+            members: {
+              id: 'Único; la clave en el orden, los filtros y el estado de las columnas.',
+              header: 'El texto del encabezado.',
+              value:
+                'Una clave de la fila, o una función de la fila. Por defecto, <code>row[id]</code>.',
+              type: 'Determina la alineación, el orden, el filtro y el editor.',
+              format:
+                'Opciones de <code>Intl</code> para números y fechas, o una función que genera el texto.',
+              options:
+                'Las opciones de una columna <code>enum</code>, como objetos <code>NuiOption</code>.',
+              'width, minWidth, maxWidth': 'En píxeles.',
+              flex: 'Reparte el espacio sobrante con las demás columnas <code>flex</code>.',
+              align: 'Por defecto, según el tipo: números y fechas al final.',
+              'pinned, hidden': 'Fijación y visibilidad iniciales de la columna.',
+              'sortable, filterable, resizable, reorderable, hideable':
+                'Cada una se puede desactivar con <code>false</code>.',
+              compare: 'Un orden personalizado.',
+              'editable, validate':
+                'Si las celdas se pueden editar, y un mensaje cuando un valor no es válido.',
+              set: 'Crea la fila editada. Por defecto, una copia con el valor nuevo.',
+            },
+          },
+          NuiGridCell: {
+            summary:
+              'Dibuja las celdas de una columna. El contexto contiene la fila, el valor y el texto.',
+            members: { nuiGridCell: 'El id de la columna.' },
+          },
+          NuiGridHeader: {
+            summary: 'Dibuja el encabezado de una columna.',
+            members: { nuiGridHeader: 'El id de la columna.' },
+          },
+          NuiGridEmpty: {
+            summary:
+              'Lo que se muestra cuando no hay filas. El contexto indica si los filtros las ocultaron.',
+            members: {},
+          },
+        },
+        keyboard: [
+          [
+            'Flechas',
+            'Mueven el foco una celda. Izquierda y derecha se invierten en texto de derecha a izquierda.',
+          ],
+          [
+            'Inicio y Fin',
+            'Va a la primera o a la última celda de la fila; con Ctrl, de la cuadrícula.',
+          ],
+          ['Av Pág y Re Pág', 'Avanza o retrocede una pantalla de filas.'],
+          [
+            'Intro o Espacio en un encabezado',
+            'Ordena por la columna; con Mayús, la añade al orden.',
+          ],
+          ['Alt + flecha abajo en un encabezado', 'Abre el panel de la columna.'],
+          [
+            'Alt + flecha izquierda o derecha en un encabezado',
+            'Estrecha o ensancha la columna; con Mayús, la mueve.',
+          ],
+          ['Intro en una celda', 'Edita la celda, o abre la fila si no se puede editar.'],
+          ['F2, o escribir', 'Edita la celda.'],
+          ['Intro, Esc y Tab al editar', 'Confirma, cancela, o confirma y pasa a la siguiente.'],
+          ['Espacio', 'Selecciona la fila; con Mayús, las filas desde la última seleccionada.'],
+          ['Ctrl + A', 'Selecciona todas las filas.'],
+        ],
+        notes: [
+          'Una <code>&lt;table&gt;</code> nativa con <code>role="grid"</code>, que toma su nombre de <code>label</code>. Los encabezados llevan <code>aria-sort</code>, y las filas seleccionables, <code>aria-selected</code>.',
+          'La cuadrícula es una sola parada de tabulación. El foco pasa de celda en celda con un <code>tabindex</code> itinerante, así que los lectores de pantalla leen cada celda con sus encabezados de fila y de columna.',
+          '<code>aria-rowcount</code>, <code>aria-rowindex</code> y <code>aria-colindex</code> siguen siendo correctos cuando las filas se paginan o se virtualizan.',
+          'El orden, los filtros, la paginación y los errores de edición se anuncian de forma cortés en una región de estado.',
+        ],
+      },
     },
   },
 

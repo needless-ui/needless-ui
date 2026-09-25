@@ -1,34 +1,36 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { NuiButton } from '@needless-ui/angular/button';
-import { CODE } from '../generated/code';
+import { CODE, type CodeFile } from '../generated/code';
 import { I18n } from '../i18n/i18n';
+import { TrustedHtml } from './trusted';
 
 /** A file highlighted at build time (see scripts/generate-code.ts), with a copy button. */
 @Component({
   selector: 'docs-code',
-  imports: [NuiButton],
+  imports: [NuiButton, TrustedHtml],
   template: `
-    @let code = file();
-    <div class="code">
-      <div class="code-bar">
-        <span class="code-name">{{ code.name }}</span>
-        <button
-          nuiButton
-          type="button"
-          variant="ghost"
-          tone="neutral"
-          size="sm"
-          (click)="copy(code.source)"
-        >
-          {{ copied() ? labels().copied : labels().copy }}
-          <span class="visually-hidden">{{ code.name }}</span>
-        </button>
-        <span class="visually-hidden" aria-live="polite">{{
-          copied() ? labels().copied : ''
-        }}</span>
+    @if (file(); as code) {
+      <div class="code">
+        <div class="code-bar">
+          <span class="code-name">{{ code.name }}</span>
+          <button
+            nuiButton
+            type="button"
+            variant="ghost"
+            tone="neutral"
+            size="sm"
+            (click)="copy(code.source)"
+          >
+            {{ copied() ? labels().copied : labels().copy }}
+            <span class="visually-hidden">{{ code.name }}</span>
+          </button>
+          <span class="visually-hidden" aria-live="polite">{{
+            copied() ? labels().copied : ''
+          }}</span>
+        </div>
+        <pre tabindex="0"><code [innerHTML]="(code.html) | trusted"></code></pre>
       </div>
-      <pre tabindex="0"><code [innerHTML]="code.html"></code></pre>
-    </div>
+    }
   `,
 })
 export class CodeBlock {
@@ -40,11 +42,28 @@ export class CodeBlock {
 
   protected readonly labels = computed(() => this.i18n.t().components.example);
   protected readonly copied = signal(false);
+  /** Example sources, loaded the first time one is shown. */
+  private readonly examples = signal<Readonly<Record<string, CodeFile>> | null>(null);
+
   protected readonly file = computed(() => {
-    const file = CODE[this.key()];
-    if (!file) throw new Error(`No generated code for "${this.key()}". Run pnpm docs:generate.`);
-    return file;
+    const key = this.key();
+    if (!key.startsWith('examples/')) {
+      const file = CODE[key];
+      if (!file) throw new Error(`No generated code for "${key}". Run pnpm docs:generate.`);
+      return file;
+    }
+    return this.examples()?.[key] ?? null;
   });
+
+  constructor() {
+    // Example sources wait for “Show code”, so pages don't carry every example's code.
+    effect(() => {
+      if (!this.key().startsWith('examples/') || untracked(this.examples)) return;
+      import('../generated/examples-code').then(({ EXAMPLES_CODE }) =>
+        this.examples.set(EXAMPLES_CODE),
+      );
+    });
+  }
 
   protected async copy(source: string): Promise<void> {
     try {
