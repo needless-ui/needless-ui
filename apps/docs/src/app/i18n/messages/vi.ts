@@ -1215,6 +1215,10 @@ export const messages: Messages = {
             title: 'Dữ liệu trực tiếp, xuất và in',
             text: 'Giá thay đổi mỗi hai giây, và <code>flash</code> cho thấy ô nào vừa đổi. <code>exportXlsx()</code> tải xuống một bảng tính thật, <code>print()</code> in mọi dòng, và <code>layout="auto"</code> hiển thị dạng thẻ trên màn hình hẹp.',
           },
+          cards: {
+            title: 'Dạng thẻ trên điện thoại',
+            text: '<code>layout="list"</code> hiển thị dòng dạng thẻ, còn <code>auto</code> làm vậy khi độ rộng dưới 36rem. Thẻ không có dòng tiêu đề, nên một thanh công cụ sẽ sắp xếp chúng, và nút “Filter” của nó mở panel của cột mà bạn chọn. <code>toolbar</code> cũng có thể hiển thị thanh này phía trên bảng, hoặc bỏ nó đi.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1256,6 +1260,8 @@ export const messages: Messages = {
                 'Một dòng giá trị tổng hợp trên mọi dòng đã lọc; các ô lóe sáng khi văn bản thay đổi, ở những dòng có <code>rowId</code> cố định.',
               layout:
                 '<code>list</code> hiển thị dòng dạng thẻ, còn <code>auto</code> làm vậy trên màn hình hẹp.',
+              toolbar:
+                'Một thanh để sắp xếp dòng và mở panel của cột: luôn luôn, không bao giờ, hoặc <code>auto</code> khi hiển thị dạng thẻ.',
               'exportXlsx, print': 'Các dòng đã lọc và sắp xếp, dưới dạng bảng tính; in mọi dòng.',
             },
           },
@@ -1337,6 +1343,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> và <code>aria-colindex</code> vẫn đúng khi các dòng được phân trang hoặc ảo hóa.',
           'Việc sắp xếp, lọc, chuyển trang và lỗi chỉnh sửa được đọc lên qua một vùng trạng thái ở chế độ polite.',
           'Dòng được nhóm hoặc lồng nhau khiến bảng thành một <code>treegrid</code>: các dòng có <code>aria-level</code>, <code>aria-setsize</code> và <code>aria-posinset</code>, cùng <code>aria-expanded</code> khi mở ra được. Giá trị tổng hợp được đọc kèm loại của nó, chẳng hạn “Sum: 475”.',
+          'Thẻ không có dòng tiêu đề, nên thanh công cụ đứng đầu: một nhóm có tên “Sort and filter” gồm một select có nhãn để chọn sắp xếp theo cột nào, các nút bật/tắt cho chiều sắp xếp, và một nút “Filter” mở panel của cột, nơi có một select để chọn cột. Điểm dừng Tab của bảng chuyển sang thẻ đầu tiên.',
         ],
       },
       chat: {

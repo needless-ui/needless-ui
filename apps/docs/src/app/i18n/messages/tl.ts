@@ -1255,6 +1255,10 @@ export const messages: Messages = {
             title: 'Live data, export at print',
             text: 'Nagbabago ang mga presyo bawat dalawang segundo, at ipinapakita ng <code>flash</code> kung aling mga cell ang nagbago. Nagda-download ang <code>exportXlsx()</code> ng totoong spreadsheet, pini-print ng <code>print()</code> ang bawat row, at nagpapakita ang <code>layout="auto"</code> ng mga card sa makikitid na screen.',
           },
+          cards: {
+            title: 'Mga card sa phone',
+            text: 'Ipinapakita ng <code>layout="list"</code> ang mga row bilang mga card, at ginagawa rin ito ng <code>auto</code> kapag mas mababa sa 36rem ang lapad. Walang header row ang mga card, kaya isang toolbar ang nagso-sort sa mga ito, at binubuksan ng “Filter” button nito ang panel ng column na pipiliin mo. Puwede rin itong ipakita ng <code>toolbar</code> sa itaas ng table, o alisin ito.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1299,6 +1303,8 @@ export const messages: Messages = {
                 'Isang row ng mga aggregate sa bawat na-filter na row; mga cell na kumikislap kapag nagbago ang text nila, sa mga row na may pangmatagalang <code>rowId</code>.',
               layout:
                 'Ipinapakita ng <code>list</code> ang mga row bilang mga card, at ginagawa rin ito ng <code>auto</code> sa makikitid na screen.',
+              toolbar:
+                'Isang bar na nagso-sort ng mga row at nagbubukas ng panel ng column: palagi, hindi kailanman, o <code>auto</code> kasama ng mga card.',
               'exportXlsx, print':
                 'Ang mga na-filter at na-sort na row bilang spreadsheet; pini-print ang bawat row.',
             },
@@ -1385,6 +1391,7 @@ export const messages: Messages = {
           'Nananatiling tama ang <code>aria-rowcount</code>, <code>aria-rowindex</code> at <code>aria-colindex</code> habang naka-page o naka-virtualize ang mga row.',
           'Ina-announce sa isang polite na status region ang sorting, filtering, paging at mga error sa pag-edit.',
           'Ginagawang <code>treegrid</code> ng mga naka-group o nested na row ang table: may <code>aria-level</code>, <code>aria-setsize</code> at <code>aria-posinset</code> ang mga row, at <code>aria-expanded</code> kapag bumubukas ang mga ito. Binabasa ang mga aggregate kasama ang uri nila, gaya ng “Sum: 475”.',
+          'Walang header row ang mga card, kaya nauuna ang isang toolbar: isang group na may pangalang “Sort and filter”, na naglalaman ng select na may label para sa column na pagbabatayan ng sort, ng mga toggle button para sa direksyon, at ng isang “Filter” button na nagbubukas ng panel ng column, kung saan pinipili ng isang select ang column. Lumilipat sa unang card ang tab stop ng grid.',
         ],
       },
       chat: {

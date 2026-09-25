@@ -1210,6 +1210,10 @@ export const messages: Messages = {
             title: 'Canlı veri, dışa aktarma ve yazdırma',
             text: 'Fiyatlar iki saniyede bir değişir ve <code>flash</code> hangi hücrelerin değiştiğini gösterir. <code>exportXlsx()</code> gerçek bir elektronik tablo indirir, <code>print()</code> tüm satırları yazdırır, <code>layout="auto"</code> ise dar ekranlarda kartlar gösterir.',
           },
+          cards: {
+            title: 'Telefonlarda kartlar',
+            text: '<code>layout="list"</code> satırları kart olarak gösterir, <code>auto</code> ise bunu 36rem’in altında yapar. Kartlarda başlık satırı yoktur; bu yüzden onları bir araç çubuğu sıralar, çubuktaki “Filter” düğmesi de seçtiğiniz sütunun panelini açar. <code>toolbar</code> araç çubuğunu bir tablonun üstünde de gösterebilir ya da hiç göstermeyebilir.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1252,6 +1256,8 @@ export const messages: Messages = {
                 'Filtrelenmiş tüm satırların özet değerlerini gösteren bir satır; kalıcı bir <code>rowId</code> taşıyan satırlarda, metni değişince bir an parlayan hücreler.',
               layout:
                 '<code>list</code> satırları kart olarak gösterir, <code>auto</code> ise bunu dar ekranlarda yapar.',
+              toolbar:
+                'Satırları sıralayan ve sütun panelini açan bir çubuk: her zaman, hiçbir zaman ya da <code>auto</code> ile kartlarda.',
               'exportXlsx, print':
                 'Filtrelenmiş ve sıralanmış satırlar, elektronik tablo olarak; tüm satırları yazdırır.',
             },
@@ -1326,6 +1332,7 @@ export const messages: Messages = {
           'Satırlar sayfalandığında veya sanallaştırıldığında da <code>aria-rowcount</code>, <code>aria-rowindex</code> ve <code>aria-colindex</code> doğru kalır.',
           'Sıralama, filtreleme, sayfa değişimi ve düzenleme hataları nazik (polite) bir durum bölgesinde duyurulur.',
           'Gruplanmış ya da iç içe satırlar tabloyu bir <code>treegrid</code> yapar: satırlar <code>aria-level</code>, <code>aria-setsize</code> ve <code>aria-posinset</code>, açılabildiklerinde de <code>aria-expanded</code> taşır. Özet değerler türleriyle birlikte okunur, örneğin “Sum: 475”.',
+          'Kartlarda başlık satırı yoktur; bu yüzden önce bir araç çubuğu gelir: adı “Sort and filter” olan bir grup. Grupta sıralama sütunu için etiketli bir select, sıralama yönü için geçiş düğmeleri ve sütun panelini açan bir “Filter” düğmesi bulunur; panelde sütunu bir select seçer. Tablonun sekme durağı ilk karta geçer.',
         ],
       },
       chat: {

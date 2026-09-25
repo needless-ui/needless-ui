@@ -1213,6 +1213,10 @@ export const messages: Messages = {
             title: 'Live data, export and print',
             text: 'Prices change every two seconds, and <code>flash</code> shows which cells did. <code>exportXlsx()</code> downloads a real spreadsheet, <code>print()</code> prints every row, and <code>layout="auto"</code> shows cards on narrow screens.',
           },
+          cards: {
+            title: 'Cards on phones',
+            text: '<code>layout="list"</code> shows rows as cards, and <code>auto</code> does below 36rem. Cards have no header row, so a toolbar sorts them, and its Filter button opens the column panel for the column you pick. <code>toolbar</code> can also show it over a table, or leave it out.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1254,6 +1258,8 @@ export const messages: Messages = {
                 'A row of aggregates over every filtered row; cells that flash when their text changes, in rows with a lasting <code>rowId</code>.',
               layout:
                 '<code>list</code> shows rows as cards, and <code>auto</code> does on narrow screens.',
+              toolbar:
+                'A bar that sorts the rows and opens the column panel: always, never, or <code>auto</code> with cards.',
               'exportXlsx, print': 'The filtered, sorted rows as a spreadsheet; prints every row.',
             },
           },
@@ -1329,6 +1335,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code> and <code>aria-colindex</code> stay right while rows are paged or virtualized.',
           'Sorting, filtering, paging and editing errors are announced in a polite status region.',
           'Grouped or nested rows make the table a <code>treegrid</code>: rows carry <code>aria-level</code>, <code>aria-setsize</code> and <code>aria-posinset</code>, and <code>aria-expanded</code> when they open. Aggregates are read with their kind, such as “Sum: 475”.',
+          'Cards have no header row, so a toolbar comes first: a group named “Sort and filter” with a labeled select for the column to sort by, toggle buttons for the direction, and a Filter button that opens the column panel, where a select picks the column. The grid’s tab stop moves to the first card.',
         ],
       },
       chat: {

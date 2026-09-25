@@ -1234,6 +1234,10 @@ export const messages: Messages = {
             title: 'Data real-time, ekspor, dan cetak',
             text: 'Harga berubah setiap dua detik, dan <code>flash</code> menunjukkan sel mana yang berubah. <code>exportXlsx()</code> mengunduh spreadsheet sungguhan, <code>print()</code> mencetak semua baris, dan <code>layout="auto"</code> menampilkan kartu di layar sempit.',
           },
+          cards: {
+            title: 'Kartu di ponsel',
+            text: '<code>layout="list"</code> menampilkan baris sebagai kartu, dan <code>auto</code> melakukannya pada lebar di bawah 36rem. Kartu tidak memiliki baris header, jadi sebuah toolbar mengurutkannya, dan tombol “Filter” di dalamnya membuka panel kolom untuk kolom yang Anda pilih. <code>toolbar</code> juga bisa menampilkannya di atas tabel, atau menghilangkannya.',
+          },
         },
         api: {
           NuiGrid: {
@@ -1277,6 +1281,8 @@ export const messages: Messages = {
                 'Baris agregat atas semua baris yang tersaring; sel yang berkedip saat teksnya berubah, pada baris dengan <code>rowId</code> yang tetap.',
               layout:
                 '<code>list</code> menampilkan baris sebagai kartu, dan <code>auto</code> melakukannya di layar sempit.',
+              toolbar:
+                'Bilah yang mengurutkan baris dan membuka panel kolom: selalu, tidak pernah, atau <code>auto</code> bersama kartu.',
               'exportXlsx, print':
                 'Baris yang tersaring dan terurut sebagai spreadsheet; mencetak semua baris.',
             },
@@ -1357,6 +1363,7 @@ export const messages: Messages = {
           '<code>aria-rowcount</code>, <code>aria-rowindex</code>, dan <code>aria-colindex</code> tetap benar saat baris dipaginasi atau divirtualisasi.',
           'Pengurutan, penyaringan, perpindahan halaman, dan error pengeditan diumumkan secara polite di region status.',
           'Baris yang dikelompokkan atau bertingkat menjadikan tabel sebuah <code>treegrid</code>: baris memiliki <code>aria-level</code>, <code>aria-setsize</code>, dan <code>aria-posinset</code>, serta <code>aria-expanded</code> jika bisa dibuka. Agregat dibacakan beserta jenisnya, misalnya “Sum: 475”.',
+          'Kartu tidak memiliki baris header, jadi toolbar muncul lebih dulu: grup bernama “Sort and filter” yang berisi select berlabel untuk memilih kolom pengurutan, tombol toggle untuk arahnya, dan tombol “Filter” yang membuka panel kolom, tempat sebuah select memilih kolomnya. Perhentian tab grid berpindah ke kartu pertama.',
         ],
       },
       chat: {
