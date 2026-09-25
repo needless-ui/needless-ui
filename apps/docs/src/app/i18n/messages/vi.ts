@@ -2289,6 +2289,10 @@ export const messages: Messages = {
             title: 'Markdown vào và ra',
             text: 'Với <code>format="markdown"</code>, giá trị là Markdown: được đọc vào cùng danh sách lồng nhau, trích dẫn và mã, rồi được ghi lại trong lúc bạn chỉnh sửa.',
           },
+          lists: {
+            title: 'Danh sách lồng nhau',
+            text: 'Hai nút Tăng thụt lề và Giảm thụt lề đưa các mục danh sách vào trong hoặc ra ngoài một cấp, như Tab và Shift + Tab. Thanh công cụ mặc định chỉ có hai nút này trên màn hình cảm ứng, vốn không có phím Tab; hãy thêm chúng vào <code>tools</code> để hiện chúng ở mọi nơi.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2325,7 +2329,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 hoặc 8', 'Danh sách đánh số hoặc danh sách dấu đầu dòng.'],
           [
             'Tab và Shift + Tab trong danh sách',
-            'Tăng hoặc giảm thụt lề; ở chỗ khác, Tab rời khỏi trình soạn thảo.',
+            'Tăng hoặc giảm thụt lề; Shift + Tab biến một mục ở cấp trên cùng thành đoạn văn. Ở chỗ khác, Tab rời khỏi trình soạn thảo.',
           ],
           ['Ctrl + Z và Ctrl + Shift + Z', 'Hoàn tác và làm lại.'],
           ['Mũi tên trái và phải trên thanh công cụ', 'Di chuyển giữa các nút của nó.'],
@@ -2334,6 +2338,7 @@ export const messages: Messages = {
           'Nội dung là một <code>textbox</code> có <code>aria-multiline</code>, được đặt tên bằng <code>label</code>, với placeholder nằm trong <code>aria-placeholder</code>.',
           'Thanh công cụ là một toolbar WAI-ARIA, chỉ chiếm một điểm dừng Tab: các định dạng là nút bật/tắt có <code>aria-pressed</code>, và mỗi nút nêu phím tắt của nó trong <code>aria-keyshortcuts</code> và trong tooltip.',
           'Lệnh trên thanh công cụ trả focus về văn bản, và hộp thoại liên kết quay về văn bản khi nhấn Esc. Tab không bao giờ bị kẹt: bên ngoài danh sách, nó rời khỏi trình soạn thảo.',
+          'Màn hình cảm ứng không có phím Tab: ở đó, thanh công cụ mặc định có nút Tăng thụt lề và Giảm thụt lề, dùng được trong danh sách. Chạm vào một nút trên thanh công cụ không làm focus rời khỏi văn bản, nên bàn phím ảo vẫn mở.',
         ],
       },
     },

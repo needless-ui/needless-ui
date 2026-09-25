@@ -2348,6 +2348,10 @@ export const messages: Messages = {
             title: 'Markdown de ida y vuelta',
             text: 'Con <code>format="markdown"</code>, el valor es Markdown: se lee con listas anidadas, citas y código, y se vuelve a escribir mientras editas.',
           },
+          lists: {
+            title: 'Listas anidadas',
+            text: 'Los botones «Aumentar sangría» y «Reducir sangría» anidan los elementos de la lista, como hacen Tab y Mayús + Tab. La barra de herramientas predeterminada solo los muestra en las pantallas táctiles, que no tienen tecla Tab; inclúyelos en <code>tools</code> para mostrarlos en todas partes.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2388,7 +2392,7 @@ export const messages: Messages = {
           ['Ctrl + Mayús + 7 u 8', 'Una lista numerada o con viñetas.'],
           [
             'Tab y Mayús + Tab en una lista',
-            'Aumentan o reducen la sangría; en otros sitios, Tab sale del editor.',
+            'Aumentan o reducen la sangría; Mayús + Tab convierte un elemento del primer nivel en párrafo. En otros sitios, Tab sale del editor.',
           ],
           ['Ctrl + Z, Ctrl + Mayús + Z', 'Deshacer y rehacer.'],
           [
@@ -2400,6 +2404,7 @@ export const messages: Messages = {
           'El contenido es un <code>textbox</code> con <code>aria-multiline</code>, que toma su nombre de <code>label</code> y lleva su marcador de posición en <code>aria-placeholder</code>.',
           'La barra de herramientas sigue el patrón toolbar de WAI-ARIA, con una sola parada de tabulación: los formatos son botones de alternancia con <code>aria-pressed</code>, y cada botón indica su atajo en <code>aria-keyshortcuts</code> y en su tooltip.',
           'Un comando de la barra de herramientas devuelve el foco al texto, y el diálogo de enlace hace lo mismo con Esc. Tab nunca se queda atascado: fuera de las listas, sale del editor.',
+          'Las pantallas táctiles no tienen tecla Tab: en ellas, la barra de herramientas predeterminada tiene los botones «Aumentar sangría» y «Reducir sangría», que se activan en las listas. Al tocar un botón de la barra de herramientas, el foco se queda en el texto, así que el teclado en pantalla sigue abierto.',
         ],
       },
     },

@@ -2326,6 +2326,10 @@ export const messages: Messages = {
             title: 'Markdown na entrada e na saída',
             text: 'Com <code>format="markdown"</code>, o valor é Markdown: lido com listas aninhadas, citações e código, e escrito de volta enquanto você edita.',
           },
+          lists: {
+            title: 'Listas aninhadas',
+            text: 'Os botões “Aumentar recuo” e “Diminuir recuo” aninham os itens da lista, como fazem Tab e Shift + Tab. A barra de ferramentas padrão só os mostra em telas touch, que não têm tecla Tab; inclua-os em <code>tools</code> para mostrá-los em todo lugar.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2367,7 +2371,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 ou 8', 'Uma lista numerada ou com marcadores.'],
           [
             'Tab e Shift + Tab em uma lista',
-            'Aumentam ou diminuem o recuo; fora das listas, Tab sai do editor.',
+            'Aumentam ou diminuem o recuo; Shift + Tab transforma um item do primeiro nível em parágrafo. Fora das listas, Tab sai do editor.',
           ],
           ['Ctrl + Z e Ctrl + Shift + Z', 'Desfazer e refazer.'],
           [
@@ -2379,6 +2383,7 @@ export const messages: Messages = {
           'O conteúdo é uma <code>textbox</code> com <code>aria-multiline</code>, nomeada por <code>label</code>, com o placeholder em <code>aria-placeholder</code>.',
           'A barra de ferramentas segue o padrão toolbar do WAI-ARIA, com uma única parada de tabulação: os formatos são botões de alternância com <code>aria-pressed</code>, e cada botão informa o seu atalho em <code>aria-keyshortcuts</code> e no seu tooltip.',
           'Um comando da barra de ferramentas devolve o foco ao texto, e o diálogo de link faz o mesmo com Esc. O Tab nunca fica preso: fora das listas, ele sai do editor.',
+          'Telas touch não têm tecla Tab: nelas, a barra de ferramentas padrão tem os botões “Aumentar recuo” e “Diminuir recuo”, ativos nas listas. Um toque em um botão da barra de ferramentas mantém o foco no texto, então o teclado virtual continua aberto.',
         ],
       },
     },

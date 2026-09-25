@@ -474,7 +474,11 @@ export function isBlockType(
   return true;
 }
 
-/** Indents list items (or outdents, with a negative step), up to eight levels. */
+/**
+ * Indents list items (or outdents, with a negative step), up to eight levels.
+ * Outdented from the top level, an item turns into a paragraph, as Backspace
+ * does. Blocks that don't change stay the same objects.
+ */
 export function indent(
   doc: NuiEditorDoc,
   selection: NuiEditorSelection,
@@ -485,8 +489,9 @@ export function indent(
   for (let b = from.block; b <= to.block; b++) {
     const block = doc[b];
     if (block.type !== 'bullet' && block.type !== 'ordered') continue;
-    const depth = Math.min(7, Math.max(0, (block.depth ?? 0) + step));
-    next[b] = { ...block, depth };
+    const depth = (block.depth ?? 0) + step;
+    if (depth < 0) next[b] = nuiEditorBlock('paragraph', block.runs, { id: block.id });
+    else if (depth <= 7) next[b] = { ...block, depth };
   }
   return next;
 }

@@ -2327,6 +2327,10 @@ export const messages: Messages = {
             title: 'Markdown masuk dan keluar',
             text: 'Dengan <code>format="markdown"</code>, nilainya adalah Markdown: dibaca beserta daftar bertingkat, kutipan, dan kode, lalu ditulis kembali saat Anda mengedit.',
           },
+          lists: {
+            title: 'Daftar bertingkat',
+            text: 'Tombol “Tambah indentasi” dan “Kurangi indentasi” menyusun item daftar secara bertingkat, sama seperti Tab dan Shift + Tab. Toolbar default hanya menampilkannya di layar sentuh, yang tidak punya tombol Tab; cantumkan di <code>tools</code> agar keduanya tampil di mana pun.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2366,7 +2370,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 atau 8', 'Daftar bernomor atau berbutir.'],
           [
             'Tab dan Shift + Tab dalam daftar',
-            'Menambah atau mengurangi indentasi; di tempat lain, Tab keluar dari editor.',
+            'Menambah atau mengurangi indentasi; Shift + Tab mengubah item tingkat teratas menjadi paragraf. Di tempat lain, Tab keluar dari editor.',
           ],
           ['Ctrl + Z dan Ctrl + Shift + Z', 'Mengurungkan dan mengulangi.'],
           ['Panah kiri dan kanan di toolbar', 'Berpindah di antara tombol-tombolnya.'],
@@ -2375,6 +2379,7 @@ export const messages: Messages = {
           'Kontennya adalah <code>textbox</code> dengan <code>aria-multiline</code>, yang dinamai oleh <code>label</code>, dengan placeholder-nya di <code>aria-placeholder</code>.',
           'Toolbar-nya adalah toolbar WAI-ARIA dengan satu perhentian tab: format berupa tombol toggle dengan <code>aria-pressed</code>, dan setiap tombol menyebutkan pintasannya di <code>aria-keyshortcuts</code> dan di tooltip-nya.',
           'Perintah toolbar mengembalikan fokus ke teks, dan dialog tautan kembali ke teks dengan Esc. Tab tidak pernah terjebak: di luar daftar, Tab keluar dari editor.',
+          'Layar sentuh tidak punya tombol Tab: di sana, toolbar default menampilkan tombol “Tambah indentasi” dan “Kurangi indentasi”, yang aktif di dalam daftar. Saat tombol toolbar diketuk, fokus tidak berpindah dari teks, sehingga keyboard virtual tetap terbuka.',
         ],
       },
     },

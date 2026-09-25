@@ -2286,6 +2286,10 @@ export const messages: Messages = {
             title: 'Markdown giriş ve çıkışı',
             text: '<code>format="markdown"</code> ile değer Markdown’dır: iç içe listeler, alıntılar ve kodla birlikte okunur, siz düzenledikçe de geri yazılır.',
           },
+          lists: {
+            title: 'İç içe listeler',
+            text: '“Girintiyi artır” ve “Girintiyi azalt” düğmeleri, Tab ve Shift + Tab’ın yaptığı gibi liste öğelerini bir düzey içeri ya da dışarı taşır. Dokunmatik ekranlarda Tab tuşu olmadığından varsayılan araç çubuğu bu düğmeleri yalnızca orada gösterir; her yerde görünmeleri için onları <code>tools</code> içine ekleyin.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2323,7 +2327,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 veya 8', 'Numaralı veya madde işaretli liste.'],
           [
             'Listede Tab ve Shift + Tab',
-            'Girintiyi artırır veya azaltır; başka yerlerde Tab düzenleyiciden çıkar.',
+            'Girintiyi artırır veya azaltır; Shift + Tab en üst düzeydeki bir öğeyi paragrafa çevirir. Başka yerlerde Tab düzenleyiciden çıkar.',
           ],
           ['Ctrl + Z ve Ctrl + Shift + Z', 'Geri alır ve yineler.'],
           ['Araç çubuğunda sol ve sağ ok', 'Düğmeleri arasında gezinir.'],
@@ -2332,6 +2336,7 @@ export const messages: Messages = {
           'İçerik, <code>aria-multiline</code> taşıyan, <code>label</code> ile adlandırılan ve yer tutucusu <code>aria-placeholder</code> içinde bulunan bir <code>textbox</code> öğesidir.',
           'Araç çubuğu, tek sekme durağı olan bir WAI-ARIA toolbar öğesidir: biçimler <code>aria-pressed</code> taşıyan geçiş düğmeleridir ve her düğme kısayolunu <code>aria-keyshortcuts</code> içinde ve araç ipucunda belirtir.',
           'Araç çubuğu komutları odağı metne geri verir; bağlantı diyaloğu da Esc ile metne döner. Tab asla takılıp kalmaz: listelerin dışında düzenleyiciden çıkar.',
+          'Dokunmatik ekranlarda Tab tuşu yoktur: orada varsayılan araç çubuğunda, listelerde etkin olan “Girintiyi artır” ve “Girintiyi azalt” düğmeleri bulunur. Araç çubuğundaki bir düğmeye dokunmak odağı metinde tutar; böylece ekran klavyesi açık kalır.',
         ],
       },
     },

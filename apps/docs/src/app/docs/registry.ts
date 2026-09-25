@@ -1642,6 +1642,12 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       {
         id: 'markdown',
         load: () => import('../examples/editor/markdown').then((m) => m.EditorMarkdownExample),
+        defer: 442,
+      },
+      {
+        id: 'lists',
+        load: () => import('../examples/editor/lists').then((m) => m.EditorListsExample),
+        defer: 339,
       },
     ],
   },

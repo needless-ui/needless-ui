@@ -2406,6 +2406,10 @@ export const messages: Messages = {
             title: 'Markdown lesen und schreiben',
             text: 'Mit <code>format="markdown"</code> ist der Wert Markdown: eingelesen mit verschachtelten Listen, Zitaten und Code und beim Bearbeiten laufend zurückgeschrieben.',
           },
+          lists: {
+            title: 'Verschachtelte Listen',
+            text: 'Die Buttons „Einzug vergrößern“ und „Einzug verkleinern“ verschachteln Listeneinträge, wie Tab und Umschalt + Tab. Die Standard-Toolbar zeigt sie nur auf Touchscreens, die keine Tab-Taste haben; nimm sie in <code>tools</code> auf, um sie überall anzuzeigen.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2448,7 +2452,7 @@ export const messages: Messages = {
           ['Ctrl + Umschalt + 7 oder 8', 'Eine nummerierte Liste oder eine Aufzählung.'],
           [
             'Tab und Umschalt + Tab in einer Liste',
-            'Rücken ein oder aus; anderswo verlässt Tab den Editor.',
+            'Rücken ein oder aus; Umschalt + Tab macht aus einem Eintrag der obersten Ebene einen Absatz. Anderswo verlässt Tab den Editor.',
           ],
           ['Ctrl + Z, Ctrl + Umschalt + Z', 'Rückgängig machen und wiederholen.'],
           ['Pfeil nach links und rechts in der Toolbar', 'Wechseln zwischen ihren Buttons.'],
@@ -2457,6 +2461,7 @@ export const messages: Messages = {
           'Der Inhalt ist eine <code>textbox</code> mit <code>aria-multiline</code>, benannt über <code>label</code>, mit seinem Platzhalter in <code>aria-placeholder</code>.',
           'Die Toolbar ist eine WAI-ARIA-Toolbar mit einem einzigen Tab-Stopp: Formate sind Toggle-Buttons mit <code>aria-pressed</code>, und jeder Button nennt sein Tastenkürzel in <code>aria-keyshortcuts</code> und in seinem Tooltip.',
           'Ein Befehl aus der Toolbar schickt den Fokus zurück in den Text, und der Link-Dialog gibt ihn mit Esc dorthin zurück. Tab bleibt nie hängen: Außerhalb von Listen verlässt es den Editor.',
+          'Touchscreens haben keine Tab-Taste: Dort hat die Standard-Toolbar die Buttons „Einzug vergrößern“ und „Einzug verkleinern“, die in Listen aktiv sind. Ein Tippen auf einen Button der Toolbar lässt den Fokus im Text, sodass die Bildschirmtastatur offen bleibt.',
         ],
       },
     },

@@ -2367,6 +2367,10 @@ export const messages: Messages = {
             title: 'Markdown papasok at palabas',
             text: 'Kapag may <code>format="markdown"</code>, Markdown ang value: binabasa ito kasama ang mga nested list, quote at code, at isinusulat pabalik habang nag-e-edit ka.',
           },
+          lists: {
+            title: 'Mga nested list',
+            text: 'Inililipat ng Indent at Outdent ang mga list item nang isang level papasok o palabas, gaya ng ginagawa ng Tab at Shift + Tab. Sa default na toolbar, lumalabas lang ang mga ito sa mga touch screen, na walang Tab key; ilista ang mga ito sa <code>tools</code> para lumabas kahit saan.',
+          },
         },
         api: {
           NuiEditor: {
@@ -2405,7 +2409,7 @@ export const messages: Messages = {
           ['Ctrl + Shift + 7 o 8', 'Isang numbered o bulleted list.'],
           [
             'Tab at Shift + Tab sa list',
-            'Nag-i-indent o nag-o-outdent; sa ibang lugar, lumalabas ang Tab sa editor.',
+            'Nag-i-indent o nag-o-outdent; ginagawang paragraph ng Shift + Tab ang item na nasa pinakaitaas na level. Sa ibang lugar, lumalabas ang Tab sa editor.',
           ],
           ['Ctrl + Z at Ctrl + Shift + Z', 'Undo at redo.'],
           ['Left at right arrow sa toolbar', 'Lumilipat sa pagitan ng mga button nito.'],
@@ -2414,6 +2418,7 @@ export const messages: Messages = {
           'Isang <code>textbox</code> ang content na may <code>aria-multiline</code>, na pinangalanan ng <code>label</code>, at nasa <code>aria-placeholder</code> ang placeholder nito.',
           'Isang WAI-ARIA toolbar ang toolbar, iisang tab stop: mga toggle button na may <code>aria-pressed</code> ang mga format, at sinasabi ng bawat button ang shortcut nito sa <code>aria-keyshortcuts</code> at sa tooltip nito.',
           'Ibinabalik ng isang toolbar command ang focus sa text, at bumabalik dito ang link dialog sa Escape. Hindi kailanman naiipit ang Tab: sa labas ng mga list, lumalabas ito sa editor.',
+          'Walang Tab key ang mga touch screen: doon, may Indent at Outdent button ang default na toolbar, na naka-enable sa mga list. Naiiwan sa text ang focus kapag nag-tap ng toolbar button, kaya nananatiling bukas ang on-screen keyboard.',
         ],
       },
     },
