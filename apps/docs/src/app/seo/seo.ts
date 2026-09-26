@@ -2,7 +2,7 @@ import { DOCUMENT, inject, Service } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { I18n } from '../i18n/i18n';
 import { DEFAULT_LOCALE, LOCALE_INFO, LOCALES, localizePath, type Locale } from '../i18n/locales';
-import { OG_IMAGE, REPO_URL, SITE_URL } from '../site';
+import { OG_IMAGE, OPERATOR, REPO_URL, SITE_URL } from '../site';
 
 export interface PageSeo {
   /** Page title without the site name. */
@@ -22,6 +22,9 @@ export interface PageSeo {
 }
 
 const MANAGED = 'data-seo';
+
+/** The person behind the site, as the home page's structured data names them. */
+const AUTHOR_ID = `${OPERATOR.url}/#person`;
 
 /** Absolute URL of a path: the root keeps its slash, other paths have none. */
 export function absoluteUrl(path: string): string {
@@ -132,7 +135,11 @@ export class Seo {
       url: home,
       name: site.name,
       ...(page.type === 'website'
-        ? { alternateName: site.tagline, description: site.description }
+        ? {
+            alternateName: site.tagline,
+            description: site.description,
+            publisher: { '@id': AUTHOR_ID },
+          }
         : {}),
       inLanguage: LOCALE_INFO[locale].tag,
     };
@@ -172,6 +179,14 @@ export class Seo {
         programmingLanguage: ['TypeScript', 'CSS'],
         runtimePlatform: 'Angular',
         license: 'https://opensource.org/licenses/MIT',
+        author: { '@id': AUTHOR_ID },
+        copyrightHolder: { '@id': AUTHOR_ID },
+      });
+      nodes.push({
+        '@type': 'Person',
+        '@id': AUTHOR_ID,
+        name: OPERATOR.name,
+        url: OPERATOR.url,
       });
     }
     return { '@context': 'https://schema.org', '@graph': nodes };

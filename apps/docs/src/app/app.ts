@@ -6,7 +6,7 @@ import { Emergency } from './layout/emergency';
 import { Logo } from './layout/logo';
 import { ThemeMenu } from './layout/theme-menu';
 import { NuiToasterRegion } from '@needless-ui/angular/toast';
-import { REPO_URL } from './site';
+import { OPERATOR, REPO_URL } from './site';
 
 @Component({
   selector: 'docs-root',
@@ -26,6 +26,7 @@ export class App {
   protected readonly t = this.i18n.t;
 
   protected readonly repo = REPO_URL;
+  protected readonly operator = OPERATOR;
   protected readonly locales = LOCALES;
   protected readonly localeInfo = LOCALE_INFO;
 

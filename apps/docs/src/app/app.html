@@ -76,6 +76,9 @@
     <a [href]="repo">{{ site.footer.source }}</a>
   </p>
   <p>
+    <!-- The copyright line needs no translation: a sign, a year, a name. -->
+    © 2026 <a [href]="operator.url" rel="author">{{ operator.name }}</a>
+    <span aria-hidden="true"> · </span>
     <a [routerLink]="i18n.link('/legal')">{{ site.footer.legal }}</a>
     <span aria-hidden="true"> · </span>
     <a [routerLink]="i18n.link('/privacy')">{{ site.footer.privacy }}</a>
