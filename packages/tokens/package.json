@@ -3,6 +3,7 @@
   "version": "0.6.2",
   "description": "Design tokens for Needless UI in W3C DTCG format, compiled to CSS custom properties.",
   "license": "MIT",
+  "author": "Angelo Lamonaca",
   "type": "module",
   "repository": {
     "type": "git",
