@@ -1112,7 +1112,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Longues listes',
-            text: 'Tous les fuseaux horaires, par région. Au-delà de 200 lignes, seules les lignes visibles sont rendues, et l’option active reste rendue pour les lecteurs d’écran.',
+            text: 'Tous les fuseaux horaires, par région. Au-delà de 200 lignes, seules les lignes visibles sont rendues, et l’option active reste rendue pour les lecteurs d’écran. Sur les écrans tactiles, un champ de recherche au-dessus de la liste remplace la saisie d’une lettre pour aller à une option.',
           },
         },
         api: {
@@ -1139,6 +1139,8 @@ export const messages: Messages = {
               show: 'Ouvre la liste.',
               hide: 'Ferme la liste.',
               focus: 'Place le focus sur le bouton.',
+              search:
+                'Un champ de recherche au-dessus des options : toujours, jamais, ou <code>auto</code> sur les écrans tactiles au-delà de 20 options, faute de touches pour aller à une option en tapant une lettre.',
             },
           },
           NuiOption: {
@@ -2182,7 +2184,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Un numéro',
-            text: 'Commencez par <code>+</code> et un indicatif pays pour changer de pays pendant la saisie.',
+            text: 'Commencez par <code>+</code> et un indicatif pays pour changer de pays pendant la saisie. Sur les écrans tactiles, la liste des pays comporte un champ de recherche qui trouve les noms et les indicatifs.',
           },
           countries: {
             title: 'Les pays de votre choix',
@@ -2612,6 +2614,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Un ordinateur et un écran tactile de la taille d’un téléphone'],
               ['WebKit (dans Safari)', '26.6', 'Un ordinateur et un iPhone en mode tactile'],
               ['Safari sur iPhone', 'iOS 17.5 et 18.6', 'Le simulateur d’iPhone'],
+              ['Chrome sur Android', '124', 'L’émulateur Android, en tapant sur son clavier'],
             ],
           },
           {
@@ -2667,7 +2670,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Les écrans tactiles ne connaissent pas le survol, donc une hovercard ne fait que compléter le contenu de la page : n’y mettez rien d’essentiel. Sur un téléphone, la touche Entrée du chat passe à la ligne, et c’est le bouton qui envoie.',
+            html: 'Les écrans tactiles ne connaissent pas le survol, donc une hovercard ne fait que compléter le contenu de la page : n’y mettez rien d’essentiel. Sur un téléphone, la touche Entrée du chat passe à la ligne, et c’est le bouton qui envoie ; un select avec une longue liste affiche un champ de recherche, faute de touches pour aller à une option en tapant une lettre.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Le clavier dans Safari' },
           {

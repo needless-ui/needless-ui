@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, linkedSignal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { GUIDE_IDS, isGuideId } from '../../docs/ids';
 import { I18n } from '../../i18n/i18n';
@@ -28,9 +28,23 @@ import { TrustedHtml } from '../../shared/trusted';
     @let guides = i18n.t().guides;
     @if (guide(); as guide) {
       <div class="docs-layout">
-        <nav class="sidenav" [attr.aria-label]="guides.title">
+        <nav
+          class="sidenav sidenav-fold"
+          [attr.aria-label]="guides.title"
+          [attr.data-open]="listOpen() || null"
+        >
           <p class="sidenav-title">{{ guides.title }}</p>
-          <ul>
+          <!-- On narrow screens the list folds behind this, so the page starts with its guide. -->
+          <button
+            type="button"
+            class="eyebrow sidenav-toggle"
+            aria-controls="sidenav-list"
+            [attr.aria-expanded]="listOpen()"
+            (click)="listOpen.set(!listOpen())"
+          >
+            {{ guides.title }}
+          </button>
+          <ul id="sidenav-list">
             @for (other of ids; track other) {
               <li>
                 <a
@@ -46,7 +60,7 @@ import { TrustedHtml } from '../../shared/trusted';
 
         <div class="docs-content">
           <header class="page-header">
-            <p class="eyebrow">{{ guides.title }}</p>
+            <p class="eyebrow page-eyebrow">{{ guides.title }}</p>
             <h1>{{ guide.title }}</h1>
           </header>
           <div class="doc-grid">
@@ -130,6 +144,8 @@ export class GuidePage {
 
   protected readonly i18n = inject(I18n);
   protected readonly ids = GUIDE_IDS;
+  /** The guide list, on narrow screens; each page starts with it folded. */
+  protected readonly listOpen = linkedSignal({ source: this.id, computation: () => false });
 
   protected readonly guide = computed(() => {
     const id = this.id();

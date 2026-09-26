@@ -1043,7 +1043,7 @@ export const messages: Messages = {
           },
           zones: {
             title: '长列表',
-            text: '按地区列出所有时区。超过 200 行时只渲染可见的行，而高亮的选项始终保持渲染，供屏幕阅读器使用。',
+            text: '按地区列出所有时区。超过 200 行时只渲染可见的行，而高亮的选项始终保持渲染，供屏幕阅读器使用。在触摸屏上，列表上方的搜索框可以代替输入字母跳转。',
           },
         },
         api: {
@@ -1065,6 +1065,8 @@ export const messages: Messages = {
               show: '打开列表。',
               hide: '关闭列表。',
               focus: '让按钮获得焦点。',
+              search:
+                '选项上方的搜索框：始终、从不，或 <code>auto</code>（列表超过 20 个选项时在触摸屏上显示，因为触摸屏没有可用来输入字母跳转的按键）。',
             },
           },
           NuiOption: {
@@ -1988,7 +1990,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: '输入号码',
-            text: '以 <code>+</code> 和国际区号开头，输入时就会切换国家。',
+            text: '以 <code>+</code> 和国际区号开头，输入时就会切换国家。在触摸屏上，国家列表带有搜索框，可按国家名称和国际区号查找。',
           },
           countries: {
             title: '自选国家',
@@ -2392,6 +2394,7 @@ export const messages: Messages = {
               ['Firefox', '155', '电脑，以及手机尺寸的触摸屏'],
               ['WebKit（Safari）', '26.6', '电脑，以及支持触摸的 iPhone'],
               ['iPhone 上的 Safari', 'iOS 17.5 和 18.6', 'iPhone 模拟器'],
+              ['Android 上的 Chrome', '124', 'Android 模拟器，使用其触摸屏键盘输入'],
             ],
           },
           {
@@ -2435,7 +2438,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: '触摸屏无法悬停，所以悬停卡片只能补充页面上已有的内容：不要把任何必不可少的内容放在其中。在手机上，聊天组件的 Return 键会换行，发送则由按钮完成。',
+            html: '触摸屏无法悬停，所以悬停卡片只能补充页面上已有的内容：不要把任何必不可少的内容放在其中。在手机上，聊天组件的 Return 键会换行，发送则由按钮完成。此外，由于没有按键可用来输入字母跳转，列表较长的选择器会显示搜索框。',
           },
           { kind: 'h2', id: 'keyboard', text: 'Safari 中的键盘操作' },
           {

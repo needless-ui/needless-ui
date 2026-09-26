@@ -1107,7 +1107,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Orodha ndefu',
-            text: 'Kanda zote za saa, kwa eneo. Safu zikizidi 200, ni zile zinazoonekana tu zinazochorwa, na chaguo amilifu hubaki likichorwa kwa ajili ya visoma skrini.',
+            text: 'Kanda zote za saa, kwa eneo. Safu zikizidi 200, ni zile zinazoonekana tu zinazochorwa, na chaguo amilifu hubaki likichorwa kwa ajili ya visoma skrini. Kwenye skrini za kugusa, sehemu ya utafutaji juu ya orodha huchukua nafasi ya kuandika herufi ili kuruka.',
           },
         },
         api: {
@@ -1133,6 +1133,8 @@ export const messages: Messages = {
               show: 'Hufungua orodha.',
               hide: 'Hufunga orodha.',
               focus: 'Huweka focus kwenye kitufe.',
+              search:
+                'Sehemu ya utafutaji juu ya chaguo: daima, kamwe, au <code>auto</code>, inayoionyesha kwenye skrini za kugusa chaguo zikizidi 20, kwa kuwa skrini hizo hazina vitufe vya kuandika herufi ili kuruka.',
             },
           },
           NuiOption: {
@@ -2152,7 +2154,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Namba',
-            text: 'Anza na <code>+</code> na msimbo wa kupiga simu ili kubadilisha nchi unapoandika.',
+            text: 'Anza na <code>+</code> na msimbo wa kupiga simu ili kubadilisha nchi unapoandika. Kwenye skrini za kugusa, orodha ya nchi ina sehemu ya utafutaji inayopata majina ya nchi na misimbo ya kupiga simu.',
           },
           countries: {
             title: 'Nchi unazochagua',
@@ -2571,6 +2573,11 @@ export const messages: Messages = {
               ['Firefox', '155', 'Kompyuta, na skrini ya kugusa ya ukubwa wa simu'],
               ['WebKit (ya Safari)', '26.6', 'Kompyuta, na iPhone kwa mguso'],
               ['Safari kwenye iPhone', 'iOS 17.5 na 18.6', 'Simulator ya iPhone'],
+              [
+                'Chrome kwenye Android',
+                '124',
+                'Emulator ya Android, kwa kuandika kwenye kibodi yake ya skrini',
+              ],
             ],
           },
           {
@@ -2626,7 +2633,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Skrini za kugusa haziwezi kufanya hover, kwa hivyo hovercard huongeza tu juu ya kilichopo kwenye ukurasa: usiweke ndani yake kitu chochote muhimu. Kwenye simu, kitufe cha Return katika gumzo huanza mstari mpya, na kitufe cha kutuma ndicho hutuma.',
+            html: 'Skrini za kugusa haziwezi kufanya hover, kwa hivyo hovercard huongeza tu juu ya kilichopo kwenye ukurasa: usiweke ndani yake kitu chochote muhimu. Kwenye simu, kitufe cha Return katika gumzo huanza mstari mpya, na kitufe cha kutuma ndicho hutuma, na select yenye orodha ndefu hupata sehemu ya utafutaji, kwa kuwa hakuna vitufe vya kuandika herufi ili kuruka.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Kibodi kwenye Safari' },
           {

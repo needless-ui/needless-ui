@@ -1095,7 +1095,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Listas longas',
-            text: 'Todos os fusos horários, por região. Acima de 200 linhas, só as linhas visíveis são renderizadas, e a opção ativa continua renderizada para os leitores de tela.',
+            text: 'Todos os fusos horários, por região. Acima de 200 linhas, só as linhas visíveis são renderizadas, e a opção ativa continua renderizada para os leitores de tela. Em telas touch, no lugar de digitar uma letra para pular, há um campo de busca acima da lista.',
           },
         },
         api: {
@@ -1120,6 +1120,8 @@ export const messages: Messages = {
               show: 'Abre a lista.',
               hide: 'Fecha a lista.',
               focus: 'Move o foco para o botão.',
+              search:
+                'Um campo de busca acima das opções: sempre, nunca, ou <code>auto</code> com mais de 20 opções em telas touch, que não têm teclas para pular digitando uma letra.',
             },
           },
           NuiOption: {
@@ -2132,7 +2134,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Um número',
-            text: 'Comece com <code>+</code> e um código de país para trocar de país enquanto digita.',
+            text: 'Comece com <code>+</code> e um código de país para trocar de país enquanto digita. Em telas touch, a lista de países tem um campo de busca que encontra nomes e códigos.',
           },
           countries: {
             title: 'Países à sua escolha',
@@ -2560,6 +2562,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Um computador e uma tela touch do tamanho de um celular'],
               ['WebKit (no Safari)', '26.6', 'Um computador e um iPhone com entrada por toque'],
               ['Safari no iPhone', 'iOS 17.5 e 18.6', 'O simulador de iPhone'],
+              ['Chrome no Android', '124', 'O emulador de Android, digitando no teclado dele'],
             ],
           },
           {
@@ -2615,7 +2618,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Telas touch não têm hover, então um hovercard só complementa o que já está na página: não coloque nada essencial nele. No celular, a tecla Enter do chat quebra a linha, e o botão envia.',
+            html: 'Telas touch não têm hover, então um hovercard só complementa o que já está na página: não coloque nada essencial nele. No celular, a tecla Enter do chat quebra a linha, e o botão envia; um select com uma lista longa ganha um campo de busca, já que não há teclas para pular digitando uma letra.',
           },
           { kind: 'h2', id: 'keyboard', text: 'O teclado no Safari' },
           {

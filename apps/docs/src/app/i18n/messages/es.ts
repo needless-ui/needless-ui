@@ -1110,7 +1110,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Listas largas',
-            text: 'Todas las zonas horarias, por región. Con más de 200 filas solo se renderizan las visibles, y la opción activa sigue renderizada para los lectores de pantalla.',
+            text: 'Todas las zonas horarias, por región. Con más de 200 filas solo se renderizan las visibles, y la opción activa sigue renderizada para los lectores de pantalla. En las pantallas táctiles, en lugar de escribir una letra para saltar, hay un campo de búsqueda encima de la lista.',
           },
         },
         api: {
@@ -1136,6 +1136,8 @@ export const messages: Messages = {
               show: 'Abre la lista.',
               hide: 'Cierra la lista.',
               focus: 'Pone el foco en el botón.',
+              search:
+                'Un campo de búsqueda encima de las opciones: siempre, nunca, o <code>auto</code> con más de 20 opciones en pantallas táctiles, que no tienen teclas para saltar escribiendo una letra.',
             },
           },
           NuiOption: {
@@ -2150,7 +2152,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Un número',
-            text: 'Empieza con <code>+</code> y un código de país para cambiar de país mientras escribes.',
+            text: 'Empieza con <code>+</code> y un código de país para cambiar de país mientras escribes. En las pantallas táctiles, la lista de países tiene un campo de búsqueda que encuentra nombres y códigos de país.',
           },
           countries: {
             title: 'Los países que elijas',
@@ -2581,6 +2583,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Escritorio y una pantalla táctil del tamaño de un móvil'],
               ['WebKit (en Safari)', '26.6', 'Escritorio y un iPhone con entrada táctil'],
               ['Safari en iPhone', 'iOS 17.5 y 18.6', 'El simulador de iPhone'],
+              ['Chrome en Android', '124', 'El emulador de Android, escribiendo con su teclado'],
             ],
           },
           {
@@ -2636,7 +2639,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Las pantallas táctiles no permiten pasar el puntero por encima, así que una hovercard solo complementa lo que ya hay en la página: no pongas en ella nada esencial. En el móvil, la tecla Intro del chat añade un salto de línea y el botón envía.',
+            html: 'Las pantallas táctiles no permiten pasar el puntero por encima, así que una hovercard solo complementa lo que ya hay en la página: no pongas en ella nada esencial. En el móvil, la tecla Intro del chat añade un salto de línea y el botón envía, y un select con una lista larga muestra un campo de búsqueda, ya que no hay teclas para saltar escribiendo una letra.',
           },
           { kind: 'h2', id: 'keyboard', text: 'El teclado en Safari' },
           {

@@ -1102,7 +1102,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Elenchi lunghi',
-            text: 'Tutti i fusi orari, per regione. Oltre le 200 righe, vengono renderizzate solo quelle visibili, e l’opzione attiva resta renderizzata per gli screen reader.',
+            text: 'Tutti i fusi orari, per regione. Oltre le 200 righe, vengono renderizzate solo quelle visibili, e l’opzione attiva resta renderizzata per gli screen reader. Sugli schermi touch, un campo di ricerca sopra l’elenco sostituisce la digitazione di una lettera per saltare.',
           },
         },
         api: {
@@ -1128,6 +1128,8 @@ export const messages: Messages = {
               show: 'Apre l’elenco.',
               hide: 'Chiude l’elenco.',
               focus: 'Sposta il focus sul pulsante.',
+              search:
+                'Un campo di ricerca sopra le opzioni: sempre, mai, o <code>auto</code> sugli schermi touch per elenchi di oltre 20 opzioni, perché lì non ci sono tasti per saltare a un’opzione digitando una lettera.',
             },
           },
           NuiOption: {
@@ -2137,7 +2139,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Un numero',
-            text: 'Inizia con <code>+</code> e un prefisso internazionale per cambiare paese mentre digiti.',
+            text: 'Inizia con <code>+</code> e un prefisso internazionale per cambiare paese mentre digiti. Sugli schermi touch, l’elenco dei paesi ha un campo di ricerca che trova nomi e prefissi.',
           },
           countries: {
             title: 'Paesi a scelta',
@@ -2557,6 +2559,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Un computer e uno schermo touch grande come un telefono'],
               ['WebKit (in Safari)', '26.6', 'Un computer e un iPhone con input touch'],
               ['Safari su iPhone', 'iOS 17.5 e 18.6', 'Il simulatore di iPhone'],
+              ['Chrome su Android', '124', 'L’emulatore Android, digitando con la sua tastiera'],
             ],
           },
           {
@@ -2608,7 +2611,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Gli schermi touch non conoscono l’hover, quindi una hovercard si limita ad arricchire ciò che c’è già nella pagina: non metterci niente di essenziale. Su un telefono, il tasto Invio della chat va a capo, e il pulsante invia.',
+            html: 'Gli schermi touch non conoscono l’hover, quindi una hovercard si limita ad arricchire ciò che c’è già nella pagina: non metterci niente di essenziale. Su un telefono, il tasto Invio della chat va a capo, e il pulsante invia; una select con un elenco lungo mostra un campo di ricerca, perché non ci sono tasti per saltare a un’opzione digitando una lettera.',
           },
           { kind: 'h2', id: 'keyboard', text: 'La tastiera in Safari' },
           {

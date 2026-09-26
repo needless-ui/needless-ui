@@ -27,11 +27,15 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* A word longer than a phone is wide (Browserunterstützung, NuiSchedulerEventTemplate)
+     is hyphenated where the language allows, and broken where it doesn't. */
   h1,
   h2,
   h3 {
     line-height: var(--nui-line-height-tight);
     text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   p,
@@ -228,14 +232,17 @@
     color: var(--nui-color-text-default);
   }
 
+  /* The last icon's glyph, not its button, meets the page's edge, as the logo does. */
   .site-tools {
     display: flex;
     align-items: center;
     gap: var(--nui-space-1);
-    margin-inline-start: auto;
+    margin-inline: auto calc(-1 * var(--nui-space-2));
   }
 
-  .site-tools svg path {
+  /* Paint set on each svg and inherited by its path: a rule on the paths would
+     reach into the sprite's use tree too, and outline the GitHub mark. */
+  .site-tools svg {
     fill: none;
     stroke: currentColor;
     stroke-width: 1.75;
@@ -243,7 +250,7 @@
     stroke-linejoin: round;
   }
 
-  .site-tools svg .github-mark {
+  .site-tools .github-icon {
     fill: currentColor;
     stroke: none;
   }
@@ -294,6 +301,16 @@
     text-decoration: none;
   }
 
+  /* Each name keeps its own direction but lines up with the page's: Arabic
+     starts where English does in an English list, and the other way round. */
+  .language-list ul:dir(ltr) a {
+    text-align: left;
+  }
+
+  .language-list ul:dir(rtl) a {
+    text-align: right;
+  }
+
   .language-list a:hover {
     background: var(--nui-color-bg-subtle);
   }
@@ -316,19 +333,7 @@
     }
 
     .site-header {
-      flex-wrap: wrap;
-      gap: 0 var(--nui-space-2);
-      padding-block: var(--nui-space-2);
-    }
-
-    .site-tools {
-      margin-inline-start: auto;
-    }
-
-    .site-nav {
-      order: 3;
-      flex-basis: 100%;
-      margin-inline: calc(-1 * var(--nui-space-3));
+      gap: var(--nui-space-4);
     }
 
     .theme-label,
@@ -338,6 +343,27 @@
       block-size: 1px;
       overflow: hidden;
       clip-path: inset(50%);
+    }
+  }
+
+  /* Phones: the nav takes a row of its own, under the brand and tools (one row
+     fits from 38rem in every language). Anchors scroll past the header's height:
+     two 1.75rem rows, their 0.5rem gap, 0.5rem of padding each side, a 1px rule. */
+  @media (max-width: 38rem) {
+    :root {
+      --header-height: calc(5rem + 1px);
+    }
+
+    .site-header {
+      flex-wrap: wrap;
+      gap: var(--nui-space-2);
+      padding-block: var(--nui-space-2);
+    }
+
+    /* The nav's pills line up with the page's edge, as the logo does. */
+    .site-nav {
+      order: 3;
+      flex-basis: 100%;
     }
   }
 
@@ -358,21 +384,23 @@
 
   /* The big red button (layout/emergency.ts) and the fall it causes (layout/gravity.ts) */
 
+  /* It waits below the footer, and stays in the corner only on screens with a
+     margin beside the page for it: fixed anywhere narrower, it covered the
+     sidebar's links and the text. */
   .emergency-unit {
-    position: fixed;
-    inset-block-end: var(--nui-space-4);
-    inset-inline-start: var(--nui-space-4);
-    z-index: 20;
     display: grid;
     justify-items: center;
     gap: var(--nui-space-1);
+    margin-block-end: var(--nui-space-8);
   }
 
-  /* On a phone, a fixed button would sit over the text: there it waits below the footer. */
-  @media (max-width: 48rem) {
+  @media (min-width: 100rem) {
     .emergency-unit {
-      position: static;
-      margin-block-end: var(--nui-space-8);
+      position: fixed;
+      inset-block-end: var(--nui-space-4);
+      inset-inline-start: var(--nui-space-4);
+      z-index: 20;
+      margin: 0;
     }
   }
 
@@ -619,8 +647,10 @@
     color: var(--nui-color-text-muted);
   }
 
+  /* A column that can shrink: code lines scroll in their block, not the page. */
   .home-code {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--nui-space-4);
     max-inline-size: 48rem;
   }
@@ -639,6 +669,11 @@
 
   .docs-content .page-header {
     padding-block-start: var(--nui-space-10);
+  }
+
+  /* An article right under the title (legal pages) keeps the docs pages' distance. */
+  .page-header + .doc-article {
+    margin-block-start: var(--nui-space-8);
   }
 
   /* Component previews (cards and hero): decorative, drawn with the real CSS. */
@@ -1173,16 +1208,22 @@
     color: var(--nui-color-accent-text);
   }
 
+  /* Folds the component list on narrow screens; wide ones show it as a sidebar. */
+  .sidenav-toggle {
+    display: none;
+  }
+
+  /* The rule under the tabs is a shadow inside the bar, so the active tab's line
+     covers it without overflowing: a pixel too tall, the bar would scroll. */
   .tabs {
     display: flex;
     gap: var(--nui-space-1);
     margin-block-start: var(--nui-space-6);
-    overflow-x: auto;
-    border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    overflow: auto hidden;
+    box-shadow: inset 0 calc(-1 * var(--nui-border-width-thin)) var(--nui-color-border-subtle);
   }
 
   .tabs a {
-    margin-block-end: -1px;
     padding: var(--nui-space-3) var(--nui-space-4);
     border-block-end: 2px solid transparent;
     color: var(--nui-color-text-muted);
@@ -1216,6 +1257,11 @@
     margin: var(--nui-space-10) 0 var(--nui-space-3);
     font-size: var(--nui-font-size-2xl);
     letter-spacing: -0.015em;
+  }
+
+  /* An API name breaks without a hyphen, which would read as part of the name. */
+  .api-entry h2 {
+    hyphens: manual;
   }
 
   .doc-article > h2:first-child,
@@ -1262,6 +1308,7 @@
     .sidenav {
       position: static;
       max-block-size: none;
+      overflow: visible;
       padding-block: var(--nui-space-6) 0;
     }
 
@@ -1273,6 +1320,56 @@
 
     .docs-content .page-header {
       padding-block-start: var(--nui-space-6);
+    }
+
+    /* A phone opens a component on the component, not on a list of thirty: the
+       list folds behind a toggle, which stands where the page's "Components" link was. */
+    .sidenav-fold .sidenav-title,
+    .page-eyebrow,
+    .sidenav-fold:not([data-open]) ul {
+      display: none;
+    }
+
+    .sidenav-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--nui-space-2);
+      min-block-size: 2.75rem;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .sidenav-toggle::after {
+      content: '';
+      inline-size: 0.4em;
+      block-size: 0.4em;
+      margin-block-start: -0.25em;
+      border: solid;
+      border-width: 0 1.5px 1.5px 0;
+      rotate: 45deg;
+    }
+
+    .sidenav-toggle[aria-expanded='true']::after {
+      margin-block-start: 0.2em;
+      rotate: -135deg;
+    }
+
+    .sidenav-fold {
+      padding-block-start: var(--nui-space-3);
+    }
+
+    /* The links' text lines up with the toggle, and the page's edge. */
+    .sidenav-fold[data-open] ul {
+      margin-block: var(--nui-space-1) var(--nui-space-6);
+      margin-inline: calc(-1 * var(--nui-space-3));
+    }
+
+    .sidenav-fold + .docs-content .page-header {
+      padding-block-start: 0;
     }
   }
 
@@ -1315,6 +1412,13 @@
 
   .example-demo {
     padding: var(--nui-space-8) var(--nui-space-6);
+  }
+
+  /* A phone gives the example the room: 16px, as the page's own edge. */
+  @media (max-width: 38rem) {
+    .example-demo {
+      padding: var(--nui-space-6) var(--nui-space-4);
+    }
   }
 
   /* Where a heavy example will render, once it's near the viewport. */
@@ -1494,6 +1598,77 @@
     margin-block-start: var(--nui-space-1);
     color: var(--nui-color-text-muted);
     font-size: var(--nui-font-size-xs);
+  }
+
+  /* A union type or a list of names wraps at its spaces, so the table fits its
+     column and the descriptions stay in view; each part of it stays whole (the
+     prose rule lets code break anywhere, which here would shrink a column to a
+     letter). */
+  .api-entry tbody code {
+    white-space: normal;
+    overflow-wrap: normal;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .api-entry td:last-child {
+    min-inline-size: 14rem;
+  }
+
+  /* On a phone, four columns would scroll sideways: each member stacks instead,
+     its name and kind, its type = default, then what it does. Tables keep their
+     semantics under display changes in every supported browser (Safari since 17). */
+  @media (max-width: 40rem) {
+    .api-entry :is(table, tbody, tr, th, td) {
+      display: block;
+    }
+
+    .api-entry thead {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    .api-entry tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--nui-space-2);
+      padding: var(--nui-space-3);
+      border-block-end: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    }
+
+    .api-entry tbody tr:last-child {
+      border-block-end: 0;
+    }
+
+    .api-entry tbody :is(th, td) {
+      padding: 0;
+      border: 0;
+    }
+
+    .api-entry tbody :is(th, td:last-child) {
+      flex-basis: 100%;
+    }
+
+    .api-entry .member-kind {
+      display: inline;
+      margin-inline-start: var(--nui-space-2);
+    }
+
+    .api-entry td code {
+      overflow-wrap: anywhere;
+    }
+
+    .api-entry td:nth-child(3):has(.api-none) {
+      display: none;
+    }
+
+    .api-entry td:nth-child(3)::before {
+      content: '= ';
+      color: var(--nui-color-text-muted);
+    }
   }
 
   /* Theming guide demo */

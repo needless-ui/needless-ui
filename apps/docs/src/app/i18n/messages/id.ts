@@ -1104,7 +1104,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Daftar panjang',
-            text: 'Semua zona waktu, per wilayah. Di atas 200 baris, hanya baris yang terlihat yang dirender, dan opsi yang aktif tetap dirender untuk pembaca layar.',
+            text: 'Semua zona waktu, per wilayah. Di atas 200 baris, hanya baris yang terlihat yang dirender, dan opsi yang aktif tetap dirender untuk pembaca layar. Di layar sentuh, kolom pencarian di atas daftar menggantikan cara melompat dengan mengetik huruf.',
           },
         },
         api: {
@@ -1131,6 +1131,8 @@ export const messages: Messages = {
               show: 'Membuka daftar.',
               hide: 'Menutup daftar.',
               focus: 'Memfokuskan tombol.',
+              search:
+                'Kolom pencarian di atas opsi: selalu, tidak pernah, atau <code>auto</code> untuk daftar berisi lebih dari 20 opsi di layar sentuh, yang tidak memiliki tombol untuk melompat dengan mengetik huruf.',
             },
           },
           NuiOption: {
@@ -2131,7 +2133,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Sebuah nomor',
-            text: 'Mulai dengan <code>+</code> dan kode negara untuk berganti negara sambil mengetik.',
+            text: 'Mulai dengan <code>+</code> dan kode negara untuk berganti negara sambil mengetik. Di layar sentuh, daftar negara memiliki kolom pencarian untuk mencari nama dan kode negara.',
           },
           countries: {
             title: 'Negara pilihan Anda',
@@ -2556,6 +2558,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Komputer, dan layar sentuh seukuran ponsel'],
               ['WebKit (engine Safari)', '26.6', 'Komputer, dan iPhone dengan input sentuh'],
               ['Safari di iPhone', 'iOS 17.5 dan 18.6', 'Simulator iPhone'],
+              ['Chrome di Android', '124', 'Emulator Android, mengetik dengan keyboard bawaannya'],
             ],
           },
           {
@@ -2607,7 +2610,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Layar sentuh tidak mengenal hover, jadi hovercard hanya melengkapi apa yang sudah ada di halaman: jangan taruh hal penting apa pun di dalamnya. Di ponsel, tombol Return di chat membuat baris baru, sedangkan pesan dikirim dengan tombol kirim.',
+            html: 'Layar sentuh tidak mengenal hover, jadi hovercard hanya melengkapi apa yang sudah ada di halaman: jangan taruh hal penting apa pun di dalamnya. Di ponsel, tombol Return di chat membuat baris baru, sedangkan pesan dikirim dengan tombol kirim; select dengan daftar panjang menampilkan kolom pencarian, karena tidak ada tombol untuk melompat dengan mengetik huruf.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Keyboard di Safari' },
           {

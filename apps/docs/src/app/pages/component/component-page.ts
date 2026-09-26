@@ -1,5 +1,10 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, computed, inject, input, linkedSignal } from '@angular/core';
+import {
+  type IsActiveMatchOptions,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { COMPONENT_IDS, isComponentId } from '../../docs/ids';
 import { I18n } from '../../i18n/i18n';
 import { NotFoundPage } from '../not-found/not-found-page';
@@ -12,9 +17,23 @@ import { NotFoundPage } from '../not-found/not-found-page';
     @let page = i18n.t().components;
     @if (componentId(); as id) {
       <div class="docs-layout">
-        <nav class="sidenav" [attr.aria-label]="page.sidenavLabel">
+        <nav
+          class="sidenav sidenav-fold"
+          [attr.aria-label]="page.sidenavLabel"
+          [attr.data-open]="listOpen() || null"
+        >
           <p class="sidenav-title">{{ page.sidenavLabel }}</p>
-          <ul>
+          <!-- On narrow screens the list folds behind this, so the page starts with its component. -->
+          <button
+            type="button"
+            class="eyebrow sidenav-toggle"
+            aria-controls="sidenav-list"
+            [attr.aria-expanded]="listOpen()"
+            (click)="listOpen.set(!listOpen())"
+          >
+            {{ page.sidenavLabel }}
+          </button>
+          <ul id="sidenav-list">
             @for (other of ids; track other) {
               <li>
                 <a
@@ -30,16 +49,17 @@ import { NotFoundPage } from '../not-found/not-found-page';
 
         <div class="docs-content">
           <header class="page-header">
-            <p class="eyebrow">
+            <p class="eyebrow page-eyebrow">
               <a [routerLink]="i18n.link('/components')">{{ page.title }}</a>
             </p>
             <h1>{{ page.items[id].name }}</h1>
             <p class="lead">{{ page.items[id].summary }}</p>
             <nav class="tabs" [attr.aria-label]="page.tabsLabel">
+              <!-- Exact on the path only: a link with ?utm_… still marks its tab. -->
               <a
                 [routerLink]="base()"
                 routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLinkActiveOptions]="overviewMatch"
                 ariaCurrentWhenActive="page"
                 >{{ page.tabs.overview }}</a
               >
@@ -75,4 +95,12 @@ export class ComponentPage {
     return isComponentId(id) ? id : null;
   });
   protected readonly base = computed(() => this.i18n.link(`/components/${this.id()}`));
+  /** The component list, on narrow screens; each page starts with it folded. */
+  protected readonly listOpen = linkedSignal({ source: this.id, computation: () => false });
+  protected readonly overviewMatch: IsActiveMatchOptions = {
+    paths: 'exact',
+    queryParams: 'ignored',
+    fragment: 'ignored',
+    matrixParams: 'ignored',
+  };
 }

@@ -1112,7 +1112,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Dogayen jeri',
-            text: 'Dukan yankunan lokaci, an rarraba su bisa nahiya. Bayan layuka 200, layukan da ake gani kawai ake nunawa, kuma zaɓin da ke aiki yana ci gaba da kasancewa don manhajojin karanta allo.',
+            text: 'Dukan yankunan lokaci, an rarraba su bisa nahiya. Bayan layuka 200, layukan da ake gani kawai ake nunawa, kuma zaɓin da ke aiki yana ci gaba da kasancewa don manhajojin karanta allo. A allon taɓawa, filin bincike a saman jerin yana maye gurbin rubuta harafi don tsallakawa.',
           },
         },
         api: {
@@ -1138,6 +1138,8 @@ export const messages: Messages = {
               show: 'Yana buɗe jerin.',
               hide: 'Yana rufe jerin.',
               focus: 'Yana kai focus kan maɓallin.',
+              search:
+                'Filin bincike a saman zaɓuɓɓuka: koyaushe, ba ko kaɗan, ko <code>auto</code>, wanda ke nuna shi a allon taɓawa idan zaɓuɓɓuka sun wuce 20, domin allon taɓawa ba shi da maɓallan da za a rubuta harafi da su don tsallakawa.',
             },
           },
           NuiOption: {
@@ -2161,7 +2163,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Lamba',
-            text: 'Ku fara da <code>+</code> da lambar kiran ƙasa don sauya ƙasa yayin da kuke rubutu.',
+            text: 'Ku fara da <code>+</code> da lambar kiran ƙasa don sauya ƙasa yayin da kuke rubutu. A allon taɓawa, jerin ƙasashe yana da filin bincike da ke samo ƙasashe ta sunayensu da lambobin kiransu.',
           },
           countries: {
             title: 'Ƙasashen da kuka zaɓa',
@@ -2581,6 +2583,11 @@ export const messages: Messages = {
               ['Firefox', '155', 'Kwamfuta, da allon taɓawa mai girman waya'],
               ['WebKit (injin Safari)', '26.6', 'Kwamfuta, da iPhone ta hanyar taɓawa'],
               ['Safari a iPhone', 'iOS 17.5 da 18.6', 'Simulator na iPhone'],
+              [
+                'Chrome a Android',
+                '124',
+                'Emulator na Android, ana rubutu da allon madannai na taɓawa da ke cikinsa',
+              ],
             ],
           },
           {
@@ -2632,7 +2639,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Allon taɓawa ba shi da linzamin da zai tsaya a kan abu, don haka hovercard ƙari ne kawai ga abin da ke shafin: kada ku sa wani abu mai muhimmanci a cikinsa. A waya, Return a cikin chat yana fara sabon layi, maɓallin aikawa kuma yana aikawa.',
+            html: 'Allon taɓawa ba shi da linzamin da zai tsaya a kan abu, don haka hovercard ƙari ne kawai ga abin da ke shafin: kada ku sa wani abu mai muhimmanci a cikinsa. A waya, Return a cikin chat yana fara sabon layi, maɓallin aikawa kuma yana aikawa, haka kuma select mai dogon jeri yana samun filin bincike, domin babu maɓallan da za a rubuta harafi da su don tsallakawa.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Allon madannai a Safari' },
           {

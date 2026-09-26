@@ -1042,7 +1042,7 @@ export const messages: Messages = {
           },
           zones: {
             title: '長清單',
-            text: '依地區列出所有時區。超過 200 列時只渲染可見的列，而醒目提示的選項會一直保持渲染，供螢幕閱讀器使用。',
+            text: '依地區列出所有時區。超過 200 列時只渲染可見的列，而醒目提示的選項會一直保持渲染，供螢幕閱讀器使用。在觸控螢幕上，清單上方的搜尋欄位可以取代輸入字母跳轉。',
           },
         },
         api: {
@@ -1064,6 +1064,8 @@ export const messages: Messages = {
               show: '開啟清單。',
               hide: '關閉清單。',
               focus: '讓按鈕取得焦點。',
+              search:
+                '選項上方的搜尋欄位：一律、從不，或 <code>auto</code>（清單超過 20 個選項時在觸控螢幕上顯示，因為觸控螢幕沒有可用來輸入字母跳轉的按鍵）。',
             },
           },
           NuiOption: {
@@ -1986,7 +1988,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: '輸入號碼',
-            text: '以 <code>+</code> 和國碼開頭，輸入時就會切換國家。',
+            text: '以 <code>+</code> 和國碼開頭，輸入時就會切換國家。在觸控螢幕上，國家清單附有搜尋欄位，可依國家名稱和國碼尋找。',
           },
           countries: {
             title: '自選國家',
@@ -2390,6 +2392,7 @@ export const messages: Messages = {
               ['Firefox', '155', '電腦，以及手機大小的觸控螢幕'],
               ['WebKit（Safari）', '26.6', '電腦，以及支援觸控的 iPhone'],
               ['iPhone 上的 Safari', 'iOS 17.5 和 18.6', 'iPhone 模擬器'],
+              ['Android 上的 Chrome', '124', 'Android 模擬器，使用其觸控鍵盤輸入'],
             ],
           },
           {
@@ -2433,7 +2436,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: '觸控螢幕無法懸停，所以懸停卡片只能補充頁面上已有的內容：請勿在其中放置任何必要的內容。在手機上，聊天元件的 Return 鍵會換行，送出則由按鈕完成。',
+            html: '觸控螢幕無法懸停，所以懸停卡片只能補充頁面上已有的內容：請勿在其中放置任何必要的內容。在手機上，聊天元件的 Return 鍵會換行，送出則由按鈕完成。此外，由於沒有按鍵可用來輸入字母跳轉，清單較長的 Select 會顯示搜尋欄位。',
           },
           { kind: 'h2', id: 'keyboard', text: 'Safari 中的鍵盤操作' },
           {

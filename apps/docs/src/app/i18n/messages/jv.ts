@@ -1097,7 +1097,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Dhaptar dawa',
-            text: 'Kabeh zona wektu, miturut wilayah. Luwih saka 200 baris, mung baris sing katon sing digambar, lan pilihan aktif tetep digambar kanggo screen reader.',
+            text: 'Kabeh zona wektu, miturut wilayah. Luwih saka 200 baris, mung baris sing katon sing digambar, lan pilihan aktif tetep digambar kanggo screen reader. Ing layar sentuh, kolom panelusuran ing ndhuwur dhaptar dienggo minangka gantine ngetik aksara kanggo mlumpat.',
           },
         },
         api: {
@@ -1124,6 +1124,8 @@ export const messages: Messages = {
               show: 'Mbukak dhaptar.',
               hide: 'Nutup dhaptar.',
               focus: 'Mindhah fokus menyang tombol.',
+              search:
+                'Kolom panelusuran ing ndhuwur pilihan: tansah, ora tau, utawa <code>auto</code>, sing nampilake kolom iki ing layar sentuh yen luwih saka 20 pilihan, amarga layar sentuh ora duwe tombol kanggo mlumpat kanthi ngetik aksara.',
             },
           },
           NuiOption: {
@@ -2125,7 +2127,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Sawijining nomer',
-            text: 'Wiwiti nganggo <code>+</code> lan kode panggilan kanggo ganti negara nalika ngetik.',
+            text: 'Wiwiti nganggo <code>+</code> lan kode panggilan kanggo ganti negara nalika ngetik. Ing layar sentuh, dhaptar negara duwe kolom panelusuran sing bisa nemokake jeneng negara lan kode panggilan.',
           },
           countries: {
             title: 'Negara pilihan panjenengan',
@@ -2547,6 +2549,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Komputer, lan layar sentuh saukuran HP'],
               ['WebKit (dienggo Safari)', '26.6', 'Komputer, lan iPhone kanthi sentuhan'],
               ['Safari ing iPhone', 'iOS 17.5 lan 18.6', 'Simulator iPhone'],
+              ['Chrome ing Android', '124', 'Emulator Android, ngetik nganggo keyboard ing layare'],
             ],
           },
           {
@@ -2598,7 +2601,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Layar sentuh ora bisa hover, dadi hovercard mung nambahi apa sing wis ana ing kaca: aja nyelehake apa wae sing wigati ing kono. Ing HP, tombol Return ing chat nggawe baris anyar, lan tombol kirime sing ngirim.',
+            html: 'Layar sentuh ora bisa hover, dadi hovercard mung nambahi apa sing wis ana ing kaca: aja nyelehake apa wae sing wigati ing kono. Ing HP, tombol Return ing chat nggawe baris anyar, lan tombol kirime sing ngirim, sarta select kanthi dhaptar dawa oleh kolom panelusuran, amarga ora ana tombol kanggo mlumpat kanthi ngetik aksara.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Keyboard ing Safari' },
           {

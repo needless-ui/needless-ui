@@ -1089,7 +1089,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Long lists',
-            text: 'Every time zone, by region. Past 200 rows only the rows in view are rendered, and the active option stays rendered for screen readers.',
+            text: 'Every time zone, by region. Past 200 rows only the rows in view are rendered, and the active option stays rendered for screen readers. On touch screens, a search field above the list stands in for typing to jump.',
           },
         },
         api: {
@@ -1110,6 +1110,8 @@ export const messages: Messages = {
                 'Tells whether two values are the same option, for values that are objects.',
               virtual:
                 'Renders only the rows in view: always, never, or <code>auto</code> past 200 rows.',
+              search:
+                'A search field above the options: always, never, or <code>auto</code>, which shows it on touch screens for lists of more than 20 options, since they have no keys to type to jump.',
               openChange: 'Emits when the list opens or closes.',
               show: 'Opens the list.',
               hide: 'Closes the list.',
@@ -2070,7 +2072,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'A number',
-            text: 'Start with <code>+</code> and a calling code to switch countries as you type.',
+            text: 'Start with <code>+</code> and a calling code to switch countries as you type. On touch screens, the country list has a search field that finds names and codes.',
           },
           countries: {
             title: 'Countries of your choice',
@@ -2477,6 +2479,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'A computer, and a phone-sized touch screen'],
               ['WebKit (Safari)', '26.6', 'A computer, and an iPhone with touch'],
               ['Safari on iPhone', 'iOS 17.5 and 18.6', 'The iPhone simulator'],
+              ['Chrome on Android', '124', 'The Android emulator, typing with its keyboard'],
             ],
           },
           {
@@ -2528,7 +2531,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Touch screens can’t hover, so a hovercard only adds to what’s on the page: don’t put anything essential in one. On a phone, the chat’s Return key makes a new line, and its button sends.',
+            html: 'Touch screens can’t hover, so a hovercard only adds to what’s on the page: don’t put anything essential in one. On a phone, the chat’s Return key makes a new line and its button sends, and a select with a long list gets a search field, since there are no keys to type to jump.',
           },
           { kind: 'h2', id: 'keyboard', text: 'The keyboard in Safari' },
           {

@@ -1124,7 +1124,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Mahahabang listahan',
-            text: 'Bawat time zone, ayon sa rehiyon. Kapag lampas 200 row, ang mga nakikitang row lang ang nire-render, at nananatiling naka-render ang active na opsyon para sa mga screen reader.',
+            text: 'Bawat time zone, ayon sa rehiyon. Kapag lampas 200 row, ang mga nakikitang row lang ang nire-render, at nananatiling naka-render ang active na opsyon para sa mga screen reader. Sa mga touch screen, isang search field sa itaas ng listahan ang pumapalit sa pag-type para tumalon.',
           },
         },
         api: {
@@ -1151,6 +1151,8 @@ export const messages: Messages = {
               show: 'Binubuksan ang listahan.',
               hide: 'Isinasara ang listahan.',
               focus: 'Inililipat ang focus sa button.',
+              search:
+                'Isang search field sa itaas ng mga opsyon: palagi, hindi kailanman, o <code>auto</code> sa mga touch screen kapag lampas 20 ang opsyon, dahil walang key doon para mag-type ng titik at tumalon.',
             },
           },
           NuiOption: {
@@ -2169,7 +2171,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Isang numero',
-            text: 'Magsimula sa <code>+</code> at isang calling code para magpalit ng bansa habang nagta-type.',
+            text: 'Magsimula sa <code>+</code> at isang calling code para magpalit ng bansa habang nagta-type. Sa mga touch screen, may search field ang listahan ng mga bansa para maghanap ayon sa pangalan at calling code.',
           },
           countries: {
             title: 'Mga bansang pinili mo',
@@ -2595,6 +2597,11 @@ export const messages: Messages = {
               ['Firefox', '155', 'Computer, at touch screen na kasinlaki ng phone'],
               ['WebKit (engine ng Safari)', '26.6', 'Computer, at iPhone na may touch'],
               ['Safari sa iPhone', 'iOS 17.5 at 18.6', 'Ang iPhone simulator'],
+              [
+                'Chrome sa Android',
+                '124',
+                'Ang Android emulator, nagta-type gamit ang keyboard nito',
+              ],
             ],
           },
           {
@@ -2646,7 +2653,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Walang hover sa mga touch screen, kaya pandagdag lang ang hovercard sa kung ano ang nasa page: huwag maglagay ng anumang mahalaga rito. Sa phone, gumagawa ng bagong linya ang Return key ng chat, at ang button nito ang nagpapadala.',
+            html: 'Walang hover sa mga touch screen, kaya pandagdag lang ang hovercard sa kung ano ang nasa page: huwag maglagay ng anumang mahalaga rito. Sa phone, gumagawa ng bagong linya ang Return key ng chat, at ang button nito ang nagpapadala; nagkakaroon naman ng search field ang select na may mahabang listahan, dahil walang key para mag-type ng titik at tumalon.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Ang keyboard sa Safari' },
           {

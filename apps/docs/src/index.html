@@ -5,6 +5,9 @@
     <title>Needless UI</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Safari on iPhone links phone numbers in text by moving them into links of its
+         own, and Angular's updates to that text then show beside the stale copy. -->
+    <meta name="format-detection" content="telephone=no" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#fbfcfc" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111212" media="(prefers-color-scheme: dark)" />

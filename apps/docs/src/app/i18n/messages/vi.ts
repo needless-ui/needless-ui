@@ -1090,7 +1090,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Danh sách dài',
-            text: 'Mọi múi giờ, theo khu vực. Khi quá 200 dòng, chỉ các dòng đang hiển thị được render, và tùy chọn hiện tại luôn được render cho trình đọc màn hình.',
+            text: 'Mọi múi giờ, theo khu vực. Khi quá 200 dòng, chỉ các dòng đang hiển thị được render, và tùy chọn hiện tại luôn được render cho trình đọc màn hình. Trên màn hình cảm ứng, ô tìm kiếm phía trên danh sách thay cho việc gõ chữ cái để nhảy tới.',
           },
         },
         api: {
@@ -1116,6 +1116,8 @@ export const messages: Messages = {
               show: 'Mở danh sách.',
               hide: 'Đóng danh sách.',
               focus: 'Chuyển focus vào nút.',
+              search:
+                'Một ô tìm kiếm phía trên các tùy chọn: luôn luôn, không bao giờ, hoặc <code>auto</code> khi danh sách có hơn 20 tùy chọn trên màn hình cảm ứng, vốn không có phím để gõ chữ cái và nhảy tới tùy chọn.',
             },
           },
           NuiOption: {
@@ -2097,7 +2099,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Một số điện thoại',
-            text: 'Bắt đầu bằng <code>+</code> và mã quốc gia để đổi quốc gia ngay khi gõ.',
+            text: 'Bắt đầu bằng <code>+</code> và mã quốc gia để đổi quốc gia ngay khi gõ. Trên màn hình cảm ứng, danh sách quốc gia có ô tìm kiếm theo tên và mã quốc gia.',
           },
           countries: {
             title: 'Quốc gia do bạn chọn',
@@ -2515,6 +2517,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Máy tính, và màn hình cảm ứng cỡ điện thoại'],
               ['WebKit (engine của Safari)', '26.6', 'Máy tính, và iPhone dùng cảm ứng'],
               ['Safari trên iPhone', 'iOS 17.5 và 18.6', 'Trình mô phỏng iPhone'],
+              ['Chrome trên Android', '124', 'Trình giả lập Android, gõ bằng bàn phím của nó'],
             ],
           },
           {
@@ -2570,7 +2573,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Màn hình cảm ứng không có thao tác hover, nên hovercard chỉ bổ sung cho những gì đã có trên trang: đừng đặt thứ gì thiết yếu vào đó. Trên điện thoại, phím Return của chat sẽ xuống dòng, còn nút gửi mới gửi tin nhắn.',
+            html: 'Màn hình cảm ứng không có thao tác hover, nên hovercard chỉ bổ sung cho những gì đã có trên trang: đừng đặt thứ gì thiết yếu vào đó. Trên điện thoại, phím Return của chat sẽ xuống dòng, còn nút gửi mới gửi tin nhắn; select có danh sách dài sẽ có thêm ô tìm kiếm, vì không có phím để gõ chữ cái và nhảy tới tùy chọn.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Bàn phím trong Safari' },
           {

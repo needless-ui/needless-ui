@@ -1121,7 +1121,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Lange Listen',
-            text: 'Alle Zeitzonen, nach Region. Bei mehr als 200 Zeilen werden nur die sichtbaren gerendert, und die aktive Option bleibt für Screenreader gerendert.',
+            text: 'Alle Zeitzonen, nach Region. Bei mehr als 200 Zeilen werden nur die sichtbaren gerendert, und die aktive Option bleibt für Screenreader gerendert. Auf Touchscreens ersetzt ein Suchfeld über der Liste das Springen mit getippten Buchstaben.',
           },
         },
         api: {
@@ -1147,6 +1147,8 @@ export const messages: Messages = {
               show: 'Öffnet die Liste.',
               hide: 'Schließt die Liste.',
               focus: 'Fokussiert den Button.',
+              search:
+                'Ein Suchfeld über den Optionen: immer, nie oder <code>auto</code> auf Touchscreens bei Listen mit mehr als 20 Optionen, denn dort gibt es keine Tasten, um mit einem getippten Buchstaben zu einer Option zu springen.',
             },
           },
           NuiOption: {
@@ -2204,7 +2206,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Eine Nummer',
-            text: 'Beginne mit <code>+</code> und einer Ländervorwahl, um beim Tippen das Land zu wechseln.',
+            text: 'Beginne mit <code>+</code> und einer Ländervorwahl, um beim Tippen das Land zu wechseln. Auf Touchscreens hat die Länderliste ein Suchfeld, das Ländernamen und Vorwahlen findet.',
           },
           countries: {
             title: 'Länder deiner Wahl',
@@ -2638,6 +2640,7 @@ export const messages: Messages = {
               ['Firefox', '155', 'Computer und Touchscreen in Smartphone-Größe'],
               ['WebKit (in Safari)', '26.6', 'Computer und iPhone mit Touch-Eingabe'],
               ['Safari auf dem iPhone', 'iOS 17.5 und 18.6', 'iPhone-Simulator'],
+              ['Chrome unter Android', '124', 'Android-Emulator mit Eingabe über seine Tastatur'],
             ],
           },
           {
@@ -2689,7 +2692,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Touchscreens kennen kein Hovern, deshalb ergänzt eine Hovercard nur, was ohnehin auf der Seite steht: Leg nichts Wesentliches hinein. Auf dem Smartphone fügt die Enter-Taste im Chat einen Zeilenumbruch ein, und gesendet wird mit dem Button.',
+            html: 'Touchscreens kennen kein Hovern, deshalb ergänzt eine Hovercard nur, was ohnehin auf der Seite steht: Leg nichts Wesentliches hinein. Auf dem Smartphone fügt die Enter-Taste im Chat einen Zeilenumbruch ein, und gesendet wird mit dem Button; ein Select mit einer langen Liste bekommt ein Suchfeld, denn es gibt keine Tasten, um mit einem getippten Buchstaben zu einer Option zu springen.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Die Tastatur in Safari' },
           {

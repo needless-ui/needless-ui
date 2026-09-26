@@ -1085,7 +1085,7 @@ export const messages: Messages = {
           },
           zones: {
             title: 'Uzun listeler',
-            text: 'Bölgelere göre tüm saat dilimleri. 200 satırın üzerinde yalnızca görünen satırlar render edilir; etkin seçenek ise ekran okuyucular için render edilmiş olarak kalır.',
+            text: 'Bölgelere göre tüm saat dilimleri. 200 satırın üzerinde yalnızca görünen satırlar render edilir; etkin seçenek ise ekran okuyucular için render edilmiş olarak kalır. Dokunmatik ekranlarda, harf yazarak atlamanın yerini listenin üstündeki bir arama alanı alır.',
           },
         },
         api: {
@@ -1111,6 +1111,8 @@ export const messages: Messages = {
               show: 'Listeyi açar.',
               hide: 'Listeyi kapatır.',
               focus: 'Odağı düğmeye taşır.',
+              search:
+                'Seçeneklerin üstünde bir arama alanı: her zaman, hiçbir zaman ya da <code>auto</code> ile dokunmatik ekranlarda 20’den fazla seçenekli listelerde; bu ekranlarda harf yazarak atlamak için tuş yoktur.',
             },
           },
           NuiOption: {
@@ -2096,7 +2098,7 @@ export const messages: Messages = {
         examples: {
           basic: {
             title: 'Bir numara',
-            text: 'Yazarken ülke değiştirmek için <code>+</code> ve bir ülke koduyla başlayın.',
+            text: 'Yazarken ülke değiştirmek için <code>+</code> ve bir ülke koduyla başlayın. Dokunmatik ekranlarda ülke listesinde, ülke adlarını ve kodlarını bulan bir arama alanı vardır.',
           },
           countries: {
             title: 'Seçtiğiniz ülkeler',
@@ -2517,6 +2519,7 @@ export const messages: Messages = {
                 'Bir bilgisayar ve dokunmayla kullanılan bir iPhone',
               ],
               ['iPhone’da Safari', 'iOS 17.5 ve 18.6', 'iPhone simülatörü'],
+              ['Android’de Chrome', '124', 'Android emülatörü, kendi klavyesiyle yazarak'],
             ],
           },
           {
@@ -2572,7 +2575,7 @@ export const messages: Messages = {
           },
           {
             kind: 'p',
-            html: 'Dokunmatik ekranlarda üzerine gelme olmadığından hovercard yalnızca sayfada zaten bulunanı tamamlar: içine vazgeçilmez hiçbir şey koymayın. Telefonda sohbetin Return tuşu yeni satır başlatır, gönderme işini ise düğmesi yapar.',
+            html: 'Dokunmatik ekranlarda üzerine gelme olmadığından hovercard yalnızca sayfada zaten bulunanı tamamlar: içine vazgeçilmez hiçbir şey koymayın. Telefonda sohbetin Return tuşu yeni satır başlatır, gönderme işini ise düğmesi yapar; uzun listeli bir select’e de, harf yazarak atlamak için tuş olmadığından bir arama alanı eklenir.',
           },
           { kind: 'h2', id: 'keyboard', text: 'Safari’de klavye' },
           {
