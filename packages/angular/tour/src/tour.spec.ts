@@ -71,6 +71,29 @@ describe('NuiTour', () => {
     );
   });
 
+  it('dims the whole window when a pinch zoom shrinks what innerHeight says', async () => {
+    const { host, dialog, settle } = await setup();
+    // The spotlight fills the window, as @needless-ui/css lays it out.
+    const style = document.createElement('style');
+    style.textContent = '.nui-tour-spotlight { position: fixed; inset: 0; }';
+    document.head.appendChild(style);
+    // Safari on iPhone reports a pinch-zoomed window as the zoomed-in part.
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: 100 });
+    try {
+      host.open.set(true);
+      await settle();
+      const spotlight = dialog.querySelector<HTMLElement>('.nui-tour-spotlight')!;
+      const outer = spotlight.style.clipPath.match(/M\s*0\s+0\s*H\s*([\d.]+)\s*V\s*([\d.]+)/);
+      expect(outer).not.toBeNull();
+      expect(Number(outer![1])).toBe(spotlight.offsetWidth);
+      expect(Number(outer![2])).toBe(spotlight.offsetHeight);
+      expect(spotlight.offsetHeight).toBeGreaterThan(100);
+    } finally {
+      Reflect.deleteProperty(window, 'innerHeight');
+      style.remove();
+    }
+  });
+
   it('lets an interactive step’s target be used, and walks back and forth', async () => {
     const { host, root, dialog, settle } = await setup();
     host.open.set(true);

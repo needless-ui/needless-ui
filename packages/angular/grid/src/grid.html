@@ -534,38 +534,41 @@
       </select>
     </label>
     <span class="nui-grid-range">{{ pageRange() }}</span>
-    <button
-      type="button"
-      class="nui-grid-page"
-      data-icon="first"
-      [attr.aria-label]="t.firstPage"
-      [disabled]="engine.currentPage() === 0"
-      (click)="goToPage(0)"
-    ></button>
-    <button
-      type="button"
-      class="nui-grid-page"
-      data-icon="previous"
-      [attr.aria-label]="t.previousPage"
-      [disabled]="engine.currentPage() === 0"
-      (click)="goToPage(engine.currentPage() - 1)"
-    ></button>
-    <button
-      type="button"
-      class="nui-grid-page"
-      data-icon="next"
-      [attr.aria-label]="t.nextPage"
-      [disabled]="engine.currentPage() >= engine.pageCount() - 1"
-      (click)="goToPage(engine.currentPage() + 1)"
-    ></button>
-    <button
-      type="button"
-      class="nui-grid-page"
-      data-icon="last"
-      [attr.aria-label]="t.lastPage"
-      [disabled]="engine.currentPage() >= engine.pageCount() - 1"
-      (click)="goToPage(engine.pageCount() - 1)"
-    ></button>
+    <!-- One group, so the buttons wrap together on a narrow grid. -->
+    <span class="nui-grid-page-nav">
+      <button
+        type="button"
+        class="nui-grid-page"
+        data-icon="first"
+        [attr.aria-label]="t.firstPage"
+        [disabled]="engine.currentPage() === 0"
+        (click)="goToPage(0)"
+      ></button>
+      <button
+        type="button"
+        class="nui-grid-page"
+        data-icon="previous"
+        [attr.aria-label]="t.previousPage"
+        [disabled]="engine.currentPage() === 0"
+        (click)="goToPage(engine.currentPage() - 1)"
+      ></button>
+      <button
+        type="button"
+        class="nui-grid-page"
+        data-icon="next"
+        [attr.aria-label]="t.nextPage"
+        [disabled]="engine.currentPage() >= engine.pageCount() - 1"
+        (click)="goToPage(engine.currentPage() + 1)"
+      ></button>
+      <button
+        type="button"
+        class="nui-grid-page"
+        data-icon="last"
+        [attr.aria-label]="t.lastPage"
+        [disabled]="engine.currentPage() >= engine.pageCount() - 1"
+        (click)="goToPage(engine.pageCount() - 1)"
+      ></button>
+    </span>
   </div>
 }
 

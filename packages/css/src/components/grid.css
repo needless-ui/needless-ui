@@ -540,6 +540,12 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* The page buttons wrap as one group, not one by one. */
+  .nui-grid-page-nav {
+    display: inline-flex;
+    gap: var(--nui-space-1);
+  }
+
   .nui-grid-page {
     display: grid;
     place-items: center;

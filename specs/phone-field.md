@@ -35,6 +35,8 @@ Helpers: `nuiParsePhone`, `nuiFormatPhone`, `nuiPhoneValid`, `nuiPhoneRegionOf` 
 - Typing or pasting a calling code (`+44…` or `0044…`) picks its country, and the rest is the number. Until the digits make a code, they stay as typed.
 - Where countries share a code, the start of the number tells them apart as it's typed: area code 416 is Canada, 268 Antigua and Barbuda.
 - Picking a country regroups the number and moves on to it.
+- Safari on iPhone turns phone numbers in the page's text into links by itself, moving the text, which breaks a number that Angular keeps up to date (`nuiFormatPhone`'s output, say). Pages that show numbers add `<meta name="format-detection" content="telephone=no">`.
+- On touch screens, which have no keys to type a name with, the country list has a search field (the select's `search: 'auto'`, named by `labels.search`, "Search countries") that finds countries by name or calling code: `+39` finds Italy.
 - With forms, a number of the wrong length for its country, or a code no country has, is an error: `{ nuiPhone: { region, actual, min, max } }`.
 - Digits of any script are taken, and written 0 to 9.
 

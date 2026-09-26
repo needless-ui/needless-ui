@@ -2,7 +2,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, LOCALE_ID, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { NuiPhoneField } from './phone-field';
 
@@ -100,5 +100,39 @@ describe('NuiPhoneField', () => {
     expect(host.control.value).toBe('+33612345678');
     await new Promise(requestAnimationFrame);
     expect(document.activeElement).toBe(input);
+  });
+
+  it('searches the countries by name or code on touch screens', async () => {
+    // A phone: a touch screen with nothing that hovers, and no keys to type to jump.
+    const real = window.matchMedia.bind(window);
+    const touch = vi.spyOn(window, 'matchMedia').mockImplementation((query: string) =>
+      query === '(hover: none) and (pointer: coarse)'
+        ? ({
+            matches: true,
+            media: query,
+            addEventListener: () => undefined,
+            removeEventListener: () => undefined,
+          } as unknown as MediaQueryList)
+        : real(query),
+    );
+    try {
+      const { fixture, host, trigger } = await setup('en-US');
+      await userEvent.click(trigger);
+      await new Promise((resolve) => setTimeout(resolve));
+      await fixture.whenStable();
+      const root: HTMLElement = fixture.nativeElement;
+      const field = root.querySelector<HTMLInputElement>('.nui-select-search')!;
+      expect(field.getAttribute('aria-label')).toBe('Search countries');
+      await userEvent.click(field);
+      await userEvent.keyboard('+39');
+      await fixture.whenStable();
+      const first = root.querySelector('.nui-select-option-label')!;
+      expect(first.textContent).toContain('Italy');
+      await userEvent.keyboard('{Enter}');
+      await fixture.whenStable();
+      expect(host.country()).toBe('IT');
+    } finally {
+      touch.mockRestore();
+    }
   });
 });

@@ -24,6 +24,7 @@ The list model (`NuiOptionEngine`) and the list (`nui-option-list`) are exported
 | —                               | `compareWith`                           | `(a, b) => boolean`                                                           | `Object.is` |
 | —                               | `virtual`                               | `true`, `false`, `'auto'` (above 200 rows)                                    | `'auto'`    |
 | `nui-select-all` (select)       | `selectAll`                             | boolean, with `multiple`                                                      | false       |
+| `nui-select-search` (select)    | `search`, `searchLabel`                 | `true`, `false`, `'auto'` (touch screens, more than 20 options)               | `'auto'`    |
 | `nui-select-loading` (combobox) | `loading`, `(queryChange)`, `filtering` | server search: turn filtering off                                             | —           |
 | —                               | `create` (combobox)                     | `(text) => value`: offers to add typed text                                   | none        |
 | `nui-combobox-clear`            | `clearable` (combobox)                  | boolean                                                                       | false       |
@@ -40,6 +41,7 @@ Every visible string (`placeholder`, `emptyLabel`, `removeLabel`, …) is an inp
 - The combobox opens as you type or click. A single combobox shows the chosen label and puts it back when you leave unfinished text; a multiple one clears the text after each pick and stays open. `create` adds an "Add …" option when the text isn't an option yet. Labels of chosen options are remembered, so they survive a new list from the server.
 - Long lists render only the rows in view (measured, so rows can have any height). The active option always stays rendered, since `aria-activedescendant` points at it.
 - The popup follows its field, flips above it when there's no room below, and is as wide as the field.
+- Touch screens with nothing that hovers (phones, tablets on their own) have no keys to type to jump with, so there a select of more than 20 options gets a search field above its list (`search: 'auto'`). The field doesn't take focus as the list opens: the on-screen keyboard waits for a tap, and doesn't cover the list. It filters as the combobox does, and each opening starts from the whole list. `true` shows it everywhere, `false` nowhere.
 - Android's back gesture closes the list as Escape does. The select's popup is `popover="auto"`, which the browser closes itself; the combobox's is a manual popover (the field keeps focus), so it listens with a close watcher while it's open, in browsers with the CloseWatcher API.
 
 ## Keyboard
@@ -62,9 +64,11 @@ Focus stays on the field; the list never takes it.
 
 On a chip: ← / → move between chips, Backspace or Delete removes it.
 
+In the select's search field: ↓ / ↑ and Page Down / Page Up move, Enter chooses, Escape closes the list and returns to the trigger, and Tab chooses the active option (single) and moves on; the other keys edit the text. A letter typed on the trigger goes into the field.
+
 ## Accessibility
 
-- The select's trigger is a `button` with `role="combobox"`, `aria-haspopup="listbox"` (or `tree`), `aria-expanded`, `aria-controls` and `aria-activedescendant`. The combobox's input adds `aria-autocomplete="list"`.
+- The select's trigger is a `button` with `role="combobox"`, `aria-haspopup="listbox"` (or `tree`), `aria-expanded`, `aria-controls` and `aria-activedescendant`. The combobox's input adds `aria-autocomplete="list"`, and so does the select's search field, a combobox named by `searchLabel` that points at the same list.
 - Options carry `aria-selected`, `aria-disabled`, `aria-setsize` and `aria-posinset` (correct even when virtualized), and in a tree `aria-level` and `aria-expanded`.
 - The active option has a solid fill, so it doesn't rely on color alone, and an outline in forced colors.
 - Empty and loading states are `role="status"`. Chips are a named list; each remove button is named ("Remove Italy").

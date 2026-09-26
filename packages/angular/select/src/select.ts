@@ -1,6 +1,7 @@
 import { _IdGenerator } from '@angular/cdk/a11y';
 import { isPlatformBrowser } from '@angular/common';
 import {
+  afterNextRender,
   booleanAttribute,
   Component,
   computed,
@@ -9,6 +10,7 @@ import {
   ElementRef,
   forwardRef,
   inject,
+  Injector,
   input,
   model,
   output,
@@ -20,6 +22,16 @@ import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { nuiFollow } from '@needless-ui/angular';
 import { nuiFindOptions, type NuiOption, NuiOptionEngine, type NuiOptionRow } from './engine';
 import { NuiOptionList, NuiOptionTemplate } from './list';
+
+/** A touch screen with nothing that hovers: there are no keys to type to jump with. */
+const TOUCH_FIRST = '(hover: none) and (pointer: coarse)';
+/** Past this many options, `search: 'auto'` shows the search field on such screens. */
+const LONG_LIST = 20;
+
+/** How many options there are, children included. */
+function count(options: readonly NuiOption<unknown>[]): number {
+  return options.reduce((n, option) => n + 1 + (option.children ? count(option.children) : 0), 0);
+}
 
 /**
  * A select: a button that opens a list of options. Single or multiple, with
@@ -79,6 +91,27 @@ import { NuiOptionList, NuiOptionTemplate } from './list';
     >
       <!-- Rendered only while open: a closed select costs one button. -->
       @if (open()) {
+        @if (showSearch()) {
+          <!-- It doesn't take focus as the list opens, so a phone's keyboard waits for a tap. -->
+          <input
+            #search
+            class="nui-select-search"
+            type="text"
+            role="combobox"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-autocomplete="list"
+            aria-expanded="true"
+            [attr.aria-controls]="listId"
+            [attr.aria-activedescendant]="activeId()"
+            [attr.aria-label]="searchLabel()"
+            [placeholder]="searchLabel()"
+            [value]="engine.query()"
+            (input)="onSearchInput($event)"
+            (keydown)="onSearchKeydown($event)"
+          />
+        }
         @if (multiple() && selectAll()) {
           <button
             type="button"
@@ -132,6 +165,15 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
   readonly emptyLabel = input('No options');
   /** What the trigger shows for the chosen options. Their labels, joined, by default. */
   readonly triggerText = input<((chosen: readonly NuiOption<V>[]) => string) | null>(null);
+  /**
+   * A search field above the options: always, never, or `'auto'` on touch screens,
+   * which have no keys to type to jump with, for lists of more than 20 options.
+   */
+  readonly search = input<boolean | 'auto', unknown>('auto', {
+    transform: (value) => (value === 'auto' ? 'auto' : booleanAttribute(value)),
+  });
+  /** The search field's name and placeholder. */
+  readonly searchLabel = input('Search');
   /** Emits when the list opens or closes. */
   readonly openChange = output<boolean>();
 
@@ -145,8 +187,20 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
 
   private readonly triggerRef = viewChild.required<ElementRef<HTMLButtonElement>>('trigger');
   private readonly popupRef = viewChild.required<ElementRef<HTMLElement>>('popup');
+  private readonly searchRef = viewChild<ElementRef<HTMLInputElement>>('search');
+  private readonly injector = inject(Injector);
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
   private stopFollowing: (() => void) | null = null;
+  /** A letter typed on the trigger opened the list: the search field takes focus once drawn. */
+  private focusSearchOnOpen = false;
+
+  /** Whether the screen is touch first, once the select runs in a browser. */
+  private readonly touchFirst = signal(false);
+  protected readonly showSearch = computed(() => {
+    const search = this.search();
+    if (search !== 'auto') return search;
+    return this.touchFirst() && count(this.options()) > LONG_LIST;
+  });
 
   /** Whether any option has children: then the list is a tree. */
   protected readonly tree = computed(() =>
@@ -191,7 +245,18 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
   protected onTouched: () => void = () => undefined;
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.stopFollowing?.());
+    const destroyRef = inject(DestroyRef);
+    destroyRef.onDestroy(() => this.stopFollowing?.());
+    afterNextRender(() => {
+      // Follows the screen, as when a tablet takes a keyboard and a trackpad.
+      const view = this.triggerRef().nativeElement.ownerDocument.defaultView;
+      const touch = view?.matchMedia?.(TOUCH_FIRST);
+      if (!touch) return;
+      const update = () => this.touchFirst.set(touch.matches);
+      update();
+      touch.addEventListener('change', update);
+      destroyRef.onDestroy(() => touch.removeEventListener('change', update));
+    });
   }
 
   /** Opens the list, with the chosen option (or the first) active. */
@@ -235,7 +300,70 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
           matchWidth: true,
         },
       );
+      if (this.focusSearchOnOpen) {
+        this.focusSearchOnOpen = false;
+        afterNextRender(() => this.focusSearch(), { injector: this.injector });
+      }
+    } else {
+      // Each opening starts from the whole list.
+      this.focusSearchOnOpen = false;
+      this.engine.query.set('');
     }
+  }
+
+  protected onSearchInput(event: Event): void {
+    this.engine.query.set((event.target as HTMLInputElement).value);
+    this.engine.first();
+  }
+
+  /** The search field drives the list as the trigger does; the caret keys stay its own. */
+  protected onSearchKeydown(event: KeyboardEvent): void {
+    // Keys that confirm an IME composition (Enter, arrows) belong to the IME.
+    if (event.isComposing) return;
+    const engine = this.engine;
+    const row = engine.activeRow();
+    switch (event.key) {
+      case 'ArrowDown':
+      case 'ArrowUp':
+        engine.move(event.key === 'ArrowDown' ? 1 : -1);
+        break;
+      case 'PageDown':
+      case 'PageUp':
+        engine.move(event.key === 'PageDown' ? 10 : -10);
+        break;
+      case 'Enter':
+        if (row) this.choose(row);
+        break;
+      case 'Escape':
+        this.hide();
+        this.triggerRef().nativeElement.focus();
+        break;
+      case 'Tab':
+        if (row && !this.multiple()) this.choose(row);
+        this.hide();
+        return;
+      default:
+        return;
+    }
+    event.preventDefault();
+  }
+
+  /** A letter typed on the trigger goes on in the search field, opening the list for it. */
+  private typeInSearch(key: string): void {
+    if (!this.open()) {
+      this.focusSearchOnOpen = true;
+      this.show();
+    }
+    this.engine.query.update((query) => query + key);
+    this.engine.first();
+    if (this.searchRef()) this.focusSearch();
+  }
+
+  private focusSearch(): void {
+    const field = this.searchRef()?.nativeElement;
+    if (!field) return;
+    field.focus();
+    field.setSelectionRange(field.value.length, field.value.length);
   }
 
   protected onKeydown(event: KeyboardEvent): void {
@@ -299,8 +427,11 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
         break;
       default:
         if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-          if (!open) this.show();
-          engine.typeahead(event.key);
+          if (this.showSearch()) this.typeInSearch(event.key);
+          else {
+            if (!open) this.show();
+            engine.typeahead(event.key);
+          }
           break;
         }
         return;

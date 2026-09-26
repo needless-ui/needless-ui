@@ -53,12 +53,15 @@ import { nuiNationalNumber, nuiParsePhone, nuiPhoneLengths, nuiPhoneMask } from 
 export interface NuiPhoneFieldLabels {
   /** The country picker's name. */
   country: string;
+  /** The name of the field that searches the countries, on touch screens. */
+  search: string;
   /** Announced when typing a calling code, or an area code, picks a country. */
   picked: (country: string, code: string) => string;
 }
 
 export const NUI_PHONE_FIELD_LABELS: NuiPhoneFieldLabels = {
   country: 'Country code',
+  search: 'Search countries',
   picked: (country, code) => `${country}, +${code}`,
 };
 
@@ -96,6 +99,7 @@ export const NUI_PHONE_FIELD_LABELS: NuiPhoneFieldLabels = {
       [value]="region()"
       (valueChange)="pick($event)"
       [label]="words().country"
+      [searchLabel]="words().search"
       [triggerText]="display"
       [disabled]="isDisabled()"
     >

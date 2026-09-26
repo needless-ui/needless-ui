@@ -94,7 +94,7 @@ let nextId = 0;
       (keydown)="onKeydown($event)"
     >
       @if (current(); as step) {
-        <div class="nui-tour-spotlight" [style.clip-path]="clip()"></div>
+        <div #spotlight class="nui-tour-spotlight" [style.clip-path]="clip()"></div>
         <div #card class="nui-tour-card" [attr.data-centered]="centered() || null">
           <button
             type="button"
@@ -168,6 +168,7 @@ export class NuiTour {
 
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
   private readonly card = viewChild<ElementRef<HTMLElement>>('card');
+  private readonly spotlight = viewChild<ElementRef<HTMLElement>>('spotlight');
   private readonly primary = viewChild<ElementRef<HTMLButtonElement>>('primary');
 
   protected readonly words = computed(() => ({ ...NUI_TOUR_LABELS, ...this.labels() }));
@@ -299,7 +300,8 @@ export class NuiTour {
         // a short screen): the card goes in the middle, over it, rather than
         // shrinking until its buttons are out of reach.
         const box = target?.getBoundingClientRect();
-        const room = box ? Math.max(box.top, window.innerHeight - box.bottom) - offset - 8 : 0;
+        const area = visibleArea();
+        const room = box ? Math.max(box.top - area.top, area.bottom - box.bottom) - offset - 8 : 0;
         const fits = !!card && room >= card.offsetHeight;
         this.centered.set(!fits);
         if (card && fits && target instanceof HTMLElement) {
@@ -325,8 +327,12 @@ export class NuiTour {
       } else {
         const pad = step.padding ?? 8;
         const box = target.getBoundingClientRect();
-        const width = document.documentElement.clientWidth;
-        const height = window.innerHeight;
+        // The spotlight's own box, which fills the window. Safari on iPhone reports
+        // a pinch-zoomed window as the zoomed-in part (innerHeight), and a
+        // spotlight cut to that dims only a corner of the page.
+        const spot = this.spotlight()?.nativeElement;
+        const width = spot?.offsetWidth || document.documentElement.clientWidth;
+        const height = spot?.offsetHeight || window.innerHeight;
         const x = box.left - pad;
         const y = box.top - pad;
         const w = box.width + pad * 2;
@@ -380,14 +386,30 @@ function find(target: NuiTourStep['target']): Element | null {
   return target;
 }
 
+/**
+ * The part of the page on screen, in the coordinates of `getBoundingClientRect`:
+ * pinch zoom and the on-screen keyboard show less of it than the window holds.
+ */
+function visibleArea(): { top: number; left: number; bottom: number; right: number } {
+  const visual = window.visualViewport;
+  if (!visual) return { top: 0, left: 0, bottom: window.innerHeight, right: window.innerWidth };
+  return {
+    top: visual.offsetTop,
+    left: visual.offsetLeft,
+    bottom: visual.offsetTop + visual.height,
+    right: visual.offsetLeft + visual.width,
+  };
+}
+
 /** Whether all of an element is on screen. */
 function inView(element: Element): boolean {
   const box = element.getBoundingClientRect();
+  const area = visibleArea();
   return (
-    box.top >= 0 &&
-    box.left >= 0 &&
-    box.bottom <= window.innerHeight &&
-    box.right <= window.innerWidth
+    box.top >= area.top &&
+    box.left >= area.left &&
+    box.bottom <= area.bottom &&
+    box.right <= area.right
   );
 }
 
