@@ -1,5 +1,11 @@
 # @needless-ui/tokens
 
+## 0.6.3
+
+### Patch Changes
+
+- [`5e97a20`](https://github.com/needless-ui/needless-ui/commit/5e97a20eeb4c2577a59df83013b5f6a8eef51290) - The license names its copyright holder: "Copyright (c) 2026 Angelo Lamonaca and contributors" instead of "The Needless UI Authors". Each package lists its author.
+
 ## 0.6.2
 
 No changes in this release.
