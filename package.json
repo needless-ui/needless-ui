@@ -55,7 +55,7 @@
     "@types/node": "^24.13.6",
     "@vitest/browser-playwright": "5.0.1",
     "jsdom": "^30.0.0",
-    "ng-packagr": "^22.2.0",
+    "ng-packagr": "^22.2.1",
     "playwright": "1.63.0",
     "prettier": "^3.8.1",
     "shiki": "4.4.3",
