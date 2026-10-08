@@ -22,6 +22,7 @@ import {
   nuiClampDate,
   type NuiDate,
   nuiDateFormat,
+  nuiDaysBetween,
   nuiIsoWeek,
   type NuiMonth,
   nuiMonthNames,
@@ -95,6 +96,14 @@ interface Day {
   disabled: boolean;
   weekend: boolean;
   today: boolean;
+}
+
+/** What the days show: months from `first` to `last`, drawn from `from` to `to`. */
+interface Shown {
+  first: NuiMonth;
+  last: NuiMonth;
+  from: NuiDate;
+  to: NuiDate;
 }
 
 /** Years shown at once in the year view. */
@@ -171,20 +180,52 @@ export class NuiCalendar {
     this.view() === 'day' ? Math.max(1, this.months()) : 1,
   );
 
-  /** The day to start from: the chosen one, or today, within `min` and `max`. */
-  private readonly anchorDate = computed(() => {
-    const chosen =
-      this.selection() === 'range'
-        ? this.range()?.start
-        : this.selection() === 'multiple'
-          ? this.values()[0]
-          : this.value();
-    return nuiClampDate(chosen ?? this.today(), this.min(), this.max());
+  /** The chosen days, in order: the day, the ends of the range, or the days. */
+  private readonly chosenDays = computed((): readonly NuiDate[] => {
+    switch (this.selection()) {
+      case 'range': {
+        const range = this.range();
+        return range ? [range.start, range.end] : [];
+      }
+      case 'multiple':
+        return this.values();
+      default: {
+        const value = this.value();
+        return value ? [value] : [];
+      }
+    }
   });
-  /** The day in the tab order, where the keyboard is. */
-  protected readonly focused = linkedSignal(() => this.anchorDate());
+  /** The day to start from: the chosen one, or today, within `min` and `max`. */
+  private readonly anchorDate = computed(() =>
+    nuiClampDate(this.chosenDays()[0] ?? this.today(), this.min(), this.max()),
+  );
   /** The first month shown. Moving the keyboard changes it only to keep the day in sight. */
   protected readonly first = computed(() => this.month() ?? nuiMonthOf(this.anchorDate()));
+  /** What the days show, or will on zooming back in. */
+  private readonly shown = computed((): Shown => {
+    const first = this.first();
+    const months = Math.max(1, this.months());
+    const last = nuiAddToMonth(first, months - 1);
+    // One month draws six whole weeks, months side by side only their own days.
+    const from = months > 1 ? `${first}-01` : nuiStartOfWeek(`${first}-01`, this.start());
+    const to = months > 1 ? nuiAddDays(`${nuiAddToMonth(last, 1)}-01`, -1) : nuiAddDays(from, 41);
+    return { first, last, from, to };
+  });
+  /**
+   * The day in the tab order, where the keyboard is: the chosen day, or today, until the
+   * keyboard moves. It stays among the days shown, also when `month` comes from outside,
+   * so the grid never leaves the tab order. Zoomed out, the grid shows its year.
+   */
+  protected readonly focused = linkedSignal({
+    source: () => ({ anchor: this.anchorDate(), shown: this.shown() }),
+    computation: ({ anchor, shown }, previous): NuiDate => {
+      // A day chosen anew takes the keyboard, if it's shown.
+      if (anchor !== previous?.source.anchor && within(anchor, shown)) return anchor;
+      // Otherwise the keyboard stays while its day is drawn.
+      const kept = previous?.value;
+      return kept && drawn(kept, shown) ? kept : this.landing(shown);
+    },
+  });
   /** In a range, the first end chosen, waiting for the second. */
   protected readonly anchor = signal<NuiDate | null>(null);
   protected readonly hovered = signal<NuiDate | null>(null);
@@ -387,7 +428,8 @@ export class NuiCalendar {
           ? nuiAddYears(focused, direction)
           : nuiAddMonths(focused, direction);
     if (view === 'day') this.month.set(nuiAddToMonth(this.first(), direction));
-    this.focused.set(nuiClampDate(date, this.min(), this.max()));
+    // Zoomed out, the month shown comes along, as with the keys, for zooming back in.
+    this.move(nuiClampDate(date, this.min(), this.max()));
     this.announcement.set(this.title());
   }
 
@@ -427,6 +469,9 @@ export class NuiCalendar {
         this.value.set(date);
         this.picked.emit(date);
     }
+    // The keyboard stays on the day picked, even when the choice moves the chosen day it
+    // follows (a range's second end makes its first the chosen day).
+    this.focused.set(date);
   }
 
   protected pickMonth(month: NuiMonth, disabled: boolean): void {
@@ -443,7 +488,7 @@ export class NuiCalendar {
   protected pickYear(year: number, disabled: boolean): void {
     if (disabled) return;
     const date = `${String(year).padStart(4, '0')}${this.focused().slice(4)}`;
-    this.focused.set(nuiClampDate(nuiAddYears(date, 0), this.min(), this.max()));
+    this.move(nuiClampDate(nuiAddYears(date, 0), this.min(), this.max()));
     this.view.set('month');
     this.refocus = true;
   }
@@ -529,7 +574,10 @@ export class NuiCalendar {
 
   protected onFocusin(event: FocusEvent): void {
     const date = (event.target as HTMLElement).dataset?.['date'];
-    if (date && date !== untracked(this.focused)) this.focused.set(date);
+    // Only a day still shown: a script can focus a cell the next render takes away.
+    if (date && date !== untracked(this.focused) && drawn(date, untracked(this.shown))) {
+      this.focused.set(date);
+    }
   }
 
   /** Focuses a day, and shows its month if it's out of sight. */
@@ -540,6 +588,24 @@ export class NuiCalendar {
     this.focused.set(date);
     if (month < first) this.month.set(month);
     else if (month > last) this.month.set(nuiAddToMonth(month, 1 - this.count()));
+  }
+
+  /**
+   * Where the keyboard goes when its day isn't shown: to a chosen day that is, today, or
+   * else the first day there that can be chosen.
+   */
+  private landing(shown: Shown): NuiDate {
+    const near = [...this.chosenDays(), this.today()]
+      .map((date) => nuiClampDate(date, this.min(), this.max()))
+      .find((date) => within(date, shown));
+    if (near) return near;
+    const start = `${shown.first}-01`;
+    const days = nuiDaysBetween(start, `${nuiAddToMonth(shown.last, 1)}-01`);
+    for (let i = 0; i < days; i++) {
+      const date = nuiAddDays(start, i);
+      if (!this.disabledDate(date)) return date;
+    }
+    return start;
   }
 
   private focusTarget(): string {
@@ -580,4 +646,15 @@ export class NuiCalendar {
 
 function yearStart(year: number): NuiDate {
   return `${String(year).padStart(4, '0')}-01-01`;
+}
+
+/** Whether a day falls in the months shown. */
+function within(date: NuiDate, { first, last }: Shown): boolean {
+  const month = nuiMonthOf(date);
+  return month >= first && month <= last;
+}
+
+/** Whether a day is drawn: in the months shown, or in the weeks around one month alone. */
+function drawn(date: NuiDate, { from, to }: Shown): boolean {
+  return date >= from && date <= to;
 }
