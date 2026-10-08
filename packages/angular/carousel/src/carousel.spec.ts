@@ -33,6 +33,7 @@ import { NuiCarousel, NuiCarouselSlide } from './carousel';
         }
       </nui-carousel>
     </div>
+    <p id="after">After the carousel</p>
   `,
 })
 class Host {
@@ -134,9 +135,8 @@ describe('NuiCarousel', () => {
   it('follows a swipe, and announces where it lands', async () => {
     const { host, track, announcements } = await setup();
     track.scrollLeft = 600;
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    expect(host.index()).toBe(2);
-    expect(announcements.at(-1)).toBe('3 of 4');
+    await expect.poll(() => host.index()).toBe(2);
+    await expect.poll(() => announcements.at(-1)).toBe('3 of 4');
   });
 
   it('runs right to left', async () => {
@@ -149,6 +149,7 @@ describe('NuiCarousel', () => {
 
   it('turns by itself until focus comes in, and starts again from its control', async () => {
     const { host, root, fixture } = await setup((h) => h.autoplay.set(80));
+    const carousel = root.querySelector<HTMLElement>('nui-carousel')!;
     const play = root.querySelector<HTMLButtonElement>('.nui-carousel-play')!;
     // Reduced motion: it starts stopped.
     expect(play.getAttribute('aria-label')).toBe('Start slide rotation');
@@ -156,10 +157,12 @@ describe('NuiCarousel', () => {
     await fixture.whenStable();
     expect(play.getAttribute('aria-label')).toBe('Stop slide rotation');
     // Focus on the control itself doesn't stop it; the pointer over it pauses it.
+    expect(carousel.hasAttribute('data-rotating')).toBe(false);
     (document.activeElement as HTMLElement)?.blur();
-    await userEvent.unhover(root.querySelector('nui-carousel')!);
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    expect(host.index()).toBeGreaterThan(0);
+    // Off to a known place: `unhover` goes to the middle of the body, wherever that is.
+    await userEvent.hover(root.querySelector('#after')!);
+    // Poll, don't sleep: 4 slides 80 ms apart are back at 0 every 320 ms.
+    await expect.poll(() => host.index()).toBeGreaterThan(0);
     root.querySelector<HTMLElement>('.nui-carousel-track')!.focus();
     await fixture.whenStable();
     expect(play.getAttribute('aria-label')).toBe('Start slide rotation');
