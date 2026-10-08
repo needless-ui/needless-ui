@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { userEvent } from 'vitest/browser';
-import type { NuiDate } from '@needless-ui/angular';
+import { type NuiDate, nuiMonthOf, nuiToday } from '@needless-ui/angular';
 import { NuiCalendar, type NuiCalendarSelection, type NuiDateRange } from './calendar';
 
 @Component({
@@ -45,8 +45,13 @@ async function setup(change?: (host: Host) => void) {
   const root: HTMLElement = fixture.nativeElement;
   const cell = (date: string) => root.querySelector<HTMLElement>(`[data-date="${date}"]`)!;
   const title = () => root.querySelector('.nui-calendar-title')!.textContent!.trim();
+  // The cells in the tab order: days, months or years.
+  const stops = () =>
+    [...root.querySelectorAll<HTMLElement>('[role="grid"] [tabindex="0"]')].map(
+      (stop) => stop.dataset['date'] ?? stop.dataset['month'] ?? stop.dataset['year'],
+    );
   const stable = () => fixture.whenStable();
-  return { fixture, host: fixture.componentInstance, root, cell, title, stable };
+  return { fixture, host: fixture.componentInstance, root, cell, title, stops, stable };
 }
 
 describe('NuiCalendar', () => {
@@ -189,6 +194,162 @@ describe('NuiCalendar', () => {
     expect(title()).toBe('February 2031');
     expect(host.month()).toBe('2031-02');
     expect(document.activeElement?.getAttribute('data-date')).toBe('2031-02-25');
+  });
+
+  it('keeps one day in the tab order when month comes from outside', async () => {
+    // A month gone by, with neither the chosen day nor today in it.
+    const { root, host, cell, stops, stable } = await setup((h) => h.month.set('2020-03'));
+    expect(stops()).toEqual(['2020-03-01']);
+    root.querySelector<HTMLElement>('.nui-calendar-nav[data-direction="next"]')!.focus();
+    await userEvent.tab();
+    expect(document.activeElement).toBe(cell('2020-03-01'));
+    await userEvent.keyboard('{ArrowRight}');
+    await stable();
+    expect(document.activeElement).toBe(cell('2020-03-02'));
+
+    // The chosen day takes the tab stop back once its month shows.
+    host.month.set('2026-09');
+    await stable();
+    expect(stops()).toEqual(['2026-09-25']);
+    // A day chosen out of sight leaves it where it is.
+    host.value.set('2026-12-05');
+    await stable();
+    expect(stops()).toEqual(['2026-09-25']);
+  });
+
+  it('gives the tab stop to a chosen day in sight, today, or the first day to choose', async () => {
+    // The range starts in September, which October's grid shows only muted.
+    const range = await setup((h) => {
+      h.selection.set('range');
+      h.range.set({ start: '2026-09-28', end: '2026-10-03' });
+      h.month.set('2026-10');
+    });
+    expect(range.stops()).toEqual(['2026-10-03']);
+    const several = await setup((h) => {
+      h.selection.set('multiple');
+      h.values.set(['2026-09-03', '2026-11-05']);
+      h.month.set('2026-11');
+    });
+    expect(several.stops()).toEqual(['2026-11-05']);
+    const today = nuiToday();
+    const now = await setup((h) => h.month.set(nuiMonthOf(today)));
+    expect(now.stops()).toEqual([today]);
+    // September 2026 has gone by, so it can't hold today; before min, and the
+    // unavailable 10th, no day can be chosen.
+    const late = await setup((h) => {
+      h.value.set(null);
+      h.min.set('2026-09-10');
+      h.month.set('2026-09');
+    });
+    expect(late.stops()).toEqual(['2026-09-11']);
+  });
+
+  it('keeps one day in the tab order side by side', async () => {
+    const { host, cell, stops, stable } = await setup((h) => {
+      h.months.set(2);
+      h.month.set('2020-03');
+    });
+    expect(stops()).toEqual(['2020-03-01']);
+    host.month.set('2026-08');
+    await stable();
+    expect(stops()).toEqual(['2026-09-25']);
+    host.month.set('2026-09');
+    await stable();
+    cell('2026-10-20').focus();
+    await stable();
+    expect(stops()).toEqual(['2026-10-20']);
+    // Down to one month, the day the keyboard was on is out of sight.
+    host.months.set(1);
+    await stable();
+    expect(stops()).toEqual(['2026-09-25']);
+  });
+
+  it('zooms out to the year of the month shown', async () => {
+    const { root, host, title, stops, stable } = await setup((h) => h.month.set('2001-05'));
+    const zoomOut = async () => {
+      root.querySelector<HTMLButtonElement>('.nui-calendar-title')!.click();
+      await stable();
+    };
+    await zoomOut();
+    expect(title()).toBe('2001');
+    expect(stops()).toEqual(['2001-05']);
+    await zoomOut();
+    expect(title()).toBe('2000 – 2019');
+    expect(stops()).toEqual(['2001']);
+    host.month.set('1987-06');
+    await stable();
+    expect(title()).toBe('1980 – 1999');
+    expect(stops()).toEqual(['1987']);
+  });
+
+  it('zooms back in on the month the keyboard is on', async () => {
+    const { root, cell, title, stops, stable } = await setup();
+    const zoomOut = async () => {
+      root.querySelector<HTMLButtonElement>('.nui-calendar-title')!.click();
+      await stable();
+    };
+    await zoomOut();
+    root.querySelector<HTMLButtonElement>('.nui-calendar-nav[data-direction="next"]')!.click();
+    await stable();
+    expect(title()).toBe('2027');
+    root.querySelector<HTMLElement>('[data-month="2027-09"]')!.focus();
+    await userEvent.keyboard('{Escape}');
+    await stable();
+    expect(title()).toBe('September 2027');
+    expect(document.activeElement).toBe(cell('2027-09-25'));
+
+    await zoomOut();
+    await zoomOut();
+    root.querySelector<HTMLElement>('[data-year="2031"]')!.click();
+    await stable();
+    expect(document.activeElement?.getAttribute('data-month')).toBe('2031-09');
+    await userEvent.keyboard('{Escape}');
+    await stable();
+    expect(title()).toBe('September 2031');
+    expect(document.activeElement).toBe(cell('2031-09-25'));
+    expect(stops()).toEqual(['2031-09-25']);
+  });
+
+  it('keeps the keyboard on the day it picks', async () => {
+    const { host, cell, stops, stable } = await setup((h) => {
+      h.selection.set('range');
+      h.value.set(null);
+      h.month.set('2026-09');
+    });
+    const press = async (key: string) => {
+      await userEvent.keyboard(key);
+      await stable();
+    };
+    cell('2026-09-14').focus();
+    await press('{Enter}');
+    await press('{ArrowRight}');
+    await press('{Enter}');
+    expect(host.range()).toEqual({ start: '2026-09-14', end: '2026-09-15' });
+    // The range now starts on the other end, but the keyboard stays.
+    expect(stops()).toEqual(['2026-09-15']);
+    await press('{ArrowRight}');
+    expect(document.activeElement).toBe(cell('2026-09-16'));
+
+    // Putting back the first of several days.
+    const several = await setup((h) => {
+      h.selection.set('multiple');
+      h.values.set(['2026-09-03', '2026-09-17']);
+    });
+    several.cell('2026-09-03').focus();
+    await userEvent.keyboard('{Enter}');
+    await several.stable();
+    expect(several.host.values()).toEqual(['2026-09-17']);
+    expect(several.stops()).toEqual(['2026-09-03']);
+  });
+
+  it('keeps its tab stop when a script focuses a day on its way out', async () => {
+    const { root, cell, stops, stable } = await setup();
+    const leaving = cell('2026-09-12');
+    root.querySelector<HTMLButtonElement>('.nui-calendar-nav[data-direction="next"]')!.click();
+    // Until the next render, September's days are still there to focus.
+    leaving.focus();
+    await stable();
+    expect(stops()).toEqual(['2026-10-25']);
   });
 
   it('shows months side by side, and week numbers', async () => {

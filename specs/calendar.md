@@ -40,7 +40,7 @@ Personality inputs: `corners`, `radius` and `density`.
 
 ## Keyboard
 
-The grid is one tab stop; the day that has it is the chosen one, or today.
+The grid is one tab stop: the day the keyboard is on, which starts on the chosen day, or today, and moves to a day chosen later if that's in sight. It's always a day in sight: when the months shown change around it, as with a `month` set from outside or fewer `months`, it moves to a chosen day in sight, today, or else the first day there that can be chosen. Picking leaves it on the day picked. Zoomed out, the months and years show its year, and zooming back in shows its month.
 
 | Key                                 | Behavior                                                            |
 | ----------------------------------- | ------------------------------------------------------------------- |
@@ -57,4 +57,4 @@ The grid is one tab stop; the day that has it is the chosen one, or today.
 - Each month is a `grid` (a native table) named by its title, with weekday headers that carry the full names in `abbr`.
 - Every day is named by its full date, such as "Friday, September 25, 2026", with "Today", "unavailable" and the ends of a range added. `aria-selected` marks what's chosen, `aria-disabled` what can't be.
 - The previous and next buttons are named for what they do, and the title button says it chooses a month or a year. Moving with them announces the new title through a status message.
-- The grid uses a roving `tabindex`, so the page's tab order passes through it once.
+- The grid uses a roving `tabindex`: exactly one cell is in the tab order, across months side by side too, so the page's tab order passes through the calendar once.
