@@ -128,9 +128,11 @@ describe('NuiCalendar', () => {
   });
 
   it('chooses a range in two picks, previewing it in between', async () => {
+    // With nothing chosen, the calendar would open on today's month.
     const { host, cell, stable } = await setup((h) => {
       h.selection.set('range');
       h.value.set(null);
+      h.month.set('2026-09');
     });
     cell('2026-09-20').click();
     await stable();
@@ -156,7 +158,10 @@ describe('NuiCalendar', () => {
   });
 
   it('toggles days with selection="multiple"', async () => {
-    const { host, cell, stable } = await setup((h) => h.selection.set('multiple'));
+    const { host, cell, stable } = await setup((h) => {
+      h.selection.set('multiple');
+      h.month.set('2026-09');
+    });
     cell('2026-09-03').click();
     cell('2026-09-01').click();
     await stable();
