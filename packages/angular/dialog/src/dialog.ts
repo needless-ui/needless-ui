@@ -104,6 +104,8 @@ export class NuiDialog {
   private pressStartedOutside = false;
   /** Where focus goes back to when the dialog closes. */
   private opener: Element | null = null;
+  /** A closing by `close()` whose close event hasn't come yet: `closed` has emitted. */
+  private closing = false;
 
   constructor() {
     const document = this.element.ownerDocument;
@@ -128,11 +130,24 @@ export class NuiDialog {
 
   /** Closes the dialog. `closed` emits `returnValue`. */
   close(returnValue?: string): void {
-    if (this.element.open) this.element.close(returnValue);
-    else this.open.set(false);
+    if (!this.element.open) {
+      this.open.set(false);
+      return;
+    }
+    this.element.close(returnValue);
+    // The browser's close event comes in a later task. `open` and `closed` follow
+    // now, so what runs next sees the dialog closed and can open it again: before,
+    // that opening was lost (`open` was still true), and the late event closed it.
+    this.closing = true;
+    this.open.set(false);
+    this.closed.emit(this.element.returnValue);
   }
 
   protected onClose(): void {
+    const ours = this.closing;
+    this.closing = false;
+    // Opened again before this event came: focus and the opener are the new opening's.
+    if (this.element.open) return;
     // Browsers return focus to what was focused when the dialog opened: in Safari,
     // after a click, that's the page itself, or focus stays in the closed dialog
     // until it's hidden. Then the opener takes it.
@@ -148,6 +163,7 @@ export class NuiDialog {
     ) {
       opener.focus({ preventScroll: true });
     }
+    if (ours) return;
     this.open.set(false);
     this.closed.emit(this.element.returnValue);
   }

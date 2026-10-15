@@ -56,5 +56,5 @@ It also takes the [customization](customization.md) presets `enter`, `motion`, `
 
 ## Implementation notes
 
-- **Angular:** `NuiDialog` syncs `[(open)]` with the element in an `afterRenderEffect`, so nothing runs during server rendering. The dialog is rendered closed and opens after hydration.
+- **Angular:** `NuiDialog` syncs `[(open)]` with the element in an `afterRenderEffect`, so nothing runs during server rendering. The dialog is rendered closed and opens after hydration. `close()` sets `open` to false and emits `closed` at once: the browser's `close` event comes in a later task, and a late one leaves a dialog that has opened again alone.
 - **React (planned):** same markup; open state drives `showModal()` and `close()` in an effect.

@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { userEvent } from 'vitest/browser';
 import {
   NuiDialog,
@@ -126,6 +127,31 @@ describe('NuiDialog', () => {
     await settle();
     expect(host.open()).toBe(false);
     expect(root.querySelector('dialog')!.open).toBe(false);
+  });
+
+  it('says it closed at once on close(), and a late close event leaves a new opening alone', async () => {
+    const { fixture, host, dialog } = await setup();
+    host.open.set(true);
+    await fixture.whenStable();
+    const nuiDialog = fixture.debugElement.query(By.directive(NuiDialog)).injector.get(NuiDialog);
+
+    nuiDialog.close('done');
+    // Before the browser's close event, which comes in a task of its own.
+    expect(host.open()).toBe(false);
+    expect(host.closedWith()).toBe('done');
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    await fixture.whenStable();
+    host.closedWith.set(null);
+
+    host.open.set(true);
+    await fixture.whenStable();
+    expect(dialog.open).toBe(true);
+    // The close event of an earlier closing, come late, changes nothing.
+    dialog.dispatchEvent(new Event('close'));
+    await fixture.whenStable();
+    expect(dialog.open).toBe(true);
+    expect(host.open()).toBe(true);
+    expect(host.closedWith()).toBe(null);
   });
 
   it('opens and closes when [(open)] changes', async () => {
