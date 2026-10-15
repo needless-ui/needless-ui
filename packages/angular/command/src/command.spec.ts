@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { nuiIsApple } from '@needless-ui/angular';
 import { userEvent } from 'vitest/browser';
@@ -6,6 +6,13 @@ import { type NuiCommand, NuiCommandPalette } from './command';
 
 @Component({
   imports: [NuiCommandPalette],
+  // The palette's CSS makes the list a flex item of the dialog, so a block. Tests
+  // load no CSS: the list was an inline element holding block rows, and Firefox
+  // rebuilt the boxes of the whole dialog each time the rows changed. Until its
+  // next style update the field had no box, and Firefox sends the keys of a
+  // focused element without one to the page.
+  styles: '.nui-select-list { display: block; }',
+  encapsulation: ViewEncapsulation.None,
   template: `
     <button id="opener">Open</button>
     <nui-command-palette
@@ -83,6 +90,7 @@ describe('NuiCommandPalette', () => {
 
     await userEvent.keyboard('wri');
     await settle();
+    expect(input().value).toBe('wri');
     expect(labels()).toEqual(['Save']);
     expect(input().getAttribute('aria-activedescendant')).toBe(active()!.id);
     await userEvent.keyboard('{Enter}');
@@ -98,6 +106,8 @@ describe('NuiCommandPalette', () => {
     await settle();
     await userEvent.keyboard('dark');
     await settle();
+    // "d" alone finds Dark too: the field says whether every key arrived.
+    expect(input().value).toBe('dark');
     expect(labels()).toEqual(['Dark']);
     expect(active()!.querySelector('.nui-select-path')?.textContent).toBe('Change theme');
     await userEvent.keyboard('{Enter}');
