@@ -145,19 +145,53 @@ export function nuiMaxChroma(l: number, h: number, gamut: NuiGamut = 'srgb'): nu
   return low;
 }
 
+/** The distance between two colors in OKLab, where 0.02 is about what an eye tells apart. */
+function distance(one: NuiColor, other: NuiColor): number {
+  const [l1, a1, b1] = colorToOklab(one);
+  const [l2, a2, b2] = colorToOklab(other);
+  return Math.hypot(l1 - l2, a1 - a2, b1 - b2);
+}
+
+/** A color with its channels clipped into a gamut. */
+function clip(color: NuiColor, gamut: NuiGamut): NuiColor {
+  const rgb = nuiColorToRgb(color, gamut).map((v) => Math.min(1, Math.max(0, v)));
+  return nuiColorFromRgb(rgb as unknown as Vec, gamut, color.alpha);
+}
+
+/** A difference in OKLab the eye just notices: the CSS Color 4 gamut mapping's threshold. */
+const JND = 0.02;
+
 /**
  * A color brought into a gamut the way CSS Color 4 does: lightness and hue kept,
- * chroma lowered until it fits, then clipped.
+ * chroma lowered until clipping what's left changes the color less than the eye
+ * notices, then clipped. A color just outside is only clipped, so the vivid edge
+ * of a gamut (pure blue, say) stays where it is.
  */
 export function nuiToGamut(color: NuiColor, gamut: NuiGamut = 'srgb'): NuiColor {
   if (color.l >= 1) return { l: 1, c: 0, h: color.h, alpha: color.alpha };
   if (color.l <= 0) return { l: 0, c: 0, h: color.h, alpha: color.alpha };
   if (nuiInGamut(color, gamut)) return color;
-  const c = Math.min(color.c, nuiMaxChroma(color.l, color.h, gamut));
-  const clipped = nuiColorToRgb({ ...color, c }, gamut).map((v) =>
-    Math.min(1, Math.max(0, v)),
-  ) as unknown as Vec;
-  return { ...nuiColorFromRgb(clipped, gamut, color.alpha), h: color.h };
+  let clipped = clip(color, gamut);
+  if (distance(clipped, color) < JND) return clipped;
+  let low = 0;
+  let high = color.c;
+  let lowInGamut = true;
+  while (high - low > EPSILON) {
+    const current = { ...color, c: (low + high) / 2 };
+    if (lowInGamut && nuiInGamut(current, gamut)) {
+      low = current.c;
+      continue;
+    }
+    clipped = clip(current, gamut);
+    const error = distance(clipped, current);
+    if (error >= JND) high = current.c;
+    else if (JND - error < EPSILON) return clipped;
+    else {
+      lowInGamut = false;
+      low = current.c;
+    }
+  }
+  return clipped;
 }
 
 // Parsing.

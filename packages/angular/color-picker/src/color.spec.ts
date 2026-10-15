@@ -72,10 +72,25 @@ describe('colors', () => {
     expect(nuiInGamut(p3red, 'p3')).toBe(true);
     const mapped = nuiToGamut(p3red, 'srgb');
     expect(nuiInGamut(mapped, 'srgb')).toBe(true);
-    expect(mapped.l).toBeCloseTo(p3red.l, 2);
+    // Clipping the last of the chroma moves the color less than the eye notices.
+    expect(Math.abs(mapped.l - p3red.l)).toBeLessThan(0.02);
     expect(nuiMaxChroma(0.628, 29.23, 'srgb')).toBeCloseTo(0.2577, 2);
     expect(nuiMaxChroma(0.628, 29.23, 'p3')).toBeGreaterThan(0.26);
     expect(nuiFormatColor({ l: 1.2, c: 0.1, h: 30, alpha: 1 })).toBe('#ffffff');
+  });
+
+  it('only clips a color just outside a gamut, as CSS Color 4 does', () => {
+    // Rounded in oklch(), pure blue is a hair outside sRGB: it comes back as it was.
+    for (const hex of ['#0000ff', '#00008c', '#ff0000', '#00ff00', '#ffff00', '#ff00ff']) {
+      expect(nuiFormatColor(parse(nuiFormatColor(parse(hex), 'oklch'))), hex).toBe(hex);
+    }
+    // Far outside, chroma comes down until clipping the rest is too little to see.
+    const green = parse('oklch(70% 0.4 145)');
+    const mapped = nuiToGamut(green, 'srgb');
+    expect(nuiInGamut(mapped, 'srgb')).toBe(true);
+    expect(mapped.l).toBeCloseTo(0.7, 1);
+    expect(mapped.c).toBeLessThan(0.25);
+    expect(Math.abs(mapped.h - 145)).toBeLessThan(3);
   });
 
   it('measures contrast as WCAG 2 does', () => {

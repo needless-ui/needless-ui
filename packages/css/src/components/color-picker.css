@@ -9,7 +9,7 @@
  *            style="inset-inline-start: 75%; inset-block-start: 40%"></div>
  *     </div>
  *     <div class="nui-color-row">
- *       <span class="nui-color-preview"></span>
+ *       <button class="nui-color-preview" data-action="copy" aria-label="Copy the color"></button>
  *       <div class="nui-color-sliders">
  *         <input type="range" class="nui-color-slider" data-channel="hue">
  *         <input type="range" class="nui-color-slider" data-channel="alpha">
@@ -24,6 +24,11 @@
  *     </div>
  *   </nui-color-picker>
  *
+ * With data-view="wheel" the area is an OKLCH color wheel: hue around, chroma
+ * outward, painted at the lightness of a slider (data-channel="lightness") whose
+ * track the component sets in --_track, inside a ring of hues set in --_ring. The preview is a button that copies the
+ * value where the browser has a clipboard, a plain span elsewhere.
+ *
  * The area and the sliders are pictures of color, not text: they run left to
  * right in every language.
  */
@@ -36,6 +41,7 @@
       )
       0 0 / 0.75rem 0.75rem;
     --_icon-eyedropper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9.5 4.5 2 2M11 2.5a1.4 1.4 0 0 1 2 0l.5.5a1.4 1.4 0 0 1 0 2L12 6.5 9.5 4Z'/%3E%3Cpath d='M10.5 5.5 4 12v1.5h1.5l6.5-6.5'/%3E%3C/svg%3E");
+    --_icon-copy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'%3E%3Crect x='5.5' y='5.5' width='8' height='8' rx='1.5'/%3E%3Cpath d='M10.5 5.5V4A1.5 1.5 0 0 0 9 2.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5'/%3E%3C/svg%3E");
     --_icon-pass: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E");
     --_icon-fail: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m4.5 4.5 7 7m0-7-7 7'/%3E%3C/svg%3E");
 
@@ -96,6 +102,28 @@
     filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.6));
   }
 
+  /* The wheel: hue around, chroma outward. Past the gamut's edge it's empty. */
+  .nui-color-picker[data-view='wheel'] .nui-color-area {
+    aspect-ratio: 1;
+  }
+
+  .nui-color-picker[data-view='wheel'] .nui-color-canvas {
+    border-radius: 50%;
+    corner-shape: round;
+    background-color: var(--nui-color-neutral-soft);
+  }
+
+  /* Around it, each hue's most vivid color at that lightness (--_ring, a conic gradient). */
+  .nui-color-picker[data-view='wheel'] .nui-color-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--_ring);
+    mask: radial-gradient(closest-side, transparent calc(94% - 1px), black 94%);
+    pointer-events: none;
+  }
+
   /* White and black rings: the thumb shows on any color. */
   .nui-color-thumb {
     position: absolute;
@@ -135,6 +163,49 @@
     border-radius: 50%;
     background: linear-gradient(var(--_value), var(--_value)), var(--_checks);
     box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  }
+
+  /* The preview copies the value: a check says it did. */
+  .nui-color-preview[data-action='copy'] {
+    display: inline-grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: white;
+    cursor: pointer;
+    transition: scale var(--nui-motion);
+  }
+
+  .nui-color-preview[data-light] {
+    color: black;
+  }
+
+  .nui-color-preview[data-action='copy']::before {
+    content: '';
+    inline-size: 1rem;
+    block-size: 1rem;
+    background-color: currentColor;
+    mask: var(--_icon-copy) center / contain no-repeat;
+  }
+
+  .nui-color-preview[data-copied]::before {
+    mask-image: var(--_icon-pass);
+  }
+
+  @media (hover: hover) {
+    .nui-color-preview[data-action='copy']:not(:disabled):hover {
+      scale: 1.08;
+    }
+  }
+
+  .nui-color-preview[data-action='copy']:focus-visible {
+    outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .nui-color-preview:disabled {
+    cursor: not-allowed;
   }
 
   .nui-color-sliders {
@@ -427,6 +498,7 @@
   @media (forced-colors: active) {
     /* Colors are what this component is about: they stay. */
     .nui-color-canvas,
+    .nui-color-area::before,
     .nui-color-thumb,
     .nui-color-preview,
     .nui-color-slider,

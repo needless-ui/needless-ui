@@ -16,4 +16,5 @@ export {
   NuiColorPicker,
   type NuiColorPickerLabels,
   type NuiColorSwatch,
+  type NuiColorView,
 } from './src/color-picker';
