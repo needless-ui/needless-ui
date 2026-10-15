@@ -2199,21 +2199,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Selector de color',
-        title: 'Selector de color OKLCH para Angular',
+        title: 'Selector de color OKLCH y rueda de color para Angular',
         summary:
-          'Un color en OKLCH, con controles deslizantes, muestras, cuentagotas y comprobación de contraste.',
+          'Un color en OKLCH, en un área o una rueda, con muestras, cuentagotas y comprobación de contraste.',
         description:
-          'Selector de color accesible para Angular en OKLCH: colores P3 de gama amplia, cualquier sintaxis CSS, muestras, cuentagotas y comprobación de contraste WCAG.',
+          'Selector de color y rueda de color accesibles para Angular en OKLCH: colores P3 de gama amplia, cualquier sintaxis CSS, muestras, cuentagotas y contraste WCAG.',
         apiDescription:
           'Referencia de la API del selector de color de Needless UI: valor, formato y gama de nui-color-picker, muestras y contraste, y funciones auxiliares de color.',
         a11yDescription:
-          'Teclado y accesibilidad del selector de color de Needless UI: un área con dos valores, controles deslizantes nativos y niveles de contraste por escrito.',
+          'Teclado y accesibilidad del selector de color de Needless UI: área o rueda con dos valores, controles deslizantes nativos y niveles de contraste por escrito.',
         overview: [
           'El selector de color trabaja en OKLCH, el espacio de color perceptual del CSS moderno. A lo ancho del área, el croma va del gris al máximo que la pantalla puede mostrar con esa luminosidad, así que cada punto es un color que puedes usar, y el tirador no se mueve cuando gira el tono.',
+          'Con <code>view="wheel"</code> es una rueda de color OKLCH: el tono gira alrededor del centro, el croma crece hacia fuera y un control deslizante fija la luminosidad. Cada círculo reúne colores del mismo croma, que se ven igual de vivos, y la forma de la rueda abarca todos los colores que la pantalla puede mostrar con esa luminosidad.',
+          'En <code>oklch()</code>, L es la luminosidad, del 0 al 100 %, C el croma, de 0 en el gris a unos 0.37, y H el ángulo del tono: alrededor de 30 es rojo, 70 naranja, 110 amarillo, 140 verde, 195 cian, 265 azul y 330 magenta.',
           'El campo acepta cualquier color de CSS, nombres incluidos, y el botón de formato escribe el valor en hexadecimal, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> o <code>color(display-p3)</code>. Un color fuera de la gama de un formato se lleva a ella como lo hace CSS, conservando su luminosidad y su tono.',
-          'Añade <code>swatches</code> para elegir entre muestras, y <code>contrastWith</code> para comprobar el contraste del color sobre un fondo tal como lo mide WCAG 2. Si el navegador tiene cuentagotas, un botón toma un color de la pantalla.',
+          'Añade <code>swatches</code> para elegir entre muestras, y <code>contrastWith</code> para comprobar el contraste del color sobre un fondo tal como lo mide WCAG 2. Si el navegador tiene cuentagotas, un botón toma un color de la pantalla, y la vista previa copia el valor.',
         ],
         examples: {
+          wheel: {
+            title: 'Rueda de color OKLCH',
+            text: 'Las armonías giran el tono del color elegido y conservan su luminosidad y su croma, así que se ven igual de claras y vivas. Elige una para llevar la rueda a ese color.',
+          },
           brand: {
             title: 'Un color de marca',
             text: 'Muestras con nombre y el contraste de un texto blanco sobre el color: elige uno claro y AA falla.',
@@ -2234,11 +2240,13 @@ export const messages: Messages = {
               value: 'El color, escrito en el formato. Vacío hasta que se elige uno.',
               format: 'Cómo se escribe el valor.',
               formats: 'Los formatos que recorre el botón de formato.',
+              view: 'Un área de luminosidad y croma con un tono fijo, o una rueda de color de tono y croma con una luminosidad fija.',
               gamut: 'Los colores que abarca el área: sRGB o Display P3.',
               alpha: 'Muestra el control deslizante de opacidad.',
               swatches: 'Colores para elegir, con nombre.',
               contrastWith: 'Un fondo con el que comprobar el contraste.',
               eyeDropper: 'Muestra el cuentagotas, si el navegador tiene uno.',
+              copy: 'La vista previa copia el valor, si el navegador tiene portapapeles.',
               disabled: 'No se puede cambiar.',
               labels: 'Todos los textos que anuncia, para traducirlos.',
               color: 'El color elegido, en OKLCH.',
@@ -2255,14 +2263,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Flechas izquierda y derecha', 'En el área, menos o más croma.'],
-          ['Flechas arriba y abajo', 'En el área, más claro o más oscuro.'],
+          [
+            'Flechas izquierda y derecha',
+            'En el área, menos o más croma. En la rueda, gira el tono.',
+          ],
+          [
+            'Flechas arriba y abajo',
+            'En el área, más claro o más oscuro. En la rueda, más o menos croma.',
+          ],
           ['Mayús + flechas', 'Mueven el tirador diez veces más.'],
-          ['Inicio y Fin', 'En el área, croma nulo o máximo.'],
-          ['Re Pág y Av Pág', 'En el área, mucho más claro o más oscuro.'],
+          ['Inicio y Fin', 'Croma nulo o máximo.'],
+          [
+            'Re Pág y Av Pág',
+            'En el área, mucho más claro o más oscuro. En la rueda, mucho más o menos croma.',
+          ],
         ],
         notes: [
-          'El tirador del área es un <code>slider</code> llamado «Color» que anuncia sus dos valores, como «Lightness 62%, chroma 75%». El tono y la opacidad son entradas de rango nativas.',
+          'El tirador es un <code>slider</code> llamado «Color» que anuncia sus dos valores: «Lightness 62%, chroma 75%» en el área, «Hue 30°, chroma 0.15» en la rueda. El tono, la luminosidad y la opacidad son entradas de rango nativas.',
+          'La vista previa es un botón llamado «Copy the color», y un mensaje de estado dice «Copied» una vez copiado el valor.',
           'Las muestras son botones con el nombre de su etiqueta, y aparecen pulsadas cuando coinciden con el color.',
           'AA y AAA dicen «passes» o «fails» con palabras, no solo con el color, y en el modo de colores forzados los colores en sí se mantienen.',
         ],

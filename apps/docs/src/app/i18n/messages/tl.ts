@@ -2223,20 +2223,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Color picker',
-        title: 'OKLCH color picker para sa Angular',
-        summary: 'Isang kulay sa OKLCH, may mga slider, swatch, eyedropper at contrast check.',
+        title: 'OKLCH color picker at color wheel para sa Angular',
+        summary:
+          'Isang kulay sa OKLCH, sa area o sa wheel, may mga swatch, eyedropper at contrast check.',
         description:
-          'Accessible na Angular color picker sa OKLCH: wide-gamut na P3 color, bawat CSS color syntax, mga swatch, ang eyedropper, at WCAG contrast check.',
+          'Accessible na Angular color picker at color wheel sa OKLCH: wide-gamut na P3 color, bawat CSS color syntax, mga swatch, ang eyedropper, at WCAG contrast check.',
         apiDescription:
           'API reference ng Needless UI color picker: value, format at gamut ng nui-color-picker, mga swatch at contrast, at mga helper para sa mga kulay.',
         a11yDescription:
-          'Keyboard at accessibility ng Needless UI color picker: slider na may dalawang value para sa area, mga native slider, at mga contrast grade sa salita.',
+          'Keyboard at accessibility ng Needless UI color picker: slider na may dalawang value para sa area o sa wheel, mga native slider, at mga contrast grade sa salita.',
         overview: [
           'Gumagana ang color picker sa OKLCH, ang perceptual color space ng modernong CSS. Pahalang sa area, tumatakbo ang chroma mula gray hanggang sa pinakamataas na kayang ipakita ng screen sa lightness na iyon, kaya magagamit na kulay ang bawat punto, at hindi gumagalaw ang thumb habang umiikot ang hue.',
+          'Sa <code>view="wheel"</code>, isa itong OKLCH color wheel: nakapaikot ang hue, lumalaki ang chroma papalabas, at isang slider ang nagtatakda ng lightness. Pareho ang chroma ng mga kulay sa iisang bilog, kaya pare-pareho ang tingkad nila, at ang hugis ng wheel ay ang lahat ng kulay na kayang ipakita ng screen sa lightness na iyon.',
+          'Sa <code>oklch()</code>, ang L ay ang lightness mula 0 hanggang 100%, ang C ay ang chroma mula 0 para sa gray hanggang mga 0.37, at ang H ay ang anggulo ng hue: mga 30 ang pula, 70 ang kahel, 110 ang dilaw, 140 ang berde, 195 ang cyan, 265 ang asul at 330 ang magenta.',
           'Tumatanggap ang field ng kahit anong CSS color, kasama ang mga pangalan, at isinusulat ng format button ang value bilang hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> o <code>color(display-p3)</code>. Ang kulay na nasa labas ng gamut ng isang format ay ipinapasok dito sa paraan ng CSS, at pinapanatili ang lightness at hue nito.',
-          'Magdagdag ng <code>swatches</code> na mapagpipilian, at ng <code>contrastWith</code> para i-check ang kulay laban sa isang background ayon sa pagsukat ng WCAG 2 sa contrast. Kapag may eyedropper ang browser, may button na pumipili ng kulay mula sa screen.',
+          'Magdagdag ng <code>swatches</code> na mapagpipilian, at ng <code>contrastWith</code> para i-check ang kulay laban sa isang background ayon sa pagsukat ng WCAG 2 sa contrast. Kapag may eyedropper ang browser, may button na pumipili ng kulay mula sa screen, at kinokopya ng preview ang value.',
         ],
         examples: {
+          wheel: {
+            title: 'OKLCH color wheel',
+            text: 'Iniikot ng mga harmony ang hue ng napiling kulay at pinapanatili ang lightness at chroma nito, kaya mukha silang kasingliwanag at kasingtingkad nito. Pumili ng isa para ilipat dito ang wheel.',
+          },
           brand: {
             title: 'Isang brand color',
             text: 'Mga swatch na may pangalan, at ang contrast ng puting text sa kulay: pumili ng maliwanag, at babagsak ang AA.',
@@ -2257,11 +2264,13 @@ export const messages: Messages = {
               value: 'Ang kulay, nakasulat sa format. Walang laman hanggang may mapili.',
               format: 'Kung paano isinusulat ang value.',
               formats: 'Ang mga format na pinagsasalit-salitan ng format button.',
+              view: 'Isang area ng lightness at chroma sa iisang hue, o isang color wheel ng hue at chroma sa iisang lightness.',
               gamut: 'Ang mga kulay na laman ng area: sRGB, o Display P3.',
               alpha: 'Ipinapakita ang opacity slider.',
               swatches: 'Mga kulay na mapagpipilian, may mga pangalan.',
               contrastWith: 'Isang background na pagsusukatan ng contrast.',
               eyeDropper: 'Ipinapakita ang eyedropper, kapag mayroon nito ang browser.',
+              copy: 'Kinokopya ng preview ang value, kapag may clipboard ang browser.',
               disabled: 'Hindi ito mababago.',
               labels: 'Bawat text na sinasabi nito, para maisalin.',
               color: 'Ang napiling kulay, sa OKLCH.',
@@ -2278,14 +2287,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Left at right arrow', 'Sa area, mas kaunti o mas maraming chroma.'],
-          ['Up at down arrow', 'Sa area, mas maliwanag o mas madilim.'],
+          [
+            'Left at right arrow',
+            'Sa area, mas kaunti o mas maraming chroma. Sa wheel, iniikot ang hue.',
+          ],
+          [
+            'Up at down arrow',
+            'Sa area, mas maliwanag o mas madilim. Sa wheel, mas marami o mas kaunting chroma.',
+          ],
           ['Shift + mga arrow key', 'Gumagalaw nang sampung beses na mas malayo.'],
-          ['Home at End', 'Sa area, walang chroma o ang pinakamarami.'],
-          ['Page Up at Page Down', 'Sa area, mas maliwanag o mas madilim nang malaking hakbang.'],
+          ['Home at End', 'Walang chroma, o ang pinakamarami.'],
+          [
+            'Page Up at Page Down',
+            'Sa area, mas maliwanag o mas madilim nang malaking hakbang. Sa wheel, mas marami o mas kaunting chroma nang malaking hakbang.',
+          ],
         ],
         notes: [
-          'Isang <code>slider</code> na pinangalanang “Color” ang thumb ng area, na sinasabi ang dalawang value nito, gaya ng “Lightness 62%, chroma 75%”. Mga native na range input ang hue at opacity.',
+          'Isang <code>slider</code> na pinangalanang “Color” ang thumb, na sinasabi ang dalawang value nito: “Lightness 62%, chroma 75%” sa area, “Hue 30°, chroma 0.15” sa wheel. Mga native na range input ang hue, lightness at opacity.',
+          'Isang button na pinangalanang “Copy the color” ang preview, at may status message na nagsasabing “Copied” kapag nakopya na.',
           'Mga button ang mga swatch na pinangalanan ayon sa label nila, at naka-press kapag tugma sa kulay.',
           'Sinasabi ng AA at AAA ang “passes” o “fails” sa salita, hindi lang sa kulay, at sa forced colors mode, nananatili ang mismong mga kulay.',
         ],

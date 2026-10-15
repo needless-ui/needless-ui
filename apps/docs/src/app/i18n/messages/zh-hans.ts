@@ -2035,20 +2035,26 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: '颜色选择器',
-        title: 'Angular OKLCH 颜色选择器组件',
-        summary: '以 OKLCH 选择颜色，带有滑块、色块、吸管和对比度检查。',
+        title: 'Angular OKLCH 颜色选择器与色轮组件',
+        summary: '以 OKLCH 在取色区域或色轮上选择颜色，带有色块、吸管和对比度检查。',
         description:
-          '无障碍的 Angular 颜色选择器，基于 OKLCH：支持广色域 P3 颜色、所有 CSS 颜色语法、色块、吸管，以及 WCAG 对比度检查。',
+          '无障碍的 Angular 颜色选择器与色轮，基于 OKLCH：支持广色域 P3 颜色、所有 CSS 颜色语法、色块、吸管，以及 WCAG 对比度检查。',
         apiDescription:
           'Needless UI 颜色选择器的 API 参考：nui-color-picker 的值、格式和色域，色块与对比度，以及处理颜色的辅助函数。',
         a11yDescription:
-          'Needless UI 颜色选择器的键盘操作与无障碍支持：带两个值的取色区域滑块、原生滑块，以及用文字说明的对比度等级。',
+          'Needless UI 颜色选择器的键盘操作与无障碍支持：取色区域或色轮上带两个值的滑块、原生滑块，以及用文字说明的对比度等级。',
         overview: [
           '颜色选择器基于 OKLCH 工作，这是现代 CSS 中符合人眼感知的色彩空间。在取色区域中，色度从左到右由灰色增加到屏幕在该亮度下能显示的最大值，因此每个点都是可用的颜色；转动色相时，手柄也会停在原处。',
+          '设置 <code>view="wheel"</code> 后，它就是一个 OKLCH 色轮：色相沿圆周变化，色度向外增加，亮度则由一个滑块设置。同一个圆上的颜色色度相同，看起来同样鲜艳；色轮的形状，就是屏幕在该亮度下能显示的全部颜色。',
+          '在 <code>oklch()</code> 中，L 是亮度，从 0 到 100%；C 是色度，从灰色的 0 到约 0.37；H 是色相角：约 30 是红色，70 是橙色，110 是黄色，140 是绿色，195 是青色，265 是蓝色，330 是品红色。',
           '输入框接受任何 CSS 颜色，包括颜色名称；格式按钮会把值写成 hex、<code>rgb()</code>、<code>hsl()</code>、<code>oklch()</code> 或 <code>color(display-p3)</code>。超出某种格式色域的颜色，会按 CSS 的方式映射到该色域内，并保持亮度和色相不变。',
-          '添加 <code>swatches</code> 可提供候选颜色，添加 <code>contrastWith</code> 则可按 WCAG 2 的算法检查颜色与背景的对比度。浏览器支持吸管时，还会有一个按钮用来从屏幕上取色。',
+          '添加 <code>swatches</code> 可提供候选颜色，添加 <code>contrastWith</code> 则可按 WCAG 2 的算法检查颜色与背景的对比度。浏览器支持吸管时，还会有一个按钮用来从屏幕上取色；点击预览即可复制颜色值。',
         ],
         examples: {
+          wheel: {
+            title: 'OKLCH 色轮',
+            text: '和谐配色会转动所选颜色的色相，同时保持它的亮度和色度，因此看起来一样明亮、一样鲜艳。选其中一个，色轮就会移到这个颜色。',
+          },
           brand: {
             title: '品牌色',
             text: '带名称的色块，以及白色文字在该颜色上的对比度：选一个浅色，AA 就不达标。',
@@ -2069,11 +2075,13 @@ export const messages: Messages = {
               value: '按格式写出的颜色；选择颜色之前为空。',
               format: '值的写法。',
               formats: '格式按钮依次切换的格式。',
+              view: '固定色相、显示亮度和色度的取色区域，或固定亮度、显示色相和色度的色轮。',
               gamut: '取色区域包含的颜色：sRGB 或 Display P3。',
               alpha: '显示不透明度滑块。',
               swatches: '可供选择的颜色，可带名称。',
               contrastWith: '用来检查对比度的背景色。',
               eyeDropper: '在浏览器支持时显示吸管。',
+              copy: '在浏览器支持剪贴板时，点击预览即可复制值。',
               disabled: '禁止修改。',
               labels: '它显示或播报的所有文本，供翻译使用。',
               color: '选中的颜色，以 OKLCH 表示。',
@@ -2090,14 +2098,15 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['向左 / 向右箭头键', '在取色区域中减少或增加色度。'],
-          ['向上 / 向下箭头键', '在取色区域中调亮或调暗。'],
+          ['向左 / 向右箭头键', '在取色区域中减少或增加色度；在色轮上转动色相。'],
+          ['向上 / 向下箭头键', '在取色区域中调亮或调暗；在色轮上增加或减少色度。'],
           ['Shift + 方向键', '移动幅度变为十倍。'],
-          ['Home / End', '在取色区域中把色度调到零或最大。'],
-          ['Page Up / Page Down', '在取色区域中大幅调亮或调暗。'],
+          ['Home / End', '把色度调到零或最大。'],
+          ['Page Up / Page Down', '在取色区域中大幅调亮或调暗；在色轮上大幅增加或减少色度。'],
         ],
         notes: [
-          '取色区域的手柄是一个名为“Color”的 <code>slider</code>，会读出它的两个值，例如“Lightness 62%, chroma 75%”。色相和不透明度则是原生的 range 输入框。',
+          '手柄是一个名为“Color”的 <code>slider</code>，会读出它的两个值：在取色区域中是“Lightness 62%, chroma 75%”，在色轮上是“Hue 30°, chroma 0.15”。色相、亮度和不透明度则是原生的 range 输入框。',
+          '预览是一个名为“Copy the color”的按钮，复制后会通过状态消息播报“Copied”。',
           '色块是以其标签命名的按钮，与当前颜色一致时处于按下状态。',
           'AA 和 AAA 会用文字说明“passes”或“fails”，而不只靠颜色表示；在强制颜色模式下，颜色本身保持不变。',
         ],

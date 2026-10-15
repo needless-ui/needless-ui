@@ -2257,21 +2257,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Farbwähler',
-        title: 'OKLCH-Farbwähler für Angular',
+        title: 'OKLCH-Farbwähler und Farbkreis für Angular',
         summary:
-          'Eine Farbe in OKLCH, mit Schiebereglern, Farbfeldern, Pipette und Kontrastprüfung.',
+          'Eine Farbe in OKLCH, auf einer Fläche oder einem Farbkreis, mit Farbfeldern, Pipette und Kontrastprüfung.',
         description:
-          'Barrierefreier Angular-Farbwähler in OKLCH: P3-Farben mit großem Farbumfang, jede CSS-Farbsyntax, Farbfelder, Pipette und eine Kontrastprüfung nach WCAG.',
+          'Barrierefreier Angular-Farbwähler und Farbkreis in OKLCH: P3-Farben mit großem Farbumfang, jede CSS-Farbsyntax, Farbfelder, Pipette und WCAG-Kontrastprüfung.',
         apiDescription:
           'API-Referenz des Farbwählers von Needless UI: Wert, Format und Farbumfang von nui-color-picker, Farbfelder und Kontrast sowie Hilfsfunktionen für Farben.',
         a11yDescription:
-          'Tastatur und Barrierefreiheit des Farbwählers von Needless UI: die Fläche als Schieberegler mit zwei Werten, native Schieberegler und Kontraststufen in Worten.',
+          'Tastatur und Barrierefreiheit des Farbwählers von Needless UI: Fläche oder Farbkreis als Regler mit zwei Werten, native Regler und Kontraststufen in Worten.',
         overview: [
           'Der Farbwähler arbeitet in OKLCH, dem wahrnehmungsbasierten Farbraum des modernen CSS. Quer über die Fläche reicht das Chroma von Grau bis zum Höchstwert, den der Bildschirm bei dieser Helligkeit zeigen kann. So ist jeder Punkt eine nutzbare Farbe, und der Griff bleibt an seiner Stelle, während sich der Farbton dreht.',
+          'Mit <code>view="wheel"</code> ist er ein OKLCH-Farbkreis: Der Farbton verläuft im Kreis, das Chroma nimmt nach außen zu, und ein Schieberegler stellt die Helligkeit ein. Jeder Kreis um die Mitte enthält Farben gleichen Chromas, die gleich kräftig wirken, und die Form des Farbkreises umfasst alle Farben, die der Bildschirm bei dieser Helligkeit zeigen kann.',
+          'In <code>oklch()</code> ist L die Helligkeit von 0 bis 100 %, C das Chroma von 0 für Grau bis etwa 0.37 und H der Farbtonwinkel: Etwa 30 ist Rot, 70 Orange, 110 Gelb, 140 Grün, 195 Cyan, 265 Blau und 330 Magenta.',
           'Das Feld nimmt jede CSS-Farbe an, auch Farbnamen, und der Format-Button schreibt den Wert als Hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> oder <code>color(display-p3)</code>. Eine Farbe außerhalb des Farbumfangs eines Formats wird wie in CSS in diesen abgebildet, Helligkeit und Farbton bleiben dabei erhalten.',
-          'Füge <code>swatches</code> hinzu, um aus Farbfeldern zu wählen, und <code>contrastWith</code>, um den Kontrast der Farbe zu einem Hintergrund so zu prüfen, wie WCAG 2 ihn misst. Wo der Browser eine Pipette hat, nimmt ein Button eine Farbe vom Bildschirm auf.',
+          'Füge <code>swatches</code> hinzu, um aus Farbfeldern zu wählen, und <code>contrastWith</code>, um den Kontrast der Farbe zu einem Hintergrund so zu prüfen, wie WCAG 2 ihn misst. Wo der Browser eine Pipette hat, nimmt ein Button eine Farbe vom Bildschirm auf, und die Vorschau kopiert den Wert.',
         ],
         examples: {
+          wheel: {
+            title: 'OKLCH-Farbkreis',
+            text: 'Farbharmonien drehen den Farbton der gewählten Farbe und behalten ihre Helligkeit und ihr Chroma, darum wirken sie genauso hell und genauso kräftig. Wähle eine, und der Farbkreis springt dorthin.',
+          },
           brand: {
             title: 'Eine Markenfarbe',
             text: 'Benannte Farbfelder und der Kontrast von weißem Text auf der Farbe: Wähle eine helle, und AA fällt durch.',
@@ -2292,11 +2298,13 @@ export const messages: Messages = {
               value: 'Die Farbe, im gewählten Format geschrieben. Leer, bis eine gewählt ist.',
               format: 'Wie der Wert geschrieben wird.',
               formats: 'Die Formate, die der Format-Button durchläuft.',
+              view: 'Eine Fläche aus Helligkeit und Chroma bei festem Farbton oder ein Farbkreis aus Farbton und Chroma bei fester Helligkeit.',
               gamut: 'Die Farben, die die Fläche enthält: sRGB oder Display P3.',
               alpha: 'Zeigt den Schieberegler für die Deckkraft.',
               swatches: 'Farben zur Auswahl, mit Namen.',
               contrastWith: 'Ein Hintergrund, gegen den der Kontrast geprüft wird.',
               eyeDropper: 'Zeigt die Pipette, wo der Browser eine hat.',
+              copy: 'Die Vorschau kopiert den Wert, wo der Browser eine Zwischenablage hat.',
               disabled: 'Lässt sich nicht ändern.',
               labels: 'Alle Texte, die der Farbwähler ansagt, zum Übersetzen.',
               color: 'Die gewählte Farbe, in OKLCH.',
@@ -2313,14 +2321,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Pfeil nach links und rechts', 'Auf der Fläche weniger oder mehr Chroma.'],
-          ['Pfeil nach oben und unten', 'Auf der Fläche heller oder dunkler.'],
+          [
+            'Pfeil nach links und rechts',
+            'Auf der Fläche weniger oder mehr Chroma. Auf dem Farbkreis dreht sich der Farbton.',
+          ],
+          [
+            'Pfeil nach oben und unten',
+            'Auf der Fläche heller oder dunkler. Auf dem Farbkreis mehr oder weniger Chroma.',
+          ],
           ['Umschalt + Pfeiltasten', 'Bewegen den Griff zehnmal so weit.'],
-          ['Pos1 und Ende', 'Auf der Fläche kein oder maximales Chroma.'],
-          ['Bild auf und Bild ab', 'Auf der Fläche deutlich heller oder dunkler.'],
+          ['Pos1 und Ende', 'Kein oder maximales Chroma.'],
+          [
+            'Bild auf und Bild ab',
+            'Auf der Fläche deutlich heller oder dunkler. Auf dem Farbkreis deutlich mehr oder weniger Chroma.',
+          ],
         ],
         notes: [
-          'Der Griff der Fläche ist ein <code>slider</code> namens „Color“, der beide Werte ansagt, etwa „Lightness 62%, chroma 75%“. Farbton und Deckkraft sind native Range-Eingabefelder.',
+          'Der Griff ist ein <code>slider</code> namens „Color“, der beide Werte ansagt: „Lightness 62%, chroma 75%“ auf der Fläche, „Hue 30°, chroma 0.15“ auf dem Farbkreis. Farbton, Helligkeit und Deckkraft sind native Range-Eingabefelder.',
+          'Die Vorschau ist ein Button namens „Copy the color“, und eine Statusmeldung sagt „Copied“, sobald der Wert kopiert ist.',
           'Farbfelder sind Buttons, die nach ihrer Beschriftung benannt sind und als gedrückt gelten, wenn sie der Farbe entsprechen.',
           'AA und AAA sagen „passes“ oder „fails“ in Worten, nicht nur per Farbe, und im Forced-Colors-Modus bleiben die Farben selbst erhalten.',
         ],

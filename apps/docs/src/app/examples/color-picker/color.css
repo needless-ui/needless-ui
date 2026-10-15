@@ -32,3 +32,41 @@
   border-radius: 50%;
   box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
 }
+
+.harmonies {
+  display: grid;
+  gap: var(--nui-space-3);
+  margin: 0;
+}
+
+.harmonies div {
+  display: grid;
+  gap: var(--nui-space-1);
+}
+
+.harmonies dt {
+  color: var(--nui-color-text-muted);
+  font-size: var(--nui-font-size-sm);
+}
+
+.harmonies dd {
+  display: flex;
+  gap: var(--nui-space-1);
+  margin: 0;
+}
+
+.harmony {
+  inline-size: 2rem;
+  block-size: 2rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nui-radius-md);
+  box-shadow: inset 0 0 0 1px var(--nui-color-border-subtle);
+  cursor: pointer;
+}
+
+.harmony:focus-visible {
+  outline: var(--nui-focus-ring-width) solid var(--nui-color-focus-ring);
+  outline-offset: 2px;
+}

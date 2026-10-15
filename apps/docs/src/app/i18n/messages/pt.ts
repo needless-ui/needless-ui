@@ -2181,21 +2181,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Seletor de cor',
-        title: 'Seletor de cor OKLCH para Angular',
+        title: 'Seletor de cor OKLCH e roda de cores para Angular',
         summary:
-          'Uma cor em OKLCH, com controles deslizantes, amostras, conta-gotas e verificação de contraste.',
+          'Uma cor em OKLCH, em uma área ou em uma roda, com amostras, conta-gotas e verificação de contraste.',
         description:
-          'Seletor de cor acessível para Angular em OKLCH: cores P3 de gama ampla, qualquer sintaxe de cor CSS, amostras, conta-gotas e verificação de contraste WCAG.',
+          'Seletor de cor e roda de cores acessíveis para Angular em OKLCH: cores P3 de gama ampla, qualquer sintaxe CSS, amostras, conta-gotas e teste de contraste WCAG.',
         apiDescription:
           'Referência da API do seletor de cor do Needless UI: valor, formato e gama de nui-color-picker, amostras e contraste, e funções auxiliares para cores.',
         a11yDescription:
-          'Teclado e acessibilidade do seletor de cor do Needless UI: um controle deslizante de dois valores na área, controles nativos e níveis de contraste por extenso.',
+          'Teclado e acessibilidade do seletor de cor do Needless UI: um controle deslizante de dois valores na área ou na roda, controles nativos e contraste por extenso.',
         overview: [
           'O seletor de cor trabalha em OKLCH, o espaço de cor perceptual do CSS moderno. Na largura da área, o croma vai do cinza ao máximo que a tela consegue mostrar naquela luminosidade, então todo ponto é uma cor que você pode usar, e o marcador fica no lugar quando o matiz gira.',
+          'Com <code>view="wheel"</code>, é uma roda de cores OKLCH: o matiz gira em volta do centro, o croma cresce para fora e um controle deslizante define a luminosidade. Cada círculo reúne cores de mesmo croma, que parecem igualmente vivas, e o formato da roda abrange todas as cores que a tela consegue mostrar naquela luminosidade.',
+          'Em <code>oklch()</code>, L é a luminosidade, de 0 a 100%, C o croma, de 0 no cinza a cerca de 0.37, e H o ângulo do matiz: cerca de 30 é vermelho, 70 laranja, 110 amarelo, 140 verde, 195 ciano, 265 azul e 330 magenta.',
           'O campo aceita qualquer cor CSS, inclusive nomes, e o botão de formato escreve o valor em hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> ou <code>color(display-p3)</code>. Uma cor fora da gama de um formato é trazida para dentro dela como o CSS faz, mantendo a luminosidade e o matiz.',
-          'Adicione <code>swatches</code> para escolher entre amostras, e <code>contrastWith</code> para verificar o contraste da cor sobre um fundo do jeito que a WCAG 2 o mede. Onde o navegador tem conta-gotas, um botão pega uma cor da tela.',
+          'Adicione <code>swatches</code> para escolher entre amostras, e <code>contrastWith</code> para verificar o contraste da cor sobre um fundo do jeito que a WCAG 2 o mede. Onde o navegador tem conta-gotas, um botão pega uma cor da tela, e a prévia copia o valor.',
         ],
         examples: {
+          wheel: {
+            title: 'Roda de cores OKLCH',
+            text: 'As harmonias giram o matiz da cor escolhida e mantêm a luminosidade e o croma dela, então parecem igualmente claras e vivas. Escolha uma para levar a roda até ela.',
+          },
           brand: {
             title: 'Uma cor de marca',
             text: 'Amostras com nome e o contraste de um texto branco sobre a cor: escolha uma clara, e o AA falha.',
@@ -2216,11 +2222,13 @@ export const messages: Messages = {
               value: 'A cor, escrita no formato. Vazia até que uma seja escolhida.',
               format: 'Como o valor é escrito.',
               formats: 'Os formatos pelos quais o botão de formato passa.',
+              view: 'Uma área de luminosidade e croma com o matiz fixo, ou uma roda de cores de matiz e croma com a luminosidade fixa.',
               gamut: 'As cores que a área contém: sRGB ou Display P3.',
               alpha: 'Mostra o controle deslizante de opacidade.',
               swatches: 'Cores para escolher, com nomes.',
               contrastWith: 'Um fundo contra o qual verificar o contraste.',
               eyeDropper: 'Mostra o conta-gotas, onde o navegador tem um.',
+              copy: 'A prévia copia o valor, onde o navegador tem área de transferência.',
               disabled: 'Não pode ser alterado.',
               labels: 'Todo texto que ele anuncia, para traduzir.',
               color: 'A cor escolhida, em OKLCH.',
@@ -2237,14 +2245,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Setas para a esquerda e para a direita', 'Na área, menos ou mais croma.'],
-          ['Setas para cima e para baixo', 'Na área, mais clara ou mais escura.'],
+          [
+            'Setas para a esquerda e para a direita',
+            'Na área, menos ou mais croma. Na roda, o matiz gira.',
+          ],
+          [
+            'Setas para cima e para baixo',
+            'Na área, mais clara ou mais escura. Na roda, mais ou menos croma.',
+          ],
           ['Shift + setas', 'Movem o marcador dez vezes mais longe.'],
-          ['Home e End', 'Na área, croma nulo ou máximo.'],
-          ['Page Up e Page Down', 'Na área, muito mais clara ou mais escura.'],
+          ['Home e End', 'Croma nulo ou máximo.'],
+          [
+            'Page Up e Page Down',
+            'Na área, muito mais clara ou mais escura. Na roda, muito mais ou menos croma.',
+          ],
         ],
         notes: [
-          'O marcador da área é um <code>slider</code> chamado “Color” que diz os dois valores, como “Lightness 62%, chroma 75%”. Matiz e opacidade são entradas nativas do tipo range.',
+          'O marcador é um <code>slider</code> chamado “Color” que diz os dois valores: “Lightness 62%, chroma 75%” na área, “Hue 30°, chroma 0.15” na roda. Matiz, luminosidade e opacidade são entradas nativas do tipo range.',
+          'A prévia é um botão chamado “Copy the color”, e uma mensagem de status diz “Copied” assim que o valor é copiado.',
           'As amostras são botões nomeados pelo rótulo, e ficam pressionadas quando correspondem à cor.',
           'AA e AAA dizem “passes” ou “fails” por extenso, não só pela cor, e no modo de cores forçadas as próprias cores continuam.',
         ],

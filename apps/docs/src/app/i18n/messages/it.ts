@@ -2186,20 +2186,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Selettore di colore',
-        title: 'Selettore di colore OKLCH per Angular',
-        summary: 'Un colore in OKLCH, con slider, campioni, contagocce e verifica del contrasto.',
+        title: 'Selettore di colore OKLCH e ruota dei colori per Angular',
+        summary:
+          'Un colore in OKLCH, su un’area o una ruota, con campioni, contagocce e verifica del contrasto.',
         description:
-          'Selettore di colore Angular accessibile in OKLCH: colori P3 ad ampio gamut, ogni sintassi di colore CSS, campioni, contagocce e verifica del contrasto WCAG.',
+          'Selettore di colore e ruota dei colori Angular accessibili in OKLCH: colori P3 ad ampio gamut, ogni sintassi CSS, campioni, contagocce e test di contrasto WCAG.',
         apiDescription:
           'Riferimento API del selettore di colore Needless UI: valore, formato e gamut di nui-color-picker, campioni e contrasto, e funzioni di supporto per i colori.',
         a11yDescription:
-          'Tastiera e accessibilità del selettore di colore Needless UI: uno slider a due valori per l’area, slider nativi e livelli di contrasto espressi a parole.',
+          'Tastiera e accessibilità del selettore di colore Needless UI: uno slider a due valori per l’area o la ruota, slider nativi e livelli di contrasto a parole.',
         overview: [
           'Il selettore di colore lavora in OKLCH, lo spazio colore percettivo del CSS moderno. Sull’asse orizzontale dell’area, il croma va dal grigio al massimo che lo schermo può mostrare a quella luminosità: ogni punto è quindi un colore utilizzabile, e il cursore resta fermo mentre la tonalità ruota.',
+          'Con <code>view="wheel"</code> è una ruota dei colori OKLCH: la tonalità gira intorno al centro, il croma cresce verso l’esterno e uno slider regola la luminosità. Ogni cerchio raccoglie colori dello stesso croma, che appaiono ugualmente vividi, e la forma della ruota racchiude tutti i colori che lo schermo può mostrare a quella luminosità.',
+          'In <code>oklch()</code>, L è la luminosità da 0 a 100%, C il croma da 0 per il grigio a circa 0.37, e H l’angolo della tonalità: circa 30 è il rosso, 70 l’arancione, 110 il giallo, 140 il verde, 195 il ciano, 265 il blu e 330 il magenta.',
           'Il campo accetta qualsiasi colore CSS, nomi compresi, e il pulsante del formato scrive il valore in esadecimale, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> o <code>color(display-p3)</code>. Un colore fuori dal gamut di un formato viene riportato al suo interno come fa CSS, mantenendo luminosità e tonalità.',
-          'Aggiungi <code>swatches</code> per scegliere tra dei campioni, e <code>contrastWith</code> per verificare il contrasto del colore con uno sfondo, misurato secondo WCAG 2. Dove il browser ha un contagocce, un pulsante preleva un colore dallo schermo.',
+          'Aggiungi <code>swatches</code> per scegliere tra dei campioni, e <code>contrastWith</code> per verificare il contrasto del colore con uno sfondo, misurato secondo WCAG 2. Dove il browser ha un contagocce, un pulsante preleva un colore dallo schermo, e l’anteprima copia il valore.',
         ],
         examples: {
+          wheel: {
+            title: 'Ruota dei colori OKLCH',
+            text: 'Le armonie ruotano la tonalità del colore scelto e ne mantengono luminosità e croma, così appaiono altrettanto chiare e vivide. Scegline una per spostare la ruota su quel colore.',
+          },
           brand: {
             title: 'Un colore del brand',
             text: 'Campioni con nome e il contrasto di un testo bianco sul colore: scegline uno chiaro e AA non passa.',
@@ -2220,11 +2227,13 @@ export const messages: Messages = {
               value: 'Il colore, scritto nel formato scelto. Vuoto finché non se ne sceglie uno.',
               format: 'Come viene scritto il valore.',
               formats: 'I formati tra cui passa il pulsante del formato.',
+              view: 'Un’area di luminosità e croma a tonalità fissa, o una ruota dei colori di tonalità e croma a luminosità fissa.',
               gamut: 'I colori contenuti nell’area: sRGB o Display P3.',
               alpha: 'Mostra lo slider dell’opacità.',
               swatches: 'Colori tra cui scegliere, con i loro nomi.',
               contrastWith: 'Uno sfondo con cui verificare il contrasto.',
               eyeDropper: 'Mostra il contagocce, dove il browser ne ha uno.',
+              copy: 'L’anteprima copia il valore, dove il browser ha accesso agli appunti.',
               disabled: 'Non si può modificare.',
               labels: 'Ogni testo che annuncia, da tradurre.',
               color: 'Il colore scelto, in OKLCH.',
@@ -2241,14 +2250,21 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Freccia sinistra e destra', 'Sull’area, meno o più croma.'],
-          ['Freccia su e giù', 'Sull’area, più chiaro o più scuro.'],
+          [
+            'Freccia sinistra e destra',
+            'Sull’area, meno o più croma. Sulla ruota, gira la tonalità.',
+          ],
+          ['Freccia su e giù', 'Sull’area, più chiaro o più scuro. Sulla ruota, più o meno croma.'],
           ['Maiusc + frecce', 'Spostano il cursore dieci volte tanto.'],
-          ['Home e Fine', 'Sull’area, croma nullo o massimo.'],
-          ['Pag su e Pag giù', 'Sull’area, molto più chiaro o più scuro.'],
+          ['Home e Fine', 'Croma nullo o massimo.'],
+          [
+            'Pag su e Pag giù',
+            'Sull’area, molto più chiaro o più scuro. Sulla ruota, molto più o meno croma.',
+          ],
         ],
         notes: [
-          'Il cursore dell’area è uno <code>slider</code> chiamato «Color» che annuncia entrambi i valori, come «Lightness 62%, chroma 75%». Tonalità e opacità sono input range nativi.',
+          'Il cursore è uno <code>slider</code> chiamato «Color» che annuncia entrambi i valori: «Lightness 62%, chroma 75%» sull’area, «Hue 30°, chroma 0.15» sulla ruota. Tonalità, luminosità e opacità sono input range nativi.',
+          'L’anteprima è un pulsante chiamato «Copy the color», e un messaggio di stato dice «Copied» a copia avvenuta.',
           'I campioni sono pulsanti con il nome della loro etichetta, e risultano premuti quando corrispondono al colore.',
           'AA e AAA dicono «passes» o «fails» a parole, non solo con il colore, e in modalità forced colors i colori stessi restano.',
         ],

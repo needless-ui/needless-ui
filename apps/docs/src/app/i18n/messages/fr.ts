@@ -2234,21 +2234,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Sélecteur de couleur',
-        title: 'Sélecteur de couleur OKLCH pour Angular',
+        title: 'Sélecteur de couleur OKLCH et roue chromatique Angular',
         summary:
-          'Une couleur en OKLCH, avec curseurs, échantillons, pipette et contrôle du contraste.',
+          'Une couleur en OKLCH, sur une zone ou une roue, avec échantillons, pipette et contrôle du contraste.',
         description:
-          'Sélecteur de couleur Angular accessible en OKLCH : couleurs P3 à gamut étendu, toute syntaxe CSS, échantillons, pipette et contrôle du contraste WCAG.',
+          'Sélecteur de couleur et roue chromatique Angular accessibles en OKLCH : couleurs P3 à gamut étendu, toute syntaxe CSS, échantillons, pipette et contraste WCAG.',
         apiDescription:
           'Référence de l’API du sélecteur de couleur Needless UI : valeur, format et gamut de nui-color-picker, échantillons et contraste, et utilitaires de couleur.',
         a11yDescription:
-          'Clavier et accessibilité du sélecteur de couleur Needless UI : curseur à deux valeurs pour la zone, curseurs natifs et niveaux de contraste en toutes lettres.',
+          'Clavier et accessibilité du sélecteur de couleur Needless UI : curseur à deux valeurs (zone ou roue), curseurs natifs et niveaux de contraste en toutes lettres.',
         overview: [
           'Le sélecteur de couleur travaille en OKLCH, l’espace colorimétrique perceptuel du CSS moderne. Sur la largeur de la zone, le chroma va du gris au maximum que l’écran peut afficher à cette luminosité : chaque point est donc une couleur utilisable, et la poignée reste en place quand la teinte tourne.',
+          'Avec <code>view="wheel"</code>, c’est une roue chromatique OKLCH : la teinte tourne autour du centre, le chroma croît vers l’extérieur et un curseur règle la luminosité. Chaque cercle réunit des couleurs de même chroma, qui paraissent aussi vives les unes que les autres, et la forme de la roue englobe toutes les couleurs que l’écran peut afficher à cette luminosité.',
+          'Dans <code>oklch()</code>, L est la luminosité, de 0 à 100 %, C le chroma, de 0 pour le gris à environ 0.37, et H l’angle de teinte : environ 30 correspond au rouge, 70 à l’orange, 110 au jaune, 140 au vert, 195 au cyan, 265 au bleu et 330 au magenta.',
           'Le champ accepte toute couleur CSS, noms compris, et le bouton de format écrit la valeur en hexadécimal, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> ou <code>color(display-p3)</code>. Une couleur hors du gamut d’un format y est ramenée à la manière de CSS, en gardant sa luminosité et sa teinte.',
-          'Ajoutez <code>swatches</code> pour choisir parmi des échantillons, et <code>contrastWith</code> pour vérifier le contraste de la couleur sur un fond, tel que WCAG 2 le mesure. Si le navigateur dispose d’une pipette, un bouton prélève une couleur à l’écran.',
+          'Ajoutez <code>swatches</code> pour choisir parmi des échantillons, et <code>contrastWith</code> pour vérifier le contraste de la couleur sur un fond, tel que WCAG 2 le mesure. Si le navigateur dispose d’une pipette, un bouton prélève une couleur à l’écran, et l’aperçu copie la valeur.',
         ],
         examples: {
+          wheel: {
+            title: 'Roue chromatique OKLCH',
+            text: 'Les harmonies font tourner la teinte de la couleur choisie et gardent sa luminosité et son chroma : elles paraissent donc aussi claires et aussi vives. Choisissez-en une pour y amener la roue.',
+          },
           brand: {
             title: 'Une couleur de marque',
             text: 'Des échantillons nommés et le contraste d’un texte blanc sur la couleur : choisissez-en une claire, et AA échoue.',
@@ -2269,11 +2275,13 @@ export const messages: Messages = {
               value: 'La couleur, écrite dans le format. Vide tant qu’aucune n’est choisie.',
               format: 'La façon dont la valeur est écrite.',
               formats: 'Les formats que parcourt le bouton de format.',
+              view: 'Une zone de luminosité et de chroma à teinte fixe, ou une roue chromatique de teinte et de chroma à luminosité fixe.',
               gamut: 'Les couleurs que contient la zone : sRGB ou Display P3.',
               alpha: 'Affiche le curseur d’opacité.',
               swatches: 'Des couleurs à choisir, avec leur nom.',
               contrastWith: 'Un fond sur lequel vérifier le contraste.',
               eyeDropper: 'Affiche la pipette, si le navigateur en a une.',
+              copy: 'L’aperçu copie la valeur, si le navigateur donne accès au presse-papiers.',
               disabled: 'Il ne peut pas être modifié.',
               labels: 'Tous les textes qu’il annonce, à traduire.',
               color: 'La couleur choisie, en OKLCH.',
@@ -2290,14 +2298,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Flèches gauche et droite', 'Sur la zone, moins ou plus de chroma.'],
-          ['Flèches haut et bas', 'Sur la zone, plus clair ou plus foncé.'],
+          [
+            'Flèches gauche et droite',
+            'Sur la zone, moins ou plus de chroma. Sur la roue, la teinte tourne.',
+          ],
+          [
+            'Flèches haut et bas',
+            'Sur la zone, plus clair ou plus foncé. Sur la roue, plus ou moins de chroma.',
+          ],
           ['Maj + touches fléchées', 'Déplacent la poignée dix fois plus loin.'],
-          ['Début et Fin', 'Sur la zone, chroma nul ou maximal.'],
-          ['Page précédente et Page suivante', 'Sur la zone, beaucoup plus clair ou plus foncé.'],
+          ['Début et Fin', 'Chroma nul ou maximal.'],
+          [
+            'Page précédente et Page suivante',
+            'Sur la zone, beaucoup plus clair ou plus foncé. Sur la roue, beaucoup plus ou moins de chroma.',
+          ],
         ],
         notes: [
-          'La poignée de la zone est un <code>slider</code> nommé « Color » qui annonce ses deux valeurs, par exemple « Lightness 62%, chroma 75% ». La teinte et l’opacité sont des champs range natifs.',
+          'La poignée est un <code>slider</code> nommé « Color » qui annonce ses deux valeurs : « Lightness 62%, chroma 75% » sur la zone, « Hue 30°, chroma 0.15 » sur la roue. La teinte, la luminosité et l’opacité sont des champs range natifs.',
+          'L’aperçu est un bouton nommé « Copy the color », et un message d’état annonce « Copied » une fois la valeur copiée.',
           'Les échantillons sont des boutons nommés par leur libellé, et s’affichent enfoncés quand ils correspondent à la couleur.',
           'AA et AAA indiquent « passes » ou « fails » en toutes lettres, pas seulement par la couleur, et en mode couleurs forcées, les couleurs elles-mêmes restent.',
         ],

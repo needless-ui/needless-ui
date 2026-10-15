@@ -1531,11 +1531,13 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
             type: 'NuiColorFormat[]',
             default: 'hex, rgb, hsl, oklch',
           },
+          { name: 'view', kind: 'input', type: "'area' | 'wheel'", default: "'area'" },
           { name: 'gamut', kind: 'input', type: "'srgb' | 'p3'", default: "'srgb'" },
           { name: 'alpha', kind: 'input', type: 'boolean', default: 'true' },
           { name: 'swatches', kind: 'input', type: 'NuiColorSwatch[]', default: '[]' },
           { name: 'contrastWith', kind: 'input', type: 'string' },
           { name: 'eyeDropper', kind: 'input', type: 'boolean', default: 'true' },
+          { name: 'copy', kind: 'input', type: 'boolean', default: 'true' },
           { name: 'disabled', kind: 'input', type: 'boolean', default: 'false' },
           { name: 'labels', kind: 'input', type: 'Partial<NuiColorPickerLabels>' },
           { name: 'color', kind: 'property', type: 'Signal<NuiColor>' },
@@ -1556,6 +1558,11 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
       },
     ],
     examples: [
+      {
+        id: 'wheel',
+        load: () => import('../examples/color-picker/wheel').then((m) => m.ColorPickerWheelExample),
+        defer: 348,
+      },
       {
         id: 'brand',
         load: () => import('../examples/color-picker/brand').then((m) => m.ColorPickerBrandExample),

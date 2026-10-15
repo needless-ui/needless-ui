@@ -2175,20 +2175,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Pamilih werna',
-        title: 'Pamilih werna OKLCH kanggo Angular',
-        summary: 'Werna ing OKLCH, kanthi slider, conto werna, pipet lan pamriksan kontras.',
+        title: 'Pamilih werna OKLCH lan rodha werna kanggo Angular',
+        summary:
+          'Werna ing OKLCH, ing area utawa rodha, kanthi conto werna, pipet lan pamriksan kontras.',
         description:
-          'Pamilih werna Angular sing aksesibel ing OKLCH: werna P3 gamut amba, saben sintaks werna CSS, conto werna, pipet, lan pamriksan kontras WCAG.',
+          'Pamilih werna lan rodha werna Angular sing aksesibel ing OKLCH: werna P3 gamut amba, saben sintaks werna CSS, conto werna, pipet, lan pamriksan kontras WCAG.',
         apiDescription:
           'Referensi API pamilih werna Needless UI: nilai, format lan gamut nui-color-picker, conto werna lan kontras, uga helper kanggo werna.',
         a11yDescription:
-          'Keyboard lan aksesibilitas pamilih werna Needless UI: slider rong nilai kanggo area, slider native, lan tingkat kontras nganggo tembung.',
+          'Keyboard lan aksesibilitas pamilih werna Needless UI: slider rong nilai kanggo area utawa rodha, slider native, lan tingkat kontras nganggo tembung.',
         overview: [
           'Pamilih werna makarya ing OKLCH, ruang werna ing CSS modern sing ngetutake cara mripat ndeleng. Nyabrang area, kentel werna (chroma) mlaku saka abu-abu nganti sing paling kentel sing bisa ditampilake layar ing padhang (lightness) kasebut, dadi saben titik yaiku werna sing bisa panjenengan agem, lan thumb ora obah nalika hue diowahi.',
+          'Kanthi <code>view="wheel"</code>, pamilih iki dadi rodha werna (color wheel) OKLCH: hue mubeng, kentel werna mundhak menyang njaba, lan slider nemtokake padhang. Saben bunderan isine werna kanthi kentel werna sing padha, sing katon padha nyolok, lan wujud rodha yaiku kabeh werna sing bisa ditampilake layar ing padhang kasebut.',
+          'Ing <code>oklch()</code>, L yaiku padhang saka 0 nganti 100%, C kentel werna saka 0 kanggo abu-abu nganti kira-kira 0.37, lan H sudut hue: kira-kira 30 abang, 70 oranye, 110 kuning, 140 ijo, 195 sian, 265 biru lan 330 magenta.',
           'Kolom iki nampa werna CSS apa wae, kalebu jeneng werna, lan tombol format nulis nilaine minangka hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> utawa <code>color(display-p3)</code>. Werna sing ana ing njaba gamut sawijining format digawa mlebu kanthi cara CSS, padhang lan hue-ne tetep.',
-          'Tambahake <code>swatches</code> kanggo dipilih, lan <code>contrastWith</code> kanggo mriksa werna marang latar mburi kaya carane WCAG 2 ngukur kontras. Yen browser duwe pipet (eyedropper), sawijining tombol bisa njupuk werna saka layar.',
+          'Tambahake <code>swatches</code> kanggo dipilih, lan <code>contrastWith</code> kanggo mriksa werna marang latar mburi kaya carane WCAG 2 ngukur kontras. Yen browser duwe pipet (eyedropper), sawijining tombol bisa njupuk werna saka layar, lan pratinjau nyalin nilaine.',
         ],
         examples: {
+          wheel: {
+            title: 'Rodha werna OKLCH',
+            text: 'Harmoni werna muter hue saka werna sing dipilih lan njaga padhange lan kentel wernane, dadi katon padha padhang lan padha nyolok. Pilih salah siji supaya rodha pindhah menyang werna kuwi.',
+          },
           brand: {
             title: 'Werna merek',
             text: 'Conto werna sing duwe jeneng, lan kontras teks putih ing werna kasebut: pilih werna sing padhang, AA bakal gagal.',
@@ -2209,11 +2216,13 @@ export const messages: Messages = {
               value: 'Werna, ditulis miturut format. Kosong nganti ana sing dipilih.',
               format: 'Carane nilai ditulis.',
               formats: 'Format-format sing diliwati tombol format.',
+              view: 'Area padhang lan kentel werna ing siji hue, utawa rodha werna hue lan kentel werna ing siji padhang.',
               gamut: 'Werna sing ana ing area: sRGB, utawa Display P3.',
               alpha: 'Nampilake slider opasitas.',
               swatches: 'Werna kanggo dipilih, kanthi jeneng.',
               contrastWith: 'Latar mburi kanggo mriksa kontras.',
               eyeDropper: 'Nampilake pipet, yen browser duwe.',
+              copy: 'Pratinjau nyalin nilaine, yen browser duwe clipboard.',
               disabled: 'Ora bisa diowahi.',
               labels: 'Saben teks sing diucapake pamilih, kanggo diterjemahake.',
               color: 'Werna sing dipilih, ing OKLCH.',
@@ -2230,17 +2239,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Panah kiwa lan tengen', 'Ing area, kentel werna luwih sithik utawa luwih akeh.'],
-          ['Panah munggah lan mudhun', 'Ing area, luwih padhang utawa luwih peteng.'],
+          [
+            'Panah kiwa lan tengen',
+            'Ing area, kentel werna luwih sithik utawa luwih akeh. Ing rodha, muter hue.',
+          ],
+          [
+            'Panah munggah lan mudhun',
+            'Ing area, luwih padhang utawa luwih peteng. Ing rodha, kentel werna luwih akeh utawa luwih sithik.',
+          ],
           ['Shift + tombol panah', 'Pindhah kaping sepuluh luwih adoh.'],
-          ['Home lan End', 'Ing area, tanpa kentel werna utawa sing paling kentel.'],
+          ['Home lan End', 'Tanpa kentel werna, utawa sing paling kentel.'],
           [
             'Page Up lan Page Down',
-            'Ing area, luwih padhang utawa luwih peteng kanthi langkah gedhe.',
+            'Ing area, luwih padhang utawa luwih peteng kanthi langkah gedhe. Ing rodha, kentel werna luwih akeh utawa luwih sithik kanthi langkah gedhe.',
           ],
         ],
         notes: [
-          'Thumb area yaiku <code>slider</code> kanthi jeneng “Color” sing nyebutake loro nilaine, kayata “Lightness 62%, chroma 75%”. Hue lan opasitas yaiku input range native.',
+          'Thumb yaiku <code>slider</code> kanthi jeneng “Color” sing nyebutake loro nilaine: “Lightness 62%, chroma 75%” ing area, “Hue 30°, chroma 0.15” ing rodha. Hue, padhang lan opasitas yaiku input range native.',
+          'Pratinjau yaiku tombol kanthi jeneng “Copy the color”, lan pesen status ngomong “Copied” sawise nyalin.',
           'Conto werna yaiku tombol sing dijenengi miturut labele, lan katon dipencet nalika cocog karo wernane.',
           'AA lan AAA ngandhakake “passes” utawa “fails” nganggo tembung, ora mung nganggo werna, lan ing mode forced colors wernane dhewe tetep katon.',
         ],

@@ -2211,20 +2211,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Color picker',
-        title: 'Mai zaɓar launi na OKLCH don Angular',
-        summary: 'Launi a OKLCH, da sliders, samfuran launi, eyedropper da gwajin bambancin launi.',
+        title: 'Mai zaɓar launi na OKLCH da da’irar launuka don Angular',
+        summary:
+          'Launi a OKLCH, a kan akwati ko da’irar launuka, da samfuran launi, eyedropper da gwajin bambancin launi.',
         description:
-          'Mai zaɓar launi a OKLCH na Angular, mai sauƙin amfani ga kowa: launukan P3 na gamut mai faɗi, duk rubutun launi na CSS, samfuran launi, eyedropper, gwajin WCAG.',
+          'Mai zaɓar launi a OKLCH na Angular, mai sauƙin amfani ga kowa: da’irar launuka, P3 na gamut mai faɗi, duk rubutun launin CSS, samfura, eyedropper, gwajin WCAG.',
         apiDescription:
           'Bayanin API na mai zaɓar launi na Needless UI: ƙima, tsari da gamut na nui-color-picker, samfuran launi da bambanci, da mataimaka don launuka.',
         a11yDescription:
-          'Aiki da allon madannai da sauƙin amfani na mai zaɓar launi na Needless UI: slider mai ƙimomi biyu a akwatin, sliders na asali, da sakamakon bambanci a kalmomi.',
+          'Allon madannai da sauƙin amfani na mai zaɓar launi na Needless UI: slider mai ƙimomi biyu a akwati ko da’ira, sliders na asali, da sakamakon bambanci a kalmomi.',
         overview: [
           'Mai zaɓar launi yana aiki a OKLCH, tsarin launi na CSS na zamani da ke bin yadda ido ke gani. A faɗin akwatin launuka, chroma yana tafiya daga launin toka zuwa iyakar abin da allo zai iya nunawa a wannan haske, don haka kowane wuri launi ne da za ku iya amfani da shi, kuma thumb yana zama a wurinsa yayin da hue ke juyawa.',
+          'Da <code>view="wheel"</code>, yana zama da’irar launuka (color wheel) ta OKLCH: hue yana zagayawa, chroma yana ƙaruwa zuwa waje, kuma slider yana saita haske. Launukan da ke da nisa ɗaya daga tsakiya suna da chroma ɗaya, don haka suna bayyana da ƙarfi iri ɗaya, kuma siffar da’irar ita ce duk launukan da allo zai iya nunawa a wannan haske.',
+          'A <code>oklch()</code>, L haske ne daga 0 zuwa 100%, C chroma ne daga 0 ga launin toka zuwa kusan 0.37, H kuma kusurwar hue ce: kusan 30 ja ne, 70 ruwan lemu, 110 rawaya, 140 kore, 195 cyan, 265 shuɗi, 330 kuma magenta.',
           'Filin yana karɓar kowane launi na CSS, har da sunaye, kuma maɓallin tsari yana rubuta ƙimar a matsayin hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> ko <code>color(display-p3)</code>. Launin da ke wajen gamut na wani tsari ana shigar da shi cikinsa ta hanyar CSS, yana riƙe haskensa da hue ɗinsa.',
-          'Ku ƙara <code>swatches</code> don a zaɓa daga cikinsu, da <code>contrastWith</code> don duba launin a kan wani bango kamar yadda WCAG 2 ke auna bambancin launi. Inda burauza ke da eyedropper, maɓalli yana ɗaukar launi daga allo.',
+          'Ku ƙara <code>swatches</code> don a zaɓa daga cikinsu, da <code>contrastWith</code> don duba launin a kan wani bango kamar yadda WCAG 2 ke auna bambancin launi. Inda burauza ke da eyedropper, maɓalli yana ɗaukar launi daga allo, kuma samfotin yana kwafa ƙimar.',
         ],
         examples: {
+          wheel: {
+            title: 'Da’irar launuka ta OKLCH',
+            text: 'Launuka masu jituwa suna juya hue na launin da aka zaɓa, suna riƙe haskensa da chroma ɗinsa, don haka suna bayyana da haske da ƙarfi daidai da shi. Ku zaɓi ɗaya don da’irar ta matsa zuwa gare shi.',
+          },
           brand: {
             title: 'Launin tambari',
             text: 'Samfuran launi masu suna, da bambancin farin rubutu a kan launin: ku zaɓi mai haske, sai AA ya kasa.',
@@ -2245,11 +2252,13 @@ export const messages: Messages = {
               value: 'Launin, a rubuce a tsarin da aka zaɓa. Babu komai har sai an zaɓi launi.',
               format: 'Yadda ake rubuta ƙimar.',
               formats: 'Tsare-tsaren da maɓallin tsari ke bi ɗaya bayan ɗaya.',
+              view: 'Akwati na haske da chroma a hue ɗaya, ko da’irar launuka ta hue da chroma a haske ɗaya.',
               gamut: 'Launukan da akwatin ke ɗauke da su: sRGB, ko Display P3.',
               alpha: 'Yana nuna slider na opacity.',
               swatches: 'Launukan da za a zaɓa daga ciki, da sunayensu.',
               contrastWith: 'Bangon da za a duba bambancin launi da shi.',
               eyeDropper: 'Yana nuna eyedropper, inda burauza ke da shi.',
+              copy: 'Samfotin yana kwafa ƙimar, inda burauza ke da clipboard.',
               disabled: 'Ba za a iya canza shi ba.',
               labels: 'Kowane rubutu da yake nunawa ko sanarwa, don fassarawa.',
               color: 'Launin da aka zaɓa, a OKLCH.',
@@ -2266,14 +2275,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Kibiyar hagu da ta dama', 'A kan akwatin, suna rage ko ƙara chroma.'],
-          ['Kibiyar sama da ta ƙasa', 'A kan akwatin, suna ƙara haske ko duhu.'],
+          [
+            'Kibiyar hagu da ta dama',
+            'A kan akwatin, suna rage ko ƙara chroma. A kan da’irar, suna juya hue.',
+          ],
+          [
+            'Kibiyar sama da ta ƙasa',
+            'A kan akwatin, suna ƙara haske ko duhu. A kan da’irar, suna ƙara ko rage chroma.',
+          ],
           ['Shift + maɓallan kibiya', 'Suna ninka matakin sau goma.'],
-          ['Home da End', 'A kan akwatin, suna kai chroma zuwa sifili ko mafi girma.'],
-          ['Page Up da Page Down', 'A kan akwatin, suna ƙara haske ko duhu sosai.'],
+          ['Home da End', 'Suna kai chroma zuwa sifili ko mafi girma.'],
+          [
+            'Page Up da Page Down',
+            'A kan akwatin, suna ƙara haske ko duhu sosai. A kan da’irar, suna ƙara ko rage chroma sosai.',
+          ],
         ],
         notes: [
-          'Thumb na akwatin <code>slider</code> ne mai suna “Color” wanda ke faɗin ƙimominsa biyu, kamar “Lightness 62%, chroma 75%”. Hue da opacity range inputs ne na asali.',
+          'Thumb ɗin <code>slider</code> ne mai suna “Color” wanda ke faɗin ƙimominsa biyu: “Lightness 62%, chroma 75%” a kan akwatin, “Hue 30°, chroma 0.15” a kan da’irar. Hue, haske da opacity range inputs ne na asali.',
+          'Samfotin maɓalli ne mai suna “Copy the color”, kuma saƙon yanayi yana cewa “Copied” idan an kwafa.',
           'Samfuran launi maɓallai ne masu suna daga lakabinsu, kuma suna bayyana a danne idan sun yi daidai da launin.',
           'AA da AAA suna faɗin “passes” ko “fails” a kalmomi, ba ta launi kaɗai ba, kuma a yanayin forced colors launukan da kansu suna nan yadda suke.',
         ],

@@ -2182,21 +2182,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Pemilih warna',
-        title: 'Pemilih warna OKLCH untuk Angular',
+        title: 'Pemilih warna dan roda warna OKLCH untuk Angular',
         summary:
-          'Warna dalam OKLCH, dengan slider, contoh warna, pipet warna, dan pemeriksaan kontras.',
+          'Warna dalam OKLCH, di area atau roda, dengan contoh warna, pipet warna, dan pemeriksaan kontras.',
         description:
-          'Pemilih warna OKLCH Angular yang aksesibel: warna P3 bergamut lebar, semua sintaks warna CSS, contoh warna, pipet warna, dan pemeriksaan kontras WCAG.',
+          'Pemilih dan roda warna OKLCH Angular yang aksesibel: warna P3 bergamut lebar, semua sintaks warna CSS, contoh warna, pipet warna, dan pemeriksaan kontras WCAG.',
         apiDescription:
           'Referensi API pemilih warna Needless UI: nilai, format, dan gamut nui-color-picker, contoh warna dan kontras, serta helper untuk warna.',
         a11yDescription:
-          'Keyboard dan aksesibilitas pemilih warna Needless UI: slider dua nilai untuk area, slider native, dan tingkat kontras yang dinyatakan dengan kata-kata.',
+          'Keyboard dan aksesibilitas pemilih warna Needless UI: slider dua nilai di area atau roda, slider native, dan tingkat kontras yang dinyatakan dengan kata-kata.',
         overview: [
           'Pemilih warna bekerja dalam OKLCH, ruang warna perseptual CSS modern. Dari kiri ke kanan pada area, kroma naik dari abu-abu hingga nilai tertinggi yang bisa ditampilkan layar pada kecerahan tersebut, sehingga setiap titik adalah warna yang bisa dipakai, dan penanda tetap di tempatnya saat hue berputar.',
+          'Dengan <code>view="wheel"</code>, pemilih ini menjadi roda warna OKLCH: hue berputar mengelilingi roda, kroma bertambah ke arah luar, dan sebuah slider mengatur kecerahan. Warna pada satu lingkaran memiliki kroma yang sama dan tampak sama hidupnya; bentuk roda mencakup semua warna yang bisa ditampilkan layar pada kecerahan tersebut.',
+          'Dalam <code>oklch()</code>, L adalah kecerahan dari 0 hingga 100%, C adalah kroma dari 0 untuk abu-abu hingga sekitar 0.37, dan H adalah sudut hue: sekitar 30 adalah merah, 70 oranye, 110 kuning, 140 hijau, 195 sian, 265 biru, dan 330 magenta.',
           'Kolom teksnya menerima warna CSS apa pun, termasuk nama warna, dan tombol format menuliskan nilainya sebagai hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code>, atau <code>color(display-p3)</code>. Warna di luar gamut suatu format dibawa masuk ke gamut itu dengan cara CSS, dengan kecerahan dan hue-nya tetap dipertahankan.',
-          'Tambahkan <code>swatches</code> sebagai pilihan warna, dan <code>contrastWith</code> untuk memeriksa kontras warna terhadap latar belakang sesuai cara WCAG 2 mengukurnya. Jika browser menyediakan pipet warna, sebuah tombol bisa mengambil warna dari layar.',
+          'Tambahkan <code>swatches</code> sebagai pilihan warna, dan <code>contrastWith</code> untuk memeriksa kontras warna terhadap latar belakang sesuai cara WCAG 2 mengukurnya. Jika browser menyediakan pipet warna, sebuah tombol bisa mengambil warna dari layar, dan pratinjau menyalin nilainya.',
         ],
         examples: {
+          wheel: {
+            title: 'Roda warna OKLCH',
+            text: 'Harmoni warna memutar hue warna yang dipilih dan mempertahankan kecerahan serta kromanya, sehingga tampak sama terang dan sama hidup. Pilih salah satu untuk memindahkan roda ke warna itu.',
+          },
           brand: {
             title: 'Warna brand',
             text: 'Contoh warna bernama, dan kontras teks putih di atas warna tersebut: pilih warna yang terang, maka AA gagal.',
@@ -2218,11 +2224,13 @@ export const messages: Messages = {
                 'Warnanya, ditulis dalam format yang dipilih. Kosong sampai ada warna yang dipilih.',
               format: 'Cara nilai ditulis.',
               formats: 'Format yang dilalui tombol format secara bergiliran.',
+              view: 'Area kecerahan dan kroma pada satu hue, atau roda warna hue dan kroma pada satu kecerahan.',
               gamut: 'Warna yang dimuat area: sRGB, atau Display P3.',
               alpha: 'Menampilkan slider opasitas.',
               swatches: 'Warna yang bisa dipilih, beserta namanya.',
               contrastWith: 'Latar belakang untuk memeriksa kontras.',
               eyeDropper: 'Menampilkan pipet warna, jika browser menyediakannya.',
+              copy: 'Pratinjau menyalin nilainya, jika browser menyediakan clipboard.',
               disabled: 'Tidak bisa diubah.',
               labels: 'Semua teks yang disampaikan pemilih, untuk diterjemahkan.',
               color: 'Warna yang dipilih, dalam OKLCH.',
@@ -2240,14 +2248,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Panah kiri dan kanan', 'Di area, mengurangi atau menambah kroma.'],
-          ['Panah atas dan bawah', 'Di area, membuat warna lebih terang atau lebih gelap.'],
+          [
+            'Panah kiri dan kanan',
+            'Di area, mengurangi atau menambah kroma. Di roda, memutar hue.',
+          ],
+          [
+            'Panah atas dan bawah',
+            'Di area, membuat warna lebih terang atau lebih gelap. Di roda, menambah atau mengurangi kroma.',
+          ],
           ['Shift + tombol panah', 'Bergeser sepuluh kali lebih jauh.'],
-          ['Home dan End', 'Di area, tanpa kroma atau kroma maksimum.'],
-          ['Page Up dan Page Down', 'Di area, jauh lebih terang atau lebih gelap.'],
+          ['Home dan End', 'Tanpa kroma, atau kroma maksimum.'],
+          [
+            'Page Up dan Page Down',
+            'Di area, jauh lebih terang atau lebih gelap. Di roda, kroma jauh lebih tinggi atau lebih rendah.',
+          ],
         ],
         notes: [
-          'Penanda area adalah <code>slider</code> bernama “Color” yang menyebutkan kedua nilainya, misalnya “Lightness 62%, chroma 75%”. Hue dan opasitas memakai input range native.',
+          'Penanda adalah <code>slider</code> bernama “Color” yang menyebutkan kedua nilainya: “Lightness 62%, chroma 75%” di area, “Hue 30°, chroma 0.15” di roda. Hue, kecerahan, dan opasitas memakai input range native.',
+          'Pratinjau adalah tombol bernama “Copy the color”, dan pesan status menyampaikan “Copied” setelah warnanya tersalin.',
           'Contoh warna adalah tombol yang dinamai sesuai labelnya, dan tampil tertekan saat cocok dengan warna yang dipilih.',
           'AA dan AAA menyatakan “passes” atau “fails” dengan kata-kata, bukan hanya dengan warna, dan dalam mode forced colors, warnanya sendiri tetap dipertahankan.',
         ],

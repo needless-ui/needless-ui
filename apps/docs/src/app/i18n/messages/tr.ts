@@ -2145,20 +2145,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Renk seçici',
-        title: 'Angular için OKLCH renk seçici',
-        summary: 'OKLCH’de bir renk: kaydırıcılar, renk örnekleri, damlalık ve kontrast denetimi.',
+        title: 'Angular için OKLCH renk seçici ve renk çarkı',
+        summary:
+          'OKLCH’de bir renk, renk alanında ya da çarkta: renk örnekleri, damlalık ve kontrast denetimi.',
         description:
-          'Erişilebilir Angular OKLCH renk seçici: geniş renk gamlı P3 renkleri, her CSS renk sözdizimi, renk örnekleri, damlalık ve WCAG kontrast denetimi.',
+          'Erişilebilir Angular OKLCH renk seçici ve renk çarkı: geniş renk gamlı P3 renkleri, her CSS renk sözdizimi, renk örnekleri, damlalık ve WCAG kontrast denetimi.',
         apiDescription:
           'Needless UI renk seçicisinin API referansı: nui-color-picker değeri, biçimi ve gamı, renk örnekleri ve kontrast, renkler için yardımcı fonksiyonlar.',
         a11yDescription:
-          'Needless UI renk seçicisinin klavye kullanımı ve erişilebilirliği: iki değerli renk alanı kaydırıcısı, yerel kaydırıcılar, sözle belirtilen kontrast düzeyleri.',
+          'Needless UI renk seçicisinin klavye kullanımı ve erişilebilirliği: alan ya da çark için iki değerli kaydırıcı, yerel kaydırıcılar, yazılı kontrast düzeyleri.',
         overview: [
           'Renk seçici, modern CSS’in algısal renk uzayı olan OKLCH’de çalışır. Renk alanında soldan sağa doygunluk (chroma), griden ekranın o açıklıkta gösterebildiği en yüksek değere kadar artar; böylece her nokta kullanılabilir bir renktir ve renk tonu döndükçe tutamaç yerinde kalır.',
+          '<code>view="wheel"</code> ile seçici bir OKLCH renk çarkına dönüşür: renk tonu çarkın etrafında döner, doygunluk dışa doğru artar, açıklığı da bir kaydırıcı belirler. Aynı çember üzerindeki renkler eşit doygunluktadır ve aynı canlılıkta görünür; çarkın şekli de ekranın o açıklıkta gösterebildiği tüm renkleri kapsar.',
+          '<code>oklch()</code> içinde L, 0 ile %100 arasında açıklıktır; C, 0 (gri) ile yaklaşık 0.37 arasında doygunluktur; H ise renk tonunun açısıdır: 30 civarı kırmızı, 70 turuncu, 110 sarı, 140 yeşil, 195 camgöbeği, 265 mavi ve 330 macentadır.',
           'Metin alanı, renk adları dahil her CSS rengini kabul eder; biçim düğmesi de değeri hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> ya da <code>color(display-p3)</code> olarak yazar. Bir biçimin gamı dışında kalan renk, CSS’in yöntemiyle açıklığı ve tonu korunarak bu gamın içine alınır.',
-          'Seçim için renk örnekleri sunmak üzere <code>swatches</code>, rengin bir arka plana karşı kontrastını WCAG 2’nin ölçtüğü şekilde denetlemek için de <code>contrastWith</code> ekleyin. Tarayıcıda damlalık varsa bir düğme ekrandan renk alır.',
+          'Seçim için renk örnekleri sunmak üzere <code>swatches</code>, rengin bir arka plana karşı kontrastını WCAG 2’nin ölçtüğü şekilde denetlemek için de <code>contrastWith</code> ekleyin. Tarayıcıda damlalık varsa bir düğme ekrandan renk alır; önizleme de değeri kopyalar.',
         ],
         examples: {
+          wheel: {
+            title: 'OKLCH renk çarkı',
+            text: 'Renk uyumları, seçilen rengin tonunu döndürür; açıklığını ve doygunluğunu korur, böylece aynı açıklıkta ve canlılıkta görünür. Birini seçince çark o renge geçer.',
+          },
           brand: {
             title: 'Bir marka rengi',
             text: 'Adlandırılmış renk örnekleri ve rengin üzerindeki beyaz metnin kontrastı: açık bir renk seçerseniz AA başarısız olur.',
@@ -2179,11 +2186,13 @@ export const messages: Messages = {
               value: 'Biçime göre yazılmış renk. Bir renk seçilene kadar boştur.',
               format: 'Değerin nasıl yazılacağı.',
               formats: 'Biçim düğmesinin sırayla dolaştığı biçimler.',
+              view: 'Tek bir tonda açıklık ve doygunluktan oluşan bir alan ya da tek bir açıklıkta ton ve doygunluktan oluşan bir renk çarkı.',
               gamut: 'Renk alanının kapsadığı renkler: sRGB ya da Display P3.',
               alpha: 'Opaklık kaydırıcısını gösterir.',
               swatches: 'Adlarıyla birlikte, seçilebilecek renkler.',
               contrastWith: 'Kontrastın denetleneceği arka plan.',
               eyeDropper: 'Tarayıcıda varsa damlalığı gösterir.',
+              copy: 'Tarayıcıda pano varsa önizleme değeri kopyalar.',
               disabled: 'Değiştirilemez.',
               labels: 'Seçicinin söylediği her metin; çeviri için.',
               color: 'OKLCH’de seçilen renk.',
@@ -2200,14 +2209,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Sol ve sağ ok', 'Renk alanında doygunluğu azaltır veya artırır.'],
-          ['Yukarı ve aşağı ok', 'Renk alanında rengi açar veya koyulaştırır.'],
+          [
+            'Sol ve sağ ok',
+            'Renk alanında doygunluğu azaltır veya artırır. Çarkta renk tonunu döndürür.',
+          ],
+          [
+            'Yukarı ve aşağı ok',
+            'Renk alanında rengi açar veya koyulaştırır. Çarkta doygunluğu artırır veya azaltır.',
+          ],
           ['Shift + ok tuşları', 'On kat daha uzağa taşır.'],
-          ['Home ve End', 'Renk alanında doygunluğu sıfıra ya da en yükseğe getirir.'],
-          ['Page Up ve Page Down', 'Renk alanında rengi çok daha açık ya da çok daha koyu yapar.'],
+          ['Home ve End', 'Doygunluğu sıfıra ya da en yükseğe getirir.'],
+          [
+            'Page Up ve Page Down',
+            'Renk alanında rengi çok daha açık ya da çok daha koyu yapar. Çarkta doygunluğu büyük adımlarla artırır ya da azaltır.',
+          ],
         ],
         notes: [
-          'Renk alanının tutamacı, adı “Color” olan ve iki değerini de söyleyen bir <code>slider</code> öğesidir; örneğin “Lightness 62%, chroma 75%”. Renk tonu ve opaklık ise yerel range kaydırıcılarıdır.',
+          'Tutamaç, adı “Color” olan ve iki değerini de söyleyen bir <code>slider</code> öğesidir: renk alanında “Lightness 62%, chroma 75%”, çarkta “Hue 30°, chroma 0.15”. Renk tonu, açıklık ve opaklık ise yerel range kaydırıcılarıdır.',
+          'Önizleme, adı “Copy the color” olan bir düğmedir; renk kopyalanınca bir durum mesajı “Copied” der.',
           'Renk örnekleri, etiketleriyle adlandırılan düğmelerdir; renkle eşleştiklerinde basılı görünürler.',
           'AA ve AAA, yalnızca renkle değil sözle de “passes” ya da “fails” der; forced colors modunda ise renklerin kendisi korunur.',
         ],

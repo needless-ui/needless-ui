@@ -2118,20 +2118,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Color picker',
-        title: 'OKLCH color picker for Angular',
-        summary: 'A color in OKLCH, with sliders, swatches, an eyedropper and a contrast check.',
+        title: 'OKLCH color picker and color wheel for Angular',
+        summary:
+          'A color in OKLCH, on an area or a wheel, with swatches, an eyedropper and a contrast check.',
         description:
-          'Accessible Angular color picker in OKLCH: wide-gamut P3 colors, every CSS color syntax, swatches, the eyedropper, and a WCAG contrast check.',
+          'Accessible Angular color picker and color wheel in OKLCH: wide-gamut P3 colors, every CSS color syntax, swatches, the eyedropper, and a WCAG contrast check.',
         apiDescription:
           'API reference for the Needless UI color picker: nui-color-picker value, format and gamut, swatches and contrast, and helpers for colors.',
         a11yDescription:
-          'Keyboard and accessibility of the Needless UI color picker: a slider with two values for the area, native sliders, and contrast grades in words.',
+          'Keyboard and accessibility of the Needless UI color picker: a slider with two values for the area or the wheel, native sliders, and contrast grades in words.',
         overview: [
           'The color picker works in OKLCH, the perceptual color space of modern CSS. Across the area, chroma runs from gray to the most the screen can show at that lightness, so every point is a color you can use, and the thumb stays put as the hue turns.',
+          'With <code>view="wheel"</code> it’s an OKLCH color wheel: hue goes around, chroma grows outward, and a slider sets the lightness. A circle holds colors of equal chroma, which look equally vivid, and the wheel’s shape is every color the screen can show at that lightness.',
+          'In <code>oklch()</code>, L is the lightness from 0 to 100%, C the chroma from 0 for gray to about 0.37, and H the hue angle: about 30 is red, 70 orange, 110 yellow, 140 green, 195 cyan, 265 blue and 330 magenta.',
           'The field takes any CSS color, names included, and the format button writes the value as hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> or <code>color(display-p3)</code>. A color outside a format’s gamut is brought into it the CSS way, keeping its lightness and hue.',
-          'Add <code>swatches</code> to pick from, and <code>contrastWith</code> to check the color against a background as WCAG 2 measures contrast. Where the browser has an eyedropper, a button picks a color from the screen.',
+          'Add <code>swatches</code> to pick from, and <code>contrastWith</code> to check the color against a background as WCAG 2 measures contrast. Where the browser has an eyedropper, a button picks a color from the screen, and the preview copies the value.',
         ],
         examples: {
+          wheel: {
+            title: 'OKLCH color wheel',
+            text: 'Harmonies turn the hue of the color picked and keep its lightness and chroma, so they look as light and as vivid. Pick one to move the wheel to it.',
+          },
           brand: {
             title: 'A brand color',
             text: 'Named swatches, and the contrast of white text on the color: pick a light one, and AA fails.',
@@ -2152,11 +2159,13 @@ export const messages: Messages = {
               value: 'The color, written in the format. Empty until one is picked.',
               format: 'How the value is written.',
               formats: 'The formats the format button goes through.',
+              view: 'An area of lightness and chroma at one hue, or a color wheel of hue and chroma at one lightness.',
               gamut: 'The colors the area holds: sRGB, or Display P3.',
               alpha: 'Shows the opacity slider.',
               swatches: 'Colors to pick from, with names.',
               contrastWith: 'A background to check the contrast against.',
               eyeDropper: 'Shows the eyedropper, where the browser has one.',
+              copy: 'The preview copies the value, where the browser has a clipboard.',
               disabled: 'It can’t be changed.',
               labels: 'Every text it says, to translate.',
               color: 'The color picked, in OKLCH.',
@@ -2173,14 +2182,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Left and right arrows', 'On the area, less or more chroma.'],
-          ['Up and down arrows', 'On the area, lighter or darker.'],
+          [
+            'Left and right arrows',
+            'On the area, less or more chroma. On the wheel, turn the hue.',
+          ],
+          [
+            'Up and down arrows',
+            'On the area, lighter or darker. On the wheel, more or less chroma.',
+          ],
           ['Shift + arrow keys', 'Move ten times as far.'],
-          ['Home and End', 'On the area, no chroma or the most.'],
-          ['Page Up and Page Down', 'On the area, much lighter or darker.'],
+          ['Home and End', 'No chroma, or the most.'],
+          [
+            'Page Up and Page Down',
+            'On the area, much lighter or darker. On the wheel, much more or less chroma.',
+          ],
         ],
         notes: [
-          'The area’s thumb is a <code>slider</code> named “Color” that says both its values, such as “Lightness 62%, chroma 75%”. Hue and opacity are native range inputs.',
+          'The thumb is a <code>slider</code> named “Color” that says both its values: “Lightness 62%, chroma 75%” on the area, “Hue 30°, chroma 0.15” on the wheel. Hue, lightness and opacity are native range inputs.',
+          'The preview is a button named “Copy the color”, and a status says “Copied” once it has.',
           'Swatches are buttons named by their label, and pressed when they match the color.',
           'AA and AAA say “passes” or “fails” in words, not only by color, and in forced colors mode the colors themselves stay.',
         ],

@@ -2147,21 +2147,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Bộ chọn màu',
-        title: 'Bộ chọn màu OKLCH cho Angular',
+        title: 'Bộ chọn màu và bánh xe màu OKLCH cho Angular',
         summary:
-          'Một màu trong OKLCH, với thanh trượt, mẫu màu, công cụ hút màu và kiểm tra độ tương phản.',
+          'Một màu trong OKLCH, trên vùng màu hoặc bánh xe màu, với mẫu màu, công cụ hút màu và kiểm tra độ tương phản.',
         description:
-          'Bộ chọn màu OKLCH Angular hỗ trợ tiếp cận: màu P3 gam rộng, mọi cú pháp màu CSS, mẫu màu, công cụ hút màu và kiểm tra độ tương phản theo WCAG.',
+          'Bộ chọn màu và bánh xe màu OKLCH Angular hỗ trợ tiếp cận: màu P3 gam rộng, mọi cú pháp màu CSS, mẫu màu, công cụ hút màu và kiểm tra độ tương phản theo WCAG.',
         apiDescription:
           'Tài liệu API về bộ chọn màu của Needless UI: giá trị, định dạng và gam màu của nui-color-picker, mẫu màu, độ tương phản và các hàm xử lý màu.',
         a11yDescription:
-          'Bàn phím và khả năng tiếp cận của bộ chọn màu Needless UI: thanh trượt hai giá trị cho vùng màu, thanh trượt native và mức tương phản nêu bằng chữ.',
+          'Bàn phím và khả năng tiếp cận của bộ chọn màu Needless UI: thanh trượt hai giá trị cho vùng màu hoặc bánh xe, thanh trượt native và mức tương phản nêu bằng chữ.',
         overview: [
           'Bộ chọn màu hoạt động trong OKLCH, không gian màu theo cảm nhận của CSS hiện đại. Theo chiều ngang của vùng màu, độ bão hòa (chroma) tăng từ xám đến mức cao nhất mà màn hình hiển thị được ở độ sáng đó, nên mọi điểm đều là màu dùng được, và nút kéo vẫn đứng yên khi sắc độ thay đổi.',
+          'Với <code>view="wheel"</code>, bộ chọn trở thành bánh xe màu OKLCH: sắc độ đi vòng quanh bánh xe, độ bão hòa tăng dần từ tâm ra ngoài, và một thanh trượt đặt độ sáng. Các màu trên cùng một vòng tròn có cùng độ bão hòa nên trông rực rỡ như nhau, và hình dạng của bánh xe bao trọn mọi màu mà màn hình hiển thị được ở độ sáng đó.',
+          'Trong <code>oklch()</code>, L là độ sáng từ 0 đến 100%, C là độ bão hòa từ 0 (màu xám) đến khoảng 0.37, còn H là góc sắc độ: khoảng 30 là đỏ, 70 cam, 110 vàng, 140 xanh lá, 195 xanh lơ, 265 xanh dương và 330 hồng sẫm.',
           'Ô nhập nhận mọi màu CSS, kể cả tên màu, và nút định dạng ghi giá trị ở dạng hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> hoặc <code>color(display-p3)</code>. Màu nằm ngoài gam màu của một định dạng sẽ được đưa vào gam đó theo cách của CSS, giữ nguyên độ sáng và sắc độ.',
-          'Thêm <code>swatches</code> để có sẵn các mẫu màu cho người dùng chọn, và <code>contrastWith</code> để kiểm tra độ tương phản của màu trên một nền theo cách đo của WCAG 2. Ở trình duyệt có công cụ hút màu, một nút sẽ lấy màu ngay từ màn hình.',
+          'Thêm <code>swatches</code> để có sẵn các mẫu màu cho người dùng chọn, và <code>contrastWith</code> để kiểm tra độ tương phản của màu trên một nền theo cách đo của WCAG 2. Ở trình duyệt có công cụ hút màu, một nút sẽ lấy màu ngay từ màn hình, và bản xem trước sao chép giá trị.',
         ],
         examples: {
+          wheel: {
+            title: 'Bánh xe màu OKLCH',
+            text: 'Các kiểu phối màu xoay sắc độ của màu đã chọn và giữ nguyên độ sáng cùng độ bão hòa, nên trông sáng và rực rỡ như màu ban đầu. Chọn một màu để đưa bánh xe đến màu đó.',
+          },
           brand: {
             title: 'Màu thương hiệu',
             text: 'Các mẫu màu có tên, và độ tương phản của chữ trắng trên màu đó: chọn một màu sáng, AA sẽ không đạt.',
@@ -2182,11 +2188,13 @@ export const messages: Messages = {
               value: 'Màu, được ghi theo định dạng đã chọn. Trống cho đến khi chọn một màu.',
               format: 'Cách ghi giá trị.',
               formats: 'Các định dạng mà nút định dạng lần lượt chuyển qua.',
+              view: 'Một vùng độ sáng và độ bão hòa ở một sắc độ, hoặc một bánh xe màu gồm sắc độ và độ bão hòa ở một độ sáng.',
               gamut: 'Các màu mà vùng màu chứa: sRGB, hoặc Display P3.',
               alpha: 'Hiển thị thanh trượt độ mờ đục.',
               swatches: 'Các màu để chọn, kèm tên.',
               contrastWith: 'Nền dùng để kiểm tra độ tương phản.',
               eyeDropper: 'Hiển thị công cụ hút màu, ở trình duyệt có hỗ trợ.',
+              copy: 'Bản xem trước sao chép giá trị, ở trình duyệt có bảng nhớ tạm.',
               disabled: 'Không thể thay đổi.',
               labels: 'Mọi văn bản mà bộ chọn đọc lên, để dịch.',
               color: 'Màu đã chọn, trong OKLCH.',
@@ -2203,14 +2211,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Mũi tên trái và phải', 'Trên vùng màu, giảm hoặc tăng độ bão hòa.'],
-          ['Mũi tên lên và xuống', 'Trên vùng màu, sáng hơn hoặc tối hơn.'],
+          [
+            'Mũi tên trái và phải',
+            'Trên vùng màu, giảm hoặc tăng độ bão hòa. Trên bánh xe, xoay sắc độ.',
+          ],
+          [
+            'Mũi tên lên và xuống',
+            'Trên vùng màu, sáng hơn hoặc tối hơn. Trên bánh xe, tăng hoặc giảm độ bão hòa.',
+          ],
           ['Shift + phím mũi tên', 'Di chuyển xa gấp mười lần.'],
-          ['Home và End', 'Trên vùng màu, độ bão hòa bằng không hoặc cao nhất.'],
-          ['Page Up và Page Down', 'Trên vùng màu, sáng hơn hoặc tối hơn nhiều.'],
+          ['Home và End', 'Độ bão hòa bằng không hoặc cao nhất.'],
+          [
+            'Page Up và Page Down',
+            'Trên vùng màu, sáng hơn hoặc tối hơn nhiều. Trên bánh xe, tăng hoặc giảm độ bão hòa nhiều.',
+          ],
         ],
         notes: [
-          'Nút kéo của vùng màu là một <code>slider</code> có tên “Color”, đọc lên cả hai giá trị, chẳng hạn “Lightness 62%, chroma 75%”. Sắc độ và độ mờ đục dùng thanh trượt range native.',
+          'Nút kéo là một <code>slider</code> có tên “Color”, đọc lên cả hai giá trị: “Lightness 62%, chroma 75%” trên vùng màu, “Hue 30°, chroma 0.15” trên bánh xe. Sắc độ, độ sáng và độ mờ đục dùng thanh trượt range native.',
+          'Bản xem trước là một nút có tên “Copy the color”, và một thông báo trạng thái báo “Copied” khi đã sao chép xong.',
           'Mẫu màu là các nút được đặt tên theo nhãn của chúng, và ở trạng thái được nhấn khi trùng với màu hiện tại.',
           'AA và AAA nói “passes” hoặc “fails” bằng chữ, không chỉ bằng màu, và ở chế độ forced colors, bản thân các màu vẫn được giữ nguyên.',
         ],

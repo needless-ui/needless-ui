@@ -1,0 +1,22 @@
+<div class="layout">
+  <nui-color-picker view="wheel" format="oklch" [alpha]="false" [(value)]="color" />
+  <dl class="harmonies">
+    @for (harmony of harmonies(); track harmony.name) {
+      <div>
+        <dt>{{ harmony.name }}</dt>
+        <dd>
+          @for (shade of harmony.colors; track $index) {
+            <button
+              type="button"
+              class="harmony"
+              [style.background-color]="shade"
+              [attr.aria-label]="shade"
+              [title]="shade"
+              (click)="color.set(shade)"
+            ></button>
+          }
+        </dd>
+      </div>
+    }
+  </dl>
+</div>

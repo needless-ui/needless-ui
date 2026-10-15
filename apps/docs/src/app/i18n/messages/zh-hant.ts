@@ -2033,20 +2033,26 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: '顏色選擇器',
-        title: 'Angular OKLCH 顏色選擇器元件',
-        summary: '以 OKLCH 選取顏色，附有滑桿、色票、滴管和對比度檢查。',
+        title: 'Angular OKLCH 顏色選擇器與色輪元件',
+        summary: '以 OKLCH 在選色區域或色輪上選取顏色，附有色票、滴管和對比度檢查。',
         description:
-          '無障礙的 Angular 顏色選擇器，以 OKLCH 運作：支援廣色域 P3 色彩、所有 CSS 顏色語法、色票、滴管，以及 WCAG 對比度檢查。',
+          '無障礙的 Angular 顏色選擇器與色輪，以 OKLCH 運作：支援廣色域 P3 色彩、所有 CSS 顏色語法、色票、滴管，以及 WCAG 對比度檢查。',
         apiDescription:
           'Needless UI 顏色選擇器的 API 參考文件：nui-color-picker 的值、格式和色域，色票與對比度，以及處理顏色的輔助函式。',
         a11yDescription:
-          'Needless UI 顏色選擇器的鍵盤操作與無障礙支援：具有兩個值的選色區域滑桿、原生滑桿，以及用文字說明的對比度等級。',
+          'Needless UI 顏色選擇器的鍵盤操作與無障礙支援：選色區域或色輪上具有兩個值的滑桿、原生滑桿，以及用文字說明的對比度等級。',
         overview: [
           '顏色選擇器以 OKLCH 運作，這是現代 CSS 中貼近人眼感知的色彩空間。在選色區域中，彩度由左至右從灰色增加到螢幕在該亮度下能顯示的最大值，因此每一點都是可用的顏色；轉動色相時，控點也會留在原處。',
+          '設定 <code>view="wheel"</code> 後，它就是 OKLCH 色輪：色相沿著圓周變化，彩度向外增加，亮度則由一個滑桿設定。同一個圓上的顏色彩度相同，看起來一樣鮮豔；色輪的形狀，就是螢幕在該亮度下能顯示的所有顏色。',
+          '在 <code>oklch()</code> 中，L 是亮度，從 0 到 100%；C 是彩度，從灰色的 0 到約 0.37；H 是色相角：約 30 是紅色，70 是橙色，110 是黃色，140 是綠色，195 是青色，265 是藍色，330 是洋紅色。',
           '輸入欄位接受任何 CSS 顏色，包括顏色名稱；格式按鈕會把值寫成 hex、<code>rgb()</code>、<code>hsl()</code>、<code>oklch()</code> 或 <code>color(display-p3)</code>。超出某種格式色域的顏色，會依 CSS 的方式對應到色域內，並保留亮度和色相。',
-          '加上 <code>swatches</code> 可提供候選顏色，加上 <code>contrastWith</code> 則能依 WCAG 2 的計算方式，檢查顏色與背景的對比度。瀏覽器支援滴管時，還會有一個按鈕可以從螢幕上取色。',
+          '加上 <code>swatches</code> 可提供候選顏色，加上 <code>contrastWith</code> 則能依 WCAG 2 的計算方式，檢查顏色與背景的對比度。瀏覽器支援滴管時，還會有一個按鈕可以從螢幕上取色；點擊預覽即可複製顏色值。',
         ],
         examples: {
+          wheel: {
+            title: 'OKLCH 色輪',
+            text: '和諧配色會轉動所選顏色的色相，並保留它的亮度和彩度，因此看起來一樣明亮、一樣鮮豔。選擇其中一個，色輪就會移到該顏色。',
+          },
           brand: {
             title: '品牌色',
             text: '具名的色票，以及白色文字在該顏色上的對比度：選擇淺色時，AA 就會不合格。',
@@ -2067,11 +2073,13 @@ export const messages: Messages = {
               value: '依格式寫出的顏色；選取顏色前為空。',
               format: '值的寫法。',
               formats: '格式按鈕依序切換的格式。',
+              view: '固定色相、呈現亮度和彩度的選色區域，或固定亮度、呈現色相和彩度的色輪。',
               gamut: '選色區域包含的顏色：sRGB 或 Display P3。',
               alpha: '顯示不透明度滑桿。',
               swatches: '可供選取的顏色，可附名稱。',
               contrastWith: '用來檢查對比度的背景色。',
               eyeDropper: '瀏覽器支援時顯示滴管。',
+              copy: '瀏覽器支援剪貼簿時，點擊預覽即可複製值。',
               disabled: '禁止變更。',
               labels: '它顯示或朗讀的所有文字，供翻譯使用。',
               color: '選取的顏色，以 OKLCH 表示。',
@@ -2088,14 +2096,15 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['向左 / 向右鍵', '在選色區域中降低或提高彩度。'],
-          ['向上 / 向下鍵', '在選色區域中調亮或調暗。'],
+          ['向左 / 向右鍵', '在選色區域中降低或提高彩度；在色輪上轉動色相。'],
+          ['向上 / 向下鍵', '在選色區域中調亮或調暗；在色輪上提高或降低彩度。'],
           ['Shift + 方向鍵', '移動幅度變為十倍。'],
-          ['Home / End', '在選色區域中把彩度調到零或最大。'],
-          ['Page Up / Page Down', '在選色區域中大幅調亮或調暗。'],
+          ['Home / End', '把彩度調到零或最大。'],
+          ['Page Up / Page Down', '在選色區域中大幅調亮或調暗；在色輪上大幅提高或降低彩度。'],
         ],
         notes: [
-          '選色區域的控點是名為「Color」的 <code>slider</code>，會朗讀它的兩個值，例如「Lightness 62%, chroma 75%」。色相和不透明度則是原生的 range 輸入欄位。',
+          '控點是名為「Color」的 <code>slider</code>，會朗讀它的兩個值：在選色區域中是「Lightness 62%, chroma 75%」，在色輪上是「Hue 30°, chroma 0.15」。色相、亮度和不透明度則是原生的 range 輸入欄位。',
+          '預覽是名為「Copy the color」的按鈕，複製後會透過狀態訊息朗讀「Copied」。',
           '色票是以其標籤命名的按鈕，與目前顏色相符時會呈現按下狀態。',
           'AA 和 AAA 會用文字說明「passes」或「fails」，而不只用顏色表示；在強制色彩模式下，顏色本身會保持不變。',
         ],

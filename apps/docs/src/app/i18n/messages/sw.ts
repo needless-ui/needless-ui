@@ -2203,21 +2203,27 @@ export const messages: Messages = {
       },
       'color-picker': {
         name: 'Kichagua rangi',
-        title: 'Kichagua rangi cha OKLCH kwa Angular',
+        title: 'Kichagua rangi na gurudumu la rangi la OKLCH kwa Angular',
         summary:
-          'Rangi katika OKLCH, yenye vitelezi, sampuli za rangi, eyedropper na ukaguzi wa utofautishaji.',
+          'Rangi katika OKLCH, kwenye eneo au gurudumu, yenye sampuli za rangi, eyedropper na ukaguzi wa utofautishaji.',
         description:
-          'Kichagua rangi cha OKLCH kinachofikika kwa Angular: P3 ya wigo mpana, kila sintaksia ya rangi ya CSS, sampuli, eyedropper na ukaguzi wa utofautishaji wa WCAG.',
+          'Kichagua rangi na gurudumu la rangi la OKLCH, vinavyofikika kwa Angular: P3 ya wigo mpana, kila sintaksia ya CSS, sampuli, eyedropper na utofautishaji wa WCAG.',
         apiDescription:
           'Marejeleo ya API ya kichagua rangi cha Needless UI: thamani, umbizo na wigo wa nui-color-picker, sampuli na utofautishaji, na visaidizi vya rangi.',
         a11yDescription:
-          'Kibodi na ufikivu wa kichagua rangi cha Needless UI: kitelezi chenye thamani mbili kwa eneo, vitelezi asilia, na viwango vya utofautishaji kwa maneno.',
+          'Kibodi na ufikivu wa kichagua rangi cha Needless UI: kitelezi cha thamani mbili kwa eneo au gurudumu, vitelezi asilia na viwango vya utofautishaji kwa maneno.',
         overview: [
           'Kichagua rangi hufanya kazi katika OKLCH, nafasi ya rangi ya CSS ya kisasa inayofuata jinsi macho yanavyoona. Kwa upana wa eneo la rangi, ukolezi (chroma) huanzia kijivu hadi kiwango cha juu kabisa ambacho skrini inaweza kuonyesha kwa mwangaza (lightness) huo, hivyo kila nukta ni rangi unayoweza kutumia, na kishikio hakisogei hue inapobadilika.',
+          'Kwa <code>view="wheel"</code>, kichagua huwa gurudumu la rangi (color wheel) la OKLCH: hue huzunguka, ukolezi huongezeka kuelekea nje, na kitelezi huweka mwangaza. Kila duara lina rangi zenye ukolezi sawa, zinazoonekana kali kwa kiwango sawa, na umbo la gurudumu ni rangi zote ambazo skrini inaweza kuonyesha kwa mwangaza huo.',
+          'Katika <code>oklch()</code>, L ni mwangaza kutoka 0 hadi 100%, C ni ukolezi kutoka 0 kwa kijivu hadi takriban 0.37, na H ni pembe ya hue: takriban 30 ni nyekundu, 70 rangi ya chungwa, 110 manjano, 140 kijani, 195 samawati, 265 buluu na 330 majenta.',
           'Sehemu hupokea rangi yoyote ya CSS, yakiwemo majina ya rangi, na kitufe cha umbizo huandika thamani kama hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> au <code>color(display-p3)</code>. Rangi iliyo nje ya wigo wa rangi (gamut) wa umbizo huletwa ndani yake kwa njia ya CSS, ikibaki na mwangaza na hue yake.',
-          'Ongeza <code>swatches</code> ili kuchagua kutoka kwazo, na <code>contrastWith</code> ili kukagua rangi dhidi ya mandharinyuma jinsi WCAG 2 inavyopima utofautishaji. Pale kivinjari kina eyedropper, kitufe huchagua rangi kutoka kwenye skrini.',
+          'Ongeza <code>swatches</code> ili kuchagua kutoka kwazo, na <code>contrastWith</code> ili kukagua rangi dhidi ya mandharinyuma jinsi WCAG 2 inavyopima utofautishaji. Pale kivinjari kina eyedropper, kitufe huchagua rangi kutoka kwenye skrini, na onyesho la kukagua hunakili thamani.',
         ],
         examples: {
+          wheel: {
+            title: 'Gurudumu la rangi la OKLCH',
+            text: 'Rangi zinazopatana huzungusha hue ya rangi iliyochaguliwa, zikibaki na mwangaza na ukolezi wake, hivyo zinaonekana kuwa na mwangaza na ukali sawa nayo. Chagua mojawapo ili gurudumu lisogee kwenye rangi hiyo.',
+          },
           brand: {
             title: 'Rangi ya chapa',
             text: 'Sampuli za rangi zenye majina, na utofautishaji wa maandishi meupe juu ya rangi: chagua rangi nyepesi, na AA hushindwa.',
@@ -2238,11 +2244,13 @@ export const messages: Messages = {
               value: 'Rangi, iliyoandikwa kwa umbizo. Tupu hadi rangi ichaguliwe.',
               format: 'Jinsi thamani inavyoandikwa.',
               formats: 'Maumbizo ambayo kitufe cha umbizo hupitia.',
+              view: 'Eneo la mwangaza na ukolezi kwa hue moja, au gurudumu la rangi la hue na ukolezi kwa mwangaza mmoja.',
               gamut: 'Rangi zilizomo katika eneo: sRGB, au Display P3.',
               alpha: 'Huonyesha kitelezi cha opacity.',
               swatches: 'Rangi za kuchagua, zenye majina.',
               contrastWith: 'Mandharinyuma ya kukagua utofautishaji dhidi yake.',
               eyeDropper: 'Huonyesha eyedropper, pale kivinjari kina moja.',
+              copy: 'Onyesho la kukagua hunakili thamani, pale kivinjari kina ubao wa kunakili.',
               disabled: 'Haiwezi kubadilishwa.',
               labels: 'Kila maandishi ambayo kichagua husema, ili kuyatafsiri.',
               color: 'Rangi iliyochaguliwa, katika OKLCH.',
@@ -2259,14 +2267,24 @@ export const messages: Messages = {
           },
         },
         keyboard: [
-          ['Mishale ya kushoto na kulia', 'Kwenye eneo, ukolezi mdogo au mkubwa zaidi.'],
-          ['Mishale ya juu na chini', 'Kwenye eneo, mwangaza zaidi au kidogo.'],
+          [
+            'Mishale ya kushoto na kulia',
+            'Kwenye eneo, ukolezi mdogo au mkubwa zaidi. Kwenye gurudumu, huzungusha hue.',
+          ],
+          [
+            'Mishale ya juu na chini',
+            'Kwenye eneo, mwangaza zaidi au kidogo. Kwenye gurudumu, ukolezi mkubwa au mdogo zaidi.',
+          ],
           ['Shift + vitufe vya mishale', 'Husogea mara kumi zaidi.'],
-          ['Home na End', 'Kwenye eneo, bila ukolezi au ukolezi wa juu kabisa.'],
-          ['Page Up na Page Down', 'Kwenye eneo, mwangaza zaidi au kidogo, kwa hatua kubwa.'],
+          ['Home na End', 'Bila ukolezi, au ukolezi wa juu kabisa.'],
+          [
+            'Page Up na Page Down',
+            'Kwenye eneo, mwangaza zaidi au kidogo, kwa hatua kubwa. Kwenye gurudumu, ukolezi mkubwa au mdogo zaidi, kwa hatua kubwa.',
+          ],
         ],
         notes: [
-          'Kishikio cha eneo ni <code>slider</code> inayoitwa “Color” inayotaja thamani zake zote mbili, kama “Lightness 62%, chroma 75%”. Hue na opacity ni input asilia za range.',
+          'Kishikio ni <code>slider</code> inayoitwa “Color” inayotaja thamani zake zote mbili: “Lightness 62%, chroma 75%” kwenye eneo, “Hue 30°, chroma 0.15” kwenye gurudumu. Hue, mwangaza na opacity ni input asilia za range.',
+          'Onyesho la kukagua ni kitufe kinachoitwa “Copy the color”, na ujumbe wa hali husema “Copied” baada ya kunakili.',
           'Sampuli za rangi ni vitufe vinavyopewa jina kwa lebo zake, na huwa vimebonyezwa vinapolingana na rangi.',
           'AA na AAA husema “passes” au “fails” kwa maneno, si kwa rangi pekee, na katika hali ya forced colors rangi zenyewe hubaki.',
         ],
