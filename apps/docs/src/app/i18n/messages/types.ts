@@ -137,7 +137,7 @@ export type ProseBlock = { kind: 'p'; html: string } | { kind: 'h2'; id: string;
 export type GuideBlock =
   | ProseBlock
   | { kind: 'code'; file: string }
-  | { kind: 'demo'; demo: 'nested-themes' | 'playground' }
+  | { kind: 'demo'; demo: 'nested-themes' | 'playground' | 'booking' }
   /** A table: `caption` names it for screen readers, the first cell of each row heads it; cells are html. */
   | { kind: 'table'; caption: string; head: string[]; rows: string[][] };
 

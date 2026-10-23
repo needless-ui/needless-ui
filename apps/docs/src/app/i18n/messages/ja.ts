@@ -1763,7 +1763,7 @@ export const messages: Messages = {
           'オープンソースの Angular スケジューラー兼イベントカレンダーで、Needless UI 全体と同じく MIT ライセンスです。月、週、日、予定リストの各ビューに加えて、会議室、人、設備ごとに1行ずつ並ぶタイムラインがあります。リソースビューやタイムラインは有料オプションであることが多いものですが、ここでは商用を含むどんなプロジェクトでも無料で使えます。',
           '予定は ISO 形式の時刻を持つシンプルなデータです。時間が重なる予定は幅を分け合い、午前0時をまたぐ予定は両方の日に表示され、終日の予定は上部を横に伸びるバーとして表示されます。予定に <code>resource</code> を指定して <code>resources</code> を渡すと、タイムラインは1日なら時間ごとに、1週間や1か月なら日ごとに表示し、日表示と週表示はリソースごとの列に分かれます。',
           '繰り返しの予定は、<code>FREQ=WEEKLY;BYDAY=MO,WE</code> や毎月の最終金曜日のような iCalendar の繰り返しルール（RFC 5545）に従い、例外は <code>exdate</code> で指定します。<code>nuiSchedulerToIcs()</code> と <code>nuiSchedulerFromIcs()</code> は、Google Calendar、Outlook、Apple Calendar でインポートやエクスポートができる .ics ファイルを書き出し、読み込みます。',
-          'スケジューラーが予定を自ら変更することはありません。予定やその終端、または空いている時間帯をドラッグすると、<code>eventChange</code> または <code>slotSelect</code> が何が起きたかを通知します。<code>allow</code> は、会議室の二重予約のように、アプリのルールで認めない操作を拒否します。<code>rangeChange</code> は表示中の日を知らせるので、その日の予定を読み込めます。',
+          'スケジューラーが予定を自ら変更することはありません。予定やその終端、または空いている時間帯をドラッグすると、<code>eventChange</code> または <code>slotSelect</code> が何が起きたかを通知します。<code>allow</code> は、会議室の二重予約のように、アプリのルールで認めない操作を拒否します。<code>rangeChange</code> は表示中の日を知らせるので、その日の予定を読み込めます。これらを組み合わせる手順は、<a href="/guides/booking-calendar">会議室予約のガイド</a>で順を追って説明しています。',
           '勤務時間だけを表示したり、勤務時間外を網掛けにしたり、週末を省いたり、週番号を付けたりでき、予定とリソースはテンプレートで描画できます。ポインターでできることは、すべてキーボードでもできます。グリッドのタブストップは1つだけで、矢印キーで日、時刻、リソースの間を移動し、Alt キーと矢印キーで予定を動かします。',
         ],
         examples: {
@@ -2588,6 +2588,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'システムが動きを減らすよう求めている場合、スプリングは一瞬で完了し、押下と登場の動きも止まります。密度をどう設定しても、コントロールが WCAG 2.2 のターゲットサイズである 24px を下回ることはありません。また、どのプリセットも色を変えないため、コントラストのチェックはすべて有効なままです。<code>corner-shape</code> に対応していないブラウザーでは、角はすべて丸く描画されます。',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Angular で会議室予約カレンダーを作る',
+        description:
+          '無料の Needless UI スケジューラーで作る、Angular の会議室予約カレンダー。タイムライン上の会議室、ドラッグ＆ドロップ、二重予約の防止、.ics ファイルを解説します。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'このガイドで作るのは、会議室を予約するためのカレンダーです。会議室ごとに1行ずつ並ぶタイムライン、ドラッグで配置できる予約、同じ会議室が二重に予約されないようにするルール、そして予約をどのカレンダーにも追加できるファイルを備えています。利用するのは <code>@needless-ui/angular</code> の<a href="/components/scheduler">スケジューラー</a>です。Needless UI 全体と同じく MIT ライセンスなので、リソースタイムラインをどんなアプリでも無料で使えます。',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: '会議室と予約' },
+          {
+            kind: 'p',
+            html: '会議室はリソースです。<code>id</code> と <code>title</code> を持ち、そのほかの情報は <code>data</code> に入れます。予約は予定で、<code>2026-10-23T09:00</code> のようなシンプルな ISO 形式の時刻と、<code>resource</code> に入れた会議室の id を持ちます。1件の予約に、複数の会議室や人をリストで指定することもできます。',
+          },
+          { kind: 'h2', id: 'timeline', text: '会議室ごとに1行' },
+          {
+            kind: 'p',
+            html: '両方を、<code>view="timeline"</code> を指定した <code>nui-scheduler</code> に渡します。<code>dayStart</code> と <code>dayEnd</code> で1日の表示を会議室の利用時間に絞り、<code>snapMinutes</code> で予約を15分単位で動かし、<code>businessHours</code> で会議室が閉まっている時間を網掛けにします。各行のヘッダーは <code>nuiSchedulerResource</code> で描画します。',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: '予約と移動' },
+          {
+            kind: 'p',
+            html: 'スケジューラーがデータを自ら変更することはなく、ユーザーの操作を通知するだけです。会議室の行に沿ってドラッグすると時間を選べ、<code>slotSelect</code> がその時間を会議室と一緒に通知します。予約やその終端をドラッグすると、<code>eventChange</code> が新しい時刻を通知し、別の会議室に移した場合は新しい会議室も通知します。シグナルを更新すれば、タイムラインもそれに従います。',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: '二重予約を防ぐ' },
+          {
+            kind: 'p',
+            html: '予約を作成または移動する前に、スケジューラーは <code>allow</code> に可否を確認します。<code>false</code> が返ると、ドラッグ中の表示は赤くなり、ドロップしても何も起きません。キーボードで操作している場合は、その時間は利用できないとスケジューラーが読み上げます。この例では同じ会議室のほかの予約を確認していますが、最終的に判断するのはサーバーなので、サーバーでも改めて確認してください。',
+          },
+          { kind: 'h2', id: 'loading', text: '表示中の日を読み込む' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> は、表示される最初と最後の日を、開始時に1回、その後はユーザーがページを移るたびに通知します。そのため、その期間の予約だけを、<code>httpResource</code> やお好みのリクエストで取得できます。',
+          },
+          { kind: 'h2', id: 'calendar', text: 'カレンダーに追加' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> は、予約を iCalendar ファイルとして書き出します。Google Calendar、Outlook、Apple Calendar でインポートできるファイルです。<code>nuiSchedulerFromIcs()</code> は逆に iCalendar ファイルを読み込み、ほかのタイムゾーンの時刻をユーザーのタイムゾーンに合わせます。',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'キーボードとスクリーンリーダー' },
+          {
+            kind: 'p',
+            html: 'どの操作もマウスなしで行えます。タイムラインのタブストップは1つだけで、矢印キーで時間と会議室の間を移動し、Shift キーと矢印キーで時間を選び、Enter キーで予約します。予約の上で Alt キーと矢印キーを押すと、別の時間や会議室に移動します。各予約は、タイトル、会議室、日付、時刻で名前が付いたボタンです。',
+          },
+          {
+            kind: 'p',
+            html: '会議室を横に並べた日表示、繰り返しの予約、そのほかのすべてのオプションについては、<a href="/components/scheduler">スケジューラーのページ</a>とその <a href="/components/scheduler/api">API</a> をご覧ください。',
           },
         ],
       },

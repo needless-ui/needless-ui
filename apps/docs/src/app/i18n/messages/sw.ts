@@ -1772,7 +1772,7 @@ export const messages: Messages = {
           'Kipanga ratiba na kalenda ya matukio kwa Angular, chenye chanzo huria na leseni ya MIT kama Needless UI yote: mionekano ya mwezi, wiki, siku na ajenda, na mstari wa muda (timeline) wenye safu kwa kila chumba, mtu au mashine. Mionekano ya rasilimali na mistari ya muda mara nyingi ni nyongeza ya kulipia; hapa ni bure, kwa mradi wowote, hata wa kibiashara.',
           'Matukio ni data ya kawaida yenye nyakati za ISO. Yanayopishana hugawana upana, yanayovuka usiku wa manane huonekana katika siku zote mbili, na matukio ya siku nzima hupita juu kama pau. Yape matukio <code>resource</code> na pitisha <code>resources</code>: mstari wa muda huonyesha siku kwa saa zake, au wiki au mwezi kwa siku zake, na mionekano ya siku na wiki hugawanyika katika safu wima moja kwa kila rasilimali.',
           'Matukio yanayojirudia hufuata kanuni za kurudia za iCalendar (RFC 5545), kama <code>FREQ=WEEKLY;BYDAY=MO,WE</code> au Ijumaa ya mwisho ya kila mwezi, na tarehe zinazorukwa katika <code>exdate</code>. <code>nuiSchedulerToIcs()</code> na <code>nuiSchedulerFromIcs()</code> huandika na kusoma faili za .ics, ambazo Google Calendar, Outlook na Apple Calendar huziingiza na kuzihamisha.',
-          'Hakibadilishi kamwe matukio yako chenyewe. Buruta tukio, mwisho wake, au juu ya muda mtupu, na <code>eventChange</code> au <code>slotSelect</code> huripoti kilichotokea; <code>allow</code> hukataa kile ambacho kanuni zako haziruhusu, kama chumba kuhifadhiwa mara mbili. <code>rangeChange</code> hukuambia ni siku zipi zinaonyeshwa, ili upakie matukio ya siku hizo.',
+          'Hakibadilishi kamwe matukio yako chenyewe. Buruta tukio, mwisho wake, au juu ya muda mtupu, na <code>eventChange</code> au <code>slotSelect</code> huripoti kilichotokea; <code>allow</code> hukataa kile ambacho kanuni zako haziruhusu, kama chumba kuhifadhiwa mara mbili. <code>rangeChange</code> hukuambia ni siku zipi zinaonyeshwa, ili upakie matukio ya siku hizo. <a href="/guides/booking-calendar">Mwongozo wa kuhifadhi vyumba</a> huunganisha yote haya, hatua kwa hatua.',
           'Onyesha saa za kazi pekee, tia kivuli muda ulio nje ya saa hizo, ondoa wikendi, weka namba za wiki, na chora matukio na rasilimali kwa template. Kila kitu ambacho kipanya hufanya, kibodi hufanya pia: gridi ni kituo kimoja cha Tab, vitufe vya mishale hupitia siku, saa na rasilimali, na Alt pamoja na mishale huhamisha tukio.',
         ],
         examples: {
@@ -2616,6 +2616,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Mfumo unapoomba mwendo mdogo, springi hugeuka kuwa badiliko la papo hapo, na athari za kubonyeza na za kuingia huacha kusogea. Msongamano haushushi kamwe kidhibiti chini ya eneo la kubofya la 24px linalotakiwa na WCAG 2.2, na hakuna preset inayogusa rangi, kwa hivyo kila ukaguzi wa utofautishaji bado ni halali. Vivinjari visivyo na <code>corner-shape</code> huchora kila pembe kwa mviringo.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Jenga kalenda ya kuhifadhi vyumba kwa Angular',
+        description:
+          'Jenga kalenda ya kuhifadhi vyumba kwa Angular na kipanga ratiba cha bure cha Needless UI: timeline ya vyumba, kuburuta, bila uhifadhi maradufu, faili za .ics.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Mwongozo huu unajenga kalenda ya kuhifadhi vyumba vya mikutano: mstari wa muda wenye safu kwa kila chumba, uhifadhi unaoburutwa hadi mahali pake, kanuni inayozuia chumba kuhifadhiwa mara mbili, na faili inayoweka uhifadhi kwenye kalenda yoyote. Unatumia <a href="/components/scheduler">kipanga ratiba</a> kutoka <code>@needless-ui/angular</code>, chenye leseni ya MIT kama Needless UI yote, hivyo mstari wa muda wa rasilimali ni bure kwa programu yoyote.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Vyumba na uhifadhi' },
+          {
+            kind: 'p',
+            html: 'Vyumba ni rasilimali: kila kimoja kina <code>id</code>, <code>title</code>, na chochote kingine katika <code>data</code>. Kila uhifadhi ni tukio lenye nyakati za kawaida za ISO, kama <code>2026-10-23T09:00</code>, na id ya chumba chake katika <code>resource</code>. Uhifadhi mmoja unaweza kuwa na vyumba kadhaa, au watu kadhaa, katika orodha.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Safu kwa kila chumba' },
+          {
+            kind: 'p',
+            html: 'Pitisha vyote viwili kwa <code>nui-scheduler</code> pamoja na <code>view="timeline"</code>. <code>dayStart</code> na <code>dayEnd</code> huonyesha saa ambazo vyumba viko wazi pekee, <code>snapMinutes</code> husogeza uhifadhi kwa robo saa, na <code>businessHours</code> hutia kivuli muda ambao vyumba vimefungwa. <code>nuiSchedulerResource</code> huchora kichwa cha kila safu.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Kuhifadhi na kuhamisha' },
+          {
+            kind: 'p',
+            html: 'Kipanga ratiba hakibadilishi kamwe data yako chenyewe: huripoti kile ambacho watu hufanya. Kuburuta juu ya safu ya chumba huchagua muda, na <code>slotSelect</code> huuripoti pamoja na chumba. Kuburuta uhifadhi, au mwisho wake, huripoti nyakati zake mpya katika <code>eventChange</code>, na chumba chake kipya ukihamishiwa chumba kingine. Sasisha signal, na mstari wa muda utafuata.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Hakuna uhifadhi maradufu' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> huulizwa kabla ya uhifadhi kufanywa au kuhamishwa. Ikirudisha <code>false</code>, uburutaji huonekana mwekundu na hauweki chochote, na kwa kibodi kipanga ratiba husema kwamba muda huo haupatikani. Mfano hukagua uhifadhi mwingine wa chumba hicho; kagua tena kwenye seva yako, ambayo ndiyo yenye uamuzi wa mwisho.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Pakia siku zilizo kwenye skrini' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> huripoti siku ya kwanza na ya mwisho zinazoonyeshwa, mara moja mwanzoni na tena kila watu wanapobadilisha ukurasa, ili ulete uhifadhi wa siku hizo pekee, kwa <code>httpResource</code> au ombi lolote unalopenda.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Ongeza kwenye kalenda' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> huandika uhifadhi kama faili ya iCalendar, ambayo Google Calendar, Outlook na Apple Calendar huiingiza. <code>nuiSchedulerFromIcs()</code> husoma faili kama hiyo, na huhamisha nyakati kutoka kanda nyingine za saa hadi kanda ya saa ya msomaji.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Kibodi na visoma skrini' },
+          {
+            kind: 'p',
+            html: 'Yote haya hufanya kazi bila kipanya. Mstari wa muda ni kituo kimoja cha Tab: vitufe vya mishale hupitia nyakati na vyumba, Shift pamoja na mishale huchagua muda, na Enter huuhifadhi. Kwenye uhifadhi, Alt pamoja na mishale huuhamisha hadi muda mwingine au chumba kingine. Kila uhifadhi ni kitufe kinachopewa jina kwa kichwa, chumba, siku na saa yake.',
+          },
+          {
+            kind: 'p',
+            html: 'Kwa vyumba kando kwa kando katika siku moja, uhifadhi unaojirudia na kila chaguo jingine, tazama <a href="/components/scheduler">ukurasa wa kipanga ratiba</a> na <a href="/components/scheduler/api">API</a> yake.',
           },
         ],
       },

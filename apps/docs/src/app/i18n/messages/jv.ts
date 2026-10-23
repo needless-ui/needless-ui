@@ -1758,7 +1758,7 @@ export const messages: Messages = {
           'Pangatur jadhwal lan kalender acara Angular sing open source, kanthi lisensi MIT kaya kabeh Needless UI: tampilan sasi, minggu, dina lan agenda, uga linimasa kanthi baris kanggo saben ruangan, wong utawa mesin. Tampilan sumber daya lan linimasa asring dadi tambahan sing kudu dibayar; ing kene gratis, kanggo proyek apa wae, uga sing komersial.',
           'Acara iku data biasa kanthi wektu ISO. Sing tumpang-tindih mbagi ambane, acara sing ngliwati tengah wengi katon ing loro dinane, lan acara sadina muput mbentang ing sisih ndhuwur minangka bar. Wenehana acara <code>resource</code>, lan <code>resources</code> menyang pangatur jadhwal: linimasa nampilake sadina miturut jame, utawa saminggu utawa sasasi miturut dinane, lan tampilan dina lan minggu dibagi dadi siji kolom kanggo saben sumber daya.',
           'Acara sing mbaleni ngetutake aturan mbaleni iCalendar (RFC 5545), kayata <code>FREQ=WEEKLY;BYDAY=MO,WE</code> utawa Jemuwah pungkasan saben sasi, kanthi wektu sing dikecualekake ing <code>exdate</code>. <code>nuiSchedulerToIcs()</code> lan <code>nuiSchedulerFromIcs()</code> nulis lan maca berkas .ics, sing bisa diimpor lan diekspor Google Calendar, Outlook lan Apple Calendar.',
-          'Pangatur iki ora tau ngowahi acara panjenengan dhewe. Seret acara, pungkasane, utawa ing wektu kosong, lan <code>eventChange</code> utawa <code>slotSelect</code> nglaporake apa sing kedadeyan; <code>allow</code> nolak apa sing ora diidini aturan panjenengan, kayata ruangan sing dipesen kaping pindho. <code>rangeChange</code> ngandhani dina endi wae sing ditampilake, supaya acarane bisa dimuat.',
+          'Pangatur iki ora tau ngowahi acara panjenengan dhewe. Seret acara, pungkasane, utawa ing wektu kosong, lan <code>eventChange</code> utawa <code>slotSelect</code> nglaporake apa sing kedadeyan; <code>allow</code> nolak apa sing ora diidini aturan panjenengan, kayata ruangan sing dipesen kaping pindho. <code>rangeChange</code> ngandhani dina endi wae sing ditampilake, supaya acarane bisa dimuat. <a href="/guides/booking-calendar">Pandhuan pesenan ruangan</a> nggabungake kabeh iki, selangkah mbaka selangkah.',
           'Tampilna mung jam kerja, suremna wektu ing njabane, ilangna akhir minggu, wenehi nomer minggu, lan gambar acara lan sumber daya nganggo template. Kabeh sing bisa ditindakake pointer, bisa ditindakake keyboard uga: grid mung siji tab stop, tombol panah kanggo pindhah antarane dina, wektu lan sumber daya, lan Alt karo panah mindhah acara.',
         ],
         examples: {
@@ -2591,6 +2591,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Yen sistem nyuwun obah sing luwih sithik, pegas dadi owah-owahan sanalika, lan efek pencetan sarta animasi mlebu mandheg obah. Kapadhetan ora tau ndadekake kontrol luwih cilik tinimbang ukuran target 24px saka WCAG 2.2, lan ora ana preset sing ndemek werna, dadi saben pamriksan kontras tetep laku. Browser tanpa <code>corner-shape</code> nggambar saben pojok bunder.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Nggawe kalender pesenan ruangan ing Angular',
+        description:
+          'Kalender pesenan ruangan ing Angular nganggo pangatur jadhwal gratis Needless UI: linimasa ruangan, seret lan seleh, tanpa pesenan kaping pindho, berkas .ics.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Pandhuan iki nggawe kalender kanggo mesen ruangan rapat: linimasa kanthi baris kanggo saben ruangan, pesenan sing diseret menyang panggonane, aturan sing njaga supaya ruangan ora dipesen kaping pindho, lan berkas sing nglebokake pesenan menyang kalender apa wae. Pandhuan iki nganggo <a href="/components/scheduler">pangatur jadhwal</a> saka <code>@needless-ui/angular</code>, kanthi lisensi MIT kaya kabeh Needless UI, dadi linimasa sumber daya gratis kanggo aplikasi apa wae.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Ruangan lan pesenan' },
+          {
+            kind: 'p',
+            html: 'Ruangan iku sumber daya: saben ruangan duwe <code>id</code>, <code>title</code>, lan apa wae liyane ing <code>data</code>. Pesenan iku acara kanthi wektu ISO biasa, kayata <code>2026-10-23T09:00</code>, lan id ruangane ing <code>resource</code>. Siji pesenan bisa ngemot sawetara ruangan, utawa wong, minangka dhaptar.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Siji baris kanggo saben ruangan' },
+          {
+            kind: 'p',
+            html: 'Terusna kekarone menyang <code>nui-scheduler</code> kanthi <code>view="timeline"</code>. <code>dayStart</code> lan <code>dayEnd</code> mbatesi dina mung ing jam buka, <code>snapMinutes</code> mindhah pesenan saben seprapat jam, lan <code>businessHours</code> nyuremake wektu nalika ruangan tutup. <code>nuiSchedulerResource</code> nggambar header saben baris.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Mesen lan mindhah' },
+          {
+            kind: 'p',
+            html: 'Pangatur jadhwal ora tau ngowahi data panjenengan dhewe: mung nglaporake apa sing ditindakake wong. Nyeret ing sadawane baris ruangan milih wektu, lan <code>slotSelect</code> nglaporake wektu kasebut bareng ruangane. Nyeret pesenan, utawa pungkasane, nglaporake wektu anyare ing <code>eventChange</code>, uga ruangan anyare yen dipindhah menyang ruangan liya. Anyari signal-e, lan linimasa bakal ngetutake.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Ora ana pesenan kaping pindho' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> ditakoni sadurunge pesenan digawe utawa dipindhah. Yen mbalekake <code>false</code>, seretan katon abang lan ora nyelehake apa-apa, lan saka keyboard pangatur jadhwal ngandhani yen wektu kasebut ora kasedhiya. Conto iki ngecek pesenan liyane ing ruangan kasebut; cek maneh ing server panjenengan, sing nduwe keputusan pungkasan.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Muat dina sing katon ing layar' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> nglaporake dina kapisan lan pungkasan sing ditampilake, sepisan ing wiwitan lan maneh saben wong ganti kaca, dadi panjenengan bisa njupuk pesenan ing dina-dina kasebut wae, nganggo <code>httpResource</code> utawa request apa wae sing panjenengan karepake.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Tambahna menyang kalender' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> nulis pesenan dadi berkas iCalendar, sing bisa diimpor Google Calendar, Outlook lan Apple Calendar. <code>nuiSchedulerFromIcs()</code> maca berkas kaya ngono, lan mindhah wektu saka zona wektu liya menyang zona wektu sing maca.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Keyboard lan screen reader' },
+          {
+            kind: 'p',
+            html: 'Kabeh iki bisa dienggo tanpa mouse. Linimasa mung siji tab stop: tombol panah pindhah antarane wektu lan ruangan, Shift karo panah milih wektu, lan Enter mesen wektu kasebut. Ing pesenan, Alt karo panah mindhah pesenan menyang wektu utawa ruangan liya. Saben pesenan yaiku tombol sing dijenengi miturut judhul, ruangan, dina lan wektune.',
+          },
+          {
+            kind: 'p',
+            html: 'Kanggo ruangan sing jejer ing sadina, pesenan sing mbaleni lan saben pilihan liyane, pirsani <a href="/components/scheduler">kaca pangatur jadhwal</a> lan <a href="/components/scheduler/api">API-ne</a>.',
           },
         ],
       },

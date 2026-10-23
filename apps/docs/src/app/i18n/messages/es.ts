@@ -1780,7 +1780,7 @@ export const messages: Messages = {
           'Un planificador y calendario de eventos de código abierto para Angular, con licencia MIT como todo Needless UI: vistas de mes, semana, día y agenda, y una línea de tiempo con una fila para cada sala, persona o máquina. Las vistas por recursos y las líneas de tiempo suelen ser un extra de pago; aquí son gratuitas, para cualquier proyecto, también los comerciales.',
           'Los eventos son datos simples con horas ISO. Los que se solapan comparten el ancho, los que cruzan la medianoche aparecen en ambos días y los de todo el día recorren la parte superior como barras. Asigna a los eventos un <code>resource</code> y pasa <code>resources</code>: la línea de tiempo muestra un día por horas, o una semana o un mes por días, y el día y la semana se dividen en una columna por recurso.',
           'Los eventos recurrentes siguen las reglas de repetición de iCalendar (RFC 5545), como <code>FREQ=WEEKLY;BYDAY=MO,WE</code> o el último viernes de cada mes, con excepciones en <code>exdate</code>. <code>nuiSchedulerToIcs()</code> y <code>nuiSchedulerFromIcs()</code> escriben y leen archivos .ics, que Google Calendar, Outlook y Apple Calendar importan y exportan.',
-          'Nunca cambia tus eventos por su cuenta. Arrastra un evento o su final, o arrastra sobre un espacio libre, y <code>eventChange</code> o <code>slotSelect</code> te indica qué ha pasado; <code>allow</code> rechaza lo que tus reglas no permiten, como una sala reservada dos veces. <code>rangeChange</code> te dice qué días se muestran, para que puedas cargar sus eventos.',
+          'Nunca cambia tus eventos por su cuenta. Arrastra un evento o su final, o arrastra sobre un espacio libre, y <code>eventChange</code> o <code>slotSelect</code> te indica qué ha pasado; <code>allow</code> rechaza lo que tus reglas no permiten, como una sala reservada dos veces. <code>rangeChange</code> te dice qué días se muestran, para que puedas cargar sus eventos. La <a href="/guides/booking-calendar">guía de reservas de salas</a> lo reúne todo, paso a paso.',
           'Muestra solo el horario laboral, sombrea el tiempo fuera de él, omite el fin de semana, numera las semanas y dibuja eventos y recursos con plantillas. Todo lo que hace un puntero lo hace también el teclado: la cuadrícula es una sola parada de tabulación, las flechas recorren días, horas y recursos, y Alt con las flechas mueve un evento.',
         ],
         examples: {
@@ -2624,6 +2624,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Cuando el sistema pide reducir el movimiento, los resortes se vuelven instantáneos, y ni los efectos al pulsar ni las animaciones de entrada se mueven. La densidad nunca deja un control por debajo del tamaño mínimo de objetivo de 24 px de las WCAG 2.2, y ningún valor predefinido toca los colores, así que todas las comprobaciones de contraste se siguen cumpliendo. Los navegadores sin <code>corner-shape</code> dibujan todas las esquinas redondeadas.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Crea un calendario de reservas de salas en Angular',
+        description:
+          'Calendario de reservas en Angular con el planificador gratuito de Needless UI: salas en una línea de tiempo, arrastrar y soltar, .ics y sin dobles reservas.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'En esta guía vas a crear un calendario para reservar salas de reuniones: una línea de tiempo con una fila para cada sala, reservas que se arrastran a su sitio, una regla que impide reservar dos veces la misma sala y un archivo que añade una reserva a cualquier calendario. Usarás el <a href="/components/scheduler">planificador</a> de <code>@needless-ui/angular</code>, con licencia MIT como todo Needless UI, así que la línea de tiempo de recursos es gratuita para cualquier aplicación.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Salas y reservas' },
+          {
+            kind: 'p',
+            html: 'Las salas son recursos: un <code>id</code>, un <code>title</code> y cualquier otra cosa en <code>data</code>. Las reservas son eventos con horas ISO simples, como <code>2026-10-23T09:00</code>, y el id de su sala en <code>resource</code>. Una reserva puede incluir varias salas, o personas, en forma de lista.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Una fila para cada sala' },
+          {
+            kind: 'p',
+            html: 'Pasa las salas y las reservas a <code>nui-scheduler</code> con <code>view="timeline"</code>. <code>dayStart</code> y <code>dayEnd</code> limitan el día al horario de apertura, <code>snapMinutes</code> mueve las reservas en pasos de un cuarto de hora y <code>businessHours</code> sombrea el tiempo en que las salas están cerradas. <code>nuiSchedulerResource</code> dibuja el encabezado de cada fila.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Reserva y mueve' },
+          {
+            kind: 'p',
+            html: 'El planificador nunca cambia tus datos por su cuenta: te indica lo que hace la gente. Al arrastrar sobre la fila de una sala se elige un intervalo, y <code>slotSelect</code> lo comunica junto con la sala. Al arrastrar una reserva, o su final, <code>eventChange</code> comunica sus horas nuevas, y su sala nueva si ha pasado a otra. Actualiza el signal y la línea de tiempo se pone al día.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Sin dobles reservas' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> se consulta antes de crear o mover una reserva. Cuando devuelve <code>false</code>, el arrastre se ve en rojo y al soltarlo no pasa nada, y con el teclado el planificador anuncia que esa hora no está disponible. El ejemplo comprueba las demás reservas de la sala; vuelve a comprobarlo en tu servidor, que tiene la última palabra.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Carga los días en pantalla' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> comunica el primer y el último día que se muestran, al principio y de nuevo con cada cambio de página, para que puedas pedir solo esas reservas, con <code>httpResource</code> o con la petición que prefieras.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Añadir al calendario' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> escribe las reservas como un archivo iCalendar, que Google Calendar, Outlook y Apple Calendar importan. <code>nuiSchedulerFromIcs()</code> lee uno de esos archivos y pasa las horas de otras zonas horarias a la de quien lo lee.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Teclado y lectores de pantalla' },
+          {
+            kind: 'p',
+            html: 'Todo funciona sin ratón. La línea de tiempo es una sola parada de tabulación: las flechas recorren horas y salas, Mayús con las flechas elige un intervalo e Intro lo reserva. En una reserva, Alt con las flechas la mueve a otra hora o a otra sala. Cada reserva es un botón que toma su nombre del título, la sala, el día y la hora.',
+          },
+          {
+            kind: 'p',
+            html: 'Para ver las salas lado a lado en un día, las reservas que se repiten y todas las demás opciones, consulta la <a href="/components/scheduler">página del planificador</a> y su <a href="/components/scheduler/api">API</a>.',
           },
         ],
       },

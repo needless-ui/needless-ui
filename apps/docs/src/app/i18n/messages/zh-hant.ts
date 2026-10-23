@@ -1641,7 +1641,7 @@ export const messages: Messages = {
           '這是開源的 Angular 排程與行事曆元件，和 Needless UI 的其他部分一樣採用 MIT 授權：提供月、週、日和活動列表檢視，以及讓每間會議室、每位人員或每台設備各佔一列的時間軸。資源檢視和時間軸常是付費的附加功能；在這裡它們是免費的，任何專案都能使用，商業專案也不例外。',
           '活動是帶有 ISO 時間的一般資料。時間重疊的活動會平分寬度，跨越午夜的活動在兩天中都會顯示，全天活動則以橫條的形式橫跨頂端。為活動設定 <code>resource</code> 並傳入 <code>resources</code> 後，時間軸可以按小時顯示一天，或按日顯示一週或一個月；日檢視和週檢視則會依資源分成多欄。',
           '週期性活動遵循 iCalendar 的重複規則（RFC 5545），例如 <code>FREQ=WEEKLY;BYDAY=MO,WE</code> 或每月的最後一個星期五，例外則放在 <code>exdate</code> 中。<code>nuiSchedulerToIcs()</code> 和 <code>nuiSchedulerFromIcs()</code> 負責寫入和讀取 .ics 檔案，Google Calendar、Outlook 和 Apple Calendar 都能匯入和匯出這種檔案。',
-          '行事曆從不自行變更你的活動。拖曳活動、拖曳其末端，或在空白時段上拖曳時，<code>eventChange</code> 或 <code>slotSelect</code> 會回報發生了什麼；<code>allow</code> 會拒絕你的規則不允許的操作，例如同一間會議室被預訂兩次。<code>rangeChange</code> 會告訴你目前顯示哪些日期，方便你載入這些日期的活動。',
+          '行事曆從不自行變更你的活動。拖曳活動、拖曳其末端，或在空白時段上拖曳時，<code>eventChange</code> 或 <code>slotSelect</code> 會回報發生了什麼；<code>allow</code> 會拒絕你的規則不允許的操作，例如同一間會議室被預訂兩次。<code>rangeChange</code> 會告訴你目前顯示哪些日期，方便你載入這些日期的活動。<a href="/guides/booking-calendar">會議室預訂指南</a>會一步步把這些組合起來。',
           '還可以只顯示工作時間、以灰底標示工作時間以外的時間、隱藏週末、顯示週數，並用範本繪製活動和資源。指標能做的，鍵盤也都能做：網格在 Tab 鍵順序中只佔一個位置，方向鍵可在日期、時間和資源之間移動，Alt 加方向鍵則會移動活動。',
         ],
         examples: {
@@ -2417,6 +2417,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '當系統要求減少動態效果時，彈簧會瞬間完成，按壓和進場效果也不再移動。不論密度如何設定，控制項都不會小於 WCAG 2.2 規定的 24px 目標尺寸；而且沒有任何預設集會更動顏色，因此所有對比度檢查依然成立。不支援 <code>corner-shape</code> 的瀏覽器會把所有邊角都繪製成圓角。',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: '用 Angular 打造會議室預約行事曆',
+        description:
+          '用免費的 Needless UI 行事曆元件，以 Angular 打造會議室預約行事曆：時間軸上的會議室、拖放、避免重複預約，以及 .ics 檔案。',
+        blocks: [
+          {
+            kind: 'p',
+            html: '這份指南要打造一個用來預訂會議室的行事曆：時間軸上每間會議室各佔一列，預訂可以拖曳到合適的位置，有一條規則防止同一間會議室被預訂兩次，還有一個檔案能把預訂加入任何行事曆應用程式。它使用的是 <code>@needless-ui/angular</code> 中的<a href="/components/scheduler">行事曆</a>元件，和 Needless UI 的其他部分一樣採用 MIT 授權，因此資源時間軸在任何應用程式中都能免費使用。',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: '會議室與預訂' },
+          {
+            kind: 'p',
+            html: '會議室就是資源：有 <code>id</code> 和 <code>title</code>，其他資訊都放在 <code>data</code> 中。預訂就是活動，帶有一般的 ISO 時間（例如 <code>2026-10-23T09:00</code>），並在 <code>resource</code> 中存放所屬會議室的 id。一筆預訂也可以用清單同時包含多間會議室或多位人員。',
+          },
+          { kind: 'h2', id: 'timeline', text: '每間會議室一列' },
+          {
+            kind: 'p',
+            html: '把兩者連同 <code>view="timeline"</code> 一起傳給 <code>nui-scheduler</code>。<code>dayStart</code> 和 <code>dayEnd</code> 讓一天只顯示會議室的開放時間，<code>snapMinutes</code> 讓預訂以 15 分鐘為單位移動，<code>businessHours</code> 則以灰底標示會議室關閉的時間。<code>nuiSchedulerResource</code> 負責繪製每一列的標題。',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: '預訂與移動' },
+          {
+            kind: 'p',
+            html: '行事曆從不自行變更你的資料，只會回報使用者做了什麼。在會議室的列上拖曳會選取一段時間，<code>slotSelect</code> 會連同會議室一起回報這段時間。拖曳預訂或其末端時，<code>eventChange</code> 會回報新的時間；如果移到了另一間會議室，也會回報新的會議室。更新 signal，時間軸就會跟著改變。',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: '避免重複預訂' },
+          {
+            kind: 'p',
+            html: '建立或移動預訂之前，行事曆會先詢問 <code>allow</code>。它傳回 <code>false</code> 時，拖曳會顯示為紅色，放開後也不會有任何變化；用鍵盤操作時，行事曆會朗讀該時間無法使用。這個範例會檢查同一間會議室的其他預訂；請在伺服器上再檢查一次，最終仍以伺服器為準。',
+          },
+          { kind: 'h2', id: 'loading', text: '載入畫面上的日期' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> 會回報顯示的第一天和最後一天：開始時回報一次，之後使用者每次翻頁時再回報一次。這樣你就可以只取得這些日期的預訂，用 <code>httpResource</code> 或任何你喜歡的請求方式都可以。',
+          },
+          { kind: 'h2', id: 'calendar', text: '加入行事曆' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> 會把預訂寫成 iCalendar 檔案，Google Calendar、Outlook 和 Apple Calendar 都能匯入。<code>nuiSchedulerFromIcs()</code> 則會讀回這種檔案，並把其他時區的時間換算成使用者所在時區的時間。',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: '鍵盤與螢幕閱讀器' },
+          {
+            kind: 'p',
+            html: '這一切不用滑鼠也能完成。時間軸在 Tab 鍵順序中只佔一個位置：方向鍵可在時間和會議室之間移動，Shift 加方向鍵可選取時間，按 Enter 鍵即可預訂。在預訂上按 Alt 加方向鍵，可以把它移到另一個時間或另一間會議室。每筆預訂都是一個按鈕，以其標題、會議室、日期和時間命名。',
+          },
+          {
+            kind: 'p',
+            html: '如需在日檢視中並排顯示會議室、使用週期性預訂或了解其他所有選項，請參閱<a href="/components/scheduler">行事曆頁面</a>及其 <a href="/components/scheduler/api">API</a>。',
           },
         ],
       },

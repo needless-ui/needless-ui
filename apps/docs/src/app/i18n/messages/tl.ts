@@ -1795,7 +1795,7 @@ export const messages: Messages = {
           'Isang open-source na Angular scheduler at event calendar, MIT-licensed gaya ng buong Needless UI: mga view ng buwan, linggo, araw at agenda, at isang timeline na may row para sa bawat room, tao o makina. Kadalasang may bayad na extra ang mga resource view at timeline; dito, libre ang mga ito para sa kahit anong proyekto, pati sa mga commercial.',
           'Plain na data ang mga event na may mga ISO time. Naghahati sa lapad ang mga nag-o-overlap, lumalabas sa dalawang araw ang mga event na tumatawid sa hatinggabi, at tumatakbo sa itaas bilang mga bar ang mga all-day event. Bigyan ng <code>resource</code> ang mga event at ipasa ang <code>resources</code>: ipinapakita ng timeline ang isang araw ayon sa mga oras nito, o ang isang linggo o buwan ayon sa mga araw nito, at nahahati ang araw at ang linggo sa isang column para sa bawat resource.',
           'Sumusunod ang mga recurring event sa mga repeat rule ng iCalendar (RFC 5545), gaya ng <code>FREQ=WEEKLY;BYDAY=MO,WE</code> o ang huling Biyernes ng bawat buwan, na may mga exception sa <code>exdate</code>. Nagsusulat at nagbabasa ang <code>nuiSchedulerToIcs()</code> at <code>nuiSchedulerFromIcs()</code> ng mga .ics file, na ini-import at ine-export ng Google Calendar, Outlook at Apple Calendar.',
-          'Hindi nito kailanman binabago nang kusa ang mga event mo. I-drag ang isang event o ang dulo nito, o mag-drag sa bakanteng oras, at iuulat ng <code>eventChange</code> o ng <code>slotSelect</code> ang nangyari; tinatanggihan ng <code>allow</code> ang hindi pinapayagan ng mga patakaran mo, gaya ng room na na-book nang dalawang beses. Sinasabi ng <code>rangeChange</code> kung aling mga araw ang ipinapakita, para ma-load mo ang mga event ng mga ito.',
+          'Hindi nito kailanman binabago nang kusa ang mga event mo. I-drag ang isang event o ang dulo nito, o mag-drag sa bakanteng oras, at iuulat ng <code>eventChange</code> o ng <code>slotSelect</code> ang nangyari; tinatanggihan ng <code>allow</code> ang hindi pinapayagan ng mga patakaran mo, gaya ng room na na-book nang dalawang beses. Sinasabi ng <code>rangeChange</code> kung aling mga araw ang ipinapakita, para ma-load mo ang mga event ng mga ito. Pinagsasama-sama ang lahat ng ito, hakbang-hakbang, sa <a href="/guides/booking-calendar">gabay sa room booking</a>.',
           'Ipakita lang ang working hours, i-shade ang oras sa labas nito, alisin ang weekend, lagyan ng numero ang mga linggo, at iguhit ang mga event at resource gamit ang mga template. Lahat ng nagagawa ng pointer, nagagawa rin ng keyboard: iisang tab stop ang grid, gumagalaw sa mga araw, oras at resource ang mga arrow key, at inililipat ng Alt kasama ang mga arrow ang isang event.',
         ],
         examples: {
@@ -2643,6 +2643,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Kapag humiling ang system ng reduced motion, agad na natatapos ang mga spring, at hindi na gumagalaw ang mga press effect at paglitaw. Hindi kailanman pinapaliit ng density ang isang control nang lampas sa 24px na target size ng WCAG 2.2, at walang preset na nagbabago ng kulay, kaya pasado pa rin ang bawat contrast check. Ginagawang bilog ng mga browser na walang <code>corner-shape</code> ang bawat sulok.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Gumawa ng room booking calendar sa Angular',
+        description:
+          'Gumawa ng room booking calendar sa Angular gamit ang libreng Needless UI scheduler: mga room sa timeline, drag and drop, walang double booking at .ics file.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Sa gabay na ito, gagawa tayo ng calendar para sa pag-book ng mga meeting room: isang timeline na may row para sa bawat room, mga booking na dina-drag mo sa puwesto, isang patakarang pumipigil na ma-book nang dalawang beses ang isang room, at isang file na naglalagay ng booking sa kahit anong calendar. Ginagamit nito ang <a href="/components/scheduler">scheduler</a> mula sa <code>@needless-ui/angular</code>, na MIT-licensed gaya ng buong Needless UI, kaya libre ang resource timeline para sa kahit anong app.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Mga room at booking' },
+          {
+            kind: 'p',
+            html: 'Mga resource ang mga room: isang <code>id</code>, isang <code>title</code>, at kahit ano pa sa <code>data</code>. Mga event naman ang mga booking, na may plain na ISO time gaya ng <code>2026-10-23T09:00</code>, at ang id ng room nila sa <code>resource</code>. Puwedeng maglaman ang isang booking ng ilang room, o tao, bilang list.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Isang row para sa bawat room' },
+          {
+            kind: 'p',
+            html: 'Ipasa ang dalawa sa <code>nui-scheduler</code> na may <code>view="timeline"</code>. Pinapanatili ng <code>dayStart</code> at <code>dayEnd</code> ang araw sa loob ng opening hours, inililipat ng <code>snapMinutes</code> ang mga booking nang tig-15 minuto, at sini-shade ng <code>businessHours</code> ang oras na sarado ang mga room. Iginuguhit ng <code>nuiSchedulerResource</code> ang header ng bawat row.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Mag-book at maglipat' },
+          {
+            kind: 'p',
+            html: 'Hindi kailanman binabago nang kusa ng scheduler ang data mo: iniuulat lang nito ang ginagawa ng mga tao. Pumipili ng oras ang pag-drag sa row ng isang room, at iniuulat ito ng <code>slotSelect</code> kasama ang room. Kapag ni-drag ang isang booking, o ang dulo nito, iniuulat ng <code>eventChange</code> ang mga bagong oras nito, at ang bagong room nito kapag inilipat ito sa iba. I-update ang signal, at susunod ang timeline.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Walang double booking' },
+          {
+            kind: 'p',
+            html: 'Tinatanong ang <code>allow</code> bago gawin o ilipat ang isang booking. Kapag <code>false</code> ang ibinalik nito, nagiging pula ang drag at walang nangyayari kapag binitawan, at kapag keyboard ang gamit, sinasabi ng scheduler na hindi available ang oras. Sinusuri ng example ang ibang booking ng room; suriin ulit sa server mo, dahil ito ang may huling salita.',
+          },
+          { kind: 'h2', id: 'loading', text: 'I-load ang mga araw na nasa screen' },
+          {
+            kind: 'p',
+            html: 'Iniuulat ng <code>rangeChange</code> ang una at huling araw na ipinapakita, minsan sa simula at muli tuwing lilipat ng page ang mga tao, para ma-fetch mo lang ang mga booking ng mga araw na iyon, gamit ang <code>httpResource</code> o kahit anong request na gusto mo.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Idagdag sa calendar' },
+          {
+            kind: 'p',
+            html: 'Isinusulat ng <code>nuiSchedulerToIcs()</code> ang mga booking bilang iCalendar file, na ini-import ng Google Calendar, Outlook at Apple Calendar. Binabasa naman ng <code>nuiSchedulerFromIcs()</code> pabalik ang ganoong file, at inililipat nito ang mga oras mula sa ibang time zone papunta sa time zone ng user.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Keyboard at mga screen reader' },
+          {
+            kind: 'p',
+            html: 'Gumagana ang lahat ng ito kahit walang mouse. Iisang tab stop ang timeline: gumagalaw sa mga oras at room ang mga arrow key, pumipili ng oras ang Shift kasama ang mga arrow, at bina-book ito ng Enter. Sa isang booking, inililipat ito ng Alt kasama ang mga arrow sa ibang oras o room. Isang button ang bawat booking na pinangalanan ng title, room, araw at oras nito.',
+          },
+          {
+            kind: 'p',
+            html: 'Para sa mga room na magkakatabi sa view ng araw, mga recurring booking at bawat iba pang opsyon, tingnan ang <a href="/components/scheduler">page ng scheduler</a> at ang <a href="/components/scheduler/api">API</a> nito.',
           },
         ],
       },

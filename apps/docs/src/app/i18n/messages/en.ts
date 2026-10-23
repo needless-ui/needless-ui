@@ -1720,7 +1720,7 @@ export const messages: Messages = {
           'An open-source Angular scheduler and event calendar, MIT-licensed like all of Needless UI: month, week, day and agenda views, and a timeline with a row for each room, person or machine. Resource views and timelines are often a paid extra; here they’re free, for any project, commercial ones too.',
           'Events are plain data with ISO times. Overlapping ones share the width, events across midnight show in both days, and all-day events run across the top as bars. Give events a <code>resource</code> and pass <code>resources</code>: the timeline shows a day by its hours, or a week or a month by its days, and the day and the week split into a column per resource.',
           'Recurring events follow iCalendar repeat rules (RFC 5545), such as <code>FREQ=WEEKLY;BYDAY=MO,WE</code> or the last Friday of each month, with exceptions in <code>exdate</code>. <code>nuiSchedulerToIcs()</code> and <code>nuiSchedulerFromIcs()</code> write and read .ics files, which Google Calendar, Outlook and Apple Calendar import and export.',
-          'It never changes your events itself. Drag an event, its end, or across empty time, and <code>eventChange</code> or <code>slotSelect</code> reports what happened; <code>allow</code> turns down what your rules don’t, such as a room booked twice. <code>rangeChange</code> tells you which days are shown, so you can load their events.',
+          'It never changes your events itself. Drag an event, its end, or across empty time, and <code>eventChange</code> or <code>slotSelect</code> reports what happened; <code>allow</code> turns down what your rules don’t, such as a room booked twice. <code>rangeChange</code> tells you which days are shown, so you can load their events. The <a href="/guides/booking-calendar">room booking guide</a> puts it together, step by step.',
           'Show only working hours, shade the time outside them, leave out the weekend, number the weeks, and draw events and resources with templates. Everything a pointer does, the keyboard does too: the grid is one tab stop, the arrow keys move through days, times and resources, and Alt with the arrows moves an event.',
         ],
         examples: {
@@ -2525,6 +2525,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'When the system asks for reduced motion, springs collapse to an instant, and presses and entrances stop moving. Density never takes a control below the 24px target size of WCAG 2.2, and no preset touches colors, so every contrast check still holds. Browsers without <code>corner-shape</code> draw every corner round.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Build a room booking calendar in Angular',
+        description:
+          'Build a room booking calendar in Angular with the free Needless UI scheduler: rooms on a timeline, drag and drop, no double bookings, and .ics files.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'This guide builds a calendar for booking meeting rooms: a timeline with a row for each room, bookings you drag into place, a rule that keeps a room from being booked twice, and a file that puts a booking in any calendar. It uses the <a href="/components/scheduler">scheduler</a> from <code>@needless-ui/angular</code>, MIT-licensed like the rest of Needless UI, so the resource timeline is free for any app.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Rooms and bookings' },
+          {
+            kind: 'p',
+            html: 'Rooms are resources: an <code>id</code>, a <code>title</code>, and anything else in <code>data</code>. Bookings are events with plain ISO times, such as <code>2026-10-23T09:00</code>, and their room’s id in <code>resource</code>. A booking can hold several rooms, or people, as a list.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'A row for each room' },
+          {
+            kind: 'p',
+            html: 'Pass both to <code>nui-scheduler</code> with <code>view="timeline"</code>. <code>dayStart</code> and <code>dayEnd</code> keep the day to opening hours, <code>snapMinutes</code> moves bookings by quarter hours, and <code>businessHours</code> shades the time the rooms are closed. <code>nuiSchedulerResource</code> draws the head of each row.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Book and move' },
+          {
+            kind: 'p',
+            html: 'The scheduler never changes your data itself: it reports what people do. Dragging across a room’s row chooses time, and <code>slotSelect</code> reports it with the room. Dragging a booking, or its end, reports its new times in <code>eventChange</code>, and its new room when it moved to another. Update the signal, and the timeline follows.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'No double bookings' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> is asked before a booking is made or moved. When it returns <code>false</code>, a drag shows in red and drops nothing, and from the keyboard the scheduler says the time isn’t available. The example checks the room’s other bookings; check again on your server, which has the last word.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Load the days on screen' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> reports the first and last day shown, once at the start and again whenever people page, so you can fetch only those bookings, with <code>httpResource</code> or any request you like.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Add to calendar' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> writes bookings as an iCalendar file, which Google Calendar, Outlook and Apple Calendar import. <code>nuiSchedulerFromIcs()</code> reads one back, and moves times from other time zones to the reader’s.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Keyboard and screen readers' },
+          {
+            kind: 'p',
+            html: 'All of it works without a mouse. The timeline is one tab stop: the arrow keys move through times and rooms, Shift with the arrows chooses time, and Enter books it. On a booking, Alt with the arrows moves it to another time or room. Every booking is a button named by its title, room, day and time.',
+          },
+          {
+            kind: 'p',
+            html: 'For the rooms side by side in a day, repeating bookings and every other option, see the <a href="/components/scheduler">scheduler’s page</a> and its <a href="/components/scheduler/api">API</a>.',
           },
         ],
       },

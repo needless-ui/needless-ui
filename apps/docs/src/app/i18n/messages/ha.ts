@@ -1787,7 +1787,7 @@ export const messages: Messages = {
           'Jadawali da kalandar events na Angular, open source kuma mai lasisin MIT kamar dukan Needless UI: kallon wata, mako, rana da ajanda, da timeline mai layi ga kowane ɗaki, mutum ko inji. Kallon resources da timelines galibi ƙari ne da sai an biya; a nan kyauta ne, ga kowane irin aiki, har da na kasuwanci.',
           'Events bayanai ne zalla masu lokutan ISO. Waɗanda suka haɗu suna raba faɗin, events da suka ƙetare tsakar dare suna bayyana a kwanakin biyu, kuma events na duk yini suna tafiya a sama a matsayin zirare. Ku ba events <code>resource</code>, ku kuma miƙa <code>resources</code>: timeline ɗin yana nuna rana bisa sa’o’inta, ko mako ko wata bisa kwanakinsu, kuma kallon rana da na mako suna rabuwa zuwa ginshiƙi ɗaya ga kowane resource.',
           'Events masu maimaituwa suna bin dokokin maimaitawa na iCalendar (RFC 5545), kamar <code>FREQ=WEEKLY;BYDAY=MO,WE</code> ko Jumma’a ta ƙarshe a kowane wata, tare da lokutan da aka cire a cikin <code>exdate</code>. <code>nuiSchedulerToIcs()</code> da <code>nuiSchedulerFromIcs()</code> suna rubutawa da karanta fayilolin .ics, waɗanda za a iya shigar da su ko fitar da su a Google Calendar, Outlook da Apple Calendar.',
-          'Ba ya taɓa canza events ɗinku da kansa. Ku ja event, ko ƙarshensa, ko a kan lokacin da babu komai, sai <code>eventChange</code> ko <code>slotSelect</code> ya ba da rahoton abin da ya faru; <code>allow</code> yana ƙin abin da dokokinku ba su yarda da shi ba, kamar ajiyar ɗaki sau biyu. <code>rangeChange</code> yana gaya muku kwanakin da ake nunawa, don ku ɗauko events ɗinsu.',
+          'Ba ya taɓa canza events ɗinku da kansa. Ku ja event, ko ƙarshensa, ko a kan lokacin da babu komai, sai <code>eventChange</code> ko <code>slotSelect</code> ya ba da rahoton abin da ya faru; <code>allow</code> yana ƙin abin da dokokinku ba su yarda da shi ba, kamar ajiyar ɗaki sau biyu. <code>rangeChange</code> yana gaya muku kwanakin da ake nunawa, don ku ɗauko events ɗinsu. <a href="/guides/booking-calendar">Jagorar ajiyar ɗakuna</a> tana haɗa duk wannan wuri ɗaya, mataki-mataki.',
           'Ku nuna sa’o’in aiki kawai, ku sanya inuwa a lokacin da ke wajensu, ku cire ƙarshen mako, ku nuna lambobin makonni, kuma ku zana events da resources da templates. Duk abin da linzami ke yi, allon madannai ma yana yi: grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab, maɓallan kibiya suna ratsa kwanaki, lokuta da resources, kuma Alt tare da kibiyoyi yana matsar da event.',
         ],
         examples: {
@@ -2625,6 +2625,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Idan tsarin ya nemi rage motsi, springs suna zama nan take, kuma tasirin dannawa da shigowa suna daina motsi. Saitin sarari ba ya taɓa sa wani control ya yi ƙasa da girman wurin taɓawa na pixels 24 na WCAG 2.2, kuma babu preset da ke taɓa launuka, don haka duk gwajin bambancin launi yana nan daram. Burauzoji marasa <code>corner-shape</code> suna zana kowace kusurwa a zagaye.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Yadda ake gina kalandar ajiyar ɗakuna a Angular',
+        description:
+          'Ku gina kalandar ajiyar ɗakuna a Angular da jadawalin Needless UI na kyauta: ɗakuna a kan timeline, ja da sauke, babu ajiyar ɗaki sau biyu, da fayilolin .ics.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Wannan jagorar tana gina kalanda don ajiyar ɗakunan taro: timeline mai layi ga kowane ɗaki, ajiyoyin wuri da ake ja zuwa inda suka dace, doka da ke hana a yi ajiyar ɗaki sau biyu, da fayil da ke saka ajiyar wuri a kowace kalanda. Tana amfani da <a href="/components/scheduler">jadawalin</a> daga <code>@needless-ui/angular</code>, mai lasisin MIT kamar dukan Needless UI, don haka timeline na resources kyauta ne ga kowace manhaja.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Ɗakuna da ajiyoyin wuri' },
+          {
+            kind: 'p',
+            html: 'Ɗakuna resources ne: kowanne yana da <code>id</code>, <code>title</code>, da duk wani abu dabam a cikin <code>data</code>. Ajiyoyin wuri events ne masu lokutan ISO zalla, kamar <code>2026-10-23T09:00</code>, tare da id na ɗakinsu a cikin <code>resource</code>. Ajiyar wuri ɗaya tana iya ɗaukar ɗakuna da yawa, ko mutane, a matsayin jeri.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Layi ga kowane ɗaki' },
+          {
+            kind: 'p',
+            html: 'Ku miƙa su duka biyun ga <code>nui-scheduler</code> tare da <code>view="timeline"</code>. <code>dayStart</code> da <code>dayEnd</code> suna taƙaita ranar zuwa lokutan buɗewa, <code>snapMinutes</code> yana matsar da ajiyoyin wuri da minti 15, kuma <code>businessHours</code> suna sanya inuwa a lokacin da ɗakunan ke rufe. <code>nuiSchedulerResource</code> yana zana taken kowane layi.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Yin ajiya da matsarwa' },
+          {
+            kind: 'p',
+            html: 'Jadawalin ba ya taɓa canza bayananku da kansa: yana ba da rahoton abin da mutane ke yi ne kawai. Jan a kan layin ɗaki yana zaɓar lokaci, kuma <code>slotSelect</code> yana ba da rahotonsa tare da ɗakin. Jan ajiyar wuri, ko ƙarshenta, yana ba da rahoton sabbin lokutanta a cikin <code>eventChange</code>, da sabon ɗakinta idan an matsar da ita zuwa wani ɗaki. Ku sabunta signal ɗin, sai timeline ɗin ya bi.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Babu ajiyar ɗaki sau biyu' },
+          {
+            kind: 'p',
+            html: 'Ana tambayar <code>allow</code> kafin a yi ajiyar wuri ko a matsar da ita. Idan ya dawo da <code>false</code>, jan yana bayyana da launin ja kuma ba ya sauke komai, kuma da allon madannai, jadawalin yana sanar da cewa lokacin ba ya samuwa. Misalin yana duba sauran ajiyoyin ɗakin; ku sake dubawa a server ɗinku, domin shi ne ke yanke hukunci na ƙarshe.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Ɗauko kwanakin da ke kan allo' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> yana ba da rahoton rana ta farko da ta ƙarshe da ake nunawa, sau ɗaya a farko, sannan duk lokacin da mutane suka sauya shafi, don ku ɗauko ajiyoyin waɗannan kwanakin kawai, da <code>httpResource</code> ko kowane request da kuke so.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Ƙara zuwa kalanda' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> yana rubuta ajiyoyin wuri a matsayin fayil na iCalendar, wanda Google Calendar, Outlook da Apple Calendar ke shigar da shi. <code>nuiSchedulerFromIcs()</code> yana karanta irin wannan fayil, kuma yana mayar da lokuta daga wasu yankunan lokaci zuwa yankin lokacin mai karatu.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Allon madannai da manhajojin karanta allo' },
+          {
+            kind: 'p',
+            html: 'Duk wannan yana aiki ba tare da linzami ba. Timeline ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab: maɓallan kibiya suna ratsa lokuta da ɗakuna, Shift tare da kibiyoyi yana zaɓar lokaci, kuma Enter yana yin ajiyarsa. A kan ajiyar wuri, Alt tare da kibiyoyi yana matsar da ita zuwa wani lokaci ko wani ɗaki. Kowace ajiyar wuri maɓalli ne mai suna daga takenta, ɗakinta, ranarta da lokacinta.',
+          },
+          {
+            kind: 'p',
+            html: 'Don ɗakuna gefe da gefe a rana ɗaya, ajiyoyin wuri masu maimaituwa da kowane zaɓi dabam, ku duba <a href="/components/scheduler">shafin jadawalin</a> da <a href="/components/scheduler/api">API</a> ɗinsa.',
           },
         ],
       },

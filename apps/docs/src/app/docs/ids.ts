@@ -36,6 +36,7 @@ export const GUIDE_IDS = [
   'getting-started',
   'theming',
   'customization',
+  'booking-calendar',
   'browser-support',
 ] as const;
 export type GuideId = (typeof GUIDE_IDS)[number];

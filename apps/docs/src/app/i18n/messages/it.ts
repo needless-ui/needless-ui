@@ -1765,7 +1765,7 @@ export const messages: Messages = {
           'Un pianificatore e calendario di eventi open source per Angular, con licenza MIT come tutto Needless UI: viste mese, settimana, giorno e agenda, e una timeline con una riga per ogni sala, persona o macchina. Le viste per risorse e le timeline sono spesso un extra a pagamento; qui sono gratuite, per qualsiasi progetto, anche commerciale.',
           'Gli eventi sono semplici dati con orari ISO. Quelli sovrapposti si dividono la larghezza, quelli a cavallo della mezzanotte compaiono in entrambi i giorni, e quelli che durano tutto il giorno si estendono in alto come barre. Assegna agli eventi una <code>resource</code> e passa <code>resources</code>: la timeline mostra un giorno ora per ora, o una settimana o un mese giorno per giorno, e il giorno e la settimana si dividono in una colonna per ogni risorsa.',
           'Gli eventi ricorrenti seguono le regole di ripetizione di iCalendar (RFC 5545), come <code>FREQ=WEEKLY;BYDAY=MO,WE</code> o l’ultimo venerdì di ogni mese, con le eccezioni in <code>exdate</code>. <code>nuiSchedulerToIcs()</code> e <code>nuiSchedulerFromIcs()</code> scrivono e leggono file .ics, che Google Calendar, Outlook e Apple Calendar importano ed esportano.',
-          'Non modifica mai i tuoi eventi da solo. Quando trascini un evento, la sua fine o su un orario libero, <code>eventChange</code> o <code>slotSelect</code> riporta cosa è successo; <code>allow</code> rifiuta ciò che le tue regole non permettono, come una sala prenotata due volte. <code>rangeChange</code> ti dice quali giorni sono visibili, così puoi caricarne gli eventi.',
+          'Non modifica mai i tuoi eventi da solo. Quando trascini un evento, la sua fine o su un orario libero, <code>eventChange</code> o <code>slotSelect</code> riporta cosa è successo; <code>allow</code> rifiuta ciò che le tue regole non permettono, come una sala prenotata due volte. <code>rangeChange</code> ti dice quali giorni sono visibili, così puoi caricarne gli eventi. La <a href="/guides/booking-calendar">guida alla prenotazione delle sale</a> mette insieme il tutto, passo dopo passo.',
           'Mostra solo l’orario di lavoro, ombreggia il resto del tempo, escludi il fine settimana, numera le settimane e disegna eventi e risorse con dei template. Tutto ciò che fa un puntatore lo fa anche la tastiera: la griglia è un unico tab stop, le frecce si muovono tra giorni, orari e risorse, e Alt con le frecce sposta un evento.',
         ],
         examples: {
@@ -2600,6 +2600,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Quando il sistema chiede meno animazioni, le molle diventano istantanee, mentre effetti alla pressione e animazioni di entrata restano fermi. La densità non porta mai un controllo sotto l’area di tocco minima di 24px delle WCAG 2.2, e nessun preset tocca i colori, quindi ogni verifica di contrasto resta valida. I browser senza <code>corner-shape</code> disegnano tutti gli angoli arrotondati.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Crea un calendario di prenotazione sale in Angular',
+        description:
+          'Calendario per prenotare sale con il pianificatore Angular gratuito di Needless UI: timeline delle sale, drag and drop, file .ics e niente doppie prenotazioni.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'In questa guida costruirai un calendario per prenotare le sale riunioni: una timeline con una riga per ogni sala, prenotazioni da trascinare al loro posto, una regola che impedisce di prenotare due volte la stessa sala e un file che aggiunge una prenotazione a qualsiasi calendario. Userai il <a href="/components/scheduler">pianificatore</a> di <code>@needless-ui/angular</code>, con licenza MIT come tutto Needless UI, quindi la timeline delle risorse è gratuita per qualsiasi app.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Sale e prenotazioni' },
+          {
+            kind: 'p',
+            html: 'Le sale sono risorse: un <code>id</code>, un <code>title</code> e tutto il resto in <code>data</code>. Le prenotazioni sono eventi con semplici orari ISO, come <code>2026-10-23T09:00</code>, e l’id della loro sala in <code>resource</code>. Una prenotazione può includere più sale, o persone, sotto forma di lista.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Una riga per ogni sala' },
+          {
+            kind: 'p',
+            html: 'Passa sale e prenotazioni a <code>nui-scheduler</code> con <code>view="timeline"</code>. <code>dayStart</code> e <code>dayEnd</code> limitano la giornata all’orario di apertura, <code>snapMinutes</code> sposta le prenotazioni di un quarto d’ora alla volta e <code>businessHours</code> ombreggia le ore in cui le sale sono chiuse. <code>nuiSchedulerResource</code> disegna l’intestazione di ogni riga.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Prenota e sposta' },
+          {
+            kind: 'p',
+            html: 'Il pianificatore non modifica mai i tuoi dati da solo: riporta ciò che fanno le persone. Trascinando lungo la riga di una sala si sceglie un orario, che <code>slotSelect</code> riporta insieme alla sala. Quando si trascina una prenotazione, o la sua fine, <code>eventChange</code> ne riporta i nuovi orari, e anche la nuova sala se è stata spostata in un’altra. Aggiorna il signal e la timeline si adegua.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Niente doppie prenotazioni' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> viene consultato prima che una prenotazione venga creata o spostata. Quando restituisce <code>false</code>, il trascinamento appare in rosso e al rilascio non succede nulla, e da tastiera il pianificatore annuncia che l’orario non è disponibile. L’esempio controlla le altre prenotazioni della sala; ricontrolla sul tuo server, che ha l’ultima parola.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Carica i giorni visibili' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> riporta il primo e l’ultimo giorno mostrati, una volta all’inizio e poi a ogni cambio di pagina, così puoi caricare solo quelle prenotazioni, con <code>httpResource</code> o con qualsiasi richiesta tu preferisca.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Aggiungi al calendario' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> scrive le prenotazioni in un file iCalendar, che Google Calendar, Outlook e Apple Calendar importano. <code>nuiSchedulerFromIcs()</code> ne legge uno e converte gli orari di altri fusi orari in quello di chi lo legge.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Tastiera e screen reader' },
+          {
+            kind: 'p',
+            html: 'Tutto funziona senza mouse. La timeline è un unico tab stop: le frecce si muovono tra orari e sale, Maiusc con le frecce sceglie un orario e Invio lo prenota. Su una prenotazione, Alt con le frecce la sposta a un altro orario o in un’altra sala. Ogni prenotazione è un pulsante con il nome dato da titolo, sala, giorno e orario.',
+          },
+          {
+            kind: 'p',
+            html: 'Per la vista giorno con le sale affiancate, le prenotazioni ricorrenti e tutte le altre opzioni, consulta la <a href="/components/scheduler">pagina del pianificatore</a> e la sua <a href="/components/scheduler/api">API</a>.',
           },
         ],
       },

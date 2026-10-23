@@ -1793,7 +1793,7 @@ export const messages: Messages = {
           'Un planificateur et calendrier d’événements open source pour Angular, sous licence MIT comme tout Needless UI : vues mois, semaine, jour et agenda, et une timeline avec une ligne par salle, personne ou machine. Les vues par ressource et les timelines sont souvent une option payante ; ici, elles sont gratuites, pour tout projet, y compris commercial.',
           'Les événements sont de simples données, avec des heures au format ISO. Ceux qui se chevauchent se partagent la largeur, ceux qui passent minuit apparaissent sur les deux jours, et ceux qui durent toute la journée s’étendent en haut sous forme de barres. Donnez aux événements une <code>resource</code> et passez <code>resources</code> : la timeline montre un jour heure par heure, ou une semaine ou un mois jour par jour, et le jour et la semaine se divisent en une colonne par ressource.',
           'Les événements récurrents suivent les règles de récurrence d’iCalendar (RFC 5545), comme <code>FREQ=WEEKLY;BYDAY=MO,WE</code> ou le dernier vendredi de chaque mois, avec des exceptions dans <code>exdate</code>. <code>nuiSchedulerToIcs()</code> et <code>nuiSchedulerFromIcs()</code> écrivent et lisent des fichiers .ics, que Google Calendar, Outlook et Apple Calendar importent et exportent.',
-          'Il ne modifie jamais vos événements de lui-même. Faites glisser un événement ou sa fin, ou glissez sur une plage libre, et <code>eventChange</code> ou <code>slotSelect</code> signale ce qui s’est passé ; <code>allow</code> refuse ce que vos règles n’autorisent pas, comme une salle réservée deux fois. <code>rangeChange</code> vous indique quels jours sont affichés, pour que vous puissiez charger leurs événements.',
+          'Il ne modifie jamais vos événements de lui-même. Faites glisser un événement ou sa fin, ou glissez sur une plage libre, et <code>eventChange</code> ou <code>slotSelect</code> signale ce qui s’est passé ; <code>allow</code> refuse ce que vos règles n’autorisent pas, comme une salle réservée deux fois. <code>rangeChange</code> vous indique quels jours sont affichés, pour que vous puissiez charger leurs événements. Le <a href="/guides/booking-calendar">guide de réservation de salles</a> assemble le tout, étape par étape.',
           'N’affichez que les heures de travail, grisez le temps en dehors, masquez le week-end, numérotez les semaines et dessinez événements et ressources avec des templates. Tout ce que fait un pointeur, le clavier le fait aussi : la grille ne compte qu’un seul arrêt de tabulation, les flèches parcourent les jours, les heures et les ressources, et Alt avec les flèches déplace un événement.',
         ],
         examples: {
@@ -2660,6 +2660,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Quand le système demande moins d’animations, les ressorts deviennent instantanés, et les effets d’appui et les animations d’entrée ne bougent plus. La densité ne fait jamais passer un élément interactif sous la taille de cible minimale de 24 px des WCAG 2.2, et aucun préréglage ne touche aux couleurs : toutes les vérifications de contraste restent valables. Les navigateurs qui ne prennent pas en charge <code>corner-shape</code> dessinent tous les coins arrondis.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Créer un calendrier de réservation de salles en Angular',
+        description:
+          'Calendrier de réservation en Angular avec le planificateur gratuit de Needless UI : salles sur une timeline, glisser-déposer, .ics, sans double réservation.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Dans ce guide, vous allez créer un calendrier pour réserver des salles de réunion : une timeline avec une ligne par salle, des réservations que vous faites glisser à leur place, une règle qui empêche de réserver deux fois la même salle, et un fichier qui ajoute une réservation à n’importe quel calendrier. L’ensemble repose sur le <a href="/components/scheduler">planificateur</a> de <code>@needless-ui/angular</code>, sous licence MIT comme tout Needless UI : la timeline de ressources est donc gratuite pour toute application.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Salles et réservations' },
+          {
+            kind: 'p',
+            html: 'Les salles sont des ressources : un <code>id</code>, un <code>title</code>, et tout le reste dans <code>data</code>. Les réservations sont des événements avec de simples heures au format ISO, comme <code>2026-10-23T09:00</code>, et l’id de leur salle dans <code>resource</code>. Une réservation peut porter sur plusieurs salles, ou personnes, sous forme de liste.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Une ligne par salle' },
+          {
+            kind: 'p',
+            html: 'Passez les salles et les réservations à <code>nui-scheduler</code> avec <code>view="timeline"</code>. <code>dayStart</code> et <code>dayEnd</code> limitent la journée aux heures d’ouverture, <code>snapMinutes</code> déplace les réservations par quarts d’heure, et <code>businessHours</code> grise le temps où les salles sont fermées. <code>nuiSchedulerResource</code> dessine l’en-tête de chaque ligne.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Réserver et déplacer' },
+          {
+            kind: 'p',
+            html: 'Le planificateur ne modifie jamais vos données de lui-même : il signale ce que font les gens. Glisser le long de la ligne d’une salle choisit une plage horaire, que <code>slotSelect</code> signale avec la salle. Faire glisser une réservation, ou sa fin, signale ses nouveaux horaires dans <code>eventChange</code>, et sa nouvelle salle si elle passe dans une autre. Mettez à jour le signal, et la timeline suit.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Pas de double réservation' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> est consulté avant qu’une réservation soit créée ou déplacée. Quand il renvoie <code>false</code>, le glisser-déposer s’affiche en rouge et ne dépose rien, et au clavier, le planificateur annonce que l’horaire n’est pas disponible. L’exemple vérifie les autres réservations de la salle ; vérifiez à nouveau sur votre serveur, qui a le dernier mot.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Charger les jours affichés' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> signale le premier et le dernier jour affichés, une fois au départ puis à chaque changement de page : vous pouvez ainsi ne charger que ces réservations, avec <code>httpResource</code> ou la requête de votre choix.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Ajouter au calendrier' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> écrit les réservations dans un fichier iCalendar, que Google Calendar, Outlook et Apple Calendar importent. <code>nuiSchedulerFromIcs()</code> en relit un, et ramène les heures d’autres fuseaux horaires à celui de la personne qui le lit.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Clavier et lecteurs d’écran' },
+          {
+            kind: 'p',
+            html: 'Tout fonctionne sans souris. La timeline ne compte qu’un seul arrêt de tabulation : les flèches parcourent les heures et les salles, Maj avec les flèches choisit une plage horaire, et Entrée la réserve. Sur une réservation, Alt avec les flèches la déplace vers un autre horaire ou une autre salle. Chaque réservation est un bouton nommé par son titre, sa salle, son jour et son horaire.',
+          },
+          {
+            kind: 'p',
+            html: 'Pour la vue jour avec les salles côte à côte, les réservations récurrentes et toutes les autres options, consultez la <a href="/components/scheduler">page du planificateur</a> et son <a href="/components/scheduler/api">API</a>.',
           },
         ],
       },

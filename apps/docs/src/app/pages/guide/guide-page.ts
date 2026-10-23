@@ -1,15 +1,35 @@
-import { Component, computed, effect, inject, input, linkedSignal } from '@angular/core';
+import {
+  Component,
+  computed,
+  Directive,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  LOCALE_ID,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { GUIDE_IDS, isGuideId } from '../../docs/ids';
 import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
 import { InAppLinks } from '../../shared/in-app-links';
+import { SchedulerTimelineExample } from '../../examples/scheduler/timeline';
 import { NestedThemesDemo } from '../../shared/nested-themes-demo';
 import { Playground } from '../../shared/playground';
 import { Toc } from '../../shared/toc';
 import { NotFoundPage } from '../not-found/not-found-page';
 import { TrustedHtml } from '../../shared/trusted';
+
+/**
+ * Formats what's inside in the page's language, as the examples of component pages
+ * do. Each language has its own routes, so a page in another language makes it again.
+ */
+@Directive({
+  selector: '[docsPageLocale]',
+  providers: [{ provide: LOCALE_ID, useFactory: () => inject(I18n).locale() }],
+})
+class PageLocale {}
 
 @Component({
   selector: 'docs-guide-page',
@@ -20,8 +40,10 @@ import { TrustedHtml } from '../../shared/trusted';
     InAppLinks,
     NestedThemesDemo,
     Playground,
+    SchedulerTimelineExample,
     Toc,
     NotFoundPage,
+    PageLocale,
     TrustedHtml,
   ],
   template: `
@@ -122,6 +144,17 @@ import { TrustedHtml } from '../../shared/trusted';
                         } @placeholder {
                           <div class="playground-placeholder"></div>
                         }
+                      </div>
+                    } @else if (block.demo === 'booking') {
+                      <!-- The scheduler page's timeline, live: it renders in the browser, near the viewport. -->
+                      <div class="example-frame guide-demo">
+                        <div class="example-demo" docsPageLocale>
+                          @defer (on viewport) {
+                            <scheduler-timeline-example />
+                          } @placeholder {
+                            <div class="example-placeholder" style="min-height: 417px"></div>
+                          }
+                        </div>
                       </div>
                     } @else {
                       <docs-nested-themes />

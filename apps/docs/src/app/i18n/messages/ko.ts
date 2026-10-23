@@ -1736,7 +1736,7 @@ export const messages: Messages = {
           'Needless UI의 모든 것과 마찬가지로 MIT 라이선스인 오픈 소스 Angular 스케줄러이자 이벤트 캘린더입니다. 월, 주, 일, 일정 목록 보기와 함께, 회의실, 사람, 장비마다 한 행씩 있는 타임라인을 제공합니다. 리소스 보기와 타임라인은 흔히 유료 추가 기능이지만, 여기서는 상업용 프로젝트를 포함해 어떤 프로젝트에서든 무료입니다.',
           '일정은 ISO 시각을 담은 단순한 데이터입니다. 시간이 겹치는 일정은 너비를 나눠 쓰고, 자정을 넘기는 일정은 두 날짜에 모두 표시되며, 종일 일정은 위쪽을 가로지르는 막대로 표시됩니다. 일정에 <code>resource</code>를 지정하고 <code>resources</code>를 전달하면, 타임라인은 하루를 시간 단위로, 한 주나 한 달을 날짜 단위로 보여 주고, 일 보기와 주 보기는 리소스마다 열이 나뉩니다.',
           '반복 일정은 <code>FREQ=WEEKLY;BYDAY=MO,WE</code>나 매월 마지막 금요일 같은 iCalendar 반복 규칙(RFC 5545)을 따르며, 예외는 <code>exdate</code>에 넣습니다. <code>nuiSchedulerToIcs()</code>와 <code>nuiSchedulerFromIcs()</code>는 Google Calendar, Outlook, Apple Calendar에서 가져오고 내보낼 수 있는 .ics 파일을 쓰고 읽습니다.',
-          '스케줄러는 일정을 직접 바꾸지 않습니다. 일정이나 그 끝, 또는 빈 시간을 드래그하면 <code>eventChange</code>나 <code>slotSelect</code>가 무슨 일이 있었는지 알려 줍니다. <code>allow</code>는 같은 회의실의 이중 예약처럼 앱의 규칙이 허용하지 않는 동작을 거부합니다. <code>rangeChange</code>는 어떤 날짜가 표시되는지 알려 주므로, 그 날짜의 일정을 불러올 수 있습니다.',
+          '스케줄러는 일정을 직접 바꾸지 않습니다. 일정이나 그 끝, 또는 빈 시간을 드래그하면 <code>eventChange</code>나 <code>slotSelect</code>가 무슨 일이 있었는지 알려 줍니다. <code>allow</code>는 같은 회의실의 이중 예약처럼 앱의 규칙이 허용하지 않는 동작을 거부합니다. <code>rangeChange</code>는 어떤 날짜가 표시되는지 알려 주므로, 그 날짜의 일정을 불러올 수 있습니다. <a href="/guides/booking-calendar">회의실 예약 가이드</a>에서 이 모든 것을 단계별로 조합해 봅니다.',
           '근무 시간만 보여 주거나, 근무 시간 밖을 음영으로 표시하거나, 주말을 빼거나, 주 번호를 붙일 수 있고, 일정과 리소스는 템플릿으로 그릴 수 있습니다. 포인터로 하는 모든 동작을 키보드로도 할 수 있습니다. 그리드는 탭 순서에서 한 번만 멈추고, 화살표 키로 날짜, 시간, 리소스 사이를 이동하며, Alt와 화살표 키로 일정을 옮깁니다.',
         ],
         examples: {
@@ -2554,6 +2554,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '시스템에서 동작 줄이기를 요청하면 스프링은 즉시 끝나고, 누르기와 등장 효과도 움직이지 않습니다. 밀도를 어떻게 설정해도 컨트롤이 WCAG 2.2의 타깃 크기인 24px보다 작아지지 않으며, 어떤 프리셋도 색상을 건드리지 않으므로 모든 명도 대비 검사가 그대로 유효합니다. <code>corner-shape</code>를 지원하지 않는 브라우저에서는 모든 모서리가 둥글게 그려집니다.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Angular로 회의실 예약 캘린더 만들기',
+        description:
+          '무료 Needless UI 스케줄러로 Angular 회의실 예약 캘린더를 만듭니다. 타임라인 위의 회의실, 드래그 앤 드롭, 이중 예약 방지, .ics 파일을 다룹니다.',
+        blocks: [
+          {
+            kind: 'p',
+            html: '이 가이드에서는 회의실을 예약하는 캘린더를 만듭니다. 회의실마다 한 행씩 있는 타임라인, 드래그해서 원하는 자리에 놓는 예약, 한 회의실이 두 번 예약되지 않게 막는 규칙, 그리고 예약을 어느 캘린더에나 넣을 수 있는 파일로 이루어집니다. <code>@needless-ui/angular</code>의 <a href="/components/scheduler">스케줄러</a>를 사용합니다. Needless UI의 모든 것과 마찬가지로 MIT 라이선스이므로, 리소스 타임라인을 어떤 앱에서든 무료로 쓸 수 있습니다.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: '회의실과 예약' },
+          {
+            kind: 'p',
+            html: '회의실은 리소스입니다. <code>id</code>와 <code>title</code>이 있고, 그 밖의 정보는 <code>data</code>에 넣습니다. 예약은 일정이며, <code>2026-10-23T09:00</code> 같은 단순한 ISO 시각과 <code>resource</code>에 넣은 회의실 id를 가집니다. 예약 하나에 여러 회의실이나 사람을 목록으로 지정할 수도 있습니다.',
+          },
+          { kind: 'h2', id: 'timeline', text: '회의실마다 한 행' },
+          {
+            kind: 'p',
+            html: '둘 다 <code>view="timeline"</code>과 함께 <code>nui-scheduler</code>에 전달합니다. <code>dayStart</code>와 <code>dayEnd</code>는 하루를 회의실 운영 시간으로 한정하고, <code>snapMinutes</code>는 예약을 15분 단위로 옮기며, <code>businessHours</code>는 회의실이 문을 닫는 시간을 음영으로 표시합니다. <code>nuiSchedulerResource</code>는 각 행의 헤더를 그립니다.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: '예약하고 옮기기' },
+          {
+            kind: 'p',
+            html: '스케줄러는 데이터를 직접 바꾸지 않고, 사용자가 한 일을 알려 줍니다. 회의실 행을 가로질러 드래그하면 시간이 선택되고, <code>slotSelect</code>가 그 시간을 회의실과 함께 알려 줍니다. 예약이나 그 끝을 드래그하면 <code>eventChange</code>가 새 시간을 알려 주고, 다른 회의실로 옮겼다면 새 회의실도 알려 줍니다. 시그널을 갱신하면 타임라인도 따라 바뀝니다.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: '이중 예약 방지' },
+          {
+            kind: 'p',
+            html: '스케줄러는 예약을 만들거나 옮기기 전에 먼저 <code>allow</code>에 묻습니다. <code>false</code>를 반환하면 드래그가 빨간색으로 표시되고 놓아도 아무 일도 일어나지 않으며, 키보드로 조작할 때는 그 시간을 쓸 수 없다고 안내합니다. 이 예제는 같은 회의실의 다른 예약을 확인합니다. 최종 판단은 서버가 내리므로, 서버에서도 다시 확인해야 합니다.',
+          },
+          { kind: 'h2', id: 'loading', text: '화면에 보이는 날짜 불러오기' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code>는 표시된 첫날과 마지막 날을 처음에 한 번, 그리고 사용자가 페이지를 넘길 때마다 다시 알려 줍니다. 그래서 <code>httpResource</code>나 원하는 어떤 요청으로든 그 기간의 예약만 가져올 수 있습니다.',
+          },
+          { kind: 'h2', id: 'calendar', text: '캘린더에 추가' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code>는 예약을 iCalendar 파일로 쓰며, 이 파일은 Google Calendar, Outlook, Apple Calendar에서 가져올 수 있습니다. <code>nuiSchedulerFromIcs()</code>는 반대로 이런 파일을 읽고, 다른 시간대의 시간을 사용자의 시간대로 맞춥니다.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: '키보드와 스크린 리더' },
+          {
+            kind: 'p',
+            html: '모든 기능을 마우스 없이 쓸 수 있습니다. 타임라인은 탭 순서에서 한 번만 멈추며, 화살표 키로 시간과 회의실 사이를 이동하고, Shift와 화살표 키로 시간을 선택한 뒤 Enter로 예약합니다. 예약에서 Alt와 화살표 키를 누르면 예약을 다른 시간이나 회의실로 옮깁니다. 모든 예약은 제목, 회의실, 날짜, 시간으로 이름이 지정된 버튼입니다.',
+          },
+          {
+            kind: 'p',
+            html: '회의실을 나란히 놓은 일 보기, 반복 예약, 그 밖의 모든 옵션은 <a href="/components/scheduler">스케줄러 페이지</a>와 <a href="/components/scheduler/api">API</a>를 참고하시기 바랍니다.',
           },
         ],
       },

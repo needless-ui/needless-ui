@@ -1768,7 +1768,7 @@ export const messages: Messages = {
           'Penjadwal dan kalender acara Angular yang open source, berlisensi MIT seperti seluruh Needless UI: tampilan bulan, minggu, hari, dan agenda, serta timeline dengan satu baris untuk setiap ruangan, orang, atau mesin. Tampilan sumber daya dan timeline sering kali menjadi fitur berbayar; di sini keduanya gratis untuk proyek apa pun, termasuk proyek komersial.',
           'Acara berupa data biasa dengan waktu ISO. Acara yang tumpang-tindih berbagi lebar, acara yang melewati tengah malam tampil di kedua hari, dan acara sepanjang hari membentang di bagian atas sebagai bilah. Beri acara sebuah <code>resource</code> dan teruskan <code>resources</code>: timeline menampilkan sehari per jam, atau seminggu atau sebulan per hari, sedangkan tampilan hari dan minggu terbagi menjadi satu kolom per sumber daya.',
           'Acara berulang mengikuti aturan pengulangan iCalendar (RFC 5545), seperti <code>FREQ=WEEKLY;BYDAY=MO,WE</code> atau Jumat terakhir setiap bulan, dengan pengecualian di <code>exdate</code>. <code>nuiSchedulerToIcs()</code> dan <code>nuiSchedulerFromIcs()</code> menulis dan membaca file .ics, yang bisa diimpor dan diekspor oleh Google Calendar, Outlook, dan Apple Calendar.',
-          'Penjadwal tidak pernah mengubah acara Anda dengan sendirinya. Seret acara atau ujung akhirnya, atau seret melintasi waktu kosong, maka <code>eventChange</code> atau <code>slotSelect</code> melaporkan apa yang terjadi; <code>allow</code> menolak apa yang tidak diizinkan aturan Anda, misalnya ruangan yang dipesan dua kali. <code>rangeChange</code> memberi tahu hari mana saja yang ditampilkan, sehingga Anda bisa memuat acaranya.',
+          'Penjadwal tidak pernah mengubah acara Anda dengan sendirinya. Seret acara atau ujung akhirnya, atau seret melintasi waktu kosong, maka <code>eventChange</code> atau <code>slotSelect</code> melaporkan apa yang terjadi; <code>allow</code> menolak apa yang tidak diizinkan aturan Anda, misalnya ruangan yang dipesan dua kali. <code>rangeChange</code> memberi tahu hari mana saja yang ditampilkan, sehingga Anda bisa memuat acaranya. <a href="/guides/booking-calendar">Panduan pemesanan ruangan</a> merangkai semuanya, langkah demi langkah.',
           'Tampilkan jam kerja saja, arsir waktu di luarnya, sembunyikan akhir pekan, beri nomor minggu, dan gambar acara serta sumber daya dengan template. Semua yang bisa dilakukan pointer juga bisa dilakukan keyboard: grid hanya satu perhentian tab, tombol panah bergerak melintasi hari, waktu, dan sumber daya, sementara Alt bersama tombol panah memindahkan acara.',
         ],
         examples: {
@@ -2606,6 +2606,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Saat sistem meminta gerakan dikurangi, pegas selesai seketika, sedangkan efek tekan dan animasi masuk berhenti bergerak. Kepadatan tidak pernah membuat kontrol lebih kecil dari ukuran target 24px WCAG 2.2, dan tidak ada preset yang mengubah warna, sehingga semua pemeriksaan kontras tetap terpenuhi. Browser tanpa dukungan <code>corner-shape</code> menggambar semua sudut membulat.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Membuat kalender pemesanan ruangan dengan Angular',
+        description:
+          'Buat kalender pemesanan ruangan di Angular dengan penjadwal Needless UI yang gratis: timeline ruangan, seret dan lepas, tanpa pemesanan ganda, dan file .ics.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Panduan ini menunjukkan cara membuat kalender untuk memesan ruang rapat: timeline dengan satu baris untuk setiap ruangan, pemesanan yang Anda seret ke tempatnya, aturan yang mencegah ruangan dipesan dua kali, dan file yang memasukkan pemesanan ke kalender mana pun. Kalender ini memakai <a href="/components/scheduler">penjadwal</a> dari <code>@needless-ui/angular</code>, yang berlisensi MIT seperti seluruh Needless UI, sehingga timeline sumber daya gratis untuk aplikasi apa pun.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Ruangan dan pemesanan' },
+          {
+            kind: 'p',
+            html: 'Ruangan adalah sumber daya, berisi <code>id</code>, <code>title</code>, dan data lain apa pun di <code>data</code>. Pemesanan adalah acara dengan waktu ISO biasa, seperti <code>2026-10-23T09:00</code>, dan id ruangannya di <code>resource</code>. Satu pemesanan bisa memuat beberapa ruangan, atau orang, sebagai daftar.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Satu baris untuk setiap ruangan' },
+          {
+            kind: 'p',
+            html: 'Teruskan keduanya ke <code>nui-scheduler</code> dengan <code>view="timeline"</code>. <code>dayStart</code> dan <code>dayEnd</code> membatasi hari pada jam buka, <code>snapMinutes</code> menggeser pemesanan per seperempat jam, dan <code>businessHours</code> mengarsir waktu saat ruangan tutup. <code>nuiSchedulerResource</code> menggambar header setiap baris.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Pesan dan pindahkan' },
+          {
+            kind: 'p',
+            html: 'Penjadwal tidak pernah mengubah data Anda dengan sendirinya: ia hanya melaporkan apa yang dilakukan pengguna. Menyeret melintasi baris sebuah ruangan akan memilih waktu, dan <code>slotSelect</code> melaporkannya beserta ruangannya. Saat pemesanan, atau ujung akhirnya, diseret, <code>eventChange</code> melaporkan waktu barunya, beserta ruangan barunya jika pemesanan itu pindah ke ruangan lain. Perbarui signal-nya, maka timeline akan mengikuti.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Tanpa pemesanan ganda' },
+          {
+            kind: 'p',
+            html: 'Penjadwal bertanya kepada <code>allow</code> sebelum pemesanan dibuat atau dipindahkan. Jika jawabannya <code>false</code>, seretan berwarna merah dan tidak menghasilkan apa-apa saat dilepas, sedangkan lewat keyboard, penjadwal mengumumkan bahwa waktu itu tidak tersedia. Contoh ini memeriksa pemesanan lain di ruangan yang sama; periksa lagi di server Anda, yang memegang keputusan akhir.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Muat hari yang ditampilkan' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> melaporkan hari pertama dan terakhir yang ditampilkan, sekali di awal dan lagi setiap kali pengguna berpindah halaman, sehingga Anda cukup mengambil pemesanan untuk hari-hari itu saja, dengan <code>httpResource</code> atau request apa pun yang Anda inginkan.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Tambahkan ke kalender' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> menulis pemesanan sebagai file iCalendar, yang bisa diimpor oleh Google Calendar, Outlook, dan Apple Calendar. <code>nuiSchedulerFromIcs()</code> membacanya kembali, dan memindahkan waktu dari zona waktu lain ke zona waktu pengguna.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Keyboard dan pembaca layar' },
+          {
+            kind: 'p',
+            html: 'Semuanya bisa dilakukan tanpa mouse. Timeline hanya satu perhentian tab: tombol panah bergerak melintasi waktu dan ruangan, Shift bersama tombol panah memilih waktu, dan Enter memesannya. Pada sebuah pemesanan, Alt bersama tombol panah memindahkannya ke waktu atau ruangan lain. Setiap pemesanan adalah tombol yang dinamai dengan judul, ruangan, hari, dan waktunya.',
+          },
+          {
+            kind: 'p',
+            html: 'Untuk ruangan yang berdampingan dalam tampilan hari, pemesanan berulang, dan semua opsi lainnya, lihat <a href="/components/scheduler">halaman penjadwal</a> beserta <a href="/components/scheduler/api">API-nya</a>.',
           },
         ],
       },

@@ -1807,7 +1807,7 @@ export const messages: Messages = {
           'Ein Open-Source-Terminplaner und Terminkalender für Angular, MIT-lizenziert wie ganz Needless UI: Monats-, Wochen-, Tages- und Agendaansicht und eine Timeline mit einer Zeile für jeden Raum, jede Person oder Maschine. Ressourcenansichten und Timelines kosten oft extra; hier sind sie kostenlos, für jedes Projekt, auch für kommerzielle.',
           'Termine sind einfache Daten mit ISO-Zeiten. Überlappende teilen sich die Breite, Termine über Mitternacht erscheinen an beiden Tagen, und ganztägige Termine ziehen sich oben als Balken über die Tage. Gib Terminen eine <code>resource</code> und übergib <code>resources</code>: Die Timeline zeigt einen Tag nach Stunden oder eine Woche oder einen Monat nach Tagen, und Tag und Woche teilen sich in eine Spalte pro Ressource.',
           'Wiederkehrende Termine folgen den Wiederholungsregeln von iCalendar (RFC 5545), etwa <code>FREQ=WEEKLY;BYDAY=MO,WE</code> oder jeden letzten Freitag im Monat, mit Ausnahmen in <code>exdate</code>. <code>nuiSchedulerToIcs()</code> und <code>nuiSchedulerFromIcs()</code> schreiben und lesen .ics-Dateien, die Google Calendar, Outlook und Apple Calendar importieren und exportieren.',
-          'Deine Termine ändert er nie selbst. Ziehst du einen Termin oder sein Ende oder ziehst du über freie Zeit, meldet <code>eventChange</code> oder <code>slotSelect</code>, was passiert ist; <code>allow</code> lehnt ab, was deine Regeln nicht erlauben, etwa einen doppelt gebuchten Raum. <code>rangeChange</code> sagt dir, welche Tage angezeigt werden, damit du ihre Termine laden kannst.',
+          'Deine Termine ändert er nie selbst. Ziehst du einen Termin oder sein Ende oder ziehst du über freie Zeit, meldet <code>eventChange</code> oder <code>slotSelect</code>, was passiert ist; <code>allow</code> lehnt ab, was deine Regeln nicht erlauben, etwa einen doppelt gebuchten Raum. <code>rangeChange</code> sagt dir, welche Tage angezeigt werden, damit du ihre Termine laden kannst. Die <a href="/guides/booking-calendar">Anleitung zur Raumbuchung</a> setzt alles Schritt für Schritt zusammen.',
           'Zeig nur die Arbeitszeiten, schattiere die übrige Zeit, blende das Wochenende aus, nummeriere die Wochen und zeichne Termine und Ressourcen mit Templates. Alles, was ein Zeiger kann, geht auch per Tastatur: Das Grid ist ein einziger Tab-Stopp, mit den Pfeiltasten bewegst du dich durch Tage, Uhrzeiten und Ressourcen, und Alt plus Pfeiltaste verschiebt einen Termin.',
         ],
         examples: {
@@ -2683,6 +2683,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Wünscht das System reduzierte Bewegung, schrumpfen Federn auf einen Augenblick zusammen, und Druckeffekte und Eingangsanimationen bewegen sich nicht mehr. Die Dichte drückt kein Bedienelement unter die Mindestzielgröße der WCAG 2.2 von 24 px, und kein Preset verändert Farben, sodass jede Kontrastprüfung weiterhin gilt. Browser ohne <code>corner-shape</code> zeichnen alle Ecken rund.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Raumbuchungskalender mit Angular erstellen',
+        description:
+          'Buchungskalender in Angular mit dem kostenlosen Terminplaner von Needless UI: Räume auf einer Timeline, Drag-and-drop, .ics-Dateien und keine Doppelbuchungen.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'In dieser Anleitung erstellst du einen Kalender zum Buchen von Besprechungsräumen: eine Timeline mit einer Zeile für jeden Raum, Buchungen, die du an ihren Platz ziehst, eine Regel, die verhindert, dass ein Raum doppelt gebucht wird, und eine Datei, die eine Buchung in jeden Kalender bringt. Dafür nutzt du den <a href="/components/scheduler">Terminplaner</a> aus <code>@needless-ui/angular</code>, der wie ganz Needless UI MIT-lizenziert ist. Die Ressourcen-Timeline ist also für jede App kostenlos.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Räume und Buchungen' },
+          {
+            kind: 'p',
+            html: 'Räume sind Ressourcen: eine <code>id</code>, ein <code>title</code> und alles Weitere in <code>data</code>. Buchungen sind Termine mit einfachen ISO-Zeiten wie <code>2026-10-23T09:00</code> und der ID ihres Raums in <code>resource</code>. Eine Buchung kann als Liste auch mehrere Räume oder Personen enthalten.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Eine Zeile für jeden Raum' },
+          {
+            kind: 'p',
+            html: 'Übergib beides mit <code>view="timeline"</code> an <code>nui-scheduler</code>. <code>dayStart</code> und <code>dayEnd</code> beschränken den Tag auf die Öffnungszeiten, <code>snapMinutes</code> verschiebt Buchungen in Viertelstundenschritten, und <code>businessHours</code> schattiert die Zeit, in der die Räume geschlossen sind. <code>nuiSchedulerResource</code> zeichnet die Kopfzelle jeder Zeile.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Buchen und verschieben' },
+          {
+            kind: 'p',
+            html: 'Der Terminplaner ändert deine Daten nie selbst: Er meldet, was die Leute tun. Ziehst du über die Zeile eines Raums, markierst du Zeit, und <code>slotSelect</code> meldet sie samt Raum. Ziehst du eine Buchung oder ihr Ende, meldet <code>eventChange</code> ihre neuen Zeiten und, wenn sie in einen anderen Raum gewandert ist, auch den neuen Raum. Aktualisiere das Signal, und die Timeline folgt.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Keine Doppelbuchungen' },
+          {
+            kind: 'p',
+            html: '<code>allow</code> wird gefragt, bevor eine Buchung angelegt oder verschoben wird. Gibt es <code>false</code> zurück, erscheint das Ziehen rot und legt nichts ab, und per Tastatur sagt der Terminplaner an, dass die Zeit nicht verfügbar ist. Das Beispiel prüft die anderen Buchungen des Raums; prüfe auf deinem Server noch einmal nach, denn er hat das letzte Wort.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Angezeigte Tage laden' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> meldet den ersten und letzten angezeigten Tag, einmal zu Beginn und erneut bei jedem Blättern, damit du nur diese Buchungen abrufen kannst, etwa mit <code>httpResource</code> oder einer beliebigen anderen Anfrage.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Zum Kalender hinzufügen' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> schreibt Buchungen als iCalendar-Datei, die Google Calendar, Outlook und Apple Calendar importieren. <code>nuiSchedulerFromIcs()</code> liest eine solche Datei wieder ein und rechnet Zeiten aus anderen Zeitzonen in die Zeitzone des Lesers um.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Tastatur und Screenreader' },
+          {
+            kind: 'p',
+            html: 'Alles funktioniert ohne Maus. Die Timeline ist ein einziger Tab-Stopp: Mit den Pfeiltasten bewegst du dich durch Uhrzeiten und Räume, Umschalt plus Pfeiltaste markiert Zeit, und Enter bucht sie. Auf einer Buchung verschiebst du sie mit Alt plus Pfeiltaste auf eine andere Zeit oder in einen anderen Raum. Jede Buchung ist ein Button, benannt nach Titel, Raum, Tag und Uhrzeit.',
+          },
+          {
+            kind: 'p',
+            html: 'Für die Räume nebeneinander in der Tagesansicht, wiederkehrende Buchungen und alle weiteren Optionen sieh dir die <a href="/components/scheduler">Seite des Terminplaners</a> und seine <a href="/components/scheduler/api">API</a> an.',
           },
         ],
       },

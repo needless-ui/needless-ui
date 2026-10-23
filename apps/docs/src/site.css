@@ -1582,6 +1582,11 @@
   }
 
   /* Guide tables hold sentences: their headers wrap too, so a phone needn't scroll. */
+  /* A live example inside a guide. */
+  .guide-demo {
+    margin-block: var(--nui-space-6) var(--nui-space-8);
+  }
+
   .table-wrap.guide-table th {
     white-space: normal;
   }

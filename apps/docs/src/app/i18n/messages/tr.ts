@@ -1730,7 +1730,7 @@ export const messages: Messages = {
           'Açık kaynak bir Angular planlayıcısı ve etkinlik takvimi; tüm Needless UI bileşenleri gibi MIT lisanslıdır. Ay, hafta, gün ve ajanda görünümlerinin yanı sıra her oda, kişi ya da makine için bir satır içeren bir zaman çizelgesi sunar. Kaynak görünümleri ve zaman çizelgeleri çoğu zaman ücretli bir eklentidir; burada ticari projeler dahil her proje için ücretsizdir.',
           'Etkinlikler, ISO biçiminde zamanlar taşıyan düz verilerdir. Çakışan etkinlikler genişliği paylaşır, gece yarısını aşan etkinlikler iki günde de görünür, tüm gün süren etkinlikler ise üstte şeritler hâlinde uzanır. Etkinliklere bir <code>resource</code> atayın ve kaynakları <code>resources</code> ile verin: zaman çizelgesi bir günü saatlerine, bir haftayı ya da ayı günlerine göre gösterir; gün ve hafta görünümleri de her kaynak için ayrı bir sütuna bölünür.',
           'Yinelenen etkinlikler, <code>FREQ=WEEKLY;BYDAY=MO,WE</code> ya da her ayın son cuması gibi iCalendar yineleme kurallarına (RFC 5545) uyar; istisnalar <code>exdate</code> içinde belirtilir. <code>nuiSchedulerToIcs()</code> ve <code>nuiSchedulerFromIcs()</code>, Google Calendar, Outlook ve Apple Calendar ile içe ve dışa aktarılabilen .ics dosyalarını yazar ve okur.',
-          'Planlayıcı etkinliklerinizi hiçbir zaman kendisi değiştirmez. Bir etkinliği ya da bitişini sürükleyin veya boş zamanın üzerinde sürükleyin; ne olduğunu <code>eventChange</code> ya da <code>slotSelect</code> bildirir. <code>allow</code> ise kurallarınızın izin vermediğini, örneğin bir odanın iki kez rezerve edilmesini reddeder. <code>rangeChange</code> hangi günlerin gösterildiğini söyler; böylece o günlerin etkinliklerini yükleyebilirsiniz.',
+          'Planlayıcı etkinliklerinizi hiçbir zaman kendisi değiştirmez. Bir etkinliği ya da bitişini sürükleyin veya boş zamanın üzerinde sürükleyin; ne olduğunu <code>eventChange</code> ya da <code>slotSelect</code> bildirir. <code>allow</code> ise kurallarınızın izin vermediğini, örneğin bir odanın iki kez rezerve edilmesini reddeder. <code>rangeChange</code> hangi günlerin gösterildiğini söyler; böylece o günlerin etkinliklerini yükleyebilirsiniz. <a href="/guides/booking-calendar">Oda rezervasyonu kılavuzu</a> bunların hepsini adım adım bir araya getirir.',
           'Yalnızca çalışma saatlerini gösterin, dışında kalan zamanı gölgeleyin, hafta sonunu çıkarın, haftaları numaralandırın; etkinlikleri ve kaynakları şablonlarla çizin. İşaretçiyle yapılan her şey klavyeyle de yapılabilir: ızgara tek bir sekme durağıdır, ok tuşları günler, saatler ve kaynaklar arasında gezinir, Alt ile birlikte oklar ise bir etkinliği taşır.',
         ],
         examples: {
@@ -2558,6 +2558,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Sistem azaltılmış hareket istediğinde yaylar anında tamamlanır; basma ve giriş efektleri de hareketsiz kalır. Yoğunluk hiçbir kontrolü WCAG 2.2’nin 24px hedef boyutunun altına indirmez ve hiçbir hazır ayar renklere dokunmaz; bu sayede tüm kontrast denetimleri geçerliliğini korur. <code>corner-shape</code> desteği olmayan tarayıcılar tüm köşeleri yuvarlak çizer.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Angular ile oda rezervasyon takvimi oluşturma',
+        description:
+          'Ücretsiz Needless UI planlayıcısıyla Angular’da oda rezervasyon takvimi: zaman çizelgesinde odalar, sürükle-bırak, çift rezervasyon önleme ve .ics dosyaları.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Bu kılavuzda toplantı odası rezervasyonu için bir takvim oluşturacağız: her oda için bir satırı olan bir zaman çizelgesi, sürükleyerek yerleştirdiğiniz rezervasyonlar, bir odanın iki kez rezerve edilmesini önleyen bir kural ve bir rezervasyonu herhangi bir takvime ekleyen bir dosya. Takvim, <code>@needless-ui/angular</code> paketindeki <a href="/components/scheduler">planlayıcıyı</a> kullanır. Planlayıcı, tüm Needless UI bileşenleri gibi MIT lisanslıdır; bu yüzden kaynak zaman çizelgesi her uygulama için ücretsizdir.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Odalar ve rezervasyonlar' },
+          {
+            kind: 'p',
+            html: 'Odalar birer kaynaktır: bir <code>id</code>, bir <code>title</code> ve geri kalan her şey için <code>data</code>. Rezervasyonlar ise <code>2026-10-23T09:00</code> gibi ISO biçiminde düz zamanlar taşıyan ve odalarının id’sini <code>resource</code> içinde tutan etkinliklerdir. Bir rezervasyon, birden çok odayı ya da kişiyi bir liste olarak tutabilir.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Her oda için bir satır' },
+          {
+            kind: 'p',
+            html: 'İkisini de <code>view="timeline"</code> ile <code>nui-scheduler</code> bileşenine verin. <code>dayStart</code> ve <code>dayEnd</code> günü açılış ve kapanış saatleri arasında tutar, <code>snapMinutes</code> rezervasyonları çeyrek saatlik adımlarla taşır, <code>businessHours</code> ise odaların kapalı olduğu zamanı gölgeler. <code>nuiSchedulerResource</code> her satırın başlığını çizer.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Rezerve edin ve taşıyın' },
+          {
+            kind: 'p',
+            html: 'Planlayıcı verilerinizi hiçbir zaman kendisi değiştirmez; yalnızca kullanıcıların ne yaptığını bildirir. Bir odanın satırında sürüklediğinizde zaman seçilir ve <code>slotSelect</code> bu zamanı odayla birlikte bildirir. Bir rezervasyonu ya da bitişini sürüklediğinizde <code>eventChange</code> yeni zamanlarını, rezervasyon başka bir odaya taşındıysa yeni odasını da bildirir. Signal’i güncellediğinizde zaman çizelgesi de buna göre değişir.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Çift rezervasyona izin yok' },
+          {
+            kind: 'p',
+            html: 'Bir rezervasyon yapılmadan ya da taşınmadan önce planlayıcı <code>allow</code> fonksiyonuna sorar. Fonksiyon <code>false</code> döndürürse sürükleme kırmızı görünür ve bırakıldığında hiçbir şey olmaz; klavye kullanıldığında ise planlayıcı o zamanın müsait olmadığını duyurur. Örnek, odanın diğer rezervasyonlarını denetler; son söz sunucunuzda olduğu için orada da yeniden denetleyin.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Ekrandaki günleri yükleyin' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code>, gösterilen ilk ve son günü bir kez başlangıçta, sonra da kullanıcılar her sayfa değiştirdiğinde bildirir; böylece yalnızca o günlerin rezervasyonlarını <code>httpResource</code> ile ya da istediğiniz herhangi bir istekle getirebilirsiniz.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Takvime ekleyin' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code>, rezervasyonları bir iCalendar dosyası olarak yazar; Google Calendar, Outlook ve Apple Calendar bu dosyayı içe aktarır. <code>nuiSchedulerFromIcs()</code> böyle bir dosyayı geri okur ve başka saat dilimlerindeki zamanları kullanıcının saat dilimine çevirir.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Klavye ve ekran okuyucular' },
+          {
+            kind: 'p',
+            html: 'Bunların hepsi fare olmadan da çalışır. Zaman çizelgesi tek bir sekme durağıdır: ok tuşları saatler ve odalar arasında gezinir, Shift ile birlikte oklar zaman seçer, Enter da seçilen zamanı rezerve eder. Odak bir rezervasyondayken Alt ile birlikte oklar onu başka bir saate ya da odaya taşır. Her rezervasyon, başlığı, odası, günü ve saatiyle adlandırılan bir düğmedir.',
+          },
+          {
+            kind: 'p',
+            html: 'Gün görünümünde yan yana duran odalar, yinelenen rezervasyonlar ve diğer tüm seçenekler için <a href="/components/scheduler">planlayıcının sayfasına</a> ve <a href="/components/scheduler/api">API’sine</a> bakın.',
           },
         ],
       },

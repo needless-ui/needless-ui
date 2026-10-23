@@ -1738,7 +1738,7 @@ export const messages: Messages = {
           'Bộ lập lịch và lịch sự kiện Angular mã nguồn mở, theo giấy phép MIT như toàn bộ Needless UI: chế độ xem tháng, tuần, ngày và lịch biểu, cùng với một timeline có một dòng riêng cho mỗi phòng, người hoặc máy móc. Chế độ xem theo tài nguyên và timeline thường là phần phải trả phí; ở đây chúng miễn phí cho mọi dự án, kể cả dự án thương mại.',
           'Sự kiện là dữ liệu thuần với thời gian ISO. Các sự kiện trùng giờ chia nhau chiều rộng, sự kiện kéo dài qua nửa đêm hiển thị ở cả hai ngày, còn sự kiện cả ngày trải dài ở phía trên dưới dạng thanh ngang. Gán <code>resource</code> cho sự kiện và truyền <code>resources</code>: timeline hiển thị một ngày theo giờ, hoặc một tuần hay một tháng theo ngày, còn chế độ xem ngày và tuần được chia thành một cột cho mỗi tài nguyên.',
           'Sự kiện lặp lại tuân theo quy tắc lặp lại của iCalendar (RFC 5545), chẳng hạn <code>FREQ=WEEKLY;BYDAY=MO,WE</code> hay thứ Sáu cuối cùng của mỗi tháng, với các ngoại lệ trong <code>exdate</code>. <code>nuiSchedulerToIcs()</code> và <code>nuiSchedulerFromIcs()</code> ghi và đọc tệp .ics, loại tệp mà Google Calendar, Outlook và Apple Calendar đều nhập và xuất được.',
-          'Bộ lập lịch không bao giờ tự thay đổi sự kiện của bạn. Kéo một sự kiện, điểm kết thúc của nó, hoặc kéo qua khoảng thời gian trống, và <code>eventChange</code> hoặc <code>slotSelect</code> sẽ báo điều vừa xảy ra; <code>allow</code> từ chối những gì quy tắc của bạn không cho phép, chẳng hạn một phòng bị đặt hai lần. <code>rangeChange</code> cho bạn biết những ngày nào đang hiển thị, để bạn tải sự kiện của những ngày đó.',
+          'Bộ lập lịch không bao giờ tự thay đổi sự kiện của bạn. Kéo một sự kiện, điểm kết thúc của nó, hoặc kéo qua khoảng thời gian trống, và <code>eventChange</code> hoặc <code>slotSelect</code> sẽ báo điều vừa xảy ra; <code>allow</code> từ chối những gì quy tắc của bạn không cho phép, chẳng hạn một phòng bị đặt hai lần. <code>rangeChange</code> cho bạn biết những ngày nào đang hiển thị, để bạn tải sự kiện của những ngày đó. <a href="/guides/booking-calendar">Hướng dẫn đặt phòng họp</a> ghép tất cả lại với nhau, từng bước một.',
           'Chỉ hiển thị giờ làm việc, tô mờ thời gian ngoài giờ, bỏ cuối tuần, đánh số tuần, và vẽ sự kiện cùng tài nguyên bằng template. Mọi thao tác bằng con trỏ đều làm được bằng bàn phím: lưới chỉ chiếm một điểm dừng Tab, phím mũi tên di chuyển qua các ngày, giờ và tài nguyên, còn Alt kèm phím mũi tên sẽ di chuyển một sự kiện.',
         ],
         examples: {
@@ -2562,6 +2562,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Khi hệ thống yêu cầu giảm chuyển động, lò xo hoàn tất ngay lập tức, còn hiệu ứng nhấn và hiệu ứng xuất hiện ngừng chuyển động. Mật độ không bao giờ khiến một phần tử điều khiển nhỏ hơn vùng nhấn 24px của WCAG 2.2, và không preset nào thay đổi màu sắc, nên mọi kiểm tra độ tương phản vẫn đạt. Trình duyệt không hỗ trợ <code>corner-shape</code> sẽ vẽ mọi góc bo tròn.',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: 'Xây dựng lịch đặt phòng họp bằng Angular',
+        description:
+          'Xây dựng lịch đặt phòng họp bằng Angular với bộ lập lịch miễn phí của Needless UI: phòng trên timeline, kéo thả, tệp .ics và không để phòng bị đặt trùng.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Trong hướng dẫn này, bạn sẽ xây dựng một lịch đặt phòng họp: một timeline có một dòng riêng cho mỗi phòng, những lượt đặt chỗ bạn kéo được đến đúng vị trí, một quy tắc giữ cho một phòng không bị đặt hai lần, và một tệp giúp thêm lượt đặt chỗ vào bất kỳ lịch nào. Lịch này dùng <a href="/components/scheduler">bộ lập lịch</a> từ <code>@needless-ui/angular</code>, theo giấy phép MIT như toàn bộ Needless UI, nên timeline tài nguyên miễn phí cho mọi ứng dụng.',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: 'Phòng và lượt đặt chỗ' },
+          {
+            kind: 'p',
+            html: 'Phòng là tài nguyên, gồm <code>id</code>, <code>title</code> và mọi thứ khác trong <code>data</code>. Lượt đặt chỗ là sự kiện với thời gian ISO thông thường, chẳng hạn <code>2026-10-23T09:00</code>, cùng id của phòng trong <code>resource</code>. Một lượt đặt chỗ có thể gắn với nhiều phòng, hoặc nhiều người, dưới dạng danh sách.',
+          },
+          { kind: 'h2', id: 'timeline', text: 'Mỗi phòng một dòng' },
+          {
+            kind: 'p',
+            html: 'Truyền cả hai vào <code>nui-scheduler</code> với <code>view="timeline"</code>. <code>dayStart</code> và <code>dayEnd</code> giới hạn ngày trong giờ mở cửa, <code>snapMinutes</code> di chuyển lượt đặt chỗ theo bước 15 phút, còn <code>businessHours</code> tô mờ thời gian các phòng đóng cửa. <code>nuiSchedulerResource</code> vẽ tiêu đề của mỗi dòng.',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: 'Đặt phòng và di chuyển' },
+          {
+            kind: 'p',
+            html: 'Bộ lập lịch không bao giờ tự thay đổi dữ liệu của bạn: nó chỉ báo lại những gì người dùng làm. Kéo qua dòng của một phòng sẽ chọn thời gian, và <code>slotSelect</code> báo thời gian đó cùng với phòng. Khi bạn kéo một lượt đặt chỗ, hoặc điểm kết thúc của nó, <code>eventChange</code> sẽ báo thời gian mới, kèm phòng mới nếu nó được chuyển sang phòng khác. Cập nhật signal, và timeline sẽ thay đổi theo.',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: 'Không đặt trùng' },
+          {
+            kind: 'p',
+            html: 'Bộ lập lịch hỏi <code>allow</code> trước khi một lượt đặt chỗ được tạo hoặc di chuyển. Khi câu trả lời là <code>false</code>, thao tác kéo hiện màu đỏ và thả ra không có tác dụng, còn khi dùng bàn phím, bộ lập lịch sẽ báo rằng khung giờ đó không còn trống. Ví dụ này kiểm tra các lượt đặt chỗ khác của cùng phòng; hãy kiểm tra lại trên máy chủ của bạn, vì máy chủ mới là nơi quyết định cuối cùng.',
+          },
+          { kind: 'h2', id: 'loading', text: 'Tải những ngày đang hiển thị' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> báo ngày đầu tiên và cuối cùng đang hiển thị, một lần lúc đầu và lại mỗi khi người dùng chuyển trang, để bạn chỉ tải các lượt đặt chỗ của những ngày đó, bằng <code>httpResource</code> hoặc bất kỳ yêu cầu nào bạn muốn.',
+          },
+          { kind: 'h2', id: 'calendar', text: 'Thêm vào lịch' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> ghi các lượt đặt chỗ thành một tệp iCalendar, loại tệp mà Google Calendar, Outlook và Apple Calendar đều nhập được. <code>nuiSchedulerFromIcs()</code> đọc ngược lại một tệp như vậy, và chuyển thời gian từ các múi giờ khác sang múi giờ của người dùng.',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: 'Bàn phím và trình đọc màn hình' },
+          {
+            kind: 'p',
+            html: 'Mọi thứ đều làm được mà không cần chuột. Timeline chỉ chiếm một điểm dừng Tab: phím mũi tên di chuyển qua các giờ và các phòng, Shift kèm phím mũi tên chọn thời gian, và Enter đặt phòng vào thời gian đó. Trên một lượt đặt chỗ, Alt kèm phím mũi tên chuyển nó sang giờ hoặc phòng khác. Mỗi lượt đặt chỗ là một nút được đặt tên theo tiêu đề, phòng, ngày và giờ của nó.',
+          },
+          {
+            kind: 'p',
+            html: 'Về các phòng xếp cạnh nhau trong chế độ xem ngày, lượt đặt chỗ lặp lại và mọi tùy chọn khác, hãy xem <a href="/components/scheduler">trang của bộ lập lịch</a> và <a href="/components/scheduler/api">API</a> của nó.',
           },
         ],
       },

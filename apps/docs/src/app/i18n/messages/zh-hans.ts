@@ -1643,7 +1643,7 @@ export const messages: Messages = {
           '这是一个开源的 Angular 日程表和事件日历，与 Needless UI 的其他部分一样采用 MIT 许可证：提供月、周、日和日程列表视图，以及为每个会议室、人员或设备各留一行的时间轴。资源视图和时间轴往往是付费的附加功能；在这里它们是免费的，任何项目都能用，商业项目也不例外。',
           '日程是带 ISO 时间的普通数据。时间重叠的日程平分宽度，跨越午夜的日程在两天中都会显示，全天日程则以横条的形式横跨顶部。给日程设置 <code>resource</code> 并传入 <code>resources</code> 后，时间轴可以按小时显示一天，或按天显示一周或一个月；日视图和周视图则按资源分成多列。',
           '重复日程遵循 iCalendar 的重复规则（RFC 5545），例如 <code>FREQ=WEEKLY;BYDAY=MO,WE</code> 或每月最后一个星期五，例外放在 <code>exdate</code> 中。<code>nuiSchedulerToIcs()</code> 和 <code>nuiSchedulerFromIcs()</code> 负责写入和读取 .ics 文件，Google Calendar、Outlook 和 Apple Calendar 都能导入和导出这种文件。',
-          '日程表从不自行修改你的日程。拖动日程、拖动其末端，或在空闲时间上拖动时，<code>eventChange</code> 或 <code>slotSelect</code> 会报告发生了什么；<code>allow</code> 会拒绝你的规则所不允许的操作，例如同一个会议室被预订两次。<code>rangeChange</code> 会告诉你显示的是哪些日期，方便你加载这些日期的日程。',
+          '日程表从不自行修改你的日程。拖动日程、拖动其末端，或在空闲时间上拖动时，<code>eventChange</code> 或 <code>slotSelect</code> 会报告发生了什么；<code>allow</code> 会拒绝你的规则所不允许的操作，例如同一个会议室被预订两次。<code>rangeChange</code> 会告诉你显示的是哪些日期，方便你加载这些日期的日程。<a href="/guides/booking-calendar">会议室预订指南</a>会一步步把这些组合起来。',
           '还可以只显示工作时间、用灰底标出工作时间以外的时间、隐藏周末、显示周数，并用模板绘制日程和资源。指针能做的，键盘也都能做：网格在 Tab 键顺序中只占一个位置，方向键可在日期、时间和资源之间移动，Alt 加方向键则移动日程。',
         ],
         examples: {
@@ -2417,6 +2417,60 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '当系统要求减少动态效果时，弹簧会瞬间完成，按压和入场效果也不再运动。无论密度如何设置，控件都不会小于 WCAG 2.2 规定的 24px 目标尺寸；而且没有任何预设会改动颜色，因此所有对比度检查依然成立。不支持 <code>corner-shape</code> 的浏览器会把所有边角都绘制成圆角。',
+          },
+        ],
+      },
+      'booking-calendar': {
+        title: '用 Angular 构建会议室预订日历',
+        description:
+          '用免费的 Needless UI 日程表在 Angular 中构建会议室预订日历：时间轴上的会议室、拖放、防止重复预订，以及 .ics 文件。',
+        blocks: [
+          {
+            kind: 'p',
+            html: '本指南将构建一个用于预订会议室的日历：时间轴上每个会议室各占一行，预订可以拖到合适的位置，有一条规则防止同一个会议室被预订两次，还有一个文件能把预订添加到任何日历中。它用的是 <code>@needless-ui/angular</code> 中的<a href="/components/scheduler">日程表</a>，与 Needless UI 的其他部分一样采用 MIT 许可证，因此资源时间轴在任何应用中都能免费使用。',
+          },
+          { kind: 'demo', demo: 'booking' },
+          { kind: 'h2', id: 'rooms', text: '会议室与预订' },
+          {
+            kind: 'p',
+            html: '会议室就是资源：有 <code>id</code> 和 <code>title</code>，其他信息都放在 <code>data</code> 中。预订就是日程，带有普通的 ISO 时间（例如 <code>2026-10-23T09:00</code>），并在 <code>resource</code> 中存放所属会议室的 id。一个预订也可以用列表同时包含多个会议室或多名人员。',
+          },
+          { kind: 'h2', id: 'timeline', text: '每个会议室一行' },
+          {
+            kind: 'p',
+            html: '把两者连同 <code>view="timeline"</code> 一起传给 <code>nui-scheduler</code>。<code>dayStart</code> 和 <code>dayEnd</code> 把一天限定在会议室的开放时间内，<code>snapMinutes</code> 让预订以 15 分钟为单位移动，<code>businessHours</code> 则用灰底标出会议室关闭的时间。<code>nuiSchedulerResource</code> 负责绘制每一行的表头。',
+          },
+          { kind: 'code', file: 'snippets/booking.html' },
+          { kind: 'h2', id: 'changes', text: '预订与移动' },
+          {
+            kind: 'p',
+            html: '日程表从不自行修改你的数据，只会报告用户做了什么。在会议室的行上拖动会选择一段时间，<code>slotSelect</code> 会连同会议室一起报告这段时间。拖动预订或其末端时，<code>eventChange</code> 会报告它的新时间；如果移到了另一个会议室，还会报告新的会议室。更新 signal，时间轴就会随之变化。',
+          },
+          { kind: 'code', file: 'snippets/booking.ts' },
+          { kind: 'h2', id: 'rules', text: '防止重复预订' },
+          {
+            kind: 'p',
+            html: '创建或移动预订之前，日程表会先询问 <code>allow</code>。它返回 <code>false</code> 时，拖动会显示为红色，松开后也不会有任何变化；用键盘操作时，日程表会播报该时间不可用。本示例会检查同一会议室的其他预订；请在服务器上再检查一次，最终以服务器为准。',
+          },
+          { kind: 'h2', id: 'loading', text: '加载屏幕上的日期' },
+          {
+            kind: 'p',
+            html: '<code>rangeChange</code> 会报告显示的第一天和最后一天：开始时报告一次，之后用户每次翻页时再报告一次。这样你就可以只获取这些日期的预订，用 <code>httpResource</code> 或任何你喜欢的请求都可以。',
+          },
+          { kind: 'h2', id: 'calendar', text: '添加到日历' },
+          {
+            kind: 'p',
+            html: '<code>nuiSchedulerToIcs()</code> 把预订写成 iCalendar 文件，Google Calendar、Outlook 和 Apple Calendar 都能导入。<code>nuiSchedulerFromIcs()</code> 则把这种文件读回来，并把其他时区的时间换算成用户所在时区的时间。',
+          },
+          { kind: 'code', file: 'snippets/booking-ics.ts' },
+          { kind: 'h2', id: 'keyboard', text: '键盘与屏幕阅读器' },
+          {
+            kind: 'p',
+            html: '这一切不用鼠标也能完成。时间轴在 Tab 键顺序中只占一个位置：方向键在时间和会议室之间移动，Shift 加方向键选择时间，按 Enter 键即可预订。在预订上按 Alt 加方向键，可以把它移到另一个时间或会议室。每个预订都是一个按钮，以其标题、会议室、日期和时间命名。',
+          },
+          {
+            kind: 'p',
+            html: '如需在日视图中并排显示会议室、使用重复日程或了解其他所有选项，请查看<a href="/components/scheduler">日程表页面</a>及其 <a href="/components/scheduler/api">API</a>。',
           },
         ],
       },
