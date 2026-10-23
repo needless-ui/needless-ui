@@ -5,6 +5,10 @@ allowBuilds:
   esbuild: true
   lmdb: true
   msgpackr-extract: true
+overrides:
+  # @angular/build 22.2 pins vite 8.3.0, whose dev server has known advisories
+  # (GHSA-r825-w8mm-5pxw and others, fixed in 8.3.3). Drop this once Angular moves on.
+  vite@8.3.0: 8.3.5
 minimumReleaseAgeExclude:
   - '@angular-devkit/architect@0.2202.0'
   - '@angular-devkit/core@22.2.0'
