@@ -9,10 +9,18 @@ import {
   nuiMonthWeeks,
   nuiStartOfWeek,
   nuiTime,
+  type NuiTime,
 } from '@needless-ui/angular';
+import { isoValue, nuiSchedulerRepeat, nuiSchedulerRule } from './recurrence';
 
-/** What the scheduler shows: a month, a week, a day, or a list of what's coming. */
-export type NuiSchedulerView = 'month' | 'week' | 'day' | 'agenda';
+/**
+ * What the scheduler shows: a month, a week, a day, a list of what's coming, or a
+ * timeline with a row for each resource.
+ */
+export type NuiSchedulerView = 'month' | 'week' | 'day' | 'agenda' | 'timeline';
+
+/** The days a timeline shows: a day by its hours, or a week or a month by its days. */
+export type NuiSchedulerTimelineSpan = 'day' | 'week' | 'month';
 
 /** The palette of an event. */
 export type NuiSchedulerTone = 'accent' | 'neutral' | 'success' | 'warning' | 'danger';
@@ -30,15 +38,53 @@ export interface NuiSchedulerEvent<T = unknown> {
   /** By default, whether `start` is a date without a time. */
   allDay?: boolean;
   tone?: NuiSchedulerTone;
+  /** Any CSS color, for its stripe and tint. It wins over `tone`; the text keeps its color. */
+  color?: string;
+  /** Classes to style it with. */
+  class?: string;
+  /** The resources it belongs to, such as a room or the people in it. */
+  resource?: string | readonly string[];
+  /** A repeat rule from RFC 5545, such as `FREQ=WEEKLY;BYDAY=MO,WE`: it repeats from its start. */
+  rrule?: string;
+  /** Starts of occurrences that don't happen: dates, or dates and times. */
+  exdate?: readonly string[];
+  /**
+   * On an occurrence of a repeating event, as the scheduler reports it: the start
+   * its rule gave it, as iCalendar's RECURRENCE-ID names an occurrence.
+   */
+  recurrenceId?: NuiDateTime | NuiDate;
   /** Whether it can be moved and resized. By default, the scheduler's `editable`. */
   editable?: boolean;
   /** Anything else to keep with the event. */
   data?: T;
 }
 
+/** What events belong to in the timeline and the resource columns: a room, a person, a machine. */
+export interface NuiSchedulerResource<R = unknown> {
+  id: string;
+  title: string;
+  /** The tone of its events, unless they have their own. */
+  tone?: NuiSchedulerTone;
+  /** The color of its events, unless they have their own. */
+  color?: string;
+  /** When it's available, instead of the scheduler's `businessHours`. */
+  businessHours?: readonly NuiSchedulerHours[];
+  /** Anything else to keep with it. */
+  data?: R;
+}
+
+/** Working hours: on these days of the week (1 for Monday), from a time to a time. */
+export interface NuiSchedulerHours {
+  days: readonly number[];
+  start: NuiTime;
+  end: NuiTime;
+}
+
 /** An event read into minutes since 1970, at its wall-clock times. */
 export interface NuiSchedulerSpan<T = unknown> {
   event: NuiSchedulerEvent<T>;
+  /** Unique among what's shown: the event's id, and an occurrence's start after it. */
+  key: string;
   start: number;
   /** Not included. */
   end: number;
@@ -56,7 +102,7 @@ export interface NuiSchedulerPlaced<T = unknown> {
   column: number;
   columns: number;
   width: number;
-  /** It started before this day, or goes on after it. */
+  /** It starts before what's shown of the day, or goes on after it. */
   before: boolean;
   after: boolean;
 }
@@ -67,6 +113,17 @@ export interface NuiSchedulerBar<T = unknown> {
   /** The first and last day it covers, as indexes into the row. */
   from: number;
   to: number;
+  lane: number;
+  before: boolean;
+  after: boolean;
+}
+
+/** An event along a time axis, as the timeline shows a day, in the lane it takes. */
+export interface NuiSchedulerStacked<T = unknown> {
+  span: NuiSchedulerSpan<T>;
+  /** What's shown of it, in minutes since 1970. */
+  start: number;
+  end: number;
   lane: number;
   before: boolean;
   after: boolean;
@@ -94,7 +151,19 @@ export function nuiSchedulerSpan<T>(event: NuiSchedulerEvent<T>): NuiSchedulerSp
   const end = allDay
     ? nuiSchedulerMinutes(nuiAddDays(event.end.slice(0, 10), 1))
     : nuiSchedulerMinutes(event.end);
-  return { event, start, end: Math.max(end, start + (allDay ? DAY : 1)), allDay };
+  return {
+    event,
+    key: event.recurrenceId === undefined ? event.id : `${event.id}@${event.recurrenceId}`,
+    start,
+    end: Math.max(end, start + (allDay ? DAY : 1)),
+    allDay,
+  };
+}
+
+/** The resources an event belongs to. */
+export function nuiSchedulerResources(event: NuiSchedulerEvent): readonly string[] {
+  const resource = event.resource;
+  return resource === undefined ? [] : typeof resource === 'string' ? [resource] : resource;
 }
 
 /** The days a view shows, from its first to its last. */
@@ -103,7 +172,15 @@ export function nuiSchedulerDays(
   date: NuiDate,
   firstDay: number,
   agendaDays = 30,
+  timeline: NuiSchedulerTimelineSpan = 'day',
 ): NuiDate[] {
+  if (view === 'timeline') {
+    if (timeline !== 'month') return nuiSchedulerDays(timeline, date, firstDay);
+    // A timeline runs through the month itself; the month view shows whole weeks.
+    const first = `${date.slice(0, 7)}-01`;
+    const length = nuiDayNumber(nuiAddMonths(first, 1)) - nuiDayNumber(first);
+    return Array.from({ length }, (_, i) => nuiAddDays(first, i));
+  }
   switch (view) {
     case 'month':
       return nuiMonthWeeks(date.slice(0, 7), firstDay).flat();
@@ -114,7 +191,7 @@ export function nuiSchedulerDays(
     case 'day':
       return [date];
     default:
-      return Array.from({ length: agendaDays }, (_, i) => nuiAddDays(date, i));
+      return Array.from({ length: Math.max(1, agendaDays) }, (_, i) => nuiAddDays(date, i));
   }
 }
 
@@ -124,8 +201,9 @@ export function nuiSchedulerPage(
   date: NuiDate,
   direction: number,
   agendaDays = 30,
+  timeline: NuiSchedulerTimelineSpan = 'day',
 ): NuiDate {
-  switch (view) {
+  switch (view === 'timeline' ? timeline : view) {
     case 'month':
       return nuiAddMonths(date, direction);
     case 'week':
@@ -133,11 +211,14 @@ export function nuiSchedulerPage(
     case 'day':
       return nuiAddDays(date, direction);
     default:
-      return nuiAddDays(date, agendaDays * direction);
+      return nuiAddDays(date, Math.max(1, agendaDays) * direction);
   }
 }
 
-/** The events that touch the days from `first` to `last`, read and in order. */
+/**
+ * The events that touch the days from `first` to `last`, read and in order. A
+ * repeating event gives each of its occurrences there.
+ */
 export function nuiSchedulerVisible<T>(
   events: readonly NuiSchedulerEvent<T>[],
   first: NuiDate,
@@ -146,31 +227,88 @@ export function nuiSchedulerVisible<T>(
   const from = nuiSchedulerMinutes(first);
   const to = nuiSchedulerMinutes(nuiAddDays(last, 1));
   return events
-    .map((event) => nuiSchedulerSpan(event))
-    .filter((span) => span.start < to && span.end > from)
+    .flatMap((event) => spans(event, from, to))
     .sort(
-      (a, b) => a.start - b.start || b.end - a.end || a.event.title.localeCompare(b.event.title),
+      (a, b) =>
+        a.start - b.start ||
+        b.end - a.end ||
+        a.event.title.localeCompare(b.event.title) ||
+        (a.key < b.key ? -1 : 1),
     );
+}
+
+/**
+ * An event as it shows on the days from `first` to `last`: itself, if it touches
+ * them, or each of its occurrences there when it repeats. Occurrences carry their
+ * own `start` and `end`, and `recurrenceId`.
+ */
+export function nuiSchedulerOccurrences<T>(
+  event: NuiSchedulerEvent<T>,
+  first: NuiDate,
+  last: NuiDate,
+): NuiSchedulerEvent<T>[] {
+  return spans(event, nuiSchedulerMinutes(first), nuiSchedulerMinutes(nuiAddDays(last, 1))).map(
+    (span) => span.event,
+  );
+}
+
+/** An event's spans that touch the minutes from `from` to `to`. */
+function spans<T>(event: NuiSchedulerEvent<T>, from: number, to: number): NuiSchedulerSpan<T>[] {
+  const span = nuiSchedulerSpan(event);
+  const rule = event.rrule ? nuiSchedulerRule(event.rrule) : null;
+  if (!rule) return span.start < to && span.end > from ? [span] : [];
+  const length = span.end - span.start;
+  const skipped = new Set((event.exdate ?? []).map((value) => isoValue(value)));
+  return nuiSchedulerRepeat(
+    rule,
+    span.start,
+    Math.floor((from - length + 1) / DAY),
+    Math.floor((to - 1) / DAY),
+  ).flatMap((start) => {
+    const at = nuiSchedulerValue(start);
+    const day = at.slice(0, 10);
+    if (start >= to || start + length <= from || skipped.has(at) || skipped.has(day)) return [];
+    const occurrence: NuiSchedulerEvent<T> = span.allDay
+      ? {
+          ...event,
+          start: day,
+          end: nuiSchedulerValue(start + length - DAY).slice(0, 10),
+          recurrenceId: day,
+        }
+      : { ...event, start: at, end: nuiSchedulerValue(start + length), recurrenceId: at };
+    return [
+      {
+        ...span,
+        event: occurrence,
+        key: `${event.id}@${occurrence.recurrenceId}`,
+        start,
+        end: start + length,
+      },
+    ];
+  });
 }
 
 /**
  * Places a day's timed events side by side where they overlap: each takes the
  * first free column, and stretches over the columns to its right that stay free.
+ * Only the minutes from `from` to `to` of the day show; events are cut to them.
  */
 export function nuiSchedulerPlace<T>(
   spans: readonly NuiSchedulerSpan<T>[],
   day: NuiDate,
+  from = 0,
+  to = DAY,
 ): NuiSchedulerPlaced<T>[] {
   const midnight = nuiSchedulerMinutes(day);
   const parts = spans
-    .filter((s) => !s.allDay && s.start < midnight + DAY && s.end > midnight)
+    .filter((s) => !s.allDay && s.start < midnight + to && s.end > midnight + from)
     .map((span) => ({
       span,
       day,
-      start: Math.max(0, span.start - midnight),
-      end: Math.min(DAY, span.end - midnight),
-      before: span.start < midnight,
-      after: span.end > midnight + DAY,
+      start: Math.max(from, span.start - midnight),
+      end: Math.min(to, span.end - midnight),
+      before: span.start < midnight + from,
+      after: span.end > midnight + to,
       column: 0,
       columns: 1,
       width: 1,
@@ -216,29 +354,34 @@ export function nuiSchedulerPlace<T>(
 
 /**
  * Stacks events into lanes across a row of days, as bars: each takes the first
- * lane that's free on all of its days.
+ * lane that's free on all of its days. The days needn't follow each other: a bar
+ * covers the days of the row it touches.
  */
 export function nuiSchedulerLanes<T>(
   spans: readonly NuiSchedulerSpan<T>[],
   days: readonly NuiDate[],
 ): NuiSchedulerBar<T>[] {
   if (!days.length) return [];
-  const first = nuiDayNumber(days[0]);
-  const count = days.length;
+  const numbers = days.map((day) => nuiDayNumber(day));
   const bars = spans
-    .map((span) => {
+    .flatMap((span) => {
       const startDay = Math.floor(span.start / DAY);
       const endDay = Math.floor((span.end - 1) / DAY);
-      return {
-        span,
-        from: Math.max(0, startDay - first),
-        to: Math.min(count - 1, endDay - first),
-        before: startDay < first,
-        after: endDay > first + count - 1,
-        lane: 0,
-      };
+      const from = numbers.findIndex((n) => n >= startDay);
+      let to = numbers.length - 1;
+      while (to >= 0 && numbers[to] > endDay) to--;
+      if (from < 0 || to < from) return [];
+      return [
+        {
+          span,
+          from,
+          to,
+          before: startDay < numbers[from],
+          after: endDay > numbers[to],
+          lane: 0,
+        },
+      ];
     })
-    .filter((bar) => bar.from <= bar.to && bar.to >= 0 && bar.from < count)
     .sort(
       (a, b) => a.from - b.from || b.to - b.from - (a.to - a.from) || a.span.start - b.span.start,
     );
@@ -250,4 +393,56 @@ export function nuiSchedulerLanes<T>(
     bar.lane = lane;
   }
   return bars;
+}
+
+/**
+ * Stacks events into lanes along a stretch of time, from `from` to `to` minutes
+ * since 1970, as the timeline lays out a day: each takes the first lane that's
+ * free for all of its time, and none is shorter than `minimum` minutes there.
+ */
+export function nuiSchedulerStack<T>(
+  spans: readonly NuiSchedulerSpan<T>[],
+  from: number,
+  to: number,
+  minimum = 15,
+): NuiSchedulerStacked<T>[] {
+  const items = spans
+    .filter((span) => span.start < to && span.end > from)
+    .map((span) => ({
+      span,
+      start: Math.max(from, span.start),
+      end: Math.min(to, span.end),
+      before: span.start < from,
+      after: span.end > to,
+      lane: 0,
+    }))
+    .sort((a, b) => a.start - b.start || b.end - a.end);
+  const lanes: number[] = [];
+  for (const item of items) {
+    let lane = lanes.findIndex((last) => last <= item.start);
+    if (lane < 0) lane = lanes.push(0) - 1;
+    lanes[lane] = Math.max(item.end, item.start + minimum);
+    item.lane = lane;
+  }
+  return items;
+}
+
+/**
+ * Whether working hours fall in the minutes from `from` to `to` of a day (minutes
+ * since its midnight). With no hours given, all time is working time.
+ */
+export function nuiSchedulerWorking(
+  hours: readonly NuiSchedulerHours[] | null | undefined,
+  day: NuiDate,
+  from = 0,
+  to = DAY,
+): boolean {
+  if (!hours) return true;
+  const weekday = ((((nuiDayNumber(day) + 3) % 7) + 7) % 7) + 1;
+  return hours.some(
+    (range) =>
+      range.days.includes(weekday) &&
+      nuiMinutes(range.start) < to &&
+      (nuiMinutes(range.end) || DAY) > from,
+  );
 }

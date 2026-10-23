@@ -1707,54 +1707,87 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Scheduler',
-        title: 'Scheduler component for Angular',
-        summary: 'Events in a month, a week, a day or an agenda, dragged into place.',
+        title: 'Open-source Angular scheduler with resource timeline',
+        summary:
+          'Events in a month, a week, a day, an agenda or a timeline of rooms and people, dragged into place.',
         description:
-          'Accessible Angular scheduler: month, week, day and agenda views, overlapping events side by side, drag to move and resize, and full keyboard control.',
+          'Free, MIT-licensed Angular scheduler: a resource timeline, recurring events, drag and drop, working hours, iCalendar files and full keyboard control.',
         apiDescription:
-          'API reference for the Needless UI scheduler: nui-scheduler views, events, editing and selection, its outputs, and the template for events.',
+          'API reference for the Needless UI scheduler: views and the timeline, resources, repeat rules, working hours, outputs, templates and iCalendar helpers.',
         a11yDescription:
-          'Keyboard and accessibility of the Needless UI scheduler: grids of days and times, named events, and keyboard moves for every drag.',
+          'Keyboard and accessibility of the Needless UI scheduler: grids of days, times and resources, named events, and a key for every drag.',
         overview: [
-          'The scheduler shows events in a month, a week, a day or an agenda. Events are plain data with ISO times; overlapping ones share the width, events across midnight show in both days, and all-day events run across the top as bars.',
-          'It never changes your events itself. Drag an event, or its bottom edge, and <code>eventChange</code> reports the new times; choose time on the grid, and <code>slotSelect</code> reports it. <code>rangeChange</code> tells you which days are shown, so you can load their events.',
-          'Everything a pointer does, the keyboard does too: the grid is one tab stop, the arrow keys move through days and times, and Alt with the arrows moves an event.',
+          'An open-source Angular scheduler and event calendar, MIT-licensed like all of Needless UI: month, week, day and agenda views, and a timeline with a row for each room, person or machine. Resource views and timelines are often a paid extra; here they’re free, for any project, commercial ones too.',
+          'Events are plain data with ISO times. Overlapping ones share the width, events across midnight show in both days, and all-day events run across the top as bars. Give events a <code>resource</code> and pass <code>resources</code>: the timeline shows a day by its hours, or a week or a month by its days, and the day and the week split into a column per resource.',
+          'Recurring events follow iCalendar repeat rules (RFC 5545), such as <code>FREQ=WEEKLY;BYDAY=MO,WE</code> or the last Friday of each month, with exceptions in <code>exdate</code>. <code>nuiSchedulerToIcs()</code> and <code>nuiSchedulerFromIcs()</code> write and read .ics files, which Google Calendar, Outlook and Apple Calendar import and export.',
+          'It never changes your events itself. Drag an event, its end, or across empty time, and <code>eventChange</code> or <code>slotSelect</code> reports what happened; <code>allow</code> turns down what your rules don’t, such as a room booked twice. <code>rangeChange</code> tells you which days are shown, so you can load their events.',
+          'Show only working hours, shade the time outside them, leave out the weekend, number the weeks, and draw events and resources with templates. Everything a pointer does, the keyboard does too: the grid is one tab stop, the arrow keys move through days, times and resources, and Alt with the arrows moves an event.',
         ],
         examples: {
           planner: {
             title: 'A week to plan',
             text: 'With <code>editable</code> and <code>selectable</code>, drag events to move them, drag their bottom edge to resize them, and drag across empty time to add one. The example updates its events from the outputs.',
           },
+          timeline: {
+            title: 'Rooms on a timeline',
+            text: 'With <code>resources</code> and <code>view="timeline"</code>, each room gets a row of the day, from <code>dayStart</code> to <code>dayEnd</code>. Drag a booking to another room or time, or drag across a room to book it: <code>allow</code> keeps a room from being booked twice. The day view puts the rooms side by side.',
+          },
+          team: {
+            title: 'A month of the team',
+            text: '<code>timelineSpan="month"</code> lays out the month’s days for each person, drawn with an avatar by <code>nuiSchedulerResource</code>. Plans drag from one person to another and stretch from their end, and the weekend is shaded. The toolbar is the example’s own, on <code>previous()</code>, <code>next()</code> and <code>title</code>.',
+          },
+          recurring: {
+            title: 'Recurring events',
+            text: 'Each routine repeats by its <code>rrule</code>: a standup on weekdays, a 1:1 every other week, the gym twelve times, a retro on the last Friday of the month, and payday on its last day. Dragging an occurrence moves that day’s only, and the button downloads them all as an .ics file.',
+          },
+          hours: {
+            title: 'A work week',
+            text: '<code>weekends="false"</code> leaves out the weekend, <code>dayStart</code> and <code>dayEnd</code> show 7:00 to 19:00, and <code>businessHours</code> shade the time outside work, around lunch and after a short Friday. Events have colors of their own and move by 15 minutes, with <code>snapMinutes</code>.',
+          },
           month: {
             title: 'A month and an agenda',
             text: 'Events across days run as bars; a busy day shows how many more there are. <code>views</code> offers only the month and the agenda of the next <code>agendaDays</code>.',
           },
-          rooms: {
-            title: 'A day of rooms',
-            text: '<code>nuiSchedulerEvent</code> draws each booking with its room and host. <code>slotMinutes="15"</code> makes finer rows.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Events in a month, a week, a day or an agenda.',
+            summary: 'Events in a month, a week, a day, an agenda or a timeline.',
             members: {
               events: 'The events to show.',
+              resources:
+                'Rooms, people or machines: rows of the timeline, and columns of the day and the week.',
               view: 'The view shown.',
-              views: 'The views people can switch between.',
+              views:
+                'The views people can switch between. By default all of them, the timeline only with resources.',
+              timelineSpan:
+                'What the timeline shows: a day by its slots, or a week or a month by its days.',
               date: 'The day shown, and where the keyboard is.',
-              slotMinutes: 'Minutes per row of the time grid, and the step events move by.',
+              slotMinutes: 'Minutes per row of the time grid, or per column of a day’s timeline.',
+              snapMinutes: 'The step events move and resize by.',
+              'dayStart, dayEnd': 'The hours the time grid shows, from and to.',
               scrollHour: 'The hour the time grid opens at.',
               agendaDays: 'Days the agenda looks ahead.',
+              businessHours:
+                "Working hours, such as <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Other time is shaded.",
+              weekends:
+                'Shows the weekend. Without it, every view leaves out the locale’s weekend.',
+              weekNumbers: 'Shows ISO week numbers in the month, and above the times.',
               editable: 'Events can be moved and resized, by pointer and keyboard.',
               selectable: 'Time can be chosen on the grid, to create events.',
+              allow: 'Decides whether a move, a resize or a choice of time can happen.',
+              toolbar: 'Shows the toolbar. Without it, build your own.',
               firstDay: 'The first day of the week, 1 for Monday. By default, the locale’s.',
               headingLevel: 'The title’s heading level; the agenda’s days are one deeper.',
               locale: 'Formats days and times.',
               labels: 'Every text the scheduler shows or announces, to translate.',
               eventClick: 'Emits an event clicked, or opened with Enter.',
-              eventChange: 'Emits an event’s new times after a move or a resize.',
-              slotSelect: 'Emits the time chosen on the grid.',
+              eventChange:
+                'Emits an event’s new times after a move or a resize, and its resources when they changed.',
+              slotSelect: 'Emits the time chosen on the grid, and its resource.',
               rangeChange: 'Emits the first and last day shown when they change.',
+              'previous, next, goToday':
+                'Show the previous or next page, or today, for a toolbar of your own.',
+              title: 'What’s shown, as the toolbar’s title says it.',
             },
           },
           NuiSchedulerEvent: {
@@ -1764,8 +1797,23 @@ export const messages: Messages = {
               'id, title': 'Its key, and what it shows.',
               'start, end': 'Dates and times, or dates for all-day events.',
               allDay: 'By default, whether <code>start</code> has no time.',
-              tone: 'Its color.',
+              tone: 'Its palette.',
+              'color, class':
+                'Any CSS color, which wins over its tone, and classes to style it with.',
+              resource: 'The resources it belongs to.',
+              rrule: 'A repeat rule from RFC 5545, such as <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Starts of occurrences that don’t happen.',
+              recurrenceId: 'On an occurrence the scheduler reports: the start its rule gave it.',
               editable: 'Whether it can be moved, whatever the scheduler says.',
+              data: 'Anything else to keep with it.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'A room, a person or a machine that events belong to.',
+            members: {
+              'id, title': 'Its key, and the name it shows.',
+              'tone, color': 'The colors of its events, unless they have their own.',
+              businessHours: 'When it’s available, instead of the scheduler’s working hours.',
               data: 'Anything else to keep with it.',
             },
           },
@@ -1773,22 +1821,48 @@ export const messages: Messages = {
             summary: 'Draws events. The context holds the event and its time as text.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Draws the heads of resources. The context holds the resource.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Functions for repeating events and iCalendar files.',
+            members: {
+              nuiSchedulerOccurrences:
+                'An event as it shows on the days given: each occurrence of a repeating one.',
+              nuiSchedulerRule: 'Reads a repeat rule, or returns null.',
+              nuiSchedulerToIcs: 'Writes events as an iCalendar file.',
+              nuiSchedulerFromIcs:
+                'Reads the events of an iCalendar file, with their times in one time zone.',
+            },
+          },
         },
         keyboard: [
-          ['Arrow keys', 'Move by day and by slot. Mirrored in right-to-left text.'],
+          [
+            'Arrow keys',
+            'Move by day and by slot; in the timeline, along time and between resources. Mirrored in right-to-left text.',
+          ],
+          [
+            'Home and End',
+            'First or last day of the week, or of the timeline; with Ctrl, the all-day row or the last slot, or the first or last resource.',
+          ],
           ['Page Up and Page Down', 'Previous or next month, week or day.'],
           ['Shift + arrow keys', 'Extend the time chosen.'],
           ['Enter or Space on a cell', 'Go into its events, or choose its time.'],
           ['Up and down arrows on an event', 'Previous or next event in the cell.'],
-          ['Alt + arrow keys on an event', 'Move it by a slot or a day.'],
-          ['Alt + Shift + up or down arrow', 'Shorten or lengthen the event.'],
+          ['Alt + arrow keys on an event', 'Move it by a slot or a day, or to the next resource.'],
+          [
+            'Alt + Shift + arrow keys',
+            'Shorten or lengthen the event: down the time grid, across the timeline.',
+          ],
           ['Escape', 'Back to the cell, drop the time chosen, or cancel a drag.'],
         ],
         notes: [
-          'The month, week and day are <code>grid</code>s named by their title. Days head the columns and times the rows, so each cell reads with its day and time.',
-          'Every event is a button named by its title, day and time, such as “Standup, Friday, September 25, 9:00 – 9:30 AM”. A move or resize announces the new time.',
+          'The month, week, day and timeline are <code>grid</code>s named by their title. Days, times and resources head the rows and columns, so each cell reads with its day, time and resource.',
+          'Every event is a button named by its title, resources, day and time, such as “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, and “Repeats” when it does. A move or resize announces the new time, and one that <code>allow</code> turns down says so.',
           'Every drag has a keyboard equivalent, so no one needs a pointer.',
           'The views are toggle buttons in a group, and moving to another week or month announces its title.',
+          'Shaded working hours are only a look: the rules that hold come from <code>allow</code>, for the keyboard too.',
         ],
       },
       splitter: {

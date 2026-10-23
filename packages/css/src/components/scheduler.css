@@ -21,12 +21,23 @@
  *
  * The scheduler sets where each event goes as custom properties, and this sheet
  * turns them into positions: `--_offset` and `--_length` in slots, `--_column`,
- * `--_columns` and `--_width` side by side, `--_lane` and `--_span` for bars.
- * Give `.nui-scheduler` a height: the grid scrolls inside it.
+ * `--_columns` and `--_width` side by side, `--_lane` and `--_span` for bars
+ * (with `--_offset` too, along the timeline). Give `.nui-scheduler` a height: the
+ * grid scrolls inside it.
+ *
+ * The timeline (`data-view="timeline"`) has a row per resource and a column per
+ * slot of its day, or per day. Sizes to set on the scheduler:
+ * `--nui-scheduler-row-height` (a row of the time grid), `--nui-scheduler-column-width`
+ * (the least a day or a resource gets), `--nui-scheduler-slot-width` (a column of
+ * the timeline) and `--nui-scheduler-resource-width` (its column of names).
  */
 @layer nui.components {
   .nui-scheduler {
-    --_slot: max(1.5rem, 1.75rem * var(--nui-density));
+    --nui-scheduler-row-height: max(1.5rem, 1.75rem * var(--nui-density));
+    --nui-scheduler-column-width: 5.5rem;
+    --nui-scheduler-slot-width: 2.5rem;
+    --nui-scheduler-resource-width: 10rem;
+    --_slot: var(--nui-scheduler-row-height);
     --_bar: 1.375rem;
     --_time: 4.75rem;
     --_radius: calc(var(--nui-radius-md) * var(--nui-radius-scale));
@@ -40,6 +51,13 @@
     color: var(--nui-color-text-default);
     font-size: var(--nui-font-size-sm);
     line-height: var(--nui-line-height-normal);
+  }
+
+  /* On a phone, names give time more of the width. */
+  @media (max-width: 40rem) {
+    .nui-scheduler {
+      --nui-scheduler-resource-width: 7rem;
+    }
   }
 
   /* Toolbar: navigation, the title, and the views. */
@@ -98,8 +116,11 @@
     line-height: var(--nui-line-height-tight);
   }
 
+  /* The views keep to the toolbar: longer names wrap rather than get cut. */
   .nui-scheduler-views {
     display: inline-flex;
+    flex-wrap: wrap;
+    max-inline-size: 100%;
     gap: 0.125rem;
     padding: 0.1875rem;
     border-radius: calc(var(--_radius) + 0.1875rem);
@@ -124,6 +145,13 @@
     background-color: var(--nui-color-bg-raised);
     color: var(--nui-color-text-default);
     box-shadow: var(--nui-shadow-sm);
+  }
+
+  /* On the narrowest phones, the views take less room. */
+  @media (max-width: 22.5rem) {
+    .nui-scheduler-view {
+      padding-inline: var(--nui-space-2);
+    }
   }
 
   @media (hover: hover) {
@@ -157,8 +185,10 @@
     table-layout: fixed;
   }
 
-  .nui-scheduler-grid[data-view='week'] {
-    min-inline-size: calc(var(--_time) + 7 * 5.5rem);
+  /* Days, and the days of each resource, keep a width to read; past it, the grid scrolls. */
+  .nui-scheduler-grid[data-view='week'],
+  .nui-scheduler-grid[data-view='day'][data-resources] {
+    min-inline-size: calc(var(--_time) + var(--_columns-shown) * var(--nui-scheduler-column-width));
   }
 
   .nui-scheduler-grid[data-view='month'] {
@@ -202,6 +232,28 @@
     display: block;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+  }
+
+  /* A resource heads its days in the week, and its column in the day. Its head keeps
+     to its column, whatever a template draws in it. */
+  .nui-scheduler-grid thead th.nui-scheduler-resource {
+    overflow: hidden;
+    color: var(--nui-color-text-default);
+    font-size: var(--nui-font-size-sm);
+    font-weight: var(--nui-font-weight-semibold);
+  }
+
+  .nui-scheduler-resource-title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nui-scheduler-week-number {
+    display: block;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   .nui-scheduler-day .nui-scheduler-date {
@@ -278,8 +330,29 @@
     vertical-align: top;
   }
 
+  /* Outside working hours, time is shaded. */
+  .nui-scheduler-cell[data-off] {
+    background-color: var(--nui-color-bg-muted);
+  }
+
+  .nui-scheduler-grid:not([data-view='month']) tbody .nui-scheduler-cell[data-off][data-today] {
+    background-color: color-mix(
+      in oklab,
+      var(--nui-color-accent-soft) 25%,
+      var(--nui-color-bg-muted)
+    );
+  }
+
+  /* Each resource after the first begins with a stronger line. */
+  .nui-scheduler-cell[data-group],
+  .nui-scheduler-day[data-group],
+  .nui-scheduler-resource[data-group] {
+    border-inline-start: 2px solid var(--nui-color-border-default);
+  }
+
+  /* Chosen time paints over the cell's own tint (today, time off), whatever its rule. */
   .nui-scheduler-cell[data-selected] {
-    background-color: var(--nui-color-accent-soft);
+    box-shadow: inset 0 0 0 100vmax var(--nui-color-accent-soft);
   }
 
   .nui-scheduler-cell:focus-visible {
@@ -334,6 +407,13 @@
     --_soft: var(--nui-color-danger-soft);
     --_solid: var(--nui-color-danger-solid);
     --_text: var(--nui-color-danger-text);
+  }
+
+  /* An event's own color paints its stripe and a tint of it; its text keeps the default color. */
+  .nui-scheduler-event[data-color] {
+    --_soft: color-mix(in oklab, var(--_color) 24%, var(--nui-color-bg-canvas));
+    --_solid: var(--_color);
+    --_text: var(--nui-color-text-default);
   }
 
   @media (hover: hover) {
@@ -412,10 +492,24 @@
     cursor: ns-resize;
   }
 
+  /* A bar resizes from its end, across. */
+  .nui-scheduler-event[data-kind='bar'] > .nui-scheduler-resize {
+    inset-block: 0;
+    inset-inline: auto 0;
+    inline-size: 0.375rem;
+    block-size: auto;
+    cursor: ew-resize;
+  }
+
   /* A finger needs more of the edge; short events keep room to be moved. */
   @media (pointer: coarse) {
     .nui-scheduler-resize {
       block-size: clamp(0.375rem, 40%, 1rem);
+    }
+
+    .nui-scheduler-event[data-kind='bar'] > .nui-scheduler-resize {
+      inline-size: clamp(0.375rem, 30%, 1rem);
+      block-size: auto;
     }
 
     /* A long press picks an event up: no callout or text selection. */
@@ -429,7 +523,7 @@
   .nui-scheduler-event[data-kind='bar'] {
     position: absolute;
     inset-block-start: calc(var(--_top, 0.1875rem) + var(--_lane) * var(--_bar));
-    inset-inline-start: 0.125rem;
+    inset-inline-start: calc(var(--_offset, 0) * 100% + 0.125rem);
     z-index: 1;
     display: flex;
     align-items: center;
@@ -441,7 +535,7 @@
   }
 
   .nui-scheduler-event[data-kind='bar'][data-before] {
-    inset-inline-start: 0;
+    inset-inline-start: calc(var(--_offset, 0) * 100%);
     inline-size: calc(var(--_span) * 100% - 0.125rem);
     border-start-start-radius: 0;
     border-end-start-radius: 0;
@@ -506,6 +600,25 @@
     cursor: ns-resize;
   }
 
+  .nui-scheduler[data-dragging='resize-across'] {
+    cursor: ew-resize;
+  }
+
+  /* What `allow` turns down shows in red, and drops nothing. */
+  .nui-scheduler[data-invalid] {
+    cursor: not-allowed;
+  }
+
+  .nui-scheduler[data-invalid] .nui-scheduler-event[data-ghost] {
+    --_soft: var(--nui-color-danger-soft);
+    --_solid: var(--nui-color-danger-solid);
+    --_text: var(--nui-color-danger-text);
+  }
+
+  .nui-scheduler[data-invalid] .nui-scheduler-cell[data-selected] {
+    box-shadow: inset 0 0 0 100vmax var(--nui-color-danger-soft);
+  }
+
   .nui-scheduler[data-dragging] .nui-scheduler-event:not([data-ghost]) {
     pointer-events: none;
   }
@@ -531,6 +644,101 @@
     background-color: var(--nui-color-danger-solid);
   }
 
+  /* The timeline: a row per resource, a column per slot of its day, or per day. */
+  .nui-scheduler-grid[data-view='timeline'] {
+    --_unit: var(--nui-scheduler-slot-width);
+    --_bar: 1.625rem;
+
+    min-inline-size: calc(var(--nui-scheduler-resource-width) + var(--_units) * var(--_unit));
+  }
+
+  .nui-scheduler-grid[data-view='timeline'][data-span='week'] {
+    --_unit: var(--nui-scheduler-column-width);
+  }
+
+  /* Along a day, bars are two lines: the title, then the time. */
+  .nui-scheduler-grid[data-view='timeline'][data-span='day'] {
+    --_bar: 2.5rem;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'][data-span='day'] .nui-scheduler-event[data-kind='bar'] {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] .nui-scheduler-corner {
+    inline-size: var(--nui-scheduler-resource-width);
+  }
+
+  /* Hours read at the start of their column. */
+  .nui-scheduler-grid[data-view='timeline'] thead th.nui-scheduler-slot {
+    padding-inline: 0.25rem 0;
+    overflow: visible;
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] th.nui-scheduler-slot[data-hour] {
+    border-inline-start: var(--nui-border-width-thin) solid var(--nui-color-border-default);
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] tbody th.nui-scheduler-resource {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 3;
+    overflow: hidden;
+    padding: var(--nui-space-1) var(--nui-space-3);
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    background-color: var(--nui-color-bg-canvas);
+    font-weight: var(--nui-font-weight-semibold);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] tbody .nui-scheduler-cell {
+    block-size: max(2.5rem, calc(max(1, var(--_lanes)) * var(--_bar) + 0.375rem));
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+    border-inline-start-style: dashed;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] tbody .nui-scheduler-cell[data-hour],
+  .nui-scheduler-grid[data-view='timeline']:not([data-span='day']) tbody .nui-scheduler-cell {
+    border-inline-start-style: solid;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] tbody tr:first-child > * {
+    border-block-start: 0;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] tbody .nui-scheduler-cell[data-today] {
+    background-color: color-mix(in oklab, var(--nui-color-accent-soft) 40%, transparent);
+  }
+
+  /* Along the timeline the title leads, and the time follows when there's room. */
+  .nui-scheduler-grid[data-view='timeline'] .nui-scheduler-event-title {
+    order: -1;
+    flex-shrink: 1;
+    min-inline-size: 0;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] .nui-scheduler-event-time {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] .nui-scheduler-now {
+    inset-block: 0;
+    inset-inline: calc(var(--_offset) * 100%) auto;
+    border-block-start: 0;
+    border-inline-start: 2px solid var(--nui-color-danger-solid);
+  }
+
+  .nui-scheduler-grid[data-view='timeline'] .nui-scheduler-now::before {
+    display: none;
+  }
+
   /* The month: days with their number, bars below it, and "N more". */
   .nui-scheduler-grid[data-view='month'] .nui-scheduler-cell {
     --_top: 1.875rem;
@@ -543,8 +751,30 @@
     border-block-start: 0;
   }
 
-  .nui-scheduler-grid[data-view='month'] :is(th, td):first-child {
+  .nui-scheduler-grid[data-view='month'] th:first-child,
+  .nui-scheduler-grid[data-view='month'] td:first-child {
     border-inline-start: 0;
+  }
+
+  /* Week numbers head each week of the month. */
+  .nui-scheduler-grid[data-view='month'] .nui-scheduler-week {
+    inline-size: 2.25rem;
+    padding-inline: 0.25rem;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    font-weight: var(--nui-font-weight-regular);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  .nui-scheduler-grid[data-view='month'] tbody .nui-scheduler-week {
+    padding-block-start: 0.5rem;
+    border-block-start: var(--nui-border-width-thin) solid var(--nui-color-border-subtle);
+  }
+
+  .nui-scheduler-grid[data-view='month'] tbody tr:first-child .nui-scheduler-week {
+    border-block-start: 0;
   }
 
   .nui-scheduler-cell > .nui-scheduler-date {
@@ -637,6 +867,13 @@
     font-variant-numeric: tabular-nums;
   }
 
+  .nui-scheduler-event-resource {
+    margin-inline-start: auto;
+    color: var(--nui-color-text-muted);
+    font-size: var(--nui-font-size-xs);
+    white-space: nowrap;
+  }
+
   .nui-scheduler-empty {
     margin: 0;
     padding: var(--nui-space-8);
@@ -673,7 +910,7 @@
 
     .nui-scheduler-cell[data-selected] {
       forced-color-adjust: none;
-      background-color: Highlight;
+      box-shadow: inset 0 0 0 100vmax Highlight;
     }
 
     .nui-scheduler-now {

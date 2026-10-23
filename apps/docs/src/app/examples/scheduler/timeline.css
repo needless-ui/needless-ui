@@ -1,0 +1,30 @@
+nui-scheduler {
+  block-size: 24rem;
+}
+
+.room-name {
+  display: block;
+}
+
+.room-seats {
+  color: var(--nui-color-text-muted);
+  font-size: var(--nui-font-size-xs);
+  font-weight: var(--nui-font-weight-regular);
+}
+
+/* Short of room, the host gives way before the title. */
+.booking-title {
+  flex-shrink: 0;
+  max-inline-size: 100%;
+  overflow: hidden;
+  font-weight: var(--nui-font-weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.booking-host {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

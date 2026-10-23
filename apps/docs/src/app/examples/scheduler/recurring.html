@@ -1,0 +1,13 @@
+<nui-scheduler
+  [events]="events()"
+  [views]="['week', 'month', 'agenda']"
+  firstDay="1"
+  scrollHour="8"
+  editable
+  (eventClick)="open($event)"
+  (eventChange)="move($event)"
+/>
+<p>{{ note() }}</p>
+<button nuiButton type="button" variant="outline" tone="neutral" size="sm" (click)="download()">
+  Download routines.ics
+</button>

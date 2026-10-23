@@ -1,19 +1,39 @@
 export {
+  nuiSchedulerFromIcs,
+  type NuiSchedulerIcsData,
+  type NuiSchedulerIcsOptions,
+  type NuiSchedulerIcsReadOptions,
+  nuiSchedulerToIcs,
+} from './src/ics';
+export {
   type NuiSchedulerBar,
   nuiSchedulerDays,
   type NuiSchedulerEvent,
+  type NuiSchedulerHours,
   nuiSchedulerLanes,
   nuiSchedulerMinutes,
+  nuiSchedulerOccurrences,
   nuiSchedulerPage,
   nuiSchedulerPlace,
   type NuiSchedulerPlaced,
+  type NuiSchedulerResource,
+  nuiSchedulerResources,
   nuiSchedulerSpan,
   type NuiSchedulerSpan,
+  nuiSchedulerStack,
+  type NuiSchedulerStacked,
+  type NuiSchedulerTimelineSpan,
   type NuiSchedulerTone,
   nuiSchedulerValue,
   type NuiSchedulerView,
   nuiSchedulerVisible,
+  nuiSchedulerWorking,
 } from './src/layout';
+export {
+  type NuiSchedulerFrequency,
+  nuiSchedulerRule,
+  type NuiSchedulerRule,
+} from './src/recurrence';
 export {
   NUI_SCHEDULER_LABELS,
   NuiScheduler,
@@ -21,5 +41,7 @@ export {
   type NuiSchedulerEventContext,
   NuiSchedulerEventTemplate,
   type NuiSchedulerLabels,
+  type NuiSchedulerResourceContext,
+  NuiSchedulerResourceTemplate,
   type NuiSchedulerSlot,
 } from './src/scheduler';

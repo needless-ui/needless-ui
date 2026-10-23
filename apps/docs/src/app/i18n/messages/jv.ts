@@ -1745,55 +1745,90 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Pangatur jadhwal',
-        title: 'Komponen pangatur jadhwal kanggo Angular',
-        summary: 'Acara ing sasi, minggu, dina utawa agenda, diseret menyang panggonane.',
+        title: 'Scheduler Angular open source karo linimasa sumber daya',
+        summary:
+          'Acara ing sasi, minggu, dina, agenda utawa linimasa ruangan lan wong, diseret menyang panggonane.',
         description:
-          'Pangatur jadhwal Angular sing aksesibel: sasi, minggu, dina lan agenda, acara tumpang-tindih jejer, nyeret lan ngowahi ukuran, uga kontrol keyboard jangkep.',
+          'Pangatur jadhwal Angular gratis, lisensi MIT: linimasa sumber daya, acara sing mbaleni, seret lan seleh, jam kerja, berkas iCalendar lan kontrol keyboard.',
         apiDescription:
-          'Referensi API pangatur jadhwal Needless UI: tampilan nui-scheduler, acara, nyunting lan milih, output-e, lan template kanggo acara.',
+          'Referensi API pangatur jadhwal Needless UI: tampilan lan linimasa, sumber daya, aturan mbaleni, jam kerja, output, template lan helper iCalendar.',
         a11yDescription:
-          'Keyboard lan aksesibilitas pangatur jadhwal Needless UI: grid dina lan wektu, acara sing duwe jeneng, lan gerakan keyboard kanggo saben seretan.',
+          'Keyboard lan aksesibilitas pangatur jadhwal Needless UI: grid dina, wektu lan sumber daya, acara sing duwe jeneng, lan tombol kanggo saben seretan.',
         overview: [
-          'Pangatur jadhwal nampilake acara ing sasi, minggu, dina utawa agenda. Acara iku data biasa kanthi wektu ISO; sing tumpang-tindih mbagi ambane, acara sing ngliwati tengah wengi katon ing loro dinane, lan acara sadina muput mbentang ing sisih ndhuwur minangka bar.',
-          'Pangatur iki ora tau ngowahi acara panjenengan dhewe. Seret acara, utawa pinggir ngisore, lan <code>eventChange</code> nglaporake wektu anyar; pilih wektu ing grid, lan <code>slotSelect</code> nglaporake wektu kasebut. <code>rangeChange</code> ngandhani dina endi wae sing ditampilake, supaya acarane bisa dimuat.',
-          'Kabeh sing bisa ditindakake pointer, bisa ditindakake keyboard uga: grid mung siji tab stop, tombol panah kanggo pindhah antarane dina lan wektu, lan Alt karo panah mindhah acara.',
+          'Pangatur jadhwal lan kalender acara Angular sing open source, kanthi lisensi MIT kaya kabeh Needless UI: tampilan sasi, minggu, dina lan agenda, uga linimasa kanthi baris kanggo saben ruangan, wong utawa mesin. Tampilan sumber daya lan linimasa asring dadi tambahan sing kudu dibayar; ing kene gratis, kanggo proyek apa wae, uga sing komersial.',
+          'Acara iku data biasa kanthi wektu ISO. Sing tumpang-tindih mbagi ambane, acara sing ngliwati tengah wengi katon ing loro dinane, lan acara sadina muput mbentang ing sisih ndhuwur minangka bar. Wenehana acara <code>resource</code>, lan <code>resources</code> menyang pangatur jadhwal: linimasa nampilake sadina miturut jame, utawa saminggu utawa sasasi miturut dinane, lan tampilan dina lan minggu dibagi dadi siji kolom kanggo saben sumber daya.',
+          'Acara sing mbaleni ngetutake aturan mbaleni iCalendar (RFC 5545), kayata <code>FREQ=WEEKLY;BYDAY=MO,WE</code> utawa Jemuwah pungkasan saben sasi, kanthi wektu sing dikecualekake ing <code>exdate</code>. <code>nuiSchedulerToIcs()</code> lan <code>nuiSchedulerFromIcs()</code> nulis lan maca berkas .ics, sing bisa diimpor lan diekspor Google Calendar, Outlook lan Apple Calendar.',
+          'Pangatur iki ora tau ngowahi acara panjenengan dhewe. Seret acara, pungkasane, utawa ing wektu kosong, lan <code>eventChange</code> utawa <code>slotSelect</code> nglaporake apa sing kedadeyan; <code>allow</code> nolak apa sing ora diidini aturan panjenengan, kayata ruangan sing dipesen kaping pindho. <code>rangeChange</code> ngandhani dina endi wae sing ditampilake, supaya acarane bisa dimuat.',
+          'Tampilna mung jam kerja, suremna wektu ing njabane, ilangna akhir minggu, wenehi nomer minggu, lan gambar acara lan sumber daya nganggo template. Kabeh sing bisa ditindakake pointer, bisa ditindakake keyboard uga: grid mung siji tab stop, tombol panah kanggo pindhah antarane dina, wektu lan sumber daya, lan Alt karo panah mindhah acara.',
         ],
         examples: {
           planner: {
             title: 'Seminggu kanggo dirancang',
             text: 'Kanthi <code>editable</code> lan <code>selectable</code>, seret acara kanggo mindhah, seret pinggir ngisore kanggo ngowahi ukurane, lan seret ing wektu kosong kanggo nambah acara anyar. Conto iki nganyari acarane saka output.',
           },
+          timeline: {
+            title: 'Ruangan ing linimasa',
+            text: 'Kanthi <code>resources</code> lan <code>view="timeline"</code>, saben ruangan oleh baris sadina, saka <code>dayStart</code> nganti <code>dayEnd</code>. Seret pesenan menyang ruangan utawa wektu liya, utawa seret ing sadawane ruangan kanggo mesen: <code>allow</code> njaga supaya ruangan ora dipesen kaping pindho. Tampilan dina njejerake ruangan-ruangan.',
+          },
+          team: {
+            title: 'Sasine tim',
+            text: '<code>timelineSpan="month"</code> nata dina-dina ing sasi kasebut kanggo saben wong, sing digambar nganggo avatar dening <code>nuiSchedulerResource</code>. Rencana bisa diseret saka siji wong menyang wong liya lan didawakake saka pungkasane, lan akhir minggu disuremake. Toolbar-e digawe dhewe ing conto iki, nganggo <code>previous()</code>, <code>next()</code> lan <code>title</code>.',
+          },
+          recurring: {
+            title: 'Acara sing mbaleni',
+            text: 'Saben rutinitas mbaleni miturut <code>rrule</code> dhewe-dhewe: standup ing dina kerja, 1:1 saben rong minggu, gym kaping rolas, retro ing Jemuwah pungkasan saben sasi, lan dina gajian ing dina pungkasan sasi. Nyeret siji kedadeyan mung mindhah sing ing dina kuwi, lan tombole ngundhuh kabeh acara minangka berkas .ics.',
+          },
+          hours: {
+            title: 'Minggu kerja',
+            text: '<code>weekends="false"</code> ngilangi akhir minggu, <code>dayStart</code> lan <code>dayEnd</code> nampilake jam 7:00 nganti 19:00, lan <code>businessHours</code> nyuremake wektu ing njaba jam kerja, wayah mangan awan lan sawise Jemuwah sing cendhak. Acara duwe werna dhewe-dhewe lan pindhah saben 15 menit, kanthi <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Sasi lan agenda',
             text: 'Acara pirang-pirang dina katon minangka bar; dina sing rame nuduhake isih ana pira maneh. <code>views</code> mung nyedhiyakake sasi lan agenda kanggo <code>agendaDays</code> dina sabanjure.',
           },
-          rooms: {
-            title: 'Pesenan ruangan sadina',
-            text: '<code>nuiSchedulerEvent</code> nggambar saben pesenan karo ruangan lan tuan rumahe. <code>slotMinutes="15"</code> ndadekake baris luwih rapet.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Acara ing sasi, minggu, dina utawa agenda.',
+            summary: 'Acara ing sasi, minggu, dina, agenda utawa linimasa.',
             members: {
               events: 'Acara sing ditampilake.',
+              resources:
+                'Ruangan, wong utawa mesin: baris ing linimasa, lan kolom ing tampilan dina lan minggu.',
               view: 'Tampilan sing katon.',
-              views: 'Tampilan sing bisa digonta-ganti pangguna.',
+              views:
+                'Tampilan sing bisa digonta-ganti pangguna. Gawane kabeh, linimasa mung yen ana sumber daya.',
+              timelineSpan:
+                'Apa sing ditampilake linimasa: sadina miturut slot wektune, utawa saminggu utawa sasasi miturut dinane.',
               date: 'Dina sing ditampilake, lan posisi keyboard.',
-              slotMinutes: 'Menit saben baris ing grid wektu, lan langkah obahe acara.',
+              slotMinutes:
+                'Menit saben baris ing grid wektu, utawa saben kolom ing linimasa sadina.',
+              snapMinutes: 'Langkah obahe acara nalika dipindhah lan diowahi ukurane.',
+              'dayStart, dayEnd': 'Jam wiwitan lan pungkasan sing ditampilake grid wektu.',
               scrollHour: 'Jam sing katon nalika grid wektu dibukak.',
               agendaDays: 'Cacahe dina ing ngarep sing ditampilake agenda.',
+              businessHours:
+                "Jam kerja, kayata <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Wektu liyane disuremake.",
+              weekends:
+                'Nampilake akhir minggu. Yen dipateni, saben tampilan ngilangi akhir minggu miturut locale.',
+              weekNumbers: 'Nampilake nomer minggu ISO ing sasi, lan ing ndhuwur wektu.',
               editable: 'Acara bisa dipindhah lan diowahi ukurane, nganggo pointer lan keyboard.',
               selectable: 'Wektu bisa dipilih ing grid, kanggo nggawe acara.',
+              allow:
+                'Nemtokake apa pamindhahan, owah-owahan ukuran utawa pilihan wektu bisa kelakon.',
+              toolbar: 'Nampilake toolbar. Yen dipateni, gawe dhewe.',
               firstDay: 'Dina kapisan ing saminggu, 1 kanggo Senen. Gawane, miturut locale.',
               headingLevel: 'Level heading judhul; dina-dina ing agenda siji level luwih jero.',
               locale: 'Ngformat dina lan wektu.',
               labels:
                 'Saben teks sing ditampilake utawa diumumake pangatur jadhwal, kanggo diterjemahake.',
               eventClick: 'Ngetokake acara sing diklik, utawa dibukak nganggo Enter.',
-              eventChange: 'Ngetokake wektu anyar acara sawise dipindhah utawa diowahi ukurane.',
-              slotSelect: 'Ngetokake wektu sing dipilih ing grid.',
+              eventChange:
+                'Ngetokake wektu anyar acara sawise dipindhah utawa diowahi ukurane, lan sumber dayane yen owah.',
+              slotSelect: 'Ngetokake wektu sing dipilih ing grid, lan sumber dayane.',
               rangeChange: 'Ngetokake dina kapisan lan pungkasan sing ditampilake nalika owah.',
+              'previous, next, goToday':
+                'Nampilake kaca sadurunge utawa sabanjure, utawa dina iki, kanggo toolbar gawean panjenengan dhewe.',
+              title: 'Apa sing ditampilake, kaya sing ditulis judhul toolbar.',
             },
           },
           NuiSchedulerEvent: {
@@ -1803,20 +1838,55 @@ export const messages: Messages = {
               'id, title': 'Kuncine, lan apa sing ditampilake.',
               'start, end': 'Tanggal lan wektu, utawa tanggal wae kanggo acara sadina muput.',
               allDay: 'Gawane, apa <code>start</code> ora duwe wektu.',
-              tone: 'Wernane.',
+              tone: 'Palet wernane.',
+              'color, class':
+                'Werna CSS apa wae, sing ngalahake palete, lan class kanggo nggawe gayane.',
+              resource: 'Sumber daya sing dadi panggonane.',
+              rrule: 'Aturan mbaleni saka RFC 5545, kayata <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Wektu wiwitan kedadeyan sing ora dianakake.',
+              recurrenceId:
+                'Ing kedadeyan sing dilaporake pangatur jadhwal: wiwitan sing diwenehake aturane.',
               editable: 'Apa acara bisa dipindhah, apa wae sing dikandhakake pangatur jadhwal.',
               data: 'Apa wae liyane sing disimpen bareng acara.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Ruangan, wong utawa mesin sing dadi panggonane acara.',
+            members: {
+              'id, title': 'Kuncine, lan jeneng sing ditampilake.',
+              'tone, color': 'Werna acara-acarane, kajaba acarane duwe werna dhewe.',
+              businessHours: 'Wektu kasedhiyane, minangka gantine jam kerja pangatur jadhwal.',
+              data: 'Apa wae liyane sing disimpen bareng sumber daya iki.',
             },
           },
           NuiSchedulerEventTemplate: {
             summary: 'Nggambar acara. Konteks-e ngemot acara lan wektune minangka teks.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Nggambar header sumber daya. Konteks-e ngemot sumber daya kasebut.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Fungsi kanggo acara sing mbaleni lan berkas iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Acara kaya sing katon ing dina-dina sing diwenehake: saben kedadeyan saka acara sing mbaleni.',
+              nuiSchedulerRule: 'Maca aturan mbaleni, utawa mbalekake null.',
+              nuiSchedulerToIcs: 'Nulis acara dadi berkas iCalendar.',
+              nuiSchedulerFromIcs:
+                'Maca acara saka berkas iCalendar, kanthi wektune ing siji zona wektu.',
+            },
+          },
         },
         keyboard: [
           [
             'Tombol panah',
-            'Pindhah saben dina lan saben slot wektu. Kewalik ing teks tengen-menyang-kiwa.',
+            'Pindhah saben dina lan saben slot wektu; ing linimasa, nyusur wektu lan antarane sumber daya. Kewalik ing teks tengen-menyang-kiwa.',
+          ],
+          [
+            'Home lan End',
+            'Dina kapisan utawa pungkasan ing minggu, utawa ing linimasa; kanthi Ctrl, baris sadina muput utawa slot pungkasan, utawa sumber daya kapisan utawa pungkasan.',
           ],
           ['Page Up lan Page Down', 'Sasi, minggu utawa dina sadurunge utawa sabanjure.'],
           ['Shift + tombol panah', 'Ndawakake wektu sing dipilih.'],
@@ -1825,15 +1895,22 @@ export const messages: Messages = {
             'Panah munggah lan mudhun ing acara',
             'Acara sadurunge utawa sabanjure ing sel kasebut.',
           ],
-          ['Alt + tombol panah ing acara', 'Mindhah acara siji slot wektu utawa sadina.'],
-          ['Alt + Shift + panah munggah utawa mudhun', 'Nyendhekake utawa ndawakake acara.'],
+          [
+            'Alt + tombol panah ing acara',
+            'Mindhah acara siji slot wektu utawa sadina, utawa menyang sumber daya sabanjure.',
+          ],
+          [
+            'Alt + Shift + tombol panah',
+            'Nyendhekake utawa ndawakake acara: mudhun ing grid wektu, nyamping ing linimasa.',
+          ],
           ['Escape', 'Bali menyang sel, ngeculake wektu sing dipilih, utawa mbatalake seretan.'],
         ],
         notes: [
-          'Sasi, minggu lan dina yaiku <code>grid</code> sing dijenengi miturut judhule. Dina dadi header kolom lan wektu dadi header baris, dadi saben sel diwaca bareng dina lan wektune.',
-          'Saben acara yaiku tombol sing dijenengi miturut judhul, dina lan wektune, kayata “Standup, Friday, September 25, 9:00 – 9:30 AM”. Mindhah utawa ngowahi ukuran ngumumake wektu anyar.',
+          'Sasi, minggu, dina lan linimasa yaiku <code>grid</code> sing dijenengi miturut judhule. Dina, wektu lan sumber daya dadi header baris lan kolom, dadi saben sel diwaca bareng dina, wektu lan sumber dayane.',
+          'Saben acara yaiku tombol sing dijenengi miturut judhul, sumber daya, dina lan wektune, kayata “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, lan “Repeats” yen acarane mbaleni. Mindhah utawa ngowahi ukuran ngumumake wektu anyar, lan sing ditolak <code>allow</code> uga diumumake.',
           'Saben seretan duwe padhanan keyboard, dadi ora ana sing butuh pointer.',
           'Tampilan-tampilan iku tombol toggle ing sawijining klompok, lan pindhah menyang minggu utawa sasi liya ngumumake judhule.',
+          'Jam kerja sing disuremake mung pratandha visual: aturan sing ditrapake asale saka <code>allow</code>, uga kanggo keyboard.',
         ],
       },
       splitter: {

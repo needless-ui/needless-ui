@@ -1,0 +1,12 @@
+<nui-scheduler
+  [events]="events()"
+  [views]="['week', 'day']"
+  [weekends]="false"
+  weekNumbers
+  dayStart="7"
+  dayEnd="19"
+  snapMinutes="15"
+  [businessHours]="hours"
+  editable
+  (eventChange)="move($event)"
+/>

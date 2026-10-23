@@ -1780,50 +1780,81 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Planificateur',
-        title: 'Composant planificateur pour Angular',
+        title: 'Scheduler Angular open source et timeline de ressources',
         summary:
-          'Des événements sur un mois, une semaine, un jour ou en agenda, glissés à leur place.',
+          'Des événements sur un mois, une semaine, un jour, en agenda ou sur une timeline de salles et de personnes, glissés à leur place.',
         description:
-          'Planificateur Angular accessible : mois, semaine, jour et agenda, événements superposés côte à côte, glisser pour déplacer et redimensionner, tout au clavier.',
+          'Planificateur Angular gratuit sous licence MIT : timeline de ressources, événements récurrents, glisser-déposer, heures de travail, iCalendar, tout au clavier.',
         apiDescription:
-          'Référence de l’API du planificateur Needless UI : vues, événements, édition et sélection de nui-scheduler, ses outputs et le template des événements.',
+          'Référence de l’API du planificateur Needless UI : vues et timeline, ressources, règles de récurrence, heures de travail, outputs, templates et iCalendar.',
         a11yDescription:
-          'Clavier et accessibilité du planificateur Needless UI : grilles de jours et d’heures, événements nommés et un équivalent clavier pour chaque glisser-déposer.',
+          'Clavier et accessibilité du planificateur Needless UI : grilles de jours, heures et ressources, événements nommés et une touche pour chaque glisser-déposer.',
         overview: [
-          'Le planificateur affiche des événements sur un mois, une semaine, un jour ou en agenda. Les événements sont de simples données, avec des heures au format ISO ; ceux qui se chevauchent se partagent la largeur, ceux qui passent minuit apparaissent sur les deux jours, et ceux qui durent toute la journée s’étendent en haut sous forme de barres.',
-          'Il ne modifie jamais vos événements de lui-même. Faites glisser un événement, ou son bord inférieur, et <code>eventChange</code> signale les nouveaux horaires ; choisissez une plage horaire sur la grille, et <code>slotSelect</code> la signale. <code>rangeChange</code> vous indique quels jours sont affichés, pour que vous puissiez charger leurs événements.',
-          'Tout ce que fait un pointeur, le clavier le fait aussi : la grille ne compte qu’un seul arrêt de tabulation, les flèches parcourent les jours et les heures, et Alt avec les flèches déplace un événement.',
+          'Un planificateur et calendrier d’événements open source pour Angular, sous licence MIT comme tout Needless UI : vues mois, semaine, jour et agenda, et une timeline avec une ligne par salle, personne ou machine. Les vues par ressource et les timelines sont souvent une option payante ; ici, elles sont gratuites, pour tout projet, y compris commercial.',
+          'Les événements sont de simples données, avec des heures au format ISO. Ceux qui se chevauchent se partagent la largeur, ceux qui passent minuit apparaissent sur les deux jours, et ceux qui durent toute la journée s’étendent en haut sous forme de barres. Donnez aux événements une <code>resource</code> et passez <code>resources</code> : la timeline montre un jour heure par heure, ou une semaine ou un mois jour par jour, et le jour et la semaine se divisent en une colonne par ressource.',
+          'Les événements récurrents suivent les règles de récurrence d’iCalendar (RFC 5545), comme <code>FREQ=WEEKLY;BYDAY=MO,WE</code> ou le dernier vendredi de chaque mois, avec des exceptions dans <code>exdate</code>. <code>nuiSchedulerToIcs()</code> et <code>nuiSchedulerFromIcs()</code> écrivent et lisent des fichiers .ics, que Google Calendar, Outlook et Apple Calendar importent et exportent.',
+          'Il ne modifie jamais vos événements de lui-même. Faites glisser un événement ou sa fin, ou glissez sur une plage libre, et <code>eventChange</code> ou <code>slotSelect</code> signale ce qui s’est passé ; <code>allow</code> refuse ce que vos règles n’autorisent pas, comme une salle réservée deux fois. <code>rangeChange</code> vous indique quels jours sont affichés, pour que vous puissiez charger leurs événements.',
+          'N’affichez que les heures de travail, grisez le temps en dehors, masquez le week-end, numérotez les semaines et dessinez événements et ressources avec des templates. Tout ce que fait un pointeur, le clavier le fait aussi : la grille ne compte qu’un seul arrêt de tabulation, les flèches parcourent les jours, les heures et les ressources, et Alt avec les flèches déplace un événement.',
         ],
         examples: {
           planner: {
             title: 'Une semaine à planifier',
             text: 'Avec <code>editable</code> et <code>selectable</code>, faites glisser les événements pour les déplacer, leur bord inférieur pour les redimensionner, et sur une plage libre pour en ajouter un. L’exemple met à jour ses événements à partir des outputs.',
           },
+          timeline: {
+            title: 'Des salles sur une timeline',
+            text: 'Avec <code>resources</code> et <code>view="timeline"</code>, chaque salle a sa ligne de la journée, de <code>dayStart</code> à <code>dayEnd</code>. Faites glisser une réservation vers une autre salle ou un autre horaire, ou glissez le long d’une salle pour la réserver : <code>allow</code> empêche qu’une salle soit réservée deux fois. La vue jour place les salles côte à côte.',
+          },
+          team: {
+            title: 'Un mois de l’équipe',
+            text: '<code>timelineSpan="month"</code> déroule les jours du mois pour chaque personne, dessinée avec un avatar par <code>nuiSchedulerResource</code>. On fait glisser les activités d’une personne à l’autre et on les étire par leur fin, et le week-end est grisé. La barre d’outils est celle de l’exemple, construite sur <code>previous()</code>, <code>next()</code> et <code>title</code>.',
+          },
+          recurring: {
+            title: 'Événements récurrents',
+            text: 'Chaque routine se répète selon sa <code>rrule</code> : un standup en semaine, un 1:1 une semaine sur deux, la salle de sport douze fois, une rétro le dernier vendredi du mois et la paie le dernier jour. Faire glisser une occurrence ne déplace que celle de ce jour-là, et le bouton télécharge le tout dans un fichier .ics.',
+          },
+          hours: {
+            title: 'Une semaine de travail',
+            text: '<code>weekends="false"</code> masque le week-end, <code>dayStart</code> et <code>dayEnd</code> affichent de 7 h à 19 h, et <code>businessHours</code> grise le temps hors travail, autour du déjeuner et après un vendredi écourté. Les événements ont leurs propres couleurs et se déplacent par pas de 15 minutes, avec <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Un mois et un agenda',
             text: 'Les événements sur plusieurs jours s’affichent en barres ; un jour chargé indique combien d’autres événements il contient. <code>views</code> ne propose que le mois et l’agenda des <code>agendaDays</code> prochains jours.',
           },
-          rooms: {
-            title: 'Une journée de réservations de salles',
-            text: '<code>nuiSchedulerEvent</code> dessine chaque réservation avec sa salle et son organisateur. <code>slotMinutes="15"</code> affine les lignes.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Des événements sur un mois, une semaine, un jour ou en agenda.',
+            summary:
+              'Des événements sur un mois, une semaine, un jour, en agenda ou sur une timeline.',
             members: {
               events: 'Les événements à afficher.',
+              resources:
+                'Salles, personnes ou machines : les lignes de la timeline, et les colonnes du jour et de la semaine.',
               view: 'La vue affichée.',
-              views: 'Les vues entre lesquelles on peut basculer.',
+              views:
+                'Les vues entre lesquelles on peut basculer. Par défaut, toutes, et la timeline seulement avec des ressources.',
+              timelineSpan:
+                'Ce que montre la timeline : un jour par créneaux, ou une semaine ou un mois par jours.',
               date: 'Le jour affiché, où se trouve aussi le focus clavier.',
               slotMinutes:
-                'Les minutes par ligne de la grille horaire, et le pas de déplacement des événements.',
+                'Les minutes par ligne de la grille horaire, ou par colonne de la timeline d’un jour.',
+              snapMinutes: 'Le pas de déplacement et de redimensionnement des événements.',
+              'dayStart, dayEnd': 'Les heures de début et de fin de la grille horaire.',
               scrollHour: 'L’heure à laquelle s’ouvre la grille horaire.',
               agendaDays: 'Le nombre de jours à venir que couvre l’agenda.',
+              businessHours:
+                "Les heures de travail, comme <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Le reste du temps est grisé.",
+              weekends:
+                'Affiche le week-end. Sans lui, chaque vue masque le week-end des paramètres régionaux.',
+              weekNumbers:
+                'Affiche les numéros de semaine ISO dans le mois, et au-dessus des heures.',
               editable:
                 'Les événements peuvent être déplacés et redimensionnés, au pointeur comme au clavier.',
               selectable:
                 'Une plage horaire peut être choisie sur la grille, pour créer des événements.',
+              allow:
+                'Décide si un déplacement, un redimensionnement ou un choix de plage horaire peut avoir lieu.',
+              toolbar: 'Affiche la barre d’outils. Sans elle, construisez la vôtre.',
               firstDay:
                 'Le premier jour de la semaine, 1 pour lundi. Par défaut, celui des paramètres régionaux.',
               headingLevel: 'Le niveau du titre ; les jours de l’agenda descendent d’un niveau.',
@@ -1831,9 +1862,12 @@ export const messages: Messages = {
               labels: 'Tous les textes que le planificateur affiche ou annonce, à traduire.',
               eventClick: 'Émet l’événement cliqué, ou ouvert avec Entrée.',
               eventChange:
-                'Émet les nouveaux horaires d’un événement après un déplacement ou un redimensionnement.',
-              slotSelect: 'Émet la plage horaire choisie sur la grille.',
+                'Émet les nouveaux horaires d’un événement après un déplacement ou un redimensionnement, et ses ressources quand elles ont changé.',
+              slotSelect: 'Émet la plage horaire choisie sur la grille, et sa ressource.',
               rangeChange: 'Émet le premier et le dernier jour affichés quand ils changent.',
+              'previous, next, goToday':
+                'Affichent la page précédente ou suivante, ou aujourd’hui, pour votre propre barre d’outils.',
+              title: 'Ce qui est affiché, tel que le formule le titre de la barre d’outils.',
             },
           },
           NuiSchedulerEvent: {
@@ -1844,9 +1878,28 @@ export const messages: Messages = {
               'start, end':
                 'Des dates et heures, ou des dates seules pour les événements sur toute la journée.',
               allDay: 'Par défaut, vrai quand <code>start</code> n’a pas d’heure.',
-              tone: 'Sa couleur.',
+              tone: 'Sa palette.',
+              'color, class':
+                'Toute couleur CSS, qui l’emporte sur son ton, et des classes pour le styler.',
+              resource: 'Les ressources auxquelles il appartient.',
+              rrule:
+                'Une règle de récurrence de la RFC 5545, comme <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Les débuts des occurrences qui n’ont pas lieu.',
+              recurrenceId:
+                'Sur une occurrence que signale le planificateur : le début que sa règle lui a donné.',
               editable: 'S’il peut être déplacé, quoi qu’en dise le planificateur.',
               data: 'Tout ce que vous voulez garder avec lui.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary:
+              'Une salle, une personne ou une machine à laquelle appartiennent des événements.',
+            members: {
+              'id, title': 'Sa clé, et le nom qu’elle affiche.',
+              'tone, color': 'Les couleurs de ses événements, sauf s’ils ont les leurs.',
+              businessHours:
+                'Quand elle est disponible, à la place des heures de travail du planificateur.',
+              data: 'Tout ce que vous voulez garder avec elle.',
             },
           },
           NuiSchedulerEventTemplate: {
@@ -1854,11 +1907,30 @@ export const messages: Messages = {
               'Dessine les événements. Le contexte contient l’événement et son horaire sous forme de texte.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Dessine les en-têtes des ressources. Le contexte contient la ressource.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Des fonctions pour les événements récurrents et les fichiers iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Un événement tel qu’il apparaît sur les jours donnés : chaque occurrence, s’il se répète.',
+              nuiSchedulerRule: 'Lit une règle de récurrence, ou renvoie null.',
+              nuiSchedulerToIcs: 'Écrit des événements dans un fichier iCalendar.',
+              nuiSchedulerFromIcs:
+                'Lit les événements d’un fichier iCalendar, avec leurs heures dans un seul fuseau horaire.',
+            },
+          },
         },
         keyboard: [
           [
             'Touches fléchées',
-            'Déplacent d’un jour ou d’un créneau. Les flèches s’inversent dans un texte de droite à gauche.',
+            'Déplacent d’un jour ou d’un créneau ; dans la timeline, dans le temps et d’une ressource à l’autre. Les flèches s’inversent dans un texte de droite à gauche.',
+          ],
+          [
+            'Début et Fin',
+            'Premier ou dernier jour de la semaine, ou de la timeline ; avec Ctrl, la ligne de la journée entière ou le dernier créneau, ou la première ou la dernière ressource.',
           ],
           ['Page précédente et Page suivante', 'Mois, semaine ou jour précédent ou suivant.'],
           ['Maj + touches fléchées', 'Étendent la plage choisie.'],
@@ -1870,18 +1942,25 @@ export const messages: Messages = {
             'Flèches haut et bas sur un événement',
             'Événement précédent ou suivant dans la cellule.',
           ],
-          ['Alt + touches fléchées sur un événement', 'Le déplacent d’un créneau ou d’un jour.'],
-          ['Alt + Maj + flèche haut ou bas', 'Raccourcit ou allonge l’événement.'],
+          [
+            'Alt + touches fléchées sur un événement',
+            'Le déplacent d’un créneau ou d’un jour, ou vers la ressource suivante.',
+          ],
+          [
+            'Alt + Maj + touches fléchées',
+            'Raccourcissent ou allongent l’événement : à la verticale dans la grille horaire, à l’horizontale dans la timeline.',
+          ],
           [
             'Échap',
             'Revient à la cellule, abandonne la plage choisie ou annule un glisser-déposer.',
           ],
         ],
         notes: [
-          'Le mois, la semaine et le jour sont des <code>grid</code> nommées chacune par son titre. Les jours sont en tête des colonnes et les heures en tête des lignes : chaque cellule se lit donc avec son jour et son heure.',
-          'Chaque événement est un bouton nommé par son titre, son jour et son horaire, comme « Standup, Friday, September 25, 9:00 – 9:30 AM ». Un déplacement ou un redimensionnement annonce le nouvel horaire.',
+          'Le mois, la semaine, le jour et la timeline sont des <code>grid</code> nommées chacune par son titre. Les jours, les heures et les ressources sont en tête des lignes et des colonnes : chaque cellule se lit donc avec son jour, son heure et sa ressource.',
+          'Chaque événement est un bouton nommé par son titre, ses ressources, son jour et son horaire, comme « Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM », et « Repeats » s’il se répète. Un déplacement ou un redimensionnement annonce le nouvel horaire, ou son refus quand <code>allow</code> le rejette.',
           'Chaque glisser-déposer a son équivalent au clavier : personne n’a besoin d’un pointeur.',
           'Les vues sont des boutons bascules dans un groupe, et passer à une autre semaine ou à un autre mois en annonce le titre.',
+          'Le grisé des heures de travail n’est qu’un repère visuel : les règles qui comptent viennent de <code>allow</code>, au clavier aussi.',
         ],
       },
       splitter: {

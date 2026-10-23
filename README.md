@@ -17,6 +17,7 @@
 - **Needlessly customizable.** Springs, press effects, entrances, corner shapes, radius and density: one attribute for a whole subtree, or one input per component. The springs are real physics, solved at build time and shipped as CSS `linear()` easings.
 - **Standard design tokens.** Tokens are W3C DTCG 2025.10 files, compiled to CSS custom properties with light and dark modes, including nested themes.
 - **Modern Angular.** Signal inputs, zoneless, OnPush, SSR- and hydration-safe, with one entry point per component so apps only ship what they import.
+- **No premium tier.** Everything is MIT, including what other libraries often sell separately: the scheduler's resource timeline and recurring events, and the data grid's grouping, tree data and Excel export.
 
 ## Packages
 
@@ -29,7 +30,7 @@
 
 ## Components
 
-[AI chat](specs/chat.md), [Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Calendar](specs/calendar.md), [Carousel](specs/carousel.md), [Color picker](specs/color-picker.md), [Combobox](specs/select.md), [Command palette](specs/command.md), [Data grid](specs/grid.md), [Date and time pickers](specs/date-picker.md), [Dialog](specs/dialog.md), [Dropzone](specs/dropzone.md), [Empty state](specs/empty.md), [Input mask](specs/mask.md), [Markdown](specs/markdown.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Phone field](specs/phone-field.md), [Popover and hovercard](specs/popover.md), [Rating](specs/rating.md), [Rich text editor](specs/editor.md), [Scheduler](specs/scheduler.md), [Select](specs/select.md), [Skeleton](specs/skeleton.md), [Splitter](specs/splitter.md), [Toast](specs/toast.md) and [Tour](specs/tour.md). Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
+[AI chat](specs/chat.md), [Avatar](specs/avatar.md), [Breadcrumbs](specs/breadcrumbs.md), [Button](specs/button.md), [Calendar](specs/calendar.md), [Carousel](specs/carousel.md), [Color picker](specs/color-picker.md), [Combobox](specs/select.md), [Command palette](specs/command.md), [Data grid](specs/grid.md), [Date and time pickers](specs/date-picker.md), [Dialog](specs/dialog.md), [Dropzone](specs/dropzone.md), [Empty state](specs/empty.md), [Input mask](specs/mask.md), [Markdown](specs/markdown.md), [Menu](specs/menu.md), [Number field](specs/number-field.md), [OTP input](specs/otp.md), [Phone field](specs/phone-field.md), [Popover and hovercard](specs/popover.md), [Rating](specs/rating.md), [Rich text editor](specs/editor.md), [Scheduler and resource timeline](specs/scheduler.md), [Select](specs/select.md), [Skeleton](specs/skeleton.md), [Splitter](specs/splitter.md), [Toast](specs/toast.md) and [Tour](specs/tour.md). Each spec defines the API, keyboard behavior and accessibility, and every framework package implements it.
 
 ## Quick start (Angular)
 

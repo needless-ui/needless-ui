@@ -1,0 +1,35 @@
+nui-scheduler {
+  block-size: 22rem;
+}
+
+.team-toolbar {
+  display: flex;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nui-space-2);
+}
+
+.team-title {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: var(--nui-font-size-lg);
+}
+
+.team-spans [aria-pressed='true'] {
+  background-color: var(--nui-color-neutral-soft);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--nui-space-2);
+}
+
+/* On a phone, long names end in an ellipsis inside their column. */
+.person-name {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

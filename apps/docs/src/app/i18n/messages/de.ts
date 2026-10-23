@@ -1794,48 +1794,80 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Terminplaner',
-        title: 'Terminplaner-Komponente für Angular',
-        summary: 'Termine in Monats-, Wochen-, Tages- oder Agendaansicht, an ihren Platz gezogen.',
+        title: 'Open-Source-Angular-Scheduler mit Ressourcen-Timeline',
+        summary:
+          'Termine in Monats-, Wochen-, Tages- oder Agendaansicht oder auf einer Timeline aus Räumen und Personen, an ihren Platz gezogen.',
         description:
-          'Barrierefreier Angular-Terminplaner: Monat, Woche, Tag und Agenda, überlappende Termine nebeneinander, Verschieben und Dauer ändern per Ziehen oder Tastatur.',
+          'Kostenloser Angular-Terminplaner unter MIT-Lizenz: Ressourcen-Timeline, Serientermine, Drag-and-drop, Arbeitszeiten, iCalendar-Dateien und Tastaturbedienung.',
         apiDescription:
-          'API-Referenz des Terminplaners von Needless UI: Ansichten, Termine, Bearbeitung und Auswahl von nui-scheduler, seine Outputs und das Template für Termine.',
+          'API-Referenz des Terminplaners von Needless UI: Ansichten und Timeline, Ressourcen, Wiederholungsregeln, Arbeitszeiten, Outputs, Templates und iCalendar.',
         a11yDescription:
-          'Tastatur und Barrierefreiheit des Terminplaners von Needless UI: Grids aus Tagen und Uhrzeiten, benannte Termine und eine Tastaturalternative für jedes Ziehen.',
+          'Tastatur und Barrierefreiheit des Terminplaners von Needless UI: Grids aus Tagen, Uhrzeiten und Ressourcen, benannte Termine und eine Taste für jedes Ziehen.',
         overview: [
-          'Der Terminplaner zeigt Termine in der Monats-, Wochen-, Tages- oder Agendaansicht. Termine sind einfache Daten mit ISO-Zeiten; überlappende teilen sich die Breite, Termine über Mitternacht erscheinen an beiden Tagen, und ganztägige Termine ziehen sich oben als Balken über die Tage.',
-          'Deine Termine ändert er nie selbst. Ziehst du einen Termin oder seine Unterkante, meldet <code>eventChange</code> die neuen Zeiten; markierst du eine Zeitspanne im Grid, meldet <code>slotSelect</code> sie. <code>rangeChange</code> sagt dir, welche Tage angezeigt werden, damit du ihre Termine laden kannst.',
-          'Alles, was ein Zeiger kann, geht auch per Tastatur: Das Grid ist ein einziger Tab-Stopp, mit den Pfeiltasten bewegst du dich durch Tage und Uhrzeiten, und Alt plus Pfeiltaste verschiebt einen Termin.',
+          'Ein Open-Source-Terminplaner und Terminkalender für Angular, MIT-lizenziert wie ganz Needless UI: Monats-, Wochen-, Tages- und Agendaansicht und eine Timeline mit einer Zeile für jeden Raum, jede Person oder Maschine. Ressourcenansichten und Timelines kosten oft extra; hier sind sie kostenlos, für jedes Projekt, auch für kommerzielle.',
+          'Termine sind einfache Daten mit ISO-Zeiten. Überlappende teilen sich die Breite, Termine über Mitternacht erscheinen an beiden Tagen, und ganztägige Termine ziehen sich oben als Balken über die Tage. Gib Terminen eine <code>resource</code> und übergib <code>resources</code>: Die Timeline zeigt einen Tag nach Stunden oder eine Woche oder einen Monat nach Tagen, und Tag und Woche teilen sich in eine Spalte pro Ressource.',
+          'Wiederkehrende Termine folgen den Wiederholungsregeln von iCalendar (RFC 5545), etwa <code>FREQ=WEEKLY;BYDAY=MO,WE</code> oder jeden letzten Freitag im Monat, mit Ausnahmen in <code>exdate</code>. <code>nuiSchedulerToIcs()</code> und <code>nuiSchedulerFromIcs()</code> schreiben und lesen .ics-Dateien, die Google Calendar, Outlook und Apple Calendar importieren und exportieren.',
+          'Deine Termine ändert er nie selbst. Ziehst du einen Termin oder sein Ende oder ziehst du über freie Zeit, meldet <code>eventChange</code> oder <code>slotSelect</code>, was passiert ist; <code>allow</code> lehnt ab, was deine Regeln nicht erlauben, etwa einen doppelt gebuchten Raum. <code>rangeChange</code> sagt dir, welche Tage angezeigt werden, damit du ihre Termine laden kannst.',
+          'Zeig nur die Arbeitszeiten, schattiere die übrige Zeit, blende das Wochenende aus, nummeriere die Wochen und zeichne Termine und Ressourcen mit Templates. Alles, was ein Zeiger kann, geht auch per Tastatur: Das Grid ist ein einziger Tab-Stopp, mit den Pfeiltasten bewegst du dich durch Tage, Uhrzeiten und Ressourcen, und Alt plus Pfeiltaste verschiebt einen Termin.',
         ],
         examples: {
           planner: {
             title: 'Eine Woche planen',
             text: 'Mit <code>editable</code> und <code>selectable</code> verschiebst du Termine per Ziehen, ziehst an ihrer Unterkante, um die Dauer zu ändern, und ziehst über freie Zeit, um einen neuen anzulegen. Das Beispiel aktualisiert seine Termine anhand der Outputs.',
           },
+          timeline: {
+            title: 'Räume auf einer Timeline',
+            text: 'Mit <code>resources</code> und <code>view="timeline"</code> bekommt jeder Raum eine Zeile für den Tag, von <code>dayStart</code> bis <code>dayEnd</code>. Zieh eine Buchung in einen anderen Raum oder auf eine andere Zeit, oder zieh über einen Raum, um ihn zu buchen: <code>allow</code> verhindert, dass ein Raum doppelt gebucht wird. Die Tagesansicht stellt die Räume nebeneinander.',
+          },
+          team: {
+            title: 'Ein Monat im Team',
+            text: '<code>timelineSpan="month"</code> legt die Tage des Monats für jede Person aus, die <code>nuiSchedulerResource</code> mit einem Avatar zeichnet. Einträge lassen sich von einer Person zur anderen ziehen und an ihrem Ende verlängern, und das Wochenende ist schattiert. Die Toolbar baut das Beispiel selbst, mit <code>previous()</code>, <code>next()</code> und <code>title</code>.',
+          },
+          recurring: {
+            title: 'Wiederkehrende Termine',
+            text: 'Jede Routine wiederholt sich nach ihrer <code>rrule</code>: ein Standup an Arbeitstagen, ein 1:1 alle zwei Wochen, zwölfmal Fitnessstudio, eine Retro am letzten Freitag des Monats und der Zahltag am Monatsletzten. Ziehst du ein Vorkommen, verschiebt sich nur das an diesem Tag, und der Button lädt alle Termine als .ics-Datei herunter.',
+          },
+          hours: {
+            title: 'Eine Arbeitswoche',
+            text: '<code>weekends="false"</code> blendet das Wochenende aus, <code>dayStart</code> und <code>dayEnd</code> zeigen 7 bis 19 Uhr, und <code>businessHours</code> schattiert die Zeit außerhalb der Arbeit, um die Mittagspause und nach einem kurzen Freitag. Termine haben eigene Farben und bewegen sich in 15-Minuten-Schritten, mit <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Ein Monat und eine Agenda',
             text: 'Mehrtägige Termine erscheinen als Balken; ein voller Tag zeigt, wie viele weitere es gibt. <code>views</code> bietet nur den Monat und die Agenda der nächsten <code>agendaDays</code> Tage an.',
           },
-          rooms: {
-            title: 'Ein Tag mit Raumbuchungen',
-            text: '<code>nuiSchedulerEvent</code> zeichnet jede Buchung mit Raum und Organisator. <code>slotMinutes="15"</code> sorgt für feinere Zeilen.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Termine in der Monats-, Wochen-, Tages- oder Agendaansicht.',
+            summary:
+              'Termine in der Monats-, Wochen-, Tages- oder Agendaansicht oder auf einer Timeline.',
             members: {
               events: 'Die anzuzeigenden Termine.',
+              resources:
+                'Räume, Personen oder Maschinen: Zeilen der Timeline und Spalten von Tag und Woche.',
               view: 'Die angezeigte Ansicht.',
-              views: 'Die Ansichten, zwischen denen man wechseln kann.',
+              views:
+                'Die Ansichten, zwischen denen man wechseln kann. Standardmäßig alle, die Timeline nur mit Ressourcen.',
+              timelineSpan:
+                'Was die Timeline zeigt: einen Tag nach Zeitfenstern oder eine Woche oder einen Monat nach Tagen.',
               date: 'Der angezeigte Tag, auf dem auch der Tastaturfokus steht.',
               slotMinutes:
-                'Minuten pro Zeile des Zeitrasters und die Schrittweite, in der sich Termine verschieben.',
+                'Minuten pro Zeile des Zeitrasters oder pro Spalte der Timeline eines Tages.',
+              snapMinutes:
+                'Die Schrittweite, in der sich Termine verschieben und in der Dauer ändern.',
+              'dayStart, dayEnd': 'Von welcher bis zu welcher Stunde das Zeitraster reicht.',
               scrollHour: 'Die Stunde, die das Zeitraster beim Öffnen zeigt.',
               agendaDays: 'Wie viele Tage die Agenda vorausschaut.',
+              businessHours:
+                "Arbeitszeiten, etwa <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Die übrige Zeit wird schattiert.",
+              weekends:
+                'Zeigt das Wochenende. Ohne diese Option blendet jede Ansicht das Wochenende der Locale aus.',
+              weekNumbers: 'Zeigt ISO-Kalenderwochen im Monat und über den Uhrzeiten.',
               editable:
                 'Termine lassen sich verschieben und in der Dauer ändern, per Zeiger und per Tastatur.',
               selectable: 'Im Grid lässt sich Zeit markieren, um Termine anzulegen.',
+              allow:
+                'Entscheidet, ob ein Verschieben, eine Änderung der Dauer oder eine Zeitauswahl erlaubt ist.',
+              toolbar: 'Zeigt die Toolbar. Ohne sie baust du deine eigene.',
               firstDay: 'Der erste Tag der Woche, 1 für Montag. Standardmäßig der aus der Locale.',
               headingLevel:
                 'Die Überschriftenebene des Titels; die Tage der Agenda liegen eine Ebene tiefer.',
@@ -1843,10 +1875,13 @@ export const messages: Messages = {
               labels: 'Alle Texte, die der Terminplaner anzeigt oder ansagt, zum Übersetzen.',
               eventClick: 'Emittiert einen angeklickten oder mit Enter geöffneten Termin.',
               eventChange:
-                'Emittiert die neuen Zeiten eines Termins nach dem Verschieben oder Ändern der Dauer.',
-              slotSelect: 'Emittiert die im Grid markierte Zeit.',
+                'Emittiert die neuen Zeiten eines Termins nach dem Verschieben oder Ändern der Dauer und seine Ressourcen, wenn sie sich geändert haben.',
+              slotSelect: 'Emittiert die im Grid markierte Zeit und ihre Ressource.',
               rangeChange:
                 'Emittiert den ersten und letzten angezeigten Tag, wenn sie sich ändern.',
+              'previous, next, goToday':
+                'Zeigen die vorherige oder nächste Seite oder heute, für eine eigene Toolbar.',
+              title: 'Was angezeigt wird, so wie es der Titel der Toolbar sagt.',
             },
           },
           NuiSchedulerEvent: {
@@ -1856,21 +1891,58 @@ export const messages: Messages = {
               'id, title': 'Sein Schlüssel und was er anzeigt.',
               'start, end': 'Datum mit Uhrzeit oder, bei ganztägigen Terminen, nur das Datum.',
               allDay: 'Standardmäßig gesetzt, wenn <code>start</code> keine Uhrzeit hat.',
-              tone: 'Seine Farbe.',
+              tone: 'Seine Farbpalette.',
+              'color, class':
+                'Eine beliebige CSS-Farbe, die Vorrang vor seinem Farbton hat, und Klassen, mit denen du ihn gestaltest.',
+              resource: 'Die Ressourcen, zu denen er gehört.',
+              rrule:
+                'Eine Wiederholungsregel nach RFC 5545, etwa <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Die Beginnzeiten von Vorkommen, die ausfallen.',
+              recurrenceId:
+                'An einem Vorkommen, das der Terminplaner meldet: der Beginn, den ihm seine Regel gab.',
               editable:
                 'Ob er sich verschieben lässt, unabhängig davon, was der Terminplaner vorgibt.',
               data: 'Alles Weitere, das du mit ihm aufbewahren willst.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary:
+              'Eine Ressource, zu der Termine gehören: ein Raum, eine Person oder eine Maschine.',
+            members: {
+              'id, title': 'Ihr Schlüssel und der Name, den sie anzeigt.',
+              'tone, color': 'Die Farben ihrer Termine, sofern diese keine eigenen haben.',
+              businessHours: 'Wann sie verfügbar ist, statt der Arbeitszeiten des Terminplaners.',
+              data: 'Alles Weitere, das du mit ihr aufbewahren willst.',
             },
           },
           NuiSchedulerEventTemplate: {
             summary: 'Zeichnet Termine. Der Kontext enthält den Termin und seine Zeit als Text.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Zeichnet die Kopfzellen der Ressourcen. Der Kontext enthält die Ressource.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Funktionen für wiederkehrende Termine und iCalendar-Dateien.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Ein Termin, wie er an den angegebenen Tagen erscheint: jedes Vorkommen, wenn er sich wiederholt.',
+              nuiSchedulerRule: 'Liest eine Wiederholungsregel oder gibt null zurück.',
+              nuiSchedulerToIcs: 'Schreibt Termine als iCalendar-Datei.',
+              nuiSchedulerFromIcs:
+                'Liest die Termine einer iCalendar-Datei, mit ihren Zeiten in einer einzigen Zeitzone.',
+            },
+          },
         },
         keyboard: [
           [
             'Pfeiltasten',
-            'Springen um einen Tag oder ein Zeitfenster. Bei Text von rechts nach links sind die Pfeile vertauscht.',
+            'Springen um einen Tag oder ein Zeitfenster; in der Timeline entlang der Zeit und zwischen Ressourcen. Bei Text von rechts nach links sind die Pfeile vertauscht.',
+          ],
+          [
+            'Pos1 und Ende',
+            'Erster oder letzter Tag der Woche oder der Timeline; mit Ctrl die Ganztagszeile oder das letzte Zeitfenster bzw. die erste oder letzte Ressource.',
           ],
           [
             'Bild auf und Bild ab',
@@ -1887,16 +1959,20 @@ export const messages: Messages = {
           ],
           [
             'Alt + Pfeiltasten auf einem Termin',
-            'Verschieben ihn um ein Zeitfenster oder einen Tag.',
+            'Verschieben ihn um ein Zeitfenster oder einen Tag oder zur nächsten Ressource.',
           ],
-          ['Alt + Umschalt + Pfeil nach oben oder unten', 'Verkürzt oder verlängert den Termin.'],
+          [
+            'Alt + Umschalt + Pfeiltasten',
+            'Verkürzen oder verlängern den Termin: senkrecht im Zeitraster, waagerecht in der Timeline.',
+          ],
           ['Esc', 'Kehrt zur Zelle zurück, verwirft die markierte Zeit oder bricht das Ziehen ab.'],
         ],
         notes: [
-          'Monat, Woche und Tag sind jeweils ein <code>grid</code>, benannt nach ihrem Titel. Die Tage bilden die Spaltenköpfe und die Uhrzeiten die Zeilenköpfe, sodass jede Zelle mit ihrem Tag und ihrer Uhrzeit vorgelesen wird.',
-          'Jeder Termin ist ein Button, benannt nach Titel, Tag und Uhrzeit, etwa „Standup, Friday, September 25, 9:00 – 9:30 AM“. Nach dem Verschieben oder Ändern der Dauer wird die neue Zeit angesagt.',
+          'Monat, Woche, Tag und Timeline sind jeweils ein <code>grid</code>, benannt nach ihrem Titel. Tage, Uhrzeiten und Ressourcen bilden die Zeilen- und Spaltenköpfe, sodass jede Zelle mit ihrem Tag, ihrer Uhrzeit und ihrer Ressource vorgelesen wird.',
+          'Jeder Termin ist ein Button, benannt nach Titel, Ressourcen, Tag und Uhrzeit, etwa „Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM“, und „Repeats“, wenn er sich wiederholt. Nach dem Verschieben oder Ändern der Dauer wird die neue Zeit angesagt, oder die Ablehnung, wenn <code>allow</code> es nicht erlaubt.',
           'Für jedes Ziehen gibt es eine Tastaturalternative, sodass niemand einen Zeiger braucht.',
           'Die Ansichten sind Toggle-Buttons in einer Gruppe, und beim Wechsel zu einer anderen Woche oder einem anderen Monat wird der neue Titel angesagt.',
+          'Die Schattierung der Arbeitszeiten ist nur Optik: Was wirklich gilt, legt <code>allow</code> fest, auch für die Tastatur.',
         ],
       },
       splitter: {

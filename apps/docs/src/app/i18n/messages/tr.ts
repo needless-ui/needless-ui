@@ -1717,58 +1717,90 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Planlayıcı',
-        title: 'Angular için planlayıcı bileşeni',
+        title: 'Açık kaynak Angular planlayıcısı: kaynak zaman çizelgesi',
         summary:
-          'Etkinlikleri ay, hafta, gün ya da ajanda görünümünde gösterin, sürükleyerek yerleştirin.',
+          'Etkinlikleri ay, hafta, gün, ajanda ya da odalar ve kişiler için zaman çizelgesi görünümünde gösterin, sürükleyerek yerleştirin.',
         description:
-          'Erişilebilir Angular planlayıcısı: ay, hafta, gün ve ajanda görünümleri, yan yana çakışan etkinlikler, sürükleyip taşıma ve boyutlandırma, tam klavye denetimi.',
+          'Ücretsiz, MIT lisanslı Angular planlayıcısı: kaynak zaman çizelgesi, yinelenen etkinlikler, sürükle-bırak, çalışma saatleri, iCalendar ve tam klavye denetimi.',
         apiDescription:
-          'Needless UI planlayıcısının API referansı: nui-scheduler görünümleri, etkinlikler, düzenleme ve seçim, çıktıları ve etkinlik şablonu.',
+          'Needless UI planlayıcısının API referansı: görünümler ve zaman çizelgesi, kaynaklar, yineleme kuralları, çalışma saatleri, çıktılar, şablonlar ve iCalendar.',
         a11yDescription:
-          'Needless UI planlayıcısının klavye kullanımı ve erişilebilirliği: gün ve saat ızgaraları, adlandırılmış etkinlikler, her sürükleme için klavye karşılığı.',
+          'Needless UI planlayıcısının klavye kullanımı ve erişilebilirliği: gün, saat ve kaynak ızgaraları, adlandırılmış etkinlikler, her sürüklemenin klavye karşılığı.',
         overview: [
-          'Planlayıcı, etkinlikleri ay, hafta, gün ya da ajanda görünümünde gösterir. Etkinlikler, ISO biçiminde zamanlar taşıyan düz verilerdir; çakışan etkinlikler genişliği paylaşır, gece yarısını aşan etkinlikler iki günde de görünür, tüm gün süren etkinlikler ise üstte şeritler hâlinde uzanır.',
-          'Planlayıcı etkinliklerinizi hiçbir zaman kendisi değiştirmez. Bir etkinliği ya da alt kenarını sürükleyin, <code>eventChange</code> yeni zamanları bildirir; ızgarada bir zaman seçin, <code>slotSelect</code> bunu bildirir. <code>rangeChange</code> hangi günlerin gösterildiğini söyler; böylece o günlerin etkinliklerini yükleyebilirsiniz.',
-          'İşaretçiyle yapılan her şey klavyeyle de yapılabilir: ızgara tek bir sekme durağıdır, ok tuşları günler ve saatler arasında gezinir, Alt ile birlikte oklar ise bir etkinliği taşır.',
+          'Açık kaynak bir Angular planlayıcısı ve etkinlik takvimi; tüm Needless UI bileşenleri gibi MIT lisanslıdır. Ay, hafta, gün ve ajanda görünümlerinin yanı sıra her oda, kişi ya da makine için bir satır içeren bir zaman çizelgesi sunar. Kaynak görünümleri ve zaman çizelgeleri çoğu zaman ücretli bir eklentidir; burada ticari projeler dahil her proje için ücretsizdir.',
+          'Etkinlikler, ISO biçiminde zamanlar taşıyan düz verilerdir. Çakışan etkinlikler genişliği paylaşır, gece yarısını aşan etkinlikler iki günde de görünür, tüm gün süren etkinlikler ise üstte şeritler hâlinde uzanır. Etkinliklere bir <code>resource</code> atayın ve kaynakları <code>resources</code> ile verin: zaman çizelgesi bir günü saatlerine, bir haftayı ya da ayı günlerine göre gösterir; gün ve hafta görünümleri de her kaynak için ayrı bir sütuna bölünür.',
+          'Yinelenen etkinlikler, <code>FREQ=WEEKLY;BYDAY=MO,WE</code> ya da her ayın son cuması gibi iCalendar yineleme kurallarına (RFC 5545) uyar; istisnalar <code>exdate</code> içinde belirtilir. <code>nuiSchedulerToIcs()</code> ve <code>nuiSchedulerFromIcs()</code>, Google Calendar, Outlook ve Apple Calendar ile içe ve dışa aktarılabilen .ics dosyalarını yazar ve okur.',
+          'Planlayıcı etkinliklerinizi hiçbir zaman kendisi değiştirmez. Bir etkinliği ya da bitişini sürükleyin veya boş zamanın üzerinde sürükleyin; ne olduğunu <code>eventChange</code> ya da <code>slotSelect</code> bildirir. <code>allow</code> ise kurallarınızın izin vermediğini, örneğin bir odanın iki kez rezerve edilmesini reddeder. <code>rangeChange</code> hangi günlerin gösterildiğini söyler; böylece o günlerin etkinliklerini yükleyebilirsiniz.',
+          'Yalnızca çalışma saatlerini gösterin, dışında kalan zamanı gölgeleyin, hafta sonunu çıkarın, haftaları numaralandırın; etkinlikleri ve kaynakları şablonlarla çizin. İşaretçiyle yapılan her şey klavyeyle de yapılabilir: ızgara tek bir sekme durağıdır, ok tuşları günler, saatler ve kaynaklar arasında gezinir, Alt ile birlikte oklar ise bir etkinliği taşır.',
         ],
         examples: {
           planner: {
             title: 'Planlanacak bir hafta',
             text: '<code>editable</code> ve <code>selectable</code> ile etkinlikleri taşımak için sürükleyin, yeniden boyutlandırmak için alt kenarlarından sürükleyin, yeni bir etkinlik eklemek için de boş zamanın üzerinde sürükleyin. Örnek, etkinliklerini çıktılardan gelen değerlerle günceller.',
           },
+          timeline: {
+            title: 'Zaman çizelgesinde odalar',
+            text: '<code>resources</code> ve <code>view="timeline"</code> ile her oda, günün <code>dayStart</code> ile <code>dayEnd</code> arasını gösteren bir satır alır. Bir rezervasyonu başka bir odaya ya da saate sürükleyin veya rezerve etmek için bir odanın satırında sürükleyin: <code>allow</code>, bir odanın iki kez rezerve edilmesini önler. Gün görünümü odaları yan yana koyar.',
+          },
+          team: {
+            title: 'Ekibin bir ayı',
+            text: '<code>timelineSpan="month"</code> ayın günlerini her kişi için sıralar; kişileri <code>nuiSchedulerResource</code> bir avatarla çizer. Planlar bir kişiden diğerine sürüklenir ve bitişlerinden uzatılır; hafta sonu gölgelidir. Araç çubuğunu örnek kendisi oluşturur: <code>previous()</code>, <code>next()</code> ve <code>title</code> ile.',
+          },
+          recurring: {
+            title: 'Yinelenen etkinlikler',
+            text: 'Her rutin kendi <code>rrule</code> değerine göre yinelenir: hafta içi her gün standup, iki haftada bir 1:1, on iki kez spor salonu, ayın son cuması retro, son gününde de maaş günü. Bir tekrarı sürüklemek yalnızca o günkünü taşır; düğme ise hepsini bir .ics dosyası olarak indirir.',
+          },
+          hours: {
+            title: 'Bir iş haftası',
+            text: '<code>weekends="false"</code> hafta sonunu çıkarır, <code>dayStart</code> ve <code>dayEnd</code> 7:00 ile 19:00 arasını gösterir, <code>businessHours</code> ise iş dışındaki zamanı gölgeler: öğle arasını ve erken biten cumanın sonrasını. Etkinliklerin kendi renkleri vardır ve <code>snapMinutes</code> ile 15 dakikalık adımlarla taşınır.',
+          },
           month: {
             title: 'Bir ay ve bir ajanda',
             text: 'Birden çok güne yayılan etkinlikler şerit olarak uzanır; yoğun bir gün, kaç etkinliğin daha olduğunu gösterir. <code>views</code> yalnızca ayı ve önümüzdeki <code>agendaDays</code> günün ajandasını sunar.',
           },
-          rooms: {
-            title: 'Toplantı odalarında bir gün',
-            text: '<code>nuiSchedulerEvent</code> her rezervasyonu odası ve düzenleyeniyle birlikte çizer. <code>slotMinutes="15"</code> zamanı daha ince satırlara böler.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Ay, hafta, gün ya da ajanda görünümünde etkinlikler.',
+            summary: 'Ay, hafta, gün, ajanda ya da zaman çizelgesi görünümünde etkinlikler.',
             members: {
               events: 'Gösterilecek etkinlikler.',
+              resources:
+                'Odalar, kişiler ya da makineler: zaman çizelgesinin satırları, gün ve hafta görünümlerinin sütunları.',
               view: 'Gösterilen görünüm.',
-              views: 'Kullanıcıların arasında geçiş yapabileceği görünümler.',
+              views:
+                'Kullanıcıların arasında geçiş yapabileceği görünümler. Varsayılan olarak hepsi; zaman çizelgesi yalnızca kaynaklar varsa.',
+              timelineSpan:
+                'Zaman çizelgesinin ne gösterdiği: zaman dilimlerine bölünmüş bir gün ya da günlerine bölünmüş bir hafta veya ay.',
               date: 'Gösterilen gün; klavye odağı da buradadır.',
               slotMinutes:
-                'Zaman ızgarasında satır başına dakika; etkinlikler de bu adımla taşınır.',
+                'Zaman ızgarasında satır başına ya da bir günün zaman çizelgesinde sütun başına dakika.',
+              snapMinutes: 'Etkinliklerin taşınma ve yeniden boyutlandırılma adımı.',
+              'dayStart, dayEnd': 'Zaman ızgarasının hangi saatten hangi saate kadar gösterdiği.',
               scrollHour: 'Zaman ızgarasının açıldığı saat.',
               agendaDays: 'Ajandanın kaç gün ileriye baktığı.',
+              businessHours:
+                "Çalışma saatleri; örneğin <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Diğer zamanlar gölgelenir.",
+              weekends:
+                'Hafta sonunu gösterir. Kapalıysa her görünüm, yerel ayarın hafta sonunu dışarıda bırakır.',
+              weekNumbers: 'ISO hafta numaralarını ay görünümünde ve saatlerin üstünde gösterir.',
               editable:
                 'Etkinlikler işaretçiyle ve klavyeyle taşınabilir ve yeniden boyutlandırılabilir.',
               selectable: 'Etkinlik oluşturmak için ızgarada zaman seçilebilir.',
+              allow:
+                'Bir taşımanın, yeniden boyutlandırmanın ya da zaman seçiminin gerçekleşip gerçekleşemeyeceğine karar verir.',
+              toolbar: 'Araç çubuğunu gösterir. Kapalıysa kendi araç çubuğunuzu oluşturun.',
               firstDay: 'Haftanın ilk günü; pazartesi için 1. Varsayılan: yerel ayarınki.',
               headingLevel: 'Başlığın düzeyi; ajandadaki günler bir düzey daha derindir.',
               locale: 'Günleri ve saatleri biçimlendirir.',
               labels: 'Planlayıcının gösterdiği veya duyurduğu her metin; çeviri için.',
               eventClick: 'Tıklanan ya da Enter ile açılan etkinliği yayar.',
               eventChange:
-                'Taşıma veya yeniden boyutlandırmanın ardından etkinliğin yeni zamanlarını yayar.',
-              slotSelect: 'Izgarada seçilen zamanı yayar.',
+                'Taşıma veya yeniden boyutlandırmanın ardından etkinliğin yeni zamanlarını, kaynakları değiştiyse onları da yayar.',
+              slotSelect: 'Izgarada seçilen zamanı ve kaynağını yayar.',
               rangeChange: 'Gösterilen ilk ve son gün değiştiğinde bunları yayar.',
+              'previous, next, goToday':
+                'Kendi araç çubuğunuz için önceki ya da sonraki sayfayı veya bugünü gösterir.',
+              title: 'Gösterilen aralık, araç çubuğunun başlığında yazıldığı gibi.',
             },
           },
           NuiSchedulerEvent: {
@@ -1779,34 +1811,77 @@ export const messages: Messages = {
               'start, end': 'Tarih ve saatler; tüm gün süren etkinlikler için yalnızca tarihler.',
               allDay:
                 'Varsayılan olarak, <code>start</code> saat içermiyorsa etkinlik tüm gün sürer.',
-              tone: 'Rengi.',
+              tone: 'Paleti.',
+              'color, class':
+                'Tonunun önüne geçen herhangi bir CSS rengi ve etkinliği biçimlendirecek sınıflar.',
+              resource: 'Ait olduğu kaynaklar.',
+              rrule:
+                'RFC 5545 biçiminde bir yineleme kuralı; örneğin <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Gerçekleşmeyecek tekrarların başlangıçları.',
+              recurrenceId: 'Planlayıcının bildirdiği bir tekrarda: kuralın ona verdiği başlangıç.',
               editable: 'Planlayıcının ayarı ne olursa olsun, etkinliğin taşınıp taşınamayacağı.',
               data: 'Etkinlikle birlikte saklanacak diğer her şey.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Etkinliklerin ait olduğu bir oda, kişi ya da makine.',
+            members: {
+              'id, title': 'Anahtarı ve gösterdiği ad.',
+              'tone, color': 'Kendi renkleri yoksa etkinliklerinin renkleri.',
+              businessHours:
+                'Planlayıcının çalışma saatleri yerine, kaynağın müsait olduğu zamanlar.',
+              data: 'Kaynakla birlikte saklanacak diğer her şey.',
             },
           },
           NuiSchedulerEventTemplate: {
             summary: 'Etkinlikleri çizer. Bağlam, etkinliği ve zamanını metin olarak içerir.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Kaynak başlıklarını çizer. Bağlam, kaynağı içerir.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Yinelenen etkinlikler ve iCalendar dosyaları için fonksiyonlar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Bir etkinliğin verilen günlerdeki görünüşü: yinelenen bir etkinliğin her tekrarı.',
+              nuiSchedulerRule: 'Bir yineleme kuralını okur ya da null döndürür.',
+              nuiSchedulerToIcs: 'Etkinlikleri bir iCalendar dosyası olarak yazar.',
+              nuiSchedulerFromIcs:
+                'Bir iCalendar dosyasındaki etkinlikleri, zamanlarını tek bir saat dilimine çevirerek okur.',
+            },
+          },
         },
         keyboard: [
           [
             'Ok tuşları',
-            'Günler ve zaman dilimleri arasında ilerler. Sağdan sola metinde yönler yer değiştirir.',
+            'Günler ve zaman dilimleri arasında ilerler; zaman çizelgesinde zaman boyunca ve kaynaklar arasında. Sağdan sola metinde yönler yer değiştirir.',
+          ],
+          [
+            'Home ve End',
+            'Haftanın ya da zaman çizelgesinin ilk veya son günü; Ctrl ile tüm gün satırı, son zaman dilimi ya da ilk veya son kaynak.',
           ],
           ['Page Up ve Page Down', 'Önceki veya sonraki ay, hafta ya da gün.'],
           ['Shift + ok tuşları', 'Seçilen zamanı genişletir.'],
           ['Hücrede Enter veya Boşluk', 'Hücrenin etkinliklerine girer ya da zamanını seçer.'],
           ['Etkinlikte yukarı ve aşağı ok', 'Hücredeki önceki veya sonraki etkinlik.'],
-          ['Etkinlikte Alt + ok tuşları', 'Etkinliği bir zaman dilimi ya da bir gün taşır.'],
-          ['Alt + Shift + yukarı veya aşağı ok', 'Etkinliği kısaltır veya uzatır.'],
+          [
+            'Etkinlikte Alt + ok tuşları',
+            'Etkinliği bir zaman dilimi ya da bir gün taşır veya sonraki kaynağa geçirir.',
+          ],
+          [
+            'Alt + Shift + ok tuşları',
+            'Etkinliği kısaltır veya uzatır: zaman ızgarasında dikey, zaman çizelgesinde yatay olarak.',
+          ],
           ['Esc', 'Hücreye döner, zaman seçimini kaldırır ya da sürüklemeyi iptal eder.'],
         ],
         notes: [
-          'Ay, hafta ve gün, başlıklarıyla adlandırılan <code>grid</code> öğeleridir. Sütun başlıkları günler, satır başlıkları saatlerdir; böylece her hücre, günü ve saatiyle birlikte okunur.',
-          'Her etkinlik, başlığı, günü ve saatiyle adlandırılan bir düğmedir; örneğin “Standup, Friday, September 25, 9:00 – 9:30 AM”. Taşıma veya yeniden boyutlandırma yeni zamanı duyurur.',
+          'Ay, hafta, gün ve zaman çizelgesi, başlıklarıyla adlandırılan <code>grid</code> öğeleridir. Satır ve sütun başlıkları günler, saatler ve kaynaklardır; böylece her hücre günü, saati ve kaynağıyla birlikte okunur.',
+          'Her etkinlik, başlığı, kaynakları, günü ve saatiyle adlandırılan bir düğmedir; örneğin “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, yineleniyorsa sonunda “Repeats”. Taşıma veya yeniden boyutlandırma yeni zamanı duyurur; <code>allow</code> bir değişikliği reddederse bu da duyurulur.',
           'Her sürüklemenin bir klavye karşılığı vardır; böylece kimsenin işaretçiye ihtiyacı olmaz.',
           'Görünümler, bir grup içindeki geçiş düğmeleridir; başka bir haftaya ya da aya geçildiğinde yeni başlık duyurulur.',
+          'Çalışma saatleri dışındaki gölgeleme yalnızca görseldir: uygulanan kurallar <code>allow</code> ile gelir ve klavye için de geçerlidir.',
         ],
       },
       splitter: {

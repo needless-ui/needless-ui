@@ -1725,55 +1725,89 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Bộ lập lịch',
-        title: 'Component bộ lập lịch cho Angular',
-        summary: 'Xem sự kiện theo tháng, tuần, ngày hoặc lịch biểu, và kéo chúng vào đúng chỗ.',
+        title: 'Bộ lập lịch Angular mã nguồn mở có timeline tài nguyên',
+        summary:
+          'Xem sự kiện theo tháng, tuần, ngày, lịch biểu hoặc timeline của phòng và người, và kéo chúng vào đúng chỗ.',
         description:
-          'Bộ lập lịch Angular hỗ trợ tiếp cận: tháng, tuần, ngày và lịch biểu, sự kiện trùng giờ nằm cạnh nhau, kéo để dời và đổi độ dài, dùng hoàn toàn bằng bàn phím.',
+          'Bộ lập lịch Angular miễn phí, giấy phép MIT: timeline tài nguyên, sự kiện lặp lại, kéo thả, giờ làm việc, tệp iCalendar và dùng hoàn toàn bằng bàn phím.',
         apiDescription:
-          'Tài liệu API về bộ lập lịch của Needless UI: chế độ xem, sự kiện, chỉnh sửa và chọn của nui-scheduler, các output và template cho sự kiện.',
+          'Tài liệu API về bộ lập lịch của Needless UI: chế độ xem và timeline, tài nguyên, quy tắc lặp lại, giờ làm việc, output, template và các hàm hỗ trợ iCalendar.',
         a11yDescription:
-          'Bàn phím và khả năng tiếp cận của bộ lập lịch Needless UI: lưới ngày và giờ, sự kiện có tên, và thao tác bàn phím thay cho mọi thao tác kéo.',
+          'Bàn phím và khả năng tiếp cận của bộ lập lịch Needless UI: lưới ngày, giờ và tài nguyên, sự kiện có tên, và thao tác bàn phím thay cho mọi thao tác kéo.',
         overview: [
-          'Bộ lập lịch hiển thị sự kiện theo tháng, tuần, ngày hoặc dạng lịch biểu. Sự kiện là dữ liệu thuần với thời gian ISO; các sự kiện trùng giờ chia nhau chiều rộng, sự kiện kéo dài qua nửa đêm hiển thị ở cả hai ngày, còn sự kiện cả ngày trải dài ở phía trên dưới dạng thanh ngang.',
-          'Bộ lập lịch không bao giờ tự thay đổi sự kiện của bạn. Kéo một sự kiện, hoặc cạnh dưới của nó, và <code>eventChange</code> sẽ báo thời gian mới; chọn thời gian trên lưới, và <code>slotSelect</code> sẽ báo thời gian đó. <code>rangeChange</code> cho bạn biết những ngày nào đang hiển thị, để bạn tải sự kiện của những ngày đó.',
-          'Mọi thao tác bằng con trỏ đều làm được bằng bàn phím: lưới chỉ chiếm một điểm dừng Tab, phím mũi tên di chuyển qua các ngày và giờ, còn Alt kèm phím mũi tên sẽ di chuyển một sự kiện.',
+          'Bộ lập lịch và lịch sự kiện Angular mã nguồn mở, theo giấy phép MIT như toàn bộ Needless UI: chế độ xem tháng, tuần, ngày và lịch biểu, cùng với một timeline có một dòng riêng cho mỗi phòng, người hoặc máy móc. Chế độ xem theo tài nguyên và timeline thường là phần phải trả phí; ở đây chúng miễn phí cho mọi dự án, kể cả dự án thương mại.',
+          'Sự kiện là dữ liệu thuần với thời gian ISO. Các sự kiện trùng giờ chia nhau chiều rộng, sự kiện kéo dài qua nửa đêm hiển thị ở cả hai ngày, còn sự kiện cả ngày trải dài ở phía trên dưới dạng thanh ngang. Gán <code>resource</code> cho sự kiện và truyền <code>resources</code>: timeline hiển thị một ngày theo giờ, hoặc một tuần hay một tháng theo ngày, còn chế độ xem ngày và tuần được chia thành một cột cho mỗi tài nguyên.',
+          'Sự kiện lặp lại tuân theo quy tắc lặp lại của iCalendar (RFC 5545), chẳng hạn <code>FREQ=WEEKLY;BYDAY=MO,WE</code> hay thứ Sáu cuối cùng của mỗi tháng, với các ngoại lệ trong <code>exdate</code>. <code>nuiSchedulerToIcs()</code> và <code>nuiSchedulerFromIcs()</code> ghi và đọc tệp .ics, loại tệp mà Google Calendar, Outlook và Apple Calendar đều nhập và xuất được.',
+          'Bộ lập lịch không bao giờ tự thay đổi sự kiện của bạn. Kéo một sự kiện, điểm kết thúc của nó, hoặc kéo qua khoảng thời gian trống, và <code>eventChange</code> hoặc <code>slotSelect</code> sẽ báo điều vừa xảy ra; <code>allow</code> từ chối những gì quy tắc của bạn không cho phép, chẳng hạn một phòng bị đặt hai lần. <code>rangeChange</code> cho bạn biết những ngày nào đang hiển thị, để bạn tải sự kiện của những ngày đó.',
+          'Chỉ hiển thị giờ làm việc, tô mờ thời gian ngoài giờ, bỏ cuối tuần, đánh số tuần, và vẽ sự kiện cùng tài nguyên bằng template. Mọi thao tác bằng con trỏ đều làm được bằng bàn phím: lưới chỉ chiếm một điểm dừng Tab, phím mũi tên di chuyển qua các ngày, giờ và tài nguyên, còn Alt kèm phím mũi tên sẽ di chuyển một sự kiện.',
         ],
         examples: {
           planner: {
             title: 'Lên kế hoạch cho một tuần',
             text: 'Với <code>editable</code> và <code>selectable</code>, hãy kéo sự kiện để di chuyển, kéo cạnh dưới để đổi độ dài, và kéo qua khoảng thời gian trống để thêm sự kiện mới. Ví dụ này cập nhật sự kiện của nó từ các output.',
           },
+          timeline: {
+            title: 'Phòng họp trên timeline',
+            text: 'Với <code>resources</code> và <code>view="timeline"</code>, mỗi phòng có một dòng cho cả ngày, từ <code>dayStart</code> đến <code>dayEnd</code>. Kéo một lượt đặt chỗ sang phòng hoặc giờ khác, hay kéo qua một phòng để đặt phòng đó: <code>allow</code> giữ cho một phòng không bị đặt hai lần. Chế độ xem ngày xếp các phòng cạnh nhau.',
+          },
+          team: {
+            title: 'Một tháng của cả nhóm',
+            text: '<code>timelineSpan="month"</code> trải các ngày trong tháng ra cho từng người, mỗi người được <code>nuiSchedulerResource</code> vẽ kèm avatar. Kế hoạch kéo được từ người này sang người khác và kéo dài được từ điểm kết thúc, còn cuối tuần được tô mờ. Thanh công cụ là của riêng ví dụ, dựa trên <code>previous()</code>, <code>next()</code> và <code>title</code>.',
+          },
+          recurring: {
+            title: 'Sự kiện lặp lại',
+            text: 'Mỗi việc định kỳ lặp lại theo <code>rrule</code> của nó: standup vào các ngày thường, buổi 1:1 cách tuần một lần, tập gym mười hai buổi, buổi retro vào thứ Sáu cuối cùng của tháng, và ngày nhận lương vào ngày cuối tháng. Kéo một lần lặp chỉ di chuyển lần lặp của ngày đó, còn nút bấm tải tất cả xuống dưới dạng một tệp .ics.',
+          },
+          hours: {
+            title: 'Một tuần làm việc',
+            text: '<code>weekends="false"</code> bỏ cuối tuần, <code>dayStart</code> và <code>dayEnd</code> hiển thị từ 7:00 đến 19:00, còn <code>businessHours</code> tô mờ thời gian ngoài giờ làm, gồm giờ nghỉ trưa và phần sau buổi thứ Sáu làm ngắn. Sự kiện có màu riêng và di chuyển theo bước 15 phút, nhờ <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Một tháng và lịch biểu',
             text: 'Sự kiện kéo dài nhiều ngày hiển thị dưới dạng thanh; ngày bận rộn cho biết còn bao nhiêu sự kiện nữa. <code>views</code> chỉ cung cấp chế độ xem tháng và lịch biểu cho <code>agendaDays</code> ngày tới.',
           },
-          rooms: {
-            title: 'Một ngày ở các phòng họp',
-            text: '<code>nuiSchedulerEvent</code> vẽ mỗi lượt đặt chỗ kèm tên phòng và người chủ trì. <code>slotMinutes="15"</code> chia dòng chi tiết hơn.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Sự kiện theo tháng, tuần, ngày hoặc lịch biểu.',
+            summary: 'Sự kiện theo tháng, tuần, ngày, lịch biểu hoặc timeline.',
             members: {
               events: 'Các sự kiện cần hiển thị.',
+              resources:
+                'Phòng, người hoặc máy móc: các dòng của timeline, và các cột của chế độ xem ngày và tuần.',
               view: 'Chế độ xem đang hiển thị.',
-              views: 'Các chế độ xem mà người dùng có thể chuyển qua lại.',
+              views:
+                'Các chế độ xem mà người dùng có thể chuyển qua lại. Mặc định là tất cả, riêng timeline chỉ có khi có tài nguyên.',
+              timelineSpan:
+                'Những gì timeline hiển thị: một ngày theo khung giờ, hoặc một tuần hay một tháng theo ngày.',
               date: 'Ngày đang hiển thị, cũng là nơi focus bàn phím đang ở.',
               slotMinutes:
-                'Số phút mỗi dòng của lưới thời gian, cũng là bước di chuyển của sự kiện.',
+                'Số phút mỗi dòng của lưới thời gian, hoặc mỗi cột của timeline một ngày.',
+              snapMinutes: 'Bước di chuyển và đổi độ dài của sự kiện.',
+              'dayStart, dayEnd': 'Giờ bắt đầu và kết thúc mà lưới thời gian hiển thị.',
               scrollHour: 'Giờ hiển thị khi lưới thời gian mở ra.',
               agendaDays: 'Số ngày mà lịch biểu xem trước.',
+              businessHours:
+                "Giờ làm việc, chẳng hạn <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Thời gian còn lại được tô mờ.",
+              weekends:
+                'Hiển thị cuối tuần. Nếu tắt, mọi chế độ xem đều bỏ các ngày cuối tuần theo locale.',
+              weekNumbers: 'Hiển thị số tuần ISO trong chế độ xem tháng, và phía trên cột giờ.',
               editable: 'Sự kiện có thể được di chuyển và đổi độ dài, bằng con trỏ và bàn phím.',
               selectable: 'Có thể chọn thời gian trên lưới để tạo sự kiện.',
+              allow:
+                'Quyết định một thao tác di chuyển, đổi độ dài hay chọn thời gian có được thực hiện hay không.',
+              toolbar: 'Hiển thị thanh công cụ. Nếu tắt, hãy tự làm thanh công cụ của bạn.',
               firstDay: 'Ngày đầu tuần, 1 là thứ Hai. Mặc định theo locale.',
               headingLevel: 'Cấp heading của tiêu đề; các ngày trong lịch biểu sâu hơn một cấp.',
               locale: 'Định dạng ngày và giờ.',
               labels: 'Mọi văn bản mà bộ lập lịch hiển thị hoặc đọc lên, để dịch.',
               eventClick: 'Phát ra sự kiện được nhấp, hoặc được mở bằng Enter.',
-              eventChange: 'Phát ra thời gian mới của sự kiện sau khi di chuyển hoặc đổi độ dài.',
-              slotSelect: 'Phát ra thời gian được chọn trên lưới.',
+              eventChange:
+                'Phát ra thời gian mới của sự kiện sau khi di chuyển hoặc đổi độ dài, cùng tài nguyên của nó nếu có thay đổi.',
+              slotSelect: 'Phát ra thời gian được chọn trên lưới, cùng tài nguyên của nó.',
               rangeChange: 'Phát ra ngày đầu tiên và cuối cùng đang hiển thị khi chúng thay đổi.',
+              'previous, next, goToday':
+                'Hiển thị trang trước hoặc sau, hoặc hôm nay, cho thanh công cụ của riêng bạn.',
+              title: 'Khoảng thời gian đang hiển thị, đúng như tiêu đề của thanh công cụ ghi.',
             },
           },
           NuiSchedulerEvent: {
@@ -1783,20 +1817,57 @@ export const messages: Messages = {
               'id, title': 'Khóa của nó, và nội dung nó hiển thị.',
               'start, end': 'Ngày và giờ, hoặc chỉ ngày với sự kiện cả ngày.',
               allDay: 'Theo mặc định, là sự kiện cả ngày khi <code>start</code> không có giờ.',
-              tone: 'Màu của nó.',
+              tone: 'Bảng màu của nó.',
+              'color, class':
+                'Một màu CSS bất kỳ, được ưu tiên hơn tông màu, và các class để tạo kiểu cho nó.',
+              resource: 'Các tài nguyên mà sự kiện thuộc về.',
+              rrule:
+                'Một quy tắc lặp lại theo RFC 5545, chẳng hạn <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Thời điểm bắt đầu của những lần lặp không diễn ra.',
+              recurrenceId:
+                'Trên một lần lặp mà bộ lập lịch báo về: thời điểm bắt đầu mà quy tắc đã định cho nó.',
               editable: 'Sự kiện có di chuyển được hay không, bất kể bộ lập lịch quy định thế nào.',
               data: 'Mọi thứ khác cần giữ kèm sự kiện.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Một phòng, một người hoặc một máy mà các sự kiện thuộc về.',
+            members: {
+              'id, title': 'Khóa của nó, và tên nó hiển thị.',
+              'tone, color': 'Màu của các sự kiện thuộc về nó, trừ khi sự kiện có màu riêng.',
+              businessHours:
+                'Thời gian tài nguyên này khả dụng, thay cho giờ làm việc của bộ lập lịch.',
+              data: 'Mọi thứ khác cần giữ kèm tài nguyên.',
             },
           },
           NuiSchedulerEventTemplate: {
             summary: 'Vẽ sự kiện. Context chứa sự kiện và thời gian của nó dưới dạng văn bản.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Vẽ tiêu đề của tài nguyên. Context chứa tài nguyên đó.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Các hàm cho sự kiện lặp lại và tệp iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Một sự kiện như nó hiển thị trong những ngày đã cho: từng lần lặp của sự kiện lặp lại.',
+              nuiSchedulerRule: 'Đọc một quy tắc lặp lại, hoặc trả về null.',
+              nuiSchedulerToIcs: 'Ghi các sự kiện thành một tệp iCalendar.',
+              nuiSchedulerFromIcs:
+                'Đọc các sự kiện của một tệp iCalendar, với thời gian quy về một múi giờ.',
+            },
+          },
         },
         keyboard: [
           [
             'Phím mũi tên',
-            'Di chuyển theo ngày và theo khung giờ. Đảo ngược với văn bản viết từ phải sang trái.',
+            'Di chuyển theo ngày và theo khung giờ; trong timeline, dọc theo thời gian và giữa các tài nguyên. Đảo ngược với văn bản viết từ phải sang trái.',
+          ],
+          [
+            'Home và End',
+            'Ngày đầu tiên hoặc cuối cùng của tuần, hoặc của timeline; kèm Ctrl thì đến dòng cả ngày hoặc khung giờ cuối, hoặc tài nguyên đầu tiên hay cuối cùng.',
           ],
           ['Page Up và Page Down', 'Tháng, tuần hoặc ngày trước hay sau.'],
           ['Shift + phím mũi tên', 'Mở rộng khoảng thời gian đã chọn.'],
@@ -1805,15 +1876,22 @@ export const messages: Messages = {
             'Đi vào các sự kiện của ô, hoặc chọn thời gian của ô.',
           ],
           ['Mũi tên lên và xuống trên một sự kiện', 'Sự kiện trước hoặc sau trong ô.'],
-          ['Alt + phím mũi tên trên một sự kiện', 'Di chuyển sự kiện một khung giờ hoặc một ngày.'],
-          ['Alt + Shift + mũi tên lên hoặc xuống', 'Rút ngắn hoặc kéo dài sự kiện.'],
+          [
+            'Alt + phím mũi tên trên một sự kiện',
+            'Di chuyển sự kiện một khung giờ hoặc một ngày, hoặc sang tài nguyên kế tiếp.',
+          ],
+          [
+            'Alt + Shift + phím mũi tên',
+            'Rút ngắn hoặc kéo dài sự kiện: theo chiều dọc trên lưới thời gian, theo chiều ngang trên timeline.',
+          ],
           ['Esc', 'Quay lại ô, bỏ thời gian đã chọn, hoặc hủy thao tác kéo.'],
         ],
         notes: [
-          'Tháng, tuần và ngày là các <code>grid</code> được đặt tên theo tiêu đề của chúng. Ngày làm tiêu đề cột, giờ làm tiêu đề dòng, nên mỗi ô được đọc kèm ngày và giờ của nó.',
-          'Mỗi sự kiện là một nút được đặt tên theo tiêu đề, ngày và giờ của nó, chẳng hạn “Standup, Friday, September 25, 9:00 – 9:30 AM”. Khi di chuyển hoặc đổi độ dài, thời gian mới sẽ được đọc lên.',
+          'Tháng, tuần, ngày và timeline là các <code>grid</code> được đặt tên theo tiêu đề của chúng. Ngày, giờ và tài nguyên làm tiêu đề cho các dòng và cột, nên mỗi ô được đọc kèm ngày, giờ và tài nguyên của nó.',
+          'Mỗi sự kiện là một nút được đặt tên theo tiêu đề, tài nguyên, ngày và giờ của nó, chẳng hạn “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, kèm “Repeats” nếu sự kiện lặp lại. Khi di chuyển hoặc đổi độ dài, thời gian mới sẽ được đọc lên, và nếu <code>allow</code> từ chối thì điều đó cũng được thông báo.',
           'Mọi thao tác kéo đều có cách làm tương đương bằng bàn phím, nên không ai cần đến con trỏ.',
           'Các chế độ xem là nút bật/tắt trong một nhóm, và khi chuyển sang tuần hoặc tháng khác, tiêu đề mới sẽ được đọc lên.',
+          'Việc tô mờ ngoài giờ làm việc chỉ để hiển thị: các quy tắc có hiệu lực đến từ <code>allow</code>, áp dụng cả cho bàn phím.',
         ],
       },
       splitter: {

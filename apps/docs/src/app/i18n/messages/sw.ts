@@ -1759,47 +1759,77 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Kipanga ratiba',
-        title: 'Kijenzi cha kipanga ratiba kwa Angular',
-        summary: 'Matukio katika mwezi, wiki, siku au ajenda, yanayoburutwa hadi mahali pake.',
+        title: 'Kipanga ratiba huria cha Angular: timeline ya rasilimali',
+        summary:
+          'Matukio katika mwezi, wiki, siku, ajenda au mstari wa muda wa vyumba na watu, yanayoburutwa hadi mahali pake.',
         description:
-          'Kipanga ratiba cha Angular kinachofikika: mwezi, wiki, siku na ajenda, matukio yanayopishana sambamba, kuburuta na kubadilisha ukubwa, na kibodi kamili.',
+          'Kipanga ratiba cha Angular, bure kwa leseni ya MIT: mstari wa muda wa rasilimali, matukio yanayojirudia, kuburuta, saa za kazi, faili za iCalendar na kibodi.',
         apiDescription:
-          'Marejeleo ya API ya kipanga ratiba cha Needless UI: mionekano ya nui-scheduler, matukio, uhariri na uchaguzi, output zake, na template ya matukio.',
+          'Marejeleo ya API ya kipanga ratiba cha Needless UI: mionekano, mstari wa muda, rasilimali, kanuni za kurudia, saa za kazi, template na visaidizi vya iCalendar.',
         a11yDescription:
-          'Kibodi na ufikivu wa kipanga ratiba cha Needless UI: gridi za siku na saa, matukio yenye majina, na njia ya kibodi kwa kila uburutaji.',
+          'Kibodi na ufikivu wa kipanga ratiba cha Needless UI: gridi za siku, saa na rasilimali, matukio yenye majina, na kitufe kwa kila uburutaji.',
         overview: [
-          'Kipanga ratiba huonyesha matukio katika mwezi, wiki, siku au ajenda. Matukio ni data ya kawaida yenye nyakati za ISO; yanayopishana hugawana upana, yanayovuka usiku wa manane huonekana katika siku zote mbili, na matukio ya siku nzima hupita juu kama pau.',
-          'Hakibadilishi kamwe matukio yako chenyewe. Buruta tukio, au ukingo wake wa chini, na <code>eventChange</code> huripoti nyakati mpya; chagua muda kwenye gridi, na <code>slotSelect</code> huuripoti. <code>rangeChange</code> hukuambia ni siku zipi zinaonyeshwa, ili upakie matukio ya siku hizo.',
-          'Kila kitu ambacho kipanya hufanya, kibodi hufanya pia: gridi ni kituo kimoja cha Tab, vitufe vya mishale hupitia siku na saa, na Alt pamoja na mishale huhamisha tukio.',
+          'Kipanga ratiba na kalenda ya matukio kwa Angular, chenye chanzo huria na leseni ya MIT kama Needless UI yote: mionekano ya mwezi, wiki, siku na ajenda, na mstari wa muda (timeline) wenye safu kwa kila chumba, mtu au mashine. Mionekano ya rasilimali na mistari ya muda mara nyingi ni nyongeza ya kulipia; hapa ni bure, kwa mradi wowote, hata wa kibiashara.',
+          'Matukio ni data ya kawaida yenye nyakati za ISO. Yanayopishana hugawana upana, yanayovuka usiku wa manane huonekana katika siku zote mbili, na matukio ya siku nzima hupita juu kama pau. Yape matukio <code>resource</code> na pitisha <code>resources</code>: mstari wa muda huonyesha siku kwa saa zake, au wiki au mwezi kwa siku zake, na mionekano ya siku na wiki hugawanyika katika safu wima moja kwa kila rasilimali.',
+          'Matukio yanayojirudia hufuata kanuni za kurudia za iCalendar (RFC 5545), kama <code>FREQ=WEEKLY;BYDAY=MO,WE</code> au Ijumaa ya mwisho ya kila mwezi, na tarehe zinazorukwa katika <code>exdate</code>. <code>nuiSchedulerToIcs()</code> na <code>nuiSchedulerFromIcs()</code> huandika na kusoma faili za .ics, ambazo Google Calendar, Outlook na Apple Calendar huziingiza na kuzihamisha.',
+          'Hakibadilishi kamwe matukio yako chenyewe. Buruta tukio, mwisho wake, au juu ya muda mtupu, na <code>eventChange</code> au <code>slotSelect</code> huripoti kilichotokea; <code>allow</code> hukataa kile ambacho kanuni zako haziruhusu, kama chumba kuhifadhiwa mara mbili. <code>rangeChange</code> hukuambia ni siku zipi zinaonyeshwa, ili upakie matukio ya siku hizo.',
+          'Onyesha saa za kazi pekee, tia kivuli muda ulio nje ya saa hizo, ondoa wikendi, weka namba za wiki, na chora matukio na rasilimali kwa template. Kila kitu ambacho kipanya hufanya, kibodi hufanya pia: gridi ni kituo kimoja cha Tab, vitufe vya mishale hupitia siku, saa na rasilimali, na Alt pamoja na mishale huhamisha tukio.',
         ],
         examples: {
           planner: {
             title: 'Wiki ya kupanga',
             text: 'Kwa <code>editable</code> na <code>selectable</code>, buruta matukio ili kuyahamisha, buruta ukingo wa chini wa tukio ili kubadilisha ukubwa wake, na buruta juu ya muda mtupu ili kuongeza jipya. Mfano husasisha matukio yake kutokana na output.',
           },
+          timeline: {
+            title: 'Vyumba kwenye mstari wa muda',
+            text: 'Kwa <code>resources</code> na <code>view="timeline"</code>, kila chumba hupata safu ya siku, kuanzia <code>dayStart</code> hadi <code>dayEnd</code>. Buruta uhifadhi hadi chumba au muda mwingine, au buruta juu ya chumba ili kukihifadhi: <code>allow</code> huzuia chumba kuhifadhiwa mara mbili. Mwonekano wa siku huweka vyumba kando kwa kando.',
+          },
+          team: {
+            title: 'Mwezi wa timu',
+            text: '<code>timelineSpan="month"</code> hupanga siku za mwezi kwa kila mtu, ambaye <code>nuiSchedulerResource</code> humchora pamoja na avatar. Mipango huburutwa kutoka kwa mtu mmoja hadi mwingine na hurefushwa kutoka mwisho wake, na wikendi hutiwa kivuli. Upau wa zana ni wa mfano wenyewe, uliojengwa juu ya <code>previous()</code>, <code>next()</code> na <code>title</code>.',
+          },
+          recurring: {
+            title: 'Matukio yanayojirudia',
+            text: 'Kila utaratibu hujirudia kwa <code>rrule</code> yake: standup siku za kazi, 1:1 kila baada ya wiki mbili, gym mara kumi na mbili, retro Ijumaa ya mwisho ya mwezi, na siku ya mshahara katika siku ya mwisho ya mwezi. Kuburuta tukio moja la mfululizo huhamisha la siku hiyo tu, na kitufe hupakua matukio yote kama faili ya .ics.',
+          },
+          hours: {
+            title: 'Wiki ya kazi',
+            text: '<code>weekends="false"</code> huondoa wikendi, <code>dayStart</code> na <code>dayEnd</code> huonyesha 7:00 hadi 19:00, na <code>businessHours</code> hutia kivuli muda nje ya kazi, wakati wa chakula cha mchana na baada ya Ijumaa fupi. Matukio yana rangi zao wenyewe na husogea kwa dakika 15, kwa <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Mwezi na ajenda',
             text: 'Matukio ya siku kadhaa huonyeshwa kama pau; siku yenye shughuli nyingi huonyesha ni mangapi zaidi. <code>views</code> hutoa mwezi na ajenda ya siku <code>agendaDays</code> zijazo tu.',
           },
-          rooms: {
-            title: 'Siku ya vyumba',
-            text: '<code>nuiSchedulerEvent</code> huchora kila uhifadhi pamoja na chumba na mwenyeji wake. <code>slotMinutes="15"</code> hufanya safu kuwa nyembamba zaidi.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Matukio katika mwezi, wiki, siku au ajenda.',
+            summary: 'Matukio katika mwezi, wiki, siku, ajenda au mstari wa muda.',
             members: {
               events: 'Matukio ya kuonyesha.',
+              resources:
+                'Vyumba, watu au mashine: safu za mstari wa muda, na safu wima za siku na wiki.',
               view: 'Mwonekano unaoonyeshwa.',
-              views: 'Mionekano ambayo watumiaji wanaweza kubadili kati yake.',
+              views:
+                'Mionekano ambayo watumiaji wanaweza kubadili kati yake. Kwa chaguomsingi yote, ila mstari wa muda huwepo tu kukiwa na rasilimali.',
+              timelineSpan:
+                'Kile ambacho mstari wa muda huonyesha: siku kwa nafasi zake za muda, au wiki au mwezi kwa siku zake.',
               date: 'Siku inayoonyeshwa, na mahali kibodi ilipo.',
-              slotMinutes: 'Dakika za kila safu ya gridi ya muda, na hatua ambayo matukio husogea.',
+              slotMinutes:
+                'Dakika za kila safu ya gridi ya muda, au za kila safu wima ya mstari wa muda wa siku.',
+              snapMinutes: 'Hatua ambayo matukio husogea na kubadilishwa ukubwa.',
+              'dayStart, dayEnd': 'Saa ambazo gridi ya muda huanzia na kuishia.',
               scrollHour: 'Saa inayoonyeshwa gridi ya muda inapofunguka.',
               agendaDays: 'Idadi ya siku zijazo ambazo ajenda huonyesha.',
+              businessHours:
+                "Saa za kazi, kama <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Muda mwingine hutiwa kivuli.",
+              weekends: 'Huonyesha wikendi. Ikizimwa, kila mwonekano huondoa wikendi ya locale.',
+              weekNumbers: 'Huonyesha namba za wiki za ISO katika mwezi, na juu ya saa.',
               editable:
                 'Matukio yanaweza kuhamishwa na kubadilishwa ukubwa, kwa kipanya na kibodi.',
               selectable: 'Muda unaweza kuchaguliwa kwenye gridi, ili kuunda matukio.',
+              allow:
+                'Huamua kama kuhamisha, kubadilisha ukubwa au kuchagua muda kunaweza kufanyika.',
+              toolbar: 'Huonyesha upau wa zana. Ukizimwa, jenga wako mwenyewe.',
               firstDay: 'Siku ya kwanza ya wiki, 1 kwa Jumatatu. Kwa chaguomsingi, ya locale.',
               headingLevel:
                 'Kiwango cha heading cha kichwa; siku za ajenda ziko kiwango kimoja chini.',
@@ -1808,9 +1838,12 @@ export const messages: Messages = {
                 'Kila maandishi ambayo kipanga ratiba huonyesha au hutangaza, ili kuyatafsiri.',
               eventClick: 'Hutoa tukio lililobofywa, au lililofunguliwa kwa Enter.',
               eventChange:
-                'Hutoa nyakati mpya za tukio baada ya kuhamishwa au kubadilishwa ukubwa.',
-              slotSelect: 'Hutoa muda uliochaguliwa kwenye gridi.',
+                'Hutoa nyakati mpya za tukio baada ya kuhamishwa au kubadilishwa ukubwa, na rasilimali zake zikibadilika.',
+              slotSelect: 'Hutoa muda uliochaguliwa kwenye gridi, na rasilimali yake.',
               rangeChange: 'Hutoa siku ya kwanza na ya mwisho zinazoonyeshwa zinapobadilika.',
+              'previous, next, goToday':
+                'Huonyesha ukurasa uliotangulia au unaofuata, au leo, kwa upau wa zana wako mwenyewe.',
+              title: 'Kinachoonyeshwa, kama kichwa cha upau wa zana kinavyokisema.',
             },
           },
           NuiSchedulerEvent: {
@@ -1820,20 +1853,55 @@ export const messages: Messages = {
               'id, title': 'Ufunguo wake, na kile linachoonyesha.',
               'start, end': 'Tarehe na saa, au tarehe tu kwa matukio ya siku nzima.',
               allDay: 'Kwa chaguomsingi, kama <code>start</code> haina saa.',
-              tone: 'Rangi yake.',
+              tone: 'Paleti yake.',
+              'color, class':
+                'Rangi yoyote ya CSS, inayoshinda toni yake, na class za kuliwekea mtindo.',
+              resource: 'Rasilimali ambazo tukio linahusishwa nazo.',
+              rrule: 'Kanuni ya kurudia kutoka RFC 5545, kama <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Nyakati za kuanza za matukio ya mfululizo yasiyotokea.',
+              recurrenceId:
+                'Kwenye tukio la mfululizo ambalo kipanga ratiba huripoti: mwanzo uliotolewa na kanuni yake.',
               editable: 'Kama linaweza kuhamishwa, bila kujali kipanga ratiba kinasema nini.',
               data: 'Chochote kingine cha kuhifadhi pamoja nalo.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Chumba, mtu au mashine ambayo matukio huhusishwa nayo.',
+            members: {
+              'id, title': 'Ufunguo wake, na jina linaloonyeshwa.',
+              'tone, color': 'Rangi za matukio yake, yasipokuwa na zao wenyewe.',
+              businessHours: 'Wakati inapopatikana, badala ya saa za kazi za kipanga ratiba.',
+              data: 'Chochote kingine cha kuhifadhi pamoja nayo.',
             },
           },
           NuiSchedulerEventTemplate: {
             summary: 'Huchora matukio. Muktadha una tukio na muda wake kama maandishi.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Huchora vichwa vya rasilimali. Muktadha una rasilimali.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Function za matukio yanayojirudia na faili za iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Tukio jinsi linavyoonekana katika siku zilizotolewa: kwa tukio linalojirudia, kila mara linapotokea.',
+              nuiSchedulerRule: 'Husoma kanuni ya kurudia, au hurudisha null.',
+              nuiSchedulerToIcs: 'Huandika matukio kama faili ya iCalendar.',
+              nuiSchedulerFromIcs:
+                'Husoma matukio ya faili ya iCalendar, nyakati zao zikiwa katika kanda moja ya saa.',
+            },
+          },
         },
         keyboard: [
           [
             'Vitufe vya mishale',
-            'Husogea kwa siku na kwa nafasi ya muda. Hubadilishana katika maandishi ya kulia kwenda kushoto.',
+            'Husogea kwa siku na kwa nafasi ya muda; kwenye mstari wa muda, kufuata muda na kati ya rasilimali. Hubadilishana katika maandishi ya kulia kwenda kushoto.',
+          ],
+          [
+            'Home na End',
+            'Siku ya kwanza au ya mwisho ya wiki, au ya mstari wa muda; kwa Ctrl, safu ya siku nzima au nafasi ya mwisho ya muda, au rasilimali ya kwanza au ya mwisho.',
           ],
           ['Page Up na Page Down', 'Huenda mwezi, wiki au siku moja nyuma au mbele.'],
           ['Shift + vitufe vya mishale', 'Hurefusha muda uliochaguliwa.'],
@@ -1847,16 +1915,20 @@ export const messages: Messages = {
           ],
           [
             'Alt + vitufe vya mishale kwenye tukio',
-            'Hulihamisha kwa nafasi moja ya muda au kwa siku moja.',
+            'Hulihamisha kwa nafasi moja ya muda au kwa siku moja, au hadi rasilimali inayofuata.',
           ],
-          ['Alt + Shift + mshale wa juu au chini', 'Hufupisha au hurefusha tukio.'],
+          [
+            'Alt + Shift + vitufe vya mishale',
+            'Hufupisha au hurefusha tukio: wima kwenye gridi ya muda, mlalo kwenye mstari wa muda.',
+          ],
           ['Escape', 'Hurudi kwenye kisanduku, huacha muda uliochaguliwa, au hughairi uburutaji.'],
         ],
         notes: [
-          'Mwezi, wiki na siku ni <code>grid</code> zinazopewa majina na vichwa vyake. Siku ni vichwa vya safu wima na saa ni vichwa vya safu, hivyo kila kisanduku husomwa pamoja na siku na saa yake.',
-          'Kila tukio ni kitufe kinachopewa jina kwa kichwa, siku na saa yake, kama “Standup, Friday, September 25, 9:00 – 9:30 AM”. Kuhamisha au kubadilisha ukubwa hutangaza muda mpya.',
+          'Mwezi, wiki, siku na mstari wa muda ni <code>grid</code> zinazopewa majina na vichwa vyake. Siku, saa na rasilimali ni vichwa vya safu na safu wima, hivyo kila kisanduku husomwa pamoja na siku, saa na rasilimali yake.',
+          'Kila tukio ni kitufe kinachopewa jina kwa kichwa, rasilimali, siku na saa yake, kama “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, na “Repeats” linapojirudia. Kuhamisha au kubadilisha ukubwa hutangaza muda mpya, na <code>allow</code> ikikataa, hilo pia hutangazwa.',
           'Kila uburutaji una mbadala wa kibodi, hivyo hakuna anayehitaji kipanya.',
           'Mionekano ni vitufe vya kugeuza katika kikundi, na kwenda wiki au mwezi mwingine hutangaza kichwa chake.',
+          'Kivuli cha saa za kazi ni cha kuonekana tu: kanuni zinazotekelezwa hutoka kwa <code>allow</code>, kwa kibodi pia.',
         ],
       },
       splitter: {

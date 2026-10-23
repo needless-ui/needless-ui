@@ -1755,56 +1755,91 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Penjadwal',
-        title: 'Komponen penjadwal untuk Angular',
-        summary: 'Tampilkan acara per bulan, minggu, hari, atau agenda, lalu seret ke tempatnya.',
+        title: 'Penjadwal Angular open source: timeline sumber daya',
+        summary:
+          'Tampilkan acara per bulan, minggu, hari, agenda, atau timeline ruangan dan orang, lalu seret ke tempatnya.',
         description:
-          'Penjadwal Angular aksesibel: bulan, minggu, hari, dan agenda, acara tumpang-tindih berdampingan, seret untuk pindah dan ubah ukuran, kontrol keyboard penuh.',
+          'Penjadwal Angular gratis berlisensi MIT: timeline sumber daya, acara berulang, seret dan lepas, jam kerja, file iCalendar, dan kontrol keyboard penuh.',
         apiDescription:
-          'Referensi API penjadwal Needless UI: tampilan nui-scheduler, acara, pengeditan dan pemilihan, output-nya, serta template untuk acara.',
+          'Referensi API penjadwal Needless UI: tampilan dan timeline, sumber daya, aturan pengulangan, jam kerja, output, template, serta helper iCalendar.',
         a11yDescription:
-          'Keyboard dan aksesibilitas penjadwal Needless UI: grid hari dan waktu, acara bernama, dan padanan keyboard untuk setiap seretan.',
+          'Keyboard dan aksesibilitas penjadwal Needless UI: grid hari, waktu, dan sumber daya, acara bernama, dan padanan keyboard untuk setiap seretan.',
         overview: [
-          'Penjadwal menampilkan acara per bulan, minggu, hari, atau dalam agenda. Acara berupa data biasa dengan waktu ISO; acara yang tumpang-tindih berbagi lebar, acara yang melewati tengah malam tampil di kedua hari, dan acara sepanjang hari membentang di bagian atas sebagai bilah.',
-          'Penjadwal tidak pernah mengubah acara Anda dengan sendirinya. Seret acara, atau tepi bawahnya, maka <code>eventChange</code> melaporkan waktu barunya; pilih waktu di grid, maka <code>slotSelect</code> melaporkannya. <code>rangeChange</code> memberi tahu hari mana saja yang ditampilkan, sehingga Anda bisa memuat acaranya.',
-          'Semua yang bisa dilakukan pointer juga bisa dilakukan keyboard: grid hanya satu perhentian tab, tombol panah bergerak melintasi hari dan waktu, dan Alt bersama tombol panah memindahkan acara.',
+          'Penjadwal dan kalender acara Angular yang open source, berlisensi MIT seperti seluruh Needless UI: tampilan bulan, minggu, hari, dan agenda, serta timeline dengan satu baris untuk setiap ruangan, orang, atau mesin. Tampilan sumber daya dan timeline sering kali menjadi fitur berbayar; di sini keduanya gratis untuk proyek apa pun, termasuk proyek komersial.',
+          'Acara berupa data biasa dengan waktu ISO. Acara yang tumpang-tindih berbagi lebar, acara yang melewati tengah malam tampil di kedua hari, dan acara sepanjang hari membentang di bagian atas sebagai bilah. Beri acara sebuah <code>resource</code> dan teruskan <code>resources</code>: timeline menampilkan sehari per jam, atau seminggu atau sebulan per hari, sedangkan tampilan hari dan minggu terbagi menjadi satu kolom per sumber daya.',
+          'Acara berulang mengikuti aturan pengulangan iCalendar (RFC 5545), seperti <code>FREQ=WEEKLY;BYDAY=MO,WE</code> atau Jumat terakhir setiap bulan, dengan pengecualian di <code>exdate</code>. <code>nuiSchedulerToIcs()</code> dan <code>nuiSchedulerFromIcs()</code> menulis dan membaca file .ics, yang bisa diimpor dan diekspor oleh Google Calendar, Outlook, dan Apple Calendar.',
+          'Penjadwal tidak pernah mengubah acara Anda dengan sendirinya. Seret acara atau ujung akhirnya, atau seret melintasi waktu kosong, maka <code>eventChange</code> atau <code>slotSelect</code> melaporkan apa yang terjadi; <code>allow</code> menolak apa yang tidak diizinkan aturan Anda, misalnya ruangan yang dipesan dua kali. <code>rangeChange</code> memberi tahu hari mana saja yang ditampilkan, sehingga Anda bisa memuat acaranya.',
+          'Tampilkan jam kerja saja, arsir waktu di luarnya, sembunyikan akhir pekan, beri nomor minggu, dan gambar acara serta sumber daya dengan template. Semua yang bisa dilakukan pointer juga bisa dilakukan keyboard: grid hanya satu perhentian tab, tombol panah bergerak melintasi hari, waktu, dan sumber daya, sementara Alt bersama tombol panah memindahkan acara.',
         ],
         examples: {
           planner: {
             title: 'Merencanakan seminggu',
             text: 'Dengan <code>editable</code> dan <code>selectable</code>, seret acara untuk memindahkannya, seret tepi bawahnya untuk mengubah ukurannya, dan seret melintasi waktu kosong untuk menambahkan acara. Contoh ini memperbarui acaranya dari output.',
           },
+          timeline: {
+            title: 'Ruangan di timeline',
+            text: 'Dengan <code>resources</code> dan <code>view="timeline"</code>, setiap ruangan mendapat satu baris untuk hari itu, dari <code>dayStart</code> sampai <code>dayEnd</code>. Seret pemesanan ke ruangan atau waktu lain, atau seret melintasi sebuah ruangan untuk memesannya: <code>allow</code> mencegah ruangan dipesan dua kali. Tampilan hari menempatkan ruangan secara berdampingan.',
+          },
+          team: {
+            title: 'Sebulan jadwal tim',
+            text: '<code>timelineSpan="month"</code> menata hari-hari dalam sebulan untuk setiap orang, yang digambar dengan avatar oleh <code>nuiSchedulerResource</code>. Rencana bisa diseret dari satu orang ke orang lain dan direntangkan dari ujung akhirnya, sementara akhir pekan diarsir. Toolbar-nya buatan contoh ini sendiri, memakai <code>previous()</code>, <code>next()</code>, dan <code>title</code>.',
+          },
+          recurring: {
+            title: 'Acara berulang',
+            text: 'Setiap rutinitas berulang sesuai <code>rrule</code> masing-masing: standup setiap hari kerja, 1:1 dua minggu sekali, gym dua belas kali, retro di Jumat terakhir setiap bulan, dan gajian di hari terakhirnya. Menyeret satu kemunculan hanya memindahkan kemunculan hari itu, dan tombolnya mengunduh semuanya sebagai file .ics.',
+          },
+          hours: {
+            title: 'Satu minggu kerja',
+            text: '<code>weekends="false"</code> menyembunyikan akhir pekan, <code>dayStart</code> dan <code>dayEnd</code> menampilkan pukul 07.00 sampai 19.00, dan <code>businessHours</code> mengarsir waktu di luar jam kerja, yaitu jam makan siang dan setelah jam kerja Jumat yang lebih singkat. Acara punya warna sendiri dan bergeser per 15 menit, dengan <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Sebulan dan agenda',
             text: 'Acara yang melintasi beberapa hari tampil sebagai bilah; hari yang padat menunjukkan berapa acara lagi yang ada. <code>views</code> hanya menawarkan bulan dan agenda untuk <code>agendaDays</code> hari ke depan.',
           },
-          rooms: {
-            title: 'Sehari di ruang rapat',
-            text: '<code>nuiSchedulerEvent</code> menggambar setiap pemesanan beserta ruangan dan penyelenggaranya. <code>slotMinutes="15"</code> membuat baris lebih rinci.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Acara per bulan, minggu, hari, atau dalam agenda.',
+            summary: 'Acara per bulan, minggu, hari, dalam agenda, atau di timeline.',
             members: {
               events: 'Acara yang ditampilkan.',
+              resources:
+                'Ruangan, orang, atau mesin: baris di timeline, dan kolom di tampilan hari dan minggu.',
               view: 'Tampilan saat ini.',
-              views: 'Tampilan yang bisa dipilih pengguna.',
+              views:
+                'Tampilan yang bisa dipilih pengguna. Default-nya semua, timeline hanya jika ada sumber daya.',
+              timelineSpan:
+                'Yang ditampilkan timeline: sehari per slot, atau seminggu atau sebulan per hari.',
               date: 'Hari yang ditampilkan, sekaligus posisi keyboard.',
-              slotMinutes: 'Menit per baris grid waktu, sekaligus langkah pergeseran acara.',
+              slotMinutes: 'Menit per baris grid waktu, atau per kolom timeline sehari.',
+              snapMinutes: 'Langkah pergeseran dan perubahan ukuran acara.',
+              'dayStart, dayEnd': 'Jam awal dan akhir yang ditampilkan grid waktu.',
               scrollHour: 'Jam yang terlihat saat grid waktu dibuka.',
               agendaDays: 'Berapa hari ke depan yang dicakup agenda.',
+              businessHours:
+                "Jam kerja, misalnya <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Waktu lainnya diarsir.",
+              weekends:
+                'Menampilkan akhir pekan. Tanpanya, setiap tampilan menyembunyikan akhir pekan sesuai locale.',
+              weekNumbers:
+                'Menampilkan nomor minggu ISO di tampilan bulan, dan di atas kolom waktu.',
               editable: 'Acara bisa dipindah dan diubah ukurannya, dengan pointer maupun keyboard.',
               selectable: 'Waktu bisa dipilih di grid untuk membuat acara.',
+              allow:
+                'Menentukan apakah pemindahan, perubahan ukuran, atau pemilihan waktu boleh terjadi.',
+              toolbar: 'Menampilkan toolbar. Tanpanya, buat toolbar sendiri.',
               firstDay: 'Hari pertama dalam minggu, 1 untuk Senin. Default-nya mengikuti locale.',
               headingLevel:
                 'Level heading untuk judul; hari-hari di agenda satu level lebih dalam.',
               locale: 'Memformat hari dan waktu.',
               labels: 'Semua teks yang ditampilkan atau diumumkan penjadwal, untuk diterjemahkan.',
               eventClick: 'Mengirimkan acara yang diklik, atau dibuka dengan Enter.',
-              eventChange: 'Mengirimkan waktu baru acara setelah dipindah atau diubah ukurannya.',
-              slotSelect: 'Mengirimkan waktu yang dipilih di grid.',
+              eventChange:
+                'Mengirimkan waktu baru acara setelah dipindah atau diubah ukurannya, serta sumber dayanya jika berubah.',
+              slotSelect: 'Mengirimkan waktu yang dipilih di grid, beserta sumber dayanya.',
               rangeChange:
                 'Mengirimkan hari pertama dan terakhir yang ditampilkan saat keduanya berubah.',
+              'previous, next, goToday':
+                'Menampilkan halaman sebelumnya atau berikutnya, atau hari ini, untuk toolbar buatan sendiri.',
+              title: 'Apa yang ditampilkan, seperti yang tertulis di judul toolbar.',
             },
           },
           NuiSchedulerEvent: {
@@ -1814,8 +1849,25 @@ export const messages: Messages = {
               'id, title': 'Kuncinya, dan teks yang ditampilkannya.',
               'start, end': 'Tanggal dan waktu, atau tanggal saja untuk acara sepanjang hari.',
               allDay: 'Default-nya aktif jika <code>start</code> tidak memiliki waktu.',
-              tone: 'Warnanya.',
+              tone: 'Paletnya.',
+              'color, class':
+                'Warna CSS apa pun, yang menimpa tone-nya, serta class untuk menatanya.',
+              resource: 'Sumber daya yang memiliki acara ini.',
+              rrule:
+                'Aturan pengulangan dari RFC 5545, misalnya <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Waktu mulai kemunculan yang tidak berlangsung.',
+              recurrenceId:
+                'Pada kemunculan yang dilaporkan penjadwal: waktu mulai yang diberikan aturannya.',
               editable: 'Apakah acara ini bisa dipindah, apa pun pengaturan penjadwal.',
+              data: 'Data lain apa pun yang ingin disimpan bersamanya.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Ruangan, orang, atau mesin yang memiliki acara.',
+            members: {
+              'id, title': 'Kuncinya, dan nama yang ditampilkannya.',
+              'tone, color': 'Warna acaranya, kecuali acara itu punya warna sendiri.',
+              businessHours: 'Kapan sumber daya ini tersedia, menggantikan jam kerja penjadwal.',
               data: 'Data lain apa pun yang ingin disimpan bersamanya.',
             },
           },
@@ -1823,22 +1875,51 @@ export const messages: Messages = {
             summary: 'Menggambar acara. Konteksnya berisi acara dan waktunya dalam bentuk teks.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Menggambar header sumber daya. Konteksnya berisi sumber daya tersebut.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Fungsi untuk acara berulang dan file iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Acara sebagaimana tampil pada hari-hari yang diberikan: setiap kemunculan acara berulang.',
+              nuiSchedulerRule: 'Membaca aturan pengulangan, atau mengembalikan null.',
+              nuiSchedulerToIcs: 'Menulis acara sebagai file iCalendar.',
+              nuiSchedulerFromIcs:
+                'Membaca acara dari file iCalendar, dengan waktunya dalam satu zona waktu.',
+            },
+          },
         },
         keyboard: [
-          ['Tombol panah', 'Pindah per hari dan per slot. Dicerminkan pada teks kanan-ke-kiri.'],
+          [
+            'Tombol panah',
+            'Pindah per hari dan per slot; di timeline, menyusuri waktu dan antar sumber daya. Dicerminkan pada teks kanan-ke-kiri.',
+          ],
+          [
+            'Home dan End',
+            'Hari pertama atau terakhir dalam minggu, atau di timeline; dengan Ctrl, baris sepanjang hari atau slot terakhir, atau sumber daya pertama atau terakhir.',
+          ],
           ['Page Up dan Page Down', 'Bulan, minggu, atau hari sebelumnya atau berikutnya.'],
           ['Shift + tombol panah', 'Memperluas waktu yang dipilih.'],
           ['Enter atau Spasi pada sel', 'Masuk ke acara di sel, atau memilih waktunya.'],
           ['Panah atas dan bawah pada acara', 'Acara sebelumnya atau berikutnya di sel.'],
-          ['Alt + tombol panah pada acara', 'Memindahkannya satu slot atau satu hari.'],
-          ['Alt + Shift + panah atas atau bawah', 'Memendekkan atau memperpanjang acara.'],
+          [
+            'Alt + tombol panah pada acara',
+            'Memindahkannya satu slot atau satu hari, atau ke sumber daya berikutnya.',
+          ],
+          [
+            'Alt + Shift + tombol panah',
+            'Memendekkan atau memperpanjang acara: ke bawah di grid waktu, ke samping di timeline.',
+          ],
           ['Esc', 'Kembali ke sel, menghapus pilihan waktu, atau membatalkan seretan.'],
         ],
         notes: [
-          'Bulan, minggu, dan hari adalah <code>grid</code> yang dinamai sesuai judulnya. Hari menjadi header kolom dan waktu menjadi header baris, sehingga setiap sel dibacakan beserta hari dan waktunya.',
-          'Setiap acara adalah tombol yang dinamai dengan judul, hari, dan waktunya, misalnya “Standup, Friday, September 25, 9:00 – 9:30 AM”. Memindahkan atau mengubah ukuran acara akan mengumumkan waktu barunya.',
+          'Bulan, minggu, hari, dan timeline adalah <code>grid</code> yang dinamai sesuai judulnya. Hari, waktu, dan sumber daya menjadi header baris dan kolom, sehingga setiap sel dibacakan beserta hari, waktu, dan sumber dayanya.',
+          'Setiap acara adalah tombol yang dinamai dengan judul, sumber daya, hari, dan waktunya, misalnya “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, ditambah “Repeats” jika acara itu berulang. Memindahkan atau mengubah ukuran acara akan mengumumkan waktu barunya, dan perubahan yang ditolak <code>allow</code> juga diumumkan.',
           'Setiap seretan punya padanan keyboard, jadi tidak ada yang wajib memakai pointer.',
           'Tampilan berupa tombol toggle dalam satu grup, dan berpindah ke minggu atau bulan lain akan mengumumkan judulnya.',
+          'Arsiran di luar jam kerja hanya soal tampilan: aturan yang berlaku datang dari <code>allow</code>, juga untuk keyboard.',
         ],
       },
       splitter: {

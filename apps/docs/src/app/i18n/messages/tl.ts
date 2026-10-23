@@ -1782,47 +1782,78 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Scheduler',
-        title: 'Scheduler component para sa Angular',
-        summary: 'Mga event sa isang buwan, linggo, araw o agenda, na puwedeng i-drag sa puwesto.',
+        title: 'Open-source Angular scheduler na may resource timeline',
+        summary:
+          'Mga event sa isang buwan, linggo, araw, agenda o timeline ng mga room at tao, na puwedeng i-drag sa puwesto.',
         description:
-          'Accessible na Angular scheduler: buwan, linggo, araw at agenda, magkakatabing overlapping event, i-drag para ilipat at i-resize, at buong kontrol sa keyboard.',
+          'Libre at MIT-licensed na Angular scheduler: resource timeline, recurring event, drag and drop, working hours, iCalendar file at buong kontrol sa keyboard.',
         apiDescription:
-          'API reference ng Needless UI scheduler: mga view, event, pag-edit at selection ng nui-scheduler, ang mga output nito, at ang template para sa mga event.',
+          'API reference ng Needless UI scheduler: mga view at ang timeline, mga resource, repeat rule, working hours, output, template at mga iCalendar helper.',
         a11yDescription:
-          'Keyboard at accessibility ng Needless UI scheduler: mga grid ng araw at oras, mga event na may pangalan, at keyboard na katumbas ng bawat drag.',
+          'Keyboard at accessibility ng Needless UI scheduler: mga grid ng araw, oras at resource, mga event na may pangalan, at keyboard na katumbas ng bawat drag.',
         overview: [
-          'Ipinapakita ng scheduler ang mga event sa isang buwan, linggo, araw o agenda. Plain na data ang mga event na may mga ISO time; naghahati sa lapad ang mga nag-o-overlap, lumalabas sa dalawang araw ang mga event na tumatawid sa hatinggabi, at tumatakbo sa itaas bilang mga bar ang mga all-day event.',
-          'Hindi nito kailanman binabago nang kusa ang mga event mo. I-drag ang isang event, o ang ibabang gilid nito, at iuulat ng <code>eventChange</code> ang mga bagong oras; pumili ng oras sa grid, at iuulat ito ng <code>slotSelect</code>. Sinasabi ng <code>rangeChange</code> kung aling mga araw ang ipinapakita, para ma-load mo ang mga event ng mga ito.',
-          'Lahat ng nagagawa ng pointer, nagagawa rin ng keyboard: iisang tab stop ang grid, gumagalaw sa mga araw at oras ang mga arrow key, at inililipat ng Alt kasama ang mga arrow ang isang event.',
+          'Isang open-source na Angular scheduler at event calendar, MIT-licensed gaya ng buong Needless UI: mga view ng buwan, linggo, araw at agenda, at isang timeline na may row para sa bawat room, tao o makina. Kadalasang may bayad na extra ang mga resource view at timeline; dito, libre ang mga ito para sa kahit anong proyekto, pati sa mga commercial.',
+          'Plain na data ang mga event na may mga ISO time. Naghahati sa lapad ang mga nag-o-overlap, lumalabas sa dalawang araw ang mga event na tumatawid sa hatinggabi, at tumatakbo sa itaas bilang mga bar ang mga all-day event. Bigyan ng <code>resource</code> ang mga event at ipasa ang <code>resources</code>: ipinapakita ng timeline ang isang araw ayon sa mga oras nito, o ang isang linggo o buwan ayon sa mga araw nito, at nahahati ang araw at ang linggo sa isang column para sa bawat resource.',
+          'Sumusunod ang mga recurring event sa mga repeat rule ng iCalendar (RFC 5545), gaya ng <code>FREQ=WEEKLY;BYDAY=MO,WE</code> o ang huling Biyernes ng bawat buwan, na may mga exception sa <code>exdate</code>. Nagsusulat at nagbabasa ang <code>nuiSchedulerToIcs()</code> at <code>nuiSchedulerFromIcs()</code> ng mga .ics file, na ini-import at ine-export ng Google Calendar, Outlook at Apple Calendar.',
+          'Hindi nito kailanman binabago nang kusa ang mga event mo. I-drag ang isang event o ang dulo nito, o mag-drag sa bakanteng oras, at iuulat ng <code>eventChange</code> o ng <code>slotSelect</code> ang nangyari; tinatanggihan ng <code>allow</code> ang hindi pinapayagan ng mga patakaran mo, gaya ng room na na-book nang dalawang beses. Sinasabi ng <code>rangeChange</code> kung aling mga araw ang ipinapakita, para ma-load mo ang mga event ng mga ito.',
+          'Ipakita lang ang working hours, i-shade ang oras sa labas nito, alisin ang weekend, lagyan ng numero ang mga linggo, at iguhit ang mga event at resource gamit ang mga template. Lahat ng nagagawa ng pointer, nagagawa rin ng keyboard: iisang tab stop ang grid, gumagalaw sa mga araw, oras at resource ang mga arrow key, at inililipat ng Alt kasama ang mga arrow ang isang event.',
         ],
         examples: {
           planner: {
             title: 'Isang linggong paplanuhin',
             text: 'Kapag may <code>editable</code> at <code>selectable</code>, i-drag ang mga event para ilipat ang mga ito, i-drag ang ibabang gilid nila para i-resize ang mga ito, at mag-drag sa bakanteng oras para magdagdag ng bago. Ina-update ng example ang mga event nito mula sa mga output.',
           },
+          timeline: {
+            title: 'Mga room sa isang timeline',
+            text: 'Kapag may <code>resources</code> at <code>view="timeline"</code>, may sariling row ng araw ang bawat room, mula <code>dayStart</code> hanggang <code>dayEnd</code>. I-drag ang isang booking sa ibang room o oras, o mag-drag sa isang room para i-book ito: pinipigilan ng <code>allow</code> na ma-book nang dalawang beses ang isang room. Magkakatabi ang mga room sa view ng araw.',
+          },
+          team: {
+            title: 'Isang buwan ng team',
+            text: 'Inilalatag ng <code>timelineSpan="month"</code> ang mga araw ng buwan para sa bawat tao, na iginuguhit ng <code>nuiSchedulerResource</code> na may avatar. Puwedeng i-drag ang mga plano mula sa isang tao papunta sa iba at i-stretch mula sa dulo nila, at naka-shade ang weekend. Sariling gawa ng example ang toolbar, gamit ang <code>previous()</code>, <code>next()</code> at <code>title</code>.',
+          },
+          recurring: {
+            title: 'Mga recurring event',
+            text: 'Umuulit ang bawat routine ayon sa <code>rrule</code> nito: standup tuwing weekday, 1:1 kada dalawang linggo, gym nang labindalawang beses, retro sa huling Biyernes ng buwan, at payday sa huling araw nito. Kapag ni-drag ang isang occurrence, ang sa araw lang na iyon ang lilipat, at dina-download ng button ang lahat ng ito bilang .ics file.',
+          },
+          hours: {
+            title: 'Isang work week',
+            text: 'Inaalis ng <code>weekends="false"</code> ang weekend, ipinapakita ng <code>dayStart</code> at <code>dayEnd</code> ang 7:00 hanggang 19:00, at sini-shade ng <code>businessHours</code> ang oras sa labas ng trabaho: ang tanghalian at ang oras pagkatapos ng maikling Biyernes. May sariling kulay ang mga event at lumilipat nang tig-15 minuto, gamit ang <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Isang buwan at isang agenda',
             text: 'Tumatakbo bilang mga bar ang mga event na tumatawid ng ilang araw; ipinapakita ng abalang araw kung ilan pa ang natitira. Ang buwan at ang agenda lang ng susunod na <code>agendaDays</code> na araw ang inaalok ng <code>views</code>.',
           },
-          rooms: {
-            title: 'Isang araw ng mga meeting room',
-            text: 'Iginuguhit ng <code>nuiSchedulerEvent</code> ang bawat booking kasama ang room at host nito. Mas pinong mga row ang ginagawa ng <code>slotMinutes="15"</code>.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Mga event sa isang buwan, linggo, araw o agenda.',
+            summary: 'Mga event sa isang buwan, linggo, araw, agenda o timeline.',
             members: {
               events: 'Ang mga event na ipapakita.',
+              resources:
+                'Mga room, tao o makina: mga row ng timeline, at mga column ng araw at ng linggo.',
               view: 'Ang ipinapakitang view.',
-              views: 'Ang mga view na puwedeng pagpalipat-lipatan.',
+              views:
+                'Ang mga view na puwedeng pagpalipat-lipatan. Bilang default, lahat ng ito, pero may timeline lang kapag may mga resource.',
+              timelineSpan:
+                'Ang ipinapakita ng timeline: isang araw ayon sa mga slot nito, o isang linggo o buwan ayon sa mga araw nito.',
               date: 'Ang ipinapakitang araw, at kung nasaan ang keyboard.',
               slotMinutes:
-                'Mga minuto bawat row ng time grid, at ang step ng paglipat ng mga event.',
+                'Mga minuto bawat row ng time grid, o bawat column ng timeline ng isang araw.',
+              snapMinutes: 'Ang step ng paglipat at pag-resize ng mga event.',
+              'dayStart, dayEnd':
+                'Mula anong oras at hanggang anong oras ang ipinapakita ng time grid.',
               scrollHour: 'Ang oras kung saan bumubukas ang time grid.',
               agendaDays: 'Ilang araw pasulong ang sakop ng agenda.',
+              businessHours:
+                "Working hours, gaya ng <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Naka-shade ang ibang oras.",
+              weekends:
+                'Ipinapakita ang weekend. Kapag wala ito, inaalis ng bawat view ang weekend ng locale.',
+              weekNumbers: 'Ipinapakita ang mga ISO week number sa buwan, at sa itaas ng mga oras.',
               editable: 'Puwedeng ilipat at i-resize ang mga event, gamit ang pointer at keyboard.',
               selectable: 'Puwedeng pumili ng oras sa grid, para gumawa ng mga event.',
+              allow:
+                'Nagpapasya kung puwedeng mangyari ang isang paglipat, pag-resize o pagpili ng oras.',
+              toolbar: 'Ipinapakita ang toolbar. Kapag wala ito, gumawa ng sarili mo.',
               firstDay: 'Ang unang araw ng linggo, 1 para sa Lunes. Default ang sa locale.',
               headingLevel:
                 'Ang heading level ng title; isang level na mas malalim ang mga araw ng agenda.',
@@ -1830,10 +1861,13 @@ export const messages: Messages = {
               labels: 'Bawat text na ipinapakita o ina-announce ng scheduler, para maisalin.',
               eventClick: 'Inilalabas ang event na na-click, o binuksan gamit ang Enter.',
               eventChange:
-                'Inilalabas ang mga bagong oras ng event pagkatapos itong ilipat o i-resize.',
-              slotSelect: 'Inilalabas ang oras na pinili sa grid.',
+                'Inilalabas ang mga bagong oras ng event pagkatapos itong ilipat o i-resize, at ang mga resource nito kapag nagbago ang mga ito.',
+              slotSelect: 'Inilalabas ang oras na pinili sa grid, at ang resource nito.',
               rangeChange:
                 'Inilalabas ang una at huling araw na ipinapakita kapag nagbago ang mga ito.',
+              'previous, next, goToday':
+                'Ipinapakita ang nauna o susunod na page, o ang araw ngayon, para sa sarili mong toolbar.',
+              title: 'Ang ipinapakita, ayon sa pagkakasabi ng title ng toolbar.',
             },
           },
           NuiSchedulerEvent: {
@@ -1843,8 +1877,26 @@ export const messages: Messages = {
               'id, title': 'Ang key nito, at ang ipinapakita nito.',
               'start, end': 'Mga petsa at oras, o mga petsa lang para sa mga all-day event.',
               allDay: 'Bilang default, all-day ito kapag walang oras ang <code>start</code>.',
-              tone: 'Ang kulay nito.',
+              tone: 'Ang palette nito.',
+              'color, class':
+                'Kahit anong CSS color, na nananaig sa tone nito, at mga class para i-style ito.',
+              resource: 'Ang mga resource na kinabibilangan nito.',
+              rrule:
+                'Isang repeat rule mula sa RFC 5545, gaya ng <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Mga simula ng mga occurrence na hindi mangyayari.',
+              recurrenceId:
+                'Sa isang occurrence na iniuulat ng scheduler: ang simulang ibinigay dito ng rule nito.',
               editable: 'Kung puwede itong ilipat, anuman ang sabihin ng scheduler.',
+              data: 'Kahit anong iba pang itatabi kasama nito.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Isang room, tao o makina na kinabibilangan ng mga event.',
+            members: {
+              'id, title': 'Ang key nito, at ang pangalang ipinapakita nito.',
+              'tone, color':
+                'Ang mga kulay ng mga event nito, maliban kung may sarili silang kulay.',
+              businessHours: 'Kung kailan ito available, kapalit ng working hours ng scheduler.',
               data: 'Kahit anong iba pang itatabi kasama nito.',
             },
           },
@@ -1853,25 +1905,51 @@ export const messages: Messages = {
               'Iginuguhit ang mga event. Nasa context ang event at ang oras nito bilang text.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Iginuguhit ang mga header ng mga resource. Nasa context ang resource.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Mga function para sa mga recurring event at mga iCalendar file.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Isang event ayon sa paglabas nito sa mga ibinigay na araw: bawat occurrence ng isang recurring event.',
+              nuiSchedulerRule: 'Binabasa ang isang repeat rule, o nagbabalik ng null.',
+              nuiSchedulerToIcs: 'Isinusulat ang mga event bilang iCalendar file.',
+              nuiSchedulerFromIcs:
+                'Binabasa ang mga event ng isang iCalendar file, na nasa iisang time zone ang mga oras nila.',
+            },
+          },
         },
         keyboard: [
           [
             'Mga arrow key',
-            'Lumilipat ayon sa araw at sa slot. Baligtad sa right-to-left na text.',
+            'Lumilipat ayon sa araw at sa slot; sa timeline, sa kahabaan ng oras at sa pagitan ng mga resource. Baligtad sa right-to-left na text.',
+          ],
+          [
+            'Home at End',
+            'Una o huling araw ng linggo, o ng timeline; kapag may Ctrl, ang all-day row o ang huling slot, o ang una o huling resource.',
           ],
           ['Page Up at Page Down', 'Nauna o susunod na buwan, linggo o araw.'],
           ['Shift + mga arrow key', 'Pinapalawak ang napiling oras.'],
           ['Enter o Space sa cell', 'Pumapasok sa mga event nito, o pinipili ang oras nito.'],
           ['Up at down arrow sa event', 'Nauna o susunod na event sa cell.'],
-          ['Alt + mga arrow key sa event', 'Inililipat ito nang isang slot o isang araw.'],
-          ['Alt + Shift + up o down arrow', 'Pinapaikli o pinapahaba ang event.'],
+          [
+            'Alt + mga arrow key sa event',
+            'Inililipat ito nang isang slot o isang araw, o sa susunod na resource.',
+          ],
+          [
+            'Alt + Shift + mga arrow key',
+            'Pinapaikli o pinapahaba ang event: pababa sa time grid, pahalang sa timeline.',
+          ],
           ['Escape', 'Bumabalik sa cell, inaalis ang napiling oras, o kinakansela ang drag.'],
         ],
         notes: [
-          'Mga <code>grid</code> ang buwan, linggo at araw na pinangalanan ng title nila. Mga araw ang header ng mga column at mga oras ang sa mga row, kaya binabasa ang bawat cell kasama ang araw at oras nito.',
-          'Isang button ang bawat event na pinangalanan ng title, araw at oras nito, gaya ng “Standup, Friday, September 25, 9:00 – 9:30 AM”. Ina-announce ang bagong oras kapag inilipat o ni-resize ito.',
+          'Mga <code>grid</code> ang buwan, linggo, araw at timeline na pinangalanan ng title nila. Mga araw, oras at resource ang header ng mga row at column, kaya binabasa ang bawat cell kasama ang araw, oras at resource nito.',
+          'Isang button ang bawat event na pinangalanan ng title, mga resource, araw at oras nito, gaya ng “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, at “Repeats” kapag umuulit ito. Ina-announce ang bagong oras kapag inilipat o ni-resize ito, at sinasabi rin kapag tinanggihan ito ng <code>allow</code>.',
           'May katumbas sa keyboard ang bawat drag, kaya walang kailangang gumamit ng pointer.',
           'Mga toggle button sa isang group ang mga view, at ina-announce ang title kapag lumipat sa ibang linggo o buwan.',
+          'Hitsura lang ang pag-shade sa labas ng working hours: galing sa <code>allow</code> ang mga patakarang talagang umiiral, pati para sa keyboard.',
         ],
       },
       splitter: {

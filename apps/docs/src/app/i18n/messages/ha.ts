@@ -1774,56 +1774,88 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Scheduler',
-        title: 'Component na jadawali don Angular',
-        summary: 'Events a cikin wata, mako, rana ko ajanda, waɗanda ake ja zuwa wurinsu.',
+        title: 'Scheduler na Angular, open source: timeline na resources',
+        summary:
+          'Events a cikin wata, mako, rana, ajanda ko timeline na ɗakuna da mutane, waɗanda ake ja zuwa wurinsu.',
         description:
-          'Jadawalin Angular mai sauƙin amfani ga kowa: kallon wata, mako, rana da ajanda, events masu haɗuwa gefe da gefe, ja da sauya tsawo, da iko da allon madannai.',
+          'Jadawalin Angular kyauta mai lasisin MIT: timeline na resources, events masu maimaituwa, ja da sauke, sa’o’in aiki, fayilolin iCalendar da allon madannai.',
         apiDescription:
-          'Bayanin API na jadawalin Needless UI: kallo na nui-scheduler, events, gyarawa da zaɓi, outputs ɗinsa, da template na events.',
+          'Bayanin API na jadawalin Needless UI: nau’o’in kallo da timeline, resources, dokokin maimaitawa, sa’o’in aiki, outputs, templates da mataimaka na iCalendar.',
         a11yDescription:
-          'Aiki da allon madannai da sauƙin amfani na jadawalin Needless UI: grids na kwanaki da lokuta, events masu suna, da madadin allon madannai ga kowane ja.',
+          'Aiki da allon madannai da sauƙin amfani na jadawalin Needless UI: grids na kwanaki, lokuta da resources, events masu suna, da maɓalli ga kowane ja.',
         overview: [
-          'Jadawalin yana nuna events a wata, mako, rana ko ajanda. Events bayanai ne zalla masu lokutan ISO; waɗanda suka haɗu suna raba faɗin, events da suka ƙetare tsakar dare suna bayyana a kwanakin biyu, kuma events na duk yini suna tafiya a sama a matsayin zirare.',
-          'Ba ya taɓa canza events ɗinku da kansa. Ku ja event, ko gefensa na ƙasa, sai <code>eventChange</code> ya ba da rahoton sabbin lokutan; ku zaɓi lokaci a kan grid, sai <code>slotSelect</code> ya ba da rahotonsa. <code>rangeChange</code> yana gaya muku kwanakin da ake nunawa, don ku ɗauko events ɗinsu.',
-          'Duk abin da linzami ke yi, allon madannai ma yana yi: grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab, maɓallan kibiya suna ratsa kwanaki da lokuta, kuma Alt tare da kibiyoyi yana matsar da event.',
+          'Jadawali da kalandar events na Angular, open source kuma mai lasisin MIT kamar dukan Needless UI: kallon wata, mako, rana da ajanda, da timeline mai layi ga kowane ɗaki, mutum ko inji. Kallon resources da timelines galibi ƙari ne da sai an biya; a nan kyauta ne, ga kowane irin aiki, har da na kasuwanci.',
+          'Events bayanai ne zalla masu lokutan ISO. Waɗanda suka haɗu suna raba faɗin, events da suka ƙetare tsakar dare suna bayyana a kwanakin biyu, kuma events na duk yini suna tafiya a sama a matsayin zirare. Ku ba events <code>resource</code>, ku kuma miƙa <code>resources</code>: timeline ɗin yana nuna rana bisa sa’o’inta, ko mako ko wata bisa kwanakinsu, kuma kallon rana da na mako suna rabuwa zuwa ginshiƙi ɗaya ga kowane resource.',
+          'Events masu maimaituwa suna bin dokokin maimaitawa na iCalendar (RFC 5545), kamar <code>FREQ=WEEKLY;BYDAY=MO,WE</code> ko Jumma’a ta ƙarshe a kowane wata, tare da lokutan da aka cire a cikin <code>exdate</code>. <code>nuiSchedulerToIcs()</code> da <code>nuiSchedulerFromIcs()</code> suna rubutawa da karanta fayilolin .ics, waɗanda za a iya shigar da su ko fitar da su a Google Calendar, Outlook da Apple Calendar.',
+          'Ba ya taɓa canza events ɗinku da kansa. Ku ja event, ko ƙarshensa, ko a kan lokacin da babu komai, sai <code>eventChange</code> ko <code>slotSelect</code> ya ba da rahoton abin da ya faru; <code>allow</code> yana ƙin abin da dokokinku ba su yarda da shi ba, kamar ajiyar ɗaki sau biyu. <code>rangeChange</code> yana gaya muku kwanakin da ake nunawa, don ku ɗauko events ɗinsu.',
+          'Ku nuna sa’o’in aiki kawai, ku sanya inuwa a lokacin da ke wajensu, ku cire ƙarshen mako, ku nuna lambobin makonni, kuma ku zana events da resources da templates. Duk abin da linzami ke yi, allon madannai ma yana yi: grid ɗin yana ɗaukar wuri ɗaya kawai a jerin Tab, maɓallan kibiya suna ratsa kwanaki, lokuta da resources, kuma Alt tare da kibiyoyi yana matsar da event.',
         ],
         examples: {
           planner: {
             title: 'Mako don tsarawa',
             text: 'Da <code>editable</code> da <code>selectable</code>, ku ja events don matsar da su, ku ja gefensu na ƙasa don sauya tsawonsu, kuma ku ja a kan lokacin da babu komai don ƙara sabo. Misalin yana sabunta events ɗinsa daga outputs.',
           },
+          timeline: {
+            title: 'Ɗakuna a kan timeline',
+            text: 'Da <code>resources</code> da <code>view="timeline"</code>, kowane ɗaki yana samun layi na ranar, daga <code>dayStart</code> zuwa <code>dayEnd</code>. Ku ja ajiyar wuri zuwa wani ɗaki ko wani lokaci, ko ku ja a kan ɗaki don yin ajiyarsa: <code>allow</code> yana hana a yi ajiyar ɗaki sau biyu. Kallon rana yana sanya ɗakunan gefe da gefe.',
+          },
+          team: {
+            title: 'Watan ƙungiyar',
+            text: '<code>timelineSpan="month"</code> yana shimfiɗa kwanakin watan ga kowane mutum, wanda <code>nuiSchedulerResource</code> ke zana shi da avatar. Ana jan shirye-shirye daga wani mutum zuwa wani, ana kuma tsawaita su daga ƙarshensu, kuma ƙarshen mako yana da inuwa. Misalin yana da toolbar nasa, wanda aka gina a kan <code>previous()</code>, <code>next()</code> da <code>title</code>.',
+          },
+          recurring: {
+            title: 'Events masu maimaituwa',
+            text: 'Kowane event yana maimaituwa bisa <code>rrule</code> ɗinsa: standup a ranakun aiki, 1:1 kowane mako biyu, gym sau goma sha biyu, retro a Jumma’ar ƙarshe ta wata, da ranar albashi a ranar ƙarshe ta watan. Jan event a wata rana yana matsar da na wannan ranar kawai, kuma maɓallin yana sauke su duka a matsayin fayil na .ics.',
+          },
+          hours: {
+            title: 'Makon aiki',
+            text: '<code>weekends="false"</code> yana cire ƙarshen mako, <code>dayStart</code> da <code>dayEnd</code> suna nuna 7:00 zuwa 19:00, kuma <code>businessHours</code> suna sanya inuwa a lokacin da ba na aiki ba, lokacin cin abincin rana, da bayan gajeriyar Jumma’a. Events suna da launukansu na kansu, kuma suna matsawa da minti 15, da <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Wata da ajanda',
             text: 'Events da suka ratsa kwanaki suna tafiya a matsayin zirare; rana mai cunkoso tana nuna yawan sauran events ɗinta. <code>views</code> yana ba da wata kawai da ajandar kwanaki <code>agendaDays</code> masu zuwa.',
           },
-          rooms: {
-            title: 'Ɗakunan taro a rana ɗaya',
-            text: '<code>nuiSchedulerEvent</code> yana zana kowace ajiyar wuri tare da ɗakinta da mai shirya ta. <code>slotMinutes="15"</code> yana sa layuka su fi siriri.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Events a wata, mako, rana ko ajanda.',
+            summary: 'Events a wata, mako, rana, ajanda ko timeline.',
             members: {
               events: 'Events da za a nuna.',
+              resources:
+                'Ɗakuna, mutane ko injuna: layukan timeline, da ginshiƙan rana da na mako.',
               view: 'Kallon da ake nunawa.',
-              views: 'Nau’o’in kallo da mutane za su iya sauyawa a tsakaninsu.',
+              views:
+                'Nau’o’in kallo da mutane za su iya sauyawa a tsakaninsu. Idan ba a saita ba, duka ne, amma timeline sai da resources.',
+              timelineSpan:
+                'Abin da timeline ke nunawa: rana bisa slots ɗinta, ko mako ko wata bisa kwanakinsu.',
               date: 'Ranar da ake nunawa, da inda focus na allon madannai yake.',
               slotMinutes:
-                'Mintunan kowane layi a grid na lokaci, da matakin da events ke matsawa da shi.',
+                'Mintunan kowane layi a grid na lokaci, ko na kowane ginshiƙi a timeline na rana.',
+              snapMinutes: 'Matakin da events ke matsawa da sauya tsawo da shi.',
+              'dayStart, dayEnd': 'Sa’ar farko da ta ƙarshe da grid na lokaci ke nunawa.',
               scrollHour: 'Sa’ar da grid na lokaci ke buɗewa a kanta.',
               agendaDays: 'Kwanakin da ajanda ke dubawa a gaba.',
+              businessHours:
+                "Sa’o’in aiki, kamar <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. Sauran lokaci yana da inuwa.",
+              weekends:
+                'Yana nuna ƙarshen mako. Idan an kashe shi, kowane kallo yana cire ƙarshen mako na yankin.',
+              weekNumbers: 'Yana nuna lambobin mako na ISO a cikin wata, da kuma saman lokuta.',
               editable: 'Ana iya matsar da events da sauya tsawonsu, da linzami da allon madannai.',
               selectable: 'Ana iya zaɓar lokaci a kan grid, don ƙirƙirar events.',
+              allow: 'Yana yanke hukunci ko matsarwa, sauya tsawo ko zaɓin lokaci zai iya faruwa.',
+              toolbar: 'Yana nuna toolbar. Idan babu shi, ku gina naku.',
               firstDay: 'Ranar farko ta mako, 1 ita ce Litinin. Idan ba a saita ba, ta yankin ce.',
               headingLevel: 'Matakin heading na take; kwanakin ajanda suna sauka mataki ɗaya.',
               locale: 'Yana tsara kwanaki da lokuta.',
               labels: 'Kowane rubutu da jadawalin ke nunawa ko sanarwa, don fassarawa.',
               eventClick: 'Yana fitar da event da aka danna, ko aka buɗe da Enter.',
               eventChange:
-                'Yana fitar da sabbin lokutan event bayan an matsar da shi ko an sauya tsawonsa.',
-              slotSelect: 'Yana fitar da lokacin da aka zaɓa a kan grid.',
+                'Yana fitar da sabbin lokutan event bayan an matsar da shi ko an sauya tsawonsa, da resources ɗinsa idan sun canza.',
+              slotSelect: 'Yana fitar da lokacin da aka zaɓa a kan grid, da resource ɗinsa.',
               rangeChange: 'Yana fitar da rana ta farko da ta ƙarshe da ake nunawa idan sun canza.',
+              'previous, next, goToday':
+                'Suna nuna shafin baya ko na gaba, ko yau, don toolbar naku.',
+              title: 'Abin da ake nunawa, kamar yadda taken toolbar ke faɗa.',
             },
           },
           NuiSchedulerEvent: {
@@ -1833,8 +1865,24 @@ export const messages: Messages = {
               'id, title': 'Key ɗinsa, da abin da yake nunawa.',
               'start, end': 'Kwanan wata da lokaci, ko kwanan wata kawai ga events na duk yini.',
               allDay: 'Idan ba a saita ba, ko <code>start</code> ba shi da lokaci.',
-              tone: 'Launinsa.',
+              tone: 'Palette ɗinsa.',
+              'color, class':
+                'Kowane launi na CSS, wanda ke rinjayar tone ɗinsa, da classes don ba shi salo.',
+              resource: 'Resources ɗin da yake da alaƙa da su.',
+              rrule: 'Dokar maimaitawa daga RFC 5545, kamar <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Lokutan farawa na maimaitawa da aka cire.',
+              recurrenceId:
+                'A kan maimaitawar da jadawalin ke ba da rahotonta: farkon da dokar maimaitawa ta ba ta.',
               editable: 'Ko ana iya matsar da shi, ko mene ne jadawalin ya ce.',
+              data: 'Duk wani abu da za a ajiye tare da shi.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Ɗaki, mutum ko inji da events ke da alaƙa da shi.',
+            members: {
+              'id, title': 'Key ɗinsa, da sunan da yake nunawa.',
+              'tone, color': 'Launukan events ɗinsa, sai dai idan suna da nasu.',
+              businessHours: 'Lokacin da yake samuwa, maimakon sa’o’in aiki na jadawalin.',
               data: 'Duk wani abu da za a ajiye tare da shi.',
             },
           },
@@ -1843,11 +1891,30 @@ export const messages: Messages = {
               'Yana zana events. Context ɗin yana ɗauke da event ɗin da lokacinsa a matsayin rubutu.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Yana zana taken resources. Context ɗin yana ɗauke da resource ɗin.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Functions don events masu maimaituwa da fayilolin iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Event kamar yadda yake bayyana a kwanakin da aka bayar: kowace maimaitawa ta event mai maimaituwa.',
+              nuiSchedulerRule: 'Yana karanta dokar maimaitawa, ko yana dawo da null.',
+              nuiSchedulerToIcs: 'Yana rubuta events a matsayin fayil na iCalendar.',
+              nuiSchedulerFromIcs:
+                'Yana karanta events na fayil na iCalendar, tare da lokutansu a yankin lokaci ɗaya.',
+            },
+          },
         },
         keyboard: [
           [
             'Maɓallan kibiya',
-            'Suna matsawa rana ɗaya ko slot ɗaya. Hagu da dama suna juyawa a rubutu daga dama zuwa hagu.',
+            'Suna matsawa rana ɗaya ko slot ɗaya; a timeline, suna bin lokaci ko suna tsallakawa tsakanin resources. Hagu da dama suna juyawa a rubutu daga dama zuwa hagu.',
+          ],
+          [
+            'Home da End',
+            'Suna zuwa rana ta farko ko ta ƙarshe a mako, ko a timeline; da Ctrl, layin duk yini ko slot na ƙarshe, ko resource na farko ko na ƙarshe.',
           ],
           ['Page Up da Page Down', 'Suna zuwa wata, mako ko rana ta baya ko ta gaba.'],
           ['Shift + maɓallan kibiya', 'Suna faɗaɗa lokacin da aka zaɓa.'],
@@ -1856,18 +1923,25 @@ export const messages: Messages = {
             'Kibiyar sama da ta ƙasa a kan event',
             'Suna zuwa event na baya ko na gaba a cikin cell ɗin.',
           ],
-          ['Alt + maɓallan kibiya a kan event', 'Suna matsar da shi da slot ɗaya ko rana ɗaya.'],
-          ['Alt + Shift + kibiyar sama ko ta ƙasa', 'Suna rage ko ƙara tsawon event ɗin.'],
+          [
+            'Alt + maɓallan kibiya a kan event',
+            'Suna matsar da shi da slot ɗaya ko rana ɗaya, ko zuwa resource na gaba.',
+          ],
+          [
+            'Alt + Shift + maɓallan kibiya',
+            'Suna rage ko ƙara tsawon event ɗin: zuwa ƙasa a grid na lokaci, zuwa gefe a timeline.',
+          ],
           [
             'Escape',
             'Yana komawa cell ɗin, yana watsar da lokacin da aka zaɓa, ko yana soke jan da ake yi.',
           ],
         ],
         notes: [
-          'Wata, mako da rana <code>grid</code> ne, kowanne da suna daga takensa. Kwanaki ne taken ginshiƙai, lokuta kuma taken layuka, don haka ana karanta kowane cell tare da ranarsa da lokacinsa.',
-          'Kowane event maɓalli ne mai suna daga takensa, ranarsa da lokacinsa, kamar “Standup, Friday, September 25, 9:00 – 9:30 AM”. Matsarwa ko sauya tsawo yana sanar da sabon lokacin.',
+          'Wata, mako, rana da timeline <code>grid</code> ne, kowanne da suna daga takensa. Kwanaki, lokuta da resources ne taken layuka da ginshiƙai, don haka ana karanta kowane cell tare da ranarsa, lokacinsa da resource ɗinsa.',
+          'Kowane event maɓalli ne mai suna daga takensa, resources ɗinsa, ranarsa da lokacinsa, kamar “Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM”, da “Repeats” idan yana maimaituwa. Matsarwa ko sauya tsawo yana sanar da sabon lokacin, kuma idan <code>allow</code> ya ƙi, ana sanar da hakan.',
           'Duk abin da ake yi da ja yana da madadi a allon madannai, don haka babu wanda ke buƙatar linzami.',
           'Nau’o’in kallo maɓallan toggle ne a cikin rukuni, kuma zuwa wani mako ko wata yana sanar da takensa.',
+          'Inuwar sa’o’in aiki ado ne kawai: dokokin da ke aiki suna zuwa ne daga <code>allow</code>, har da na allon madannai.',
         ],
       },
       splitter: {

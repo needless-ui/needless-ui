@@ -1,0 +1,66 @@
+<div class="team-toolbar">
+  <button
+    nuiButton
+    type="button"
+    variant="outline"
+    tone="neutral"
+    size="sm"
+    (click)="planner.goToday()"
+  >
+    Today
+  </button>
+  <button
+    nuiButton
+    type="button"
+    variant="ghost"
+    tone="neutral"
+    size="sm"
+    (click)="planner.previous()"
+  >
+    Earlier
+  </button>
+  <button nuiButton type="button" variant="ghost" tone="neutral" size="sm" (click)="planner.next()">
+    Later
+  </button>
+  <h3 class="team-title">{{ planner.title() }}</h3>
+  <div class="team-spans" role="group" aria-label="Show">
+    <button
+      nuiButton
+      type="button"
+      variant="ghost"
+      size="sm"
+      [attr.aria-pressed]="span() === 'week'"
+      (click)="span.set('week')"
+    >
+      Week
+    </button>
+    <button
+      nuiButton
+      type="button"
+      variant="ghost"
+      size="sm"
+      [attr.aria-pressed]="span() === 'month'"
+      (click)="span.set('month')"
+    >
+      Month
+    </button>
+  </div>
+</div>
+<nui-scheduler
+  #planner="nuiScheduler"
+  [events]="plans()"
+  [resources]="team"
+  view="timeline"
+  [timelineSpan]="span()"
+  [businessHours]="hours"
+  [toolbar]="false"
+  editable
+  (eventChange)="move($event)"
+>
+  <ng-template nuiSchedulerResource let-person>
+    <span class="person">
+      <span nuiAvatar size="sm" decorative [name]="person.title"></span>
+      <span class="person-name" dir="auto">{{ person.title }}</span>
+    </span>
+  </ng-template>
+</nui-scheduler>

@@ -1767,48 +1767,77 @@ export const messages: Messages = {
       },
       scheduler: {
         name: 'Planificador',
-        title: 'Componente de planificador para Angular',
-        summary: 'Eventos en un mes, una semana, un día o una agenda, arrastrados a su sitio.',
+        title: 'Scheduler Angular open source con timeline de recursos',
+        summary:
+          'Eventos en un mes, una semana, un día, una agenda o una línea de tiempo de salas y personas, arrastrados a su sitio.',
         description:
-          'Planificador accesible para Angular: mes, semana, día y agenda, eventos solapados lado a lado, arrastrar para mover y redimensionar, y todo con el teclado.',
+          'Planificador Angular gratuito con licencia MIT: línea de tiempo de recursos, eventos recurrentes, arrastrar y soltar, horario laboral, iCalendar y teclado.',
         apiDescription:
-          'Referencia de la API del planificador de Needless UI: vistas, eventos, edición y selección de nui-scheduler, sus outputs y la plantilla de eventos.',
+          'Referencia de la API del planificador de Needless UI: vistas, línea de tiempo, recursos, reglas de repetición, horario laboral, iCalendar, outputs y plantillas.',
         a11yDescription:
-          'Teclado y accesibilidad del planificador de Needless UI: cuadrículas de días y horas, eventos con nombre y un equivalente de teclado para cada arrastre.',
+          'Teclado y accesibilidad del planificador de Needless UI: cuadrículas de días, horas y recursos, eventos con nombre y una tecla para cada arrastre.',
         overview: [
-          'El planificador muestra eventos en un mes, una semana, un día o una agenda. Los eventos son datos simples con horas ISO; los que se solapan comparten el ancho, los que cruzan la medianoche aparecen en ambos días y los de todo el día recorren la parte superior como barras.',
-          'Nunca cambia tus eventos por su cuenta. Arrastra un evento, o su borde inferior, y <code>eventChange</code> te pasa las horas nuevas; elige un intervalo en la cuadrícula, y <code>slotSelect</code> te lo indica. <code>rangeChange</code> te dice qué días se muestran, para que puedas cargar sus eventos.',
-          'Todo lo que hace un puntero lo hace también el teclado: la cuadrícula es una sola parada de tabulación, las flechas recorren días y horas, y Alt con las flechas mueve un evento.',
+          'Un planificador y calendario de eventos de código abierto para Angular, con licencia MIT como todo Needless UI: vistas de mes, semana, día y agenda, y una línea de tiempo con una fila para cada sala, persona o máquina. Las vistas por recursos y las líneas de tiempo suelen ser un extra de pago; aquí son gratuitas, para cualquier proyecto, también los comerciales.',
+          'Los eventos son datos simples con horas ISO. Los que se solapan comparten el ancho, los que cruzan la medianoche aparecen en ambos días y los de todo el día recorren la parte superior como barras. Asigna a los eventos un <code>resource</code> y pasa <code>resources</code>: la línea de tiempo muestra un día por horas, o una semana o un mes por días, y el día y la semana se dividen en una columna por recurso.',
+          'Los eventos recurrentes siguen las reglas de repetición de iCalendar (RFC 5545), como <code>FREQ=WEEKLY;BYDAY=MO,WE</code> o el último viernes de cada mes, con excepciones en <code>exdate</code>. <code>nuiSchedulerToIcs()</code> y <code>nuiSchedulerFromIcs()</code> escriben y leen archivos .ics, que Google Calendar, Outlook y Apple Calendar importan y exportan.',
+          'Nunca cambia tus eventos por su cuenta. Arrastra un evento o su final, o arrastra sobre un espacio libre, y <code>eventChange</code> o <code>slotSelect</code> te indica qué ha pasado; <code>allow</code> rechaza lo que tus reglas no permiten, como una sala reservada dos veces. <code>rangeChange</code> te dice qué días se muestran, para que puedas cargar sus eventos.',
+          'Muestra solo el horario laboral, sombrea el tiempo fuera de él, omite el fin de semana, numera las semanas y dibuja eventos y recursos con plantillas. Todo lo que hace un puntero lo hace también el teclado: la cuadrícula es una sola parada de tabulación, las flechas recorren días, horas y recursos, y Alt con las flechas mueve un evento.',
         ],
         examples: {
           planner: {
             title: 'Una semana para planificar',
             text: 'Con <code>editable</code> y <code>selectable</code>, arrastra los eventos para moverlos, arrastra su borde inferior para redimensionarlos y arrastra sobre un espacio libre para añadir uno. El ejemplo actualiza sus eventos a partir de los outputs.',
           },
+          timeline: {
+            title: 'Salas en una línea de tiempo',
+            text: 'Con <code>resources</code> y <code>view="timeline"</code>, cada sala tiene su fila del día, de <code>dayStart</code> a <code>dayEnd</code>. Arrastra una reserva a otra sala u otra hora, o arrastra sobre una sala para reservarla: <code>allow</code> impide que una sala se reserve dos veces. La vista de día pone las salas lado a lado.',
+          },
+          team: {
+            title: 'Un mes del equipo',
+            text: '<code>timelineSpan="month"</code> muestra los días del mes para cada persona, dibujada con un avatar por <code>nuiSchedulerResource</code>. Los planes se arrastran de una persona a otra y se estiran desde su final, y el fin de semana aparece sombreado. La barra de herramientas la pone el propio ejemplo, con <code>previous()</code>, <code>next()</code> y <code>title</code>.',
+          },
+          recurring: {
+            title: 'Eventos recurrentes',
+            text: 'Cada rutina se repite según su <code>rrule</code>: un standup los días laborables, un 1:1 cada dos semanas, el gimnasio doce veces, una retro el último viernes del mes y el día de cobro el último día. Arrastrar una repetición mueve solo la de ese día, y el botón lo descarga todo como archivo .ics.',
+          },
+          hours: {
+            title: 'Una semana laboral',
+            text: '<code>weekends="false"</code> omite el fin de semana, <code>dayStart</code> y <code>dayEnd</code> muestran de 7:00 a 19:00, y <code>businessHours</code> sombrea el tiempo fuera del trabajo, en la pausa de la comida y tras un viernes corto. Los eventos tienen colores propios y se mueven de 15 en 15 minutos, con <code>snapMinutes</code>.',
+          },
           month: {
             title: 'Un mes y una agenda',
             text: 'Los eventos de varios días se muestran como barras; un día lleno indica cuántos más hay. <code>views</code> ofrece solo el mes y la agenda de los próximos <code>agendaDays</code> días.',
           },
-          rooms: {
-            title: 'Un día de reservas de salas',
-            text: '<code>nuiSchedulerEvent</code> dibuja cada reserva con su sala y su organizador. <code>slotMinutes="15"</code> hace las filas más finas.',
-          },
         },
         api: {
           NuiScheduler: {
-            summary: 'Eventos en un mes, una semana, un día o una agenda.',
+            summary: 'Eventos en un mes, una semana, un día, una agenda o una línea de tiempo.',
             members: {
               events: 'Los eventos que se muestran.',
+              resources:
+                'Salas, personas o máquinas: filas de la línea de tiempo y columnas del día y la semana.',
               view: 'La vista que se muestra.',
-              views: 'Las vistas entre las que se puede cambiar.',
+              views:
+                'Las vistas entre las que se puede cambiar. Por defecto, todas; la línea de tiempo, solo con recursos.',
+              timelineSpan:
+                'Lo que muestra la línea de tiempo: un día por franjas, o una semana o un mes por días.',
               date: 'El día que se muestra, donde también está el foco del teclado.',
               slotMinutes:
-                'Minutos por fila de la cuadrícula horaria, y el paso con el que se mueven los eventos.',
+                'Minutos por fila de la cuadrícula horaria, o por columna de la línea de tiempo de un día.',
+              snapMinutes: 'El paso con el que se mueven y redimensionan los eventos.',
+              'dayStart, dayEnd': 'Desde qué hora y hasta qué hora muestra la cuadrícula horaria.',
               scrollHour: 'La hora en la que se abre la cuadrícula horaria.',
               agendaDays: 'Cuántos días por delante muestra la agenda.',
+              businessHours:
+                "El horario laboral, como <code>{ days: [1, 2, 3, 4, 5], start: '09:00', end: '17:00' }</code>. El resto del tiempo aparece sombreado.",
+              weekends:
+                'Muestra el fin de semana. Sin él, todas las vistas omiten el fin de semana de la configuración regional.',
+              weekNumbers: 'Muestra los números de semana ISO en el mes y encima de las horas.',
               editable:
                 'Los eventos se pueden mover y redimensionar, con el puntero y con el teclado.',
               selectable: 'Se puede elegir un intervalo en la cuadrícula, para crear eventos.',
+              allow: 'Decide si se permite mover o redimensionar un evento, o elegir un intervalo.',
+              toolbar: 'Muestra la barra de herramientas. Sin ella, crea la tuya.',
               firstDay:
                 'El primer día de la semana, 1 para el lunes. Por defecto, el de la configuración regional.',
               headingLevel:
@@ -1816,9 +1845,13 @@ export const messages: Messages = {
               locale: 'Da formato a los días y las horas.',
               labels: 'Todos los textos que el planificador muestra o anuncia, para traducirlos.',
               eventClick: 'Emite el evento en el que se hace clic, o que se abre con Intro.',
-              eventChange: 'Emite las horas nuevas de un evento tras moverlo o redimensionarlo.',
-              slotSelect: 'Emite el intervalo elegido en la cuadrícula.',
+              eventChange:
+                'Emite las horas nuevas de un evento tras moverlo o redimensionarlo, y sus recursos si han cambiado.',
+              slotSelect: 'Emite el intervalo elegido en la cuadrícula y su recurso.',
               rangeChange: 'Emite el primer y el último día que se muestran cuando cambian.',
+              'previous, next, goToday':
+                'Muestran la página anterior o siguiente, o la de hoy, para una barra de herramientas propia.',
+              title: 'Lo que se muestra, tal como lo dice el título de la barra de herramientas.',
             },
           },
           NuiSchedulerEvent: {
@@ -1828,8 +1861,26 @@ export const messages: Messages = {
               'id, title': 'Su clave, y lo que muestra.',
               'start, end': 'Fechas y horas, o solo fechas para los eventos de todo el día.',
               allDay: 'Por defecto, si <code>start</code> no tiene hora.',
-              tone: 'Su color.',
+              tone: 'Su paleta.',
+              'color, class':
+                'Cualquier color CSS, que se impone a su tono, y clases para darle estilo.',
+              resource: 'Los recursos a los que pertenece.',
+              rrule:
+                'Una regla de repetición según RFC 5545, como <code>FREQ=WEEKLY;BYDAY=MO</code>.',
+              exdate: 'Los inicios de las repeticiones que no tienen lugar.',
+              recurrenceId:
+                'En una repetición que comunica el planificador: el inicio que le dio su regla.',
               editable: 'Si se puede mover, diga lo que diga el planificador.',
+              data: 'Cualquier otra cosa que quieras guardar con él.',
+            },
+          },
+          NuiSchedulerResource: {
+            summary: 'Una sala, una persona o una máquina a la que pertenecen eventos.',
+            members: {
+              'id, title': 'Su clave, y el nombre que muestra.',
+              'tone, color': 'Los colores de sus eventos, salvo que tengan los suyos.',
+              businessHours:
+                'Cuándo está disponible, en lugar del horario laboral del planificador.',
               data: 'Cualquier otra cosa que quieras guardar con él.',
             },
           },
@@ -1837,25 +1888,48 @@ export const messages: Messages = {
             summary: 'Dibuja los eventos. El contexto contiene el evento y su horario como texto.',
             members: {},
           },
+          NuiSchedulerResourceTemplate: {
+            summary: 'Dibuja los encabezados de los recursos. El contexto contiene el recurso.',
+            members: {},
+          },
+          Helpers: {
+            summary: 'Funciones para eventos que se repiten y archivos iCalendar.',
+            members: {
+              nuiSchedulerOccurrences:
+                'Un evento tal como aparece en los días dados: cada repetición, si se repite.',
+              nuiSchedulerRule: 'Lee una regla de repetición, o devuelve null.',
+              nuiSchedulerToIcs: 'Escribe eventos como un archivo iCalendar.',
+              nuiSchedulerFromIcs:
+                'Lee los eventos de un archivo iCalendar, con sus horas en una sola zona horaria.',
+            },
+          },
         },
         keyboard: [
           [
             'Flechas',
-            'Mueven de día en día y de franja en franja. Las flechas se invierten en texto de derecha a izquierda.',
+            'Mueven de día en día y de franja en franja; en la línea de tiempo, adelante y atrás en el tiempo y entre recursos. Las flechas se invierten en texto de derecha a izquierda.',
+          ],
+          [
+            'Inicio y Fin',
+            'Primer o último día de la semana, o de la línea de tiempo; con Ctrl, la fila de todo el día o la última franja, o el primer o el último recurso.',
           ],
           ['Re Pág y Av Pág', 'Mes, semana o día anterior o siguiente.'],
           ['Mayús + flechas', 'Amplían el intervalo elegido.'],
           ['Intro o Espacio en una celda', 'Entra en sus eventos, o elige su hora.'],
           ['Flechas arriba y abajo en un evento', 'Evento anterior o siguiente de la celda.'],
-          ['Alt + flechas en un evento', 'Lo mueven una franja o un día.'],
-          ['Alt + Mayús + flecha arriba o abajo', 'Acorta o alarga el evento.'],
+          ['Alt + flechas en un evento', 'Lo mueven una franja o un día, o al recurso siguiente.'],
+          [
+            'Alt + Mayús + flechas',
+            'Acortan o alargan el evento: en vertical en la cuadrícula horaria, en horizontal en la línea de tiempo.',
+          ],
           ['Esc', 'Vuelve a la celda, descarta el intervalo elegido o cancela un arrastre.'],
         ],
         notes: [
-          'El mes, la semana y el día son cada uno un <code>grid</code> que toma su nombre del título. Los días encabezan las columnas y las horas, las filas, así que cada celda se lee con su día y su hora.',
-          'Cada evento es un botón que toma su nombre del título, el día y la hora, como «Standup, Friday, September 25, 9:00 – 9:30 AM». Al moverlo o redimensionarlo, se anuncia la hora nueva.',
+          'El mes, la semana, el día y la línea de tiempo son cada uno un <code>grid</code> que toma su nombre del título. Los días, las horas y los recursos encabezan las filas y las columnas, así que cada celda se lee con su día, su hora y su recurso.',
+          'Cada evento es un botón que toma su nombre del título, los recursos, el día y la hora, como «Standup, Atlas, Friday, September 25, 9:00 – 9:30 AM», y «Repeats» si se repite. Al moverlo o redimensionarlo, se anuncia la hora nueva, o el rechazo si <code>allow</code> no lo permite.',
           'Cada arrastre tiene un equivalente con el teclado, así que nadie necesita un puntero.',
           'Las vistas son botones de alternancia en un grupo, y al pasar a otra semana u otro mes se anuncia su título.',
+          'El sombreado del horario laboral es solo visual: las reglas que cuentan vienen de <code>allow</code>, también con el teclado.',
         ],
       },
       splitter: {
