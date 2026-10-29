@@ -3,9 +3,9 @@
  * `nuiSchedulerToIcs()` writes events into one, and `nuiSchedulerFromIcs()` reads
  * the events out of one.
  */
-import { nuiAddDays, type NuiDate, type NuiDateTime } from '@needless-ui/angular';
-import { type NuiSchedulerEvent, nuiSchedulerMinutes, nuiSchedulerValue } from './layout';
-import { isoValue } from './recurrence';
+import { nuiAddDays, type NuiDate, type NuiDateTime } from '../date.js';
+import { type NuiSchedulerEvent, nuiSchedulerMinutes, nuiSchedulerValue } from './layout.js';
+import { isoValue } from './recurrence.js';
 
 /** What an imported event keeps beside its times and title. */
 export interface NuiSchedulerIcsData {

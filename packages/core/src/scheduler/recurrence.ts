@@ -9,7 +9,7 @@
  * zone, as everywhere in the scheduler: a `Z` on UNTIL is ignored.
  */
 
-import { nuiDaysInMonth } from '@needless-ui/angular';
+import { nuiDaysInMonth } from '../date.js';
 
 /** How often a rule repeats. */
 export type NuiSchedulerFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';

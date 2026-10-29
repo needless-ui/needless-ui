@@ -10,8 +10,8 @@ import {
   nuiStartOfWeek,
   nuiTime,
   type NuiTime,
-} from '@needless-ui/angular';
-import { isoValue, nuiSchedulerRepeat, nuiSchedulerRule } from './recurrence';
+} from '../date.js';
+import { isoValue, nuiSchedulerRepeat, nuiSchedulerRule } from './recurrence.js';
 
 /**
  * What the scheduler shows: a month, a week, a day, a list of what's coming, or a

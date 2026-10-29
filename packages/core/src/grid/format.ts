@@ -1,4 +1,4 @@
-import type { NuiGridColumn, NuiGridFilter } from './types';
+import type { NuiGridColumn, NuiGridFilter } from './types.js';
 
 /** A cell's value: what `column.value` points at, or `row[column.id]`. */
 export function nuiGridValue<T>(column: NuiGridColumn<T>, row: T): unknown {

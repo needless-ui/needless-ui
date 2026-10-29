@@ -1,4 +1,4 @@
-import type { NuiOption } from '@needless-ui/angular/select';
+import type { NuiOption } from '../option.js';
 
 /** What a column holds. It picks the alignment, the sort, the filter and the editor. */
 export type NuiGridType = 'text' | 'number' | 'date' | 'boolean' | 'enum';

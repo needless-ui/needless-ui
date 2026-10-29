@@ -1,19 +1,9 @@
 import { computed, linkedSignal, signal, type WritableSignal } from '@angular/core';
 import { nuiFuzzyMatch, nuiHighlight } from '@needless-ui/angular';
+import type { NuiOption } from '@needless-ui/core';
 
-/** One choice. Options with `children` make a tree. */
-export interface NuiOption<V = unknown> {
-  value: V;
-  label: string;
-  /** Secondary text under the label. */
-  description?: string;
-  /** Options with the same group are listed under that heading, in order. */
-  group?: string;
-  /** More words the search matches, such as synonyms or codes. */
-  keywords?: readonly string[];
-  disabled?: boolean;
-  children?: readonly NuiOption<V>[];
-}
+/** One choice: it lives in @needless-ui/core, which the React bindings share. */
+export type { NuiOption };
 
 /** A row as rendered: an option, or a group heading. */
 export interface NuiOptionRow<V = unknown> {
