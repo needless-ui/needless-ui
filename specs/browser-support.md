@@ -4,8 +4,9 @@
 | ---------------------- | ----------- |
 | `@needless-ui/tokens`  | Implemented |
 | `@needless-ui/css`     | Implemented |
+| `@needless-ui/core`    | Implemented |
 | `@needless-ui/angular` | Implemented |
-| `@needless-ui/react`   | Planned     |
+| `@needless-ui/react`   | Implemented |
 
 Which browsers Needless UI supports, how that's tested, and what components do where a browser falls short. The docs page `/guides/browser-support` says the same for users.
 
@@ -62,7 +63,7 @@ Progressive: older supported browsers skip it, and nothing breaks.
 ## Touch and small screens
 
 - **Drags** (splitter handles, the color area, grid column edges, swiping toasts away) use pointer events, set `touch-action` so the page doesn't scroll under the finger, and do nothing when the browser takes the gesture back (`pointercancel`). The scheduler picks an event up with a long press, since a finger that moves at once scrolls the page. The carousel swipes with native scroll snapping, and a finger on its slides stops its rotation.
-- **Taps** do what clicks do, and stand in where there's no second click: a tap on the active grid cell starts editing it. Reordering columns by dragging their headers is left to the column menu on touch, and grid cards, which have no header row, sort, select every row and open the column menu from a toolbar.
+- **Taps** do what clicks do, and stand in where there's no second click: a tap on the active grid cell starts editing it. A tap that chooses time in the scheduler isn't a click on the event the app books there: the browser sends the tap's click to what's under the finger once the page has drawn it, so the scheduler ignores a click on an event that ends a tap or a drag. Reordering columns by dragging their headers is left to the column menu on touch, and grid cards, which have no header row, sort, select every row and open the column menu from a toolbar.
 - **Fields** have at least 16px of text on touch screens, or Safari on iPhone zooms the page into them. Text from keyboards that compose (Android keyboards compose every word) is read when each composition ends: the editor, date and time fields, OTP and mask.
 - **Targets** are at least 24 by 24 CSS pixels (WCAG 2.2, 2.5.8); splitter handles, grid column edges and slider thumbs grow on coarse pointers.
 - **Hover only adds.** A hovercard doesn't open by touch. On a touch screen with nothing that hovers, the command palette hides its key hints, the dropzone its folder button, the chat's Return makes a new line while its button sends (`sendOn: 'auto'`), and a select of more than 20 options gets a search field in place of typing to jump (`search: 'auto'`).
@@ -82,7 +83,7 @@ Safari doesn't focus a button, checkbox or radio when it's clicked, and by defau
 
 ## Testing
 
-- **Every change** (CI): the Angular tests run in Chromium, Firefox and WebKit (Playwright's builds; `browsers` in `angular.json`). Test files run one at a time per browser (`packages/angular/vitest.config.ts`): Firefox gives focus to one page at a time, and focus tests flake when files share it.
+- **Every change** (CI): the Angular and React tests run in Chromium, Firefox and WebKit (Playwright's builds; `browsers` in `angular.json`, `NUI_BROWSERS` for React). Test files run one at a time per browser (`packages/angular/vitest.config.ts`): Firefox gives focus to one page at a time, and focus tests flake when files share it.
 - **Close requests** are tested with a real Escape that the page's keydown listeners never see: it reaches the close watchers as Android's back gesture does. Those tests run where CloseWatcher exists (Playwright's WebKit has it, ahead of Safari), and each popup is also tested with the API removed, as in Safari and older Firefox and Chrome.
 - **Before a release**: `pnpm build:docs`, then `pnpm check:browsers`. It opens every component page in each engine on a computer screen and on a phone-sized touch screen (Pixel 7 in Chromium, iPhone 15 in WebKit, a 412px touch screen in Firefox), and fails on a page that doesn't hydrate, throws, fails a request, is wider than the screen, or has a popup that doesn't open, or close on Escape.
 - **By hand, on release candidates**: Safari on iPhone in the Xcode simulator (the oldest supported iOS and the newest), for real touch, and Chrome on Android in the emulator, typing with its keyboard (Gboard composes every word). Open every popup and measure it: a list can open empty in one engine only.
@@ -94,6 +95,7 @@ Last full run (2026-09-26): Chromium 153, Firefox 155, WebKit 26.6, iOS Safari 1
 - Chrome and Edge let a second Escape close a dialog whose `cancel` was prevented, unless the user interacted in between (the HTML close-request rules against trapping). A `dismissible="false"` dialog can therefore close on a double Escape there.
 - A close watcher gets Escape too, in every engine that has one: as the key's default action, after every keydown listener, and only if none of them called `preventDefault()`. So a component that closes a popup on Escape prevents the key (Angular Aria's menus do, and so do the combobox and the tour), or nothing would stop the same Escape from reaching the watcher and closing the popup again. A watcher stopped during the keydown passes the Escape on to the next one, which would close a parent menu or a dialog as well. The hovercard hides on Escape anywhere without preventing it, so its watcher lasts until the card's `toggle` event: it takes that Escape, and whatever is behind the card stays open.
 - Watchers made with no click, tap or key press in between can share a group, and one close request closes a whole group (another rule against trapping). A popup that opens without one, such as a submenu or a hovercard opened by hovering, can then close together with the popup below it.
+- A tap's click goes to whatever is under the finger when the browser sends it, after the page has handled the tap's `pointerup`. Chrome on Android sends it to an element the page drew there in the meantime; Safari on iPhone drops a click whose target appeared under the finger.
 - Safari 17 gives a column flex item with `flex: 1` (a 0% basis) no height inside a popup sized by its content. The option lists of the select, combobox, phone field and command palette take `flex: 1 1 auto`, or they'd open empty there.
 - Safari on iPhone and iPad keeps drawing a field's own caret whatever `caret-color` says. The OTP input starts its hidden text out of view there (`text-indent`), so only its drawn caret shows.
 - With the on-screen keyboard up, Safari on iPhone can show page below the edge of fixed layers. A dialog's backdrop reaches past the viewport, so no strip of the page is left undimmed.

@@ -286,10 +286,14 @@
     white-space: nowrap;
   }
 
-  /* Hours read on their line. */
+  /* Hours read on their line; the first, just under it, clear of the head. */
   tbody .nui-scheduler-time > span {
     display: inline-block;
     translate: 0 -0.55lh;
+  }
+
+  tbody tr:first-child .nui-scheduler-time > span {
+    translate: none;
   }
 
   /* Cells. */

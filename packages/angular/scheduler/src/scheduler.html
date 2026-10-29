@@ -78,7 +78,7 @@
     [style.--_columns]="place.columns"
     [style.--_width]="place.width"
     [attr.aria-label]="label(span)"
-    (click)="onEventClick($any($event.currentTarget))"
+    (click)="onEventClick($event)"
   >
     @if (eventTemplate(); as custom) {
       <ng-container *ngTemplateOutlet="custom; context: context(span)" />
@@ -234,7 +234,7 @@
                   [attr.data-recurring]="span.event.recurrenceId === undefined ? null : ''"
                   [style.--_color]="colors.color"
                   [attr.aria-label]="label(span)"
-                  (click)="onEventClick($any($event.currentTarget))"
+                  (click)="onEventClick($event)"
                 >
                   <span class="nui-scheduler-event-time">{{ time(span) }}</span>
                   <span class="nui-scheduler-event-title" dir="auto">{{ span.event.title }}</span>

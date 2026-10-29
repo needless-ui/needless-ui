@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { isPlatformBrowser } from '@angular/common';
 import {
   afterNextRender,
@@ -19,6 +18,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { nuiAnnouncer } from '@needless-ui/angular';
 
 /** Every text a carousel says. */
 export interface NuiCarouselLabels {
@@ -192,7 +192,7 @@ export class NuiCarouselSlide {
 })
 export class NuiCarousel {
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly announcer = inject(LiveAnnouncer);
+  private readonly announcer = nuiAnnouncer();
   protected readonly trackId = `nui-carousel-${nextId++}`;
 
   /** Names the carousel. */

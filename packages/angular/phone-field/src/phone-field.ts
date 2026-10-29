@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   afterNextRender,
   booleanAttribute,
@@ -24,6 +23,7 @@ import {
   type ValidationErrors,
   type Validator,
 } from '@angular/forms';
+import { nuiAnnouncer } from '@needless-ui/angular';
 import {
   nuiAsciiDigits,
   nuiMaskCapacity,
@@ -130,7 +130,7 @@ export const NUI_PHONE_FIELD_LABELS: NuiPhoneFieldLabels = {
 })
 export class NuiPhoneField implements ControlValueAccessor, Validator {
   private readonly injector = inject(Injector);
-  private readonly announcer = inject(LiveAnnouncer);
+  private readonly announcer = nuiAnnouncer();
 
   /** The number in E.164 (`+393331234567`), or empty. Bind with `[(value)]`. */
   readonly value = model('');

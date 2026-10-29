@@ -69,6 +69,7 @@ import {
   type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
   type Ref,
@@ -420,6 +421,12 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
   const body = useRef<HTMLDivElement>(null);
   const dragRef = useRef<NuiSchedulerDrag | null>(null);
   const previewRef = useRef<NuiSchedulerPreview | null>(null);
+  /**
+   * Set when a drag, or a tap that chose time, ends: the click that follows lands on what
+   * the app drew under the pointer (the event moved there, or the one just booked), and
+   * isn't a click on it. That click comes at once, or never (Safari drops a click on what
+   * appeared under the finger), so the next press clears this.
+   */
   const suppressClick = useRef(false);
   const selectionRef = useRef<NuiSchedulerSelection | null>(null);
   const setDrag = (next: NuiSchedulerDrag | null) => {
@@ -479,24 +486,30 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     if (scrolled.current.key === at && scrolled.current.body === element) return;
     scrolled.current = { key: at, body: element };
     if (view !== 'timeline') {
+      // The week and the day share their body: across, the day opens at its start.
+      element.scrollLeft = 0;
       const row = element.querySelector<HTMLElement>(`[data-slot-row="${frame.scrollSlot}"]`);
       const head = element.querySelector<HTMLElement>('thead');
-      if (row) element.scrollTop = row.offsetTop - (head?.offsetHeight ?? 0);
+      if (!row) return;
+      // An hour's label sits on its line, half above the row: that half stays in view too.
+      const label = row.querySelector('.nui-scheduler-time > span');
+      const above = label ? row.getBoundingClientRect().top - label.getBoundingClientRect().top : 0;
+      element.scrollTop = row.offsetTop - (head?.offsetHeight ?? 0) - Math.max(0, above);
       return;
     }
     const cell = element.querySelector<HTMLElement>(
       frame.slotted ? `th[data-slot="${frame.scrollSlot}"]` : 'thead th[data-today]',
     );
     const corner = element.querySelector<HTMLElement>('.nui-scheduler-corner');
-    if (!cell) return;
+    if (!cell || !corner) return;
     const rect = cell.getBoundingClientRect();
-    const box = element.getBoundingClientRect();
-    // Today shows after a couple of the days before it.
-    const inset =
-      (corner?.getBoundingClientRect().width ?? 0) + (frame.slotted ? 0 : 2 * rect.width);
+    // The cell goes right after the names, which stay at the start (inside the body's
+    // border); today goes after a couple of the days before it.
+    const names = corner.getBoundingClientRect();
+    const days = frame.slotted ? 0 : 2 * rect.width;
     element.scrollLeft += isRtl(root.current!)
-      ? rect.right - (box.right - inset)
-      : rect.left - (box.left + inset);
+      ? rect.right - (names.left - days)
+      : rect.left - (names.right + days);
   });
 
   // --- Toolbar ------------------------------------------------------------------
@@ -736,13 +749,24 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
 
   const canEdit = (span: NuiSchedulerSpan) => span.event.editable ?? editable;
 
-  const eventClicked = (element: HTMLElement) => {
-    if (suppressClick.current) {
+  const eventClicked = (event: ReactMouseEvent<HTMLElement>) => {
+    // A key's click (Enter on an event) has no detail: it ends no press.
+    if (suppressClick.current && event.detail > 0) {
       suppressClick.current = false;
       return;
     }
-    const span = spanOf(element);
+    const span = spanOf(event.currentTarget);
     if (span) latest.current.props.onEventClick?.(span.event as NuiSchedulerEvent<T>);
+  };
+
+  /** Ignores the click that ends this press, until the next press (see `suppressClick`). */
+  const ignoreClick = () => {
+    suppressClick.current = true;
+    root.current?.ownerDocument.addEventListener(
+      'pointerdown',
+      () => (suppressClick.current = false),
+      { capture: true, once: true },
+    );
   };
 
   const cellFocused = (day: NuiDate, at: NuiSchedulerCellSlot, resource: number | null) => {
@@ -903,12 +927,12 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
         picked = { anchor: cell, focus: cell };
         setSelection(picked);
       }
+      ignoreClick();
       choose(picked);
       return;
     }
     if (held.moved) {
-      suppressClick.current = true;
-      setTimeout(() => (suppressClick.current = false));
+      ignoreClick();
       if (landed && !refused) change(landed.span, landed.start, landed.end, resource);
     }
   };
@@ -955,7 +979,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
         data-moving={preview?.span.key === span.key || undefined}
         style={style}
         aria-label={nuiSchedulerEventLabel(span, resources, formats, words)}
-        onClick={(event) => eventClicked(event.currentTarget)}
+        onClick={eventClicked}
       >
         {renderEvent ? (
           renderEvent(span.event as NuiSchedulerEvent<T>, {
@@ -1154,7 +1178,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
                         data-recurring={span.event.recurrenceId === undefined ? undefined : ''}
                         style={{ '--_color': colors.color ?? undefined } as Style}
                         aria-label={nuiSchedulerEventLabel(span, resources, formats, words)}
-                        onClick={(event) => eventClicked(event.currentTarget)}
+                        onClick={eventClicked}
                       >
                         <span className="nui-scheduler-event-time">
                           {nuiSchedulerTimeText(span, formats, words)}
