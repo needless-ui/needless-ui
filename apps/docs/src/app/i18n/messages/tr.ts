@@ -41,7 +41,7 @@ export const messages: Messages = {
     title: 'Needless UI · Ücretsiz Angular bileşenleri, planlayıcı ve veri tablosu',
     description:
       'Ücretsiz, MIT lisanslı Angular bileşen kütüphanesi: yerel öğelerle erişilebilir bileşenler, kaynak planlayıcısı, gruplayan ve Excel’e aktaran veri tablosu.',
-    eyebrow: 'Açık kaynak · Angular 22 · MIT',
+    eyebrow: 'Açık kaynak · Angular 22 · React 19 · MIT',
     heading: 'Arayüz bileşenleri, gereğinden fazla özenle tasarlandı.',
     lead: '<strong>Yerel öğeler</strong> üzerine kurulu, framework’ten bağımsız tek bir stil dosyasıyla biçimlendirilen erişilebilir Angular bileşenleri. Başka kütüphanelerin ayrıca sattıkları da dahil hepsi MIT lisanslı: kaynak zaman çizelgeleri sunan bir <a href="/components/scheduler">planlayıcı</a> ve gruplama ile Excel’e aktarma yapabilen bir <a href="/components/grid">veri tablosu</a>.',
     getStarted: 'Hemen başlayın',
@@ -2786,7 +2786,7 @@ export const messages: Messages = {
               [
                 'Framework’ler',
                 'Angular 16 ile 22 arası, React, Vue, düz JavaScript ve dahası',
-                'Angular 22; sırada React var',
+                'Angular 22 ve <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2990,7 +2990,7 @@ export const messages: Messages = {
               [
                 'Framework’ler',
                 'React, Angular 20 ile 22 arası, Vue ve düz JavaScript',
-                'Angular 22; sırada React var',
+                'Angular 22 ve <a href="/guides/react">React 19</a>',
               ],
             ],
           },

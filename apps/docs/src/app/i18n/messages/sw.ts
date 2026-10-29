@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · Vijenzi vya Angular bure: kipanga ratiba, gridi ya data',
     description:
       'Vijenzi vya Angular bure (MIT), vinavyofikika, juu ya vipengele asilia: kipanga ratiba cha rasilimali na gridi ya data yenye makundi na kuhamishia Excel.',
-    eyebrow: 'Chanzo huria · Angular 22 · MIT',
+    eyebrow: 'Chanzo huria · Angular 22 · React 19 · MIT',
     heading: 'Vijenzi vya UI, vilivyosanifiwa vizuri kupita kiasi.',
     lead: 'Vijenzi vya Angular vinavyofikika, vilivyojengwa juu ya <strong>vipengele asilia</strong> na kupambwa kwa stylesheet moja isiyotegemea framework. Vyote viko chini ya leseni ya MIT, hata vile ambavyo maktaba nyingine huviuza kando: <a href="/components/scheduler">kipanga ratiba</a> chenye mistari ya muda ya rasilimali, na <a href="/components/grid">gridi ya data</a> yenye makundi na kuhamishia Excel.',
     getStarted: 'Anza',
@@ -2837,7 +2837,7 @@ export const messages: Messages = {
               [
                 'Framework',
                 'Angular 16 hadi 22, React, Vue, JavaScript tupu na zaidi',
-                'Angular 22; React inafuata',
+                'Angular 22 na <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3052,7 +3052,7 @@ export const messages: Messages = {
               [
                 'Framework',
                 'React, Angular 20 hadi 22, Vue na JavaScript tupu',
-                'Angular 22; React inafuata',
+                'Angular 22 na <a href="/guides/react">React 19</a>',
               ],
             ],
           },

@@ -1,6 +1,6 @@
 # @needless-ui/css
 
-Framework-free component styles for [Needless UI](https://github.com/needless-ui/needless-ui). Use them with the Angular package, or on their own in plain HTML.
+Framework-free component styles for [Needless UI](https://github.com/needless-ui/needless-ui). Use them with the Angular or React package, or on their own in plain HTML.
 
 ## Install
 

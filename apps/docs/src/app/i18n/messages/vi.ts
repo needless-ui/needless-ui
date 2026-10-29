@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · Thư viện Angular miễn phí có bộ lập lịch và bảng dữ liệu',
     description:
       'Thư viện component Angular miễn phí, giấy phép MIT: component hỗ trợ tiếp cận trên phần tử native, bộ lập lịch tài nguyên và bảng dữ liệu có nhóm, xuất Excel.',
-    eyebrow: 'Mã nguồn mở · Angular 22 · MIT',
+    eyebrow: 'Mã nguồn mở · Angular 22 · React 19 · MIT',
     heading: 'Component UI, chăm chút kỹ hơn mức cần thiết.',
     lead: 'Component Angular hỗ trợ tiếp cận, dựa trên <strong>phần tử native</strong> và được tạo kiểu bằng một stylesheet độc lập với framework. Tất cả đều theo giấy phép MIT, kể cả những thứ mà các thư viện khác bán riêng: <a href="/components/scheduler">bộ lập lịch</a> có timeline tài nguyên, và <a href="/components/grid">bảng dữ liệu</a> hỗ trợ nhóm dòng và xuất Excel.',
     getStarted: 'Bắt đầu',
@@ -2782,7 +2782,7 @@ export const messages: Messages = {
               [
                 'Framework',
                 'Angular 16 đến 22, React, Vue, JavaScript thuần và nhiều hơn nữa',
-                'Angular 22; tiếp theo là React',
+                'Angular 22 và <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2981,7 +2981,7 @@ export const messages: Messages = {
               [
                 'Framework',
                 'React, Angular 20 đến 22, Vue và JavaScript thuần',
-                'Angular 22; tiếp theo là React',
+                'Angular 22 và <a href="/guides/react">React 19</a>',
               ],
             ],
           },

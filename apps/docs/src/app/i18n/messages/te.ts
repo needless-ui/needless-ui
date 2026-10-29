@@ -42,7 +42,7 @@ export const messages: Messages = {
     title: 'Needless UI · షెడ్యూలర్, డేటా గ్రిడ్‌తో ఉచిత Angular కాంపోనెంట్‌లు',
     description:
       'ఉచిత, MIT లైసెన్స్ ఉన్న Angular కాంపోనెంట్ లైబ్రరీ: నేటివ్ ఎలిమెంట్‌లపై యాక్సెసిబుల్ కాంపోనెంట్‌లు, రిసోర్స్ షెడ్యూలర్, గ్రూపింగ్, Excel ఎక్స్‌పోర్ట్ ఉన్న డేటా గ్రిడ్.',
-    eyebrow: 'ఓపెన్ సోర్స్ · Angular 22 · MIT',
+    eyebrow: 'ఓపెన్ సోర్స్ · Angular 22 · React 19 · MIT',
     heading: 'అవసరం లేనంత బాగా ఇంజినీర్ చేసిన UI కాంపోనెంట్‌లు.',
     lead: 'ఏ ఫ్రేమ్‌వర్క్‌పైనా ఆధారపడని ఒకే స్టైల్‌షీట్‌తో స్టైల్ అయ్యే, <strong>నేటివ్ ఎలిమెంట్‌లపై</strong> నిర్మించిన యాక్సెసిబుల్ Angular కాంపోనెంట్‌లు. ఇతర లైబ్రరీలు విడిగా అమ్మేవాటితో సహా అన్నీ MIT లైసెన్స్ కిందే: రిసోర్స్ టైమ్‌లైన్‌లతో <a href="/components/scheduler">షెడ్యూలర్</a>, గ్రూపింగ్, Excel ఎక్స్‌పోర్ట్ ఉన్న <a href="/components/grid">డేటా గ్రిడ్</a>.',
     getStarted: 'ప్రారంభించండి',
@@ -2821,7 +2821,7 @@ export const messages: Messages = {
               [
                 'ఫ్రేమ్‌వర్క్‌లు',
                 'Angular 16 నుంచి 22 వరకు, React, Vue, సాదా JavaScript, ఇంకా మరెన్నో',
-                'Angular 22; తర్వాత React',
+                'Angular 22 మరియు <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3028,7 +3028,7 @@ export const messages: Messages = {
               [
                 'ఫ్రేమ్‌వర్క్‌లు',
                 'React, Angular 20 నుంచి 22 వరకు, Vue, సాదా JavaScript',
-                'Angular 22; తర్వాత React',
+                'Angular 22 మరియు <a href="/guides/react">React 19</a>',
               ],
             ],
           },

@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · Components na Angular kyauta, da scheduler da data grid',
     description:
       'Components na Angular kyauta (MIT) masu sauƙin amfani ga kowa a kan elements na asali: jadawalin resources, da data grid mai rukunoni da fitarwa zuwa Excel.',
-    eyebrow: 'Open source · Angular 22 · MIT',
+    eyebrow: 'Open source · Angular 22 · React 19 · MIT',
     heading: 'Components na UI, an ƙera su da kyau fiye da kima.',
     lead: 'Components na Angular masu sauƙin amfani ga kowa, a kan <strong>elements na asali</strong>, waɗanda stylesheet ɗaya mara framework ke ba su salo. Duka suna ƙarƙashin lasisin MIT, har da abin da wasu laburare ke sayarwa daban: <a href="/components/scheduler">jadawali</a> mai timeline na resources, da <a href="/components/grid">data grid</a> mai rukunoni da fitarwa zuwa Excel.',
     getStarted: 'Fara',
@@ -2849,7 +2849,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'Angular 16 zuwa 22, React, Vue, JavaScript zalla da sauransu',
-                'Angular 22; React ne na gaba',
+                'Angular 22 da <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3056,7 +3056,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'React, Angular 20 zuwa 22, Vue da JavaScript zalla',
-                'Angular 22; React ne na gaba',
+                'Angular 22 da <a href="/guides/react">React 19</a>',
               ],
             ],
           },

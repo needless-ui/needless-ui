@@ -49,4 +49,4 @@ Presets live in `packages/css/src/presets.css`. `--nui-motion`, `--nui-radius-sc
 ## Implementation notes
 
 - **Angular:** `NuiPersonality` (primary entry point) holds the inputs `motion`, `spring`, `press`, `enter`, `corners`, `radius` and `density`. Each component exposes the inputs that apply to it as host directive inputs. Unset inputs render no attribute, so they inherit. `spring` compiles with `springTransition()` into an inline `--nui-motion`.
-- **React (planned):** the same attributes as props, and a `springTransition()` that passes the shared comparison test.
+- **React:** the scheduler and the data grid take `corners`, `radius` and `density` as props, which `nuiPersonality()` turns into the same attributes. The motion props and a `springTransition()` that passes the shared comparison test come with the first components that move.

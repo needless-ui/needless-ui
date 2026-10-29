@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · کامپوننت‌های رایگان Angular با زمان‌بند و جدول داده',
     description:
       'کتابخانهٔ کامپوننت رایگان Angular با مجوز MIT: کامپوننت‌های دسترس‌پذیر بر پایهٔ عناصر بومی، با زمان‌بند منابع و جدول داده با گروه‌بندی و خروجی Excel.',
-    eyebrow: 'متن‌باز · Angular 22 · مجوز MIT',
+    eyebrow: 'متن‌باز · Angular 22 · React 19 · مجوز MIT',
     heading: 'کامپوننت‌های رابط کاربری، دقیق‌تر از آنچه لازم است.',
     lead: 'کامپوننت‌های دسترس‌پذیر Angular بر پایهٔ <strong>عناصر بومی</strong> که یک استایل‌شیت مستقل از فریم‌ورک به آن‌ها استایل می‌دهد. همه با مجوز MIT، حتی آنچه کتابخانه‌های دیگر جداگانه می‌فروشند: یک <a href="/components/scheduler">زمان‌بند</a> با خط زمانی منابع، و یک <a href="/components/grid">جدول داده</a> با گروه‌بندی و خروجی Excel.',
     getStarted: 'شروع کنید',
@@ -2774,7 +2774,7 @@ export const messages: Messages = {
               [
                 'فریم‌ورک‌ها',
                 'Angular 16 تا 22، React، Vue، JavaScript ساده و بیشتر',
-                'Angular 22؛ بعدی React است',
+                'Angular 22 و <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2975,7 +2975,7 @@ export const messages: Messages = {
               [
                 'فریم‌ورک‌ها',
                 'React، Angular 20 تا 22، Vue و JavaScript ساده',
-                'Angular 22؛ بعدی React است',
+                'Angular 22 و <a href="/guides/react">React 19</a>',
               ],
             ],
           },

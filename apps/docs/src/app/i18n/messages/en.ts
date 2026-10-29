@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · Free Angular components with a scheduler and data grid',
     description:
       'Free, MIT Angular component library: accessible components on native elements, with a resource scheduler and a data grid with grouping and Excel export.',
-    eyebrow: 'Open source · Angular 22 · MIT',
+    eyebrow: 'Open source · Angular 22 · React 19 · MIT',
     heading: 'UI components, needlessly well engineered.',
     lead: 'Accessible Angular components on <strong>native elements</strong>, styled by one framework-free stylesheet. All MIT, including what other libraries sell separately: a <a href="/components/scheduler">scheduler</a> with resource timelines, and a <a href="/components/grid">data grid</a> with grouping and Excel export.',
     getStarted: 'Get started',
@@ -2741,7 +2741,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'Angular 16 to 22, React, Vue, plain JavaScript and more',
-                'Angular 22; React is next',
+                'Angular 22 and <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2938,7 +2938,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'React, Angular 20 to 22, Vue and plain JavaScript',
-                'Angular 22; React is next',
+                'Angular 22 and <a href="/guides/react">React 19</a>',
               ],
             ],
           },

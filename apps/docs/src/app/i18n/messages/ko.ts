@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · 스케줄러와 데이터 그리드를 갖춘 무료 Angular 컴포넌트',
     description:
       'MIT 라이선스의 무료 Angular 컴포넌트 라이브러리. 네이티브 요소 기반의 접근성 있는 컴포넌트에 리소스 스케줄러, 그룹화와 Excel 내보내기를 갖춘 데이터 그리드까지.',
-    eyebrow: '오픈 소스 · Angular 22 · MIT',
+    eyebrow: '오픈 소스 · Angular 22 · React 19 · MIT',
     heading: '쓸데없이 잘 만든 UI 컴포넌트.',
     lead: '프레임워크에 종속되지 않는 하나의 스타일시트로 스타일링한, <strong>네이티브 요소</strong> 기반의 접근성을 갖춘 Angular 컴포넌트입니다. 모두 MIT 라이선스이며, 다른 라이브러리가 따로 판매하는 기능도 포함됩니다. 리소스 타임라인을 갖춘 <a href="/components/scheduler">스케줄러</a>, 그리고 그룹화와 Excel 내보내기를 지원하는 <a href="/components/grid">데이터 그리드</a>입니다.',
     getStarted: '시작하기',
@@ -2754,7 +2754,7 @@ export const messages: Messages = {
               [
                 '프레임워크',
                 'Angular 16~22, React, Vue, 순수 JavaScript 등',
-                'Angular 22, 다음은 React',
+                'Angular 22 및 <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2943,7 +2943,7 @@ export const messages: Messages = {
               [
                 '프레임워크',
                 'React, Angular 20~22, Vue, 순수 JavaScript',
-                'Angular 22, 다음은 React',
+                'Angular 22 및 <a href="/guides/react">React 19</a>',
               ],
             ],
           },

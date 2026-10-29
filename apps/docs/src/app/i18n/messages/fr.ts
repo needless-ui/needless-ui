@@ -42,7 +42,7 @@ export const messages: Messages = {
     title: 'Needless UI · Composants Angular gratuits : planificateur et grille',
     description:
       'Composants Angular accessibles et gratuits (MIT) : éléments natifs, planificateur de ressources, grille de données avec regroupement et export Excel.',
-    eyebrow: 'Open source · Angular 22 · MIT',
+    eyebrow: 'Open source · Angular 22 · React 19 · MIT',
     heading: 'Des composants d’interface, inutilement bien conçus.',
     lead: 'Des composants Angular accessibles, bâtis sur des <strong>éléments natifs</strong> et mis en forme par une seule feuille de style indépendante du framework. Tout est sous licence MIT, y compris ce que d’autres bibliothèques vendent à part : un <a href="/components/scheduler">planificateur</a> avec des timelines de ressources, et une <a href="/components/grid">grille de données</a> avec regroupement et export Excel.',
     getStarted: 'Commencer',
@@ -2875,7 +2875,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'Angular 16 à 22, React, Vue, JavaScript pur et plus encore',
-                'Angular 22 ; React ensuite',
+                'Angular 22 et <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3087,7 +3087,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'React, Angular 20 à 22, Vue et JavaScript pur',
-                'Angular 22 ; React ensuite',
+                'Angular 22 et <a href="/guides/react">React 19</a>',
               ],
             ],
           },

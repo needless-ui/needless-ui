@@ -1,13 +1,21 @@
 {
   "$schema": "https://context7.com/schema/context7.json",
   "projectTitle": "Needless UI",
-  "description": "MIT component library for Angular 22: 29 accessible, signal-based components on native elements, styled by one framework-free stylesheet in CSS cascade layers. Includes a scheduler with resource timelines and repeating events, and a data grid with grouping, tree data and Excel export.",
-  "folders": ["specs", "packages/angular", "packages/css", "packages/tokens"],
+  "description": "MIT component library for Angular 22, and for React 19 starting with the scheduler and the data grid: 29 accessible, signal-based Angular components on native elements, styled by one framework-free stylesheet in CSS cascade layers. Includes a scheduler with resource timelines and repeating events, and a data grid with grouping, tree data and Excel export.",
+  "folders": [
+    "specs",
+    "packages/angular",
+    "packages/react",
+    "packages/core",
+    "packages/css",
+    "packages/tokens"
+  ],
   "excludeFolders": ["node_modules", "dist", "test", "schematics"],
   "excludeFiles": ["CHANGELOG.md", "CODE_OF_CONDUCT.md", "SECURITY.md"],
   "rules": [
     "Set up an Angular app with `ng add @needless-ui/angular`, or install @needless-ui/angular, @angular/aria and @angular/cdk and put `@import '@needless-ui/css';` at the top of the global stylesheet.",
     "Import each component from its own entry point, such as `import { NuiButton } from '@needless-ui/angular/button';`, and add it to a standalone component's imports.",
+    "In React 19, install @needless-ui/react and @needless-ui/css, put `@import '@needless-ui/css';` in a CSS file of the app, and import the scheduler and the data grid from their entry points, such as `import { NuiGrid } from '@needless-ui/react/grid';`. State is controlled (`sort` with `onSortChange`) or left to the component (`defaultSort`); methods are on the `ref`.",
     "Use the directives on native elements as they are, such as `<button nuiButton>` and `<dialog nuiDialog>`, without wrapping them in other elements to style them.",
     "Components ship no styles: @needless-ui/css styles them inside `@layer nui`, so the app's own CSS overrides it. Theme with `--nui-*` custom properties.",
     "With Tailwind CSS 4, declare `@layer theme, base, nui, components, utilities;` before the imports, so Tailwind's reset can't undo components."

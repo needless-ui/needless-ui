@@ -41,7 +41,7 @@ export const messages: Messages = {
     title: 'Needless UI · Libreng Angular component na may scheduler at data grid',
     description:
       'Libreng MIT library ng mga Angular component: accessible at nasa native element, may resource scheduler at data grid na may grouping at Excel export.',
-    eyebrow: 'Open source · Angular 22 · MIT',
+    eyebrow: 'Open source · Angular 22 · React 19 · MIT',
     heading: 'Mga UI component na pinag-isipan nang higit sa kailangan.',
     lead: 'Mga accessible na Angular component sa mga <strong>native element</strong>, na sini-style ng iisang stylesheet na hindi nakatali sa framework. MIT ang lahat, pati ang mga ibinebenta nang hiwalay ng ibang library: isang <a href="/components/scheduler">scheduler</a> na may mga resource timeline, at isang <a href="/components/grid">data grid</a> na may grouping at Excel export.',
     getStarted: 'Magsimula',
@@ -2870,7 +2870,7 @@ export const messages: Messages = {
               [
                 'Mga framework',
                 'Angular 16 hanggang 22, React, Vue, plain JavaScript at iba pa',
-                'Angular 22; React ang susunod',
+                'Angular 22 at <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3077,7 +3077,7 @@ export const messages: Messages = {
               [
                 'Mga framework',
                 'React, Angular 20 hanggang 22, Vue at plain JavaScript',
-                'Angular 22; React ang susunod',
+                'Angular 22 at <a href="/guides/react">React 19</a>',
               ],
             ],
           },

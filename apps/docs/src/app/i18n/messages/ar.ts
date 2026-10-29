@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · مكونات Angular مجانية مع مُجدوِل مواعيد وشبكة بيانات',
     description:
       'مكتبة مكونات Angular مجانية برخصة MIT: مكونات سهلة الوصول مبنية على العناصر الأصلية، مع مُجدوِل للموارد وشبكة بيانات تدعم التجميع والتصدير إلى Excel.',
-    eyebrow: 'مفتوحة المصدر · Angular 22 · رخصة MIT',
+    eyebrow: 'مفتوحة المصدر · Angular 22 · React 19 · رخصة MIT',
     heading: 'مكونات واجهات مستخدم، مُتقنة أكثر مما يلزم.',
     lead: 'مكونات Angular سهلة الوصول مبنية على <strong>العناصر الأصلية</strong>، وتُنسّقها ورقة أنماط واحدة مستقلة عن أطر العمل. وكلها برخصة MIT، بما في ذلك ما تبيعه المكتبات الأخرى منفصلًا: <a href="/components/scheduler">مُجدوِل</a> بخطوط زمنية للموارد، و<a href="/components/grid">شبكة بيانات</a> تدعم التجميع والتصدير إلى Excel.',
     getStarted: 'ابدأ الآن',
@@ -2734,7 +2734,7 @@ export const messages: Messages = {
               [
                 'أطر العمل',
                 'من Angular 16 إلى 22، وReact، وVue، وJavaScript الخالص، وغيرها',
-                'Angular 22؛ وReact هو التالي',
+                'Angular 22 و<a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2927,7 +2927,7 @@ export const messages: Messages = {
               [
                 'أطر العمل',
                 'React، وAngular من 20 إلى 22، وVue، وJavaScript الخالص',
-                'Angular 22؛ وReact هو التالي',
+                'Angular 22 و<a href="/guides/react">React 19</a>',
               ],
             ],
           },

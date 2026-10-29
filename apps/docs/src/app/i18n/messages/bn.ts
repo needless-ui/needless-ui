@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · শিডিউলার ও ডেটা গ্রিডসহ বিনামূল্যের Angular কম্পোনেন্ট',
     description:
       'বিনামূল্যের, MIT লাইসেন্সের Angular কম্পোনেন্ট লাইব্রেরি: নেটিভ এলিমেন্টের ওপর অ্যাক্সেসিবল কম্পোনেন্ট, সঙ্গে রিসোর্স শিডিউলার আর গ্রুপিং ও Excel এক্সপোর্টসহ ডেটা গ্রিড।',
-    eyebrow: 'ওপেন সোর্স · Angular 22 · MIT',
+    eyebrow: 'ওপেন সোর্স · Angular 22 · React 19 · MIT',
     heading: 'UI কম্পোনেন্ট, দরকারের চেয়ে অনেক বেশি যত্নে ইঞ্জিনিয়ার করা।',
     lead: '<strong>নেটিভ এলিমেন্টের</strong> ওপর তৈরি অ্যাক্সেসিবল Angular কম্পোনেন্ট, যেগুলোর স্টাইল আসে একটিমাত্র ফ্রেমওয়ার্ক-নিরপেক্ষ স্টাইলশিট থেকে। সবকিছুই MIT লাইসেন্সে, এমনকি অন্য লাইব্রেরিগুলো যা আলাদা করে বিক্রি করে, সেটাও: রিসোর্স টাইমলাইনসহ একটি <a href="/components/scheduler">শিডিউলার</a>, আর গ্রুপিং ও Excel এক্সপোর্টসহ একটি <a href="/components/grid">ডেটা গ্রিড</a>।',
     getStarted: 'শুরু করুন',
@@ -2734,7 +2734,7 @@ export const messages: Messages = {
               [
                 'ফ্রেমওয়ার্ক',
                 'Angular 16 থেকে 22, React, Vue, সাধারণ JavaScript ও আরও',
-                'Angular 22; এরপর React',
+                'Angular 22 ও <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2931,7 +2931,7 @@ export const messages: Messages = {
               [
                 'ফ্রেমওয়ার্ক',
                 'React, Angular 20 থেকে 22, Vue ও সাধারণ JavaScript',
-                'Angular 22; এরপর React',
+                'Angular 22 ও <a href="/guides/react">React 19</a>',
               ],
             ],
           },

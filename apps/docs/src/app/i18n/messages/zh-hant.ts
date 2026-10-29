@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · 免費 Angular 元件，內建行事曆和資料表格',
     description:
       '免費、採用 MIT 授權的 Angular 元件庫：以原生元素打造的無障礙元件，另有附資源時間軸的行事曆，以及支援分組和 Excel 匯出的資料表格。',
-    eyebrow: '開源 · Angular 22 · MIT',
+    eyebrow: '開源 · Angular 22 · React 19 · MIT',
     heading: 'UI 元件，精心打磨到近乎多餘。',
     lead: '以<strong>原生元素</strong>打造的無障礙 Angular 元件，由一份不依賴框架的樣式表提供樣式。全部採用 MIT 授權，連其他函式庫另外收費的功能也包含在內：附資源時間軸的<a href="/components/scheduler">行事曆</a>，以及支援分組和 Excel 匯出的<a href="/components/grid">資料表格</a>。',
     getStarted: '開始使用',
@@ -2617,7 +2617,7 @@ export const messages: Messages = {
               [
                 '框架',
                 'Angular 16 到 22、React、Vue、純 JavaScript 等',
-                'Angular 22；接下來是 React',
+                'Angular 22 和 <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2802,7 +2802,7 @@ export const messages: Messages = {
               [
                 '框架',
                 'React、Angular 20 到 22、Vue 和純 JavaScript',
-                'Angular 22；接下來是 React',
+                'Angular 22 和 <a href="/guides/react">React 19</a>',
               ],
             ],
           },

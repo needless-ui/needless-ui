@@ -41,7 +41,7 @@ export const messages: Messages = {
     title: 'Needless UI · ಶೆಡ್ಯೂಲರ್ ಮತ್ತು ಡೇಟಾ ಗ್ರಿಡ್ ಇರುವ ಉಚಿತ Angular ಕಾಂಪೊನೆಂಟ್‌ಗಳು',
     description:
       'ಉಚಿತ, MIT ಪರವಾನಗಿಯ Angular ಕಾಂಪೊನೆಂಟ್ ಲೈಬ್ರರಿ: ನೇಟಿವ್ ಎಲಿಮೆಂಟ್‌ಗಳ ಮೇಲೆ ಆಕ್ಸೆಸಿಬಲ್ ಕಾಂಪೊನೆಂಟ್‌ಗಳು, ಜೊತೆಗೆ ಸಂಪನ್ಮೂಲ ಶೆಡ್ಯೂಲರ್ ಮತ್ತು ಗುಂಪುಗಳು ಹಾಗೂ Excel ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಇರುವ ಡೇಟಾ ಗ್ರಿಡ್.',
-    eyebrow: 'ಓಪನ್ ಸೋರ್ಸ್ · Angular 22 · MIT',
+    eyebrow: 'ಓಪನ್ ಸೋರ್ಸ್ · Angular 22 · React 19 · MIT',
     heading: 'ಅಗತ್ಯವೇ ಇಲ್ಲದಷ್ಟು ಚೆನ್ನಾಗಿ ಎಂಜಿನಿಯರಿಂಗ್ ಮಾಡಿದ UI ಕಾಂಪೊನೆಂಟ್‌ಗಳು.',
     lead: '<strong>ನೇಟಿವ್ ಎಲಿಮೆಂಟ್‌ಗಳ</strong> ಮೇಲೆ ನಿರ್ಮಿಸಿದ ಆಕ್ಸೆಸಿಬಲ್ Angular ಕಾಂಪೊನೆಂಟ್‌ಗಳು; ಯಾವುದೇ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗೆ ಅವಲಂಬಿತವಲ್ಲದ ಒಂದೇ ಸ್ಟೈಲ್‌ಶೀಟ್ ಅವುಗಳಿಗೆ ಸ್ಟೈಲ್ ನೀಡುತ್ತದೆ. ಬೇರೆ ಲೈಬ್ರರಿಗಳು ಪ್ರತ್ಯೇಕವಾಗಿ ಮಾರುವುದೂ ಸೇರಿದಂತೆ ಎಲ್ಲವೂ MIT: ಸಂಪನ್ಮೂಲ ಟೈಮ್‌ಲೈನ್‌ಗಳಿರುವ <a href="/components/scheduler">ಶೆಡ್ಯೂಲರ್</a>, ಮತ್ತು ಸಾಲುಗಳನ್ನು ಗುಂಪು ಮಾಡುವ ಹಾಗೂ Excel ಗೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡುವ <a href="/components/grid">ಡೇಟಾ ಗ್ರಿಡ್</a>.',
     getStarted: 'ಪ್ರಾರಂಭಿಸಿ',
@@ -2859,7 +2859,7 @@ export const messages: Messages = {
               [
                 'ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳು',
                 'Angular 16 ರಿಂದ 22, React, Vue, ಸಾದಾ JavaScript ಮತ್ತು ಇನ್ನಷ್ಟು',
-                'Angular 22; ಮುಂದೆ React',
+                'Angular 22 ಮತ್ತು <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3066,7 +3066,7 @@ export const messages: Messages = {
               [
                 'ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳು',
                 'React, Angular 20 ರಿಂದ 22, Vue ಮತ್ತು ಸಾದಾ JavaScript',
-                'Angular 22; ಮುಂದೆ React',
+                'Angular 22 ಮತ್ತು <a href="/guides/react">React 19</a>',
               ],
             ],
           },
