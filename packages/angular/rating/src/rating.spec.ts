@@ -1,8 +1,18 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { form, FormField } from '@angular/forms/signals';
 import { userEvent } from 'vitest/browser';
 import { NuiRating } from './rating';
+
+@Component({
+  imports: [NuiRating, FormField],
+  template: `<div nuiRating aria-label="Rate it" [formField]="review.stars"></div>`,
+})
+class SignalHost {
+  readonly model = signal<{ stars: number | null }>({ stars: 2 });
+  readonly review = form(this.model);
+}
 
 @Component({
   imports: [NuiRating, FormsModule],
@@ -49,6 +59,30 @@ describe('NuiRating', () => {
     await fixture.whenStable();
     expect(host.stars()).toBeNull();
     expect(radios().some((radio) => radio.checked)).toBe(false);
+  });
+
+  it('works with Signal Forms: the value both ways, and touched', async () => {
+    const fixture = TestBed.createComponent(SignalHost);
+    document.body.append(fixture.nativeElement);
+    await fixture.whenStable();
+    const host = fixture.componentInstance;
+    const radios = () =>
+      Array.from(
+        (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLInputElement>('input'),
+      );
+    expect(radios()[1].checked).toBe(true);
+
+    await userEvent.click(radios()[3]);
+    await fixture.whenStable();
+    expect(host.model().stars).toBe(4);
+    expect(host.review.stars().touched()).toBe(false);
+    radios()[3].blur();
+    await fixture.whenStable();
+    expect(host.review.stars().touched()).toBe(true);
+
+    host.model.set({ stars: 1 });
+    await fixture.whenStable();
+    expect(radios()[0].checked).toBe(true);
   });
 
   it('shows a fraction when read-only', async () => {

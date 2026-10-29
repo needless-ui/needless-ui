@@ -4,18 +4,16 @@ import {
   computed,
   Directive,
   ElementRef,
-  forwardRef,
   inject,
   input,
   linkedSignal,
   LOCALE_ID,
   model,
   numberAttribute,
+  output,
   signal,
-  type Type,
   untracked,
 } from '@angular/core';
-import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   type NuiDate,
   nuiDateFormat,
@@ -99,7 +97,7 @@ const TEMPLATE = `
         [attr.data-type]="segment.type"
         [attr.data-placeholder]="segment.value === null && typing()?.index !== $index ? true : null"
         [attr.contenteditable]="editable() ? 'true' : null"
-        [attr.tabindex]="off() ? null : 0"
+        [attr.tabindex]="disabled() ? null : 0"
         [attr.inputmode]="segment.type === 'dayPeriod' ? 'text' : 'numeric'"
         [attr.aria-label]="words()[segment.type]"
         [attr.aria-valuemin]="segment.min"
@@ -108,7 +106,7 @@ const TEMPLATE = `
         [attr.aria-valuetext]="valueText(segment)"
         [attr.aria-invalid]="invalid() || null"
         [attr.aria-readonly]="readonly() || null"
-        [attr.aria-disabled]="off() || null"
+        [attr.aria-disabled]="disabled() || null"
         [textContent]="display(segment, $index)"
         (keydown)="onKeydown($event, $index)"
         (beforeinput)="onBeforeinput($event, $index)"
@@ -122,32 +120,33 @@ const TEMPLATE = `
 
 const HOST = {
   role: 'group',
-  '[attr.data-disabled]': 'off() || null',
+  '[attr.data-disabled]': 'disabled() || null',
   '[attr.data-readonly]': 'readonly() || null',
   '[attr.data-invalid]': 'invalid() || null',
-  '[attr.aria-disabled]': 'off() || null',
+  '[attr.aria-disabled]': 'disabled() || null',
   '(focusout)': 'onFocusout($event)',
   '(pointerdown)': 'onPointerdown($event)',
 };
 
-function accessor(type: () => Type<unknown>) {
-  return { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(type), multi: true };
-}
+/** No bound: Signal Forms writes undefined for a field without one. */
+const orNull = (value: string | null | undefined): string | null => value ?? null;
 
 /**
  * What date and time fields share: segments typed one by one, like the fields of a
- * paper form, in the locale's order.
+ * paper form, in the locale's order. Forms bind `value`, `disabled`, `readonly`
+ * and `touch` (Signal Forms' control contract, which reactive forms and `ngModel`
+ * take too).
  */
 @Directive()
-abstract class NuiSegmentedField implements ControlValueAccessor {
+abstract class NuiSegmentedField {
   protected readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
   /** The date, time, or date and time; null while any segment is empty. */
   readonly value = model<string | null>(null);
   /** The earliest value allowed. Earlier ones mark the field invalid. */
-  readonly min = input<string | null>(null);
+  readonly min = input<string | null, string | null | undefined>(null, { transform: orNull });
   /** The latest value allowed. */
-  readonly max = input<string | null>(null);
+  readonly max = input<string | null, string | null | undefined>(null, { transform: orNull });
   /** Where empty segments start from, with the arrow keys. Now by default. */
   readonly placeholder = input<string | null>(null);
   /** A 12- or 24-hour clock. By default, the locale's. */
@@ -163,6 +162,8 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
   readonly locale = input(inject(LOCALE_ID));
   /** Texts to replace, for translation. */
   readonly labels = input<Partial<NuiDateFieldLabels>>({});
+  /** Emits when focus leaves the field, so forms mark it touched. */
+  readonly touch = output<void>();
 
   /** Which segments to show. */
   protected abstract readonly parts: () => { date: boolean; time: NuiDateGranularity | null };
@@ -177,9 +178,7 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
   protected readonly layout = computed(() =>
     nuiSegmentLayout(this.locale(), this.parts(), this.hour12()),
   );
-  private readonly formDisabled = signal(false);
-  protected readonly off = computed(() => this.disabled() || this.formDisabled());
-  protected readonly editable = computed(() => !this.off() && !this.readonly());
+  protected readonly editable = computed(() => !this.disabled() && !this.readonly());
 
   /**
    * Every segment's value. A new value from outside refills them; one that only
@@ -228,30 +227,11 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
     return [period(9), period(21)];
   });
 
-  private onChange: (value: string | null) => void = () => {};
-  private onTouched: () => void = () => {};
-
   /** Focuses the first empty segment, or the first one. */
   focus(): void {
     const segments = this.segments();
     const empty = segments.findIndex((s) => s.type !== 'literal' && s.value === null);
     this.focusSegment(empty >= 0 ? empty : segments.findIndex((s) => s.type !== 'literal'));
-  }
-
-  writeValue(value: string | null): void {
-    this.value.set(value || null);
-  }
-
-  registerOnChange(fn: (value: string | null) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.formDisabled.set(disabled);
   }
 
   protected display(segment: NuiSegment, index: number): string {
@@ -283,12 +263,12 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
   protected onFocusout(event: FocusEvent): void {
     if (this.host.contains(event.relatedTarget as Node | null)) return;
     this.commit();
-    this.onTouched();
+    this.touch.emit();
   }
 
   /** A press on the field around the segments goes to the first empty one. */
   protected onPointerdown(event: PointerEvent): void {
-    if (event.target !== this.host || this.off()) return;
+    if (event.target !== this.host || this.disabled()) return;
     event.preventDefault();
     this.focus();
   }
@@ -484,10 +464,7 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
   private update(values: NuiSegmentValues): void {
     this.values.set(values);
     const result = nuiSegmentsResult(this.layout(), values);
-    if (result !== untracked(this.value)) {
-      this.value.set(result);
-      this.onChange(result);
-    }
+    if (result !== untracked(this.value)) this.value.set(result);
   }
 
   /** The next or previous segment that isn't a literal. */
@@ -524,7 +501,6 @@ abstract class NuiSegmentedField implements ControlValueAccessor {
 @Component({
   selector: 'nui-date-field',
   host: { ...HOST, class: 'nui-date-field' },
-  providers: [accessor(() => NuiDateField)],
   template: TEMPLATE,
 })
 export class NuiDateField extends NuiSegmentedField {
@@ -552,7 +528,6 @@ export class NuiDateField extends NuiSegmentedField {
 @Component({
   selector: 'nui-time-field',
   host: { ...HOST, class: 'nui-date-field nui-time-field' },
-  providers: [accessor(() => NuiTimeField)],
   template: TEMPLATE,
 })
 export class NuiTimeField extends NuiSegmentedField {
