@@ -1,4 +1,4 @@
-import { nuiPlace, type NuiPlaceRequest } from './place';
+import { nuiFollow, nuiPlace, type NuiPlaceRequest, nuiVisibleRect } from './place';
 
 const viewport = { width: 1000, height: 800 };
 const floating = { width: 200, height: 300 };
@@ -53,5 +53,50 @@ describe('nuiPlace', () => {
       top: 144,
       left: 80,
     });
+  });
+});
+
+describe('nuiVisibleRect', () => {
+  // As measured on an iPhone (iOS 18.6): the keyboard moved the visual viewport 278 px
+  // down the layout viewport, and the field's bottom is 264 px into what's visible.
+  const offset = { top: 278, left: 0 };
+  const field = { width: 408, height: 47 };
+
+  it('takes the visual offset off client rects measured from the layout viewport', () => {
+    // Chromium and Firefox: a fixed element at top 0 is at client top 0.
+    const rect = { top: 495, left: 16, ...field };
+    expect(nuiVisibleRect(rect, { top: 0, left: 0 }, offset)).toEqual({ ...rect, top: 217 });
+  });
+
+  it('keeps client rects measured from the visual viewport, as WebKit does', () => {
+    // WebKit: a fixed element at top 0 is at client top -278, above what's visible.
+    const rect = { top: 217, left: 16, ...field };
+    expect(nuiVisibleRect(rect, { top: -278, left: 0 }, offset)).toEqual(rect);
+  });
+});
+
+describe('nuiFollow', () => {
+  it('places the floating element under its anchor, and leaves nothing behind when it stops', () => {
+    const anchor = document.createElement('button');
+    anchor.style.cssText = 'position: absolute; top: 120px; left: 40px; width: 160px; height: 32px';
+    const floating = document.createElement('div');
+    floating.popover = 'manual';
+    floating.style.cssText = 'position: fixed; inset: auto; margin: 0; width: 120px; height: 60px';
+    document.body.append(anchor, floating);
+    floating.showPopover();
+    const children = document.body.childElementCount;
+    try {
+      const stop = nuiFollow(anchor, floating);
+      const box = anchor.getBoundingClientRect();
+      expect(parseFloat(floating.style.top)).toBeCloseTo(box.bottom + 4, 0);
+      expect(parseFloat(floating.style.left)).toBeCloseTo(box.left, 0);
+      expect(floating.dataset['side']).toBe('bottom');
+      stop();
+      expect(document.body.childElementCount).toBe(children);
+    } finally {
+      floating.hidePopover();
+      anchor.remove();
+      floating.remove();
+    }
   });
 });
