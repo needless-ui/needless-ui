@@ -7,7 +7,7 @@ import { localeOf, localizePath, type Locale, stripLocale } from './locales';
 import type { Messages } from './messages/types';
 
 /** Each language is its own chunk, so a page downloads only the one it shows. */
-const LOADERS: Record<Locale, () => Promise<{ messages: Messages }>> = {
+export const LOADERS: Record<Locale, () => Promise<{ messages: Messages }>> = {
   en: () => import('./messages/en'),
   'zh-hans': () => import('./messages/zh-hans'),
   'zh-hant': () => import('./messages/zh-hant'),

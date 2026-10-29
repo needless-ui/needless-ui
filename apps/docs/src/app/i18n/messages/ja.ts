@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'スタイルシートは1つ、フレームワークは自由',
-        text: 'コンポーネントはカスケードレイヤーに収めた素の CSS です。現在は Angular、次は React に対応し、素の HTML ならいつでも使えます。',
+        text: 'コンポーネントはカスケードレイヤーに収めた素の CSS です。現在は Angular に対応し、<a href="/guides/react">React</a> では今のところスケジューラーとデータグリッドが使えます。素の HTML ならいつでも使えます。',
       },
       {
         title: 'アプリの CSS が常に優先',
@@ -2530,6 +2530,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React 版スケジューラーとデータグリッド',
+        description:
+          'React 19 と Next.js で Needless UI のスケジューラーとデータグリッドを使う方法。インストール、スタイル、サーバーレンダリング、Angular API との対応を解説します。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'スケジューラーとデータグリッドは、<code>@needless-ui/react</code> の React コンポーネントとしても使えます。機能、キーボード操作、アクセシビリティは Angular 版と同じで、スタイルシートと MIT ライセンスも共通です。ほかのコンポーネントも今後対応します。React 19 が必要で、Next.js App Router と Vite で動作します。',
+          },
+          { kind: 'h2', id: 'install', text: 'インストール' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'スタイルのインポート' },
+          {
+            kind: 'p',
+            html: 'コンポーネント自体にはスタイルが含まれていません。スタイルシートは、アプリの CSS ファイルで一度だけインポートします。',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'レイヤーの扱いは Angular と同じです。<a href="/guides/getting-started#styles">はじめに</a>で説明しているとおり、リセットは <code>nui</code> より前に宣言したレイヤーに入れ、Tailwind CSS を使う場合は <code>nui</code> を Tailwind の base レイヤーとユーティリティの間に置きます。',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'スケジューラー' },
+          {
+            kind: 'p',
+            html: 'コンポーネントごとにエントリーポイントがあります。スケジューラーは渡された <code>events</code> を表示し、ユーザーが予定を動かしたときや新しい予定の時間を選んだときに、コールバックで知らせます。予定を保持するのはアプリ側です。',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'データグリッド' },
+          {
+            kind: 'p',
+            html: '<code>columns</code> はコンポーネントの外で定義します。そうすれば、グリッドがレンダリングのたびに処理をやり直さずに済みます。編集すると新しい行を引数に <code>onRowsChange</code> が呼び出されます。Excel へのエクスポートなどのメソッドは、グリッドの <code>ref</code> から使えます。',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React の流儀に合わせた API' },
+          {
+            kind: 'p',
+            html: 'React コンポーネントは Angular 版と同じ仕様に従っているため、API も React の流儀に置き換えた形で一致しています。すべての props は、<a href="/components/scheduler/api/react">スケジューラー</a>と<a href="/components/grid/api/react">データグリッド</a>の API ページに載っています。',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular の API と、対応する React の API',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'モデル：<code>[(view)]</code>',
+                '状態：<code>view</code> と <code>onViewChange</code>、またはコンポーネントに保持させる <code>defaultView</code>',
+              ],
+              ['出力：<code>(eventClick)</code>', 'コールバック：<code>onEventClick</code>'],
+              [
+                'テンプレート：<code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                '描画する関数：<code>renderEvent</code>',
+              ],
+              [
+                'メソッド：<code>scheduler.next()</code>',
+                '<code>ref</code> のメソッド：<code>ref.current.next()</code>',
+              ],
+              [
+                'ツリーデータ用の <code>children</code>',
+                '<code>getChildren</code>：React では <code>children</code> は要素のために使われます',
+              ],
+              [
+                '<code>locale</code>（デフォルトはアプリの <code>LOCALE_ID</code>）',
+                '<code>locale</code>（デフォルトは <code>en-US</code>）',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'サーバーサイドレンダリング' },
+          {
+            kind: 'p',
+            html: 'どちらのコンポーネントもサーバーでレンダリングでき、ブラウザーでハイドレーションされます。パッケージがこれらをクライアントコンポーネントとして指定しているので、Server Component からはシリアライズできる props を渡してレンダリングでき、<code>nuiSchedulerFromIcs</code> などのヘルパーはサーバーで実行できます。コールバックはブラウザーに渡せません。コールバックを受け取るコンポーネントは、上の2つの例のように、独自のクライアントコンポーネントの中に置きます。',
+          },
+          {
+            kind: 'p',
+            html: 'ユーザーの環境によって変わるものは、ブラウザーで表示されるまで待ちます。具体的には、スケジューラーの現在時刻を示す線と、今日がどの日かです。サーバーでスケジューラーをレンダリングする場合は <code>defaultDate</code> を渡してください。サーバーの「今日」がユーザーの今日と同じとは限らないためです。',
+          },
+        ],
+      },
       theming: {
         title: 'テーマ設定',
         description:
@@ -3239,6 +3316,93 @@ export const messages: Messages = {
           html: 'このポリシーは、新しいホスティング事業者への移行など、サイトに変更があった際に改定されます。下記の日付が現行版を示しています。',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'フレームワーク',
+    // Like components.titles.api: a space after a Latin name, none after a Japanese one.
+    title: (name) => `${name}${/[぀-ヿ㐀-鿿豈-﫿]$/u.test(name) ? '' : ' '}の React API`,
+    kinds: {
+      prop: 'プロップ',
+      state: '状態',
+      callback: 'コールバック',
+      render: 'レンダープロップ',
+    },
+    state:
+      '状態は React のフォーム入力と同じように扱えます。値を渡して <code>on…Change</code> コールバックで更新するか、<code>default…</code> の値を渡してコンポーネントに保持させます。',
+    customization:
+      'カスタマイズ用の props のうち、設定しなかったものは最も近い <code>data-nui-*</code> 属性に従います。詳しくは<a href="/guides/customization">カスタマイズガイド</a>をご覧ください。',
+    items: {
+      scheduler: {
+        overview:
+          'スケジューラーは React コンポーネントとしても使えます。<code>@needless-ui/react/scheduler</code> の <code>NuiScheduler</code> です。このページの例は Angular で書かれています。<a href="/components/scheduler/api/react">React の API</a> と <a href="/guides/react">React ガイド</a>もご覧ください。',
+        apiDescription:
+          'Needless UI のスケジューラーの React API リファレンス。props、制御できる状態、コールバック、レンダープロップ、ref のメソッドを解説します。',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'スケジューラーの <code>ref</code> から使える機能。独自のツールバーで使うページ移動です。',
+              date: '表示する日。キーボードのフォーカスがある日でもあります。サーバーでスケジューラーをレンダリングする場合は <code>defaultDate</code> を渡してください。サーバーの「今日」がユーザーの今日と同じとは限りません。',
+              toolbar: 'ツールバーを表示するか、受け取った情報から独自のツールバーを描画します。',
+              renderEvent: '予定を自分で描画します。予定と、テキスト形式の時刻を受け取ります。',
+              renderResource: 'リソースのヘッダーを自分で描画します。',
+              onEventClick:
+                'クリックされた予定、または Enter キーで開かれた予定を引数に呼び出されます。',
+              onEventChange:
+                '移動またはリサイズの後に、予定の新しい時刻と、変わった場合はリソースを引数に呼び出されます。変更を反映するには <code>events</code> を更新してください。',
+              onSlotSelect: 'グリッド上で選ばれた時間と、そのリソースを引数に呼び出されます。',
+              onRangeChange:
+                '表示される最初の日と最後の日が変わったときに、それらを引数に呼び出されます。その期間の予定の読み込みに使います。',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: '<code>toolbar</code> 関数が受け取るもの。独自のツールバーの描画に使います。',
+            members: {
+              'view, views': '表示中のビューと、切り替えられるビュー。',
+              'setView, previous, next, goToday':
+                'ビューを切り替えるか、前または次のページ、あるいは今日を表示します。',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'データグリッドは React コンポーネントとしても使えます。<code>@needless-ui/react/grid</code> の <code>NuiGrid</code> です。このページの例は Angular で書かれています。<a href="/components/grid/api/react">React の API</a> と <a href="/guides/react">React ガイド</a>もご覧ください。',
+        apiDescription:
+          'Needless UI のデータグリッドの React API リファレンス。props、制御できる状態、コールバック、セル用のレンダープロップ、ref のメソッドを解説します。',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'グリッドの <code>ref</code> から使える機能。エクスポート、印刷、フォーカスです。',
+              expandAll: 'すべてのグループと、子を持つすべての行を開くか、すべて閉じます。',
+              fit: '列の幅を、レンダリングされているセルのうち最も幅の広いものに合わせます。',
+              rows: 'データ。編集すると行が置き換わり、<code>onRowsChange</code> が呼び出されます。次に渡した <code>rows</code> で、編集内容は置き換えられます。',
+              onRowsChange: '編集が確定するたびに、編集後の行を引数に呼び出されます。',
+              groupBy: '行をグループ化する列。外側から順に指定します。',
+              collapsed: '閉じているグループのキー。グループは最初は開いています。',
+              expanded: 'ツリーデータで開いている行のキー。行は最初は閉じています。',
+              details: '詳細を開いている行のキー。',
+              renderEmpty:
+                '行がないときに表示する内容。フィルターで行が隠れたかどうかを受け取ります。',
+              renderDetail:
+                '行の詳細。開くとその行の下に表示されます。グリッドにはトグルの列が加わります。',
+              onRowActivate: 'Enter キーまたはダブルクリックで開かれた行を引数に呼び出されます。',
+              onCellEdit: '編集が確定するたびに、その編集を引数に呼び出されます。',
+              onQueryChange:
+                '並べ替え、フィルター、検索、ページが変わるたびに、それらを引数に呼び出されます。最初にも1回呼び出されます。',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              '1つの列。<a href="/components/grid/api#NuiGridColumn">Angular の列</a>のすべてのプロパティ（必須なのは <code>id</code> と <code>header</code> だけです）と、列を描画する次の2つを受け取ります。',
+            members: {
+              renderCell: '列のセルを自分で描画します。行、その値、テキストを受け取ります。',
+              renderHeader:
+                '列のヘッダーを自分で描画します。列の名前には引き続き <code>header</code> が使われます。',
+            },
+          },
+        },
+      },
     },
   },
 };

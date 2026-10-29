@@ -1,5 +1,6 @@
 import type { Type } from '@angular/core';
-import type { ComponentId } from './ids';
+import type { Messages } from '../i18n/messages/types';
+import type { ComponentId, ReactId } from './ids';
 
 export interface ApiMember {
   name: string;
@@ -40,6 +41,42 @@ export interface ComponentDoc {
   examples: ExampleEntry[];
 }
 
+export interface ReactApiMember {
+  name: string;
+  /** `state`: a value with its `on…Change` callback, or a `default…` the component keeps. */
+  kind: 'prop' | 'state' | 'callback' | 'render' | 'method' | 'property';
+  type: string;
+  default?: string;
+  /** The Angular member whose description it shares, when its name differs. */
+  angular?: string;
+  customization?: Customization;
+}
+
+export interface ReactApiEntry {
+  name: string;
+  /** The Angular entry whose member descriptions its members share, when its name differs. */
+  angular?: string;
+  members: ReactApiMember[];
+}
+
+/**
+ * A component's React twin in `@needless-ui/react`. Its members take the Angular
+ * descriptions where they mean the same; the locale's `react` words hold the rest.
+ */
+export interface ReactDoc {
+  importFile: string;
+  api: ReactApiEntry[];
+}
+
+/** `sort`, `defaultSort` and `onSortChange`: the three names of a piece of React state. */
+export function stateNames(name: string): string[] {
+  const upper = name[0].toUpperCase() + name.slice(1);
+  return [name, `default${upper}`, `on${upper}Change`];
+}
+
+/** An interface or a set of functions that read the same in Angular and React. */
+type SharedEntry = ApiEntry & ReactApiEntry & { members: (ApiMember & ReactApiMember)[] };
+
 const TONE = "'accent' | 'neutral' | 'danger'";
 const SIDE = "'top' | 'bottom' | 'start' | 'end'";
 const ALIGN = "'start' | 'center' | 'end'";
@@ -63,6 +100,10 @@ const customization = (...names: Customization[]): ApiMember[] =>
     type: CUSTOMIZATION_TYPES[name],
     customization: name,
   }));
+
+/** The same, as React props. */
+const reactCustomization = (...names: Customization[]): ReactApiMember[] =>
+  customization(...names).map((member) => ({ ...member, kind: 'prop' }));
 
 /** Where a popover or hovercard goes, relative to its trigger. */
 const placement = (): ApiMember[] => [
@@ -95,6 +136,60 @@ const OPTION_TEMPLATES: ApiEntry[] = [
     members: [{ name: 'nuiOptionText', kind: 'input', type: 'NuiOptionRow<V>' }],
   },
 ];
+
+const SCHEDULER_EVENT: SharedEntry = {
+  name: 'NuiSchedulerEvent',
+  members: [
+    { name: 'id, title', kind: 'property', type: 'string' },
+    { name: 'start, end', kind: 'property', type: 'NuiDateTime | NuiDate' },
+    { name: 'allDay', kind: 'property', type: 'boolean' },
+    {
+      name: 'tone',
+      kind: 'property',
+      type: "'accent' | 'neutral' | 'success' | 'warning' | 'danger'",
+      default: "'accent'",
+    },
+    { name: 'color, class', kind: 'property', type: 'string' },
+    { name: 'resource', kind: 'property', type: 'string | string[]' },
+    { name: 'rrule', kind: 'property', type: 'string' },
+    { name: 'exdate', kind: 'property', type: 'string[]' },
+    { name: 'recurrenceId', kind: 'property', type: 'NuiDateTime | NuiDate' },
+    { name: 'editable', kind: 'property', type: 'boolean' },
+    { name: 'data', kind: 'property', type: 'T' },
+  ],
+};
+
+const SCHEDULER_RESOURCE: SharedEntry = {
+  name: 'NuiSchedulerResource',
+  members: [
+    { name: 'id, title', kind: 'property', type: 'string' },
+    { name: 'tone, color', kind: 'property', type: 'NuiSchedulerTone, string' },
+    { name: 'businessHours', kind: 'property', type: 'NuiSchedulerHours[]' },
+    { name: 'data', kind: 'property', type: 'R' },
+  ],
+};
+
+const SCHEDULER_HELPERS: SharedEntry = {
+  name: 'Helpers',
+  members: [
+    {
+      name: 'nuiSchedulerOccurrences',
+      kind: 'method',
+      type: '(event, first, last) => NuiSchedulerEvent[]',
+    },
+    {
+      name: 'nuiSchedulerRule',
+      kind: 'method',
+      type: '(text: string) => NuiSchedulerRule | null',
+    },
+    { name: 'nuiSchedulerToIcs', kind: 'method', type: '(events, options?) => string' },
+    {
+      name: 'nuiSchedulerFromIcs',
+      kind: 'method',
+      type: '(text, { timeZone? }) => NuiSchedulerEvent[]',
+    },
+  ],
+};
 
 export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
   avatar: {
@@ -1128,36 +1223,8 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
           { name: 'title', kind: 'property', type: 'Signal<string>' },
         ],
       },
-      {
-        name: 'NuiSchedulerEvent',
-        members: [
-          { name: 'id, title', kind: 'property', type: 'string' },
-          { name: 'start, end', kind: 'property', type: 'NuiDateTime | NuiDate' },
-          { name: 'allDay', kind: 'property', type: 'boolean' },
-          {
-            name: 'tone',
-            kind: 'property',
-            type: "'accent' | 'neutral' | 'success' | 'warning' | 'danger'",
-            default: "'accent'",
-          },
-          { name: 'color, class', kind: 'property', type: 'string' },
-          { name: 'resource', kind: 'property', type: 'string | string[]' },
-          { name: 'rrule', kind: 'property', type: 'string' },
-          { name: 'exdate', kind: 'property', type: 'string[]' },
-          { name: 'recurrenceId', kind: 'property', type: 'NuiDateTime | NuiDate' },
-          { name: 'editable', kind: 'property', type: 'boolean' },
-          { name: 'data', kind: 'property', type: 'T' },
-        ],
-      },
-      {
-        name: 'NuiSchedulerResource',
-        members: [
-          { name: 'id, title', kind: 'property', type: 'string' },
-          { name: 'tone, color', kind: 'property', type: 'NuiSchedulerTone, string' },
-          { name: 'businessHours', kind: 'property', type: 'NuiSchedulerHours[]' },
-          { name: 'data', kind: 'property', type: 'R' },
-        ],
-      },
+      SCHEDULER_EVENT,
+      SCHEDULER_RESOURCE,
       {
         name: 'NuiSchedulerEventTemplate',
         selector: 'ng-template[nuiSchedulerEvent]',
@@ -1168,27 +1235,7 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
         selector: 'ng-template[nuiSchedulerResource]',
         members: [],
       },
-      {
-        name: 'Helpers',
-        members: [
-          {
-            name: 'nuiSchedulerOccurrences',
-            kind: 'method',
-            type: '(event, first, last) => NuiSchedulerEvent[]',
-          },
-          {
-            name: 'nuiSchedulerRule',
-            kind: 'method',
-            type: '(text: string) => NuiSchedulerRule | null',
-          },
-          { name: 'nuiSchedulerToIcs', kind: 'method', type: '(events, options?) => string' },
-          {
-            name: 'nuiSchedulerFromIcs',
-            kind: 'method',
-            type: '(text, { timeZone? }) => NuiSchedulerEvent[]',
-          },
-        ],
-      },
+      SCHEDULER_HELPERS,
     ],
     examples: [
       {
@@ -1740,3 +1787,191 @@ export const COMPONENT_DOCS: Record<ComponentId, ComponentDoc> = {
     ],
   },
 };
+
+/** The components that are also in React, as `REACT_IDS` lists them. */
+export const REACT_DOCS: Record<ReactId, ReactDoc> = {
+  scheduler: {
+    importFile: 'snippets/react/import-scheduler.tsx',
+    api: [
+      {
+        name: 'NuiScheduler',
+        members: [
+          { name: 'events', kind: 'prop', type: 'NuiSchedulerEvent<T>[]', default: '[]' },
+          { name: 'resources', kind: 'prop', type: 'NuiSchedulerResource[]', default: '[]' },
+          {
+            name: 'view',
+            kind: 'state',
+            type: "'month' | 'week' | 'day' | 'agenda' | 'timeline'",
+            default: "'week'",
+          },
+          { name: 'views', kind: 'prop', type: 'NuiSchedulerView[]', default: 'all' },
+          {
+            name: 'timelineSpan',
+            kind: 'prop',
+            type: "'day' | 'week' | 'month'",
+            default: "'day'",
+          },
+          { name: 'date', kind: 'state', type: 'NuiDate', default: 'today' },
+          { name: 'slotMinutes', kind: 'prop', type: 'number', default: '30' },
+          { name: 'snapMinutes', kind: 'prop', type: 'number', default: 'slotMinutes' },
+          { name: 'dayStart, dayEnd', kind: 'prop', type: 'number', default: '0, 24' },
+          { name: 'scrollHour', kind: 'prop', type: 'number', default: '8' },
+          { name: 'agendaDays', kind: 'prop', type: 'number', default: '30' },
+          { name: 'businessHours', kind: 'prop', type: 'NuiSchedulerHours[]' },
+          { name: 'weekends', kind: 'prop', type: 'boolean', default: 'true' },
+          { name: 'weekNumbers', kind: 'prop', type: 'boolean', default: 'false' },
+          { name: 'editable', kind: 'prop', type: 'boolean', default: 'false' },
+          { name: 'selectable', kind: 'prop', type: 'boolean', default: 'false' },
+          { name: 'allow', kind: 'prop', type: '(time) => boolean' },
+          {
+            name: 'toolbar',
+            kind: 'prop',
+            type: 'boolean | ((toolbar: NuiSchedulerToolbar) => ReactNode)',
+            default: 'true',
+          },
+          { name: 'firstDay', kind: 'prop', type: '1 … 7' },
+          { name: 'headingLevel', kind: 'prop', type: 'number', default: '2' },
+          { name: 'locale', kind: 'prop', type: 'string', default: "'en-US'" },
+          { name: 'labels', kind: 'prop', type: 'Partial<NuiSchedulerLabels>' },
+          ...reactCustomization('corners', 'radius', 'density'),
+          { name: 'renderEvent', kind: 'render', type: '(event, { time }) => ReactNode' },
+          { name: 'renderResource', kind: 'render', type: '(resource) => ReactNode' },
+          { name: 'onEventClick', kind: 'callback', type: '(event: NuiSchedulerEvent<T>) => void' },
+          {
+            name: 'onEventChange',
+            kind: 'callback',
+            type: '({ event, start, end, resource? }) => void',
+          },
+          {
+            name: 'onSlotSelect',
+            kind: 'callback',
+            type: '({ start, end, allDay, resource? }) => void',
+          },
+          { name: 'onRangeChange', kind: 'callback', type: '({ start, end }) => void' },
+          { name: 'ref', kind: 'prop', type: 'Ref<NuiSchedulerHandle>' },
+          { name: 'previous, next, goToday', kind: 'method', type: '() => void' },
+          { name: 'title', kind: 'property', type: 'string' },
+        ],
+      },
+      {
+        name: 'NuiSchedulerToolbar',
+        angular: 'NuiScheduler',
+        members: [
+          { name: 'title', kind: 'property', type: 'string' },
+          { name: 'view, views', kind: 'property', type: 'NuiSchedulerView, NuiSchedulerView[]' },
+          { name: 'setView, previous, next, goToday', kind: 'method', type: '(view?) => void' },
+        ],
+      },
+      SCHEDULER_EVENT,
+      SCHEDULER_RESOURCE,
+      SCHEDULER_HELPERS,
+    ],
+  },
+  grid: {
+    importFile: 'snippets/react/import-grid.tsx',
+    api: [
+      {
+        name: 'NuiGrid',
+        members: [
+          { name: 'rows', kind: 'prop', type: 'readonly T[]' },
+          { name: 'onRowsChange', kind: 'callback', type: '(rows: readonly T[]) => void' },
+          { name: 'columns', kind: 'prop', type: 'NuiGridColumn<T>[]' },
+          { name: 'rowId', kind: 'prop', type: '(row: T) => unknown', default: 'row.id ?? row' },
+          { name: 'label', kind: 'prop', type: 'string' },
+          {
+            name: 'selection',
+            kind: 'prop',
+            type: "'none' | 'single' | 'multiple'",
+            default: "'none'",
+          },
+          { name: 'selected', kind: 'state', type: 'unknown[]', default: '[]' },
+          { name: 'sort', kind: 'state', type: 'NuiGridSort[]', default: '[]' },
+          { name: 'filters', kind: 'state', type: 'Record<string, NuiGridFilter>', default: '{}' },
+          { name: 'search', kind: 'state', type: 'string', default: "''" },
+          { name: 'pageSize', kind: 'state', type: 'number', default: '0' },
+          { name: 'page', kind: 'state', type: 'number', default: '0' },
+          { name: 'pageSizes', kind: 'prop', type: 'number[]', default: '[10, 25, 50, 100]' },
+          { name: 'virtual', kind: 'prop', type: "boolean | 'auto'", default: "'auto'" },
+          { name: 'height', kind: 'prop', type: 'string' },
+          { name: 'columnState', kind: 'state', type: 'NuiGridColumnState[]', default: '[]' },
+          { name: 'mode', kind: 'prop', type: "'client' | 'server'", default: "'client'" },
+          { name: 'total', kind: 'prop', type: 'number' },
+          { name: 'loading', kind: 'prop', type: 'boolean', default: 'false' },
+          { name: 'locale', kind: 'prop', type: 'string', default: "'en-US'" },
+          { name: 'labels', kind: 'prop', type: 'Partial<NuiGridLabels>' },
+          ...reactCustomization('corners', 'radius', 'density'),
+          { name: 'groupBy', kind: 'prop', type: 'string[]', default: '[]' },
+          { name: 'collapsed', kind: 'state', type: 'string[]', default: '[]' },
+          {
+            name: 'getChildren',
+            kind: 'prop',
+            type: '(row: T) => T[] | undefined',
+            angular: 'children',
+          },
+          { name: 'expanded', kind: 'state', type: 'unknown[]', default: '[]' },
+          { name: 'details', kind: 'state', type: 'unknown[]', default: '[]' },
+          { name: 'totals, flash', kind: 'prop', type: 'boolean', default: 'false' },
+          { name: 'layout', kind: 'prop', type: "'table' | 'list' | 'auto'", default: "'table'" },
+          { name: 'toolbar', kind: 'prop', type: "boolean | 'auto'", default: "'auto'" },
+          { name: 'renderEmpty', kind: 'render', type: '(filtered: boolean) => ReactNode' },
+          { name: 'renderDetail', kind: 'render', type: '(row: T) => ReactNode' },
+          { name: 'onRowActivate', kind: 'callback', type: '(row: T) => void' },
+          { name: 'onCellEdit', kind: 'callback', type: '(edit: NuiGridEdit<T>) => void' },
+          { name: 'onQueryChange', kind: 'callback', type: '(query: NuiGridQuery) => void' },
+          { name: 'ref', kind: 'prop', type: 'Ref<NuiGridHandle>' },
+          { name: 'exportXlsx, print', kind: 'method', type: '(options?) => Blob, () => void' },
+          { name: 'exportCsv', kind: 'method', type: '(options?) => string' },
+          { name: 'expandAll', kind: 'method', type: '(open?: boolean) => void' },
+          { name: 'focusCell', kind: 'method', type: '(row: number, col: number) => void' },
+          { name: 'clearFilters', kind: 'method', type: '() => void' },
+          { name: 'fit', kind: 'method', type: '(id: string) => void' },
+        ],
+      },
+      {
+        // The other properties are Angular's: its summary links them.
+        name: 'NuiGridColumn',
+        members: [
+          {
+            name: 'renderCell',
+            kind: 'render',
+            type: '({ row, value, text, column }) => ReactNode',
+          },
+          { name: 'renderHeader', kind: 'render', type: '(column) => ReactNode' },
+        ],
+      },
+    ],
+  },
+};
+
+/** A React member with its names (state has three) and its description. */
+export type ReactApiRow = ReactApiMember & { names: string[]; description: string };
+
+/** A React entry with its summary and described members. */
+export type ReactApiText = Omit<ReactApiEntry, 'members'> & {
+  summary: string;
+  members: ReactApiRow[];
+};
+
+/**
+ * A React twin's API with its words: each member's own, or else those of the Angular
+ * member that means the same. The API page and llms.txt both read it.
+ */
+export function reactApi(id: ReactId, t: Messages): ReactApiText[] {
+  const angular = t.components.items[id].api;
+  const own = t.react.items[id].api;
+  return REACT_DOCS[id].api.map((entry) => {
+    const shared = angular[entry.angular ?? entry.name]?.members ?? {};
+    const words = own[entry.name];
+    return {
+      ...entry,
+      summary: words?.summary ?? angular[entry.name]?.summary ?? '',
+      members: entry.members.map((member) => ({
+        ...member,
+        names: member.kind === 'state' ? stateNames(member.name) : [member.name],
+        description: member.customization
+          ? t.components.api.customization.members[member.customization]
+          : (words?.members?.[member.name] ?? shared[member.angular ?? member.name] ?? ''),
+      })),
+    };
+  });
+}

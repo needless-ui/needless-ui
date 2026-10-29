@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: '一份样式表，适用任何框架',
-        text: '组件就是放在级联层中的纯 CSS：现在支持 Angular，下一步是 React，纯 HTML 则始终可用。',
+        text: '组件就是放在级联层中的纯 CSS：现在支持 Angular，<a href="/guides/react">React</a> 目前支持日程表和数据表格，纯 HTML 则始终可用。',
       },
       {
         title: '你的 CSS 永远优先',
@@ -2359,6 +2359,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React 日程表与数据表格',
+        description:
+          '在 React 19 和 Next.js 中使用 Needless UI 的日程表和数据表格：安装、导入样式、服务端渲染，以及 Angular API 在 React 中的对应写法。',
+        blocks: [
+          {
+            kind: 'p',
+            html: '日程表和数据表格也有 React 版本，位于 <code>@needless-ui/react</code> 中：功能、键盘操作和无障碍支持都与 Angular 版相同，样式表和 MIT 许可证也一样。其他组件也将陆续推出。它们需要 React 19，可用于 Next.js App Router 和 Vite。',
+          },
+          { kind: 'h2', id: 'install', text: '安装' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: '导入样式' },
+          {
+            kind: 'p',
+            html: '组件本身不带样式。请在应用的一个 CSS 文件中导入一次样式表。',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: '层的用法与 Angular 中相同：重置样式放进一个在 <code>nui</code> 之前声明的层中；使用 Tailwind CSS 时，把 <code>nui</code> 放在 Tailwind 的 base 层和 utilities 层之间，详见<a href="/guides/getting-started#styles">快速开始</a>。',
+          },
+          { kind: 'h2', id: 'scheduler', text: '日程表' },
+          {
+            kind: 'p',
+            html: '每个组件都有独立的入口点。日程表显示你传入的 <code>events</code>，并在用户移动日程或为新日程选择时间时调用你的回调：日程由你自己保存。',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: '数据表格' },
+          {
+            kind: 'p',
+            html: '请在组件外部定义 <code>columns</code>，这样表格就不会在每次渲染时重做一遍。编辑会以新的行调用 <code>onRowsChange</code>，导出 Excel 等方法则在表格的 <code>ref</code> 上。',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React 风格的 API' },
+          {
+            kind: 'p',
+            html: 'React 组件与 Angular 组件遵循相同的规范，因此两者的 API 一一对应，只是换成了 React 的写法。<a href="/components/scheduler/api/react">日程表</a>和<a href="/components/grid/api/react">数据表格</a>的 API 页面列出了所有 prop。',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular API 及其在 React 中的对应',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                '模型：<code>[(view)]</code>',
+                '状态：<code>view</code> 配合 <code>onViewChange</code>，或由组件自行保存的 <code>defaultView</code>',
+              ],
+              ['输出：<code>(eventClick)</code>', '回调：<code>onEventClick</code>'],
+              [
+                '模板：<code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                '负责绘制的函数：<code>renderEvent</code>',
+              ],
+              [
+                '方法：<code>scheduler.next()</code>',
+                '<code>ref</code> 上的方法：<code>ref.current.next()</code>',
+              ],
+              [
+                '用于树形数据的 <code>children</code>',
+                '<code>getChildren</code>：React 把 <code>children</code> 留给元素使用',
+              ],
+              [
+                '<code>locale</code>，默认为应用的 <code>LOCALE_ID</code>',
+                '<code>locale</code>，默认为 <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: '服务端渲染' },
+          {
+            kind: 'p',
+            html: '两个组件都能在服务端渲染，并在浏览器中水合。这个包已把它们标记为客户端组件，因此 Server Component 可以用可序列化的 props 渲染它们，<code>nuiSchedulerFromIcs</code> 等辅助函数也能在服务端运行。回调无法传到浏览器：接收回调的组件要放进你自己的客户端组件中，就像上面的两个示例那样。',
+          },
+          {
+            kind: 'p',
+            html: '取决于用户环境的内容会等到浏览器中才显示：日程表上表示当前时间的线，以及今天是哪一天。由服务端渲染日程表时，请为它设置 <code>defaultDate</code>，因为服务器上的今天未必是用户的今天。',
+          },
+        ],
+      },
       theming: {
         title: '主题定制',
         description:
@@ -3036,6 +3113,80 @@ export const messages: Messages = {
           html: '本政策会随网站的变化而更新，例如网站迁移到新的托管服务商时。下方日期表示当前版本的日期。',
         },
       ],
+    },
+  },
+  react: {
+    framework: '框架',
+    title: (name) => `${name} React API`,
+    kinds: { prop: 'prop', state: '状态', callback: '回调', render: '渲染 prop' },
+    state:
+      '状态的用法与 React 自带的表单输入相同：传入一个值，并在它的 <code>on…Change</code> 回调中更新；或者传入 <code>default…</code> 值，让组件自己保存。',
+    customization:
+      '用于自定义的 prop 如果未设置，会沿用最近的 <code>data-nui-*</code> 属性。详见<a href="/guides/customization">自定义指南</a>。',
+    items: {
+      scheduler: {
+        overview:
+          '日程表也有 React 版本：<code>@needless-ui/react/scheduler</code> 中的 <code>NuiScheduler</code>。这里的示例都用 Angular 编写；请参阅它的 <a href="/components/scheduler/api/react">React API</a> 和 <a href="/guides/react">React 指南</a>。',
+        apiDescription:
+          'Needless UI 日程表的 React API 参考：props、可控制的状态、回调、渲染 prop，以及其 ref 上的方法。',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: '日程表的 <code>ref</code> 能调用的方法：翻页，供自定义的工具栏使用。',
+              date: '显示的日期，也是键盘焦点所在的日期。由服务端渲染日程表时，请传入 <code>defaultDate</code>：服务器上的今天未必是用户的今天。',
+              toolbar: '显示工具栏，或根据收到的信息绘制你自己的工具栏。',
+              renderEvent: '自行绘制日程，参数为日程及其文本形式的时间。',
+              renderResource: '自行绘制资源的表头。',
+              onEventClick: '日程被点击或按 Enter 键打开时调用，参数为该日程。',
+              onEventChange:
+                '移动日程或调整时长后调用，参数为日程的新时间；资源改变时，还包括新的资源。要保留这次修改，请更新 <code>events</code>。',
+              onSlotSelect: '在网格上选择时间后调用，参数为该时间及其资源。',
+              onRangeChange: '显示的第一天和最后一天变化时调用，参数为这两天，便于加载其中的日程。',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: '<code>toolbar</code> 函数收到的参数，用来绘制你自己的工具栏。',
+            members: {
+              'view, views': '当前显示的视图，以及可供切换的视图。',
+              'setView, previous, next, goToday': '切换视图，或显示上一页、下一页或今天。',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          '数据表格也有 React 版本：<code>@needless-ui/react/grid</code> 中的 <code>NuiGrid</code>。这里的示例都用 Angular 编写；请参阅它的 <a href="/components/grid/api/react">React API</a> 和 <a href="/guides/react">React 指南</a>。',
+        apiDescription:
+          'Needless UI 数据表格的 React API 参考：props、可控制的状态、回调、单元格的渲染 prop，以及其 ref 上的方法。',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: '表格的 <code>ref</code> 能调用的方法：导出、打印和焦点。',
+              expandAll: '展开所有分组和所有带子行的行，或全部折叠。',
+              fit: '把列宽调整为已渲染单元格中最宽的那个。',
+              rows: '数据。编辑会替换对应的行并调用 <code>onRowsChange</code>；之后传入的 <code>rows</code> 会取代这些编辑。',
+              onRowsChange: '每次提交编辑后调用，参数为编辑后的行。',
+              groupBy: '用于对行分组的列，从最外层开始。',
+              collapsed: '已折叠分组的 key；分组默认展开。',
+              expanded: '树形数据中已展开行的 key；行默认折叠。',
+              details: '已打开详情的行的 key。',
+              renderEmpty: '没有行时显示的内容；参数会说明这些行是否被筛选条件隐藏。',
+              renderDetail: '行的详情，打开后显示在该行下方。表格会添加一列切换按钮。',
+              onRowActivate: '按 Enter 键或双击打开某行时调用，参数为该行。',
+              onCellEdit: '每次提交编辑时调用，参数为该编辑。',
+              onQueryChange: '排序、筛选、搜索或页码变化时调用，参数为它们；开始时也会调用一次。',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              '一列。接收 <a href="/components/grid/api#NuiGridColumn">Angular 列</a>的所有属性（只有 <code>id</code> 和 <code>header</code> 是必需的），以及用来绘制该列的这两个属性。',
+            members: {
+              renderCell: '自行绘制该列的单元格，参数为行、它的值和文本。',
+              renderHeader: '自行绘制该列的表头；列的名称仍由 <code>header</code> 提供。',
+            },
+          },
+        },
+      },
     },
   },
 };

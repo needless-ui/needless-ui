@@ -1248,6 +1248,14 @@
     color: var(--nui-color-accent-text);
   }
 
+  /* On the overview of a component that's in React too. */
+  .react-note {
+    padding: var(--nui-space-3) var(--nui-space-4);
+    border-inline-start: 3px solid var(--nui-color-accent-solid);
+    border-radius: var(--nui-radius-md);
+    background: var(--nui-color-bg-subtle);
+  }
+
   .doc-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 12rem;

@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'One stylesheet, any framework',
-        text: 'Components are plain CSS in cascade layers: Angular today, React next, plain HTML always.',
+        text: 'Components are plain CSS in cascade layers: Angular today, <a href="/guides/react">React</a> for the scheduler and the data grid so far, plain HTML always.',
       },
       {
         title: 'Your CSS always wins',
@@ -2467,6 +2467,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React scheduler and data grid',
+        description:
+          'Use the Needless UI scheduler and data grid in React 19 and Next.js: install them, import the styles, render on the server and map the API.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'The scheduler and the data grid are React components too, in <code>@needless-ui/react</code>: the same features, keyboard and accessibility as in Angular, the same stylesheet and the same MIT license. The other components are coming. They need React 19, and work with the Next.js App Router and with Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Install' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Import the styles' },
+          {
+            kind: 'p',
+            html: 'The components ship no styles. Import the stylesheet once, from a CSS file of your app.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layers work as in Angular: resets go in a layer before <code>nui</code>, and with Tailwind CSS, <code>nui</code> goes between Tailwind’s base and its utilities, as <a href="/guides/getting-started#styles">getting started</a> shows.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'A scheduler' },
+          {
+            kind: 'p',
+            html: 'Each component has its own entry point. The scheduler shows the <code>events</code> you pass, and calls you back when people move one or choose time for a new one: you keep the events.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'A data grid' },
+          {
+            kind: 'p',
+            html: 'Describe the <code>columns</code> outside the component, so the grid doesn’t redo its work on every render. An edit calls <code>onRowsChange</code> with new rows, and methods such as the Excel export are on the grid’s <code>ref</code>.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'The API in React’s terms' },
+          {
+            kind: 'p',
+            html: 'The React components follow the same specs as the Angular ones, so their APIs match, in React’s terms. The API pages list every prop: the <a href="/components/scheduler/api/react">scheduler’s</a> and the <a href="/components/grid/api/react">data grid’s</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'The Angular API and its React twin',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'A model, <code>[(view)]</code>',
+                'State: <code>view</code> with <code>onViewChange</code>, or <code>defaultView</code> for the component to keep',
+              ],
+              ['An output, <code>(eventClick)</code>', 'A callback, <code>onEventClick</code>'],
+              [
+                'A template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'A function that draws, <code>renderEvent</code>',
+              ],
+              [
+                'A method, <code>scheduler.next()</code>',
+                'A method on the <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, for tree data',
+                '<code>getChildren</code>: React keeps <code>children</code> for elements',
+              ],
+              [
+                '<code>locale</code>, by default the app’s <code>LOCALE_ID</code>',
+                '<code>locale</code>, by default <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Server rendering' },
+          {
+            kind: 'p',
+            html: 'Both components render on the server and hydrate. The package marks them as client components, so a Server Component can render them with props that serialize, and helpers such as <code>nuiSchedulerFromIcs</code> run on the server. Callbacks can’t cross to the browser: a component that takes them goes in a client component of your own, like the two above.',
+          },
+          {
+            kind: 'p',
+            html: 'What depends on the reader waits for the browser: the scheduler’s line for now, and which day is today. Give the scheduler a <code>defaultDate</code> when a server renders it, since the server’s today may not be the reader’s.',
+          },
+        ],
+      },
       theming: {
         title: 'Theming',
         description:
@@ -3182,6 +3259,87 @@ export const messages: Messages = {
           html: 'This policy changes when the site does, for example when it moves to a new host. The date below shows the current version.',
         },
       ],
+    },
+  },
+
+  react: {
+    framework: 'Framework',
+    title: (name) => `${name} API for React`,
+    kinds: { prop: 'Prop', state: 'State', callback: 'Callback', render: 'Render prop' },
+    state:
+      'State works like React’s own inputs: pass a value and update it from its <code>on…Change</code> callback, or pass a <code>default…</code> value and let the component keep it.',
+    customization:
+      'Customization props you leave unset follow the nearest <code>data-nui-*</code> attribute. See the <a href="/guides/customization">customization guide</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'The scheduler is a React component too: <code>NuiScheduler</code>, from <code>@needless-ui/react/scheduler</code>. The examples here are in Angular; see its <a href="/components/scheduler/api/react">React API</a> and the <a href="/guides/react">React guide</a>.',
+        apiDescription:
+          'API reference for the Needless UI scheduler in React: its props, the state you can control, callbacks, render props and the methods on its ref.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'What the scheduler’s <code>ref</code> reaches: paging, for a toolbar of your own.',
+              date: 'The day shown, and where the keyboard is. Pass <code>defaultDate</code> when a server renders the scheduler: its today may not be the reader’s.',
+              toolbar: 'Shows the toolbar, or draws one of your own from what it’s given.',
+              renderEvent: 'Draws events yourself, from the event and its time as text.',
+              renderResource: 'Draws the heads of resources yourself.',
+              onEventClick: 'Called with an event clicked, or opened with Enter.',
+              onEventChange:
+                'Called with an event’s new times after a move or a resize, and its resources when they changed. Update <code>events</code> to keep the change.',
+              onSlotSelect: 'Called with the time chosen on the grid, and its resource.',
+              onRangeChange:
+                'Called with the first and last day shown when they change, to load their events.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: 'What a <code>toolbar</code> function gets, to draw a toolbar of your own.',
+            members: {
+              'view, views': 'The view shown, and the views offered.',
+              'setView, previous, next, goToday':
+                'Switch the view, show the previous or next page, or show today.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'The data grid is a React component too: <code>NuiGrid</code>, from <code>@needless-ui/react/grid</code>. The examples here are in Angular; see its <a href="/components/grid/api/react">React API</a> and the <a href="/guides/react">React guide</a>.',
+        apiDescription:
+          'API reference for the Needless UI data grid in React: its props, the state you can control, callbacks, render props for cells and the methods on its ref.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'What the grid’s <code>ref</code> reaches: exports, printing and focus.',
+              expandAll: 'Opens every group and every row with children, or closes them all.',
+              fit: 'Fits a column to the widest of its rendered cells.',
+              rows: 'The data. An edit replaces its row and calls <code>onRowsChange</code>; the next <code>rows</code> you pass replace the edits.',
+              onRowsChange: 'Called with the rows after each committed edit.',
+              groupBy: 'Columns to group rows by, outermost first.',
+              collapsed: 'Keys of the groups closed; groups start open.',
+              expanded: 'Keys of the rows open in tree data; they start closed.',
+              details: 'Keys of the rows whose details are open.',
+              renderEmpty: 'What shows when there are no rows; it’s told whether filters hid them.',
+              renderDetail:
+                'A row’s details, shown under it when opened. The grid adds a column of toggles.',
+              onRowActivate: 'Called with a row opened with Enter or a double click.',
+              onCellEdit: 'Called with each committed edit.',
+              onQueryChange:
+                'Called with the sort, filters, search and page whenever they change, and once at the start.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'One column. It takes every property of the <a href="/components/grid/api#NuiGridColumn">Angular column</a> (only <code>id</code> and <code>header</code> are required), and these two that draw it.',
+            members: {
+              renderCell:
+                'Draws the column’s cells yourself, from the row, its value and its text.',
+              renderHeader:
+                'Draws the column’s header yourself; <code>header</code> still names it.',
+            },
+          },
+        },
+      },
     },
   },
 };

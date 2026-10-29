@@ -58,7 +58,7 @@ export const messages: Messages = {
       },
       {
         title: 'Siji stylesheet, framework apa wae',
-        text: 'Komponen iku CSS biasa ing cascade layer: Angular saiki, React sabanjure, HTML biasa salawase.',
+        text: 'Komponen iku CSS biasa ing cascade layer: Angular saiki, <a href="/guides/react">React</a> sauntara iki kanggo pangatur jadhwal lan grid data, HTML biasa salawase.',
       },
       {
         title: 'CSS panjenengan tansah menang',
@@ -2533,6 +2533,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Pangatur jadhwal lan grid data kanggo React',
+        description:
+          'Agem pangatur jadhwal lan grid data Needless UI ing React 19 lan Next.js: pasang, impor gaya, render ing server lan bandhingna API-ne.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Pangatur jadhwal lan grid data uga kasedhiya minangka komponen React, ing <code>@needless-ui/react</code>: fitur, keyboard lan aksesibilitas sing padha kaya ing Angular, stylesheet sing padha lan lisensi MIT sing padha. Komponen liyane bakal nyusul. Loro-lorone mbutuhake React 19, lan bisa mlaku karo Next.js App Router lan Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Instalasi' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Impor gaya' },
+          {
+            kind: 'p',
+            html: 'Komponen ora nggawa gaya. Impor stylesheet sepisan, saka salah siji berkas CSS ing aplikasi panjenengan.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layer mlaku kaya ing Angular: reset mlebu ing layer sadurunge <code>nui</code>, lan yen panjenengan ngagem Tailwind CSS, <code>nui</code> ana ing antarane base lan utilitas Tailwind, kaya sing dituduhake ing <a href="/guides/getting-started#styles">cara miwiti</a>.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Pangatur jadhwal' },
+          {
+            kind: 'p',
+            html: 'Saben komponen duwe entry point dhewe. Pangatur jadhwal nampilake <code>events</code> sing panjenengan wenehake, lan ngabari panjenengan nalika pangguna mindhah acara utawa milih wektu kanggo acara anyar: acara-acarane panjenengan dhewe sing nyimpen.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Grid data' },
+          {
+            kind: 'p',
+            html: 'Terangna <code>columns</code> ing njaba komponen, supaya grid ora mbaleni pagaweyane saben render. Suntingan nyeluk <code>onRowsChange</code> kanthi baris anyar, lan metode kayata ekspor Excel ana ing <code>ref</code> grid.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API miturut istilah React' },
+          {
+            kind: 'p',
+            html: 'Komponen React ngetutake spesifikasi sing padha karo komponen Angular, dadi API-ne cocog, miturut istilah React. Kaca API ndhaptar saben prop: kaca <a href="/components/scheduler/api/react">pangatur jadhwal</a> lan kaca <a href="/components/grid/api/react">grid data</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API Angular lan kembarane ing React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Model, <code>[(view)]</code>',
+                'Kahanan: <code>view</code> karo <code>onViewChange</code>, utawa <code>defaultView</code> supaya komponen sing nyimpen',
+              ],
+              ['Output, <code>(eventClick)</code>', 'Callback, <code>onEventClick</code>'],
+              [
+                'Template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Fungsi sing nggambar, <code>renderEvent</code>',
+              ],
+              [
+                'Metode, <code>scheduler.next()</code>',
+                'Metode ing <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, kanggo data wit',
+                '<code>getChildren</code>: React wis nganggo <code>children</code> kanggo elemen',
+              ],
+              [
+                '<code>locale</code>, gawane <code>LOCALE_ID</code> aplikasi',
+                '<code>locale</code>, gawane <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Render ing server' },
+          {
+            kind: 'p',
+            html: 'Loro-lorone komponen di-render ing server lan di-hydrate ing browser. Paket iki menehi tandha minangka client component, dadi Server Component bisa nge-render komponen kasebut nganggo prop sing bisa diserialisasi, lan helper kayata <code>nuiSchedulerFromIcs</code> mlaku ing server. Callback ora bisa nyabrang menyang browser: komponen sing nampa callback kudu ana ing client component gawean panjenengan dhewe, kaya loro conto ing ndhuwur.',
+          },
+          {
+            kind: 'p',
+            html: 'Apa sing gumantung marang sing maca ngenteni browser: garis sing nuduhake wektu saiki ing pangatur jadhwal, lan dina iki dina apa. Wenehana <code>defaultDate</code> marang pangatur jadhwal yen di-render dening server, amarga dina iki miturut server durung mesthi padha karo miturut sing maca.',
+          },
+        ],
+      },
       theming: {
         title: 'Tema',
         description:
@@ -3267,6 +3344,91 @@ export const messages: Messages = {
           html: 'Kawicaksanan iki owah nalika situs owah, contone nalika pindhah menyang hosting anyar. Tanggal ing ngisor iki nuduhake versi sing saiki.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API ${name} kanggo React`,
+    kinds: { prop: 'Prop', state: 'Kahanan', callback: 'Callback', render: 'Render prop' },
+    state:
+      'Kahanan mlaku kaya input React dhewe: wenehana nilai lan anyarana saka callback <code>on…Change</code>-e, utawa wenehana nilai <code>default…</code> lan komponen sing nyimpen.',
+    customization:
+      'Prop kustomisasi sing ora panjenengan setel bakal ngetutake attribute <code>data-nui-*</code> sing paling cedhak. Pirsani <a href="/guides/customization">pandhuan kustomisasi</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'Pangatur jadhwal uga kasedhiya minangka komponen React: <code>NuiScheduler</code>, saka <code>@needless-ui/react/scheduler</code>. Conto ing kene nganggo Angular; pirsani <a href="/components/scheduler/api/react">API React-e</a> lan <a href="/guides/react">pandhuan React</a>.',
+        apiDescription:
+          'Referensi API pangatur jadhwal Needless UI ing React: prop, kahanan sing bisa panjenengan kendhaleni, callback, render prop lan metode ing ref-e.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Apa sing bisa digayuh liwat <code>ref</code> pangatur jadhwal: ganti kaca, kanggo toolbar gawean panjenengan dhewe.',
+              date: 'Dina sing ditampilake, lan posisi keyboard. Wenehana <code>defaultDate</code> yen server sing nge-render pangatur jadhwal: dina iki miturut server durung mesthi padha karo miturut sing maca.',
+              toolbar:
+                'Nampilake toolbar, utawa nggambar toolbar gawean panjenengan dhewe saka apa sing ditampa.',
+              renderEvent:
+                'Panjenengan nggambar acara dhewe, saka acara lan wektune minangka teks.',
+              renderResource: 'Panjenengan nggambar header sumber daya dhewe.',
+              onEventClick: 'Diceluk karo acara sing diklik, utawa dibukak nganggo Enter.',
+              onEventChange:
+                'Diceluk karo wektu anyar acara sawise dipindhah utawa diowahi ukurane, lan sumber dayane yen owah. Anyarana <code>events</code> supaya owah-owahane tetep.',
+              onSlotSelect: 'Diceluk karo wektu sing dipilih ing grid, lan sumber dayane.',
+              onRangeChange:
+                'Diceluk karo dina kapisan lan pungkasan sing ditampilake nalika owah, kanggo ngemot acara-acarane.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Apa sing ditampa fungsi <code>toolbar</code>, kanggo nggambar toolbar gawean panjenengan dhewe.',
+            members: {
+              'view, views': 'Tampilan sing katon, lan tampilan sing kasedhiya.',
+              'setView, previous, next, goToday':
+                'Ngganti tampilan, nampilake kaca sadurunge utawa sabanjure, utawa dina iki.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'Grid data uga kasedhiya minangka komponen React: <code>NuiGrid</code>, saka <code>@needless-ui/react/grid</code>. Conto ing kene nganggo Angular; pirsani <a href="/components/grid/api/react">API React-e</a> lan <a href="/guides/react">pandhuan React</a>.',
+        apiDescription:
+          'Referensi API grid data Needless UI ing React: prop, kahanan sing bisa panjenengan kendhaleni, callback, render prop kanggo sel lan metode ing ref-e.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Apa sing bisa digayuh liwat <code>ref</code> grid: ekspor, nyithak lan fokus.',
+              expandAll: 'Mbukak saben klompok lan saben baris sing duwe anak, utawa nutup kabeh.',
+              fit: 'Nyocogake ambane kolom karo sel paling amba sing wis digambar.',
+              rows: 'Data. Suntingan ngganti barise lan nyeluk <code>onRowsChange</code>; <code>rows</code> sabanjure sing panjenengan wenehake bakal ngganti suntingan kasebut.',
+              onRowsChange: 'Diceluk karo baris-baris sawise saben suntingan sing wis ditetepake.',
+              groupBy: 'Kolom kanggo nglompokake baris, sing paling njaba dhisik.',
+              collapsed: 'Kunci klompok sing ditutup; klompok wiwitane kabukak.',
+              expanded: 'Kunci baris sing kabukak ing data wit; wiwitane ditutup.',
+              details: 'Kunci baris sing rinciane kabukak.',
+              renderEmpty:
+                'Apa sing katon nalika ora ana baris; dikabari apa baris-baris didhelikake saringan.',
+              renderDetail:
+                'Rincian sawijining baris, katon ing sangisore nalika dibukak. Grid nambahake kolom isi toggle.',
+              onRowActivate:
+                'Diceluk karo baris sing dibukak nganggo Enter utawa klik kaping pindho.',
+              onCellEdit: 'Diceluk karo saben suntingan sing wis ditetepake.',
+              onQueryChange:
+                'Diceluk karo urutan, saringan, panelusuran lan kaca saben ana owah-owahan, lan sepisan ing wiwitan.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Siji kolom. Nampa kabeh properti <a href="/components/grid/api#NuiGridColumn">kolom Angular</a> (mung <code>id</code> lan <code>header</code> sing wajib), uga rong properti iki sing nggambar kolom kasebut.',
+            members: {
+              renderCell:
+                'Panjenengan nggambar sel-sel kolom dhewe, saka baris, nilaine lan teks-e.',
+              renderHeader:
+                'Panjenengan nggambar header kolom dhewe; jenenge tetep saka <code>header</code>.',
+            },
+          },
+        },
+      },
     },
   },
 };

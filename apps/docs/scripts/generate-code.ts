@@ -35,6 +35,7 @@ const ROOTS = [
 ];
 const LANGUAGES: Record<string, string> = {
   '.ts': 'angular-ts',
+  '.tsx': 'tsx',
   '.html': 'angular-html',
   '.css': 'css',
   '.sh': 'shellscript',

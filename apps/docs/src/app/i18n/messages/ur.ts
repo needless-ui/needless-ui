@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'ایک اسٹائل شیٹ، ہر فریم ورک کے لیے',
-        text: 'کمپوننٹس cascade layers کے اندر سادہ CSS ہیں: آج Angular، آگے React، اور سادہ HTML ہمیشہ۔',
+        text: 'کمپوننٹس cascade layers کے اندر سادہ CSS ہیں: آج Angular، فی الحال شیڈولر اور ڈیٹا گرڈ کے لیے <a href="/guides/react">React</a>، اور سادہ HTML ہمیشہ۔',
       },
       {
         title: 'آپ کا CSS ہمیشہ غالب رہتا ہے',
@@ -2510,6 +2510,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React کے لیے شیڈولر اور ڈیٹا گرڈ',
+        description:
+          'Needless UI کا شیڈولر اور ڈیٹا گرڈ React 19 اور Next.js میں استعمال کریں: انسٹالیشن، اسٹائلز کی امپورٹ، سرور رینڈرنگ اور Angular سے API کا موازنہ۔',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'شیڈولر اور ڈیٹا گرڈ React کمپوننٹس کے طور پر بھی موجود ہیں، <code>@needless-ui/react</code> میں: وہی فیچرز، وہی کی بورڈ سپورٹ اور وہی رسائی جو Angular میں ہے، وہی اسٹائل شیٹ اور وہی MIT لائسنس۔ باقی کمپوننٹس آ رہے ہیں۔ انہیں React 19 درکار ہے، اور یہ Next.js App Router اور Vite دونوں کے ساتھ کام کرتے ہیں۔',
+          },
+          { kind: 'h2', id: 'install', text: 'انسٹالیشن' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'اسٹائلز امپورٹ کریں' },
+          {
+            kind: 'p',
+            html: 'کمپوننٹس اپنے ساتھ کوئی اسٹائل نہیں لاتے۔ اپنی ایپ کی کسی CSS فائل سے اسٹائل شیٹ ایک بار امپورٹ کریں۔',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'لیئرز Angular کی طرح کام کرتی ہیں: ری سیٹس <code>nui</code> سے پہلے کی لیئر میں جاتے ہیں، اور Tailwind CSS کے ساتھ <code>nui</code> کو Tailwind کی base لیئر اور اس کی یوٹیلٹیز کے درمیان رکھا جاتا ہے، جیسا کہ <a href="/guides/getting-started#styles">آغاز</a> میں دکھایا گیا ہے۔',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'شیڈولر' },
+          {
+            kind: 'p',
+            html: 'ہر کمپوننٹ کا اپنا انٹری پوائنٹ ہے۔ شیڈولر وہ <code>events</code> دکھاتا ہے جو آپ پاس کرتے ہیں، اور جب لوگ کوئی ایونٹ منتقل کریں یا نئے ایونٹ کے لیے وقت چنیں تو آپ کو بتاتا ہے: ایونٹس آپ ہی کے پاس رہتے ہیں۔',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'ڈیٹا گرڈ' },
+          {
+            kind: 'p',
+            html: '<code>columns</code> کو کمپوننٹ سے باہر بیان کریں، تاکہ گرڈ ہر رینڈر پر اپنا کام دوبارہ نہ کرے۔ ہر ترمیم نئی قطاروں کے ساتھ <code>onRowsChange</code> کو کال کرتی ہے، اور Excel ایکسپورٹ جیسے میتھڈز گرڈ کے <code>ref</code> پر ہیں۔',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React کی اصطلاحات میں API' },
+          {
+            kind: 'p',
+            html: 'React کمپوننٹس انہی اسپیکس پر چلتے ہیں جن پر Angular والے، اس لیے ان کے API ایک جیسے ہیں، بس React کی اصطلاحات میں۔ API صفحات ہر پراپ کی فہرست دیتے ہیں: <a href="/components/scheduler/api/react">شیڈولر کا صفحہ</a> اور <a href="/components/grid/api/react">ڈیٹا گرڈ کا صفحہ</a>۔',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular کا API اور React میں اس کا ہم منصب',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'ایک ماڈل، <code>[(view)]</code>',
+                'اسٹیٹ: <code>view</code> کے ساتھ <code>onViewChange</code>، یا <code>defaultView</code> تاکہ کمپوننٹ اسے خود رکھے',
+              ],
+              ['ایک آؤٹ پٹ، <code>(eventClick)</code>', 'ایک کال بیک، <code>onEventClick</code>'],
+              [
+                'ایک ٹیمپلیٹ، <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'بنانے والا فنکشن، <code>renderEvent</code>',
+              ],
+              [
+                'ایک میتھڈ، <code>scheduler.next()</code>',
+                '<code>ref</code> پر ایک میتھڈ، <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>، ٹری ڈیٹا کے لیے',
+                '<code>getChildren</code>: React میں <code>children</code> ایلیمنٹس کے لیے مخصوص ہے',
+              ],
+              [
+                '<code>locale</code>، ڈیفالٹ طور پر ایپ کا <code>LOCALE_ID</code>',
+                '<code>locale</code>، ڈیفالٹ طور پر <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'سرور رینڈرنگ' },
+          {
+            kind: 'p',
+            html: 'دونوں کمپوننٹس سرور پر رینڈر ہوتے ہیں اور پھر براؤزر میں ہائیڈریٹ ہوتے ہیں۔ پیکیج انہیں کلائنٹ کمپوننٹس کے طور پر نشان زد کرتا ہے، اس لیے کوئی Server Component انہیں ایسے پراپس کے ساتھ رینڈر کر سکتا ہے جو سیریلائز ہو سکیں، اور <code>nuiSchedulerFromIcs</code> جیسے مددگار فنکشنز سرور پر چلتے ہیں۔ کال بیکس براؤزر تک نہیں جا سکتے: جو کمپوننٹ انہیں لیتا ہے وہ آپ کے اپنے کلائنٹ کمپوننٹ میں جاتا ہے، جیسے اوپر والے دونوں۔',
+          },
+          {
+            kind: 'p',
+            html: 'جو کچھ پڑھنے والے پر منحصر ہے وہ براؤزر کا انتظار کرتا ہے: شیڈولر میں موجودہ وقت کی لکیر، اور یہ کہ آج کون سا دن ہے۔ جب سرور شیڈولر رینڈر کرے تو اسے <code>defaultDate</code> دیں، کیونکہ ضروری نہیں کہ سرور کا “آج” پڑھنے والے کا بھی “آج” ہو۔',
+          },
+        ],
+      },
       theming: {
         title: 'تھیمنگ',
         description:
@@ -3229,6 +3306,87 @@ export const messages: Messages = {
           html: 'جب ویب سائٹ بدلتی ہے تو یہ پالیسی بھی بدلتی ہے، مثلاً جب ویب سائٹ کسی نئے ہوسٹ پر منتقل ہو۔ نیچے دی گئی تاریخ موجودہ ورژن کو ظاہر کرتی ہے۔',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'فریم ورک',
+    title: (name) => `React کے لیے ${name} کا API ریفرنس`,
+    kinds: { prop: 'پراپ', state: 'اسٹیٹ', callback: 'کال بیک', render: 'رینڈر پراپ' },
+    state:
+      'اسٹیٹ React کے اپنے ان پٹ فیلڈز کی طرح کام کرتی ہے: ویلیو پاس کریں اور اسے اس کے <code>on…Change</code> کال بیک سے اپ ڈیٹ کریں، یا <code>default…</code> ویلیو پاس کریں اور اسے کمپوننٹ کے پاس رہنے دیں۔',
+    customization:
+      'کسٹمائزیشن کے جو پراپس آپ سیٹ نہ کریں، وہ قریب ترین <code>data-nui-*</code> ایٹریبیوٹ کی پیروی کرتے ہیں۔ <a href="/guides/customization">کسٹمائزیشن گائیڈ</a> دیکھیں۔',
+    items: {
+      scheduler: {
+        overview:
+          'شیڈولر ایک React کمپوننٹ بھی ہے: <code>@needless-ui/react/scheduler</code> سے <code>NuiScheduler</code>۔ یہاں کی مثالیں Angular میں ہیں؛ اس کا <a href="/components/scheduler/api/react">React API</a> اور <a href="/guides/react">React گائیڈ</a> دیکھیں۔',
+        apiDescription:
+          'React میں Needless UI شیڈولر کا API ریفرنس: اس کے پراپس، وہ اسٹیٹ جسے آپ کنٹرول کر سکتے ہیں، کال بیکس، رینڈر پراپس اور اس کے ref کے میتھڈز۔',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'شیڈولر کا <code>ref</code> کن چیزوں تک پہنچتا ہے: صفحے بدلنا، آپ کے اپنے ٹول بار کے لیے۔',
+              date: 'دکھایا گیا دن، اور جہاں کی بورڈ فوکس ہے۔ جب سرور شیڈولر رینڈر کرے تو <code>defaultDate</code> پاس کریں: ضروری نہیں کہ سرور کا “آج” پڑھنے والے کا بھی “آج” ہو۔',
+              toolbar:
+                'ٹول بار دکھاتا ہے، یا جو کچھ اسے ملتا ہے اس سے آپ کا اپنا ٹول بار بناتا ہے۔',
+              renderEvent: 'ایونٹس خود بنائیں، ایونٹ اور متن کی صورت میں اس کے وقت سے۔',
+              renderResource: 'ریسورسز کے ہیڈر خود بنائیں۔',
+              onEventClick: 'کلک کیے گئے، یا Enter سے کھولے گئے ایونٹ کے ساتھ کال ہوتا ہے۔',
+              onEventChange:
+                'منتقل یا ری سائز ہونے کے بعد ایونٹ کے نئے اوقات کے ساتھ کال ہوتا ہے، اور اس کے ریسورسز کے ساتھ بھی، اگر وہ بدلے ہوں۔ تبدیلی برقرار رکھنے کے لیے <code>events</code> اپ ڈیٹ کریں۔',
+              onSlotSelect: 'گرڈ پر چنے گئے وقت اور اس کے ریسورس کے ساتھ کال ہوتا ہے۔',
+              onRangeChange:
+                'دکھائے گئے پہلے اور آخری دن کے ساتھ، ان کے بدلنے پر کال ہوتا ہے، تاکہ آپ ان کے ایونٹس لوڈ کر سکیں۔',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: '<code>toolbar</code> فنکشن کو کیا ملتا ہے، تاکہ آپ اپنا ٹول بار بنا سکیں۔',
+            members: {
+              'view, views': 'دکھایا جانے والا منظر، اور پیش کیے گئے منظر۔',
+              'setView, previous, next, goToday':
+                'منظر بدلتے ہیں، پچھلا یا اگلا صفحہ دکھاتے ہیں، یا آج کا دن۔',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'ڈیٹا گرڈ ایک React کمپوننٹ بھی ہے: <code>@needless-ui/react/grid</code> سے <code>NuiGrid</code>۔ یہاں کی مثالیں Angular میں ہیں؛ اس کا <a href="/components/grid/api/react">React API</a> اور <a href="/guides/react">React گائیڈ</a> دیکھیں۔',
+        apiDescription:
+          'React میں Needless UI ڈیٹا گرڈ کا API ریفرنس: اس کے پراپس، وہ اسٹیٹ جسے آپ کنٹرول کر سکتے ہیں، کال بیکس، سیلز کے رینڈر پراپس اور اس کے ref کے میتھڈز۔',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'گرڈ کا <code>ref</code> کن چیزوں تک پہنچتا ہے: ایکسپورٹس، پرنٹنگ اور فوکس۔',
+              expandAll: 'ہر گروپ اور چائلڈ قطاروں والی ہر قطار کھولتا ہے، یا سب کو بند کرتا ہے۔',
+              fit: 'کالم کو اس کے رینڈر شدہ سیلز میں سب سے چوڑے سیل کے مطابق فٹ کرتا ہے۔',
+              rows: 'ڈیٹا۔ ترمیم اپنی قطار کو نئی قطار سے بدل دیتی ہے اور <code>onRowsChange</code> کو کال کرتی ہے؛ آپ اگلی بار جو <code>rows</code> پاس کریں، وہ ترامیم کی جگہ لے لیتی ہیں۔',
+              onRowsChange: 'ہر مکمل ترمیم کے بعد قطاروں کے ساتھ کال ہوتا ہے۔',
+              groupBy: 'وہ کالم جن کے لحاظ سے قطاریں گروپ ہوتی ہیں، سب سے بیرونی پہلے۔',
+              collapsed: 'بند گروپس کی کلیدیں؛ گروپس شروع میں کھلے ہوتے ہیں۔',
+              expanded: 'ٹری ڈیٹا میں کھلی قطاروں کی کلیدیں؛ قطاریں شروع میں بند ہوتی ہیں۔',
+              details: 'ان قطاروں کی کلیدیں جن کی تفصیلات کھلی ہیں۔',
+              renderEmpty:
+                'قطاریں نہ ہوں تو جو دکھتا ہے؛ اسے بتایا جاتا ہے کہ کیا فلٹرز نے انہیں چھپایا۔',
+              renderDetail:
+                'قطار کی تفصیلات، جو کھولنے پر اس کے نیچے دکھتی ہیں۔ گرڈ ٹوگلز کا ایک کالم شامل کرتا ہے۔',
+              onRowActivate: 'Enter یا ڈبل کلک سے کھولی گئی قطار کے ساتھ کال ہوتا ہے۔',
+              onCellEdit: 'ہر مکمل ترمیم کے ساتھ کال ہوتا ہے۔',
+              onQueryChange:
+                'سارٹ، فلٹرز، تلاش اور صفحے کے ساتھ کال ہوتا ہے، جب بھی یہ بدلیں، اور شروع میں ایک بار۔',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'ایک کالم۔ یہ <a href="/components/grid/api#NuiGridColumn">Angular کالم</a> کی ہر پراپرٹی لیتا ہے (صرف <code>id</code> اور <code>header</code> لازمی ہیں)، اور یہ دو بھی، جو اسے بناتی ہیں۔',
+            members: {
+              renderCell: 'کالم کے سیلز خود بنائیں، قطار، اس کی ویلیو اور اس کے متن سے۔',
+              renderHeader:
+                'کالم کا ہیڈر خود بنائیں؛ اس کا نام اب بھی <code>header</code> ہی دیتا ہے۔',
+            },
+          },
+        },
+      },
     },
   },
 };

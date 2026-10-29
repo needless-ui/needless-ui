@@ -59,7 +59,7 @@ export const messages: Messages = {
       },
       {
         title: 'Une feuille de style pour tous les frameworks',
-        text: 'Les composants sont du CSS pur, rangé dans des couches de cascade : Angular aujourd’hui, React ensuite et HTML simple, toujours.',
+        text: 'Les composants sont du CSS pur, rangé dans des couches de cascade : Angular aujourd’hui, <a href="/guides/react">React</a> pour le planificateur et la grille de données pour l’instant, et HTML simple, toujours.',
       },
       {
         title: 'Votre CSS a toujours le dernier mot',
@@ -2601,6 +2601,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Planificateur et grille de données pour React',
+        description:
+          'Le planificateur et la grille de données Needless UI dans React 19 et Next.js : installation, styles, rendu côté serveur et correspondances avec l’API Angular.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Le planificateur et la grille de données sont aussi des composants React, dans <code>@needless-ui/react</code> : mêmes fonctionnalités, même comportement au clavier et même accessibilité qu’en Angular, même feuille de style et même licence MIT. Les autres composants suivront. Les deux nécessitent React 19 et fonctionnent avec le Next.js App Router et avec Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Installation' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Importer les styles' },
+          {
+            kind: 'p',
+            html: 'Les composants ne livrent aucun style. Importez la feuille de style une seule fois, depuis un fichier CSS de votre application.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Les couches fonctionnent comme en Angular : les resets vont dans une couche avant <code>nui</code> et, avec Tailwind CSS, <code>nui</code> se place entre la base de Tailwind et ses utilitaires, comme le montre le guide <a href="/guides/getting-started#styles">Premiers pas</a>.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Un planificateur' },
+          {
+            kind: 'p',
+            html: 'Chaque composant a son propre point d’entrée. Le planificateur affiche les <code>events</code> que vous lui passez et vous prévient quand quelqu’un en déplace un ou choisit une plage horaire pour en créer un : c’est vous qui gardez les événements.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Une grille de données' },
+          {
+            kind: 'p',
+            html: 'Décrivez les <code>columns</code> en dehors du composant, pour que la grille ne refasse pas son travail à chaque rendu. Une modification appelle <code>onRowsChange</code> avec les nouvelles lignes, et les méthodes comme l’export Excel se trouvent sur la <code>ref</code> de la grille.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'L’API à la manière de React' },
+          {
+            kind: 'p',
+            html: 'Les composants React suivent les mêmes spécifications que les composants Angular : leurs API se correspondent, à la manière de React. Les pages d’API listent toutes les props : celles du <a href="/components/scheduler/api/react">planificateur</a> et celles de la <a href="/components/grid/api/react">grille de données</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'L’API Angular et son équivalent React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Un modèle, <code>[(view)]</code>',
+                'Un état : <code>view</code> avec <code>onViewChange</code>, ou <code>defaultView</code> pour que le composant le garde',
+              ],
+              ['Un output, <code>(eventClick)</code>', 'Un callback, <code>onEventClick</code>'],
+              [
+                'Un template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Une fonction qui dessine, <code>renderEvent</code>',
+              ],
+              [
+                'Une méthode, <code>scheduler.next()</code>',
+                'Une méthode sur la <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, pour les données arborescentes',
+                '<code>getChildren</code> : React réserve <code>children</code> aux éléments',
+              ],
+              [
+                '<code>locale</code>, par défaut le <code>LOCALE_ID</code> de l’application',
+                '<code>locale</code>, par défaut <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Rendu côté serveur' },
+          {
+            kind: 'p',
+            html: 'Les deux composants sont rendus sur le serveur, puis hydratés dans le navigateur. Le paquet les marque comme composants client : un Server Component peut donc les afficher avec des props sérialisables, et des fonctions utilitaires comme <code>nuiSchedulerFromIcs</code> s’exécutent sur le serveur. Les callbacks ne peuvent pas passer au navigateur : un composant qui en reçoit va dans votre propre composant client, comme les deux ci-dessus.',
+          },
+          {
+            kind: 'p',
+            html: 'Ce qui dépend du lecteur attend le navigateur : la ligne de l’heure actuelle du planificateur, et la date du jour. Donnez au planificateur une <code>defaultDate</code> quand son rendu se fait sur un serveur, car la date du jour sur le serveur n’est pas forcément celle du lecteur.',
+          },
+        ],
+      },
       theming: {
         title: 'Thèmes',
         description:
@@ -3345,6 +3422,93 @@ export const messages: Messages = {
           html: 'Cette politique évolue avec le site, par exemple lors d’un changement d’hébergeur. La date ci-dessous indique la version en vigueur.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API du composant ${name} pour React`,
+    kinds: { prop: 'Prop', state: 'État', callback: 'Callback', render: 'Render prop' },
+    state:
+      'L’état fonctionne comme pour les champs de formulaire de React : passez une valeur et mettez-la à jour depuis son callback <code>on…Change</code>, ou passez une valeur <code>default…</code> et laissez le composant la garder.',
+    customization:
+      'Les props de personnalisation que vous ne définissez pas suivent l’attribut <code>data-nui-*</code> le plus proche. Consultez le <a href="/guides/customization">guide de personnalisation</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'Le planificateur est aussi un composant React : <code>NuiScheduler</code>, de <code>@needless-ui/react/scheduler</code>. Les exemples de cette page sont en Angular ; consultez son <a href="/components/scheduler/api/react">API React</a> et le <a href="/guides/react">guide React</a>.',
+        apiDescription:
+          'Référence de l’API du planificateur Needless UI pour React : props, état que vous pouvez contrôler, callbacks, render props et méthodes de sa ref.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Ce qu’expose la <code>ref</code> du planificateur : la navigation entre les pages, pour votre propre barre d’outils.',
+              date: 'Le jour affiché, où se trouve aussi le focus clavier. Passez <code>defaultDate</code> quand le rendu du planificateur se fait sur un serveur : la date du jour sur le serveur n’est pas forcément celle du lecteur.',
+              toolbar:
+                'Affiche la barre d’outils ; une fonction dessine la vôtre à partir de ce qu’elle reçoit.',
+              renderEvent:
+                'Dessinez vous-même les événements, à partir de l’événement et de son horaire sous forme de texte.',
+              renderResource: 'Dessinez vous-même les en-têtes des ressources.',
+              onEventClick: 'Appelé avec l’événement cliqué, ou ouvert avec Entrée.',
+              onEventChange:
+                'Appelé avec les nouveaux horaires d’un événement après un déplacement ou un redimensionnement, et ses ressources quand elles ont changé. Mettez à jour <code>events</code> pour conserver le changement.',
+              onSlotSelect: 'Appelé avec la plage horaire choisie sur la grille, et sa ressource.',
+              onRangeChange:
+                'Appelé avec le premier et le dernier jour affichés quand ils changent, pour charger leurs événements.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Ce que reçoit une fonction <code>toolbar</code>, pour dessiner votre propre barre d’outils.',
+            members: {
+              'view, views': 'La vue affichée, et les vues proposées.',
+              'setView, previous, next, goToday':
+                'Changent de vue, ou affichent la page précédente ou suivante, ou aujourd’hui.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'La grille de données est aussi un composant React : <code>NuiGrid</code>, de <code>@needless-ui/react/grid</code>. Les exemples de cette page sont en Angular ; consultez son <a href="/components/grid/api/react">API React</a> et le <a href="/guides/react">guide React</a>.',
+        apiDescription:
+          'Référence de l’API de la grille de données Needless UI pour React : props, état contrôlable, callbacks, render props de cellules et méthodes de sa ref.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Ce qu’expose la <code>ref</code> de la grille : exports, impression et focus.',
+              expandAll:
+                'Ouvre chaque groupe et chaque ligne qui a des enfants, ou les ferme tous.',
+              fit: 'Ajuste une colonne à la plus large de ses cellules rendues.',
+              rows: 'Les données. Une modification remplace sa ligne et appelle <code>onRowsChange</code> ; les prochaines <code>rows</code> que vous passez remplacent les modifications.',
+              onRowsChange: 'Appelé avec les lignes après chaque modification validée.',
+              groupBy:
+                'Les colonnes selon lesquelles regrouper les lignes, la plus externe d’abord.',
+              collapsed: 'Les clés des groupes fermés ; au départ, les groupes sont ouverts.',
+              expanded:
+                'Les clés des lignes ouvertes dans les données arborescentes ; au départ, elles sont fermées.',
+              details: 'Les clés des lignes dont les détails sont ouverts.',
+              renderEmpty:
+                'Ce qui s’affiche quand il n’y a aucune ligne ; on lui indique si des filtres les ont masquées.',
+              renderDetail:
+                'Les détails d’une ligne, affichés dessous quand elle est ouverte. La grille ajoute une colonne de boutons bascules.',
+              onRowActivate: 'Appelé avec une ligne ouverte avec Entrée ou un double clic.',
+              onCellEdit: 'Appelé avec chaque modification validée.',
+              onQueryChange:
+                'Appelé avec le tri, les filtres, la recherche et la page à chaque changement, et une fois au départ.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Une colonne. Elle accepte toutes les propriétés de la <a href="/components/grid/api#NuiGridColumn">colonne Angular</a> (seuls <code>id</code> et <code>header</code> sont obligatoires), ainsi que ces deux-ci, qui la dessinent.',
+            members: {
+              renderCell:
+                'Dessinez vous-même les cellules de la colonne, à partir de la ligne, de sa valeur et de son texte.',
+              renderHeader:
+                'Dessinez vous-même l’en-tête de la colonne ; <code>header</code> continue de la nommer.',
+            },
+          },
+        },
+      },
     },
   },
 };

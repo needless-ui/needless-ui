@@ -58,7 +58,7 @@ export const messages: Messages = {
       },
       {
         title: 'Satu stylesheet, framework apa pun',
-        text: 'Komponennya berupa CSS biasa dalam cascade layer: Angular hari ini, React berikutnya, dan HTML biasa kapan saja.',
+        text: 'Komponennya berupa CSS biasa dalam cascade layer: Angular hari ini, <a href="/guides/react">React</a> untuk penjadwal dan data grid sejauh ini, dan HTML biasa kapan saja.',
       },
       {
         title: 'CSS Anda selalu menang',
@@ -2548,6 +2548,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Penjadwal dan data grid untuk React',
+        description:
+          'Gunakan penjadwal dan data grid Needless UI di React 19 dan Next.js: instalasi, impor gaya, rendering di server, dan padanan API-nya di React.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Penjadwal dan data grid juga tersedia sebagai komponen React, di <code>@needless-ui/react</code>: fitur, keyboard, dan aksesibilitas yang sama seperti di Angular, stylesheet yang sama, dan lisensi MIT yang sama. Komponen lainnya menyusul. Keduanya memerlukan React 19, dan bekerja dengan Next.js App Router maupun Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Instalasi' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Impor gaya' },
+          {
+            kind: 'p',
+            html: 'Komponennya tidak membawa gaya sendiri. Impor stylesheet sekali saja, dari salah satu file CSS aplikasi Anda.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layer bekerja seperti di Angular: reset diletakkan di layer sebelum <code>nui</code>, dan dengan Tailwind CSS, <code>nui</code> berada di antara layer base Tailwind dan utilitasnya, seperti yang ditunjukkan di <a href="/guides/getting-started#styles">Memulai</a>.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Penjadwal' },
+          {
+            kind: 'p',
+            html: 'Setiap komponen punya entry point sendiri. Penjadwal menampilkan <code>events</code> yang Anda teruskan, lalu memberi tahu Anda saat pengguna memindahkan acara atau memilih waktu untuk acara baru: Anda sendiri yang menyimpan acaranya.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Data grid' },
+          {
+            kind: 'p',
+            html: 'Definisikan <code>columns</code> di luar komponen, agar grid tidak mengulang pekerjaannya di setiap render. Pengeditan memanggil <code>onRowsChange</code> dengan baris baru, dan metode seperti ekspor Excel ada di <code>ref</code> grid.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API dalam istilah React' },
+          {
+            kind: 'p',
+            html: 'Komponen React mengikuti spesifikasi yang sama dengan komponen Angular, jadi API-nya sepadan, dalam istilah React. Halaman API mencantumkan setiap prop: milik <a href="/components/scheduler/api/react">penjadwal</a> dan milik <a href="/components/grid/api/react">data grid</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API Angular dan padanannya di React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Model, <code>[(view)]</code>',
+                'State: <code>view</code> dengan <code>onViewChange</code>, atau <code>defaultView</code> agar disimpan oleh komponen',
+              ],
+              ['Output, <code>(eventClick)</code>', 'Callback, <code>onEventClick</code>'],
+              [
+                'Template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Fungsi yang menggambar, <code>renderEvent</code>',
+              ],
+              [
+                'Metode, <code>scheduler.next()</code>',
+                'Metode di <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, untuk data pohon',
+                '<code>getChildren</code>: React memakai <code>children</code> untuk elemen',
+              ],
+              [
+                '<code>locale</code>, default-nya <code>LOCALE_ID</code> aplikasi',
+                '<code>locale</code>, default-nya <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Rendering sisi server' },
+          {
+            kind: 'p',
+            html: 'Kedua komponen dirender di server, lalu dihidrasi di browser. Paketnya menandai keduanya sebagai client component, sehingga Server Component bisa merendernya dengan props yang bisa diserialisasi, dan helper seperti <code>nuiSchedulerFromIcs</code> berjalan di server. Callback tidak bisa menyeberang ke browser: komponen yang menerimanya diletakkan di dalam client component buatan Anda sendiri, seperti dua contoh di atas.',
+          },
+          {
+            kind: 'p',
+            html: 'Apa pun yang bergantung pada pembaca menunggu browser: garis penanda waktu sekarang di penjadwal, dan hari apa hari ini. Beri penjadwal <code>defaultDate</code> saat dirender di server, karena “hari ini” di server belum tentu sama dengan milik pembaca.',
+          },
+        ],
+      },
       theming: {
         title: 'Tema',
         description:
@@ -3284,6 +3361,90 @@ export const messages: Messages = {
           html: 'Kebijakan ini berubah ketika situsnya berubah, misalnya saat pindah ke host baru. Tanggal di bawah menunjukkan versi yang berlaku.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API ${name} untuk React`,
+    kinds: { prop: 'Prop', state: 'State', callback: 'Callback', render: 'Render prop' },
+    state:
+      'State bekerja seperti input bawaan React: teruskan nilai dan perbarui lewat callback <code>on…Change</code>-nya, atau teruskan nilai <code>default…</code> dan biarkan komponen yang menyimpannya.',
+    customization:
+      'Prop kustomisasi yang tidak Anda atur akan mengikuti atribut <code>data-nui-*</code> terdekat. Lihat <a href="/guides/customization">panduan kustomisasi</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'Penjadwal juga tersedia sebagai komponen React: <code>NuiScheduler</code>, dari <code>@needless-ui/react/scheduler</code>. Contoh di sini ditulis dalam Angular; lihat <a href="/components/scheduler/api/react">API React</a>-nya dan <a href="/guides/react">panduan React</a>.',
+        apiDescription:
+          'Referensi API penjadwal Needless UI di React: props, state yang bisa Anda kendalikan, callback, render prop, dan metode pada ref-nya.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Yang bisa dijangkau lewat <code>ref</code> penjadwal: perpindahan halaman, untuk toolbar buatan sendiri.',
+              date: 'Hari yang ditampilkan, sekaligus posisi keyboard. Teruskan <code>defaultDate</code> saat penjadwal dirender di server: “hari ini” di server belum tentu sama dengan milik pembaca.',
+              toolbar:
+                'Menampilkan toolbar, atau menggambar toolbar buatan Anda dari data yang diterimanya.',
+              renderEvent:
+                'Untuk menggambar acara sendiri, dari acara dan waktunya dalam bentuk teks.',
+              renderResource: 'Untuk menggambar header sumber daya sendiri.',
+              onEventClick: 'Dipanggil dengan acara yang diklik, atau dibuka dengan Enter.',
+              onEventChange:
+                'Dipanggil dengan waktu baru acara setelah dipindah atau diubah ukurannya, serta sumber dayanya jika berubah. Perbarui <code>events</code> untuk menyimpan perubahan.',
+              onSlotSelect: 'Dipanggil dengan waktu yang dipilih di grid, beserta sumber dayanya.',
+              onRangeChange:
+                'Dipanggil dengan hari pertama dan terakhir yang ditampilkan saat keduanya berubah, untuk memuat acaranya.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Yang diterima fungsi <code>toolbar</code>, untuk menggambar toolbar buatan sendiri.',
+            members: {
+              'view, views': 'Tampilan saat ini, dan tampilan yang tersedia.',
+              'setView, previous, next, goToday':
+                'Mengganti tampilan, menampilkan halaman sebelumnya atau berikutnya, atau hari ini.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'Data grid juga tersedia sebagai komponen React: <code>NuiGrid</code>, dari <code>@needless-ui/react/grid</code>. Contoh di sini ditulis dalam Angular; lihat <a href="/components/grid/api/react">API React</a>-nya dan <a href="/guides/react">panduan React</a>.',
+        apiDescription:
+          'Referensi API data grid Needless UI di React: props, state yang bisa Anda kendalikan, callback, render prop untuk sel, dan metode pada ref-nya.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Yang bisa dijangkau lewat <code>ref</code> grid: ekspor, pencetakan, dan fokus.',
+              expandAll:
+                'Membuka setiap grup dan setiap baris yang punya anak, atau menutup semuanya.',
+              fit: 'Menyesuaikan lebar kolom dengan sel terlebar yang sudah dirender.',
+              rows: 'Datanya. Pengeditan mengganti barisnya dan memanggil <code>onRowsChange</code>; <code>rows</code> berikutnya yang Anda teruskan menggantikan hasil edit.',
+              onRowsChange: 'Dipanggil dengan baris-barisnya setelah setiap edit yang diterapkan.',
+              groupBy: 'Kolom untuk mengelompokkan baris, mulai dari yang terluar.',
+              collapsed: 'Kunci grup yang tertutup; awalnya semua grup terbuka.',
+              expanded: 'Kunci baris yang terbuka di data pohon; awalnya semuanya tertutup.',
+              details: 'Kunci baris yang detailnya terbuka.',
+              renderEmpty:
+                'Yang ditampilkan saat tidak ada baris; fungsinya diberi tahu apakah filter menyembunyikannya.',
+              renderDetail:
+                'Detail sebuah baris, ditampilkan di bawahnya saat dibuka. Grid menambahkan kolom berisi toggle.',
+              onRowActivate: 'Dipanggil dengan baris yang dibuka dengan Enter atau klik dua kali.',
+              onCellEdit: 'Dipanggil dengan setiap edit yang diterapkan.',
+              onQueryChange:
+                'Dipanggil dengan pengurutan, filter, pencarian, dan halaman setiap kali berubah, serta sekali di awal.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Satu kolom. Menerima semua properti <a href="/components/grid/api#NuiGridColumn">kolom Angular</a> (hanya <code>id</code> dan <code>header</code> yang wajib), serta dua properti ini yang menggambarnya.',
+            members: {
+              renderCell: 'Untuk menggambar sel kolom sendiri, dari baris, nilai, dan teksnya.',
+              renderHeader:
+                'Untuk menggambar header kolom sendiri; namanya tetap berasal dari <code>header</code>.',
+            },
+          },
+        },
+      },
     },
   },
 };

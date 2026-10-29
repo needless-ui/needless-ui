@@ -58,7 +58,7 @@ export const messages: Messages = {
       },
       {
         title: 'Iisang stylesheet, kahit anong framework',
-        text: 'Plain CSS sa cascade layers ang mga component: Angular ngayon, React sa susunod, plain HTML palagi.',
+        text: 'Plain CSS sa cascade layers ang mga component: Angular ngayon, <a href="/guides/react">React</a> sa scheduler at data grid pa lang, plain HTML palagi.',
       },
       {
         title: 'Laging panalo ang CSS mo',
@@ -2585,6 +2585,86 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Scheduler at data grid para sa React',
+        description:
+          'Gamitin ang Needless UI scheduler at data grid sa React 19 at Next.js: pag-install, mga style, server rendering at ang katumbas ng API sa React.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'React component na rin ang scheduler at ang data grid, sa <code>@needless-ui/react</code>: parehong feature, keyboard at accessibility gaya sa Angular, parehong stylesheet at parehong MIT license. Paparating na ang iba pang component. Kailangan nila ang React 19, at gumagana sila sa Next.js App Router at sa Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Pag-install' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'I-import ang mga style' },
+          {
+            kind: 'p',
+            html: 'Walang kasamang style ang mga component. I-import nang isang beses ang stylesheet, mula sa isang CSS file ng app mo.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Gumagana ang mga layer gaya sa Angular: nasa isang layer bago ang <code>nui</code> ang mga reset, at sa Tailwind CSS, nasa pagitan ng base ng Tailwind at ng mga utility nito ang <code>nui</code>, gaya ng ipinapakita sa <a href="/guides/getting-started#styles">pagsisimula</a>.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Isang scheduler' },
+          {
+            kind: 'p',
+            html: 'May sariling entry point ang bawat component. Ipinapakita ng scheduler ang mga <code>events</code> na ipinapasa mo, at sinasabihan ka nito kapag may naglipat ng event o pumili ng oras para sa bago: ikaw ang nag-iingat ng mga event.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Isang data grid' },
+          {
+            kind: 'p',
+            html: 'Ilarawan ang <code>columns</code> sa labas ng component, para hindi ulitin ng grid ang trabaho nito sa bawat render. Tinatawag ng isang edit ang <code>onRowsChange</code> kasama ang mga bagong row, at nasa <code>ref</code> ng grid ang mga method gaya ng Excel export.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'Ang API sa mga termino ng React' },
+          {
+            kind: 'p',
+            html: 'Sinusunod ng mga React component ang parehong mga spec ng mga Angular component, kaya magkatugma ang kanilang mga API, sa mga termino ng React. Nakalista sa mga API page ang bawat prop: ang sa <a href="/components/scheduler/api/react">scheduler</a> at ang sa <a href="/components/grid/api/react">data grid</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'Ang Angular API at ang kakambal nito sa React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Isang model, <code>[(view)]</code>',
+                'State: <code>view</code> kasama ang <code>onViewChange</code>, o <code>defaultView</code> para ang component ang mag-ingat nito',
+              ],
+              [
+                'Isang output, <code>(eventClick)</code>',
+                'Isang callback, <code>onEventClick</code>',
+              ],
+              [
+                'Isang template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Isang function na gumuguhit, <code>renderEvent</code>',
+              ],
+              [
+                'Isang method, <code>scheduler.next()</code>',
+                'Isang method sa <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, para sa tree data',
+                '<code>getChildren</code>: sa React, para sa mga element ang <code>children</code>',
+              ],
+              [
+                '<code>locale</code>, bilang default ang <code>LOCALE_ID</code> ng app',
+                '<code>locale</code>, bilang default ang <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Pag-render sa server' },
+          {
+            kind: 'p',
+            html: 'Nire-render sa server ang dalawang component, saka nagha-hydrate ang mga ito sa browser. Minamarkahan sila ng package bilang mga client component, kaya puwede silang i-render ng isang Server Component gamit ang mga prop na nase-serialize, at tumatakbo sa server ang mga helper gaya ng <code>nuiSchedulerFromIcs</code>. Hindi makakatawid sa browser ang mga callback: inilalagay ang component na tumatanggap ng mga ito sa sarili mong client component, gaya ng dalawa sa itaas.',
+          },
+          {
+            kind: 'p',
+            html: 'Hinihintay ang browser para sa mga bagay na nakadepende sa nagbabasa: ang linya ng kasalukuyang oras sa scheduler, at kung anong araw ngayon. Bigyan ang scheduler ng <code>defaultDate</code> kapag isang server ang nagre-render nito, dahil baka iba ang “ngayon” ng server sa “ngayon” ng nagbabasa.',
+          },
+        ],
+      },
       theming: {
         title: 'Theming',
         description:
@@ -3338,6 +3418,91 @@ export const messages: Messages = {
           html: 'Nagbabago ang patakarang ito kapag nagbabago ang site, halimbawa kapag lumipat ito sa bagong host. Ipinapakita ng petsa sa ibaba ang kasalukuyang bersyon.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `React API ng ${name}`,
+    kinds: { prop: 'Prop', state: 'State', callback: 'Callback', render: 'Render prop' },
+    state:
+      'Gumagana ang state gaya ng mga sariling input ng React: magpasa ng value at i-update ito mula sa <code>on…Change</code> callback nito, o magpasa ng <code>default…</code> na value at hayaang ang component ang mag-ingat nito.',
+    customization:
+      'Sinusunod ng mga customization prop na hindi mo sine-set ang pinakamalapit na <code>data-nui-*</code> attribute. Tingnan ang <a href="/guides/customization">gabay sa pag-customize</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'React component din ang scheduler: <code>NuiScheduler</code>, mula sa <code>@needless-ui/react/scheduler</code>. Nasa Angular ang mga halimbawa rito; tingnan ang <a href="/components/scheduler/api/react">React API</a> nito at ang <a href="/guides/react">gabay sa React</a>.',
+        apiDescription:
+          'API reference ng Needless UI scheduler sa React: mga prop, ang state na makokontrol mo, mga callback, render prop at mga method sa ref nito.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Ang naaabot ng <code>ref</code> ng scheduler: paglipat ng page, para sa sarili mong toolbar.',
+              date: 'Ang ipinapakitang araw, at kung nasaan ang keyboard. Ipasa ang <code>defaultDate</code> kapag isang server ang nagre-render ng scheduler: baka iba ang “ngayon” nito sa “ngayon” ng nagbabasa.',
+              toolbar:
+                'Ipinapakita ang toolbar, o gumuguhit ng sarili mong toolbar mula sa ibinibigay dito.',
+              renderEvent:
+                'Ikaw ang gumuguhit ng mga event, mula sa event at sa oras nito bilang text.',
+              renderResource: 'Ikaw ang gumuguhit ng mga header ng mga resource.',
+              onEventClick: 'Tinatawag kasama ang event na na-click, o binuksan gamit ang Enter.',
+              onEventChange:
+                'Tinatawag kasama ang mga bagong oras ng event pagkatapos itong ilipat o i-resize, at ang mga resource nito kapag nagbago ang mga ito. I-update ang <code>events</code> para mapanatili ang pagbabago.',
+              onSlotSelect: 'Tinatawag kasama ang oras na pinili sa grid, at ang resource nito.',
+              onRangeChange:
+                'Tinatawag kasama ang una at huling araw na ipinapakita kapag nagbago ang mga ito, para ma-load ang mga event nila.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Ang natatanggap ng isang <code>toolbar</code> function, para gumuhit ng sarili mong toolbar.',
+            members: {
+              'view, views': 'Ang ipinapakitang view, at ang mga view na inaalok.',
+              'setView, previous, next, goToday':
+                'Pinapalitan ang view, ipinapakita ang nauna o susunod na page, o ang araw ngayon.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'React component din ang data grid: <code>NuiGrid</code>, mula sa <code>@needless-ui/react/grid</code>. Nasa Angular ang mga halimbawa rito; tingnan ang <a href="/components/grid/api/react">React API</a> nito at ang <a href="/guides/react">gabay sa React</a>.',
+        apiDescription:
+          'API reference ng Needless UI data grid sa React: mga prop, ang state na makokontrol mo, mga callback, render prop para sa cell at mga method sa ref nito.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Ang naaabot ng <code>ref</code> ng grid: mga export, pag-print at focus.',
+              expandAll:
+                'Binubuksan ang bawat grupo at bawat row na may mga child, o isinasara silang lahat.',
+              fit: 'Ipinapantay ang lapad ng isang column sa pinakamalapad sa mga nire-render nitong cell.',
+              rows: 'Ang data. Pinapalitan ng isang edit ang row nito at tinatawag ang <code>onRowsChange</code>; papalitan ng susunod na <code>rows</code> na ipapasa mo ang mga edit.',
+              onRowsChange: 'Tinatawag kasama ang mga row pagkatapos ng bawat na-commit na edit.',
+              groupBy: 'Ang mga column kung saan igu-group ang mga row, ang pinakalabas muna.',
+              collapsed: 'Mga key ng mga nakasarang grupo; bukas ang mga grupo sa simula.',
+              expanded: 'Mga key ng mga row na bukas sa tree data; sarado ang mga ito sa simula.',
+              details: 'Mga key ng mga row na bukas ang mga detalye.',
+              renderEmpty:
+                'Ang ipinapakita kapag walang row; sinasabi rito kung mga filter ang nagtago sa mga ito.',
+              renderDetail:
+                'Ang mga detalye ng isang row, na ipinapakita sa ilalim nito kapag binuksan. Nagdadagdag ang grid ng isang column ng mga toggle.',
+              onRowActivate: 'Tinatawag kasama ang row na binuksan gamit ang Enter o double click.',
+              onCellEdit: 'Tinatawag kasama ang bawat na-commit na edit.',
+              onQueryChange:
+                'Tinatawag kasama ang sort, mga filter, search at page tuwing nagbabago ang mga ito, at minsan sa simula.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Isang column. Tumatanggap ito ng bawat property ng <a href="/components/grid/api#NuiGridColumn">Angular column</a> (<code>id</code> at <code>header</code> lang ang required), at ng dalawang ito na gumuguhit nito.',
+            members: {
+              renderCell:
+                'Ikaw ang gumuguhit ng mga cell ng column, mula sa row, sa value nito at sa text nito.',
+              renderHeader:
+                'Ikaw ang gumuguhit ng header ng column; ang <code>header</code> pa rin ang nagbibigay ng pangalan nito.',
+            },
+          },
+        },
+      },
     },
   },
 };
