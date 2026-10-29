@@ -107,6 +107,7 @@ export class NuiChatThread {
   private readonly injector = inject(Injector);
   protected readonly id = `nui-chat-${nextId++}`;
 
+  /** The conversation to show. */
   readonly session = input.required<NuiChatSession>();
   /** The assistant's name, for screen readers. */
   readonly assistant = input('Assistant');

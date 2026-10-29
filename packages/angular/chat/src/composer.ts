@@ -161,9 +161,11 @@ export class NuiChatComposer {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   protected readonly id = `nui-chat-composer-${nextId++}`;
 
+  /** The conversation to show. */
   readonly session = input.required<NuiChatSession>();
   /** The text being written. */
   readonly value = model('');
+  /** The hint in the empty field. */
   readonly placeholder = input<string | undefined>(undefined);
   /** Prompts to send with a click, such as ideas for a first message. */
   readonly suggestions = input<readonly string[]>([]);
@@ -175,11 +177,13 @@ export class NuiChatComposer {
     const on = this.sendOn();
     return on === 'enter' || (on === 'auto' && !this.touchFirst);
   });
+  /** Stops the composer from sending. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Take files: picked, pasted or dropped. */
   readonly attach = input(false, { transform: booleanAttribute });
   /** The kinds of file to take, as for `<input type="file">`: `image/*,.pdf`. */
   readonly accept = input('');
+  /** How many files a message can carry. */
   readonly maxFiles = input(10, { transform: numberAttribute });
   /** The largest file to take, in bytes. */
   readonly maxSize = input(20_000_000, { transform: numberAttribute });

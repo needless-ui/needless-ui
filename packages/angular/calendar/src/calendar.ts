@@ -139,6 +139,7 @@ export class NuiCalendar {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   protected readonly id = `nui-calendar-${nextId++}`;
 
+  /** How many days can be chosen. */
   readonly selection = input<NuiCalendarSelection>('single');
   /** The chosen day, with `selection="single"`. */
   readonly value = model<NuiDate | null>(null);
@@ -148,6 +149,7 @@ export class NuiCalendar {
   readonly range = model<NuiDateRange | null>(null);
   /** The month shown, the first of them when several are. By default, the chosen day's. */
   readonly month = model<NuiMonth | null>(null);
+  /** Days, months or years. */
   readonly view = model<NuiCalendarView>('day');
   /** The first day that can be chosen. */
   readonly min = input<NuiDate | null>(null);

@@ -72,6 +72,7 @@ export class NuiOptionTemplate<V = unknown> {
   `,
 })
 export class NuiOptionText<V = unknown> {
+  /** The row whose label this shows, with the characters that match the search highlighted, its description and, in search results from a tree, its path. */
   readonly row = input.required<NuiOptionRow<V>>({ alias: 'nuiOptionText' });
 }
 
@@ -150,16 +151,21 @@ type Item<V> = { key: string; row: NuiOptionRow<V>; index: number } | { key: str
   `,
 })
 export class NuiOptionList<V = unknown> {
+  /** The options' model: the search results, groups, tree and active row. */
   readonly engine = input.required<NuiOptionEngine<V>>();
+  /** The listbox's id. The field points to it with `aria-controls`, and each option's id starts with it. */
   readonly listId = input.required<string>();
   /** Whether an option is selected. */
   readonly selected = input<(option: NuiOption<V>) => boolean>(() => false);
+  /** Lets several options be chosen. The list stays open while you pick. */
   readonly multiple = input(false, { transform: booleanAttribute });
   /** A tree (treeitems with levels) instead of a listbox. */
   readonly tree = input(false, { transform: booleanAttribute });
+  /** Accessible name, when no `<label>` names the button. */
   readonly label = input('');
   /** Renders only the rows in view: always, never, or above 200 rows. */
   readonly virtual = input<boolean | 'auto'>('auto');
+  /** A custom template for each option. */
   readonly template = input<NuiOptionTemplate<V>>();
   /** A row was clicked. */
   readonly choose = output<NuiOptionRow<V>>();

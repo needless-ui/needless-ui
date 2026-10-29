@@ -198,26 +198,37 @@ export class NuiDatePicker {
 
   /** The date, or date and time. */
   readonly value = model<string | null>(null);
+  /** Stops at the day, or goes on to the hour, minute or second. */
   readonly granularity = input<NuiDateGranularity>('day');
+  /** The earliest and latest values. Outside them, the field is invalid. */
   readonly min = input<string | null, string | null | undefined>(null, { transform: orNull });
+  /** The earliest and latest values. Outside them, the field is invalid. */
   readonly max = input<string | null, string | null | undefined>(null, { transform: orNull });
   /** Days that can't be picked in the calendar. */
   readonly unavailable = input<(date: NuiDate) => boolean>(() => false);
   /** Where empty segments start from, with the arrow keys. */
   readonly placeholder = input<string | null>(null);
+  /** A 12- or 24-hour clock. By default, the locale’s. */
   readonly hourCycle = input<12 | 24 | undefined, unknown>(undefined, {
     transform: (value: unknown) =>
       value == null || value === '' ? undefined : (numberAttribute(value) as 12 | 24),
   });
+  /** How far the arrow keys move the minutes. */
   readonly minuteStep = input(1, { transform: numberAttribute });
+  /** Passed to the calendar. */
   readonly firstDay = input<number | undefined, unknown>(undefined, {
     transform: (value: unknown) =>
       value == null || value === '' ? undefined : numberAttribute(value),
   });
+  /** Passed to the calendar. */
   readonly weekNumbers = input(false, { transform: booleanAttribute });
+  /** Stops changes: the fields leave the tab order, and the calendar button is disabled. */
   readonly disabled = input(false, { transform: booleanAttribute });
+  /** Stops changes: the fields can still be focused and read, and the calendar button is disabled. */
   readonly readonly = input(false, { transform: booleanAttribute });
+  /** Sets the order, separators, digits and clock. */
   readonly locale = input(inject(LOCALE_ID));
+  /** The texts of the field, the button and the calendar. */
   readonly labels = input<NuiDatePickerLabelsInput>({});
   /** Emits when focus leaves the field, so forms mark it touched. */
   readonly touch = output<void>();
@@ -366,13 +377,17 @@ export class NuiDateRangePicker {
   protected readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
 
+  /** The range, or null until both ends are set, in order. */
   readonly value = model<NuiDateRange | null>(null);
+  /** The earliest and latest values. Outside them, the field is invalid. */
   readonly min = input<NuiDate | null, NuiDate | NuiDateRange | null | undefined>(null, {
     transform: dateOnly,
   });
+  /** The earliest and latest values. Outside them, the field is invalid. */
   readonly max = input<NuiDate | null, NuiDate | NuiDateRange | null | undefined>(null, {
     transform: dateOnly,
   });
+  /** Days the calendar won’t pick. */
   readonly unavailable = input<(date: NuiDate) => boolean>(() => false);
   /** Ranges to choose in one click. */
   readonly presets = input<readonly NuiDateRangePreset[]>([]);
@@ -381,14 +396,20 @@ export class NuiDateRangePicker {
   /** Too narrow for months side by side: they'd stack, taller than the screen. */
   private readonly narrow = signal(false);
   protected readonly shownMonths = computed(() => (this.narrow() ? 1 : this.months()));
+  /** Passed to the calendar. */
   readonly firstDay = input<number | undefined, unknown>(undefined, {
     transform: (value: unknown) =>
       value == null || value === '' ? undefined : numberAttribute(value),
   });
+  /** Passed to the calendar. */
   readonly weekNumbers = input(false, { transform: booleanAttribute });
+  /** Stops changes: the fields leave the tab order, and the calendar button is disabled. */
   readonly disabled = input(false, { transform: booleanAttribute });
+  /** Stops changes: the fields can still be focused and read, and the calendar button is disabled. */
   readonly readonly = input(false, { transform: booleanAttribute });
+  /** Sets the order, separators, digits and clock. */
   readonly locale = input(inject(LOCALE_ID));
+  /** Every text the field says, to translate. */
   readonly labels = input<NuiDatePickerLabelsInput>({});
   /** Emits when focus leaves either field, so forms mark the range touched. */
   readonly touch = output<void>();

@@ -60,9 +60,11 @@ import {
 export class NuiRating {
   /** The rating, or null for none. Bind with `[(value)]`. */
   readonly value = model<number | null>(null);
+  /** Number of stars. */
   readonly max = input(5, { transform: numberAttribute });
   /** Shows the value, to any fraction, instead of asking for one. */
   readonly readonly = input(false, { transform: booleanAttribute });
+  /** Disables every star. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Clicking the chosen star again clears the rating. */
   readonly clearable = input(false, { transform: booleanAttribute });

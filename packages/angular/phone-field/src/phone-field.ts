@@ -144,7 +144,9 @@ export class NuiPhoneField implements ControlValueAccessor, Validator {
   readonly label = input('');
   /** Id of the number input, for `<label for>`. */
   readonly inputId = input('');
+  /** The number’s placeholder. */
   readonly placeholder = input('');
+  /** It can’t be changed. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Marks the number invalid, for assistive technology and styles. */
   readonly invalid = input(false, { transform: booleanAttribute });

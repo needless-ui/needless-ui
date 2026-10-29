@@ -311,9 +311,11 @@ export class NuiScheduler<T = unknown> {
   private readonly announcer = inject(LiveAnnouncer);
   private readonly injector = inject(Injector);
 
+  /** The events to show. */
   readonly events = input<readonly NuiSchedulerEvent<T>[]>([]);
   /** Rooms, people or machines: rows of the timeline, and columns of the day and the week. */
   readonly resources = input<readonly NuiSchedulerResource[]>([]);
+  /** The view shown. */
   readonly view = model<NuiSchedulerView>('week');
   /** The day shown, and where the keyboard is. */
   readonly date = model<NuiDate>(nuiToday());
@@ -335,6 +337,7 @@ export class NuiScheduler<T = unknown> {
   });
   /** The hour the time grid starts at, and the hour it ends at: the rest isn't shown. */
   readonly dayStart = input(0, { transform: numberAttribute });
+  /** The hour the time grid ends at, 24 for midnight. */
   readonly dayEnd = input(24, { transform: numberAttribute });
   /** The hour the time grid scrolls to at first. */
   readonly scrollHour = input(8, { transform: numberAttribute });
@@ -361,7 +364,9 @@ export class NuiScheduler<T = unknown> {
   readonly toolbar = input(true, { transform: booleanAttribute });
   /** The level of the title, and of the agenda's days below it. */
   readonly headingLevel = input(2, { transform: numberAttribute });
+  /** Formats days and times. */
   readonly locale = input(inject(LOCALE_ID));
+  /** Every text the scheduler shows or announces, to translate. */
   readonly labels = input<Partial<NuiSchedulerLabels>>({});
 
   /** An event was clicked, or chosen with Enter. */

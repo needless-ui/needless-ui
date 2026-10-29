@@ -85,8 +85,11 @@ export class NuiAvatar {
   readonly name = input.required<string>();
   /** Picture URL. */
   readonly src = input<string>();
+  /** Size: `sm`, `md` or `lg`. */
   readonly size = input<NuiSize>('md');
+  /** `circle` or `square`. */
   readonly shape = input<'circle' | 'square'>('circle');
+  /** A presence dot: `online`, `away`, `busy` or `offline`. */
   readonly status = input<NuiAvatarStatus>();
   /** Accessible name, when it should say more than the name ("Ada Lovelace, online"). */
   readonly label = input<string>();

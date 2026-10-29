@@ -42,7 +42,9 @@ export class NuiSplitterPane {
 
   /** Its size at first, when the splitter has none to restore. */
   readonly size = input<string | number | null>(null, { alias: 'defaultSize' });
+  /** Its smallest size. */
   readonly min = input<string | number>(0);
+  /** Its largest size. */
   readonly max = input<string | number>('100%');
   /** It can fold away: dragged below half its minimum, or with Enter on its handle. */
   readonly collapsible = input(false, { transform: booleanAttribute });

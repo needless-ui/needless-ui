@@ -131,13 +131,17 @@ export class NuiNumberField {
 export class NuiNumberInput implements ControlValueAccessor {
   /** The number, or null when empty. Bind with `[(value)]`. */
   readonly value = model<number | null>(null);
+  /** Smallest allowed value. */
   readonly min = input<number | undefined, unknown>(undefined, { transform: optionalNumber });
+  /** Largest allowed value. */
   readonly max = input<number | undefined, unknown>(undefined, { transform: optionalNumber });
+  /** How much one step changes the value. The value snaps to it on blur. */
   readonly step = input(1, { transform: numberAttribute });
   /** `Intl.NumberFormat` options: currency, percent, units, fraction digits… */
   readonly format = input<Intl.NumberFormatOptions>({});
   /** Locale for formatting and reading numbers. Defaults to the app's `LOCALE_ID`. */
   readonly locale = input(inject(LOCALE_ID));
+  /** Disables the input and its buttons. */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   readonly id =

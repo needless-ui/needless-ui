@@ -142,13 +142,17 @@ function count(options: readonly NuiOption<unknown>[]): number {
   `,
 })
 export class NuiSelect<V = unknown> implements ControlValueAccessor {
+  /** The options, as `NuiOption` objects. */
   readonly options = input.required<readonly NuiOption<V>[]>();
   /** The chosen value. Bind with `[(value)]`. */
   readonly value = model<V | null>(null);
   /** The chosen values, with `multiple`. Bind with `[(values)]`. */
   readonly values = model<readonly V[]>([]);
+  /** Lets several options be chosen. The list stays open while you pick. */
   readonly multiple = input(false, { transform: booleanAttribute });
+  /** Text shown while nothing is chosen. */
   readonly placeholder = input('Select…');
+  /** Disables the select. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Accessible name, when no `<label for>` names the trigger. */
   readonly label = input('');
@@ -160,8 +164,11 @@ export class NuiSelect<V = unknown> implements ControlValueAccessor {
   readonly virtual = input<boolean | 'auto'>('auto');
   /** With `multiple`, adds a button that selects every option, or clears them. */
   readonly selectAll = input(false, { transform: booleanAttribute });
+  /** With `selectAll`, the button's text while some options aren't selected. */
   readonly selectAllLabel = input('Select all');
+  /** With `selectAll`, the button's text once every option is selected. */
   readonly clearAllLabel = input('Clear all');
+  /** Shown when the search finds no option. */
   readonly emptyLabel = input('No options');
   /** What the trigger shows for the chosen options. Their labels, joined, by default. */
   readonly triggerText = input<((chosen: readonly NuiOption<V>[]) => string) | null>(null);

@@ -322,6 +322,7 @@ export class NuiColorPicker implements FormValueControl<string> {
   readonly value = model('');
   /** How the value is written. The format button cycles through `formats`. Bind with `[(format)]`. */
   readonly format = model<NuiColorFormat>('hex');
+  /** The formats the format button goes through. */
   readonly formats = input<readonly NuiColorFormat[]>(['hex', 'rgb', 'hsl', 'oklch']);
   /** An area of lightness and chroma, or a wheel of hue and chroma with a lightness slider. */
   readonly view = input<NuiColorView>('area');
@@ -329,6 +330,7 @@ export class NuiColorPicker implements FormValueControl<string> {
   readonly gamut = input<NuiGamut>('srgb');
   /** Shows the opacity slider. Without it, colors are opaque. */
   readonly alpha = input(true, { transform: booleanAttribute });
+  /** Colors to pick from, with names. */
   readonly swatches = input<readonly NuiColorSwatch[]>([]);
   /** A background to measure the color's contrast against (WCAG 2). */
   readonly contrastWith = input<string | null>(null);
@@ -336,6 +338,7 @@ export class NuiColorPicker implements FormValueControl<string> {
   readonly eyeDropper = input(true, { transform: booleanAttribute });
   /** Makes the preview a button that copies the value, where the browser has a clipboard. */
   readonly copy = input(true, { transform: booleanAttribute });
+  /** It can’t be changed. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Texts to replace, for translation. */
   readonly labels = input<Partial<NuiColorPickerLabels>>({});

@@ -91,14 +91,17 @@ const pad = (n: number) => String(n).padStart(2, '0');
 export class NuiGrid<T> {
   /** The data. Edits replace rows (immutably), so bind with `[(rows)]` to keep them. */
   readonly rows = model.required<readonly T[]>();
+  /** The columns, as `NuiGridColumn` objects. */
   readonly columns = input.required<readonly NuiGridColumn<T>[]>();
   /** A row's key, for selection and tracking. Defaults to `row.id`, or the row itself. */
   readonly rowId = input<(row: T) => unknown>(defaultId);
   /** The grid's accessible name. */
   readonly label = input('');
+  /** Whether rows can be selected, and how many. */
   readonly selection = input<'none' | 'single' | 'multiple'>('none');
   /** The keys of the selected rows. */
   readonly selected = model<readonly unknown[]>([]);
+  /** The sort, as `{ column, direction }` objects; the first sorts first. */
   readonly sort = model<readonly NuiGridSort[]>([]);
   /** A filter per column id. */
   readonly filters = model<Readonly<Record<string, NuiGridFilter>>>({});
@@ -108,6 +111,7 @@ export class NuiGrid<T> {
   readonly pageSize = model(0);
   /** The page shown, from 0. */
   readonly page = model(0);
+  /** The choices in the pager. */
   readonly pageSizes = input<readonly number[]>([10, 25, 50, 100]);
   /** Render only the rows in view: always, never, or past 100 rows without pages. */
   readonly virtual = input<boolean | 'auto'>('auto');
@@ -119,6 +123,7 @@ export class NuiGrid<T> {
   readonly mode = input<'client' | 'server'>('client');
   /** The number of rows on the server, in `server` mode. */
   readonly total = input<number | null>(null);
+  /** Shows a progress bar, and placeholder rows while there are none. */
   readonly loading = input(false, { transform: booleanAttribute });
   /** Formats numbers and dates, and reads typed numbers. Defaults to the app's locale. */
   readonly locale = input(inject(LOCALE_ID));
