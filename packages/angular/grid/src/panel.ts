@@ -1,11 +1,8 @@
 import { Component, computed, input, linkedSignal, model, output, untracked } from '@angular/core';
-import { nuiParseNumber } from '@needless-ui/angular/number-field';
+import { nuiGridBareOperator, nuiGridFilterDraft, nuiGridFilterOf } from '@needless-ui/core/grid';
 import type { NuiGridEngine } from './engine';
 import { nuiGridOperators } from './format';
-import type { NuiGridFilter, NuiGridFilterOp, NuiGridLabels } from './types';
-
-/** Operators that take no value. */
-const BARE: readonly NuiGridFilterOp[] = ['empty', 'notEmpty'];
+import type { NuiGridFilterOp, NuiGridLabels } from './types';
 
 /**
  * The column panel's content: sort, filter, pin, move, fit and hide one column,
@@ -276,20 +273,11 @@ export class NuiGridPanel<T> {
     source: this.columnId,
     computation: () => untracked(() => this.filter()?.op ?? this.operators()[0]),
   });
-  protected readonly bare = computed(() => BARE.includes(this.op()));
+  protected readonly bare = computed(() => nuiGridBareOperator(this.op()));
   protected readonly draft = linkedSignal({
     source: this.columnId,
     computation: () =>
-      untracked(() => {
-        const filter = this.filter();
-        const shown = (value: unknown) =>
-          value === undefined || value === null
-            ? ''
-            : this.type() === 'number'
-              ? new Intl.NumberFormat(this.locale(), { useGrouping: false }).format(Number(value))
-              : String(value);
-        return { value: shown(filter?.value), to: shown(filter?.to) };
-      }),
+      untracked(() => nuiGridFilterDraft(this.filter(), this.type(), this.locale())),
   });
 
   protected sortBy(direction: 'asc' | 'desc', event: MouseEvent): void {
@@ -337,23 +325,9 @@ export class NuiGridPanel<T> {
 
   /** Turns the form into the column's filter, or none while it's empty. */
   private apply(): void {
-    const op = this.op();
-    const { value, to } = this.draft();
-    const read = (text: string) =>
-      !text.trim()
-        ? undefined
-        : this.type() === 'number'
-          ? (nuiParseNumber(text, this.locale()) ?? undefined)
-          : text;
-    let filter: NuiGridFilter | null;
-    if (this.bare()) filter = { op };
-    else if (op === 'between') {
-      const [from, until] = [read(value), read(to)];
-      filter = from === undefined && until === undefined ? null : { op, value: from, to: until };
-    } else {
-      const parsed = read(value);
-      filter = parsed === undefined ? null : { op, value: parsed };
-    }
-    this.engine().setFilter(this.columnId(), filter);
+    this.engine().setFilter(
+      this.columnId(),
+      nuiGridFilterOf(this.op(), this.draft(), this.type(), this.locale()),
+    );
   }
 }

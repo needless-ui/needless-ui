@@ -24,10 +24,15 @@ import {
   viewChild,
 } from '@angular/core';
 import { NuiPersonality, NuiVirtualizer } from '@needless-ui/angular';
-import { nuiParseNumber } from '@needless-ui/angular/number-field';
 import { NuiPopover } from '@needless-ui/angular/popover';
+import {
+  nuiGridEditText,
+  nuiGridParseEdit,
+  nuiGridSameValue,
+  nuiGridSheet,
+} from '@needless-ui/core/grid';
 import { NuiGridEngine, type NuiGridLayoutColumn } from './engine';
-import { nuiGridDate, nuiGridEmpty, nuiGridFilterActive } from './format';
+import { nuiGridFilterActive } from './format';
 import { NuiGridPanel } from './panel';
 import { NuiGridCell, NuiGridDetail, NuiGridEmpty, NuiGridHeader } from './templates';
 import {
@@ -66,7 +71,6 @@ interface Editing<T> {
 type Item<T> = { key: unknown; line: NuiGridItem<T>; index: number } | { key: string; gap: number };
 
 const defaultId = (row: unknown) => (row as { id?: unknown } | null)?.id ?? row;
-const pad = (n: number) => String(n).padStart(2, '0');
 
 /**
  * A data grid on a native table: sorting (by several columns), filters and search,
@@ -503,39 +507,15 @@ export class NuiGrid<T> {
    */
   exportXlsx(options: { sheet?: string } = {}): Blob {
     const engine = this.engine;
-    const layout = engine.layout();
     const rows = this.mode() === 'server' ? this.rows() : engine.sorted();
-    const cell = (column: NuiGridColumn<T>, row: T): unknown => {
-      const value = engine.value(column, row);
-      switch (column.type ?? 'text') {
-        case 'number':
-          return typeof value === 'number' ? value : null;
-        case 'date':
-          return nuiGridDate(value);
-        case 'boolean':
-          return nuiGridEmpty(value) ? null : !!value;
-        default:
-          return engine.text(column, row);
-      }
-    };
-    const format = (column: NuiGridColumn<T>): string | undefined => {
-      const options =
-        typeof column.format === 'object' ? (column.format as Intl.NumberFormatOptions) : null;
-      if (column.type === 'date') return 'yyyy-mm-dd';
-      if (column.type !== 'number') return undefined;
-      if (options?.style === 'percent') return '0%';
-      const digits = options?.maximumFractionDigits ?? options?.minimumFractionDigits;
-      return digits ? `#,##0.${'0'.repeat(digits)}` : '#,##0.##';
-    };
-    const bytes = nuiXlsx({
-      name: options.sheet ?? (this.label() || 'Sheet1'),
-      columns: layout.map((column) => ({
-        header: column.column.header,
-        width: Math.max(8, Math.round(column.width / 7)),
-        format: format(column.column),
-      })),
-      rows: rows.map((row) => layout.map((column) => cell(column.column, row))),
-    });
+    const bytes = nuiXlsx(
+      nuiGridSheet(
+        engine.layout(),
+        rows,
+        (column, row) => engine.text(column, row),
+        options.sheet ?? (this.label() || 'Sheet1'),
+      ),
+    );
     return new Blob([bytes as BlobPart], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
@@ -1036,7 +1016,9 @@ export class NuiGrid<T> {
       index,
       column: column.id,
       text:
-        typed !== undefined && column.type !== 'enum' ? typed : this.editText(column.column, row),
+        typed !== undefined && column.type !== 'enum'
+          ? typed
+          : nuiGridEditText(column.column, row, this.locale()),
       error: null,
     });
     this.requestFocus('editor');
@@ -1077,7 +1059,13 @@ export class NuiGrid<T> {
     if (!editing) return true;
     const column = this.engine.byId().get(editing.column)!;
     const previous = this.engine.value(column, editing.row);
-    const parsed = this.parse(column, editing.text, previous);
+    const parsed = nuiGridParseEdit(
+      column,
+      editing.text,
+      previous,
+      this.locale(),
+      this.text().invalidNumber,
+    );
     const error =
       'error' in parsed ? parsed.error : (column.validate?.(parsed.value, editing.row) ?? null);
     if (error) {
@@ -1091,14 +1079,7 @@ export class NuiGrid<T> {
   }
 
   private commitValue(row: T, column: NuiGridColumn<T>, value: unknown): void {
-    const previous = this.engine.value(column, row);
-    const same =
-      previous === value ||
-      (previous instanceof Date &&
-        value instanceof Date &&
-        previous.getTime() === value.getTime()) ||
-      (nuiGridEmpty(previous) && nuiGridEmpty(value));
-    if (same) return;
+    if (nuiGridSameValue(this.engine.value(column, row), value)) return;
     const error = column.validate?.(value, row);
     if (error) {
       this.announce(error);
@@ -1106,61 +1087,6 @@ export class NuiGrid<T> {
     }
     const result = this.engine.commit(row, column, value);
     this.cellEdit.emit({ ...result, column: column.id, value });
-  }
-
-  /** A value as the editor shows it. */
-  private editText(column: NuiGridColumn<T>, row: T): string {
-    const value = this.engine.value(column, row);
-    switch (column.type ?? 'text') {
-      case 'number':
-        return typeof value === 'number' && isFinite(value)
-          ? new Intl.NumberFormat(this.locale(), {
-              useGrouping: false,
-              maximumFractionDigits: 20,
-            }).format(value)
-          : '';
-      case 'date': {
-        const date = nuiGridDate(value);
-        return date
-          ? `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
-          : '';
-      }
-      case 'enum':
-        return String(column.options?.findIndex((option) => option.value === value) ?? -1);
-      default:
-        return nuiGridEmpty(value) ? '' : String(value);
-    }
-  }
-
-  /** What the editor's text means, in the same shape as the value it replaces. */
-  private parse(
-    column: NuiGridColumn<T>,
-    text: string,
-    previous: unknown,
-  ): { value: unknown } | { error: string } {
-    switch (column.type ?? 'text') {
-      case 'number': {
-        if (!text.trim()) return { value: null };
-        const number = nuiParseNumber(text, this.locale());
-        return number === null ? { error: this.text().invalidNumber } : { value: number };
-      }
-      case 'date': {
-        const day = nuiGridDate(text);
-        if (!day) return { value: null };
-        if (typeof previous === 'number') return { value: day.getTime() };
-        if (previous instanceof Date) {
-          // Keep the time of day; change the day.
-          const date = new Date(previous);
-          date.setFullYear(day.getFullYear(), day.getMonth(), day.getDate());
-          return { value: date };
-        }
-        return { value: text };
-      }
-      case 'enum':
-        return { value: column.options?.[Number(text)]?.value ?? null };
-      default:
-        return { value: text };
-    }
   }
 
   // Pages ----------------------------------------------------------------------------

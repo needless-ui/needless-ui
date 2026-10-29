@@ -8,7 +8,7 @@ You need Node.js 22.22+ or 24.15+ (see `.nvmrc`) and pnpm 12.
 
 ```bash
 pnpm install
-pnpm exec playwright install chromium firefox webkit   # once: Angular tests run in all three
+pnpm exec playwright install chromium firefox webkit   # once: component tests run in all three
 pnpm dev
 ```
 
@@ -18,11 +18,15 @@ pnpm dev
 
 ```
 tokens (DTCG JSON) ──build──▶ tokens.css ──imported by──▶ @needless-ui/css ◀──classes/data-*── @needless-ui/angular
+                                                                          ◀──classes/data-*── @needless-ui/react
+                                       @needless-ui/core (framework-free logic) ──used by──▶ both
 ```
 
 - **Tokens** live in `packages/tokens/src/*.tokens.json`. Color scales are generated: edit `scripts/palette.ts`, then run `pnpm --filter @needless-ui/tokens palette`. Never hand-edit `src/color/*.tokens.json`.
 - **Component CSS** lives in `packages/css/src/components/<name>.css`, inside `@layer nui.components`. It may only use semantic tokens (`--nui-color-bg-*`, `--nui-color-<tone>-*` and so on), never the numbered scales. A test fails if a component references a token that doesn't exist.
 - **Angular components** live in `packages/angular/<name>/`, one secondary entry point each. They don't ship styles; they set the classes and `data-*` attributes that the CSS targets.
+- **React components** live in `packages/react/src/<name>/`, one entry point each (`@needless-ui/react/scheduler`). They set the same classes and attributes as the Angular ones, and follow the same spec. Modules with hooks start with `'use client'`, and nothing reads the DOM while rendering, so they render on servers.
+- **Shared logic** that needs no framework (dates, repeat rules, iCalendar, the grid's model, the spreadsheet writer) lives in `packages/core`, which both bindings import, so a fix lands in both. Its files and the React package's import each other with `.js` extensions, as Node's ESM needs once they're built.
 - **Specs** in `specs/<name>.md` define anatomy, API, states, keyboard behavior and accessibility for each component. Framework packages implement the spec, so Angular and React stay in step.
 
 ## Adding a component
@@ -61,7 +65,7 @@ pnpm test
 pnpm build:docs   # prerenders every page, which catches SSR-unsafe code, and checks SEO
 ```
 
-Components must work in the browsers listed in [specs/browser-support.md](specs/browser-support.md). The Angular tests run in Chromium, Firefox and WebKit. Code that depends on a browser detail (focus, pointer capture, clipboard events) deserves a test in all three.
+Components must work in the browsers listed in [specs/browser-support.md](specs/browser-support.md). The Angular and React tests run in Chromium, Firefox and WebKit; `NUI_BROWSERS=chromium,webkit pnpm --filter @needless-ui/react test` runs the React ones in fewer. Code that depends on a browser detail (focus, pointer capture, clipboard events) deserves a test in all three.
 
 ## Releases
 

@@ -1,0 +1,75 @@
+{
+  "name": "@needless-ui/react",
+  "version": "0.10.1",
+  "description": "React components for Needless UI: a scheduler with a resource timeline and repeating events, and a data grid with grouping, tree data and Excel export. MIT, styled by @needless-ui/css.",
+  "license": "MIT",
+  "author": "Angelo Lamonaca",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/needless-ui/needless-ui.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://www.needlessui.com",
+  "bugs": "https://github.com/needless-ui/needless-ui/issues",
+  "keywords": [
+    "react",
+    "nextjs",
+    "components",
+    "ui-components",
+    "design-system",
+    "accessibility",
+    "scheduler",
+    "event-calendar",
+    "resource-timeline",
+    "recurring-events",
+    "calendar",
+    "data-grid",
+    "datagrid",
+    "tree-data",
+    "excel-export",
+    "needless-ui"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./scheduler": {
+      "types": "./dist/scheduler/index.d.ts",
+      "default": "./dist/scheduler/index.js"
+    },
+    "./grid": {
+      "types": "./dist/grid/index.d.ts",
+      "default": "./dist/grid/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@needless-ui/core": "workspace:^",
+    "@needless-ui/css": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

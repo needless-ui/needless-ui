@@ -48,6 +48,7 @@
     "@angular/forms": "^22.0.0"
   },
   "dependencies": {
+    "@needless-ui/core": "workspace:^",
     "@needless-ui/css": "workspace:^",
     "tslib": "^2.3.0"
   },

@@ -4,7 +4,7 @@
 | ---------------------- | ----------- |
 | `@needless-ui/css`     | Implemented |
 | `@needless-ui/angular` | Implemented |
-| `@needless-ui/react`   | Planned     |
+| `@needless-ui/react`   | Implemented |
 
 ## Anatomy
 
@@ -45,6 +45,8 @@ Events are data: `{ id, title, start, end, allDay?, tone?, color?, class?, resou
 Templates: `nuiSchedulerEvent` draws events, with the event and its time; `nuiSchedulerResource` draws the heads of resources. Personality inputs: `corners`, `radius` and `density`. Sizes: `--nui-scheduler-row-height`, `--nui-scheduler-column-width` (the least a day or a resource gets), `--nui-scheduler-slot-width` (a column of the timeline) and `--nui-scheduler-resource-width` (its column of names).
 
 Helpers: `nuiSchedulerOccurrences(event, first, last)` gives an event as it shows on those days (each occurrence of a repeating one); `nuiSchedulerRule(text)` reads a rule; `nuiSchedulerToIcs(events, options)` writes an iCalendar file and `nuiSchedulerFromIcs(text, { timeZone })` reads one.
+
+React (`@needless-ui/react/scheduler`) takes the same API in React's terms: `view` and `date` are controlled (`view`, `onViewChange`) or the scheduler's own (`defaultView`, `defaultDate`), outputs are callbacks (`onEventClick`, `onEventChange`, `onSlotSelect`, `onRangeChange`), the templates are `renderEvent` and `renderResource`, and `previous()`, `next()`, `goToday()` and `title` are on its `ref` (`toolbar` can also be a function that draws a toolbar of its own). `locale` defaults to `en-US`.
 
 ## Behavior
 

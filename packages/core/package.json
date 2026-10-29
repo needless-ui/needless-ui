@@ -1,0 +1,52 @@
+{
+  "name": "@needless-ui/core",
+  "version": "0.10.1",
+  "description": "The framework-free logic behind Needless UI: plain dates, repeat rules, iCalendar files, the data grid's model and its spreadsheet writer.",
+  "license": "MIT",
+  "author": "Angelo Lamonaca",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/needless-ui/needless-ui.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/needless-ui/needless-ui/tree/main/packages/core#readme",
+  "bugs": "https://github.com/needless-ui/needless-ui/issues",
+  "keywords": [
+    "dates",
+    "recurring-events",
+    "rrule",
+    "icalendar",
+    "data-grid",
+    "xlsx",
+    "headless",
+    "needless-ui"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./scheduler": {
+      "types": "./dist/scheduler/index.d.ts",
+      "default": "./dist/scheduler/index.js"
+    },
+    "./grid": {
+      "types": "./dist/grid/index.d.ts",
+      "default": "./dist/grid/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
