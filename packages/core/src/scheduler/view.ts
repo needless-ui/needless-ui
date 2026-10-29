@@ -1,8 +1,8 @@
 /**
  * The scheduler's view: which days, slots, columns and rows each view shows, where
  * each event sits on them, where the keys move, and what a move or a drag makes of
- * an event. Pure functions of the scheduler's settings, so the component only keeps
- * state and draws. It follows the Angular scheduler line by line.
+ * an event. Pure functions of the scheduler's settings, so each binding only keeps
+ * state and draws: Angular memoizes them in `computed()`s, React in `useMemo()`s.
  */
 import {
   nuiAddDays,
@@ -12,21 +12,18 @@ import {
   nuiIsoWeek,
   nuiUtc,
   nuiWeekday,
-} from '@needless-ui/core';
+} from '../date.js';
 import {
   type NuiSchedulerBar,
-  type NuiSchedulerChange,
   nuiSchedulerDays,
   type NuiSchedulerEvent,
   type NuiSchedulerHours,
-  type NuiSchedulerLabels,
   nuiSchedulerLanes,
   nuiSchedulerMinutes,
   nuiSchedulerPage,
   nuiSchedulerPlace,
   type NuiSchedulerResource,
   nuiSchedulerResources,
-  type NuiSchedulerSlot,
   type NuiSchedulerSpan,
   nuiSchedulerStack,
   type NuiSchedulerTimelineSpan,
@@ -34,47 +31,49 @@ import {
   nuiSchedulerValue,
   type NuiSchedulerView,
   nuiSchedulerWorking,
-} from '@needless-ui/core/scheduler';
+} from './layout.js';
+import type { NuiSchedulerChange, NuiSchedulerLabels, NuiSchedulerSlot } from './types.js';
 
-export const ALL_VIEWS: readonly NuiSchedulerView[] = ['month', 'week', 'day', 'agenda'];
-/** Bars shown in a month cell before "N more". */
-export const LANES = 3;
-export const DAY = 1440;
+/** The views offered by default. With resources, the timeline joins them. */
+export const NUI_SCHEDULER_VIEWS: readonly NuiSchedulerView[] = ['month', 'week', 'day', 'agenda'];
 /** How long a finger holds still to pick an event up; moving sooner scrolls. */
-export const LONG_PRESS = 400;
+export const NUI_SCHEDULER_LONG_PRESS = 400;
 /** How far a finger may drift during that press. */
-export const SLOP = 8;
+export const NUI_SCHEDULER_SLOP = 8;
+/** Bars shown in a month cell before "N more". */
+const LANES = 3;
+const DAY = 1440;
 
 /** A row of the time grid: a slot (minutes since midnight), the all-day row, or a whole day. */
-export type Slot = number | 'all' | null;
+export type NuiSchedulerCellSlot = number | 'all' | null;
 
 /**
  * Where the keyboard is: a day; on the time grid, a slot (minutes since midnight)
  * or the all-day row; and among resources, the index of one.
  */
-export interface Cell {
+export interface NuiSchedulerCell {
   day: NuiDate;
-  slot: Slot;
+  slot: NuiSchedulerCellSlot;
   resource: number | null;
 }
 
 /** A cell under the pointer, and the moment under it, in minutes since 1970. */
-export interface Point {
-  cell: Cell;
+export interface NuiSchedulerPoint {
+  cell: NuiSchedulerCell;
   time: number;
 }
 
-export interface Drag {
+export interface NuiSchedulerDrag {
   kind: 'move' | 'resize' | 'select';
   span?: NuiSchedulerSpan;
-  origin: Point;
+  origin: NuiSchedulerPoint;
   x: number;
   y: number;
   moved: boolean;
 }
 
 /** Where a dragged event would land. */
-export interface Preview {
+export interface NuiSchedulerPreview {
   span: NuiSchedulerSpan;
   start: number;
   end: number;
@@ -83,13 +82,13 @@ export interface Preview {
 }
 
 /** Time chosen on the grid: from the anchor to the focus. */
-export interface Selection {
-  anchor: Cell;
-  focus: Cell;
+export interface NuiSchedulerSelection {
+  anchor: NuiSchedulerCell;
+  focus: NuiSchedulerCell;
 }
 
 /** A column of the time grid: a day, of a resource when they're laid out. */
-export interface Column {
+export interface NuiSchedulerColumn {
   day: NuiDate;
   resource: NuiSchedulerResource | null;
   index: number | null;
@@ -97,33 +96,31 @@ export interface Column {
   group: boolean;
 }
 
-/** How an event sits on a grid, as the custom properties the stylesheet reads. */
-export interface Place {
-  kind: 'timed' | 'bar';
-  /** Where it starts in its cell, as a share of the cell. */
-  offset?: number;
-  /** How many slots it reaches down, in the time grid. */
-  length?: number;
-  /** How many cells it reaches across, as a bar. */
-  span?: number;
-  lane?: number;
-  column?: number;
-  columns?: number;
-  width?: number;
-  before: boolean;
-  after: boolean;
-  short?: boolean;
-  /** Its end shows, so a handle there resizes it. */
-  resize: boolean;
-}
-
 /** An event drawn in a cell. */
-export interface Shown {
+export interface NuiSchedulerShown {
   span: NuiSchedulerSpan;
-  place: Place;
+  /** How it sits on the grid, as the custom properties the stylesheet reads. */
+  place: {
+    kind: 'timed' | 'bar';
+    /** Where it starts in its cell, as a share of the cell. */
+    offset?: number;
+    /** How many slots it reaches down, in the time grid. */
+    length?: number;
+    /** How many cells it reaches across, as a bar. */
+    span?: number;
+    lane?: number;
+    column?: number;
+    columns?: number;
+    width?: number;
+    before: boolean;
+    after: boolean;
+    short?: boolean;
+    /** Its end shows, so a handle there resizes it. */
+    resize: boolean;
+  };
 }
 
-export interface Ghost {
+export interface NuiSchedulerGhost {
   /** The cell it starts in. */
   cell: string;
   kind: 'timed' | 'bar';
@@ -135,7 +132,7 @@ export interface Ghost {
 }
 
 /** The minutes of a day the time grid shows, from and to, in `count` slots. */
-export interface Window {
+export interface NuiSchedulerWindow {
   from: number;
   to: number;
   count: number;
@@ -143,9 +140,9 @@ export interface Window {
 
 /**
  * What the views are laid out from: the settings, and what follows from them.
- * The component computes it once per change of any of these.
+ * A binding computes it once per change of any of these.
  */
-export interface Frame {
+export interface NuiSchedulerFrame {
   view: NuiSchedulerView;
   timelineSpan: NuiSchedulerTimelineSpan;
   /** The first day of the week, 1 for Monday. */
@@ -155,7 +152,7 @@ export interface Frame {
   agendaDays: number;
   /** Minutes per slot. */
   step: number;
-  window: Window;
+  window: NuiSchedulerWindow;
   slots: readonly number[];
   /** The slot the time grid opens at. */
   scrollSlot: number;
@@ -169,23 +166,23 @@ export interface Frame {
   laid: readonly NuiSchedulerResource[];
 }
 
-/** A date format whose output is the same on a server and in a browser (see `formatsOf`). */
-export interface Format {
+/** A date format whose output is the same on a server and in a browser (see `nuiSchedulerFormats`). */
+export interface NuiSchedulerFormat {
   format(date: Date): string;
   formatRange(start: Date, end: Date): string;
 }
 
-export interface Formats {
-  time: Format;
-  day: Format;
-  full: Format;
-  long: Format;
-  month: Format;
-  range: Format;
-  weekday: Format;
+export interface NuiSchedulerFormats {
+  time: NuiSchedulerFormat;
+  day: NuiSchedulerFormat;
+  full: NuiSchedulerFormat;
+  long: NuiSchedulerFormat;
+  month: NuiSchedulerFormat;
+  range: NuiSchedulerFormat;
+  weekday: NuiSchedulerFormat;
 }
 
-export function frameOf(settings: {
+export function nuiSchedulerFrame(settings: {
   view: NuiSchedulerView;
   timelineSpan: NuiSchedulerTimelineSpan;
   start: number;
@@ -196,7 +193,7 @@ export function frameOf(settings: {
   dayEnd: number;
   scrollHour: number;
   resources: readonly NuiSchedulerResource[];
-}): Frame {
+}): NuiSchedulerFrame {
   const { view, timelineSpan } = settings;
   const step = Math.max(5, settings.slotMinutes);
   const from = Math.min(DAY - step, Math.max(0, Math.round(settings.dayStart * 60)));
@@ -229,8 +226,8 @@ export function frameOf(settings: {
  * ones, so the HTML a server renders wouldn't match the browser's and hydration
  * would fail: every format writes plain spaces.
  */
-export function formatsOf(locale: string): Formats {
-  const plain = (options: Intl.DateTimeFormatOptions): Format => {
+export function nuiSchedulerFormats(locale: string): NuiSchedulerFormats {
+  const plain = (options: Intl.DateTimeFormatOptions): NuiSchedulerFormat => {
     const intl = nuiDateFormat(locale, options);
     return {
       format: (date) => intl.format(date).replace(SPACES, ' '),
@@ -253,14 +250,17 @@ const SPACES = /[\u2009\u202f]/g;
 // --- Days ------------------------------------------------------------------------
 
 /** The days of a range that are shown. */
-export function shownDays(frame: Frame, range: readonly NuiDate[]): NuiDate[] {
+export function nuiSchedulerShownDays(
+  frame: NuiSchedulerFrame,
+  range: readonly NuiDate[],
+): NuiDate[] {
   if (!frame.hidden.size) return [...range];
   const shown = range.filter((day) => !frame.hidden.has(nuiWeekday(day)));
   return shown.length ? shown : [...range];
 }
 
 /** The first day from `day` on, going `direction`, that the views show. */
-export function nextShown(frame: Frame, day: NuiDate, direction: number): NuiDate {
+function nextShown(frame: NuiSchedulerFrame, day: NuiDate, direction: number): NuiDate {
   for (let i = 0; i < 7 && frame.hidden.has(nuiWeekday(day)); i++) {
     day = nuiAddDays(day, direction);
   }
@@ -268,7 +268,7 @@ export function nextShown(frame: Frame, day: NuiDate, direction: number): NuiDat
 }
 
 /** Where paging lands, going `direction`: on a day shown, and for a month, in that month. */
-export function landOn(frame: Frame, day: NuiDate, direction: number): NuiDate {
+function landOn(frame: NuiSchedulerFrame, day: NuiDate, direction: number): NuiDate {
   if (frame.monthly) {
     const ahead = nextShown(frame, day, direction);
     return ahead.slice(0, 7) === day.slice(0, 7) ? ahead : nextShown(frame, day, -direction);
@@ -277,34 +277,38 @@ export function landOn(frame: Frame, day: NuiDate, direction: number): NuiDate {
 }
 
 /** How many days there are from `day` to the next day shown, going `direction`. */
-export function stepDays(frame: Frame, day: NuiDate, direction: number): number {
+function stepDays(frame: NuiSchedulerFrame, day: NuiDate, direction: number): number {
   return nuiDayNumber(nextShown(frame, nuiAddDays(day, direction), direction)) - nuiDayNumber(day);
 }
 
 /** The date the view shows from: for one day, a day the views show. */
-export function anchorOf(frame: Frame, date: NuiDate): NuiDate {
+export function nuiSchedulerAnchor(frame: NuiSchedulerFrame, date: NuiDate): NuiDate {
   return frame.daily ? nextShown(frame, date, 1) : date;
 }
 
 /** Every day of the view, hidden ones too: the range reported and loaded. */
-export function rangeOf(frame: Frame, anchor: NuiDate): NuiDate[] {
+export function nuiSchedulerRange(frame: NuiSchedulerFrame, anchor: NuiDate): NuiDate[] {
   return nuiSchedulerDays(frame.view, anchor, frame.start, frame.agendaDays, frame.timelineSpan);
 }
 
 /** The date the previous or next page starts from, landed on a day shown. */
-export function paged(frame: Frame, anchor: NuiDate, direction: number): NuiDate {
+export function nuiSchedulerPaged(
+  frame: NuiSchedulerFrame,
+  anchor: NuiDate,
+  direction: number,
+): NuiDate {
   const day = nuiSchedulerPage(frame.view, anchor, direction, frame.agendaDays, frame.timelineSpan);
   return landOn(frame, day, direction);
 }
 
 /** The ISO week of the week that holds `day`, counted from its Monday, as the calendar does. */
-export function isoWeekOf(frame: Frame, day: NuiDate): number {
+export function nuiSchedulerIsoWeek(frame: NuiSchedulerFrame, day: NuiDate): number {
   const first = nuiAddDays(day, -((nuiWeekday(day) - frame.start + 7) % 7));
   return nuiIsoWeek(nuiAddDays(first, (8 - frame.start) % 7));
 }
 
 /** The slot a time of day falls in, kept within the slots shown. */
-export function slotOf(frame: Frame, minutes: number): number {
+function slotOf(frame: NuiSchedulerFrame, minutes: number): number {
   const slots = frame.slots;
   const index = Math.floor((minutes - slots[0]) / frame.step);
   return slots[Math.min(slots.length - 1, Math.max(0, index))];
@@ -316,17 +320,21 @@ export function slotOf(frame: Frame, minutes: number): number {
  * A cell's key: its day, then its slot (minutes since midnight, `all`, or empty
  * for a whole day), then the index of its resource.
  */
-export function key(day: NuiDate, slot: Slot, resource: number | null): string {
+export function nuiSchedulerKey(
+  day: NuiDate,
+  slot: NuiSchedulerCellSlot,
+  resource: number | null,
+): string {
   if (resource !== null) return `${day}|${slot ?? ''}|${resource}`;
   return slot === null ? day : `${day}|${slot}`;
 }
 
-export function cellKey(cell: Cell): string {
-  return key(cell.day, cell.slot, cell.resource);
+export function nuiSchedulerCellKey(cell: NuiSchedulerCell): string {
+  return nuiSchedulerKey(cell.day, cell.slot, cell.resource);
 }
 
 /** The cell a key stands for. */
-export function cellFromKey(value: string): Cell {
+export function nuiSchedulerCellFromKey(value: string): NuiSchedulerCell {
   const [day, slot, resource] = value.split('|');
   return {
     day,
@@ -336,13 +344,13 @@ export function cellFromKey(value: string): Cell {
 }
 
 /** Where the keyboard is, kept on a cell that's shown. */
-export function cursorOf(
-  frame: Frame,
+export function nuiSchedulerCursor(
+  frame: NuiSchedulerFrame,
   days: readonly NuiDate[],
   date: NuiDate,
-  slot: Slot,
+  slot: NuiSchedulerCellSlot,
   resourceId: string | null,
-): Cell {
+): NuiSchedulerCell {
   const day = days.includes(date) ? date : (days.find((d) => d > date) ?? days[days.length - 1]);
   let at = slot;
   if (!frame.slotted) at = null;
@@ -358,37 +366,46 @@ export function cursorOf(
 }
 
 /** A cell's time: minutes since 1970, from and to. */
-export function timeOf(frame: Frame, cell: Cell): [number, number] {
+export function nuiSchedulerCellTime(
+  frame: NuiSchedulerFrame,
+  cell: NuiSchedulerCell,
+): [number, number] {
   const midnight = nuiSchedulerMinutes(cell.day);
   if (cell.slot === null || cell.slot === 'all') return [midnight, midnight + DAY];
   return [midnight + cell.slot, midnight + cell.slot + frame.step];
 }
 
 /** The time a selection covers. */
-export function selectedTime(frame: Frame, selection: Selection): [number, number] {
-  const a = timeOf(frame, selection.anchor);
-  const b = timeOf(frame, selection.focus);
+function selectedTime(
+  frame: NuiSchedulerFrame,
+  selection: NuiSchedulerSelection,
+): [number, number] {
+  const a = nuiSchedulerCellTime(frame, selection.anchor);
+  const b = nuiSchedulerCellTime(frame, selection.focus);
   return [Math.min(a[0], b[0]), Math.max(a[1], b[1])];
 }
 
 /** Whether a cell is in the chosen time. */
-export function isSelected(
-  frame: Frame,
-  selection: Selection | null,
+export function nuiSchedulerIsSelected(
+  frame: NuiSchedulerFrame,
+  selection: NuiSchedulerSelection | null,
   day: NuiDate,
-  slot: Slot,
+  slot: NuiSchedulerCellSlot,
   resource: number | null,
 ): boolean {
   if (!selection) return false;
   const { anchor } = selection;
   if ((anchor.slot === 'all') !== (slot === 'all') || anchor.resource !== resource) return false;
   const [from, to] = selectedTime(frame, selection);
-  const [start, end] = timeOf(frame, { day, slot, resource });
+  const [start, end] = nuiSchedulerCellTime(frame, { day, slot, resource });
   return start >= from && end <= to;
 }
 
-/** The time a selection chooses, as `onSlotSelect` reports it. */
-export function chosen(frame: Frame, selection: Selection): NuiSchedulerSlot {
+/** The time a selection chooses, as `slotSelect` (`onSlotSelect` in React) reports it. */
+export function nuiSchedulerChosen(
+  frame: NuiSchedulerFrame,
+  selection: NuiSchedulerSelection,
+): NuiSchedulerSlot {
   const [from, to] = selectedTime(frame, selection);
   const allDay = selection.anchor.slot === null || selection.anchor.slot === 'all';
   const resource =
@@ -405,11 +422,16 @@ export function chosen(frame: Frame, selection: Selection): NuiSchedulerSlot {
   };
 }
 
-export function idOf(frame: Frame, resource: number | null): string | null {
+/** The id of a resource laid out, from its index. */
+export function nuiSchedulerResourceId(
+  frame: NuiSchedulerFrame,
+  resource: number | null,
+): string | null {
   return resource === null ? null : (frame.laid[resource]?.id ?? null);
 }
 
-export function indexOf(frame: Frame, resource: string | null): number | null {
+/** The index of a resource among those laid out, from its id. */
+function indexOf(frame: NuiSchedulerFrame, resource: string | null): number | null {
   if (resource === null) return null;
   const index = frame.laid.findIndex((r) => r.id === resource);
   return index < 0 ? null : index;
@@ -418,12 +440,12 @@ export function indexOf(frame: Frame, resource: string | null): number | null {
 // --- Events ----------------------------------------------------------------------
 
 /** All-day events, and timed ones a day long or longer, go in the all-day row. */
-export function onTop(span: NuiSchedulerSpan): boolean {
+function onTop(span: NuiSchedulerSpan): boolean {
   return span.allDay || span.end - span.start >= DAY;
 }
 
 /** The spans of each resource. */
-export function byResource<T>(
+export function nuiSchedulerByResource<T>(
   spans: readonly NuiSchedulerSpan<T>[],
 ): Map<string, NuiSchedulerSpan<T>[]> {
   const map = new Map<string, NuiSchedulerSpan<T>[]>();
@@ -434,7 +456,7 @@ export function byResource<T>(
 }
 
 /** An event's colors: its own, else its resource's, else the accent. */
-export function paint(
+export function nuiSchedulerPaint(
   span: NuiSchedulerSpan,
   resources: readonly NuiSchedulerResource[],
 ): { tone: NuiSchedulerTone; color: string | null } {
@@ -447,11 +469,11 @@ export function paint(
 }
 
 /** Whether a cell lies outside working hours. */
-export function off(
-  frame: Frame,
+export function nuiSchedulerOffHours(
+  frame: NuiSchedulerFrame,
   businessHours: readonly NuiSchedulerHours[] | null | undefined,
   day: NuiDate,
-  slot: Slot,
+  slot: NuiSchedulerCellSlot,
   resource: number | null,
 ): boolean {
   const hours =
@@ -465,9 +487,9 @@ export function off(
 // --- Words -----------------------------------------------------------------------
 
 /** An event's time, as it shows on the event. */
-export function timeText(
+export function nuiSchedulerTimeText(
   span: NuiSchedulerSpan,
-  formats: Formats,
+  formats: NuiSchedulerFormats,
   words: NuiSchedulerLabels,
 ): string {
   if (span.allDay) return words.allDay;
@@ -480,23 +502,30 @@ export function timeText(
 }
 
 /** When an event starts, for the month's short lines. */
-export function startText(span: NuiSchedulerSpan, formats: Formats): string {
+export function nuiSchedulerStartText(
+  span: NuiSchedulerSpan,
+  formats: NuiSchedulerFormats,
+): string {
   return formats.time.format(nuiUtc(nuiSchedulerValue(span.start)));
 }
 
 /** An event's day and time, in words. */
-export function when(span: NuiSchedulerSpan, formats: Formats, words: NuiSchedulerLabels): string {
+export function nuiSchedulerWhen(
+  span: NuiSchedulerSpan,
+  formats: NuiSchedulerFormats,
+  words: NuiSchedulerLabels,
+): string {
   const start = nuiUtc(nuiSchedulerValue(span.start));
   if (span.allDay) {
     return span.end - span.start > DAY
       ? `${formats.range.formatRange(start, nuiUtc(nuiSchedulerValue(span.end - 1)))}, ${words.allDay}`
       : `${formats.long.format(start)}, ${words.allDay}`;
   }
-  return `${formats.long.format(start)}, ${timeText(span, formats, words)}`;
+  return `${formats.long.format(start)}, ${nuiSchedulerTimeText(span, formats, words)}`;
 }
 
 /** The names of an event's resources, when they're shown. */
-export function resourceNames(
+export function nuiSchedulerResourceNames(
   span: NuiSchedulerSpan,
   resources: readonly NuiSchedulerResource[],
 ): string {
@@ -508,28 +537,28 @@ export function resourceNames(
 }
 
 /** An event's name for screen readers: its title, resources, day and time. */
-export function label(
+export function nuiSchedulerEventLabel(
   span: NuiSchedulerSpan,
   resources: readonly NuiSchedulerResource[],
-  formats: Formats,
+  formats: NuiSchedulerFormats,
   words: NuiSchedulerLabels,
 ): string {
-  const names = resourceNames(span, resources);
+  const names = nuiSchedulerResourceNames(span, resources);
   return [
     span.event.title,
     ...(names ? [names] : []),
-    when(span, formats, words),
+    nuiSchedulerWhen(span, formats, words),
     ...(span.event.recurrenceId === undefined ? [] : [words.repeats]),
   ].join(', ');
 }
 
 /** What's shown, as the toolbar's title says it: a month, a week, or a day. */
-export function titleOf(
-  frame: Frame,
+export function nuiSchedulerTitle(
+  frame: NuiSchedulerFrame,
   days: readonly NuiDate[],
   date: NuiDate,
   anchor: NuiDate,
-  formats: Formats,
+  formats: NuiSchedulerFormats,
 ): string {
   switch (frame.view === 'timeline' ? frame.timelineSpan : frame.view) {
     case 'month':
@@ -544,7 +573,10 @@ export function titleOf(
 // --- The time grid -----------------------------------------------------------------
 
 /** The time grid's columns: each day, and each day of each resource when they're laid out. */
-export function columnsOf(frame: Frame, days: readonly NuiDate[]): Column[] {
+export function nuiSchedulerColumns(
+  frame: NuiSchedulerFrame,
+  days: readonly NuiDate[],
+): NuiSchedulerColumn[] {
   if (frame.view !== 'week' && frame.view !== 'day') return [];
   if (!frame.laid.length) {
     return days.map((day) => ({ day, resource: null, index: null, group: false }));
@@ -555,12 +587,12 @@ export function columnsOf(frame: Frame, days: readonly NuiDate[]): Column[] {
 }
 
 /** Timed events, placed side by side, by the cell they start in. */
-export function placedOf(
-  frame: Frame,
-  columns: readonly Column[],
+export function nuiSchedulerTimed(
+  frame: NuiSchedulerFrame,
+  columns: readonly NuiSchedulerColumn[],
   spansOf: (resource: NuiSchedulerResource | null) => readonly NuiSchedulerSpan[],
-): Map<string, Shown[]> {
-  const map = new Map<string, Shown[]>();
+): Map<string, NuiSchedulerShown[]> {
+  const map = new Map<string, NuiSchedulerShown[]>();
   const { from, to } = frame.window;
   const step = frame.step;
   for (const column of columns) {
@@ -569,7 +601,7 @@ export function placedOf(
       const slot = slotOf(frame, part.start);
       // At least half a slot long, so it can be read and grabbed.
       const length = Math.max(0.5, (part.end - part.start) / step);
-      push(map, key(column.day, slot, column.index), {
+      push(map, nuiSchedulerKey(column.day, slot, column.index), {
         span: part.span,
         place: {
           kind: 'timed',
@@ -590,19 +622,19 @@ export function placedOf(
 }
 
 /** Bars in the all-day row, by the cell they start in, and how many lanes they take. */
-export function topBarsOf(
-  frame: Frame,
+export function nuiSchedulerTopBars(
+  frame: NuiSchedulerFrame,
   days: readonly NuiDate[],
   spansOf: (resource: NuiSchedulerResource | null) => readonly NuiSchedulerSpan[],
-): { map: Map<string, Shown[]>; lanes: number } {
-  const map = new Map<string, Shown[]>();
+): { map: Map<string, NuiSchedulerShown[]>; lanes: number } {
+  const map = new Map<string, NuiSchedulerShown[]>();
   let lanes = 0;
   if (frame.view !== 'week' && frame.view !== 'day') return { map, lanes };
   const groups = frame.laid.length ? frame.laid : [null];
   groups.forEach((resource, index) => {
     const top = spansOf(resource).filter((s) => onTop(s));
     for (const bar of nuiSchedulerLanes(top, days)) {
-      push(map, key(days[bar.from], 'all', resource ? index : null), barOf(bar, true));
+      push(map, nuiSchedulerKey(days[bar.from], 'all', resource ? index : null), barOf(bar, true));
       lanes = Math.max(lanes, bar.lane + 1);
     }
   });
@@ -610,8 +642,8 @@ export function topBarsOf(
 }
 
 /** Where the now line crosses the time grid: its day, its slot, and how far into it. */
-export function nowCellOf(
-  frame: Frame,
+export function nuiSchedulerNowCell(
+  frame: NuiSchedulerFrame,
   now: string | null,
 ): { day: NuiDate; slot: number; offset: number } | null {
   if (!now) return null;
@@ -624,18 +656,18 @@ export function nowCellOf(
 
 // --- The timeline -------------------------------------------------------------------
 
-export interface Unit {
+export interface NuiSchedulerUnit {
   day: NuiDate;
   slot: number | null;
   label: string;
 }
 
 /** The timeline's columns: slots of its day, or its days. */
-export function unitsOf(
-  frame: Frame,
+export function nuiSchedulerUnits(
+  frame: NuiSchedulerFrame,
   days: readonly NuiDate[],
   slotLabels: readonly string[],
-): Unit[] {
+): NuiSchedulerUnit[] {
   if (frame.view !== 'timeline') return [];
   if (frame.slotted) {
     const day = days[0];
@@ -644,20 +676,20 @@ export function unitsOf(
   return days.map((day) => ({ day, slot: null, label: '' }));
 }
 
-export interface TimelineRow {
+export interface NuiSchedulerTimelineRow {
   resource: NuiSchedulerResource | null;
   index: number | null;
   lanes: number;
-  items: Map<string, Shown[]>;
+  items: Map<string, NuiSchedulerShown[]>;
   count: number;
 }
 
 /** The timeline's rows: each resource, with its events by the cell they start in. */
-export function timelineOf(
-  frame: Frame,
+export function nuiSchedulerTimeline(
+  frame: NuiSchedulerFrame,
   days: readonly NuiDate[],
   spansOf: (resource: NuiSchedulerResource | null) => readonly NuiSchedulerSpan[],
-): TimelineRow[] {
+): NuiSchedulerTimelineRow[] {
   if (frame.view !== 'timeline') return [];
   const rows: { resource: NuiSchedulerResource | null; index: number | null }[] = frame.laid.length
     ? frame.laid.map((resource, index) => ({ resource, index }))
@@ -665,7 +697,7 @@ export function timelineOf(
   const step = frame.step;
   const { from, to } = frame.window;
   return rows.map(({ resource, index }) => {
-    const items = new Map<string, Shown[]>();
+    const items = new Map<string, NuiSchedulerShown[]>();
     let lanes = 0;
     const spans = spansOf(resource);
     if (frame.slotted) {
@@ -675,7 +707,7 @@ export function timelineOf(
       for (const item of nuiSchedulerStack(spans, midnight + from, midnight + to, minimum)) {
         const at = item.start - midnight;
         const slot = slotOf(frame, at);
-        push(items, key(day, slot, index), {
+        push(items, nuiSchedulerKey(day, slot, index), {
           span: item.span,
           place: {
             kind: 'bar',
@@ -692,7 +724,7 @@ export function timelineOf(
       }
     } else {
       for (const bar of nuiSchedulerLanes(spans, days)) {
-        push(items, key(days[bar.from], null, index), barOf(bar, true));
+        push(items, nuiSchedulerKey(days[bar.from], null, index), barOf(bar, true));
         lanes = Math.max(lanes, bar.lane + 1);
       }
     }
@@ -702,38 +734,38 @@ export function timelineOf(
 
 // --- The month grid -----------------------------------------------------------------
 
-export interface MonthDay {
+export interface NuiSchedulerMonthDay {
   day: NuiDate;
   number: string;
   label: string;
   outside: boolean;
-  bars: Shown[];
+  bars: NuiSchedulerShown[];
   more: number;
 }
 
-export interface MonthWeek {
+export interface NuiSchedulerMonthWeek {
   number: number | null;
-  days: MonthDay[];
+  days: NuiSchedulerMonthDay[];
 }
 
-export function weeksOf(
-  frame: Frame,
+export function nuiSchedulerWeeks(
+  frame: NuiSchedulerFrame,
   range: readonly NuiDate[],
   date: NuiDate,
   spans: readonly NuiSchedulerSpan[],
-  formats: Formats,
+  formats: NuiSchedulerFormats,
   words: NuiSchedulerLabels,
   weekNumbers: boolean,
-): MonthWeek[] {
+): NuiSchedulerMonthWeek[] {
   if (frame.view !== 'month') return [];
   const month = date.slice(0, 7);
   return Array.from({ length: range.length / 7 }, (_, w) => {
-    const week = shownDays(frame, range.slice(w * 7, w * 7 + 7));
+    const week = nuiSchedulerShownDays(frame, range.slice(w * 7, w * 7 + 7));
     const bars = nuiSchedulerLanes(spans, week);
     const starts = new Map<number, NuiSchedulerBar[]>();
     for (const bar of bars) push(starts, bar.from, bar);
     return {
-      number: weekNumbers ? isoWeekOf(frame, range[w * 7]) : null,
+      number: weekNumbers ? nuiSchedulerIsoWeek(frame, range[w * 7]) : null,
       days: week.map((day, i) => {
         const covering = bars.filter((b) => b.from <= i && b.to >= i);
         // A timed event is a line with a dot here: only all-day bars resize.
@@ -758,10 +790,10 @@ export function weeksOf(
 
 // --- The agenda ---------------------------------------------------------------------
 
-export function agendaOf(
+export function nuiSchedulerAgenda(
   days: readonly NuiDate[],
   spans: readonly NuiSchedulerSpan[],
-  formats: Formats,
+  formats: NuiSchedulerFormats,
 ): { day: NuiDate; label: string; spans: NuiSchedulerSpan[] }[] {
   return days
     .map((day) => {
@@ -778,18 +810,18 @@ export function agendaOf(
 // --- Dragging -----------------------------------------------------------------------
 
 /** Where a dragged event would land, drawn in the cell it starts in. */
-export function ghostOf(
-  frame: Frame,
-  preview: Preview | null,
+export function nuiSchedulerGhost(
+  frame: NuiSchedulerFrame,
+  preview: NuiSchedulerPreview | null,
   days: readonly NuiDate[],
-  weeks: readonly MonthWeek[],
+  weeks: readonly NuiSchedulerMonthWeek[],
   resources: readonly NuiSchedulerResource[],
-): Ghost | null {
+): NuiSchedulerGhost | null {
   if (!preview) return null;
   const { span, start, end } = preview;
   const view = frame.view;
   const index = indexOf(frame, preview.resource);
-  const colors = paint(span, resources);
+  const colors = nuiSchedulerPaint(span, resources);
   const base = { tone: colors.tone, color: colors.color, title: span.event.title };
   if (frame.slotted && (view === 'timeline' || !onTop(span))) {
     // A block in the time grid, or along the day's timeline.
@@ -805,7 +837,7 @@ export function ghostOf(
     const minimum = view === 'timeline' ? Math.max(15, step / 2) : step / 2;
     return {
       ...base,
-      cell: key(day, slot, index),
+      cell: nuiSchedulerKey(day, slot, index),
       kind: view === 'timeline' ? 'bar' : 'timed',
       offset: (shownStart - midnight - slot) / step,
       length: Math.max(minimum, shownEnd - shownStart) / step,
@@ -824,7 +856,7 @@ export function ghostOf(
     const slot = view === 'month' || view === 'timeline' ? null : 'all';
     return {
       ...base,
-      cell: key(row[from], slot, index),
+      cell: nuiSchedulerKey(row[from], slot, index),
       kind: 'bar',
       offset: 0,
       length: to - from + 1,
@@ -833,8 +865,8 @@ export function ghostOf(
   return null;
 }
 
-/** An event's new times, as `onEventChange` reports them. */
-export function proposal<T>(
+/** An event's new times, as `eventChange` (`onEventChange` in React) reports them. */
+export function nuiSchedulerProposal<T>(
   span: NuiSchedulerSpan,
   start: number,
   end: number,
@@ -854,16 +886,16 @@ export function proposal<T>(
 }
 
 /** An event's resources with one swapped for another, as a move between them leaves them. */
-export function swap(span: NuiSchedulerSpan, from: string, to: string): string | readonly string[] {
+function swap(span: NuiSchedulerSpan, from: string, to: string): string | readonly string[] {
   const resource = span.event.resource;
   if (resource === undefined || typeof resource === 'string') return to;
   return [...new Set(resource.map((id) => (id === from ? to : id)))];
 }
 
 /** The resources a dragged event lands on, when it moved between them. */
-export function moveTo(
-  frame: Frame,
-  preview: Preview,
+export function nuiSchedulerMoveTo(
+  frame: NuiSchedulerFrame,
+  preview: NuiSchedulerPreview,
   origin: number | null | undefined,
 ): string | readonly string[] | undefined {
   if (preview.resource === null || origin === null || origin === undefined) return undefined;
@@ -874,7 +906,12 @@ export function moveTo(
 }
 
 /** Where a drag would put its event, with the pointer at `point`; null for no change. */
-export function dragPreview(frame: Frame, drag: Drag, point: Point, snap: number): Preview | null {
+export function nuiSchedulerDragPreview(
+  frame: NuiSchedulerFrame,
+  drag: NuiSchedulerDrag,
+  point: NuiSchedulerPoint,
+  snap: number,
+): NuiSchedulerPreview | null {
   const span = drag.span!;
   const origin = drag.origin;
   const days = typeof point.cell.slot !== 'number';
@@ -888,7 +925,12 @@ export function dragPreview(frame: Frame, drag: Drag, point: Point, snap: number
     else if (span.allDay)
       end = Math.max(span.start + DAY, (Math.floor(point.time / DAY) + 1) * DAY);
     else end = Math.max(span.start + snap, span.end + shift * DAY);
-    return { span, start: span.start, end, resource: idOf(frame, origin.cell.resource) };
+    return {
+      span,
+      start: span.start,
+      end,
+      resource: nuiSchedulerResourceId(frame, origin.cell.resource),
+    };
   }
   // A timed event keeps to the time grid, an all-day one to whole days.
   if (days !== fromDays) return null;
@@ -899,27 +941,31 @@ export function dragPreview(frame: Frame, drag: Drag, point: Point, snap: number
     span,
     start: span.start + delta,
     end: span.end + delta,
-    resource: frame.laid.length ? idOf(frame, point.cell.resource) : null,
+    resource: frame.laid.length ? nuiSchedulerResourceId(frame, point.cell.resource) : null,
   };
 }
 
 // --- Keyboard -----------------------------------------------------------------------
 
 /** The cell a key moves to from `cell`, or null for a key the grid doesn't take. */
-export function target(
-  frame: Frame,
-  cell: Cell,
+export function nuiSchedulerTarget(
+  frame: NuiSchedulerFrame,
+  cell: NuiSchedulerCell,
   keyName: string,
   ctrl: boolean,
   rtl: boolean,
-  view: { days: readonly NuiDate[]; columns: readonly Column[]; weeks: readonly MonthWeek[] },
-): Cell | null {
+  view: {
+    days: readonly NuiDate[];
+    columns: readonly NuiSchedulerColumn[];
+    weeks: readonly NuiSchedulerMonthWeek[];
+  },
+): NuiSchedulerCell | null {
   const across = (keyName === 'ArrowRight' ? 1 : keyName === 'ArrowLeft' ? -1 : 0) * (rtl ? -1 : 1);
   const down = keyName === 'ArrowDown' ? 1 : keyName === 'ArrowUp' ? -1 : 0;
   const days = view.days;
   if (keyName === 'PageUp' || keyName === 'PageDown') {
     const direction = keyName === 'PageUp' ? -1 : 1;
-    return { ...cell, day: paged(frame, cell.day, direction) };
+    return { ...cell, day: nuiSchedulerPaged(frame, cell.day, direction) };
   }
   if (frame.view === 'month') {
     if (across) return { ...cell, day: nextShown(frame, nuiAddDays(cell.day, across), across) };
@@ -973,7 +1019,7 @@ export function target(
   if (column) return { ...cell, day: column.day, resource: column.index };
   // Past either end, the next or previous page, from its first or last column.
   const page = landOn(frame, nuiSchedulerPage(frame.view, cell.day, across), across);
-  const shown = shownDays(frame, nuiSchedulerDays(frame.view, page, frame.start));
+  const shown = nuiSchedulerShownDays(frame, nuiSchedulerDays(frame.view, page, frame.start));
   return {
     ...cell,
     day: shown[across > 0 ? 0 : shown.length - 1],
@@ -982,15 +1028,15 @@ export function target(
 }
 
 /** Where Alt and an arrow move an event to, or with Shift, how they change its length. */
-export function moved(
-  frame: Frame,
+export function nuiSchedulerMoved(
+  frame: NuiSchedulerFrame,
   span: NuiSchedulerSpan,
-  cell: Cell,
+  cell: NuiSchedulerCell,
   keyName: string,
   shift: boolean,
   rtl: boolean,
   snap: number,
-  columns: readonly Column[],
+  columns: readonly NuiSchedulerColumn[],
 ): {
   start: number;
   end: number;
@@ -1047,12 +1093,12 @@ export function moved(
 }
 
 /** The cell an event moved to `start` begins in, on the resource it went to. */
-export function landing(
-  frame: Frame,
+export function nuiSchedulerLanding(
+  frame: NuiSchedulerFrame,
   span: NuiSchedulerSpan,
   start: number,
   resource: number | null,
-): Cell {
+): NuiSchedulerCell {
   const at = nuiSchedulerValue(start);
   const day = at.slice(0, 10);
   const view = frame.view;
@@ -1068,7 +1114,7 @@ export function landing(
 }
 
 /** A bar across days, in its lane; one whose end shows can resize. */
-export function barOf(bar: NuiSchedulerBar, resizable: boolean): Shown {
+function barOf(bar: NuiSchedulerBar, resizable: boolean): NuiSchedulerShown {
   return {
     span: bar.span,
     place: {

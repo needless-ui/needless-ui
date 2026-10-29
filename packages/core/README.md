@@ -4,11 +4,11 @@ The framework-free logic behind [Needless UI](https://github.com/needless-ui/nee
 
 You rarely install it yourself: the framework packages depend on it and export what apps use. It's here for apps that want the logic without a component, such as reading an iCalendar file on a server.
 
-| Entry point                   | What it holds                                                                                                                                                 |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@needless-ui/core`           | Plain dates and times (ISO strings, no time zone), numbers read in a locale, placement of floating elements, and a virtualizer for long lists                 |
-| `@needless-ui/core/scheduler` | Events laid out in days and lanes, repeat rules (RFC 5545 `RRULE`), iCalendar files (`nuiSchedulerToIcs`, `nuiSchedulerFromIcs`), and the scheduler's words   |
-| `@needless-ui/core/grid`      | The data grid's model as pure functions: columns laid out, rows filtered, sorted, grouped and paged, the selection, CSV, and a spreadsheet writer (`nuiXlsx`) |
+| Entry point                   | What it holds                                                                                                                                                                                                   |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@needless-ui/core`           | Plain dates and times (ISO strings, no time zone), numbers read in a locale, placement of floating elements, and a virtualizer for long lists                                                                   |
+| `@needless-ui/core/scheduler` | Events laid out in days and lanes, the views' cells, keys and drags as pure functions, repeat rules (RFC 5545 `RRULE`), iCalendar files (`nuiSchedulerToIcs`, `nuiSchedulerFromIcs`), and the scheduler's words |
+| `@needless-ui/core/grid`      | The data grid's model as pure functions: columns laid out, rows filtered, sorted, grouped and paged, the selection, CSV, and a spreadsheet writer (`nuiXlsx`)                                                   |
 
 ```ts
 import { nuiSchedulerFromIcs, nuiSchedulerOccurrences } from '@needless-ui/core/scheduler';
