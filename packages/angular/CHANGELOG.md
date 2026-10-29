@@ -1,5 +1,17 @@
 # @needless-ui/angular
 
+## 0.10.0
+
+### Minor Changes
+
+- [#35](https://github.com/needless-ui/needless-ui/pull/35) [`b315084`](https://github.com/needless-ui/needless-ui/commit/b315084c79ebc6853c11c614321dd99aaa7ebc85) - **`ng add`:** `ng add @needless-ui/angular` sets up an app in one command. It adds Angular Aria and the CDK for the app's Angular version, and imports `@needless-ui/css` at the top of the global stylesheet, after a layer order that keeps resets below the components. When the stylesheet imports Tailwind CSS, components go after Tailwind's base styles and before its utilities; a Sass stylesheet gets `@use '@needless-ui/css';`. Running it again changes nothing, and `--project` picks the app in a workspace with several.
+
+### Patch Changes
+
+- [#33](https://github.com/needless-ui/needless-ui/pull/33) [`e2f576e`](https://github.com/needless-ui/needless-ui/commit/e2f576e081f2774c34e57cfeb51c4b487f4a7001) - **Types:** every input, model and output has a doc comment, so editors and coding assistants say what it does. 105 of the 382 had none; their texts come from the API reference.
+- Updated dependencies []:
+  - @needless-ui/css@0.10.0
+
 ## 0.9.0
 
 ### Minor Changes
