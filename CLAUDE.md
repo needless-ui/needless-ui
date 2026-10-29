@@ -20,7 +20,7 @@ This repository is public, and anything pushed stays public. Before every commit
 - `pnpm build`: tokens → css → Angular package (`dist/needless-ui/angular`)
 - `pnpm test`: node:test suites for tokens and css, Vitest for Angular
 - `pnpm typecheck`, `pnpm format`, `pnpm format:check`
-- `pnpm build:docs`: prerenders the docs site (catches SSR bugs), then `apps/docs/scripts/seo-check.ts` fails on any SEO problem and writes `sitemap.xml` plus a `<page>.html` twin of every page (static hosts serve `/a/b` from `a/b.html` without a trailing-slash redirect; the `/404` twin is the host's `404.html`), `paint-first.ts` makes pages paint before hydrating (main.js is modulepreloaded and imported after the first contentful paint), and `trim-css.ts` drops unread custom properties from each page's inline CSS.
+- `pnpm build:docs`: prerenders the docs site (catches SSR bugs), then `apps/docs/scripts/seo-check.ts` fails on any SEO problem and writes `sitemap.xml` plus a `<page>.html` twin of every page (static hosts serve `/a/b` from `a/b.html` without a trailing-slash redirect; the `/404` twin is the host's `404.html`), `paint-first.ts` makes pages paint before hydrating (main.js is modulepreloaded and imported after the first contentful paint), `trim-css.ts` drops unread custom properties from each page's inline CSS, and `llms.ts` writes `llms.txt` and `llms-full.txt`, the docs in Markdown for AI assistants (from `en.ts`, the registry and `specs/`).
 - `pnpm check:browsers` (after `pnpm build:docs`): every component page in Chromium, Firefox and WebKit, on a computer and a touch screen; run it before releases.
 - Scripts in `packages/*/scripts` are TypeScript run directly by Node (type stripping): erasable syntax only, `.ts` import extensions.
 
