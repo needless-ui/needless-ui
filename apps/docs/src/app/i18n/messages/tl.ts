@@ -38,16 +38,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Accessible na Angular component, sobrang engineered',
+    title: 'Needless UI · Libreng Angular component na may scheduler at data grid',
     description:
-      'Ang Needless UI ay open-source na library ng mga Angular component: mga native element, iisang stylesheet na walang framework, W3C design token at WCAG 2.2 AA.',
+      'Libreng MIT library ng mga Angular component: accessible at nasa native element, may resource scheduler at data grid na may grouping at Excel export.',
     eyebrow: 'Open source · Angular 22 · MIT',
     heading: 'Mga UI component na pinag-isipan nang higit sa kailangan.',
-    lead: 'Sini-style ng Needless UI ang mga <strong>native element</strong> gamit ang iisang stylesheet na hindi nakatali sa framework at mga W3C design token. Nagdadagdag ang mga Angular directive nito ng behavior mula sa Angular Aria, kaya accessible ang bawat component mula pa sa unang render.',
+    lead: 'Mga accessible na Angular component sa mga <strong>native element</strong>, na sini-style ng iisang stylesheet na hindi nakatali sa framework. MIT ang lahat, pati ang mga ibinebenta nang hiwalay ng ibang library: isang <a href="/components/scheduler">scheduler</a> na may mga resource timeline, at isang <a href="/components/grid">data grid</a> na may grouping at Excel export.',
     getStarted: 'Magsimula',
     browse: 'Tingnan ang mga component',
     featuresTitle: 'Bakit ito ginawa',
     features: [
+      {
+        title: 'Walang premium tier',
+        text: 'MIT gaya ng lahat ng iba pa ang resource timeline at mga recurring event ng <a href="/components/scheduler">scheduler</a>, pati ang grouping, tree data at Excel export ng <a href="/components/grid">data grid</a>: walang license key, walang watermark. Lilipat ka ba mula sa isang bayad na library? Basahin ang mga gabay para sa <a href="/guides/from-fullcalendar">FullCalendar</a> at <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Native element muna',
         text: 'Totoong button ang <code>&lt;button nuiButton&gt;</code>. Gumagana ang mga form, keyboard at screen reader dahil walang nakabalot dito.',
@@ -73,9 +77,9 @@ export const messages: Messages = {
         text: 'Signal inputs, zoneless, server rendering at isang entry point bawat component, kaya ang ini-import lang ang dala ng mga app.',
       },
     ],
-    codeTitle: 'Dalawang import, tapos ka na',
+    codeTitle: 'Isang command, tapos isang import',
     codeText:
-      'Idagdag ang package, i-import nang isang beses ang stylesheet, at gamitin ang mga component sa kahit anong standalone component.',
+      'Patakbuhin ang ng add para i-install ang package at i-import ang stylesheet nito, tapos gamitin ang mga component sa kahit anong standalone component.',
   },
 
   components: {
@@ -1206,10 +1210,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Data grid',
-        title: 'Data grid component para sa Angular',
-        summary: 'I-sort, i-filter, piliin, i-edit at i-scroll ang kahit ilang row.',
+        title: 'Libreng Angular data grid: grouping at Excel export',
+        summary: 'I-sort, i-filter, i-group, i-edit at i-export ang kahit ilang row.',
         description:
-          'Accessible na Angular data grid sa native na table: multi-column sorting, mga filter, paging o virtual scrolling, selection, pag-edit at nalilipat na column.',
+          'Libre at MIT-licensed na Angular data grid sa native na table: grouping na may mga total, tree data, Excel export, mga filter, pag-edit at virtual scrolling.',
         apiDescription:
           'API reference ng Needless UI data grid: mga input at model ng nui-grid, ang NuiGridColumn definition, at mga template para sa custom na cell.',
         a11yDescription:
@@ -2707,6 +2711,390 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Para sa mga room na magkakatabi sa view ng araw, mga recurring booking at bawat iba pang opsyon, tingnan ang <a href="/components/scheduler">page ng scheduler</a> at ang <a href="/components/scheduler/api">API</a> nito.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Lumipat mula FullCalendar sa libreng Angular scheduler',
+        description:
+          'Ilipat ang Angular app mula FullCalendar Premium sa libreng Needless UI scheduler: mga katapat, booking timeline sa dalawa, mga kulang at bitag sa data.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Premium ang resource timeline at mga resource column ng FullCalendar: kailangan ng bayad na license key ang isang commercial app. Nakalista sa <a href="https://fullcalendar.io/license">license page</a> nito ang mga libreng opsyon, para sa mga app na buong AGPL at para sa mga rehistradong non-profit. Nasa Needless UI scheduler ang dalawang ito sa ilalim ng MIT, kasama ang mga recurring event at iCalendar file. Inililipat ng gabay na ito ang isang Angular app mula sa isa papunta sa kabila: kung ano ang nadadala, kung ano ang hindi, at ang data na kailangang i-convert.',
+          },
+          {
+            kind: 'p',
+            html: 'Ginagamit nito ang mga pangalan sa FullCalendar 7, at nasa bracket ang sa version 6 kapag magkaiba. Sinusuportahan ng Angular connector ng FullCalendar ang Angular 16 hanggang 22; Angular 22 ang kailangan ng Needless UI.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Ano ang makukuha mo' },
+          {
+            kind: 'table',
+            caption: 'Ang FullCalendar at ang Needless UI scheduler',
+            head: ['Feature', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Resource timeline: isang row bawat room o tao',
+                'Premium',
+                'Oo: isang araw, isang linggo o isang buwan',
+              ],
+              ['Mga resource bilang column sa mga view ng araw at linggo', 'Premium', 'Oo'],
+              ['Mga view ng buwan, linggo at araw', 'Libre', 'Oo'],
+              [
+                'I-drag para ilipat at i-resize',
+                'Libre; papunta sa ibang resource kapag may Premium',
+                'Oo, pati papunta sa ibang resource. Nare-resize ang dulo, hindi ang simula.',
+              ],
+              [
+                'Pumili ng oras para gumawa ng event',
+                'Libre',
+                'Oo, gamit ang pointer, long press o keyboard',
+              ],
+              [
+                'Mga patakaran gaya ng bawal mag-overlap',
+                'Libre: mga opsyon para sa overlap at constraint',
+                'Oo: iisang <code>allow</code> function, na tinatanong bago ang bawat pagbabago',
+              ],
+              [
+                'Ilipat at i-resize ang mga event gamit ang keyboard',
+                'Wala sa accessibility docs nito, na tungkol sa mga ARIA label at Tab focus',
+                'Oo, at inaanunsyo sa mga screen reader',
+              ],
+              [
+                'Mga recurring event',
+                'Libre, gamit ang rrule plugin at library',
+                'Built in: mga RFC 5545 rule, maliban sa EXRULE, RDATE at mga rule na kada oras',
+              ],
+              [
+                'iCalendar (.ics)',
+                'Libre: nagbabasa ng feed',
+                'Nagbabasa at nagsusulat ng mga .ics file',
+              ],
+              [
+                'Mga view ng list at taon',
+                'Libre',
+                'Isang agenda ng mga susunod na araw; walang view ng taon',
+              ],
+              [
+                'Mga time zone',
+                'Libre: local, UTC o may pangalan',
+                'Wala: ipinapakita nito ang mga oras gaya ng pagkakatanggap, nang walang conversion',
+              ],
+              [
+                'Naka-group, nested o multi-column na resource',
+                'Premium',
+                'Wala: isang column, na iginuguhit ng template mo',
+              ],
+              ['External drag and drop, mga background event', 'Libre', 'Wala'],
+              ['Pag-print, virtual rendering', 'Premium', 'Wala'],
+              [
+                'Mga framework',
+                'Angular 16 hanggang 22, React, Vue, plain JavaScript at iba pa',
+                'Angular 22; React ang susunod',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Ano ang katapat ng ano' },
+          {
+            kind: 'table',
+            caption: 'Mga opsyon ng FullCalendar at ang mga katapat nila sa Needless UI',
+            head: ['FullCalendar', 'Needless UI scheduler'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, na may input para sa bawat opsyon; walang plugin at walang key',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, at <code>timelineSpan</code> para sa isang linggo o isang buwan',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; two-way ang <code>[(view)]</code>',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: walang gagalaw hangga’t hindi mo ina-update ang <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: iisang function para sa mga paglipat, pag-resize at pagpili',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, sa minuto',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, sa oras',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, na may mga araw ng linggo mula 1 (Lunes) hanggang 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Mga template na <code>nuiSchedulerEvent</code> at <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (kahit anong BCP 47 tag), <code>firstDay</code> mula 1 hanggang 7, at <code>labels</code> para sa mga salita nito',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Isang room booking timeline, sa dalawang paraan' },
+          {
+            kind: 'p',
+            html: 'Mga resource ang mga room at mga event ang mga booking. Nagda-drag ang mga tao sa isang room para i-book ito at nagda-drag ng booking para ilipat ito, at isang booking lang ang puwede sa isang room sa iisang oras. Gamit ang FullCalendar 7 at ang Premium resource timeline nito:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Gamit ang Needless UI scheduler:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Dalawang bagay ang magkaiba. Ang FullCalendar mismo ang naglilipat ng booking, at kinokopya ng app ang pagbabago; iniuulat lang ito ng Needless UI scheduler, at nananatili ito kapag in-update mo ang <code>events</code>, kaya ang data mo pa rin ang nag-iisang source. At plain code ang <code>allow</code>, na tinatanong bago ang bawat pagbabago mula sa pointer o keyboard, kaya ikaw ang makakapag-test ng patakaran. Binubuo ng <a href="/guides/booking-calendar">gabay sa booking calendar</a> ang app na ito nang hakbang-hakbang.',
+          },
+          { kind: 'h2', id: 'data', text: 'Pag-convert ng data' },
+          {
+            kind: 'table',
+            caption: 'Data ng FullCalendar at ang inaasahan ng scheduler',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Ang <code>end</code> ng all-day event ay ang araw pagkatapos ng event',
+                'Ang <code>end</code> ng all-day event ay ang huling araw nito: magbawas ng isang araw',
+              ],
+              [
+                'Puwedeng magtapos ang mga oras sa <code>Z</code> o sa offset gaya ng <code>+02:00</code>',
+                'Mga lokal na oras na walang offset, gaya ng <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Mga araw ng linggo mula 0 (Linggo) hanggang 6, sa <code>businessHours</code> at <code>firstDay</code>',
+                'Mga araw ng linggo mula 1 (Lunes) hanggang 7 (Linggo)',
+              ],
+              [
+                "Mga duration bilang string, gaya ng <code>'00:30'</code>",
+                'Mga numero: minuto o oras',
+              ],
+              [
+                'Naka-sort ang mga resource ayon sa id, tapos sa title',
+                'Nasa pagkakasunod-sunod ng array ang mga resource',
+              ],
+              [
+                '<code>rrule</code> bilang object, at <code>exrule</code>',
+                'Isang RFC 5545 string, gaya ng <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, at <code>exdate</code>',
+              ],
+              [
+                'Isang time zone gaya ng <code>America/New_York</code>',
+                'I-convert muna ang mga oras. Kino-convert ng <code>nuiSchedulerFromIcs(text, { timeZone })</code> ang mga .ics file habang binabasa ang mga ito.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Kung kailangan mo ang wala pa' },
+          {
+            kind: 'p',
+            html: 'Kung umaasa ang app mo sa mga time zone, naka-group na resource, external drag and drop o pag-print, hindi pa kayang palitan ng scheduler ang FullCalendar. <a href="https://github.com/needless-ui/needless-ui/issues">Magbukas ng issue</a> para sa kailangan mo. Para sa lahat ng iba pa, nasa <a href="/components/scheduler">page ng scheduler</a> ang bawat input, output at example.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Mula AG Grid Enterprise sa libreng Angular data grid',
+        description:
+          'Ilipat ang Angular app mula AG Grid Enterprise sa libreng Needless UI grid: grouping, mga total, tree data at Excel export, mga katapat, at mga kulang.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Mga Enterprise feature ang row grouping, aggregation, tree data, master/detail at Excel export ng AG Grid: kailangan ng commercial license para magamit ito sa production, at kapag walang license key, may watermark ang grid at naglo-log ito ng error. Nasa Needless UI data grid ang grouping na may mga total, tree data, mga detalye ng row at .xlsx export, sa ilalim ng MIT. Inililipat ng gabay na ito ang isang Angular app mula sa isa papunta sa kabila: kung ano ang nadadala, kung ano ang hindi, at kung paano nagbabago ang code.',
+          },
+          {
+            kind: 'p',
+            html: 'Ginagamit nito ang mga pangalan sa AG Grid 36. Sinusuportahan ng AG Grid 36 ang Angular 20 hanggang 22; Angular 22 ang kailangan ng Needless UI.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Ano ang makukuha mo' },
+          {
+            kind: 'table',
+            caption: 'Ang AG Grid at ang Needless UI data grid',
+            head: ['Feature', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Pag-group ng mga row, kasama ang mga aggregate at isang totals row',
+                'Enterprise',
+                'Oo: ilang level, na may sum, average, minimum, maximum, count o isang function',
+              ],
+              ['Tree data', 'Enterprise', 'Oo, mula sa mga nested na row'],
+              [
+                'Mga detalye sa ilalim ng row (master/detail)',
+                'Enterprise',
+                'Oo: kahit anong template sa ilalim ng row, pati isa pang grid',
+              ],
+              [
+                'Pag-export sa Excel',
+                'Enterprise: mga style, maraming sheet, mga larawan at formula',
+                'Oo: iisang sheet ng mga cell na may type, kasama ang mga number format at isang naka-freeze na header na may mga filter',
+              ],
+              [
+                'Column menu na may column chooser',
+                'Enterprise',
+                'Oo: i-sort, i-filter, i-pin, ilipat, i-fit at itago ang bawat column, at ipakita o itago ang lahat',
+              ],
+              [
+                'Pag-sort ayon sa ilang column, quick search, mga page, pagpili ng row',
+                'Community',
+                'Oo',
+              ],
+              [
+                'Mga column filter',
+                'Community: hanggang dalawang kondisyon, na pinagsasama ng AND o OR',
+                'Isang kondisyon bawat column',
+              ],
+              [
+                'Set, multi at advanced filter',
+                'Enterprise',
+                'Bahagi lang: checklist ng mga pagpipilian ng column, hindi ng mga value sa data',
+              ],
+              [
+                'I-resize, ilipat, i-pin at itago ang mga column, at i-save ang state nila',
+                'Community',
+                'Oo',
+              ],
+              ['Virtual scrolling', 'Community: mga row at column', 'Mga row'],
+              [
+                'Pag-edit ng cell',
+                'Community; Enterprise ang ilang editor',
+                'Oo, ayon sa type ng column, may validation; walang custom editor at walang undo',
+              ],
+              ['Pivoting, mga integrated chart', 'Enterprise', 'Wala'],
+              [
+                'Clipboard, pagpili ng range ng mga cell, context menu, status bar, side bar',
+                'Enterprise',
+                'Wala',
+              ],
+              [
+                'Data mula sa server',
+                'Server-side row model: Enterprise; pag-load nang paisa-isang block: Community',
+                'Mga page mula sa server mo, kasama ang sort, mga filter at search nito; walang grouping sa server',
+              ],
+              ['Mga column group, pag-drag ng row, mga naka-pin na row', 'Community', 'Wala'],
+              [
+                'Mga framework',
+                'React, Angular 20 hanggang 22, Vue at plain JavaScript',
+                'Angular 22; React ang susunod',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Ano ang katapat ng ano' },
+          {
+            kind: 'table',
+            caption: 'Mga opsyon ng AG Grid at ang mga katapat nila sa Needless UI',
+            head: ['AG Grid', 'Needless UI data grid'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, pag-register ng module, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; walang kailangang i-register at walang key',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (mga Intl option o isang function), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Isang <code>nuiGridCell</code> template'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> ng column, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, isang listahan ng mga column id. Bukas ang mga grupo sa simula; isinasara ang mga ito ng <code>[(collapsed)]</code>.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> kasama ang <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Isang <code>nuiGridDetail</code> template, at <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, at <code>[(selected)]</code>: ang mga key ng mga napiling row',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                'Nagbabalik ng Blob ang <code>exportXlsx()</code>, at ng text ang <code>exportCsv()</code>',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; sumusunod ang right-to-left sa <code>dir</code> ng page',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Mga order na naka-group ayon sa bansa, sa dalawang paraan',
+          },
+          {
+            kind: 'p',
+            html: 'Ang gawain: mga order na naka-group ayon sa bansa, may total para sa bawat bansa at isa para sa lahat, Excel export, quick search at multiple selection. Gamit ang AG Grid 36, kung saan kailangan ng Enterprise ang grouping, ang mga total at ang Excel export:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Gamit ang Needless UI data grid:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Ilang bagay ang magkaiba. Mga key ang hawak ng selection, ang mga id ng mga row, kaya nananatili ito kahit may bagong data; i-map pabalik ang mga ito sa mga row kapag kailangan mo ang mga row. Bukas ang mga grupo sa simula. Nasa unang nakikitang column ang label ng isang grupo, at ang mga nakikitang column lang ang binabasa ng search, kaya panatilihing nakikita ang naka-group na column kung dapat itong tumugma sa search. At ibinabalik ng <code>exportXlsx()</code> ang file sa halip na i-download ito: iisang sheet ng mga na-filter at na-sort na row, nang walang mga row ng grupo.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Kung kailangan mo ang wala pa' },
+          {
+            kind: 'p',
+            html: 'Kung umaasa ang app mo sa pivoting, mga chart, clipboard at range selection, grouping sa server o mga column group, hindi pa kayang palitan ng Needless UI data grid ang AG Grid. <a href="https://github.com/needless-ui/needless-ui/issues">Magbukas ng issue</a> para sa kailangan mo. Para sa lahat ng iba pa, nasa <a href="/components/grid">page ng data grid</a> ang bawat input, output at example.',
           },
         ],
       },

@@ -10,5 +10,10 @@
     "types": ["node"]
   },
   "include": ["apps/docs/src/**/*.ts"],
-  "exclude": ["apps/docs/src/**/*.spec.ts"]
+  "exclude": [
+    "apps/docs/src/**/*.spec.ts",
+    // Other libraries' code, shown in the migration guides: not installed here.
+    "apps/docs/src/guide-code/fullcalendar-*.ts",
+    "apps/docs/src/guide-code/ag-grid-*.ts"
+  ]
 }

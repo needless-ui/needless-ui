@@ -38,16 +38,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Erişilebilir Angular bileşenleri, gereğinden özenli',
+    title: 'Needless UI · Ücretsiz Angular bileşenleri, planlayıcı ve veri tablosu',
     description:
-      'Needless UI: yerel öğeler, framework’ten bağımsız tek stil dosyası, W3C tasarım token’ları ve yerleşik WCAG 2.2 AA uyumuyla açık kaynak Angular bileşenleri.',
+      'Ücretsiz, MIT lisanslı Angular bileşen kütüphanesi: yerel öğelerle erişilebilir bileşenler, kaynak planlayıcısı, gruplayan ve Excel’e aktaran veri tablosu.',
     eyebrow: 'Açık kaynak · Angular 22 · MIT',
     heading: 'Arayüz bileşenleri, gereğinden fazla özenle tasarlandı.',
-    lead: 'Needless UI, <strong>yerel öğeleri</strong> framework’ten bağımsız tek bir stil dosyası ve W3C tasarım token’larıyla biçimlendirir. Angular direktifleri ise Angular Aria’nın sağladığı davranışı ekler; böylece her bileşen ilk görüntülendiği andan itibaren erişilebilirdir.',
+    lead: '<strong>Yerel öğeler</strong> üzerine kurulu, framework’ten bağımsız tek bir stil dosyasıyla biçimlendirilen erişilebilir Angular bileşenleri. Başka kütüphanelerin ayrıca sattıkları da dahil hepsi MIT lisanslı: kaynak zaman çizelgeleri sunan bir <a href="/components/scheduler">planlayıcı</a> ve gruplama ile Excel’e aktarma yapabilen bir <a href="/components/grid">veri tablosu</a>.',
     getStarted: 'Hemen başlayın',
     browse: 'Bileşenlere göz atın',
     featuresTitle: 'Neden var?',
     features: [
+      {
+        title: 'Ücretli sürüm yok',
+        text: '<a href="/components/scheduler">Planlayıcının</a> kaynak zaman çizelgesi ve yinelenen etkinlikleri ile <a href="/components/grid">veri tablosunun</a> gruplama, ağaç verisi ve Excel’e aktarma özellikleri de diğer her şey gibi MIT lisanslıdır: lisans anahtarı yok, filigran yok. Ücretli bir kütüphaneden mi geçiyorsunuz? <a href="/guides/from-fullcalendar">FullCalendar</a> ve <a href="/guides/from-ag-grid">AG Grid</a> kılavuzlarını okuyun.',
+      },
       {
         title: 'Önce yerel öğeler',
         text: '<code>&lt;button nuiButton&gt;</code> gerçek bir düğmedir. Etrafına hiçbir şey sarılmadığı için formlar, klavye ve ekran okuyucular sorunsuz çalışır.',
@@ -73,9 +77,9 @@ export const messages: Messages = {
         text: 'Signal tabanlı girdiler, zoneless çalışma, sunucu tarafında render ve bileşen başına bir giriş noktası: uygulamalar yalnızca içe aktardıklarını paketler.',
       },
     ],
-    codeTitle: 'İki içe aktarma, hepsi bu',
+    codeTitle: 'Bir komut, sonra bir içe aktarma',
     codeText:
-      'Paketi ekleyin, stil dosyasını bir kez içe aktarın, ardından bileşenleri herhangi bir standalone bileşende kullanın.',
+      'Paketi kurup stil dosyasını içe aktarmak için ng add komutunu çalıştırın, ardından bileşenleri herhangi bir standalone bileşende kullanın.',
   },
 
   components: {
@@ -1161,10 +1165,11 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Veri tablosu',
-        title: 'Angular için veri tablosu bileşeni',
-        summary: 'İstediğiniz sayıda satırı sıralayın, filtreleyin, seçin, düzenleyin ve kaydırın.',
+        title: 'Ücretsiz Angular veri tablosu: gruplama, Excel’e aktarma',
+        summary:
+          'İstediğiniz sayıda satırı sıralayın, filtreleyin, gruplayın, düzenleyin ve dışa aktarın.',
         description:
-          'Yerel tablo üzerine kurulu erişilebilir Angular veri tablosu: çok sütunlu sıralama, filtreler, sayfalama veya sanal kaydırma, seçim, düzenleme ve sütun taşıma.',
+          'Yerel tablo tabanlı ücretsiz, MIT lisanslı Angular veri tablosu: toplamlı gruplama, ağaç verisi, Excel’e aktarma, filtreler, düzenleme ve sanal kaydırma.',
         apiDescription:
           'Needless UI veri tablosunun API referansı: nui-grid girdileri ve modelleri, NuiGridColumn tanımı ve özel hücreler için şablonlar.',
         a11yDescription:
@@ -2622,6 +2627,387 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Gün görünümünde yan yana duran odalar, yinelenen rezervasyonlar ve diğer tüm seçenekler için <a href="/components/scheduler">planlayıcının sayfasına</a> ve <a href="/components/scheduler/api">API’sine</a> bakın.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'FullCalendar’dan ücretsiz Angular planlayıcısına geçiş',
+        description:
+          'Angular’da FullCalendar Premium’dan ücretsiz Needless UI planlayıcısına geçin: karşılıklar, iki kütüphaneyle rezervasyon örneği, eksikler ve veri tuzakları.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar’ın kaynak zaman çizelgesi ve kaynak sütunları Premium sürümün parçasıdır: ticari bir uygulama için ücretli bir lisans anahtarı gerekir. <a href="https://fullcalendar.io/license">Lisans sayfası</a>, ücretsiz seçenekleri de listeler: tamamen AGPL olan uygulamalar ve kayıtlı kâr amacı gütmeyen kuruluşlar için. Needless UI planlayıcısı ise ikisini de MIT lisansıyla, yinelenen etkinlikler ve iCalendar dosyalarıyla birlikte sunar. Bu kılavuz bir Angular uygulamasını birinden diğerine taşımayı anlatır: neyin olduğu gibi geçtiği, neyin geçmediği ve dönüştürülmesi gereken veriler.',
+          },
+          {
+            kind: 'p',
+            html: 'Kılavuz FullCalendar 7’deki adları kullanır; farklı olduklarında 6. sürümdeki adlar köşeli parantez içinde verilir. FullCalendar’ın Angular bağlayıcısı Angular 16 ile 22 arasını destekler; Needless UI ise Angular 22 gerektirir.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Neler elde edersiniz' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar ve Needless UI planlayıcısı',
+            head: ['Özellik', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Kaynak zaman çizelgesi: her oda ya da kişi için bir satır',
+                'Premium',
+                'Var: bir gün, bir hafta ya da bir ay',
+              ],
+              ['Gün ve hafta görünümlerinde sütun olarak kaynaklar', 'Premium', 'Var'],
+              ['Ay, hafta ve gün görünümleri', 'Ücretsiz', 'Var'],
+              [
+                'Sürükleyerek taşıma ve yeniden boyutlandırma',
+                'Ücretsiz; başka bir kaynağa taşımak için Premium',
+                'Var, başka kaynaklara da. Yeniden boyutlandırma bitişten yapılır, başlangıçtan yapılmaz.',
+              ],
+              [
+                'Etkinlik oluşturmak için zaman seçme',
+                'Ücretsiz',
+                'Var: işaretçiyle, uzun basarak ya da klavyeyle',
+              ],
+              [
+                'Çakışma olmaması gibi kurallar',
+                'Ücretsiz: çakışma ve kısıt seçenekleri',
+                'Var: her değişiklikten önce sorulan tek bir <code>allow</code> fonksiyonu',
+              ],
+              [
+                'Etkinlikleri klavyeyle taşıma ve yeniden boyutlandırma',
+                'Erişilebilirlik belgelerinde yok; bu belgeler ARIA etiketlerini ve Tab ile odaklanmayı ele alır',
+                'Var; ekran okuyuculara da duyurulur',
+              ],
+              [
+                'Yinelenen etkinlikler',
+                'Ücretsiz; rrule eklentisi ve kütüphanesiyle',
+                'Yerleşik: RFC 5545 kuralları; EXRULE, RDATE ve saatlik kurallar hariç',
+              ],
+              [
+                'iCalendar (.ics)',
+                'Ücretsiz: bir takvim akışını okur',
+                '.ics dosyalarını okur ve yazar',
+              ],
+              [
+                'Liste ve yıl görünümleri',
+                'Ücretsiz',
+                'Önümüzdeki günlerin ajandası; yıl görünümü yok',
+              ],
+              [
+                'Saat dilimleri',
+                'Ücretsiz: yerel, UTC ya da adlandırılmış',
+                'Yok: aldığı saatleri olduğu gibi gösterir',
+              ],
+              [
+                'Gruplanmış, iç içe ya da çok sütunlu kaynaklar',
+                'Premium',
+                'Yok: şablonunuzun çizdiği tek bir sütun',
+              ],
+              ['Dışarıdan sürükle-bırak, arka plan etkinlikleri', 'Ücretsiz', 'Yok'],
+              ['Yazdırma, sanal render', 'Premium', 'Yok'],
+              [
+                'Framework’ler',
+                'Angular 16 ile 22 arası, React, Vue, düz JavaScript ve dahası',
+                'Angular 22; sırada React var',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Neyin karşılığı ne' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar seçenekleri ve Needless UI karşılıkları',
+            head: ['FullCalendar', 'Needless UI planlayıcısı'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, her seçenek için bir girdiyle; eklenti de anahtar da yok',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, bir hafta ya da bir ay için de <code>timelineSpan</code>',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> iki yönlüdür',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: siz <code>events</code> değerini güncelleyene kadar hiçbir şey yerinden oynamaz',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: taşıma, yeniden boyutlandırma ve seçimler için tek bir fonksiyon',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, dakika cinsinden',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, saat cinsinden',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, hafta günleri 1 (pazartesi) ile 7 arasında',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code> ve <code>nuiSchedulerResource</code> şablonları',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (herhangi bir BCP 47 etiketi), 1 ile 7 arasında <code>firstDay</code> ve metinleri için <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Oda rezervasyonu zaman çizelgesi, iki kütüphaneyle' },
+          {
+            kind: 'p',
+            html: 'Odalar kaynak, rezervasyonlar etkinliktir. Kullanıcılar bir odayı rezerve etmek için satırı boyunca sürükler, taşımak için de rezervasyonu sürükler; bir odada aynı anda tek bir rezervasyon olabilir. FullCalendar 7 ve Premium kaynak zaman çizelgesiyle:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI planlayıcısıyla:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'İki şey farklı çalışır. FullCalendar rezervasyonu kendisi taşır, uygulama da değişikliği kendi kopyasına işler; Needless UI planlayıcısı ise değişikliği yalnızca bildirir ve <code>events</code> güncellendiğinde değişiklik kalıcı olur, böylece tek doğruluk kaynağı verileriniz olarak kalır. Ayrıca <code>allow</code> düz bir koddur ve işaretçiden ya da klavyeden gelen her değişiklikten önce sorulur; bu yüzden kuralı kendiniz test edebilirsiniz. <a href="/guides/booking-calendar">Rezervasyon takvimi kılavuzu</a> bu uygulamayı adım adım oluşturur.',
+          },
+          { kind: 'h2', id: 'data', text: 'Verileri dönüştürme' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar verileri ve planlayıcının beklediği biçim',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Tüm gün süren bir etkinliğin <code>end</code> değeri, etkinlikten sonraki gündür',
+                'Tüm gün süren bir etkinliğin <code>end</code> değeri, son günüdür: bir gün çıkarın',
+              ],
+              [
+                'Zamanlar <code>Z</code> ya da <code>+02:00</code> gibi bir saat farkıyla bitebilir',
+                'Saat farkı içermeyen yerel saatler, örneğin <code>2026-11-02T09:30</code>',
+              ],
+              [
+                '<code>businessHours</code> ve <code>firstDay</code> içinde hafta günleri 0 (pazar) ile 6 arasındadır',
+                'Hafta günleri 1 (pazartesi) ile 7 (pazar) arasındadır',
+              ],
+              [
+                "Süreler metin olarak verilir, örneğin <code>'00:30'</code>",
+                'Sayılar: dakika ya da saat',
+              ],
+              ['Kaynaklar id’ye, sonra başlığa göre sıralanır', 'Kaynaklar dizideki sırayla gelir'],
+              [
+                'Nesne olarak <code>rrule</code> ve <code>exrule</code>',
+                '<code>FREQ=WEEKLY;BYDAY=MO,FR</code> gibi bir RFC 5545 dizesi ve <code>exdate</code>',
+              ],
+              [
+                '<code>America/New_York</code> gibi bir saat dilimi',
+                'Önce zamanları dönüştürün. <code>nuiSchedulerFromIcs(text, { timeZone })</code>, .ics dosyalarını okurken dönüştürür.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Eksik olan bir şeye ihtiyacınız varsa' },
+          {
+            kind: 'p',
+            html: 'Uygulamanız saat dilimlerine, gruplanmış kaynaklara, dışarıdan sürükle-bırakmaya ya da yazdırmaya dayanıyorsa planlayıcı henüz FullCalendar’ın yerini tutamaz. İhtiyacınız olan şey için <a href="https://github.com/needless-ui/needless-ui/issues">bir issue açın</a>. Geri kalan her şey için <a href="/components/scheduler">planlayıcının sayfasında</a> tüm girdiler, çıktılar ve örnekler yer alır.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'AG Grid Enterprise’dan ücretsiz Angular veri tablosuna',
+        description:
+          'Angular’da AG Grid Enterprise’dan ücretsiz Needless UI veri tablosuna geçin: gruplama, toplamlar, ağaç verisi ve Excel’e aktarma, karşılıklar ve eksikler.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid’in satır gruplama, özetleme, ağaç verisi, master/detail ve Excel’e aktarma özellikleri Enterprise sürümün parçasıdır: canlı ortamda kullanmak için ticari lisans gerekir; lisans anahtarı olmadan tablo bir filigran gösterir ve konsola bir hata yazar. Needless UI veri tablosu ise toplamlı gruplamayı, ağaç verisini, satır ayrıntılarını ve .xlsx dışa aktarmayı MIT lisansıyla sunar. Bu kılavuz bir Angular uygulamasını birinden diğerine taşımayı anlatır: neyin olduğu gibi geçtiği, neyin geçmediği ve kodun nasıl değiştiği.',
+          },
+          {
+            kind: 'p',
+            html: 'Kılavuz AG Grid 36’daki adları kullanır. AG Grid 36, Angular 20 ile 22 arasını destekler; Needless UI ise Angular 22 gerektirir.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Neler elde edersiniz' },
+          {
+            kind: 'table',
+            caption: 'AG Grid ve Needless UI veri tablosu',
+            head: ['Özellik', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Özet değerler ve toplam satırıyla satır gruplama',
+                'Enterprise',
+                'Var: birden çok düzey; toplam, ortalama, en küçük, en büyük, sayı ya da bir fonksiyonla',
+              ],
+              ['Ağaç verisi', 'Enterprise', 'Var, iç içe satırlardan'],
+              [
+                'Satırın altında ayrıntılar (master/detail)',
+                'Enterprise',
+                'Var: satırın altında herhangi bir şablon, başka bir tablo da dahil',
+              ],
+              [
+                'Excel’e aktarma',
+                'Enterprise: stiller, birden çok sayfa, görseller ve formüller',
+                'Var: veri türü taşıyan hücrelerle tek bir sayfa; sayı biçimleri ve filtreli, dondurulmuş bir başlık satırıyla',
+              ],
+              [
+                'Sütun seçiciyle birlikte sütun menüsü',
+                'Enterprise',
+                'Var: her sütunu sıralama, filtreleme, sabitleme, taşıma, içeriğe sığdırma ve gizleme; hepsini gösterme ya da gizleme',
+              ],
+              [
+                'Birden çok sütuna göre sıralama, hızlı arama, sayfalar, satır seçimi',
+                'Community',
+                'Var',
+              ],
+              [
+                'Sütun filtreleri',
+                'Community: AND ya da OR ile bağlanan en çok iki koşul',
+                'Sütun başına tek koşul',
+              ],
+              [
+                'Set, Multi ve Advanced filtreleri',
+                'Enterprise',
+                'Kısmen: verideki değerlerden değil, sütunun seçeneklerinden oluşan onay kutulu bir liste',
+              ],
+              [
+                'Sütunları yeniden boyutlandırma, taşıma, sabitleme, gizleme ve durumlarını kaydetme',
+                'Community',
+                'Var',
+              ],
+              ['Sanal kaydırma', 'Community: satırlar ve sütunlar', 'Satırlar'],
+              [
+                'Hücre düzenleme',
+                'Community; bazı düzenleyiciler Enterprise',
+                'Var, sütun türüne göre, doğrulamayla; özel düzenleyici ve geri alma yok',
+              ],
+              ['Pivot tablolar, entegre grafikler', 'Enterprise', 'Yok'],
+              [
+                'Pano, hücre aralığı seçimi, bağlam menüsü, durum çubuğu, kenar çubuğu',
+                'Enterprise',
+                'Yok',
+              ],
+              [
+                'Sunucudan veri',
+                'Sunucu taraflı satır modeli: Enterprise; bloklar hâlinde yükleme: Community',
+                'Sunucunuzdan sayfa sayfa, sunucunun sıralaması, filtreleri ve aramasıyla; sunucuda gruplama yok',
+              ],
+              ['Sütun grupları, satır sürükleme, sabitlenmiş satırlar', 'Community', 'Yok'],
+              [
+                'Framework’ler',
+                'React, Angular 20 ile 22 arası, Vue ve düz JavaScript',
+                'Angular 22; sırada React var',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Neyin karşılığı ne' },
+          {
+            kind: 'table',
+            caption: 'AG Grid seçenekleri ve Needless UI karşılıkları',
+            head: ['AG Grid', 'Needless UI veri tablosu'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, modül kaydı, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; kaydedilecek bir şey de anahtar da yok',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (Intl seçenekleri ya da bir fonksiyon), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Bir <code>nuiGridCell</code> şablonu'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                'Sütun tanımında <code>rowGroup</code>, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, sütun id’lerinden oluşan bir liste. Gruplar açık başlar; <code>[(collapsed)]</code> onları kapatır.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> ve <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Bir <code>nuiGridDetail</code> şablonu ve <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code> ve <code>[(selected)]</code>: seçili satırların anahtarları',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> bir Blob, <code>exportCsv()</code> ise metin döndürür',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; sağdan sola yön, sayfanın <code>dir</code> değerine uyar',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Ülkeye göre gruplanmış siparişler, iki kütüphaneyle',
+          },
+          {
+            kind: 'p',
+            html: 'Görev: ülkeye göre gruplanmış siparişler; her ülke için bir toplam ve tümü için bir toplam, Excel’e aktarma, hızlı arama ve çoklu seçim. Gruplamanın, toplamların ve Excel’e aktarmanın Enterprise gerektirdiği AG Grid 36 ile:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI veri tablosuyla:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Birkaç şey farklı çalışır. Seçim anahtarları, yani satırların id’lerini tutar; bu yüzden yeni veri geldiğinde de korunur. Satırların kendisine ihtiyacınız olduğunda anahtarları satırlara geri eşleyin. Gruplar açık başlar. Bir grubun etiketi ilk görünür sütunda yer alır ve arama yalnızca görünür sütunları okur; bu yüzden aramanın gruplanan sütunla da eşleşmesi gerekiyorsa o sütunu görünür bırakın. Ayrıca <code>exportXlsx()</code> dosyayı indirmez, döndürür: grup satırları olmadan, filtrelenmiş ve sıralanmış satırlardan oluşan tek bir sayfa.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Eksik olan bir şeye ihtiyacınız varsa' },
+          {
+            kind: 'p',
+            html: 'Uygulamanız pivot tablolara, grafiklere, panoya ve aralık seçimine, sunucuda gruplamaya ya da sütun gruplarına dayanıyorsa Needless UI veri tablosu henüz AG Grid’in yerini tutamaz. İhtiyacınız olan şey için <a href="https://github.com/needless-ui/needless-ui/issues">bir issue açın</a>. Geri kalan her şey için <a href="/components/grid">veri tablosunun sayfasında</a> tüm girdiler, çıktılar ve örnekler yer alır.',
           },
         ],
       },

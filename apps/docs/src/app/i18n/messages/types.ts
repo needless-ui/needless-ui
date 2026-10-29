@@ -136,7 +136,11 @@ export type ProseBlock = { kind: 'p'; html: string } | { kind: 'h2'; id: string;
 
 export type GuideBlock =
   | ProseBlock
-  | { kind: 'code'; file: string }
+  /**
+   * `lazy` renders a long block in the browser only, so it stays out of the page's first
+   * bytes; the server writes blank lines of the same height in its place.
+   */
+  | { kind: 'code'; file: string; lazy?: boolean }
   | { kind: 'demo'; demo: 'nested-themes' | 'playground' | 'booking' }
   /** A table: `caption` names it for screen readers, the first cell of each row heads it; cells are html. */
   | { kind: 'table'; caption: string; head: string[]; rows: string[][] };

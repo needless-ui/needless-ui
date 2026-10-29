@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Components na Angular ga kowa, an ƙera su fiye da kima',
+    title: 'Needless UI · Components na Angular kyauta, da scheduler da data grid',
     description:
-      'Needless UI laburaren open source ne na components na Angular: elements na asali, stylesheet ɗaya mara framework, design tokens na W3C, da WCAG 2.2 AA a ciki.',
+      'Components na Angular kyauta (MIT) masu sauƙin amfani ga kowa a kan elements na asali: jadawalin resources, da data grid mai rukunoni da fitarwa zuwa Excel.',
     eyebrow: 'Open source · Angular 22 · MIT',
     heading: 'Components na UI, an ƙera su da kyau fiye da kima.',
-    lead: 'Needless UI yana ba <strong>elements na asali</strong> salo da stylesheet ɗaya wanda bai dogara da framework ba, da kuma design tokens na W3C. Directives ɗinsa na Angular suna ƙara ɗabi’a daga Angular Aria, don haka kowane component yana da sauƙin amfani ga kowa tun daga nunawarsa ta farko.',
+    lead: 'Components na Angular masu sauƙin amfani ga kowa, a kan <strong>elements na asali</strong>, waɗanda stylesheet ɗaya mara framework ke ba su salo. Duka suna ƙarƙashin lasisin MIT, har da abin da wasu laburare ke sayarwa daban: <a href="/components/scheduler">jadawali</a> mai timeline na resources, da <a href="/components/grid">data grid</a> mai rukunoni da fitarwa zuwa Excel.',
     getStarted: 'Fara',
     browse: 'Duba components',
     featuresTitle: 'Dalilin samuwarsa',
     features: [
+      {
+        title: 'Babu sigar premium',
+        text: 'Timeline na resources da events masu maimaituwa na <a href="/components/scheduler">jadawalin</a>, da rukunoni, bayanai masu tsarin bishiya da fitarwa zuwa Excel na <a href="/components/grid">data grid</a>, duka MIT ne kamar sauran komai: babu maɓallin lasisi, babu watermark. Kuna ƙaura daga laburaren da ake biya? Ku karanta jagororin ƙaura daga <a href="/guides/from-fullcalendar">FullCalendar</a> da <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Elements na asali da farko',
         text: '<code>&lt;button nuiButton&gt;</code> maɓalli ne na gaske. Fom, allon madannai da manhajojin karanta allo suna aiki saboda babu abin da ya lulluɓe shi.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'Signal inputs, zoneless, server rendering da entry point ɗaya ga kowane component, don haka manhajoji suna ɗaukar abin da suka shigo da shi kawai.',
       },
     ],
-    codeTitle: 'Imports biyu, shi ke nan',
+    codeTitle: 'Umarni ɗaya, sannan import ɗaya',
     codeText:
-      'Ku ƙara package ɗin, ku shigo da stylesheet sau ɗaya, sannan ku yi amfani da components a cikin kowane standalone component.',
+      'Ku gudanar da ng add don shigar da package ɗin da shigo da stylesheet ɗinsa, sannan ku yi amfani da components a cikin kowane standalone component.',
   },
 
   components: {
@@ -1189,10 +1193,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Data grid',
-        title: 'Component na data grid don Angular',
-        summary: 'Ku jera, ku tace, ku zaɓa, ku gyara kuma ku gungura layuka, komai yawansu.',
+        title: 'Data grid na Angular kyauta mai fitarwa zuwa Excel',
+        summary: 'Ku jera, ku tace, ku rukunta, ku gyara kuma ku fitar da layuka, komai yawansu.',
         description:
-          'Data grid na Angular mai sauƙin amfani ga kowa a kan tebur na asali: jerawa da ginshiƙai da yawa, tacewa, shafuka ko virtual scrolling, zaɓi da gyarawa.',
+          'Data grid na Angular kyauta (MIT) a kan tebur na asali: rukunoni da jimilla, bishiyar bayanai, fitarwa zuwa Excel, tacewa, gyarawa da virtual scrolling.',
         apiDescription:
           'Bayanin API na data grid ɗin Needless UI: inputs da models na nui-grid, ma’anar NuiGridColumn, da templates don cells na musamman.',
         a11yDescription:
@@ -2689,6 +2693,386 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Don ɗakuna gefe da gefe a rana ɗaya, ajiyoyin wuri masu maimaituwa da kowane zaɓi dabam, ku duba <a href="/components/scheduler">shafin jadawalin</a> da <a href="/components/scheduler/api">API</a> ɗinsa.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Ƙaura daga FullCalendar zuwa jadawalin Angular kyauta',
+        description:
+          'Ku sauya manhajar Angular daga FullCalendar Premium zuwa jadawalin Needless UI na kyauta: madadin kowane zaɓi, misalin ajiyar ɗaki, gibi da tarkon bayanai.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Timeline na resources da ginshiƙan resources na FullCalendar suna cikin sigar Premium: manhajar kasuwanci tana buƙatar maɓallin lasisi da ake biya. <a href="https://fullcalendar.io/license">Shafin lasisinsa</a> yana lissafa zaɓuɓɓukan kyauta, ga manhajojin da ke ƙarƙashin AGPL gaba ɗaya, da kuma ƙungiyoyi masu rajista waɗanda ba sa neman riba. Jadawalin Needless UI yana da duka biyun a ƙarƙashin MIT, tare da events masu maimaituwa da fayilolin iCalendar. Wannan jagorar tana kai manhajar Angular daga ɗaya zuwa ɗayan: abin da ke tafiya tare, abin da ba ya tafiya, da bayanan da za a canza.',
+          },
+          {
+            kind: 'p',
+            html: 'Tana amfani da sunayen FullCalendar 7, tare da na sigar 6 a cikin baka inda suka bambanta. FullCalendar yana tallafawa Angular 16 zuwa 22 ta connector ɗinsa na Angular; Needless UI yana buƙatar Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Abin da kuke samu' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar da jadawalin Needless UI',
+            head: ['Fasali', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Timeline na resources: layi ga kowane ɗaki ko mutum',
+                'Premium',
+                'Ee: rana, mako ko wata',
+              ],
+              ['Resources a matsayin ginshiƙai a kallon rana da na mako', 'Premium', 'Ee'],
+              ['Kallon wata, mako da rana', 'Kyauta', 'Ee'],
+              [
+                'Ja don matsarwa da sauya tsawo',
+                'Kyauta; zuwa wani resource sai da Premium',
+                'Ee, har zuwa wasu resources. Ana sauya tsawo daga ƙarshe, ba daga farko ba.',
+              ],
+              [
+                'Zaɓar lokaci don ƙirƙirar event',
+                'Kyauta',
+                'Ee, da linzami, dannawa da riƙewa ko allon madannai',
+              ],
+              [
+                'Dokoki kamar hana events su haɗu',
+                'Kyauta: zaɓuɓɓukan overlap da constraint',
+                'Ee: function ɗaya na <code>allow</code>, wanda ake tambaya kafin kowane canji',
+              ],
+              [
+                'Matsarwa da sauya tsawon events da allon madannai',
+                'Babu a cikin bayanansa kan sauƙin amfani ga kowa, waɗanda ke magana kan lakabai na ARIA da focus na Tab',
+                'Ee, ana sanar da manhajojin karanta allo',
+              ],
+              [
+                'Events masu maimaituwa',
+                'Kyauta, da plugin da laburaren rrule',
+                'A ciki: dokokin RFC 5545, ba tare da EXRULE, RDATE ko dokokin kowace sa’a ba',
+              ],
+              [
+                'iCalendar (.ics)',
+                'Kyauta: yana karanta feed',
+                'Yana karantawa da rubuta fayilolin .ics',
+              ],
+              [
+                'Kallon jeri da na shekara',
+                'Kyauta',
+                'Ajandar kwanaki masu zuwa; babu kallon shekara',
+              ],
+              [
+                'Yankunan lokaci',
+                'Kyauta: na gida, UTC ko mai suna',
+                'A’a: yana nuna lokutan agogo da ya karɓa kamar yadda suke',
+              ],
+              [
+                'Resources a rukuni, a cikin juna ko masu ginshiƙai da yawa',
+                'Premium',
+                'A’a: ginshiƙi ɗaya, wanda template ɗinku ke zana shi',
+              ],
+              ['Ja da sauke daga waje, events na bango', 'Kyauta', 'A’a'],
+              ['Bugawa, virtual rendering', 'Premium', 'A’a'],
+              [
+                'Frameworks',
+                'Angular 16 zuwa 22, React, Vue, JavaScript zalla da sauransu',
+                'Angular 22; React ne na gaba',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Madadin kowane zaɓi' },
+          {
+            kind: 'table',
+            caption: 'Zaɓuɓɓukan FullCalendar da takwarorinsu a Needless UI',
+            head: ['FullCalendar', 'Jadawalin Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, da input ga kowane zaɓi; babu plugins, babu maɓallin lasisi',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, da <code>timelineSpan</code> don mako ko wata',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> yana aiki ta hanya biyu',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: babu abin da ke motsawa sai kun sabunta <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: function ɗaya don matsarwa, sauya tsawo da zaɓi',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, a minti',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, a sa’o’i',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, da ranakun mako daga 1 (Litinin) zuwa 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Templates na <code>nuiSchedulerEvent</code> da <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (kowane tag na BCP 47), <code>firstDay</code> daga 1 zuwa 7, da <code>labels</code> don kalmominsa',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Timeline na ajiyar ɗakuna, ta hanyoyin biyu' },
+          {
+            kind: 'p',
+            html: 'Ɗakuna resources ne, ajiyoyin wuri kuma events ne. Mutane suna ja a kan ɗaki don yin ajiyarsa, suna kuma jan ajiyar wuri don matsar da ita, kuma ɗaki ɗaya yana ɗaukar ajiyar wuri ɗaya ne kawai a lokaci guda. Da FullCalendar 7 da timeline na resources ɗinsa na Premium:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Da jadawalin Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Abubuwa biyu suna aiki daban. FullCalendar yana matsar da ajiyar wuri da kansa, sannan manhajar ta kwafi canjin; jadawalin Needless UI yana ba da rahoton canjin ne kawai, kuma sabunta <code>events</code> ne ke tabbatar da shi, don haka bayananku ne kaɗai tushe. Kuma <code>allow</code> code ne zalla, wanda ake tambaya kafin kowane canji daga linzami ko allon madannai, don haka ku ne za ku gwada dokar da kanku. <a href="/guides/booking-calendar">Jagorar ajiyar ɗakuna</a> tana gina wannan manhaja mataki-mataki.',
+          },
+          { kind: 'h2', id: 'data', text: 'Canza bayanai' },
+          {
+            kind: 'table',
+            caption: 'Bayanan FullCalendar da abin da jadawalin ke tsammani',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'A event na duk yini, <code>end</code> ita ce ranar da ke bayan event ɗin',
+                'A event na duk yini, <code>end</code> ita ce ranarsa ta ƙarshe: ku cire rana ɗaya',
+              ],
+              [
+                'Lokuta suna iya ƙarewa da <code>Z</code> ko bambancin lokaci kamar <code>+02:00</code>',
+                'Lokutan agogo ba tare da bambancin lokaci ba, kamar <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Ranakun mako daga 0 (Lahadi) zuwa 6, a cikin <code>businessHours</code> da <code>firstDay</code>',
+                'Ranakun mako daga 1 (Litinin) zuwa 7 (Lahadi)',
+              ],
+              [
+                "Tsawon lokaci a matsayin strings, kamar <code>'00:30'</code>",
+                'Lambobi: minti ko sa’o’i',
+              ],
+              [
+                'Ana jera resources bisa id, sannan bisa take',
+                'Resources suna bin jerin array ɗin',
+              ],
+              [
+                '<code>rrule</code> a matsayin object, da <code>exrule</code>',
+                'String na RFC 5545, kamar <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, da <code>exdate</code>',
+              ],
+              [
+                'Yankin lokaci kamar <code>America/New_York</code>',
+                'Ku fara canza lokutan. <code>nuiSchedulerFromIcs(text, { timeZone })</code> yana canza fayilolin .ics yayin da yake karanta su.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Idan kuna buƙatar abin da babu' },
+          {
+            kind: 'p',
+            html: 'Idan manhajarku ta dogara da yankunan lokaci, resources a rukuni, ja da sauke daga waje ko bugawa, jadawalin ba zai iya maye gurbin FullCalendar ba tukuna. <a href="https://github.com/needless-ui/needless-ui/issues">Ku buɗe issue</a> don abin da kuke buƙata. Don duk sauran abubuwa, <a href="/components/scheduler">shafin jadawalin</a> yana da kowane input, output da misali.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Daga AG Grid Enterprise zuwa data grid na Angular kyauta',
+        description:
+          'Ku sauya manhajar Angular daga AG Grid Enterprise zuwa grid ɗin Needless UI na kyauta: rukunoni, jimilla, bishiyar bayanai, fitarwa zuwa Excel, madadi da gibi.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Rukunta layuka, aggregation, bayanai masu tsarin bishiya, master/detail da fitarwa zuwa Excel na AG Grid suna cikin sigar Enterprise: amfani da su a production yana buƙatar lasisin kasuwanci, kuma idan babu maɓallin lasisi, grid ɗin yana nuna watermark kuma yana rubuta kuskure a console. Data grid ɗin Needless UI yana da rukunoni tare da jimilla, bayanai masu tsarin bishiya, cikakken bayanin layi da fitarwa zuwa .xlsx a ƙarƙashin MIT. Wannan jagorar tana kai manhajar Angular daga ɗaya zuwa ɗayan: abin da ke tafiya tare, abin da ba ya tafiya, da yadda code ɗin ke canzawa.',
+          },
+          {
+            kind: 'p',
+            html: 'Tana amfani da sunayen AG Grid 36. AG Grid 36 yana tallafawa Angular 20 zuwa 22; Needless UI yana buƙatar Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Abin da kuke samu' },
+          {
+            kind: 'table',
+            caption: 'AG Grid da data grid ɗin Needless UI',
+            head: ['Fasali', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Rukunta layuka, tare da aggregates da layin jimilla',
+                'Enterprise',
+                'Ee: a matakai da yawa, da jimilla, matsakaici, mafi ƙanƙanta, mafi girma, ƙidaya ko function',
+              ],
+              ['Bayanai masu tsarin bishiya', 'Enterprise', 'Ee, daga layuka da ke cikin juna'],
+              [
+                'Cikakken bayani a ƙarƙashin layi (master/detail)',
+                'Enterprise',
+                'Ee: kowane template a ƙarƙashin layin, har da wani grid',
+              ],
+              [
+                'Fitarwa zuwa Excel',
+                'Enterprise: salo, sheets da yawa, hotuna da formulas',
+                'Ee: sheet ɗaya na cells masu irin bayanai, da tsarin lambobi, da layin take da aka kafe a sama mai tacewa',
+              ],
+              [
+                'Menu na ginshiƙi mai zaɓin ginshiƙai',
+                'Enterprise',
+                'Ee: jera, tace, kafe, matsar, daidaita faɗi da ɓoye kowane ginshiƙi, da nuna ko ɓoye dukansu',
+              ],
+              [
+                'Jerawa bisa ginshiƙai da yawa, bincike cikin sauri, shafuka, zaɓar layuka',
+                'Community',
+                'Ee',
+              ],
+              [
+                'Tacewar ginshiƙai',
+                'Community: sharuɗɗa har guda biyu, haɗe da AND ko OR',
+                'Sharaɗi ɗaya ga kowane ginshiƙi',
+              ],
+              [
+                'Tacewa irin ta set, multi da advanced',
+                'Enterprise',
+                'Wani ɓangare: jerin zaɓuɓɓukan ginshiƙi masu checkbox, ba na ƙimomin da ke cikin bayanai ba',
+              ],
+              [
+                'Sauya faɗi, matsarwa, kafewa da ɓoye ginshiƙai, da adana yanayinsu',
+                'Community',
+                'Ee',
+              ],
+              ['Virtual scrolling', 'Community: layuka da ginshiƙai', 'Layuka'],
+              [
+                'Gyaran cells',
+                'Community; wasu editors na Enterprise ne kawai',
+                'Ee, bisa irin ginshiƙi, tare da tantancewa; babu editors na musamman, babu Undo',
+              ],
+              ['Pivoting, charts da aka gina a ciki', 'Enterprise', 'A’a'],
+              [
+                'Clipboard, zaɓar cells a jere, menu na danna dama, sandar yanayi, sandar gefe',
+                'Enterprise',
+                'A’a',
+              ],
+              [
+                'Bayanai daga server',
+                'Tsarin layuka na gefen server: Enterprise; ɗauko layuka kashi-kashi: Community',
+                'Shafuka daga server ɗinku, tare da jerawarsa, tacewarsa da bincikensa; babu rukunta layuka a server',
+              ],
+              ['Rukunonin ginshiƙai, jan layuka, layukan da aka kafe', 'Community', 'A’a'],
+              [
+                'Frameworks',
+                'React, Angular 20 zuwa 22, Vue da JavaScript zalla',
+                'Angular 22; React ne na gaba',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Madadin kowane zaɓi' },
+          {
+            kind: 'table',
+            caption: 'Zaɓuɓɓukan AG Grid da takwarorinsu a Needless UI',
+            head: ['AG Grid', 'Grid ɗin Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, rajistar modules, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; babu rajista, babu maɓallin lasisi',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (zaɓuɓɓukan Intl ko function), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Template na <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> na ginshiƙi, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, jerin id na ginshiƙai. Rukunoni suna farawa a buɗe; <code>[(collapsed)]</code> yana rufe su.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> tare da <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Template na <code>nuiGridDetail</code>, da <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, da <code>[(selected)]</code>: keys na layukan da aka zaɓa',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> yana dawo da Blob, <code>exportCsv()</code> kuma rubutu',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; rubutu daga dama zuwa hagu yana bin <code>dir</code> na shafin',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Odar da aka rukunta bisa ƙasa, ta hanyoyin biyu' },
+          {
+            kind: 'p',
+            html: 'Aikin shi ne: odar da aka rukunta bisa ƙasa, tare da jimilla ga kowace ƙasa da kuma jimillar duka, fitarwa zuwa Excel, bincike cikin sauri da zaɓar layuka da yawa. Da AG Grid 36, inda rukunoni, jimilla da fitarwa zuwa Excel ke buƙatar Enterprise:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Da grid ɗin Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Wasu abubuwa suna aiki daban. Zaɓin yana riƙe da keys, wato id na layuka, don haka ba ya ɓacewa idan sabbin bayanai suka zo; ku nemo layukan ta keys ɗin idan kuna buƙatarsu. Rukunoni suna farawa a buɗe. Lakabin rukuni yana cikin ginshiƙi na farko da ake gani, kuma bincike yana duba ginshiƙan da ake gani ne kawai, don haka ku bar ginshiƙin da aka rukunta da shi a bayyane idan kuna son bincike ya same shi. Kuma <code>exportXlsx()</code> yana dawo da fayil ɗin maimakon sauke shi: sheet ɗaya na layukan da aka tace aka jera, ba tare da layukan rukuni ba.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Idan kuna buƙatar abin da babu' },
+          {
+            kind: 'p',
+            html: 'Idan manhajarku ta dogara da pivoting, charts, clipboard da zaɓar cells a jere, rukunta layuka a server ko rukunonin ginshiƙai, grid ɗin Needless UI ba zai iya maye gurbin AG Grid ba tukuna. <a href="https://github.com/needless-ui/needless-ui/issues">Ku buɗe issue</a> don abin da kuke buƙata. Don duk sauran abubuwa, <a href="/components/grid">shafin data grid</a> yana da kowane input, output da misali.',
           },
         ],
       },

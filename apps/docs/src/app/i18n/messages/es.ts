@@ -38,16 +38,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Componentes Angular accesibles, con ingeniería de sobra',
+    title: 'Needless UI · Componentes Angular gratis con planificador y data grid',
     description:
-      'Needless UI es una biblioteca de componentes Angular de código abierto: elementos nativos, CSS independiente del framework, tokens W3C y WCAG 2.2 AA de serie.',
+      'Biblioteca Angular gratuita (MIT): componentes accesibles sobre elementos nativos, planificador de recursos y cuadrícula de datos que agrupa y exporta a Excel.',
     eyebrow: 'Código abierto · Angular 22 · MIT',
     heading: 'Componentes de UI, innecesariamente bien hechos.',
-    lead: 'Needless UI da estilo a <strong>elementos nativos</strong> con una sola hoja de estilos independiente del framework y tokens de diseño W3C. Sus directivas de Angular añaden el comportamiento de Angular Aria, así que todos los componentes son accesibles desde el primer renderizado.',
+    lead: 'Componentes Angular accesibles sobre <strong>elementos nativos</strong>, con una sola hoja de estilos independiente del framework. Todo con licencia MIT, incluido lo que otras bibliotecas venden por separado: un <a href="/components/scheduler">planificador</a> con líneas de tiempo de recursos y una <a href="/components/grid">cuadrícula de datos</a> con agrupación y exportación a Excel.',
     getStarted: 'Empezar',
     browse: 'Explorar componentes',
     featuresTitle: 'Por qué existe',
     features: [
+      {
+        title: 'Sin versión premium',
+        text: 'La línea de tiempo de recursos y los eventos recurrentes del <a href="/components/scheduler">planificador</a>, y la agrupación, los datos en árbol y la exportación a Excel de la <a href="/components/grid">cuadrícula de datos</a>, tienen licencia MIT como todo lo demás: sin clave de licencia ni marca de agua. ¿Vienes de una biblioteca de pago? Lee las guías para migrar desde <a href="/guides/from-fullcalendar">FullCalendar</a> y <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Elementos nativos ante todo',
         text: '<code>&lt;button nuiButton&gt;</code> es un botón de verdad. Los formularios, el teclado y los lectores de pantalla funcionan porque no hay nada que lo envuelva.',
@@ -73,9 +77,9 @@ export const messages: Messages = {
         text: 'Signal inputs, zoneless, renderizado en el servidor y un punto de entrada por componente, para que las aplicaciones solo incluyan lo que importan.',
       },
     ],
-    codeTitle: 'Dos imports y listo',
+    codeTitle: 'Un comando y luego un import',
     codeText:
-      'Añade el paquete, importa la hoja de estilos una sola vez y usa los componentes en cualquier componente standalone.',
+      'Ejecuta ng add para instalar el paquete e importar su hoja de estilos, y luego usa los componentes en cualquier componente standalone.',
   },
 
   components: {
@@ -1186,10 +1190,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Cuadrícula de datos',
-        title: 'Componente de cuadrícula de datos para Angular',
-        summary: 'Ordena, filtra, selecciona, edita y desplázate por cualquier cantidad de filas.',
+        title: 'Data grid Angular gratis: agrupa y exporta a Excel',
+        summary: 'Ordena, filtra, agrupa, edita y exporta cualquier cantidad de filas.',
         description:
-          'Cuadrícula de datos accesible para Angular sobre tabla nativa: orden multicolumna, filtros, páginas o scroll virtual, selección, edición y columnas movibles.',
+          'Cuadrícula de datos Angular gratuita (MIT) sobre tabla nativa: agrupación con totales, datos en árbol, exportación a Excel, filtros, edición y scroll virtual.',
         apiDescription:
           'Referencia de la API de la cuadrícula de datos de Needless UI: inputs y modelos de nui-grid, la forma de NuiGridColumn y plantillas para celdas personalizadas.',
         a11yDescription:
@@ -2688,6 +2692,383 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Para ver las salas lado a lado en un día, las reservas que se repiten y todas las demás opciones, consulta la <a href="/components/scheduler">página del planificador</a> y su <a href="/components/scheduler/api">API</a>.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Migra de FullCalendar a un planificador Angular gratuito',
+        description:
+          'Migra una app Angular de FullCalendar Premium al planificador gratuito de Needless UI: equivalencias, un ejemplo con ambos, lo que falta y trampas de datos.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'La línea de tiempo de recursos y las columnas de recursos de FullCalendar forman parte de Premium: una aplicación comercial necesita una clave de licencia de pago. Su <a href="https://fullcalendar.io/license">página de licencias</a> enumera las opciones gratuitas, para aplicaciones totalmente AGPL y para organizaciones sin ánimo de lucro registradas. El planificador de Needless UI ofrece ambas cosas con licencia MIT, junto con eventos recurrentes y archivos iCalendar. Esta guía lleva una aplicación Angular de uno a otro: lo que se mantiene, lo que no y los datos que hay que convertir.',
+          },
+          {
+            kind: 'p',
+            html: 'La guía usa los nombres de FullCalendar 7, con los de la versión 6 entre corchetes cuando difieren. El conector de FullCalendar para Angular es compatible con Angular 16 a 22; Needless UI necesita Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Qué obtienes' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar y el planificador de Needless UI',
+            head: ['Función', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Línea de tiempo de recursos: una fila por sala o persona',
+                'Premium',
+                'Sí: un día, una semana o un mes',
+              ],
+              ['Recursos como columnas en las vistas de día y de semana', 'Premium', 'Sí'],
+              ['Vistas de mes, semana y día', 'Gratis', 'Sí'],
+              [
+                'Arrastrar para mover y redimensionar',
+                'Gratis; a otro recurso, con Premium',
+                'Sí, también a otros recursos. El final se estira; el inicio, no.',
+              ],
+              [
+                'Seleccionar un intervalo para crear un evento',
+                'Gratis',
+                'Sí, con un puntero, una pulsación larga o el teclado',
+              ],
+              [
+                'Reglas como «sin solapamientos»',
+                'Gratis: opciones de solapamiento y de restricciones',
+                'Sí: una sola función <code>allow</code>, que se consulta antes de cada cambio',
+              ],
+              [
+                'Mover y redimensionar eventos con el teclado',
+                'No aparece en su documentación de accesibilidad, que trata las etiquetas ARIA y el foco con Tab',
+                'Sí, con anuncios para lectores de pantalla',
+              ],
+              [
+                'Eventos recurrentes',
+                'Gratis, con el plugin y la biblioteca rrule',
+                'Integrados: reglas RFC 5545, sin EXRULE, RDATE ni reglas por horas',
+              ],
+              ['iCalendar (.ics)', 'Gratis: lee un feed', 'Lee y escribe archivos .ics'],
+              [
+                'Vistas de lista y de año',
+                'Gratis',
+                'Una agenda de los próximos días; sin vistas de año',
+              ],
+              [
+                'Zonas horarias',
+                'Gratis: local, UTC o zonas con nombre',
+                'No: muestra las horas tal como le llegan',
+              ],
+              [
+                'Recursos agrupados, anidados o en varias columnas',
+                'Premium',
+                'No: una columna, que dibuja tu plantilla',
+              ],
+              ['Arrastrar y soltar desde fuera, eventos de fondo', 'Gratis', 'No'],
+              ['Impresión, renderizado virtual', 'Premium', 'No'],
+              [
+                'Frameworks',
+                'Angular 16 a 22, React, Vue, JavaScript puro y más',
+                'Angular 22; React es el siguiente',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Qué equivale a qué' },
+          {
+            kind: 'table',
+            caption: 'Opciones de FullCalendar y sus equivalentes en Needless UI',
+            head: ['FullCalendar', 'Planificador de Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, con un input para cada opción; sin plugins y sin clave',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, y <code>timelineSpan</code> para una semana o un mes',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> es bidireccional',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: nada se mueve hasta que actualizas <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: una sola función para movimientos, cambios de tamaño y selecciones',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, en minutos',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, en horas',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, con los días de la semana de 1 (lunes) a 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Plantillas <code>nuiSchedulerEvent</code> y <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (cualquier etiqueta BCP 47), <code>firstDay</code> de 1 a 7 y <code>labels</code> para sus textos',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Una línea de tiempo de reservas de salas, con ambos',
+          },
+          {
+            kind: 'p',
+            html: 'Las salas son recursos y las reservas son eventos. Se arrastra sobre una sala para reservarla y se arrastra una reserva para moverla, y una sala solo admite una reserva a la vez. Con FullCalendar 7 y su línea de tiempo de recursos Premium:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Con el planificador de Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Hay dos cosas que funcionan de otra manera. FullCalendar mueve la reserva por su cuenta y la aplicación copia el cambio; el planificador de Needless UI solo lo comunica, y el cambio se mantiene cuando actualizas <code>events</code>, por lo que tus datos siguen siendo la única fuente. Y <code>allow</code> es código normal, que se consulta antes de cada cambio hecho con un puntero o con el teclado, así que la regla la puedes probar tú. La <a href="/guides/booking-calendar">guía de reservas de salas</a> construye esta aplicación paso a paso.',
+          },
+          { kind: 'h2', id: 'data', text: 'Convertir los datos' },
+          {
+            kind: 'table',
+            caption: 'Datos de FullCalendar y lo que espera el planificador',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'En un evento de todo el día, <code>end</code> es el día siguiente al evento',
+                'En un evento de todo el día, <code>end</code> es su último día: resta un día',
+              ],
+              [
+                'Las horas pueden acabar en <code>Z</code> o en un desfase como <code>+02:00</code>',
+                'Horas locales sin desfase, como <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Días de la semana de 0 (domingo) a 6, en <code>businessHours</code> y <code>firstDay</code>',
+                'Días de la semana de 1 (lunes) a 7 (domingo)',
+              ],
+              [
+                "Duraciones como cadenas, por ejemplo <code>'00:30'</code>",
+                'Números: minutos u horas',
+              ],
+              ['Recursos ordenados por id y después por título', 'Recursos en el orden del array'],
+              [
+                '<code>rrule</code> como objeto, y <code>exrule</code>',
+                'Una cadena RFC 5545, como <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, y <code>exdate</code>',
+              ],
+              [
+                'Una zona horaria como <code>America/New_York</code>',
+                'Convierte antes las horas. <code>nuiSchedulerFromIcs(text, { timeZone })</code> convierte los archivos .ics al leerlos.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Si necesitas lo que falta' },
+          {
+            kind: 'p',
+            html: 'Si tu aplicación depende de zonas horarias, recursos agrupados, arrastrar y soltar desde fuera o la impresión, el planificador todavía no puede sustituir a FullCalendar. <a href="https://github.com/needless-ui/needless-ui/issues">Abre un issue</a> con lo que necesitas. Para todo lo demás, la <a href="/components/scheduler">página del planificador</a> tiene todos los inputs, outputs y ejemplos.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Pasa de AG Grid Enterprise a un data grid Angular gratis',
+        description:
+          'Migra de AG Grid Enterprise a la cuadrícula Angular gratis de Needless UI: agrupación, totales, datos en árbol, exportación a Excel, equivalencias y carencias.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'La agrupación de filas, la agregación, los datos en árbol, el maestro/detalle y la exportación a Excel de AG Grid forman parte de Enterprise: su uso en producción requiere una licencia comercial y, sin clave, la cuadrícula muestra una marca de agua y registra un error en la consola. La cuadrícula de datos de Needless UI ofrece agrupación con totales, datos en árbol, detalles de fila y exportación a .xlsx con licencia MIT. Esta guía lleva una aplicación Angular de una a otra: lo que se mantiene, lo que no y cómo cambia el código.',
+          },
+          {
+            kind: 'p',
+            html: 'La guía usa los nombres de AG Grid 36. AG Grid 36 es compatible con Angular 20 a 22; Needless UI necesita Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Qué obtienes' },
+          {
+            kind: 'table',
+            caption: 'AG Grid y la cuadrícula de datos de Needless UI',
+            head: ['Función', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Agrupación de filas, con agregados y una fila de totales',
+                'Enterprise',
+                'Sí: varios niveles, con suma, media, mínimo, máximo, recuento o una función',
+              ],
+              ['Datos en árbol', 'Enterprise', 'Sí, a partir de filas anidadas'],
+              [
+                'Detalles bajo una fila (maestro/detalle)',
+                'Enterprise',
+                'Sí: cualquier plantilla bajo la fila, incluida otra cuadrícula',
+              ],
+              [
+                'Exportación a Excel',
+                'Enterprise: estilos, varias hojas, imágenes y fórmulas',
+                'Sí: una hoja de celdas tipadas, con formatos numéricos y un encabezado inmovilizado con filtros',
+              ],
+              [
+                'Menú de columna con selector de columnas',
+                'Enterprise',
+                'Sí: ordenar, filtrar, fijar, mover, ajustar al contenido y ocultar cada columna, y mostrarlas u ocultarlas todas',
+              ],
+              [
+                'Ordenación por varias columnas, búsqueda rápida, paginación, selección de filas',
+                'Community',
+                'Sí',
+              ],
+              [
+                'Filtros de columna',
+                'Community: hasta dos condiciones, unidas con AND u OR',
+                'Una condición por columna',
+              ],
+              [
+                'Filtros de conjunto, múltiples y avanzados',
+                'Enterprise',
+                'En parte: una lista de casillas con las opciones de una columna, no con los valores de los datos',
+              ],
+              [
+                'Redimensionar, mover, fijar y ocultar columnas, y guardar su estado',
+                'Community',
+                'Sí',
+              ],
+              ['Scroll virtual', 'Community: filas y columnas', 'Filas'],
+              [
+                'Edición de celdas',
+                'Community; algunos editores, con Enterprise',
+                'Sí, según el tipo de columna, con validación; sin editores personalizados ni opción de deshacer',
+              ],
+              ['Tablas dinámicas, gráficos integrados', 'Enterprise', 'No'],
+              [
+                'Portapapeles, selección de rangos de celdas, menú contextual, barra de estado, panel lateral',
+                'Enterprise',
+                'No',
+              ],
+              [
+                'Datos de un servidor',
+                'Modelo de filas del servidor: Enterprise; carga por bloques: Community',
+                'Páginas de tu servidor, con su orden, sus filtros y su búsqueda; sin agrupación en el servidor',
+              ],
+              ['Grupos de columnas, arrastre de filas, filas fijadas', 'Community', 'No'],
+              [
+                'Frameworks',
+                'React, Angular 20 a 22, Vue y JavaScript puro',
+                'Angular 22; React es el siguiente',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Qué equivale a qué' },
+          {
+            kind: 'table',
+            caption: 'Opciones de AG Grid y sus equivalentes en Needless UI',
+            head: ['AG Grid', 'Cuadrícula de Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, registro de módulos, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; nada que registrar y sin clave',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (opciones de Intl o una función), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Una plantilla <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> en la columna, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, una lista de ids de columna. Los grupos empiezan abiertos; <code>[(collapsed)]</code> los cierra.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> con <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Una plantilla <code>nuiGridDetail</code> y <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code> y <code>[(selected)]</code>: las claves de las filas seleccionadas',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> devuelve un Blob, y <code>exportCsv()</code>, texto',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; el sentido de derecha a izquierda sigue el <code>dir</code> de la página',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Pedidos agrupados por país, con ambos' },
+          {
+            kind: 'p',
+            html: 'La tarea: pedidos agrupados por país, con un total por país y otro general, exportación a Excel, búsqueda rápida y selección múltiple. Con AG Grid 36, donde la agrupación, los totales y la exportación a Excel requieren Enterprise:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Con la cuadrícula de Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Hay algunas cosas que funcionan de otra manera. La selección guarda claves, los ids de las filas, así que se mantiene aunque lleguen datos nuevos; cuando necesites las filas, búscalas a partir de esas claves. Los grupos empiezan abiertos. La etiqueta de un grupo va en la primera columna visible, y la búsqueda solo lee las columnas visibles, así que deja visible la columna agrupada si quieres que la búsqueda la tenga en cuenta. Y <code>exportXlsx()</code> devuelve el archivo en lugar de descargarlo: una hoja con las filas filtradas y ordenadas, sin las filas de grupo.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Si necesitas lo que falta' },
+          {
+            kind: 'p',
+            html: 'Si tu aplicación depende de tablas dinámicas, gráficos, el portapapeles y la selección de rangos, la agrupación en el servidor o los grupos de columnas, la cuadrícula de Needless UI todavía no puede sustituir a AG Grid. <a href="https://github.com/needless-ui/needless-ui/issues">Abre un issue</a> con lo que necesitas. Para todo lo demás, la <a href="/components/grid">página de la cuadrícula de datos</a> tiene todos los inputs, outputs y ejemplos.',
           },
         ],
       },

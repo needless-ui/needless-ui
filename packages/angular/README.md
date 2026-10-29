@@ -2,6 +2,8 @@
 
 Angular components for [Needless UI](https://github.com/needless-ui/needless-ui), the Needlessly Engineered Styling Toolkit. They use signal inputs, work zoneless and with SSR, and are styled by [`@needless-ui/css`](https://www.npmjs.com/package/@needless-ui/css). Keyboard and ARIA behavior for composite widgets comes from [Angular Aria](https://angular.dev/guide/aria/overview).
 
+Everything is MIT, including a scheduler with resource timelines and repeating events, and a data grid with grouping, tree data and Excel export: no premium tier, no license key.
+
 Requires Angular 22.
 
 ## Install
