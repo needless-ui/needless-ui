@@ -42,7 +42,7 @@ export const messages: Messages = {
     title: 'Needless UI · நிகழ்வு அட்டவணையும் தரவுக் கட்டமும் கொண்ட இலவச Angular கம்போனென்ட்கள்',
     description:
       'இலவசமான, MIT உரிமம் கொண்ட Angular கம்போனென்ட் லைப்ரரி: நேட்டிவ் எலிமென்ட்கள் மேல் அணுகக்கூடிய கம்போனென்ட்கள், வளங்களுக்கான நிகழ்வு அட்டவணை, குழுவாக்கமும் Excel ஏற்றுமதியும் கொண்ட தரவுக் கட்டம்.',
-    eyebrow: 'திறந்த மூலம் · Angular 22 · MIT',
+    eyebrow: 'திறந்த மூலம் · Angular 22 · React 19 · MIT',
     heading: 'தேவைக்கு மீறிய நேர்த்தியுடன் கட்டமைக்கப்பட்ட UI கம்போனென்ட்கள்.',
     lead: '<strong>நேட்டிவ் எலிமென்ட்களின்</strong> மேல் அமைந்த அணுகக்கூடிய Angular கம்போனென்ட்கள்; எந்த ஃப்ரேம்வொர்க்கையும் சாராத ஒரே ஸ்டைல்ஷீட் அவற்றுக்கு ஸ்டைல் தருகிறது. பிற லைப்ரரிகள் தனியாக விற்பவை உட்பட, எல்லாமே MIT உரிமம் கொண்டவை: வளங்களின் காலவரிசைகள் கொண்ட <a href="/components/scheduler">நிகழ்வு அட்டவணை</a>, குழுவாக்கமும் Excel ஏற்றுமதியும் கொண்ட <a href="/components/grid">தரவுக் கட்டம்</a>.',
     getStarted: 'தொடங்குங்கள்',
@@ -2925,7 +2925,7 @@ export const messages: Messages = {
               [
                 'ஃப்ரேம்வொர்க்குகள்',
                 'Angular 16 முதல் 22 வரை, React, Vue, வெறும் JavaScript, இன்னும் பல',
-                'Angular 22; அடுத்து React',
+                'Angular 22 மற்றும் <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3136,7 +3136,7 @@ export const messages: Messages = {
               [
                 'ஃப்ரேம்வொர்க்குகள்',
                 'React, Angular 20 முதல் 22 வரை, Vue, வெறும் JavaScript',
-                'Angular 22; அடுத்து React',
+                'Angular 22 மற்றும் <a href="/guides/react">React 19</a>',
               ],
             ],
           },

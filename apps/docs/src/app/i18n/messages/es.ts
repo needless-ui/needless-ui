@@ -41,7 +41,7 @@ export const messages: Messages = {
     title: 'Needless UI · Componentes Angular gratis con planificador y data grid',
     description:
       'Biblioteca Angular gratuita (MIT): componentes accesibles sobre elementos nativos, planificador de recursos y cuadrícula de datos que agrupa y exporta a Excel.',
-    eyebrow: 'Código abierto · Angular 22 · MIT',
+    eyebrow: 'Código abierto · Angular 22 · React 19 · MIT',
     heading: 'Componentes de UI, innecesariamente bien hechos.',
     lead: 'Componentes Angular accesibles sobre <strong>elementos nativos</strong>, con una sola hoja de estilos independiente del framework. Todo con licencia MIT, incluido lo que otras bibliotecas venden por separado: un <a href="/components/scheduler">planificador</a> con líneas de tiempo de recursos y una <a href="/components/grid">cuadrícula de datos</a> con agrupación y exportación a Excel.',
     getStarted: 'Empezar',
@@ -2844,7 +2844,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'Angular 16 a 22, React, Vue, JavaScript puro y más',
-                'Angular 22; React es el siguiente',
+                'Angular 22 y <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3052,7 +3052,7 @@ export const messages: Messages = {
               [
                 'Frameworks',
                 'React, Angular 20 a 22, Vue y JavaScript puro',
-                'Angular 22; React es el siguiente',
+                'Angular 22 y <a href="/guides/react">React 19</a>',
               ],
             ],
           },

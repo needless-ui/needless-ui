@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · 免费 Angular 组件，自带日程表和数据表格',
     description:
       '免费、采用 MIT 许可证的 Angular 组件库：基于原生元素的无障碍组件，外加带资源时间轴的日程表，以及支持分组和 Excel 导出的数据表格。',
-    eyebrow: '开源 · Angular 22 · MIT',
+    eyebrow: '开源 · Angular 22 · React 19 · MIT',
     heading: 'UI 组件，精心打磨到近乎多余。',
     lead: '基于<strong>原生元素</strong>的无障碍 Angular 组件，由一份不依赖框架的样式表提供样式。全部采用 MIT 许可证，连其他库单独收费的功能也包括在内：带资源时间轴的<a href="/components/scheduler">日程表</a>，以及支持分组和 Excel 导出的<a href="/components/grid">数据表格</a>。',
     getStarted: '快速开始',
@@ -2617,7 +2617,7 @@ export const messages: Messages = {
               [
                 '框架',
                 'Angular 16 到 22、React、Vue、纯 JavaScript 等',
-                'Angular 22；下一步是 React',
+                'Angular 22 和 <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2802,7 +2802,7 @@ export const messages: Messages = {
               [
                 '框架',
                 'React、Angular 20 到 22、Vue 和纯 JavaScript',
-                'Angular 22；下一步是 React',
+                'Angular 22 和 <a href="/guides/react">React 19</a>',
               ],
             ],
           },

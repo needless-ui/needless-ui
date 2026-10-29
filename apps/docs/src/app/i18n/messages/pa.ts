@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · ਸ਼ਡਿਊਲਰ ਅਤੇ ਡਾਟਾ ਗ੍ਰਿਡ ਸਮੇਤ ਮੁਫ਼ਤ Angular ਕੰਪੋਨੈਂਟ',
     description:
       'ਮੁਫ਼ਤ, MIT ਲਾਇਸੰਸ ਵਾਲੀ Angular ਕੰਪੋਨੈਂਟ ਲਾਇਬ੍ਰੇਰੀ: ਨੇਟਿਵ ਐਲੀਮੈਂਟਾਂ ’ਤੇ ਬਣੇ ਪਹੁੰਚਯੋਗ ਕੰਪੋਨੈਂਟ, ਰਿਸੋਰਸ ਸ਼ਡਿਊਲਰ, ਅਤੇ ਸਮੂਹਬੰਦੀ ਤੇ Excel ਐਕਸਪੋਰਟ ਵਾਲਾ ਡਾਟਾ ਗ੍ਰਿਡ।',
-    eyebrow: 'ਓਪਨ ਸੋਰਸ · Angular 22 · MIT',
+    eyebrow: 'ਓਪਨ ਸੋਰਸ · Angular 22 · React 19 · MIT',
     heading: 'UI ਕੰਪੋਨੈਂਟ, ਜਿਨ੍ਹਾਂ ਦੀ ਇੰਜੀਨੀਅਰਿੰਗ ਲੋੜ ਨਾਲੋਂ ਕਿਤੇ ਵਧੀਆ ਹੈ।',
     lead: 'ਪਹੁੰਚਯੋਗ Angular ਕੰਪੋਨੈਂਟ, ਜੋ <strong>ਨੇਟਿਵ ਐਲੀਮੈਂਟਾਂ</strong> ’ਤੇ ਬਣੇ ਹਨ ਅਤੇ ਇੱਕ ਫ਼ਰੇਮਵਰਕ-ਮੁਕਤ ਸਟਾਈਲਸ਼ੀਟ ਨਾਲ ਸਟਾਈਲ ਕੀਤੇ ਗਏ ਹਨ। ਸਭ ਕੁਝ MIT ਲਾਇਸੰਸ ਅਧੀਨ ਹੈ, ਉਹ ਵੀ ਜੋ ਹੋਰ ਲਾਇਬ੍ਰੇਰੀਆਂ ਵੱਖਰਾ ਵੇਚਦੀਆਂ ਹਨ: ਰਿਸੋਰਸ ਟਾਈਮਲਾਈਨਾਂ ਵਾਲਾ <a href="/components/scheduler">ਸ਼ਡਿਊਲਰ</a>, ਅਤੇ ਸਮੂਹਬੰਦੀ ਤੇ Excel ਐਕਸਪੋਰਟ ਵਾਲਾ <a href="/components/grid">ਡਾਟਾ ਗ੍ਰਿਡ</a>।',
     getStarted: 'ਸ਼ੁਰੂ ਕਰੋ',
@@ -2785,7 +2785,7 @@ export const messages: Messages = {
               [
                 'ਫ਼ਰੇਮਵਰਕ',
                 'Angular 16 ਤੋਂ 22, React, Vue, ਸਾਦਾ JavaScript ਅਤੇ ਹੋਰ',
-                'Angular 22; ਅੱਗੇ React',
+                'Angular 22 ਅਤੇ <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2985,7 +2985,7 @@ export const messages: Messages = {
               [
                 'ਫ਼ਰੇਮਵਰਕ',
                 'React, Angular 20 ਤੋਂ 22, Vue ਅਤੇ ਸਾਦਾ JavaScript',
-                'Angular 22; ਅੱਗੇ React',
+                'Angular 22 ਅਤੇ <a href="/guides/react">React 19</a>',
               ],
             ],
           },

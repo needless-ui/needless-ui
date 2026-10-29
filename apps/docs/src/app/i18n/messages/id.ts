@@ -41,7 +41,7 @@ export const messages: Messages = {
     title: 'Needless UI · Komponen Angular gratis dengan penjadwal dan data grid',
     description:
       'Pustaka komponen Angular gratis berlisensi MIT, aksesibel dan berbasis elemen native: penjadwal sumber daya, serta data grid dengan grup dan ekspor Excel.',
-    eyebrow: 'Open source · Angular 22 · MIT',
+    eyebrow: 'Open source · Angular 22 · React 19 · MIT',
     heading: 'Komponen UI yang dirancang lebih matang dari yang perlu.',
     lead: 'Komponen Angular yang aksesibel di atas <strong>elemen native</strong>, dengan gaya dari satu stylesheet tanpa framework. Semuanya berlisensi MIT, termasuk yang dijual terpisah oleh pustaka lain: <a href="/components/scheduler">penjadwal</a> dengan timeline sumber daya, dan <a href="/components/grid">data grid</a> dengan pengelompokan dan ekspor Excel.',
     getStarted: 'Mulai',
@@ -2826,7 +2826,7 @@ export const messages: Messages = {
               [
                 'Framework',
                 'Angular 16 hingga 22, React, Vue, JavaScript biasa, dan lainnya',
-                'Angular 22; React menyusul',
+                'Angular 22 dan <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3030,7 +3030,7 @@ export const messages: Messages = {
               [
                 'Framework',
                 'React, Angular 20 hingga 22, Vue, dan JavaScript biasa',
-                'Angular 22; React menyusul',
+                'Angular 22 dan <a href="/guides/react">React 19</a>',
               ],
             ],
           },

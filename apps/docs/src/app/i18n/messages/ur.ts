@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · مفت Angular کمپوننٹس، شیڈولر اور ڈیٹا گرڈ کے ساتھ',
     description:
       'مفت، MIT لائسنس والی Angular کمپوننٹ لائبریری: نیٹو ایلیمنٹس پر بنے قابلِ رسائی کمپوننٹس، ریسورس شیڈولر، اور گروپنگ اور Excel ایکسپورٹ والا ڈیٹا گرڈ۔',
-    eyebrow: 'Angular 22 · اوپن سورس · MIT',
+    eyebrow: 'Angular 22 · React 19 · اوپن سورس · MIT',
     heading: 'UI کمپوننٹس، جن پر ضرورت سے زیادہ محنت کی گئی ہے۔',
     lead: '<strong>نیٹو ایلیمنٹس</strong> پر بنے قابلِ رسائی Angular کمپوننٹس، جنہیں فریم ورک سے آزاد ایک ہی اسٹائل شیٹ اسٹائل کرتی ہے۔ سب کچھ MIT لائسنس کے تحت ہے، وہ بھی جو دوسری لائبریریاں الگ سے بیچتی ہیں: ریسورس ٹائم لائنز والا <a href="/components/scheduler">شیڈولر</a>، اور گروپنگ اور Excel ایکسپورٹ والا <a href="/components/grid">ڈیٹا گرڈ</a>۔',
     getStarted: 'شروع کریں',
@@ -2780,7 +2780,7 @@ export const messages: Messages = {
               [
                 'فریم ورکس',
                 'Angular 16 سے 22، React، Vue، سادہ JavaScript اور مزید',
-                'Angular 22؛ اگلی باری React کی',
+                'Angular 22 اور <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2984,7 +2984,7 @@ export const messages: Messages = {
               [
                 'فریم ورکس',
                 'React، Angular 20 سے 22، Vue اور سادہ JavaScript',
-                'Angular 22؛ اگلی باری React کی',
+                'Angular 22 اور <a href="/guides/react">React 19</a>',
               ],
             ],
           },

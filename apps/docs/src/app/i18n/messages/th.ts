@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · คอมโพเนนต์ Angular ฟรี พร้อม Scheduler และตารางข้อมูล',
     description:
       'ไลบรารีคอมโพเนนต์ Angular ฟรีภายใต้สัญญาอนุญาต MIT คอมโพเนนต์เข้าถึงได้และสร้างบนเอลิเมนต์เนทีฟ พร้อม Scheduler ที่มีไทม์ไลน์ทรัพยากร และตารางข้อมูลที่จัดกลุ่มและส่งออกเป็น Excel ได้',
-    eyebrow: 'โอเพนซอร์ส · Angular 22 · MIT',
+    eyebrow: 'โอเพนซอร์ส · Angular 22 · React 19 · MIT',
     heading: 'คอมโพเนนต์ UI ที่ออกแบบมาดีเกินความจำเป็น',
     lead: 'คอมโพเนนต์ Angular ที่เข้าถึงได้ สร้างบน<strong>เอลิเมนต์เนทีฟ</strong> และกำหนดสไตล์ด้วยสไตล์ชีตเดียวที่ไม่ผูกกับเฟรมเวิร์ก ทุกอย่างใช้สัญญาอนุญาต MIT รวมถึงสิ่งที่ไลบรารีอื่นแยกขายต่างหาก ได้แก่ <a href="/components/scheduler">Scheduler</a> ที่มีไทม์ไลน์ทรัพยากร และ<a href="/components/grid">ตารางข้อมูล</a>ที่จัดกลุ่มและส่งออกเป็น Excel ได้',
     getStarted: 'เริ่มต้นใช้งาน',
@@ -2735,7 +2735,7 @@ export const messages: Messages = {
               [
                 'เฟรมเวิร์ก',
                 'Angular 16 ถึง 22, React, Vue, JavaScript ธรรมดา และอื่น ๆ',
-                'Angular 22 ส่วน React จะตามมา',
+                'Angular 22 และ <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2936,7 +2936,7 @@ export const messages: Messages = {
               [
                 'เฟรมเวิร์ก',
                 'React, Angular 20 ถึง 22, Vue และ JavaScript ธรรมดา',
-                'Angular 22 ส่วน React จะตามมา',
+                'Angular 22 และ <a href="/guides/react">React 19</a>',
               ],
             ],
           },

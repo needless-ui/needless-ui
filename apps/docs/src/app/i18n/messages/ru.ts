@@ -41,7 +41,7 @@ export const messages: Messages = {
     title: 'Needless UI · Бесплатные компоненты Angular с планировщиком и таблицей',
     description:
       'Бесплатная библиотека компонентов Angular под MIT: доступность, нативные элементы, планировщик ресурсов и таблица данных с группировкой и экспортом в Excel.',
-    eyebrow: 'Open source · Angular 22 · MIT',
+    eyebrow: 'Open source · Angular 22 · React 19 · MIT',
     heading: 'UI-компоненты, сделанные тщательнее, чем нужно.',
     lead: 'Доступные компоненты Angular на <strong>нативных элементах</strong>, оформленные одной таблицей стилей, не зависящей от фреймворка. Всё под лицензией MIT, включая то, что другие библиотеки продают отдельно: <a href="/components/scheduler">планировщик</a> с таймлайнами ресурсов и <a href="/components/grid">таблицу данных</a> с группировкой и экспортом в Excel.',
     getStarted: 'Начать',
@@ -2807,7 +2807,7 @@ export const messages: Messages = {
               [
                 'Фреймворки',
                 'Angular с 16 по 22, React, Vue, чистый JavaScript и другие',
-                'Angular 22; следующий — React',
+                'Angular 22 и <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -3012,7 +3012,7 @@ export const messages: Messages = {
               [
                 'Фреймворки',
                 'React, Angular с 20 по 22, Vue и чистый JavaScript',
-                'Angular 22; следующий — React',
+                'Angular 22 и <a href="/guides/react">React 19</a>',
               ],
             ],
           },

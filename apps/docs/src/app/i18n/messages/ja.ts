@@ -40,7 +40,7 @@ export const messages: Messages = {
     title: 'Needless UI · スケジューラーとデータグリッドを備えた無料の Angular UI',
     description:
       'MIT ライセンスの無料 Angular コンポーネントライブラリ。ネイティブ要素ベースでアクセシブル。リソーススケジューラーと、グループ化や Excel 出力ができるデータグリッドも。',
-    eyebrow: 'オープンソース · Angular 22 · MIT',
+    eyebrow: 'オープンソース · Angular 22 · React 19 · MIT',
     heading: '無駄なほど丁寧に作り込んだ UI コンポーネント。',
     lead: 'フレームワーク非依存の単一のスタイルシートでスタイルを付けた、<strong>ネイティブ要素</strong>ベースのアクセシブルな Angular コンポーネントです。ほかのライブラリなら別売りの機能まで、すべて MIT ライセンスです。リソースタイムラインを備えた<a href="/components/scheduler">スケジューラー</a>も、グループ化と Excel エクスポートに対応した<a href="/components/grid">データグリッド</a>も含まれます。',
     getStarted: 'はじめる',
@@ -2800,7 +2800,7 @@ export const messages: Messages = {
               [
                 'フレームワーク',
                 'Angular 16〜22、React、Vue、素の JavaScript など',
-                'Angular 22（次は React）',
+                'Angular 22 と <a href="/guides/react">React 19</a>',
               ],
             ],
           },
@@ -2993,7 +2993,7 @@ export const messages: Messages = {
               [
                 'フレームワーク',
                 'React、Angular 20〜22、Vue、素の JavaScript',
-                'Angular 22（次は React）',
+                'Angular 22 と <a href="/guides/react">React 19</a>',
               ],
             ],
           },
