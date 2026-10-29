@@ -1,0 +1,12 @@
+/* Global resets go in @layer reset, so they never override Needless UI. */
+@layer reset, nui, app;
+@import '@needless-ui/css';
+
+@layer app {
+  body {
+    margin: 0;
+    background: var(--nui-color-bg-canvas);
+    color: var(--nui-color-text-default);
+    font-family: var(--nui-font-family-sans);
+  }
+}
