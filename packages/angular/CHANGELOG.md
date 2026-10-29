@@ -1,5 +1,21 @@
 # @needless-ui/angular
 
+## 0.11.1
+
+### Patch Changes
+
+- [#49](https://github.com/needless-ui/needless-ui/pull/49) [`43180d2`](https://github.com/needless-ui/needless-ui/commit/43180d2050ca44ad0d68bb7341a491b2a49e65bc) - **Fixes from testing on phones and tablets:**
+
+  - **Scheduler:** a tap on free time no longer also clicks the event the app books there (`eventClick` right after `slotSelect`). The click that ends a tap or a drag is ignored when it lands on an event. In Chrome on Android, React's scheduler drew the new event before every such click, and Angular's before some.
+  - **Scheduler:** the day no longer opens at the week's sideways scroll, a day's timeline no longer opens a pixel past its first hour, and the label of the hour the week and the day open at shows whole: the first one, at the top, sits under its line, where the all-day row covered half of it.
+  - **Grid:** cards for groups and totals show what they hold, the group with its toggle and the aggregates, instead of every column's name with no value.
+  - **Angular:** what the scheduler, chat, toast, carousel, dropzone and phone field announce no longer shows as text at the bottom of the page in apps without Angular Material: they load the CDK's styles that hide its announcer. `nuiAnnouncer()` in `@needless-ui/angular` gives an app the same announcer.
+
+- [#50](https://github.com/needless-ui/needless-ui/pull/50) [`1bfc988`](https://github.com/needless-ui/needless-ui/commit/1bfc988995e4d1a4d02cccaeb81d4d8a7a3980b4) - **npm pages:** the CSS package's README says it styles the React components too, and the Angular package's README points to the React scheduler and data grid in `@needless-ui/react`.
+- Updated dependencies [[`43180d2`](https://github.com/needless-ui/needless-ui/commit/43180d2050ca44ad0d68bb7341a491b2a49e65bc), [`1bfc988`](https://github.com/needless-ui/needless-ui/commit/1bfc988995e4d1a4d02cccaeb81d4d8a7a3980b4)]:
+  - @needless-ui/css@0.11.1
+  - @needless-ui/core@0.11.1
+
 ## 0.11.0
 
 ### Patch Changes
