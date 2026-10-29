@@ -58,7 +58,7 @@ export const messages: Messages = {
       },
       {
         title: 'Tek stil dosyası, her framework',
-        text: 'Bileşenler, CSS katmanlarına (cascade layers) yerleştirilmiş düz CSS’tir: bugün Angular, sırada React, düz HTML ise her zaman.',
+        text: 'Bileşenler, CSS katmanlarına (cascade layers) yerleştirilmiş düz CSS’tir: bugün Angular, şimdilik planlayıcı ve veri tablosu için <a href="/guides/react">React</a>, düz HTML ise her zaman.',
       },
       {
         title: 'CSS’iniz her zaman kazanır',
@@ -2501,6 +2501,86 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React için planlayıcı ve veri tablosu',
+        description:
+          'Needless UI planlayıcısını ve veri tablosunu React 19 ve Next.js’te kullanın: kurulum, stiller, sunucuda render ve API’nin React’teki karşılığı.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Planlayıcı ve veri tablosu, <code>@needless-ui/react</code> paketinde React bileşenleri olarak da var: Angular’dakiyle aynı özellikler, klavye desteği ve erişilebilirlik, aynı stil dosyası ve aynı MIT lisansı. Diğer bileşenler de yolda. React 19 gerektirirler; Next.js App Router ve Vite ile çalışırlar.',
+          },
+          { kind: 'h2', id: 'install', text: 'Kurulum' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Stilleri içe aktarın' },
+          {
+            kind: 'p',
+            html: 'Bileşenler hiçbir stil içermez. Stil dosyasını uygulamanızın bir CSS dosyasından bir kez içe aktarın.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Katmanlar Angular’daki gibi çalışır: sıfırlamalar <code>nui</code> katmanından önceki bir katmana girer; Tailwind CSS kullanıyorsanız <code>nui</code>, <a href="/guides/getting-started#styles">Başlarken</a> kılavuzunda gösterildiği gibi Tailwind’in base katmanıyla utilities katmanının arasına yerleşir.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Planlayıcı' },
+          {
+            kind: 'p',
+            html: 'Her bileşenin kendi giriş noktası vardır. Planlayıcı, verdiğiniz <code>events</code> dizisini gösterir; kullanıcılar bir etkinliği taşıdığında ya da yeni bir etkinlik için zaman seçtiğinde size haber verir: etkinlikleri siz tutarsınız.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Veri tablosu' },
+          {
+            kind: 'p',
+            html: '<code>columns</code> dizisini bileşenin dışında tanımlayın; böylece tablo her render’da aynı işi yeniden yapmaz. Bir düzenleme <code>onRowsChange</code> fonksiyonunu yeni satırlarla çağırır; Excel’e aktarma gibi metotlara ise tablonun <code>ref</code> nesnesi üzerinden ulaşılır.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React terimleriyle API' },
+          {
+            kind: 'p',
+            html: 'React bileşenleri Angular bileşenleriyle aynı belirtimlere uyar; bu yüzden API’leri React’in terimleriyle birbirini karşılar. API sayfaları her prop’u listeler: <a href="/components/scheduler/api/react">planlayıcınınki</a> ve <a href="/components/grid/api/react">veri tablosununki</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular API’si ve React’teki karşılığı',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Bir model, <code>[(view)]</code>',
+                'Durum: <code>onViewChange</code> ile <code>view</code> ya da bileşenin kendisi tutsun diye <code>defaultView</code>',
+              ],
+              [
+                'Bir çıktı, <code>(eventClick)</code>',
+                'Bir geri çağırma, <code>onEventClick</code>',
+              ],
+              [
+                'Bir şablon, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Çizen bir fonksiyon, <code>renderEvent</code>',
+              ],
+              [
+                'Bir metot, <code>scheduler.next()</code>',
+                '<code>ref</code> üzerinde bir metot, <code>ref.current.next()</code>',
+              ],
+              [
+                'Ağaç verisi için <code>children</code>',
+                '<code>getChildren</code>: React, <code>children</code> adını öğeler için ayırır',
+              ],
+              [
+                '<code>locale</code>, varsayılanı uygulamanın <code>LOCALE_ID</code> değeri',
+                '<code>locale</code>, varsayılanı <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Sunucu tarafında render' },
+          {
+            kind: 'p',
+            html: 'İki bileşen de sunucuda render edilir ve tarayıcıda hydrate edilir. Paket onları istemci bileşeni olarak işaretler; böylece bir Server Component onları serileştirilebilen prop’larla render edebilir, <code>nuiSchedulerFromIcs</code> gibi yardımcı fonksiyonlar da sunucuda çalışır. Geri çağırmalar tarayıcıya geçemez: onları alan bir bileşen, yukarıdaki iki örnekteki gibi, kendi yazdığınız bir istemci bileşeninin içine girer.',
+          },
+          {
+            kind: 'p',
+            html: 'Okuyucuya bağlı olan şeyler tarayıcıyı bekler: planlayıcıda şu anı gösteren çizgi ve bugünün hangi gün olduğu. Planlayıcıyı bir sunucu render ediyorsa ona bir <code>defaultDate</code> verin; çünkü sunucunun bugünü okuyucununkiyle aynı olmayabilir.',
+          },
+        ],
+      },
       theming: {
         title: 'Tema özelleştirme',
         description:
@@ -3248,6 +3328,91 @@ export const messages: Messages = {
           html: 'Bu politika, site değiştikçe değişir; örneğin site yeni bir barındırma sağlayıcısına taşındığında. Aşağıdaki tarih geçerli sürümü gösterir.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `React için ${name} API’si`,
+    kinds: { prop: 'Prop', state: 'Durum', callback: 'Geri çağırma', render: 'Render prop' },
+    state:
+      'Durum, React’in kendi form öğeleri gibi çalışır: bir değer verip onu <code>on…Change</code> geri çağırmasıyla güncelleyin ya da bir <code>default…</code> değeri verip onu bileşenin tutmasına bırakın.',
+    customization:
+      'Ayarlamadığınız özelleştirme prop’ları, değerlerini en yakın <code>data-nui-*</code> niteliğinden alır. Ayrıntılar için <a href="/guides/customization">özelleştirme kılavuzuna</a> bakın.',
+    items: {
+      scheduler: {
+        overview:
+          'Planlayıcı bir React bileşeni olarak da var: <code>@needless-ui/react/scheduler</code> içindeki <code>NuiScheduler</code>. Buradaki örnekler Angular ile yazılmıştır; <a href="/components/scheduler/api/react">React API’sine</a> ve <a href="/guides/react">React kılavuzuna</a> bakın.',
+        apiDescription:
+          'React için Needless UI planlayıcısının API referansı: prop’lar, denetlenebilen durum, geri çağırmalar, render prop’lar ve ref üzerindeki metotlar.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Planlayıcının <code>ref</code> üzerinden sundukları: kendi araç çubuğunuz için sayfalar arasında gezinme.',
+              date: 'Gösterilen gün; klavye odağı da buradadır. Planlayıcıyı bir sunucu render ediyorsa <code>defaultDate</code> verin: sunucunun bugünü okuyucununkiyle aynı olmayabilir.',
+              toolbar:
+                'Araç çubuğunu gösterir; bir fonksiyon verilirse aldığı bilgilerle kendi araç çubuğunuzu çizer.',
+              renderEvent:
+                'Etkinlikleri kendiniz çizmenizi sağlar; etkinliği ve zamanını metin olarak alır.',
+              renderResource: 'Kaynak başlıklarını kendiniz çizmenizi sağlar.',
+              onEventClick: 'Tıklanan ya da Enter ile açılan etkinlikle çağrılır.',
+              onEventChange:
+                'Taşıma veya yeniden boyutlandırmanın ardından etkinliğin yeni zamanlarıyla, kaynakları değiştiyse onlarla da çağrılır. Değişikliği korumak için <code>events</code> dizisini güncelleyin.',
+              onSlotSelect: 'Izgarada seçilen zaman ve kaynağıyla çağrılır.',
+              onRangeChange:
+                'Gösterilen ilk ve son gün değiştiğinde, o günlerin etkinliklerini yükleyebilmeniz için bunlarla çağrılır.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Kendi araç çubuğunuzu çizmek için bir <code>toolbar</code> fonksiyonunun aldığı bilgiler.',
+            members: {
+              'view, views': 'Gösterilen görünüm ve sunulan görünümler.',
+              'setView, previous, next, goToday':
+                'Görünümü değiştirir, önceki ya da sonraki sayfayı veya bugünü gösterir.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'Veri tablosu bir React bileşeni olarak da var: <code>@needless-ui/react/grid</code> içindeki <code>NuiGrid</code>. Buradaki örnekler Angular ile yazılmıştır; <a href="/components/grid/api/react">React API’sine</a> ve <a href="/guides/react">React kılavuzuna</a> bakın.',
+        apiDescription:
+          'React için Needless UI veri tablosunun API referansı: prop’lar, denetlenebilen durum, geri çağırmalar, hücre render prop’ları ve ref üzerindeki metotlar.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Tablonun <code>ref</code> üzerinden sundukları: dışa aktarma, yazdırma ve odak.',
+              expandAll:
+                'Tüm grupları ve alt satırı olan tüm satırları açar ya da hepsini kapatır.',
+              fit: 'Bir sütunu, render edilmiş hücrelerinin en genişine sığdırır.',
+              rows: 'Veri. Bir düzenleme kendi satırını değiştirir ve <code>onRowsChange</code> fonksiyonunu çağırır; daha sonra verdiğiniz <code>rows</code> düzenlemelerin yerini alır.',
+              onRowsChange: 'Onaylanan her düzenlemeden sonra satırlarla çağrılır.',
+              groupBy: 'Satırların gruplanacağı sütunlar, en dıştaki önce.',
+              collapsed: 'Kapalı grupların anahtarları; gruplar açık başlar.',
+              expanded: 'Ağaç verisinde açık olan satırların anahtarları; satırlar kapalı başlar.',
+              details: 'Ayrıntıları açık olan satırların anahtarları.',
+              renderEmpty:
+                'Satır yokken gösterilen içerik; satırları filtrelerin gizleyip gizlemediği de ona bildirilir.',
+              renderDetail:
+                'Bir satırın ayrıntıları; açıldığında satırın altında gösterilir. Tablo bir açma düğmeleri sütunu ekler.',
+              onRowActivate: 'Enter veya çift tıklamayla açılan satırla çağrılır.',
+              onCellEdit: 'Onaylanan her düzenlemeyle çağrılır.',
+              onQueryChange:
+                'Sıralama, filtreler, arama ve sayfa her değiştiğinde ve başlangıçta bir kez bunlarla çağrılır.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Tek bir sütun. <a href="/components/grid/api#NuiGridColumn">Angular sütununun</a> tüm özelliklerini (yalnızca <code>id</code> ve <code>header</code> zorunludur) ve onu çizen bu iki özelliği alır.',
+            members: {
+              renderCell:
+                'Sütunun hücrelerini kendiniz çizmenizi sağlar; satırı, değerini ve metnini alır.',
+              renderHeader:
+                'Sütunun başlığını kendiniz çizmenizi sağlar; adını yine <code>header</code> verir.',
+            },
+          },
+        },
+      },
     },
   },
 };

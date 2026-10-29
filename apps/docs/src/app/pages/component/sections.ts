@@ -1,6 +1,6 @@
 import { Component, computed, Directive, effect, inject, input, type Type } from '@angular/core';
-import { type ComponentId, isComponentId } from '../../docs/ids';
-import { type ApiEntry, COMPONENT_DOCS } from '../../docs/registry';
+import { type ComponentId, isComponentId, isReactId } from '../../docs/ids';
+import { type ApiEntry, COMPONENT_DOCS, REACT_DOCS, reactApi } from '../../docs/registry';
 import { I18n } from '../../i18n/i18n';
 import { Seo } from '../../seo/seo';
 import { CodeBlock } from '../../shared/code-block';
@@ -8,10 +8,12 @@ import { ExampleViewer } from '../../shared/example-viewer';
 import { InAppLinks } from '../../shared/in-app-links';
 import { Toc } from '../../shared/toc';
 import { TrustedHtml } from '../../shared/trusted';
+import { NotFoundPage } from '../not-found/not-found-page';
 
-type Section = 'overview' | 'api' | 'accessibility';
+/** `react` is the API tab of a component's React twin, `/components/<id>/api/react`. */
+type Section = 'overview' | 'api' | 'accessibility' | 'react';
 
-/** Shared state and SEO for the three tabs of a component page. */
+/** Shared state and SEO for the three tabs of a component page, and React's API tab. */
 @Directive()
 abstract class ComponentSection {
   readonly id = input.required<string>();
@@ -32,7 +34,24 @@ abstract class ComponentSection {
       if (!isComponentId(this.id())) return; // the page shows "not found" and sets its own tags
       const page = this.i18n.t().components;
       const text = this.text();
-      const base = `/components/${this.component()}`;
+      const id = this.component();
+      const base = `/components/${id}`;
+      if (this.section === 'react') {
+        if (!isReactId(id)) return; // so does a component that isn't in React
+        const path = `${base}/api/react`;
+        seo.set({
+          title: this.i18n.t().react.title(text.name),
+          description: this.i18n.t().react.items[id].apiDescription,
+          path,
+          breadcrumbs: [
+            { name: page.title, path: '/components' },
+            { name: text.name, path: base },
+            { name: page.tabs.api, path: `${base}/api` },
+            { name: 'React', path },
+          ],
+        });
+        return;
+      }
       const titles = {
         overview: text.title,
         api: page.titles.api(text.name),
@@ -68,6 +87,9 @@ abstract class ComponentSection {
           @for (paragraph of text().overview; track $index) {
             <p [innerHTML]="paragraph | trusted"></p>
           }
+          @if (react(); as react) {
+            <p class="react-note" [innerHTML]="react | trusted"></p>
+          }
         </div>
         @for (example of doc().examples; track example.id) {
           <docs-example
@@ -85,6 +107,11 @@ export class OverviewSection extends ComponentSection {
   /** The page's example components, loaded by the route (see `examplesResolver`). */
   readonly examples = input<Record<string, Type<unknown>>>({});
   protected readonly section = 'overview';
+  /** That the component is in React too, where it is. */
+  protected readonly react = computed(() => {
+    const id = this.component();
+    return isReactId(id) ? this.i18n.t().react.items[id].overview : null;
+  });
   protected readonly toc = computed(() =>
     this.doc().examples.map((example) => ({
       id: example.id,
@@ -100,6 +127,14 @@ export class OverviewSection extends ComponentSection {
     @let labels = i18n.t().components.api;
     <div class="doc-grid">
       <article class="doc-article" docsInAppLinks>
+        <!-- Angular or React, for components that are in both. Styled as the tabs above, so
+             it adds no CSS to the page; the article's docsInAppLinks routes the links. -->
+        @if (inReact()) {
+          <nav class="tabs" [attr.aria-label]="i18n.t().react.framework">
+            <a class="active" [attr.href]="i18n.link(api())" aria-current="page">Angular</a>
+            <a [attr.href]="i18n.link(api() + '/react')">React</a>
+          </nav>
+        }
         <h2 id="import">{{ labels.import }}</h2>
         <docs-code [key]="doc().importFile" />
 
@@ -201,12 +236,132 @@ export class OverviewSection extends ComponentSection {
 })
 export class ApiSection extends ComponentSection {
   protected readonly section = 'api';
+  protected readonly inReact = computed(() => isReactId(this.component()));
+  protected readonly api = computed(() => `/components/${this.component()}/api`);
   protected hasCustomization(entry: ApiEntry): boolean {
     return entry.members.some((member) => member.customization);
   }
   protected readonly toc = computed(() => [
     { id: 'import', label: this.i18n.t().components.api.import },
     ...this.doc().api.map((entry) => ({ id: entry.name, label: entry.name })),
+  ]);
+}
+
+/**
+ * The API of a component's React twin. Members that mean what an Angular member
+ * means share its description; the locale's `react` words hold the others.
+ */
+@Component({
+  selector: 'docs-component-react-api',
+  imports: [CodeBlock, InAppLinks, NotFoundPage, Toc, TrustedHtml],
+  template: `
+    @let labels = i18n.t().components.api;
+    @let words = i18n.t().react;
+    @if (react(); as react) {
+      <div class="doc-grid">
+        <article class="doc-article" docsInAppLinks>
+          <nav class="tabs" [attr.aria-label]="words.framework">
+            <a [attr.href]="i18n.link(api())">Angular</a>
+            <a class="active" [attr.href]="i18n.link(api() + '/react')" aria-current="page"
+              >React</a
+            >
+          </nav>
+          <h2 id="import">{{ labels.import }}</h2>
+          <docs-code [key]="react.importFile" />
+
+          @for (entry of entries(); track entry.name) {
+            <section class="api-entry">
+              <h2 [id]="entry.name">{{ entry.name }}</h2>
+              <p [innerHTML]="entry.summary | trusted"></p>
+              <div
+                class="table-wrap"
+                tabindex="0"
+                role="region"
+                [attr.aria-labelledby]="entry.name"
+              >
+                <table>
+                  <caption class="visually-hidden">
+                    {{
+                      entry.name
+                    }}:
+                    {{
+                      labels.members
+                    }}
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">{{ labels.name }}</th>
+                      <th scope="col">{{ labels.type }}</th>
+                      <th scope="col">{{ labels.default }}</th>
+                      <th scope="col">{{ labels.description }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (member of entry.members; track member.key) {
+                      <tr>
+                        <!-- State names its default and its callback too, one under another. -->
+                        <th scope="row" [innerHTML]="member.head | trusted"></th>
+                        <td>
+                          <code>{{ member.type }}</code>
+                        </td>
+                        <td>
+                          <code
+                            [attr.class]="member.default ? null : 'api-none'"
+                            [attr.aria-hidden]="member.default ? null : 'true'"
+                            >{{ member.default || '—' }}</code
+                          >
+                        </td>
+                        <td [innerHTML]="member.description | trusted"></td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+              @if (entry.state) {
+                <p class="api-note" [innerHTML]="words.state | trusted"></p>
+              }
+              @if (entry.customization) {
+                <p class="api-note" [innerHTML]="words.customization | trusted"></p>
+              }
+            </section>
+          }
+        </article>
+        <docs-toc [items]="toc()" />
+      </div>
+    } @else {
+      <docs-not-found-page />
+    }
+  `,
+})
+export class ReactApiSection extends ComponentSection {
+  protected readonly section = 'react';
+  protected readonly api = computed(() => `/components/${this.component()}/api`);
+  protected readonly react = computed(() => {
+    const id = this.component();
+    return isReactId(id) ? REACT_DOCS[id] : null;
+  });
+  protected readonly entries = computed(() => {
+    const id = this.component();
+    if (!isReactId(id)) return [];
+    const t = this.i18n.t();
+    const kinds = { ...t.components.api.kinds, ...t.react.kinds };
+    return reactApi(id, t).map((entry) => ({
+      name: entry.name,
+      summary: entry.summary,
+      state: entry.members.some((member) => member.kind === 'state'),
+      customization: entry.members.some((member) => member.customization),
+      members: entry.members.map((member) => ({
+        key: member.name,
+        head: `${member.names.map((name) => `<code>${name}</code>`).join('<br>')}<span class="member-kind">${kinds[member.kind]}</span>`,
+        type: member.type,
+        default: member.default,
+        description: member.description,
+      })),
+    }));
+  });
+  protected readonly toc = computed(() => [
+    { id: 'import', label: this.i18n.t().components.api.import },
+    ...this.entries().map((entry) => ({ id: entry.name, label: entry.name })),
   ]);
 }
 

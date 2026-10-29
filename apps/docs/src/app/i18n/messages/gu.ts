@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'એક સ્ટાઇલશીટ, કોઈ પણ ફ્રેમવર્ક',
-        text: 'કમ્પોનન્ટ્સ કૅસ્કેડ લેયર્સમાં રહેલી સાદી CSS છે: આજે Angular, પછી React, અને સાદું HTML હંમેશાં.',
+        text: 'કમ્પોનન્ટ્સ કૅસ્કેડ લેયર્સમાં રહેલી સાદી CSS છે: આજે Angular, હાલમાં શેડ્યૂલર અને ડેટા ગ્રિડ માટે <a href="/guides/react">React</a>, અને સાદું HTML હંમેશાં.',
       },
       {
         title: 'જીત હંમેશાં તમારી CSS ની',
@@ -2481,6 +2481,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React માટે શેડ્યૂલર અને ડેટા ગ્રિડ',
+        description:
+          'React 19 અને Next.js માં Needless UI નાં શેડ્યૂલર અને ડેટા ગ્રિડ વાપરો: ઇન્સ્ટૉલ કરો, સ્ટાઇલ્સ ઇમ્પોર્ટ કરો, સર્વર પર રેન્ડર કરો અને API નું React રૂપ જાણો.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'શેડ્યૂલર અને ડેટા ગ્રિડ <code>@needless-ui/react</code> માં React કમ્પોનન્ટ્સ તરીકે પણ ઉપલબ્ધ છે: Angular જેવાં જ ફીચર્સ, કીબોર્ડ અને ઍક્સેસિબિલિટી, એ જ સ્ટાઇલશીટ અને એ જ MIT લાઇસન્સ. બાકીના કમ્પોનન્ટ્સ આવી રહ્યા છે. તેમને React 19 જોઈએ છે, અને તે Next.js App Router અને Vite સાથે કામ કરે છે.',
+          },
+          { kind: 'h2', id: 'install', text: 'ઇન્સ્ટૉલેશન' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'સ્ટાઇલ્સ ઇમ્પોર્ટ કરો' },
+          {
+            kind: 'p',
+            html: 'કમ્પોનન્ટ્સ સાથે કોઈ સ્ટાઇલ્સ આવતી નથી. તમારી ઍપની કોઈ CSS ફાઇલમાંથી સ્ટાઇલશીટ એક વાર ઇમ્પોર્ટ કરો.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'લેયર્સ Angular ની જેમ જ કામ કરે છે: રીસેટ <code>nui</code> પહેલાંના લેયરમાં જાય છે, અને Tailwind CSS સાથે <code>nui</code> લેયર Tailwind ના base લેયર અને તેની યુટિલિટીઝની વચ્ચે આવે છે, જેમ <a href="/guides/getting-started#styles">શરૂઆત</a> માર્ગદર્શિકામાં બતાવ્યું છે.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'શેડ્યૂલર' },
+          {
+            kind: 'p',
+            html: 'દરેક કમ્પોનન્ટનો પોતાનો એન્ટ્રી પૉઇન્ટ છે. શેડ્યૂલર તમે આપેલી <code>events</code> બતાવે છે, અને લોકો કોઈ ઇવેન્ટ ખસેડે કે નવી ઇવેન્ટ માટે સમય પસંદ કરે ત્યારે તમને જણાવે છે: ઇવેન્ટ તમારી પાસે જ રહે છે.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'ડેટા ગ્રિડ' },
+          {
+            kind: 'p',
+            html: '<code>columns</code> ને કમ્પોનન્ટની બહાર વર્ણવો, જેથી ગ્રિડ દરેક રેન્ડર પર પોતાનું કામ ફરી ન કરે. એડિટ થાય ત્યારે નવી હરોળ સાથે <code>onRowsChange</code> કૉલ થાય છે, અને Excel એક્સપોર્ટ જેવી મેથડ્સ ગ્રિડના <code>ref</code> પર હોય છે.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React ની ભાષામાં API' },
+          {
+            kind: 'p',
+            html: 'React કમ્પોનન્ટ્સ પણ Angular વાળા જ સ્પેક્સને અનુસરે છે, તેથી તેમની API મેળ ખાય છે, React ની ભાષામાં. API પેજ દરેક પ્રોપની યાદી આપે છે: <a href="/components/scheduler/api/react">શેડ્યૂલરનું</a> અને <a href="/components/grid/api/react">ડેટા ગ્રિડનું</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular API અને React માં તેનું રૂપ',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'મૉડલ, <code>[(view)]</code>',
+                'સ્થિતિ: <code>onViewChange</code> સાથે <code>view</code>, અથવા કમ્પોનન્ટ પોતે રાખે તે માટે <code>defaultView</code>',
+              ],
+              ['આઉટપુટ, <code>(eventClick)</code>', 'કૉલબૅક, <code>onEventClick</code>'],
+              [
+                'ટેમ્પ્લેટ, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'દોરતું ફંક્શન, <code>renderEvent</code>',
+              ],
+              [
+                'મેથડ, <code>scheduler.next()</code>',
+                '<code>ref</code> પરની મેથડ, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, ટ્રી ડેટા માટે',
+                '<code>getChildren</code>: React માં <code>children</code> એલિમેન્ટ્સ માટે છે',
+              ],
+              [
+                '<code>locale</code>, ડિફૉલ્ટ રૂપે ઍપનો <code>LOCALE_ID</code>',
+                '<code>locale</code>, ડિફૉલ્ટ રૂપે <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'સર્વર રેન્ડરિંગ' },
+          {
+            kind: 'p',
+            html: 'બંને કમ્પોનન્ટ્સ સર્વર પર રેન્ડર થાય છે અને પછી હાઇડ્રેટ થાય છે. પૅકેજ તેમને ક્લાયન્ટ કમ્પોનન્ટ્સ તરીકે ચિહ્નિત કરે છે, તેથી કોઈ Server Component તેમને સિરિયલાઇઝ થઈ શકે તેવા પ્રોપ્સ સાથે રેન્ડર કરી શકે છે, અને <code>nuiSchedulerFromIcs</code> જેવાં હેલ્પર સર્વર પર ચાલે છે. કૉલબૅક બ્રાઉઝર સુધી જઈ શકતાં નથી: જે કમ્પોનન્ટ તેમને લે છે, તે તમારા પોતાના કોઈ ક્લાયન્ટ કમ્પોનન્ટમાં જાય છે, ઉપરના બંનેની જેમ.',
+          },
+          {
+            kind: 'p',
+            html: 'જે વપરાશકર્તા પર આધાર રાખે છે, તે બ્રાઉઝરમાં જ નક્કી થાય છે: શેડ્યૂલરમાં અત્યારના સમયની રેખા, અને આજે કયો દિવસ છે. સર્વર શેડ્યૂલર રેન્ડર કરે ત્યારે તેને <code>defaultDate</code> આપો, કારણ કે સર્વરનો આજનો દિવસ વપરાશકર્તાનો પણ આજનો દિવસ હોય એવું જરૂરી નથી.',
+          },
+        ],
+      },
       theming: {
         title: 'થીમિંગ',
         description:
@@ -3188,6 +3265,85 @@ export const messages: Messages = {
           html: 'સાઇટ બદલાય ત્યારે, ઉદાહરણ તરીકે નવા હોસ્ટ પર જાય ત્યારે, આ નીતિ પણ બદલાય છે. નીચેની તારીખ વર્તમાન સંસ્કરણ દર્શાવે છે.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'ફ્રેમવર્ક',
+    title: (name) => `React માટે ${name} API`,
+    kinds: { prop: 'પ્રોપ', state: 'સ્થિતિ', callback: 'કૉલબૅક', render: 'રેન્ડર પ્રોપ' },
+    state:
+      'સ્થિતિ React ના પોતાના ઇનપુટ્સની જેમ કામ કરે છે: મૂલ્ય આપો અને તેના <code>on…Change</code> કૉલબૅકમાંથી તેને અપડેટ કરો, અથવા <code>default…</code> મૂલ્ય આપો અને તેને કમ્પોનન્ટ પર છોડી દો.',
+    customization:
+      'તમે સેટ ન કરેલા કસ્ટમાઇઝેશન પ્રોપ્સ સૌથી નજીકના <code>data-nui-*</code> એટ્રિબ્યુટમાંથી મૂલ્ય લે છે. <a href="/guides/customization">કસ્ટમાઇઝેશન માર્ગદર્શિકા</a> જુઓ.',
+    items: {
+      scheduler: {
+        overview:
+          'શેડ્યૂલર એક React કમ્પોનન્ટ પણ છે: <code>@needless-ui/react/scheduler</code> માંથી <code>NuiScheduler</code>. અહીંનાં ઉદાહરણો Angular માં છે; તેની <a href="/components/scheduler/api/react">React API</a> અને <a href="/guides/react">React માર્ગદર્શિકા</a> જુઓ.',
+        apiDescription:
+          'React માં Needless UI શેડ્યૂલરનો API રેફરન્સ: તેના પ્રોપ્સ, નિયંત્રિત કરી શકાતી સ્થિતિ, કૉલબૅક, રેન્ડર પ્રોપ્સ અને તેના ref પરની મેથડ્સ.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'શેડ્યૂલરના <code>ref</code> થી શું મળે છે: પેજિંગ, તમારા પોતાના ટૂલબાર માટે.',
+              date: 'બતાવેલો દિવસ, અને કીબોર્ડ ફોકસ જ્યાં છે તે. સર્વર શેડ્યૂલર રેન્ડર કરે ત્યારે <code>defaultDate</code> આપો: સર્વરનો આજનો દિવસ વપરાશકર્તાનો પણ આજનો દિવસ હોય એવું જરૂરી નથી.',
+              toolbar: 'ટૂલબાર બતાવે છે, અથવા તેને જે મળે તેમાંથી તમારું પોતાનું ટૂલબાર દોરે છે.',
+              renderEvent: 'ઇવેન્ટ જાતે દોરો, ઇવેન્ટ અને ટેક્સ્ટ તરીકે તેના સમય પરથી.',
+              renderResource: 'રિસોર્સનાં હેડર જાતે દોરો.',
+              onEventClick: 'ક્લિક કરેલી, કે Enter થી ખોલેલી ઇવેન્ટ સાથે કૉલ થાય છે.',
+              onEventChange:
+                'ખસેડ્યા કે કદ બદલ્યા પછી ઇવેન્ટના નવા સમય સાથે, અને રિસોર્સ બદલાયા હોય તો તેમની સાથે પણ, કૉલ થાય છે. ફેરફાર રાખવા <code>events</code> અપડેટ કરો.',
+              onSlotSelect: 'ગ્રિડ પર પસંદ કરેલા સમય અને તેના રિસોર્સ સાથે કૉલ થાય છે.',
+              onRangeChange:
+                'બતાવેલા પહેલા અને છેલ્લા દિવસ બદલાય ત્યારે તેમની સાથે કૉલ થાય છે, જેથી તેમની ઇવેન્ટ લોડ કરી શકાય.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: '<code>toolbar</code> ફંક્શનને શું મળે છે, તમારું પોતાનું ટૂલબાર દોરવા માટે.',
+            members: {
+              'view, views': 'બતાવેલું વ્યૂ, અને ઉપલબ્ધ વ્યૂ.',
+              'setView, previous, next, goToday':
+                'વ્યૂ બદલે છે, પાછલું કે આગલું પેજ બતાવે છે, અથવા આજનો દિવસ બતાવે છે.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'ડેટા ગ્રિડ એક React કમ્પોનન્ટ પણ છે: <code>@needless-ui/react/grid</code> માંથી <code>NuiGrid</code>. અહીંનાં ઉદાહરણો Angular માં છે; તેની <a href="/components/grid/api/react">React API</a> અને <a href="/guides/react">React માર્ગદર્શિકા</a> જુઓ.',
+        apiDescription:
+          'React માં Needless UI ડેટા ગ્રિડનો API રેફરન્સ: તેના પ્રોપ્સ, નિયંત્રિત કરી શકાતી સ્થિતિ, કૉલબૅક, સેલ માટેના રેન્ડર પ્રોપ્સ અને તેના ref પરની મેથડ્સ.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'ગ્રિડના <code>ref</code> થી શું મળે છે: એક્સપોર્ટ, પ્રિન્ટિંગ અને ફોકસ.',
+              expandAll: 'દરેક જૂથ અને પેટા-હરોળવાળી દરેક હરોળ ખોલે છે, અથવા બધાંને બંધ કરે છે.',
+              fit: 'કૉલમને તેના રેન્ડર થયેલા સેલમાંથી સૌથી પહોળા સેલ જેટલી ફિટ કરે છે.',
+              rows: 'ડેટા. એડિટ તેની હરોળ બદલે છે અને <code>onRowsChange</code> કૉલ કરે છે; તમે પછી આપો તે <code>rows</code> એડિટની જગ્યા લે છે.',
+              onRowsChange: 'લાગુ થયેલા દરેક એડિટ પછી હરોળ સાથે કૉલ થાય છે.',
+              groupBy: 'જે કૉલમ મુજબ હરોળનાં જૂથ બને છે તે, સૌથી બહારની પહેલાં.',
+              collapsed: 'બંધ જૂથોની કી; શરૂઆતમાં જૂથ ખુલ્લાં હોય છે.',
+              expanded: 'ટ્રી ડેટામાં ખુલ્લી હરોળની કી; શરૂઆતમાં તે બંધ હોય છે.',
+              details: 'જે હરોળની વિગતો ખુલ્લી છે તેમની કી.',
+              renderEmpty:
+                'કોઈ હરોળ ન હોય ત્યારે જે દેખાય તે; તેને જણાવાય છે કે ફિલ્ટરે તેમને છુપાવી છે કે નહીં.',
+              renderDetail:
+                'હરોળની વિગતો, ખોલવા પર તેની નીચે દેખાતી. ગ્રિડ ટૉગલની એક કૉલમ ઉમેરે છે.',
+              onRowActivate: 'Enter કે ડબલ-ક્લિકથી ખોલેલી હરોળ સાથે કૉલ થાય છે.',
+              onCellEdit: 'લાગુ થયેલા દરેક એડિટ સાથે કૉલ થાય છે.',
+              onQueryChange:
+                'સૉર્ટ, ફિલ્ટર, શોધ અને પેજ બદલાય ત્યારે તેમની સાથે, અને શરૂઆતમાં એક વાર, કૉલ થાય છે.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'એક કૉલમ. તે <a href="/components/grid/api#NuiGridColumn">Angular કૉલમની</a> દરેક પ્રોપર્ટી લે છે (ફક્ત <code>id</code> અને <code>header</code> જરૂરી છે), અને આ બે પણ, જે તેને દોરે છે.',
+            members: {
+              renderCell: 'કૉલમના સેલ જાતે દોરો, હરોળ, સેલના મૂલ્ય અને ટેક્સ્ટ પરથી.',
+              renderHeader: 'કૉલમનું હેડર જાતે દોરો; તેનું નામ તો પણ <code>header</code> આપે છે.',
+            },
+          },
+        },
+      },
     },
   },
 };

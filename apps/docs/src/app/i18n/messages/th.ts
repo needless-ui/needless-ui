@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'สไตล์ชีตเดียว ใช้ได้ทุกเฟรมเวิร์ก',
-        text: 'คอมโพเนนต์เป็น CSS ธรรมดาใน cascade layer วันนี้ใช้กับ Angular ต่อไปคือ React และใช้กับ HTML ธรรมดาได้เสมอ',
+        text: 'คอมโพเนนต์เป็น CSS ธรรมดาใน cascade layer วันนี้ใช้กับ Angular ใช้กับ <a href="/guides/react">React</a> ได้แล้วสำหรับ Scheduler กับตารางข้อมูล และใช้กับ HTML ธรรมดาได้เสมอ',
       },
       {
         title: 'CSS ของคุณชนะเสมอ',
@@ -2461,6 +2461,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Scheduler และตารางข้อมูลสำหรับ React',
+        description:
+          'ใช้ Scheduler และตารางข้อมูลของ Needless UI ใน React 19 และ Next.js ตั้งแต่การติดตั้ง การ import สไตล์ การเรนเดอร์บนเซิร์ฟเวอร์ ไปจนถึงการเทียบ API',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Scheduler และตารางข้อมูลมีให้ใช้เป็นคอมโพเนนต์ React ด้วย ใน <code>@needless-ui/react</code> โดยมีฟีเจอร์ คีย์บอร์ด และการเข้าถึงเหมือนใน Angular ใช้สไตล์ชีตเดียวกัน และสัญญาอนุญาต MIT เดียวกัน คอมโพเนนต์อื่น ๆ กำลังตามมา ทั้งสองต้องใช้ React 19 และทำงานได้กับ Next.js App Router และ Vite',
+          },
+          { kind: 'h2', id: 'install', text: 'การติดตั้ง' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Import สไตล์' },
+          {
+            kind: 'p',
+            html: 'คอมโพเนนต์ไม่ได้มาพร้อมสไตล์ ให้ import สไตล์ชีตครั้งเดียวจากไฟล์ CSS ไฟล์หนึ่งในแอปของคุณ',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layer ทำงานเหมือนใน Angular คือ reset อยู่ใน layer ก่อน <code>nui</code> และเมื่อใช้ Tailwind CSS ให้วาง <code>nui</code> ไว้ระหว่าง base ของ Tailwind กับ utilities ตามที่<a href="/guides/getting-started#styles">เริ่มต้นใช้งาน</a>แสดงไว้',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Scheduler' },
+          {
+            kind: 'p',
+            html: 'แต่ละคอมโพเนนต์มี entry point ของตัวเอง Scheduler แสดง <code>events</code> ที่คุณส่งเข้าไป และแจ้งคุณเมื่อผู้ใช้ย้ายกิจกรรมหรือเลือกเวลาสำหรับกิจกรรมใหม่ โดยคุณเป็นผู้เก็บกิจกรรมไว้เอง',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'ตารางข้อมูล' },
+          {
+            kind: 'p',
+            html: 'กำหนด <code>columns</code> ไว้นอกคอมโพเนนต์ เพื่อไม่ให้ตารางทำงานซ้ำทุกครั้งที่เรนเดอร์ การแก้ไขจะเรียก <code>onRowsChange</code> พร้อมแถวชุดใหม่ ส่วนเมธอดอย่างการส่งออกเป็น Excel อยู่ที่ <code>ref</code> ของตาราง',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API ในแบบของ React' },
+          {
+            kind: 'p',
+            html: 'คอมโพเนนต์ React ทำตามสเปกเดียวกับคอมโพเนนต์ Angular จึงมี API ที่ตรงกันในแบบของ React หน้า API ของ <a href="/components/scheduler/api/react">Scheduler</a> และของ<a href="/components/grid/api/react">ตารางข้อมูล</a>แสดง prop ครบทุกตัว',
+          },
+          {
+            kind: 'table',
+            caption: 'API ของ Angular และคู่แฝดใน React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Model เช่น <code>[(view)]</code>',
+                'สถานะ: <code>view</code> คู่กับ <code>onViewChange</code> หรือ <code>defaultView</code> ให้คอมโพเนนต์เก็บค่าเอง',
+              ],
+              ['Output เช่น <code>(eventClick)</code>', 'Callback เช่น <code>onEventClick</code>'],
+              [
+                'เทมเพลต เช่น <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'ฟังก์ชันที่ใช้วาด เช่น <code>renderEvent</code>',
+              ],
+              [
+                'เมธอด เช่น <code>scheduler.next()</code>',
+                'เมธอดบน <code>ref</code> เช่น <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code> สำหรับข้อมูลแบบต้นไม้',
+                '<code>getChildren</code> เพราะ React สงวน <code>children</code> ไว้สำหรับเอลิเมนต์',
+              ],
+              [
+                '<code>locale</code> ค่าเริ่มต้นคือ <code>LOCALE_ID</code> ของแอป',
+                '<code>locale</code> ค่าเริ่มต้นคือ <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'การเรนเดอร์ฝั่งเซิร์ฟเวอร์' },
+          {
+            kind: 'p',
+            html: 'คอมโพเนนต์ทั้งสองเรนเดอร์บนเซิร์ฟเวอร์ได้ แล้วจึง hydrate ในเบราว์เซอร์ แพ็กเกจระบุว่าทั้งสองเป็น client component ดังนั้น Server Component จึงเรนเดอร์คอมโพเนนต์เหล่านี้ได้ด้วย prop ที่ serialize ได้ และฟังก์ชันช่วยอย่าง <code>nuiSchedulerFromIcs</code> ก็ทำงานบนเซิร์ฟเวอร์ได้ แต่ callback ส่งข้ามไปยังเบราว์เซอร์ไม่ได้ คอมโพเนนต์ที่รับ callback จึงต้องอยู่ใน client component ของคุณเอง เหมือนสองตัวอย่างข้างบน',
+          },
+          {
+            kind: 'p',
+            html: 'สิ่งที่ขึ้นกับผู้อ่านต้องรอเบราว์เซอร์ ได้แก่เส้นบอกเวลาปัจจุบันของ Scheduler และวันนี้เป็นวันอะไร เมื่อเซิร์ฟเวอร์เรนเดอร์ Scheduler ให้กำหนด <code>defaultDate</code> เพราะวันนี้ของเซิร์ฟเวอร์อาจไม่ใช่วันนี้ของผู้อ่าน',
+          },
+        ],
+      },
       theming: {
         title: 'การปรับธีม',
         description:
@@ -3181,6 +3258,85 @@ export const messages: Messages = {
           html: 'นโยบายนี้จะเปลี่ยนเมื่อเว็บไซต์เปลี่ยน เช่น เมื่อย้ายไปใช้โฮสต์ใหม่ วันที่ด้านล่างแสดงฉบับที่ใช้อยู่ในปัจจุบัน',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'เฟรมเวิร์ก',
+    // A space before a Latin name (ของ Scheduler), none before a Thai one (ของตารางข้อมูล).
+    title: (name) => `API สำหรับ React ของ${/^[\u0e00-\u0e7f]/u.test(name) ? '' : ' '}${name}`,
+    kinds: { prop: 'Prop', state: 'สถานะ', callback: 'Callback', render: 'Render prop' },
+    state:
+      'สถานะทำงานเหมือน input ของ React เอง คือส่งค่าเข้าไปแล้วอัปเดตจาก callback <code>on…Change</code> ของค่านั้น หรือส่งค่า <code>default…</code> แล้วปล่อยให้คอมโพเนนต์เก็บค่าไว้เอง',
+    customization:
+      'Prop สำหรับการปรับแต่งที่ไม่ได้กำหนดค่าไว้ จะใช้ค่าตาม attribute <code>data-nui-*</code> ที่อยู่ใกล้ที่สุด ดู<a href="/guides/customization">คู่มือการปรับแต่ง</a>',
+    items: {
+      scheduler: {
+        overview:
+          'Scheduler มีเป็นคอมโพเนนต์ React ด้วย คือ <code>NuiScheduler</code> จาก <code>@needless-ui/react/scheduler</code> ตัวอย่างในหน้านี้เป็น Angular ดู<a href="/components/scheduler/api/react">API สำหรับ React</a> และ<a href="/guides/react">คู่มือ React</a>',
+        apiDescription:
+          'เอกสารอ้างอิง API ของ Scheduler ใน Needless UI สำหรับ React ทั้ง prop สถานะที่คุณควบคุมได้ callback และ render prop รวมถึงเมธอดบน ref',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'สิ่งที่เข้าถึงได้ผ่าน <code>ref</code> ของ Scheduler คือการเปลี่ยนหน้า สำหรับแถบเครื่องมือที่คุณสร้างเอง',
+              date: 'วันที่แสดงอยู่ และตำแหน่งของโฟกัสคีย์บอร์ด เมื่อเซิร์ฟเวอร์เรนเดอร์ Scheduler ให้ส่ง <code>defaultDate</code> เพราะวันนี้ของเซิร์ฟเวอร์อาจไม่ใช่วันนี้ของผู้อ่าน',
+              toolbar: 'แสดงแถบเครื่องมือ หรือวาดแถบเครื่องมือของคุณเองจากสิ่งที่ได้รับ',
+              renderEvent: 'วาดกิจกรรมเองจากตัวกิจกรรมและเวลาในรูปแบบข้อความ',
+              renderResource: 'วาดส่วนหัวของทรัพยากรเอง',
+              onEventClick: 'ถูกเรียกพร้อมกิจกรรมที่ถูกคลิกหรือถูกเปิดด้วย Enter',
+              onEventChange:
+                'ถูกเรียกพร้อมเวลาใหม่ของกิจกรรมหลังการย้ายหรือปรับขนาด รวมถึงทรัพยากรเมื่อมีการเปลี่ยน ให้อัปเดต <code>events</code> เพื่อเก็บการเปลี่ยนแปลงไว้',
+              onSlotSelect: 'ถูกเรียกพร้อมเวลาที่เลือกบนตารางและทรัพยากรของเวลานั้น',
+              onRangeChange:
+                'ถูกเรียกพร้อมวันแรกและวันสุดท้ายที่แสดงเมื่อมีการเปลี่ยนแปลง เพื่อโหลดกิจกรรมของช่วงนั้น',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: 'สิ่งที่ฟังก์ชัน <code>toolbar</code> ได้รับ เพื่อวาดแถบเครื่องมือของคุณเอง',
+            members: {
+              'view, views': 'มุมมองที่แสดงอยู่ และมุมมองที่มีให้เลือก',
+              'setView, previous, next, goToday':
+                'สลับมุมมอง แสดงหน้าก่อนหน้าหรือถัดไป หรือแสดงวันนี้',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'ตารางข้อมูลมีเป็นคอมโพเนนต์ React ด้วย คือ <code>NuiGrid</code> จาก <code>@needless-ui/react/grid</code> ตัวอย่างในหน้านี้เป็น Angular ดู<a href="/components/grid/api/react">API สำหรับ React</a> และ<a href="/guides/react">คู่มือ React</a>',
+        apiDescription:
+          'เอกสารอ้างอิง API ของตารางข้อมูลใน Needless UI สำหรับ React ทั้ง prop สถานะที่คุณควบคุมได้ callback และ render prop ของเซลล์ รวมถึงเมธอดบน ref',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'สิ่งที่เข้าถึงได้ผ่าน <code>ref</code> ของตาราง ได้แก่การส่งออก การสั่งพิมพ์ และโฟกัส',
+              expandAll: 'ขยายทุกกลุ่มและทุกแถวที่มีแถวลูก หรือยุบทั้งหมด',
+              fit: 'ปรับความกว้างคอลัมน์ให้พอดีกับเซลล์ที่กว้างที่สุดในบรรดาเซลล์ที่เรนเดอร์แล้ว',
+              rows: 'ข้อมูล การแก้ไขจะแทนที่แถวนั้นและเรียก <code>onRowsChange</code> ส่วน <code>rows</code> ชุดถัดไปที่คุณส่งเข้ามาจะแทนที่การแก้ไขเหล่านั้น',
+              onRowsChange: 'ถูกเรียกพร้อมแถวทั้งหมดหลังการแก้ไขแต่ละครั้งที่ยืนยันแล้ว',
+              groupBy: 'คอลัมน์ที่ใช้จัดกลุ่มแถว เริ่มจากชั้นนอกสุด',
+              collapsed: 'คีย์ของกลุ่มที่ยุบอยู่ โดยกลุ่มจะเริ่มต้นแบบขยาย',
+              expanded: 'คีย์ของแถวที่ขยายอยู่ในข้อมูลแบบต้นไม้ โดยแถวจะเริ่มต้นแบบยุบ',
+              details: 'คีย์ของแถวที่เปิดรายละเอียดอยู่',
+              renderEmpty: 'สิ่งที่แสดงเมื่อไม่มีแถว โดยจะได้รับแจ้งว่าตัวกรองซ่อนแถวไว้หรือไม่',
+              renderDetail:
+                'รายละเอียดของแถว ซึ่งแสดงอยู่ใต้แถวเมื่อเปิด ตารางจะเพิ่มคอลัมน์ของปุ่มสลับให้',
+              onRowActivate: 'ถูกเรียกพร้อมแถวที่ถูกเปิดด้วย Enter หรือการดับเบิลคลิก',
+              onCellEdit: 'ถูกเรียกพร้อมการแก้ไขแต่ละครั้งที่ยืนยันแล้ว',
+              onQueryChange:
+                'ถูกเรียกพร้อมการเรียงลำดับ ตัวกรอง คำค้นหา และหน้า ทุกครั้งที่มีการเปลี่ยนแปลง และอีกครั้งตอนเริ่มต้น',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'คอลัมน์หนึ่งคอลัมน์ รับพร็อพเพอร์ตีทุกตัวของ<a href="/components/grid/api#NuiGridColumn">คอลัมน์ Angular</a> (ต้องระบุเพียง <code>id</code> และ <code>header</code>) และสองตัวนี้ที่ใช้วาดคอลัมน์',
+            members: {
+              renderCell: 'วาดเซลล์ของคอลัมน์เอง จากแถว ค่า และข้อความของเซลล์',
+              renderHeader: 'วาดหัวคอลัมน์เอง โดย <code>header</code> ยังคงเป็นชื่อของคอลัมน์',
+            },
+          },
+        },
+      },
     },
   },
 };

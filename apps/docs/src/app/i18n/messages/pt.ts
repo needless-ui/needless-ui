@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'Uma folha de estilo, qualquer framework',
-        text: 'Os componentes são CSS puro em camadas de cascata: Angular hoje, React em seguida, HTML simples sempre.',
+        text: 'Os componentes são CSS puro em camadas de cascata: Angular hoje, <a href="/guides/react">React</a> por enquanto no agendador e na grade de dados, HTML simples sempre.',
       },
       {
         title: 'Seu CSS sempre vence',
@@ -2546,6 +2546,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Agendador e grade de dados para React',
+        description:
+          'Use o agendador e a grade de dados do Needless UI no React 19 e no Next.js: instalação, estilos, renderização no servidor e equivalências da API.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'O agendador e a grade de dados também são componentes React, em <code>@needless-ui/react</code>: as mesmas funcionalidades, o mesmo comportamento de teclado e a mesma acessibilidade do Angular, a mesma folha de estilo e a mesma licença MIT. Os outros componentes estão a caminho. Os dois precisam do React 19 e funcionam com o Next.js App Router e com o Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Instalação' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Importe os estilos' },
+          {
+            kind: 'p',
+            html: 'Os componentes não trazem estilos. Importe a folha de estilo uma única vez, a partir de um arquivo CSS da sua aplicação.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'As camadas funcionam como no Angular: os resets vão em uma camada antes de <code>nui</code> e, com o Tailwind CSS, <code>nui</code> fica entre a base do Tailwind e os utilitários dele, como mostra o guia <a href="/guides/getting-started#styles">Primeiros passos</a>.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Um agendador' },
+          {
+            kind: 'p',
+            html: 'Cada componente tem o próprio ponto de entrada. O agendador mostra os <code>events</code> que você passa e avisa quando alguém move um deles ou escolhe um horário para um novo: quem guarda os eventos é você.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Uma grade de dados' },
+          {
+            kind: 'p',
+            html: 'Descreva as <code>columns</code> fora do componente, para que a grade não refaça o trabalho a cada renderização. Uma edição chama <code>onRowsChange</code> com as novas linhas, e métodos como a exportação para Excel ficam na <code>ref</code> da grade.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'A API do jeito do React' },
+          {
+            kind: 'p',
+            html: 'Os componentes React seguem as mesmas especificações dos componentes Angular, então as APIs deles se correspondem, do jeito do React. As páginas da API listam todas as props: as do <a href="/components/scheduler/api/react">agendador</a> e as da <a href="/components/grid/api/react">grade de dados</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'A API do Angular e sua gêmea no React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Um model, <code>[(view)]</code>',
+                'Estado: <code>view</code> com <code>onViewChange</code>, ou <code>defaultView</code> para o componente guardar',
+              ],
+              ['Um output, <code>(eventClick)</code>', 'Um callback, <code>onEventClick</code>'],
+              [
+                'Um template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Uma função que desenha, <code>renderEvent</code>',
+              ],
+              [
+                'Um método, <code>scheduler.next()</code>',
+                'Um método na <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, para dados em árvore',
+                '<code>getChildren</code>: o React reserva <code>children</code> para elementos',
+              ],
+              [
+                '<code>locale</code>, por padrão o <code>LOCALE_ID</code> da aplicação',
+                '<code>locale</code>, por padrão <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Renderização no servidor' },
+          {
+            kind: 'p',
+            html: 'Os dois componentes são renderizados no servidor e hidratados no navegador. O pacote os marca como componentes de cliente, então um Server Component pode renderizá-los com props serializáveis, e funções auxiliares como <code>nuiSchedulerFromIcs</code> rodam no servidor. Callbacks não passam para o navegador: um componente que os recebe fica dentro de um componente de cliente próprio, como os dois acima.',
+          },
+          {
+            kind: 'p',
+            html: 'O que depende de quem lê espera pelo navegador: a linha da hora atual do agendador e qual é o dia de hoje. Passe um <code>defaultDate</code> ao agendador quando um servidor o renderizar, já que o dia de hoje no servidor pode não ser o mesmo de quem lê.',
+          },
+        ],
+      },
       theming: {
         title: 'Temas',
         description:
@@ -3285,6 +3362,90 @@ export const messages: Messages = {
           html: 'Esta política muda quando o site muda, por exemplo, se ele passar para outra hospedagem. A data abaixo indica a versão atual.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API do componente ${name} para React`,
+    kinds: { prop: 'Prop', state: 'Estado', callback: 'Callback', render: 'Render prop' },
+    state:
+      'O estado funciona como nos campos de formulário do React: passe um valor e atualize-o pelo callback <code>on…Change</code> dele, ou passe um valor <code>default…</code> e deixe o componente guardá-lo.',
+    customization:
+      'As props de personalização que você não definir seguem o atributo <code>data-nui-*</code> mais próximo. Veja o <a href="/guides/customization">guia de personalização</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'O agendador também é um componente React: <code>NuiScheduler</code>, de <code>@needless-ui/react/scheduler</code>. Os exemplos desta página estão em Angular; veja a <a href="/components/scheduler/api/react">API React</a> dele e o <a href="/guides/react">guia de React</a>.',
+        apiDescription:
+          'Referência da API do agendador do Needless UI no React: as props, o estado que você pode controlar, callbacks, render props e os métodos da ref dele.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'O que a <code>ref</code> do agendador expõe: a troca de página, para uma barra de ferramentas própria.',
+              date: 'O dia exibido, onde também está o foco do teclado. Passe <code>defaultDate</code> quando um servidor renderizar o agendador: o dia de hoje no servidor pode não ser o mesmo de quem lê.',
+              toolbar:
+                'Mostra a barra de ferramentas, ou uma função desenha a sua a partir do que recebe.',
+              renderEvent:
+                'Desenhe você mesmo os eventos, a partir do evento e do horário dele como texto.',
+              renderResource: 'Desenhe você mesmo os cabeçalhos dos recursos.',
+              onEventClick: 'Chamado com um evento clicado, ou aberto com Enter.',
+              onEventChange:
+                'Chamado com os novos horários de um evento depois de movê-lo ou redimensioná-lo, e os recursos dele quando mudaram. Atualize <code>events</code> para manter a mudança.',
+              onSlotSelect: 'Chamado com o horário escolhido na grade e o recurso dele.',
+              onRangeChange:
+                'Chamado com o primeiro e o último dia exibidos quando eles mudam, para carregar os eventos deles.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'O que uma função <code>toolbar</code> recebe, para desenhar uma barra de ferramentas própria.',
+            members: {
+              'view, views': 'A visualização exibida e as visualizações oferecidas.',
+              'setView, previous, next, goToday':
+                'Trocam a visualização, ou mostram a página anterior ou seguinte, ou a de hoje.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'A grade de dados também é um componente React: <code>NuiGrid</code>, de <code>@needless-ui/react/grid</code>. Os exemplos desta página estão em Angular; veja a <a href="/components/grid/api/react">API React</a> dela e o <a href="/guides/react">guia de React</a>.',
+        apiDescription:
+          'Referência da API da grade de dados do Needless UI no React: props, estado controlável, callbacks, render props para células e os métodos da ref dela.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'O que a <code>ref</code> da grade expõe: exportações, impressão e foco.',
+              expandAll: 'Abre todos os grupos e todas as linhas com filhos, ou fecha todos.',
+              fit: 'Ajusta uma coluna à mais larga das células renderizadas dela.',
+              rows: 'Os dados. Uma edição substitui a linha dela e chama <code>onRowsChange</code>; as próximas <code>rows</code> que você passar substituem as edições.',
+              onRowsChange: 'Chamado com as linhas depois de cada edição confirmada.',
+              groupBy: 'As colunas pelas quais agrupar as linhas, a partir da mais externa.',
+              collapsed: 'As chaves dos grupos fechados; os grupos começam abertos.',
+              expanded: 'As chaves das linhas abertas nos dados em árvore; elas começam fechadas.',
+              details: 'As chaves das linhas com os detalhes abertos.',
+              renderEmpty:
+                'O que aparece quando não há linhas; a função fica sabendo se os filtros as ocultaram.',
+              renderDetail:
+                'Os detalhes de uma linha, mostrados abaixo dela quando abertos. A grade adiciona uma coluna de botões de alternância.',
+              onRowActivate: 'Chamado com uma linha aberta com Enter ou com um clique duplo.',
+              onCellEdit: 'Chamado com cada edição confirmada.',
+              onQueryChange:
+                'Chamado com a ordenação, os filtros, a busca e a página sempre que mudam, e uma vez no início.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Uma coluna. Aceita todas as propriedades da <a href="/components/grid/api#NuiGridColumn">coluna do Angular</a> (só <code>id</code> e <code>header</code> são obrigatórios), além destas duas, que a desenham.',
+            members: {
+              renderCell:
+                'Desenhe você mesmo as células da coluna, a partir da linha, do valor e do texto dela.',
+              renderHeader:
+                'Desenhe você mesmo o cabeçalho da coluna; <code>header</code> continua dando nome a ela.',
+            },
+          },
+        },
+      },
     },
   },
 };

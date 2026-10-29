@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'یک استایل‌شیت، هر فریم‌ورکی',
-        text: 'کامپوننت‌ها CSS خالص در لایه‌های آبشاری (cascade layers) هستند: امروز Angular، بعد React و HTML ساده همیشه.',
+        text: 'کامپوننت‌ها CSS خالص در لایه‌های آبشاری (cascade layers) هستند: امروز Angular، <a href="/guides/react">React</a> فعلاً برای زمان‌بند و جدول داده، و HTML ساده همیشه.',
       },
       {
         title: 'CSS شما همیشه برنده است',
@@ -2496,6 +2496,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'زمان‌بند و جدول داده در React',
+        description:
+          'زمان‌بند و جدول دادهٔ Needless UI را در React 19 و Next.js به کار ببرید: نصب کنید، استایل‌ها را ایمپورت کنید، روی سرور رندر کنید و API را با Angular تطبیق دهید.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'زمان‌بند و جدول داده کامپوننت‌های React هم هستند، در <code>@needless-ui/react</code>: با همان امکانات، صفحه‌کلید و دسترس‌پذیری Angular، همان استایل‌شیت و همان مجوز MIT. بقیهٔ کامپوننت‌ها در راه‌اند. این دو به React 19 نیاز دارند و با Next.js App Router و Vite کار می‌کنند.',
+          },
+          { kind: 'h2', id: 'install', text: 'نصب' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'ایمپورت استایل‌ها' },
+          {
+            kind: 'p',
+            html: 'کامپوننت‌ها هیچ استایلی با خود ندارند. استایل‌شیت را یک بار، از یکی از فایل‌های CSS اپتان، ایمپورت کنید.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'لایه‌ها مثل Angular کار می‌کنند: ریست‌ها در لایه‌ای پیش از <code>nui</code> می‌روند، و با Tailwind CSS، <code>nui</code> بین لایهٔ base در Tailwind و یوتیلیتی‌های آن قرار می‌گیرد؛ همان‌طور که <a href="/guides/getting-started#styles">شروع کار</a> نشان می‌دهد.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'زمان‌بند' },
+          {
+            kind: 'p',
+            html: 'هر کامپوننت نقطهٔ ورود خودش را دارد. زمان‌بند رویدادهایی را که در <code>events</code> می‌دهید نشان می‌دهد، و وقتی کاربران رویدادی را جابه‌جا می‌کنند یا برای رویدادی تازه زمانی انتخاب می‌کنند، به شما خبر می‌دهد: رویدادها را خودتان نگه می‌دارید.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'جدول داده' },
+          {
+            kind: 'p',
+            html: '<code>columns</code> را بیرون از کامپوننت توصیف کنید تا جدول در هر رندر کارش را از نو انجام ندهد. هر ویرایش <code>onRowsChange</code> را با ردیف‌های جدید صدا می‌زند، و متدهایی مثل خروجی Excel روی <code>ref</code> جدول هستند.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API به زبان React' },
+          {
+            kind: 'p',
+            html: 'کامپوننت‌های React از همان مشخصاتی پیروی می‌کنند که کامپوننت‌های Angular، پس APIهایشان یکی است، فقط به زبان React. صفحه‌های API همهٔ پراپ‌ها را فهرست می‌کنند: صفحهٔ <a href="/components/scheduler/api/react">زمان‌بند</a> و صفحهٔ <a href="/components/grid/api/react">جدول داده</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API در Angular و همتایش در React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'یک مدل، <code>[(view)]</code>',
+                'وضعیت: <code>view</code> همراه با <code>onViewChange</code>، یا <code>defaultView</code> تا کامپوننت خودش نگهش دارد',
+              ],
+              ['یک خروجی، <code>(eventClick)</code>', 'یک کال‌بک، <code>onEventClick</code>'],
+              [
+                'یک قالب، <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'تابعی که رسم می‌کند، <code>renderEvent</code>',
+              ],
+              [
+                'یک متد، <code>scheduler.next()</code>',
+                'متدی روی <code>ref</code>، <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>، برای دادهٔ درختی',
+                '<code>getChildren</code>: React نام <code>children</code> را برای عناصر نگه می‌دارد',
+              ],
+              [
+                '<code>locale</code>، پیش‌فرض: <code>LOCALE_ID</code> اپ',
+                '<code>locale</code>، پیش‌فرض: <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'رندر سمت سرور' },
+          {
+            kind: 'p',
+            html: 'هر دو کامپوننت روی سرور رندر می‌شوند و در مرورگر hydrate می‌شوند. پکیج آن‌ها را کامپوننت کلاینت (client component) علامت زده است، پس یک Server Component می‌تواند آن‌ها را با پراپ‌های سریال‌پذیر رندر کند، و توابع کمکی‌ای مثل <code>nuiSchedulerFromIcs</code> روی سرور اجرا می‌شوند. کال‌بک‌ها نمی‌توانند به مرورگر منتقل شوند: کامپوننتی که آن‌ها را می‌گیرد، داخل یک کامپوننت کلاینتِ خودتان قرار می‌گیرد، مثل دو مثال بالا.',
+          },
+          {
+            kind: 'p',
+            html: 'آنچه به خواننده بستگی دارد، منتظر مرورگر می‌ماند: خط زمان فعلی در زمان‌بند، و اینکه امروز چه روزی است. وقتی سرور زمان‌بند را رندر می‌کند، به آن <code>defaultDate</code> بدهید، چون «امروزِ» سرور ممکن است «امروزِ» خواننده نباشد.',
+          },
+        ],
+      },
       theming: {
         title: 'شخصی‌سازی تم',
         description:
@@ -3230,6 +3307,91 @@ export const messages: Messages = {
           html: 'این سیاست هر وقت سایت تغییر کند تغییر می‌کند؛ برای مثال وقتی سایت به میزبان تازه‌ای منتقل شود. تاریخ زیر نسخهٔ فعلی را نشان می‌دهد.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'فریم‌ورک',
+    title: (name) => `API کامپوننت ${name} برای React`,
+    kinds: { prop: 'پراپ', state: 'وضعیت', callback: 'کال‌بک', render: 'رندر پراپ' },
+    state:
+      'وضعیت مثل فیلدهای ورودی خود React کار می‌کند: یک مقدار بدهید و آن را از کال‌بک <code>on…Change</code> آن به‌روز کنید، یا یک مقدار <code>default…</code> بدهید و بگذارید کامپوننت خودش نگهش دارد.',
+    customization:
+      'پراپ‌های سفارشی‌سازی که تنظیمشان نکنید، از نزدیک‌ترین اتریبیوت <code>data-nui-*</code> پیروی می‌کنند. <a href="/guides/customization">راهنمای سفارشی‌سازی</a> را ببینید.',
+    items: {
+      scheduler: {
+        overview:
+          'زمان‌بند یک کامپوننت React هم هست: <code>NuiScheduler</code>، از <code>@needless-ui/react/scheduler</code>. مثال‌های این صفحه با Angular نوشته شده‌اند؛ <a href="/components/scheduler/api/react">API آن در React</a> و <a href="/guides/react">راهنمای React</a> را ببینید.',
+        apiDescription:
+          'مرجع API زمان‌بند Needless UI در React: پراپ‌ها، وضعیتی که می‌توانید کنترل کنید، کال‌بک‌ها، رندر پراپ‌ها و متدهای ref آن.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'آنچه از <code>ref</code> زمان‌بند در دسترس است: ورق زدن صفحه‌ها، برای نوار ابزاری که خودتان می‌سازید.',
+              date: 'روزی که نمایش داده می‌شود و جایی که فوکوس صفحه‌کلید است. وقتی سرور زمان‌بند را رندر می‌کند، <code>defaultDate</code> را بدهید: «امروزِ» سرور ممکن است «امروزِ» خواننده نباشد.',
+              toolbar:
+                'نوار ابزار را نشان می‌دهد، یا با آنچه دریافت می‌کند نوار ابزار خودتان را رسم می‌کند.',
+              renderEvent:
+                'با آن رویدادها را خودتان رسم می‌کنید، از روی رویداد و زمانش به‌صورت متن.',
+              renderResource: 'با آن سرِ ردیف یا ستون منابع را خودتان رسم می‌کنید.',
+              onEventClick: 'با رویدادی که رویش کلیک شده یا با Enter باز شده صدا زده می‌شود.',
+              onEventChange:
+                'پس از جابه‌جایی یا تغییر اندازه، با زمان‌های جدید رویداد صدا زده می‌شود، و اگر منابعش تغییر کرده باشند، با آن‌ها هم. برای نگه‌داشتن تغییر، <code>events</code> را به‌روز کنید.',
+              onSlotSelect: 'با زمان انتخاب‌شده روی جدول و منبع آن صدا زده می‌شود.',
+              onRangeChange:
+                'وقتی اولین و آخرین روز نمایش‌داده‌شده تغییر می‌کنند، با آن‌ها صدا زده می‌شود تا رویدادهایشان را بارگذاری کنید.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'آنچه تابع <code>toolbar</code> دریافت می‌کند تا نوار ابزار خودتان را رسم کند.',
+            members: {
+              'view, views': 'نمایی که نشان داده می‌شود و نماهایی که ارائه می‌شوند.',
+              'setView, previous, next, goToday':
+                'نما را عوض می‌کنند، صفحهٔ قبلی یا بعدی را نشان می‌دهند، یا امروز را.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'جدول داده یک کامپوننت React هم هست: <code>NuiGrid</code>، از <code>@needless-ui/react/grid</code>. مثال‌های این صفحه با Angular نوشته شده‌اند؛ <a href="/components/grid/api/react">API آن در React</a> و <a href="/guides/react">راهنمای React</a> را ببینید.',
+        apiDescription:
+          'مرجع API جدول دادهٔ Needless UI در React: پراپ‌ها، وضعیتی که می‌توانید کنترل کنید، کال‌بک‌ها، رندر پراپ‌های سلول‌ها و متدهای ref آن.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'آنچه از <code>ref</code> جدول در دسترس است: خروجی‌ها، چاپ و فوکوس.',
+              expandAll:
+                'همهٔ گروه‌ها و همهٔ ردیف‌های دارای فرزند را باز می‌کند، یا همه را می‌بندد.',
+              fit: 'پهنای ستون را به اندازهٔ پهن‌ترین سلول رندرشده‌اش تنظیم می‌کند.',
+              rows: 'داده‌ها. هر ویرایش ردیف خودش را جایگزین می‌کند و <code>onRowsChange</code> را صدا می‌زند؛ <code>rows</code> بعدی که می‌دهید جای ویرایش‌ها را می‌گیرد.',
+              onRowsChange: 'پس از هر ویرایش تأییدشده، با ردیف‌ها صدا زده می‌شود.',
+              groupBy: 'ستون‌هایی که ردیف‌ها بر اساسشان گروه‌بندی می‌شوند، از بیرونی‌ترین.',
+              collapsed: 'کلید گروه‌های بسته؛ گروه‌ها در ابتدا بازند.',
+              expanded: 'کلید ردیف‌های باز در دادهٔ درختی؛ ردیف‌ها در ابتدا بسته‌اند.',
+              details: 'کلید ردیف‌هایی که جزئیاتشان باز است.',
+              renderEmpty:
+                'آنچه وقتی ردیفی نیست نمایش داده می‌شود؛ به آن گفته می‌شود که آیا فیلترها ردیف‌ها را پنهان کرده‌اند.',
+              renderDetail:
+                'جزئیات یک ردیف، که با باز شدن زیر آن نمایش داده می‌شود. جدول ستونی از دکمه‌های باز و بسته اضافه می‌کند.',
+              onRowActivate: 'با ردیفی که با Enter یا دوبار کلیک باز شده صدا زده می‌شود.',
+              onCellEdit: 'با هر ویرایش تأییدشده صدا زده می‌شود.',
+              onQueryChange:
+                'با مرتب‌سازی، فیلترها، جستجو و صفحه صدا زده می‌شود، هر بار که تغییر کنند و یک بار در شروع.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'یک ستون. همهٔ ویژگی‌های <a href="/components/grid/api#NuiGridColumn">ستون Angular</a> را می‌پذیرد (فقط <code>id</code> و <code>header</code> الزامی‌اند)، به‌علاوهٔ این دو که آن را رسم می‌کنند.',
+            members: {
+              renderCell:
+                'با آن سلول‌های ستون را خودتان رسم می‌کنید، از روی ردیف و مقدار و متن سلول.',
+              renderHeader:
+                'با آن سرستون را خودتان رسم می‌کنید؛ نام ستون همچنان از <code>header</code> می‌آید.',
+            },
+          },
+        },
+      },
     },
   },
 };

@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'ورقة أنماط واحدة لأي إطار عمل',
-        text: 'المكونات مكتوبة بـ CSS خالص داخل طبقات التتالي (cascade layers): Angular اليوم، وReact لاحقًا، وHTML العادي دائمًا.',
+        text: 'المكونات مكتوبة بـ CSS خالص داخل طبقات التتالي (cascade layers): Angular اليوم، و<a href="/guides/react">React</a> للمُجدوِل وشبكة البيانات حتى الآن، وHTML العادي دائمًا.',
       },
       {
         title: 'الأولوية لأنماطك دائمًا',
@@ -2468,6 +2468,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'المُجدوِل وشبكة البيانات في React',
+        description:
+          'استخدم مُجدوِل Needless UI وشبكة البيانات مع React 19 وNext.js: ثبّتهما، واستورد الأنماط، واعرضهما على الخادم، وقابِل API في Angular بنظيره في React.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'المُجدوِل وشبكة البيانات مكوّنان في React أيضًا، ضمن <code>@needless-ui/react</code>: بما لهما في Angular من ميزات ودعم للوحة المفاتيح وإمكانية وصول، وبورقة الأنماط نفسها ورخصة MIT نفسها. وبقية المكونات قادمة. ويتطلبان React 19، ويعملان مع Next.js App Router ومع Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'التثبيت' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'استيراد الأنماط' },
+          {
+            kind: 'p',
+            html: 'لا تأتي المكونات بأي أنماط. استورد ورقة الأنماط مرة واحدة، من ملف CSS في تطبيقك.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'تعمل الطبقات كما في Angular: توضع أنماط إعادة الضبط في طبقة قبل <code>nui</code>، ومع Tailwind CSS توضع <code>nui</code> بين طبقة base في Tailwind وطبقة الأدوات (utilities) فيه، كما يوضّح <a href="/guides/getting-started#styles">دليل البدء</a>.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'المُجدوِل' },
+          {
+            kind: 'p',
+            html: 'لكل مكوّن نقطة دخول خاصة به. يعرض المُجدوِل الأحداث التي تمرّرها إليه في <code>events</code>، ويُبلغك حين ينقل المستخدمون حدثًا أو يختارون وقتًا لحدث جديد: فأنت من يحتفظ بالأحداث.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'شبكة البيانات' },
+          {
+            kind: 'p',
+            html: 'صِف <code>columns</code> خارج المكوّن، حتى لا تُعيد الشبكة عملها مع كل عرض. ويستدعي كل تعديل <code>onRowsChange</code> بالصفوف الجديدة، أما الدوال، مثل التصدير إلى Excel، فتجدها على <code>ref</code> الشبكة.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API بمصطلحات React' },
+          {
+            kind: 'p',
+            html: 'تتبع مكونات React المواصفات نفسها التي تتبعها مكونات Angular، لذا تتطابق واجهاتها البرمجية، ولكن بمصطلحات React. وتسرد صفحات API كل الخصائص (props): صفحة <a href="/components/scheduler/api/react">المُجدوِل</a> وصفحة <a href="/components/grid/api/react">شبكة البيانات</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API في Angular ونظيره في React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'خاصية ثنائية الاتجاه، <code>[(view)]</code>',
+                'حالة: <code>view</code> مع <code>onViewChange</code>، أو <code>defaultView</code> ليحتفظ بها المكوّن بنفسه',
+              ],
+              ['مُخرَج، <code>(eventClick)</code>', 'دالة رد نداء، <code>onEventClick</code>'],
+              [
+                'قالب، <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'دالة ترسم، <code>renderEvent</code>',
+              ],
+              [
+                'دالة، <code>scheduler.next()</code>',
+                'دالة على <code>ref</code>، <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>، للبيانات الشجرية',
+                '<code>getChildren</code>: إذ يحجز React الاسم <code>children</code> للعناصر',
+              ],
+              [
+                '<code>locale</code>، وقيمته الافتراضية <code>LOCALE_ID</code> الخاص بالتطبيق',
+                '<code>locale</code>، وقيمته الافتراضية <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'العرض من جانب الخادم' },
+          {
+            kind: 'p',
+            html: 'يُعرض المكوّنان على الخادم، ثم يُفعَّلان في المتصفح (hydration). وتُعرّفهما الحزمة بأنهما مكوّنا عميل (client components)، لذا يستطيع Server Component أن يعرضهما بخصائص قابلة للتسلسل، وتعمل الدوال المساعدة مثل <code>nuiSchedulerFromIcs</code> على الخادم. أما دوال رد النداء فلا يمكنها العبور إلى المتصفح: فالمكوّن الذي يأخذها يوضع داخل مكوّن عميل من صنعك، مثل المثالين أعلاه.',
+          },
+          {
+            kind: 'p',
+            html: 'وما يتوقف على القارئ ينتظر المتصفح: خط الوقت الحالي في المُجدوِل، ومعرفة أيّ يوم هو اليوم. لذا أعطِ المُجدوِل <code>defaultDate</code> حين يعرضه خادم، لأن «اليوم» عند الخادم قد لا يكون «اليوم» عند القارئ.',
+          },
+        ],
+      },
       theming: {
         title: 'تخصيص المظهر',
         description:
@@ -3176,6 +3253,84 @@ export const messages: Messages = {
           html: 'تتغير هذه السياسة عندما يتغير الموقع، كأن ينتقل إلى مزوّد استضافة جديد. ويشير التاريخ أدناه إلى الإصدار الحالي.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'إطار العمل',
+    title: (name) => `مرجع API لمكوّن ${name} في React`,
+    kinds: { prop: 'خاصية (prop)', state: 'حالة', callback: 'دالة رد نداء', render: 'دالة رسم' },
+    state:
+      'تعمل الحالة كما تعمل عناصر الإدخال في React نفسها: مرّر قيمة وحدّثها من دالة رد النداء <code>on…Change</code> الخاصة بها، أو مرّر قيمة <code>default…</code> ودع المكوّن يحتفظ بها.',
+    customization:
+      'خصائص التخصيص التي تتركها دون ضبط تتبع أقرب سمة <code>data-nui-*</code>. راجع <a href="/guides/customization">دليل التخصيص</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'المُجدوِل مكوّن React أيضًا: <code>NuiScheduler</code> من <code>@needless-ui/react/scheduler</code>. والأمثلة هنا مكتوبة بـ Angular؛ راجع <a href="/components/scheduler/api/react">مرجع API الخاص بـ React</a> و<a href="/guides/react">دليل React</a>.',
+        apiDescription:
+          'مرجع API لمُجدوِل Needless UI في React: خصائصه، والحالة التي يمكنك التحكم بها، ودوال رد النداء، ودوال الرسم، والدوال المتاحة على ref الخاص به.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'ما يصل إليه <code>ref</code> المُجدوِل: التنقل بين الصفحات، لشريط أدوات من صنعك.',
+              date: 'اليوم المعروض، وموضع تركيز لوحة المفاتيح. مرّر <code>defaultDate</code> حين يعرض خادمٌ المُجدوِل، لأن «اليوم» عند الخادم قد لا يكون «اليوم» عند القارئ.',
+              toolbar: 'يعرض شريط الأدوات، أو يرسم شريطًا من صنعك بما يتلقاه.',
+              renderEvent: 'لرسم الأحداث بنفسك، من الحدث ووقته نصًّا.',
+              renderResource: 'لرسم عناوين الموارد بنفسك.',
+              onEventClick: 'تُستدعى مع الحدث الذي نُقر عليه، أو فُتح بمفتاح Enter.',
+              onEventChange:
+                'تُستدعى مع الأوقات الجديدة للحدث بعد نقله أو تغيير مدته، ومع موارده إن تغيّرت. حدّث <code>events</code> لتحتفظ بالتغيير.',
+              onSlotSelect: 'تُستدعى مع الوقت المختار على الشبكة، ومورده.',
+              onRangeChange:
+                'تُستدعى مع أول يوم معروض وآخر يوم معروض عند تغيّرهما، لتُحمّل أحداث تلك الأيام.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: 'ما تتلقاه دالة <code>toolbar</code>، لترسم شريط أدوات من صنعك.',
+            members: {
+              'view, views': 'طريقة العرض الحالية، وطرق العرض المتاحة.',
+              'setView, previous, next, goToday':
+                'تبدّل طريقة العرض، أو تعرض الصفحة السابقة أو التالية، أو اليوم.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'شبكة البيانات مكوّن React أيضًا: <code>NuiGrid</code> من <code>@needless-ui/react/grid</code>. والأمثلة هنا مكتوبة بـ Angular؛ راجع <a href="/components/grid/api/react">مرجع API الخاص بـ React</a> و<a href="/guides/react">دليل React</a>.',
+        apiDescription:
+          'مرجع API لشبكة البيانات من Needless UI في React: خصائصها، والحالة التي يمكنك التحكم بها، ودوال رد النداء، ودوال رسم الخلايا، والدوال المتاحة على ref الخاص بها.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'ما يصل إليه <code>ref</code> الشبكة: التصدير والطباعة والتركيز.',
+              expandAll: 'يفتح كل مجموعة وكل صف له صفوف فرعية، أو يُغلقها كلها.',
+              fit: 'يلائم عرض العمود مع أعرض خلاياه المعروضة.',
+              rows: 'البيانات. يستبدل التعديل صفّه ويستدعي <code>onRowsChange</code>؛ وقيمة <code>rows</code> التالية التي تمرّرها تحل محل التعديلات.',
+              onRowsChange: 'تُستدعى مع الصفوف بعد كل تعديل معتمد.',
+              groupBy: 'الأعمدة التي تُجمَّع الصفوف حسبها، بدءًا من المستوى الخارجي.',
+              collapsed: 'مفاتيح المجموعات المغلقة؛ وتبدأ المجموعات مفتوحة.',
+              expanded: 'مفاتيح الصفوف المفتوحة في البيانات الشجرية؛ وتبدأ الصفوف مغلقة.',
+              details: 'مفاتيح الصفوف التي تفاصيلها مفتوحة.',
+              renderEmpty: 'ما يظهر حين لا توجد صفوف؛ وتُخبَر الدالة إن كانت التصفية قد أخفتها.',
+              renderDetail:
+                'تفاصيل الصف، وتظهر تحته عند فتحها. وتضيف الشبكة عمودًا من أزرار التبديل.',
+              onRowActivate: 'تُستدعى مع الصف الذي فُتح بمفتاح Enter أو بنقرة مزدوجة.',
+              onCellEdit: 'تُستدعى مع كل تعديل معتمد.',
+              onQueryChange:
+                'تُستدعى مع الفرز وعوامل التصفية والبحث والصفحة كلما تغيّرت، ومرة واحدة عند البدء.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'عمود واحد. يقبل كل خصائص <a href="/components/grid/api#NuiGridColumn">عمود Angular</a> (لا يلزم منه إلا <code>id</code> و<code>header</code>)، إضافةً إلى هاتين الخاصيتين اللتين ترسمانه.',
+            members: {
+              renderCell: 'لرسم خلايا العمود بنفسك، من الصف وقيمة الخلية ونصها.',
+              renderHeader: 'لرسم رأس العمود بنفسك؛ ويظل <code>header</code> هو ما يُسمّيه.',
+            },
+          },
+        },
+      },
     },
   },
 };

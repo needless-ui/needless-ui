@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'Stylesheet moja, framework yoyote',
-        text: 'Vijenzi ni CSS tupu ndani ya cascade layers: Angular leo, React inafuata, na HTML tupu siku zote.',
+        text: 'Vijenzi ni CSS tupu ndani ya cascade layers: Angular leo, <a href="/guides/react">React</a> kwa kipanga ratiba na gridi ya data kwa sasa, na HTML tupu siku zote.',
       },
       {
         title: 'CSS yako hushinda daima',
@@ -2559,6 +2559,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Kipanga ratiba na gridi ya data kwa React',
+        description:
+          'Tumia kipanga ratiba na gridi ya data ya Needless UI katika React 19 na Next.js: visakinishe, ingiza mitindo, vionyeshe kwenye seva na ulinganishe API.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Kipanga ratiba na gridi ya data ni vijenzi vya React pia, katika <code>@needless-ui/react</code>: uwezo, kibodi na ufikivu ule ule wa Angular, stylesheet ile ile na leseni ile ile ya MIT. Vijenzi vingine vinakuja. Vinahitaji React 19, na vinafanya kazi na Next.js App Router na Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Usakinishaji' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Ingiza mitindo' },
+          {
+            kind: 'p',
+            html: 'Vijenzi havibebi mitindo yoyote. Ingiza stylesheet mara moja, kutoka faili ya CSS ya programu yako.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layer hufanya kazi kama katika Angular: reset huwekwa kwenye layer iliyo kabla ya <code>nui</code>, na kwa Tailwind CSS, <code>nui</code> huwekwa kati ya layer ya base ya Tailwind na utility zake, kama <a href="/guides/getting-started#styles">mwongozo wa kuanza</a> unavyoonyesha.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Kipanga ratiba' },
+          {
+            kind: 'p',
+            html: 'Kila kijenzi kina entry point yake. Kipanga ratiba huonyesha <code>events</code> unazopitisha, na hukuarifu watu wanapohamisha tukio au wanapochagua muda kwa tukio jipya: matukio unayashika wewe.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Gridi ya data' },
+          {
+            kind: 'p',
+            html: 'Eleza <code>columns</code> nje ya kijenzi, ili gridi isirudie kazi yake kila inapoonyeshwa upya. Uhariri huita <code>onRowsChange</code> pamoja na safu mpya, na mbinu kama kuhamisha kwenda Excel ziko kwenye <code>ref</code> ya gridi.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API kwa istilahi za React' },
+          {
+            kind: 'p',
+            html: 'Vijenzi vya React hufuata maelezo ya kiufundi yale yale ya vijenzi vya Angular, hivyo API zao zinalingana, kwa istilahi za React. Kurasa za API huorodhesha kila prop: ukurasa wa <a href="/components/scheduler/api/react">kipanga ratiba</a> na wa <a href="/components/grid/api/react">gridi ya data</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API ya Angular na pacha wake katika React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Model, <code>[(view)]</code>',
+                'Hali: <code>view</code> pamoja na <code>onViewChange</code>, au <code>defaultView</code> ili kijenzi kiihifadhi chenyewe',
+              ],
+              ['Output, <code>(eventClick)</code>', 'Callback, <code>onEventClick</code>'],
+              [
+                'Template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Function inayochora, <code>renderEvent</code>',
+              ],
+              [
+                'Mbinu, <code>scheduler.next()</code>',
+                'Mbinu kwenye <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, kwa data ya mti',
+                '<code>getChildren</code>: React hutumia <code>children</code> kwa vipengele',
+              ],
+              [
+                '<code>locale</code>, kwa chaguomsingi <code>LOCALE_ID</code> ya programu',
+                '<code>locale</code>, kwa chaguomsingi <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Uonyeshaji kwenye seva' },
+          {
+            kind: 'p',
+            html: 'Vijenzi vyote viwili huonyeshwa kwenye seva kisha hufanyiwa hydration kwenye kivinjari. Kifurushi huviwekea alama kama client components, hivyo Server Component inaweza kuvionyesha kwa prop zinazoweza kusafirishwa kama data (serializable), na visaidizi kama <code>nuiSchedulerFromIcs</code> huendeshwa kwenye seva. Callback haziwezi kuvuka hadi kwenye kivinjari: kijenzi kinachozipokea huwekwa ndani ya client component yako mwenyewe, kama vile viwili vilivyo hapo juu.',
+          },
+          {
+            kind: 'p',
+            html: 'Kinachotegemea msomaji husubiri kivinjari: mstari wa muda wa sasa katika kipanga ratiba, na siku ya leo ni ipi. Kipe kipanga ratiba <code>defaultDate</code> seva inapokionyesha, kwa sababu “leo” ya seva huenda isiwe “leo” ya msomaji.',
+          },
+        ],
+      },
       theming: {
         title: 'Mandhari',
         description:
@@ -3312,6 +3389,91 @@ export const messages: Messages = {
           html: 'Sera hii hubadilika tovuti inapobadilika, kwa mfano inapohamia kwa mwenyeji mpya. Tarehe iliyo hapa chini inaonyesha toleo la sasa.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API ya ${name} kwa React`,
+    kinds: { prop: 'Prop', state: 'Hali', callback: 'Callback', render: 'Render prop' },
+    state:
+      'Hali hufanya kazi kama input za React zenyewe: pitisha thamani na uisasishe kutoka callback yake ya <code>on…Change</code>, au pitisha thamani ya <code>default…</code> na uache kijenzi kiihifadhi.',
+    customization:
+      'Prop za ubinafsishaji usizoweka hufuata attribute ya <code>data-nui-*</code> iliyo karibu zaidi. Tazama <a href="/guides/customization">mwongozo wa ubinafsishaji</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'Kipanga ratiba ni kijenzi cha React pia: <code>NuiScheduler</code>, kutoka <code>@needless-ui/react/scheduler</code>. Mifano hapa iko katika Angular; tazama <a href="/components/scheduler/api/react">API yake ya React</a> na <a href="/guides/react">mwongozo wa React</a>.',
+        apiDescription:
+          'Marejeleo ya API ya kipanga ratiba cha Needless UI kwa React: prop zake, hali unayoweza kudhibiti, callback, render prop na mbinu kwenye ref yake.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Kile ambacho <code>ref</code> ya kipanga ratiba hufikia: kubadilisha kurasa, kwa upau wa zana wako mwenyewe.',
+              date: 'Siku inayoonyeshwa, na mahali kibodi ilipo. Pitisha <code>defaultDate</code> seva inapoonyesha kipanga ratiba: “leo” yake huenda isiwe “leo” ya msomaji.',
+              toolbar:
+                'Huonyesha upau wa zana, au huchora wako mwenyewe kutokana na kile inachopewa.',
+              renderEvent:
+                'Chora matukio wewe mwenyewe, kutokana na tukio na muda wake kama maandishi.',
+              renderResource: 'Chora vichwa vya rasilimali wewe mwenyewe.',
+              onEventClick: 'Huitwa ikipewa tukio lililobofywa, au lililofunguliwa kwa Enter.',
+              onEventChange:
+                'Huitwa ikipewa nyakati mpya za tukio baada ya kuhamishwa au kubadilishwa ukubwa, na rasilimali zake zikibadilika. Sasisha <code>events</code> ili kuhifadhi badiliko.',
+              onSlotSelect: 'Huitwa ikipewa muda uliochaguliwa kwenye gridi, na rasilimali yake.',
+              onRangeChange:
+                'Huitwa ikipewa siku ya kwanza na ya mwisho zinazoonyeshwa zinapobadilika, ili upakie matukio ya siku hizo.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Kile ambacho function ya <code>toolbar</code> hupokea, ili kuchora upau wa zana wako mwenyewe.',
+            members: {
+              'view, views': 'Mwonekano unaoonyeshwa, na mionekano inayotolewa.',
+              'setView, previous, next, goToday':
+                'Hubadilisha mwonekano, huonyesha ukurasa uliotangulia au unaofuata, au huonyesha leo.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'Gridi ya data ni kijenzi cha React pia: <code>NuiGrid</code>, kutoka <code>@needless-ui/react/grid</code>. Mifano hapa iko katika Angular; tazama <a href="/components/grid/api/react">API yake ya React</a> na <a href="/guides/react">mwongozo wa React</a>.',
+        apiDescription:
+          'Marejeleo ya API ya gridi ya data ya Needless UI kwa React: prop zake, hali unayoweza kudhibiti, callback, render prop za visanduku na mbinu kwenye ref yake.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Kile ambacho <code>ref</code> ya gridi hufikia: kuhamisha, kuchapisha na focus.',
+              expandAll: 'Hufungua kila kundi na kila safu yenye safu tanzu, au huzifunga zote.',
+              fit: 'Hurekebisha upana wa safu wima ulingane na kisanduku chake kipana zaidi kilichochorwa.',
+              rows: 'Data. Uhariri hubadilisha safu yake na huita <code>onRowsChange</code>; <code>rows</code> zinazofuata unazopitisha huchukua nafasi ya mabadiliko hayo.',
+              onRowsChange: 'Huitwa ikipewa safu baada ya kila uhariri uliothibitishwa.',
+              groupBy: 'Safu wima za kupanga safu katika makundi, ya nje kabisa kwanza.',
+              collapsed: 'Funguo za makundi yaliyofungwa; makundi huanza yakiwa wazi.',
+              expanded: 'Funguo za safu zilizo wazi katika data ya mti; huanza zikiwa zimefungwa.',
+              details: 'Funguo za safu ambazo maelezo yake yako wazi.',
+              renderEmpty:
+                'Kinachoonyeshwa wakati hakuna safu; huambiwa kama vichujio vimezificha.',
+              renderDetail:
+                'Maelezo ya safu, yanayoonyeshwa chini yake yakifunguliwa. Gridi huongeza safu wima ya vitufe vya kugeuza.',
+              onRowActivate:
+                'Huitwa ikipewa safu iliyofunguliwa kwa Enter au kwa kubofya mara mbili.',
+              onCellEdit: 'Huitwa ikipewa kila uhariri uliothibitishwa.',
+              onQueryChange:
+                'Huitwa ikipewa upangaji, vichujio, utafutaji na ukurasa kila vinapobadilika, na mara moja mwanzoni.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Safu wima moja. Hupokea kila sifa ya <a href="/components/grid/api#NuiGridColumn">safu wima ya Angular</a> (ni <code>id</code> na <code>header</code> pekee zinazohitajika), pamoja na hizi mbili zinazoichora.',
+            members: {
+              renderCell:
+                'Chora visanduku vya safu wima wewe mwenyewe, kutokana na safu, thamani yake na maandishi yake.',
+              renderHeader:
+                'Chora kichwa cha safu wima wewe mwenyewe; <code>header</code> bado ndiyo inayokipa jina.',
+            },
+          },
+        },
+      },
     },
   },
 };

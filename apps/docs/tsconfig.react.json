@@ -1,0 +1,17 @@
+/*
+ * Type-checks the docs' React code against the React package's sources, with its
+ * settings. The docs app doesn't depend on React, so `react` resolves to the
+ * package's own types.
+ */
+{
+  "extends": "../../packages/react/tsconfig.json",
+  "compilerOptions": {
+    "types": [],
+    "paths": {
+      "@needless-ui/react/*": ["../../packages/react/src/*/index.ts"],
+      "react": ["../../packages/react/node_modules/@types/react/index.d.ts"],
+      "react/*": ["../../packages/react/node_modules/@types/react/*.d.ts"]
+    }
+  },
+  "include": ["src/snippets/react/*.tsx", "src/guide-code/react/*.tsx"]
+}

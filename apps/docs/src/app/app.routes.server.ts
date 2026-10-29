@@ -1,5 +1,5 @@
 import { RenderMode, type ServerRoute } from '@angular/ssr';
-import { COMPONENT_IDS, GUIDE_IDS } from './docs/ids';
+import { COMPONENT_IDS, GUIDE_IDS, REACT_IDS } from './docs/ids';
 import { PREFIXED_LOCALES } from './i18n/locales';
 
 const prefixes = ['', ...PREFIXED_LOCALES.map((locale) => `${locale}/`)];
@@ -15,6 +15,7 @@ export const serverRoutes: ServerRoute[] = [
   ...prefixes.flatMap((prefix) => [
     prerender(`${prefix}components/:id`, COMPONENT_IDS),
     prerender(`${prefix}components/:id/api`, COMPONENT_IDS),
+    prerender(`${prefix}components/:id/api/react`, REACT_IDS),
     prerender(`${prefix}components/:id/accessibility`, COMPONENT_IDS),
     prerender(`${prefix}guides/:id`, GUIDE_IDS),
   ]),

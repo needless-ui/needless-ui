@@ -33,6 +33,10 @@ const pages: Routes = [
         loadComponent: () => import('./pages/component/sections').then((m) => m.ApiSection),
       },
       {
+        path: 'api/react',
+        loadComponent: () => import('./pages/component/sections').then((m) => m.ReactApiSection),
+      },
+      {
         path: 'accessibility',
         loadComponent: () =>
           import('./pages/component/sections').then((m) => m.AccessibilitySection),

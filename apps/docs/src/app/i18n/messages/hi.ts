@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'एक स्टाइलशीट, हर फ़्रेमवर्क',
-        text: 'कंपोनेंट कैस्केड लेयर में लिखी सादी CSS हैं: आज Angular, आगे React, और सादा HTML हमेशा।',
+        text: 'कंपोनेंट कैस्केड लेयर में लिखी सादी CSS हैं: आज Angular, फ़िलहाल शेड्यूलर और डेटा ग्रिड के लिए <a href="/guides/react">React</a>, और सादा HTML हमेशा।',
       },
       {
         title: 'जीत हमेशा आपकी CSS की',
@@ -2502,6 +2502,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React के लिए शेड्यूलर और डेटा ग्रिड',
+        description:
+          'React 19 और Next.js में Needless UI के शेड्यूलर और डेटा ग्रिड इस्तेमाल करें: इंस्टॉल करें, स्टाइल इम्पोर्ट करें, सर्वर पर रेंडर करें और API का React रूप जानें।',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'शेड्यूलर और डेटा ग्रिड <code>@needless-ui/react</code> में React कंपोनेंट के रूप में भी मौजूद हैं: Angular जैसे ही फ़ीचर, कीबोर्ड और सुलभता, वही स्टाइलशीट और वही MIT लाइसेंस। बाक़ी कंपोनेंट आने वाले हैं। इन्हें React 19 चाहिए, और ये Next.js App Router और Vite के साथ काम करते हैं।',
+          },
+          { kind: 'h2', id: 'install', text: 'इंस्टॉल करें' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'स्टाइल इम्पोर्ट करें' },
+          {
+            kind: 'p',
+            html: 'कंपोनेंट अपने साथ कोई स्टाइल नहीं लाते। स्टाइलशीट को अपनी ऐप की किसी CSS फ़ाइल से एक बार इम्पोर्ट करें।',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'लेयर Angular की तरह ही काम करती हैं: रीसेट <code>nui</code> से पहले की किसी लेयर में जाते हैं, और Tailwind CSS के साथ <code>nui</code> लेयर Tailwind की base लेयर और उसकी यूटिलिटी के बीच आती है, जैसा <a href="/guides/getting-started#styles">शुरुआत करें</a> गाइड में दिखाया गया है।',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'शेड्यूलर' },
+          {
+            kind: 'p',
+            html: 'हर कंपोनेंट का अपना एंट्री पॉइंट है। शेड्यूलर आपके दिए <code>events</code> दिखाता है, और जब लोग कोई इवेंट खिसकाते हैं या नए इवेंट के लिए समय चुनते हैं, तो आपको बताता है: इवेंट आपके ही पास रहते हैं।',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'डेटा ग्रिड' },
+          {
+            kind: 'p',
+            html: '<code>columns</code> को कंपोनेंट के बाहर बताएँ, ताकि ग्रिड हर रेंडर पर अपना काम दोबारा न करे। एडिट होने पर नई पंक्तियों के साथ <code>onRowsChange</code> कॉल होता है, और Excel एक्सपोर्ट जैसे मेथड ग्रिड के <code>ref</code> पर होते हैं।',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React के शब्दों में API' },
+          {
+            kind: 'p',
+            html: 'React कंपोनेंट उन्हीं स्पेक पर चलते हैं जिन पर Angular वाले, इसलिए उनके API मेल खाते हैं, बस React के शब्दों में। API पेज हर प्रॉप की सूची देते हैं: <a href="/components/scheduler/api/react">शेड्यूलर का</a> और <a href="/components/grid/api/react">डेटा ग्रिड का</a>।',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular API और React में उसका रूप',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'मॉडल, <code>[(view)]</code>',
+                'स्थिति: <code>onViewChange</code> के साथ <code>view</code>, या <code>defaultView</code>, ताकि कंपोनेंट उसे ख़ुद रखे',
+              ],
+              ['आउटपुट, <code>(eventClick)</code>', 'कॉलबैक, <code>onEventClick</code>'],
+              [
+                'टेम्पलेट, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'बनाने वाला फ़ंक्शन, <code>renderEvent</code>',
+              ],
+              [
+                'मेथड, <code>scheduler.next()</code>',
+                '<code>ref</code> पर मेथड, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, ट्री डेटा के लिए',
+                '<code>getChildren</code>: React में <code>children</code> एलिमेंट के लिए है',
+              ],
+              [
+                '<code>locale</code>, डिफ़ॉल्ट रूप से ऐप का <code>LOCALE_ID</code>',
+                '<code>locale</code>, डिफ़ॉल्ट रूप से <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'सर्वर रेंडरिंग' },
+          {
+            kind: 'p',
+            html: 'दोनों कंपोनेंट सर्वर पर रेंडर होते हैं और फिर हाइड्रेट होते हैं। पैकेज उन्हें क्लाइंट कंपोनेंट घोषित करता है, इसलिए कोई Server Component उन्हें सीरियलाइज़ हो सकने वाले प्रॉप के साथ रेंडर कर सकता है, और <code>nuiSchedulerFromIcs</code> जैसे हेल्पर सर्वर पर चलते हैं। कॉलबैक ब्राउज़र तक नहीं पहुँच सकते: जो कंपोनेंट उन्हें लेता है, वह आपके अपने किसी क्लाइंट कंपोनेंट में जाता है, ऊपर के दोनों उदाहरणों की तरह।',
+          },
+          {
+            kind: 'p',
+            html: 'जो कुछ उपयोगकर्ता पर निर्भर है, वह ब्राउज़र में ही तय होता है: शेड्यूलर में अभी के समय की रेखा, और आज कौन-सा दिन है। जब सर्वर शेड्यूलर रेंडर करे, तो उसे <code>defaultDate</code> दें, क्योंकि ज़रूरी नहीं कि सर्वर का आज उपयोगकर्ता का भी आज हो।',
+          },
+        ],
+      },
       theming: {
         title: 'थीमिंग',
         description:
@@ -3215,6 +3292,87 @@ export const messages: Messages = {
           html: 'साइट बदलने पर यह नीति भी बदलती है, जैसे साइट के किसी नए होस्ट पर जाने पर। नीचे दी गई तारीख़ मौजूदा संस्करण बताती है।',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'फ़्रेमवर्क',
+    title: (name) => `${name} का React API`,
+    kinds: { prop: 'प्रॉप', state: 'स्थिति', callback: 'कॉलबैक', render: 'रेंडर प्रॉप' },
+    state:
+      'स्थिति React के अपने इनपुट की तरह काम करती है: वैल्यू दें और उसे उसके <code>on…Change</code> कॉलबैक से अपडेट करें, या <code>default…</code> वैल्यू दें और उसे कंपोनेंट पर छोड़ दें।',
+    customization:
+      'कस्टमाइज़ेशन के जो प्रॉप आप सेट नहीं करते, वे सबसे नज़दीकी <code>data-nui-*</code> एट्रिब्यूट से अपनी वैल्यू लेते हैं। <a href="/guides/customization">कस्टमाइज़ेशन गाइड</a> देखें।',
+    items: {
+      scheduler: {
+        overview:
+          'शेड्यूलर एक React कंपोनेंट भी है: <code>@needless-ui/react/scheduler</code> से <code>NuiScheduler</code>। यहाँ के उदाहरण Angular में हैं; इसका <a href="/components/scheduler/api/react">React API</a> और <a href="/guides/react">React गाइड</a> देखें।',
+        apiDescription:
+          'React में Needless UI शेड्यूलर का API रेफ़रेंस: इसके प्रॉप, कंट्रोल की जा सकने वाली स्थिति, कॉलबैक, रेंडर प्रॉप और इसके ref के मेथड।',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'शेड्यूलर के <code>ref</code> से जो मिलता है: पेजिंग, आपके अपने टूलबार के लिए।',
+              date: 'दिखाया गया दिन, और जहाँ कीबोर्ड फ़ोकस है। जब सर्वर शेड्यूलर रेंडर करे, तो <code>defaultDate</code> दें: ज़रूरी नहीं कि सर्वर का आज उपयोगकर्ता का भी आज हो।',
+              toolbar: 'टूलबार दिखाता है, या जो मिलता है उससे आपका अपना टूलबार बनाता है।',
+              renderEvent: 'इवेंट ख़ुद बनाएँ, इवेंट और टेक्स्ट के रूप में उसके समय से।',
+              renderResource: 'रिसोर्स के हेडर ख़ुद बनाएँ।',
+              onEventClick: 'क्लिक किए गए, या Enter से खोले गए इवेंट के साथ कॉल होता है।',
+              onEventChange:
+                'खिसकाने या रीसाइज़ के बाद इवेंट के नए समय के साथ कॉल होता है, और रिसोर्स बदले हों तो उनके साथ भी। बदलाव रखने के लिए <code>events</code> अपडेट करें।',
+              onSlotSelect: 'ग्रिड पर चुने गए समय और उसके रिसोर्स के साथ कॉल होता है।',
+              onRangeChange:
+                'दिखाए गए पहले और आख़िरी दिन बदलने पर उनके साथ कॉल होता है, ताकि आप उनके इवेंट लोड कर सकें।',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: '<code>toolbar</code> फ़ंक्शन को जो मिलता है, आपका अपना टूलबार बनाने के लिए।',
+            members: {
+              'view, views': 'दिखाया गया व्यू, और उपलब्ध व्यू।',
+              'setView, previous, next, goToday':
+                'व्यू बदलते हैं, या पिछला या अगला पेज, या आज का दिन दिखाते हैं।',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'डेटा ग्रिड एक React कंपोनेंट भी है: <code>@needless-ui/react/grid</code> से <code>NuiGrid</code>। यहाँ के उदाहरण Angular में हैं; इसका <a href="/components/grid/api/react">React API</a> और <a href="/guides/react">React गाइड</a> देखें।',
+        apiDescription:
+          'React में Needless UI डेटा ग्रिड का API रेफ़रेंस: इसके प्रॉप, कंट्रोल की जा सकने वाली स्थिति, कॉलबैक, सेल के रेंडर प्रॉप और इसके ref के मेथड।',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'ग्रिड के <code>ref</code> से जो मिलता है: एक्सपोर्ट, प्रिंट और फ़ोकस।',
+              expandAll:
+                'हर ग्रुप और चाइल्ड पंक्तियों वाली हर पंक्ति खोलता है, या सबको बंद करता है।',
+              fit: 'कॉलम को उसके रेंडर हुए सेल में सबसे चौड़े सेल के हिसाब से फ़िट करता है।',
+              rows: 'डेटा। एडिट अपनी पंक्ति को बदल देता है और <code>onRowsChange</code> को कॉल करता है; आपकी दी गई अगली <code>rows</code> एडिट की जगह ले लेती हैं।',
+              onRowsChange: 'लागू हुए हर एडिट के बाद पंक्तियों के साथ कॉल होता है।',
+              groupBy: 'वे कॉलम जिनसे पंक्तियाँ ग्रुप होती हैं, सबसे बाहरी पहले।',
+              collapsed: 'बंद ग्रुपों की कुंजियाँ; शुरुआत में ग्रुप खुले होते हैं।',
+              expanded: 'ट्री डेटा में खुली पंक्तियों की कुंजियाँ; शुरुआत में वे बंद होती हैं।',
+              details: 'उन पंक्तियों की कुंजियाँ, जिनका ब्योरा खुला है।',
+              renderEmpty:
+                'कोई पंक्ति न होने पर जो दिखता है; इसे बताया जाता है कि उन्हें फ़िल्टर ने छिपाया है या नहीं।',
+              renderDetail:
+                'पंक्ति का ब्योरा, जो खोलने पर उसके नीचे दिखता है। ग्रिड टॉगल का एक कॉलम जोड़ता है।',
+              onRowActivate: 'Enter या डबल-क्लिक से खोली गई पंक्ति के साथ कॉल होता है।',
+              onCellEdit: 'लागू हुए हर एडिट के साथ कॉल होता है।',
+              onQueryChange:
+                'सॉर्ट, फ़िल्टर, खोज और पेज बदलते ही उनके साथ कॉल होता है, और शुरुआत में एक बार भी।',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'एक कॉलम। यह <a href="/components/grid/api#NuiGridColumn">Angular कॉलम</a> की हर प्रॉपर्टी लेता है (सिर्फ़ <code>id</code> और <code>header</code> ज़रूरी हैं), और ये दो भी, जो इसे बनाती हैं।',
+            members: {
+              renderCell: 'कॉलम के सेल ख़ुद बनाएँ, पंक्ति, सेल की वैल्यू और टेक्स्ट से।',
+              renderHeader:
+                'कॉलम का हेडर ख़ुद बनाएँ; उसका नाम फिर भी <code>header</code> से आता है।',
+            },
+          },
+        },
+      },
     },
   },
 };

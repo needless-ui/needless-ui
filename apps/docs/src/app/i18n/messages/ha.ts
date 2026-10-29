@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'Stylesheet ɗaya, kowane framework',
-        text: 'Components CSS ne zalla a cikin cascade layers: Angular a yau, React nan gaba, HTML zalla a koyaushe.',
+        text: 'Components CSS ne zalla a cikin cascade layers: Angular a yau, <a href="/guides/react">React</a> ga jadawali da data grid zuwa yanzu, HTML zalla a koyaushe.',
       },
       {
         title: 'CSS ɗinku ne ke rinjaye koyaushe',
@@ -2567,6 +2567,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Jadawali da data grid don React',
+        description:
+          'Ku yi amfani da jadawali da data grid na Needless UI a React 19 da Next.js: ku shigar da su, ku shigo da salo, ku nuna su a server, ku kwatanta API ɗinsu.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Jadawali da data grid su ma components ne na React, a cikin <code>@needless-ui/react</code>: fasaloli, aikin allon madannai da sauƙin amfani ga kowa kamar a Angular, da stylesheet da lasisin MIT iri ɗaya. Sauran components suna nan tafe. Suna buƙatar React 19, kuma suna aiki da Next.js App Router da Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Shigarwa' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Shigo da salo' },
+          {
+            kind: 'p',
+            html: 'Components ba sa zuwa da salo. Ku shigo da stylesheet sau ɗaya, daga wani fayil na CSS na manhajarku.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layers suna aiki kamar a Angular: resets suna shiga layer da ke kafin <code>nui</code>, kuma da Tailwind CSS, <code>nui</code> yana zuwa tsakanin layer na base na Tailwind da utilities ɗinsa, kamar yadda <a href="/guides/getting-started#styles">jagorar farawa</a> ke nunawa.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Jadawali' },
+          {
+            kind: 'p',
+            html: 'Kowane component yana da entry point nasa. Jadawalin yana nuna <code>events</code> da kuka ba shi, kuma yana sanar da ku idan mutane suka matsar da ɗaya ko suka zaɓi lokaci don sabo: ku ne ke riƙe da events ɗin.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Data grid' },
+          {
+            kind: 'p',
+            html: 'Ku bayyana <code>columns</code> a wajen component ɗin, don kada grid ɗin ya sake aikinsa a duk lokacin da aka sake nuna shi. Gyara yana kiran <code>onRowsChange</code> da sabbin layuka, kuma methods kamar fitarwa zuwa Excel suna kan <code>ref</code> na grid ɗin.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API a harshen React' },
+          {
+            kind: 'p',
+            html: 'Components na React suna bin specs ɗin da na Angular ke bi, don haka API ɗinsu ya yi daidai, a harshen React. Shafukan API suna lissafa kowane prop: <a href="/components/scheduler/api/react">shafin jadawalin</a> da <a href="/components/grid/api/react">na data grid</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API na Angular da takwaransa a React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Model, <code>[(view)]</code>',
+                'Yanayi: <code>view</code> tare da <code>onViewChange</code>, ko <code>defaultView</code> don component ɗin ya riƙe shi',
+              ],
+              ['Output, <code>(eventClick)</code>', 'Callback, <code>onEventClick</code>'],
+              [
+                'Template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Function da ke zanawa, <code>renderEvent</code>',
+              ],
+              [
+                'Method, <code>scheduler.next()</code>',
+                'Method a kan <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, don bayanai masu tsarin bishiya',
+                '<code>getChildren</code>: React yana amfani da <code>children</code> don elements',
+              ],
+              [
+                '<code>locale</code>, idan ba a saita ba, <code>LOCALE_ID</code> na manhajar',
+                '<code>locale</code>, idan ba a saita ba, <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Nunawa a server' },
+          {
+            kind: 'p',
+            html: 'Ana nuna duka components biyun a server, sannan su yi hydrate a burauza. Package ɗin yana yi musu alama a matsayin client components, don haka Server Component zai iya nuna su da props da za a iya serialize, kuma mataimaka kamar <code>nuiSchedulerFromIcs</code> suna aiki a server. Callbacks ba sa iya ƙetarewa zuwa burauza: component da ke karɓar su yana shiga cikin client component naku, kamar guda biyun da ke sama.',
+          },
+          {
+            kind: 'p',
+            html: 'Abin da ya dogara da mai karatu yana jiran burauza: layin lokacin yanzu na jadawalin, da kuma wace rana ce yau. Ku ba jadawalin <code>defaultDate</code> idan server ne ke nuna shi, domin ranar yau a server ba lallai ta zama ranar yau ga mai karatu ba.',
+          },
+        ],
+      },
       theming: {
         title: 'Jigogi',
         description:
@@ -3311,6 +3388,89 @@ export const messages: Messages = {
           html: 'Wannan manufa tana canzawa idan gidan yanar gizon ya canza, misali idan ya koma wani sabon mai masauki. Kwanan watan da ke ƙasa yana nuna sigar da ake amfani da ita yanzu.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API na ${name} don React`,
+    kinds: { prop: 'Prop', state: 'Yanayi', callback: 'Callback', render: 'Render prop' },
+    state:
+      'Yanayi yana aiki kamar inputs na React da kansu: ku ba da ƙima, ku sabunta ta daga callback ɗinta na <code>on…Change</code>, ko ku ba da ƙimar <code>default…</code>, ku bar component ɗin ya riƙe ta.',
+    customization:
+      'Props na keɓancewa da ba ku saita ba suna bin attribute na <code>data-nui-*</code> mafi kusa. Ku duba <a href="/guides/customization">jagorar keɓancewa</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'Jadawalin shi ma component ne na React: <code>NuiScheduler</code>, daga <code>@needless-ui/react/scheduler</code>. Misalan da ke nan na Angular ne; ku duba <a href="/components/scheduler/api/react">API ɗinsa na React</a> da <a href="/guides/react">jagorar React</a>.',
+        apiDescription:
+          'Bayanin API na jadawalin Needless UI a React: props ɗinsa, yanayin da za ku iya sarrafawa, callbacks, render props da methods da ke kan ref ɗinsa.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Abin da <code>ref</code> na jadawalin ke kaiwa: sauya shafi, don toolbar naku.',
+              date: 'Ranar da ake nunawa, da inda focus na allon madannai yake. Ku ba da <code>defaultDate</code> idan server ne ke nuna jadawalin: ranar yau a server ba lallai ta zama ranar yau ga mai karatu ba.',
+              toolbar: 'Yana nuna toolbar, ko ya zana naku daga abin da aka ba shi.',
+              renderEvent:
+                'Ku zana events da kanku, daga event ɗin da lokacinsa a matsayin rubutu.',
+              renderResource: 'Ku zana taken resources da kanku.',
+              onEventClick: 'Ana kiransa da event da aka danna, ko aka buɗe da Enter.',
+              onEventChange:
+                'Ana kiransa da sabbin lokutan event bayan an matsar da shi ko an sauya tsawonsa, da resources ɗinsa idan sun canza. Ku sabunta <code>events</code> don riƙe canjin.',
+              onSlotSelect: 'Ana kiransa da lokacin da aka zaɓa a kan grid, da resource ɗinsa.',
+              onRangeChange:
+                'Ana kiransa da rana ta farko da ta ƙarshe da ake nunawa idan sun canza, don ku ɗauko events ɗinsu.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: 'Abin da function na <code>toolbar</code> ke samu, don zana toolbar naku.',
+            members: {
+              'view, views': 'Kallon da ake nunawa, da nau’o’in kallon da ake bayarwa.',
+              'setView, previous, next, goToday':
+                'Suna sauya kallo, suna nuna shafin baya ko na gaba, ko yau.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'Data grid shi ma component ne na React: <code>NuiGrid</code>, daga <code>@needless-ui/react/grid</code>. Misalan da ke nan na Angular ne; ku duba <a href="/components/grid/api/react">API ɗinsa na React</a> da <a href="/guides/react">jagorar React</a>.',
+        apiDescription:
+          'Bayanin API na data grid ɗin Needless UI a React: props ɗinsa, yanayin da za ku iya sarrafawa, callbacks, render props na cells da methods da ke kan ref ɗinsa.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Abin da <code>ref</code> na grid ɗin ke kaiwa: fitarwa, bugawa da focus.',
+              expandAll:
+                'Yana buɗe kowane rukuni da kowane layi mai layuka a ƙarƙashinsa, ko ya rufe su duka.',
+              fit: 'Yana daidaita faɗin ginshiƙi da cell ɗinsa mafi faɗi daga cikin waɗanda aka nuna.',
+              rows: 'Bayanan. Gyara yana maye gurbin layinsa kuma yana kiran <code>onRowsChange</code>; <code>rows</code> na gaba da kuka bayar suna maye gurbin gyare-gyaren.',
+              onRowsChange: 'Ana kiransa da layukan bayan kowane gyaran da aka tabbatar.',
+              groupBy: 'Ginshiƙan da ake rukunta layuka bisa su, na waje da farko.',
+              collapsed: 'Keys na rukunonin da ke rufe; rukunoni suna farawa a buɗe.',
+              expanded:
+                'Keys na layukan da ke buɗe a bayanai masu tsarin bishiya; suna farawa a rufe.',
+              details: 'Keys na layukan da cikakken bayaninsu ke buɗe.',
+              renderEmpty:
+                'Abin da ake nunawa idan babu layuka; ana gaya masa ko tacewa ce ta ɓoye su.',
+              renderDetail:
+                'Cikakken bayanin layi, ana nuna shi a ƙarƙashinsa idan an buɗe. Grid ɗin yana ƙara ginshiƙin toggles.',
+              onRowActivate: 'Ana kiransa da layin da aka buɗe da Enter ko danna sau biyu.',
+              onCellEdit: 'Ana kiransa da kowane gyaran da aka tabbatar.',
+              onQueryChange:
+                'Ana kiransa da jerawa, tacewa, bincike da shafi duk lokacin da suka canza, da kuma sau ɗaya a farko.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Ginshiƙi ɗaya. Yana karɓar dukan kadarorin <a href="/components/grid/api#NuiGridColumn">ginshiƙin Angular</a> (<code>id</code> da <code>header</code> kaɗai ake buƙata), da kuma waɗannan biyun da ke zana shi.',
+            members: {
+              renderCell: 'Ku zana cells na ginshiƙin da kanku, daga layin, ƙimarsa da rubutunsa.',
+              renderHeader:
+                'Ku zana taken ginshiƙin da kanku; <code>header</code> ne har yanzu ke ba shi suna.',
+            },
+          },
+        },
+      },
     },
   },
 };

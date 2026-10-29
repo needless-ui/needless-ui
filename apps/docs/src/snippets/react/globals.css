@@ -1,0 +1,3 @@
+/* app/globals.css in Next.js, src/index.css with Vite */
+@layer reset, nui, app;
+@import '@needless-ui/css';

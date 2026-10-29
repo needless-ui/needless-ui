@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: 'Một stylesheet, mọi framework',
-        text: 'Component là CSS thuần trong cascade layer: hôm nay là Angular, tiếp theo là React, còn HTML thuần thì lúc nào cũng dùng được.',
+        text: 'Component là CSS thuần trong cascade layer: hôm nay là Angular, <a href="/guides/react">React</a> hiện đã có cho bộ lập lịch và bảng dữ liệu, còn HTML thuần thì lúc nào cũng dùng được.',
       },
       {
         title: 'CSS của bạn luôn thắng',
@@ -2504,6 +2504,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'Bộ lập lịch và bảng dữ liệu cho React',
+        description:
+          'Dùng bộ lập lịch và bảng dữ liệu của Needless UI trong React 19 và Next.js: cài đặt, import style, render phía máy chủ và đối chiếu API với Angular.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Bộ lập lịch và bảng dữ liệu cũng là component React, nằm trong <code>@needless-ui/react</code>: cùng tính năng, cách dùng bàn phím và khả năng tiếp cận như trong Angular, cùng stylesheet và cùng giấy phép MIT. Các component khác sẽ ra mắt sau. Chúng cần React 19, và chạy được với cả Next.js App Router lẫn Vite.',
+          },
+          { kind: 'h2', id: 'install', text: 'Cài đặt' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: 'Import style' },
+          {
+            kind: 'p',
+            html: 'Các component không kèm style nào. Hãy import stylesheet một lần, từ một tệp CSS của ứng dụng.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: 'Layer hoạt động như trong Angular: các reset nằm trong một layer trước <code>nui</code>, còn với Tailwind CSS, <code>nui</code> nằm giữa layer base của Tailwind và layer utilities, như phần <a href="/guides/getting-started#styles">bắt đầu sử dụng</a> đã trình bày.',
+          },
+          { kind: 'h2', id: 'scheduler', text: 'Bộ lập lịch' },
+          {
+            kind: 'p',
+            html: 'Mỗi component có entry point riêng. Bộ lập lịch hiển thị các <code>events</code> bạn truyền vào, và báo cho bạn khi người dùng di chuyển một sự kiện hoặc chọn thời gian cho sự kiện mới: việc lưu giữ sự kiện là của bạn.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: 'Bảng dữ liệu' },
+          {
+            kind: 'p',
+            html: 'Hãy mô tả <code>columns</code> bên ngoài component, để bảng không phải làm lại việc của nó sau mỗi lần render. Mỗi lần sửa sẽ gọi <code>onRowsChange</code> với các dòng mới, còn những phương thức như xuất Excel nằm trên <code>ref</code> của bảng.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'API theo cách của React' },
+          {
+            kind: 'p',
+            html: 'Các component React tuân theo cùng đặc tả với các component Angular, nên API của chúng tương ứng với nhau, theo cách của React. Các trang API liệt kê mọi prop: của <a href="/components/scheduler/api/react">bộ lập lịch</a> và của <a href="/components/grid/api/react">bảng dữ liệu</a>.',
+          },
+          {
+            kind: 'table',
+            caption: 'API Angular và bản tương ứng trong React',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                'Model, <code>[(view)]</code>',
+                'State: <code>view</code> cùng <code>onViewChange</code>, hoặc <code>defaultView</code> để component tự giữ',
+              ],
+              ['Output, <code>(eventClick)</code>', 'Callback, <code>onEventClick</code>'],
+              [
+                'Template, <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                'Một hàm vẽ, <code>renderEvent</code>',
+              ],
+              [
+                'Phương thức, <code>scheduler.next()</code>',
+                'Phương thức trên <code>ref</code>, <code>ref.current.next()</code>',
+              ],
+              [
+                '<code>children</code>, cho dữ liệu dạng cây',
+                '<code>getChildren</code>: React dành <code>children</code> cho phần tử',
+              ],
+              [
+                '<code>locale</code>, mặc định là <code>LOCALE_ID</code> của ứng dụng',
+                '<code>locale</code>, mặc định là <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: 'Render phía máy chủ' },
+          {
+            kind: 'p',
+            html: 'Cả hai component đều render trên máy chủ rồi hydrate trong trình duyệt. Gói đánh dấu chúng là client component, nên một Server Component có thể render chúng với các prop tuần tự hóa được, và các hàm hỗ trợ như <code>nuiSchedulerFromIcs</code> chạy trên máy chủ. Callback không thể truyền từ máy chủ sang trình duyệt: component nhận chúng phải nằm trong một client component của riêng bạn, như hai ví dụ ở trên.',
+          },
+          {
+            kind: 'p',
+            html: 'Những gì phụ thuộc vào người đọc sẽ chờ đến trình duyệt: vạch giờ hiện tại của bộ lập lịch, và hôm nay là ngày nào. Hãy truyền <code>defaultDate</code> cho bộ lập lịch khi máy chủ render nó, vì “hôm nay” của máy chủ có thể khác với của người đọc.',
+          },
+        ],
+      },
       theming: {
         title: 'Tùy chỉnh theme',
         description:
@@ -3240,6 +3317,87 @@ export const messages: Messages = {
           html: 'Chính sách này thay đổi khi trang web thay đổi, chẳng hạn khi chuyển sang nhà cung cấp lưu trữ mới. Ngày ghi bên dưới cho biết phiên bản hiện hành.',
         },
       ],
+    },
+  },
+  react: {
+    framework: 'Framework',
+    title: (name) => `API React của ${name}`,
+    kinds: { prop: 'Prop', state: 'State', callback: 'Callback', render: 'Render prop' },
+    state:
+      'State hoạt động như các trường nhập liệu của chính React: truyền một giá trị và cập nhật nó từ callback <code>on…Change</code>, hoặc truyền giá trị <code>default…</code> để component tự giữ.',
+    customization:
+      'Các prop tùy biến mà bạn không đặt sẽ lấy giá trị từ thuộc tính <code>data-nui-*</code> gần nhất. Xem <a href="/guides/customization">hướng dẫn tùy biến</a>.',
+    items: {
+      scheduler: {
+        overview:
+          'Bộ lập lịch cũng là một component React: <code>NuiScheduler</code>, từ <code>@needless-ui/react/scheduler</code>. Các ví dụ ở đây viết bằng Angular; hãy xem <a href="/components/scheduler/api/react">API React</a> của nó và <a href="/guides/react">hướng dẫn React</a>.',
+        apiDescription:
+          'Tài liệu API về bộ lập lịch của Needless UI cho React: prop, state bạn có thể kiểm soát, callback, render prop và các phương thức trên ref.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: 'Những gì <code>ref</code> của bộ lập lịch truy cập được: chuyển trang, cho thanh công cụ của riêng bạn.',
+              date: 'Ngày đang hiển thị, cũng là nơi focus bàn phím đang ở. Hãy truyền <code>defaultDate</code> khi máy chủ render bộ lập lịch: “hôm nay” của máy chủ có thể khác với của người đọc.',
+              toolbar:
+                'Hiển thị thanh công cụ, hoặc vẽ thanh công cụ của riêng bạn từ dữ liệu mà nó nhận được.',
+              renderEvent: 'Tự vẽ sự kiện, từ sự kiện và thời gian của nó dưới dạng văn bản.',
+              renderResource: 'Tự vẽ tiêu đề của tài nguyên.',
+              onEventClick: 'Được gọi với sự kiện được nhấp, hoặc được mở bằng Enter.',
+              onEventChange:
+                'Được gọi với thời gian mới của sự kiện sau khi di chuyển hoặc đổi độ dài, cùng tài nguyên của nó nếu có thay đổi. Hãy cập nhật <code>events</code> để giữ thay đổi.',
+              onSlotSelect: 'Được gọi với thời gian được chọn trên lưới, cùng tài nguyên của nó.',
+              onRangeChange:
+                'Được gọi với ngày đầu tiên và cuối cùng đang hiển thị khi chúng thay đổi, để tải sự kiện của những ngày đó.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary:
+              'Những gì một hàm <code>toolbar</code> nhận được, để vẽ thanh công cụ của riêng bạn.',
+            members: {
+              'view, views': 'Chế độ xem đang hiển thị, và các chế độ xem có sẵn.',
+              'setView, previous, next, goToday':
+                'Đổi chế độ xem, hiển thị trang trước hoặc sau, hoặc hôm nay.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          'Bảng dữ liệu cũng là một component React: <code>NuiGrid</code>, từ <code>@needless-ui/react/grid</code>. Các ví dụ ở đây viết bằng Angular; hãy xem <a href="/components/grid/api/react">API React</a> của nó và <a href="/guides/react">hướng dẫn React</a>.',
+        apiDescription:
+          'Tài liệu API về bảng dữ liệu của Needless UI cho React: prop, state bạn có thể kiểm soát, callback, render prop cho ô và các phương thức trên ref.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: 'Những gì <code>ref</code> của bảng truy cập được: xuất dữ liệu, in và focus.',
+              expandAll: 'Mở mọi nhóm và mọi dòng có dòng con, hoặc đóng tất cả.',
+              fit: 'Chỉnh độ rộng một cột cho vừa ô rộng nhất đã được render của nó.',
+              rows: 'Dữ liệu. Mỗi lần sửa sẽ thay dòng tương ứng và gọi <code>onRowsChange</code>; <code>rows</code> tiếp theo mà bạn truyền vào sẽ thay thế các lần sửa.',
+              onRowsChange: 'Được gọi với các dòng sau mỗi lần sửa đã xác nhận.',
+              groupBy: 'Các cột để nhóm dòng, cột ngoài cùng trước.',
+              collapsed: 'Khóa của các nhóm đang đóng; ban đầu các nhóm đều mở.',
+              expanded: 'Khóa của các dòng đang mở trong dữ liệu dạng cây; ban đầu chúng đều đóng.',
+              details: 'Khóa của các dòng đang mở chi tiết.',
+              renderEmpty:
+                'Nội dung khi không có dòng nào; hàm được cho biết bộ lọc có ẩn chúng hay không.',
+              renderDetail:
+                'Chi tiết của một dòng, hiển thị bên dưới dòng khi được mở. Bảng thêm một cột nút bật/tắt.',
+              onRowActivate: 'Được gọi với dòng được mở bằng Enter hoặc nhấp đúp.',
+              onCellEdit: 'Được gọi với mỗi lần sửa đã xác nhận.',
+              onQueryChange:
+                'Được gọi với sắp xếp, bộ lọc, tìm kiếm và trang mỗi khi chúng thay đổi, và một lần lúc bắt đầu.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              'Một cột. Nhận mọi thuộc tính của <a href="/components/grid/api#NuiGridColumn">cột Angular</a> (chỉ <code>id</code> và <code>header</code> là bắt buộc), cùng hai thuộc tính này để vẽ cột.',
+            members: {
+              renderCell: 'Tự vẽ các ô của cột, từ dòng, giá trị và văn bản của ô.',
+              renderHeader: 'Tự vẽ tiêu đề của cột; <code>header</code> vẫn là tên của cột.',
+            },
+          },
+        },
+      },
     },
   },
 };

@@ -4,7 +4,7 @@
 
 # Needless UI
 
-**The Needlessly Engineered Styling Toolkit.** An open-source UI component library for Angular, with React next. The name is a joke; the engineering isn't.
+**The Needlessly Engineered Styling Toolkit.** An open-source UI component library for Angular, and for React starting with the scheduler and the data grid. The name is a joke; the engineering isn't.
 
 **Everything is free**, including what other libraries sell separately: a [scheduler](https://www.needlessui.com/components/scheduler) with resource timelines, repeating events and iCalendar files, and a [data grid](https://www.needlessui.com/components/grid) with grouping, tree data and Excel export. MIT, with no premium tier and no license key. Moving off a paid library? Read the guides for moving [from FullCalendar](https://www.needlessui.com/guides/from-fullcalendar) and [from AG Grid](https://www.needlessui.com/guides/from-ag-grid).
 
@@ -28,7 +28,8 @@
 | [`@needless-ui/tokens`](packages/tokens)   | Design tokens in DTCG format, compiled to CSS custom properties        |
 | [`@needless-ui/css`](packages/css)         | Framework-free component styles in cascade layers; works in plain HTML |
 | [`@needless-ui/angular`](packages/angular) | Angular 22 directives and components that apply those styles           |
-| `@needless-ui/react`                       | Planned                                                                |
+| [`@needless-ui/react`](packages/react)     | React 19 components: the scheduler and the data grid so far            |
+| [`@needless-ui/core`](packages/core)       | Framework-free logic the Angular and React packages share              |
 
 ## Components
 
@@ -69,6 +70,44 @@ export class App {
   remove() {}
 }
 ```
+
+## Quick start (React)
+
+React has the scheduler and the data grid so far; the other components are coming. They need React 19, render on the server and work with the Next.js App Router.
+
+```bash
+pnpm add @needless-ui/react @needless-ui/css
+```
+
+The components ship no styles: import the stylesheet once, from a CSS file of your app (`app/globals.css` in Next.js, `src/index.css` with Vite).
+
+```css
+@layer reset, nui, app; /* optional: keeps your resets from overriding components */
+@import '@needless-ui/css';
+```
+
+Use a component:
+
+```tsx
+import { NuiGrid, type NuiGridColumn } from '@needless-ui/react/grid';
+
+interface Order {
+  id: number;
+  customer: string;
+  total: number;
+}
+
+const columns: NuiGridColumn<Order>[] = [
+  { id: 'customer', header: 'Customer', flex: 1 },
+  { id: 'total', header: 'Total', type: 'number', format: { style: 'currency', currency: 'EUR' } },
+];
+
+export function Orders({ orders }: { orders: Order[] }) {
+  return <NuiGrid label="Orders" rows={orders} columns={columns} pageSize={25} />;
+}
+```
+
+State is controlled (`sort` with `onSortChange`) or left to the component (`defaultSort`), events are callbacks, and methods are on the `ref`. The [package README](packages/react) has Next.js and Vite examples, and the [React guide](https://www.needlessui.com/guides/react) maps the rest of the API.
 
 ## Plain HTML
 
@@ -123,7 +162,9 @@ Every change runs the component tests in Chromium, Firefox and WebKit, and every
 packages/
   tokens/      DTCG token sources, palette generator, token compiler
   css/         component styles (one file per component) and the bundler
+  core/        @needless-ui/core, the framework-free logic both bindings share
   angular/     @needless-ui/angular, one secondary entry point per component
+  react/       @needless-ui/react, one entry point per component
 apps/
   docs/        the documentation site, www.needlessui.com (30 languages)
 specs/         framework-agnostic contract for each component
@@ -136,8 +177,8 @@ Requires Node.js 22.22+ or 24.15+ and pnpm 12.
 ```bash
 pnpm install
 pnpm dev        # docs site at http://localhost:4200
-pnpm test       # token, CSS and Angular unit tests
-pnpm build      # tokens → css → Angular package in dist/
+pnpm test       # token, CSS, Angular and React unit tests
+pnpm build      # tokens → css → core → Angular and React packages
 pnpm build:docs # prerendered docs site in dist/docs/browser
 pnpm check:browsers # every page in Chromium, Firefox and WebKit, desktop and touch
 ```

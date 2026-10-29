@@ -1,4 +1,4 @@
-import type { ComponentId, GuideId } from '../../docs/ids';
+import type { ComponentId, GuideId, ReactId } from '../../docs/ids';
 
 /**
  * Shape of every language's content. Each locale file is typed with it, so a
@@ -110,6 +110,8 @@ export interface Messages {
     };
     privacy: LegalText & { updated: string };
   };
+  /** The words of React's API pages (`/components/<id>/api/react`) that Angular's don't have. */
+  react: ReactMessages;
 }
 
 export interface ComponentText {
@@ -130,6 +132,32 @@ export interface ComponentText {
   keyboard: [key: string, action: string][];
   /** html */
   notes: string[];
+}
+
+export interface ReactMessages {
+  /** Accessible name of the Angular and React switch on API pages. */
+  framework: string;
+  /** API page title (without the site name). */
+  title: (name: string) => string;
+  /** Kinds of members Angular doesn't have; methods and properties keep Angular's words. */
+  kinds: { prop: string; state: string; callback: string; render: string };
+  /** html, under tables with state: how `sort`, `defaultSort` and `onSortChange` work together */
+  state: string;
+  /** html, under tables with the customization props */
+  customization: string;
+  items: Record<ReactId, ReactText>;
+}
+
+export interface ReactText {
+  /** html, on the component's overview: it's a React component too */
+  overview: string;
+  /** Meta description of the React API page, 50–160 characters. */
+  apiDescription: string;
+  /**
+   * Entry name → summary and member descriptions (html), where React's differ from
+   * Angular's. Other members take the Angular entry's words.
+   */
+  api: Record<string, { summary?: string; members?: Record<string, string> }>;
 }
 
 export type ProseBlock = { kind: 'p'; html: string } | { kind: 'h2'; id: string; text: string };

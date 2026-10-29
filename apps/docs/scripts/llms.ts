@@ -2,15 +2,21 @@
  * Runs after `ng build docs`. Writes two Markdown files for AI coding assistants
  * (llmstxt.org): llms.txt, a map of the docs with the rules for writing code
  * with Needless UI, and llms-full.txt, the guides and every component's
- * reference (imports, Angular API, anatomy, states, keyboard, accessibility) in
- * one file. Models trained before Needless UI existed read these instead of
- * guessing its API.
+ * reference (imports, Angular API, the React API where there is one, anatomy,
+ * states, keyboard, accessibility) in one file. Models trained before Needless UI
+ * existed read these instead of guessing its API.
  *
  * Run: node apps/docs/scripts/llms.ts
  */
 import { readFile, writeFile } from 'node:fs/promises';
-import { COMPONENT_IDS, GUIDE_IDS, type ComponentId } from '../src/app/docs/ids.ts';
-import { COMPONENT_DOCS, type ApiMember } from '../src/app/docs/registry.ts';
+import {
+  COMPONENT_IDS,
+  GUIDE_IDS,
+  isReactId,
+  type ComponentId,
+  type ReactId,
+} from '../src/app/docs/ids.ts';
+import { COMPONENT_DOCS, REACT_DOCS, reactApi, type ApiMember } from '../src/app/docs/registry.ts';
 import { messages } from '../src/app/i18n/messages/en.ts';
 import type { GuideBlock } from '../src/app/i18n/messages/types.ts';
 
@@ -21,9 +27,15 @@ const SITE = 'https://www.needlessui.com';
 const REPO = 'https://github.com/needless-ui/needless-ui';
 /** Components whose contract is part of another component's spec. */
 const SPEC_OF: Partial<Record<ComponentId, string>> = { combobox: 'select' };
-const FENCE: Record<string, string> = { sh: 'bash', ts: 'ts', html: 'html', css: 'css' };
+const FENCE: Record<string, string> = {
+  sh: 'bash',
+  ts: 'ts',
+  tsx: 'tsx',
+  html: 'html',
+  css: 'css',
+};
 
-const SUMMARY = `Needless UI is an MIT component library for Angular 22: ${COMPONENT_IDS.length} accessible components, including a scheduler with resource timelines and repeating events, and a data grid with grouping, tree data and Excel export. Components are signal-based directives on native elements, styled by one framework-free stylesheet in CSS cascade layers.`;
+const SUMMARY = `Needless UI is an MIT component library for Angular 22: ${COMPONENT_IDS.length} accessible components, including a scheduler with resource timelines and repeating events, and a data grid with grouping, tree data and Excel export. Components are signal-based directives on native elements, styled by one framework-free stylesheet in CSS cascade layers. The scheduler and the data grid are also React 19 components, in \`@needless-ui/react\`.`;
 
 const RULES = `Write code with it like this:
 
@@ -33,7 +45,8 @@ const RULES = `Write code with it like this:
 - Inputs are signal inputs, and values that change both ways are models (\`[(value)]\`, \`[(open)]\`). Form controls with one value follow Signal Forms' control contract, so \`[formField]\`, reactive forms and \`ngModel\` all bind them.
 - Components ship no styles: \`@needless-ui/css\` styles their classes and \`data-*\` attributes inside \`@layer nui\`, so the app's own CSS overrides it without \`!important\`. Theme with \`--nui-*\` custom properties such as \`--nui-color-accent-solid\`, and pin a light or dark theme on any element with \`data-nui-theme\`.
 - With Tailwind CSS 4, declare \`@layer theme, base, nui, components, utilities;\` before the imports, so Tailwind's reset can't undo components and its utilities still win.
-- Everything works with server rendering, hydration and without zone.js.`;
+- Everything works with server rendering, hydration and without zone.js.
+- In React 19 (\`@needless-ui/react\`: the scheduler and the data grid so far), install \`@needless-ui/react @needless-ui/css\`, put \`@import '@needless-ui/css';\` in a CSS file of the app, and import components from their entry points: \`import { NuiGrid } from '@needless-ui/react/grid';\`. Each Angular model is state you control (\`sort\` with \`onSortChange\`) or leave to the component (\`defaultSort\`), outputs are \`on…\` callbacks, templates are \`render…\` props, methods are on the \`ref\`, tree data comes from \`getChildren\`, and \`locale\` defaults to \`en-US\`. They are client components that render on the server; pass the scheduler a \`defaultDate\` there.`;
 
 const page = (path: string) => `${SITE}${path}`;
 const fence = (code: string, lang: string) => `\`\`\`${lang}\n${code.trimEnd()}\n\`\`\``;
@@ -131,6 +144,26 @@ function api(id: ComponentId): string {
     .join('\n\n');
 }
 
+/** The React twin's props, `ref` and interfaces, described as on its API page. */
+function reactApiText(id: ReactId): string {
+  return reactApi(id, messages)
+    .map((entry) =>
+      [
+        `### ${entry.name}`,
+        markdown(entry.summary),
+        entry.members
+          .map((member) => {
+            const facts = [member.kind, `\`${member.type}\``];
+            if (member.default) facts.push(`default \`${member.default}\``);
+            const names = member.names.map((name) => `\`${name}\``).join(', ');
+            return `- ${names} (${facts.join(', ')}): ${markdown(member.description)}`;
+          })
+          .join('\n'),
+      ].join('\n\n'),
+    )
+    .join('\n\n');
+}
+
 async function component(id: ComponentId, included: Map<string, string>): Promise<string> {
   const { name, summary } = messages.components.items[id];
   const parts = [
@@ -141,6 +174,9 @@ async function component(id: ComponentId, included: Map<string, string>): Promis
     '## Angular API',
     api(id),
   ];
+  if (isReactId(id)) {
+    parts.push('## React API', await snippet(REACT_DOCS[id].importFile), reactApiText(id));
+  }
   const spec = SPEC_OF[id] ?? id;
   const sharedWith = included.get(spec);
   if (sharedWith) {
@@ -178,7 +214,7 @@ const index = [
   [
     `- [Everything in one file](${page('/llms-full.txt')}): the guides and every component's reference: imports, Angular API, anatomy, states, keyboard and accessibility.`,
     `- [Component specs](${REPO}/tree/main/specs): the framework-agnostic contract of each component.`,
-    `- [Source code](${REPO}) and [@needless-ui/angular on npm](https://www.npmjs.com/package/@needless-ui/angular).`,
+    `- [Source code](${REPO}), and on npm [@needless-ui/angular](https://www.npmjs.com/package/@needless-ui/angular) and [@needless-ui/react](https://www.npmjs.com/package/@needless-ui/react).`,
   ].join('\n'),
 ].join('\n\n');
 

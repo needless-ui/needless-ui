@@ -57,7 +57,7 @@ export const messages: Messages = {
       },
       {
         title: '스타일시트 하나로 모든 프레임워크를',
-        text: '컴포넌트는 캐스케이드 레이어에 담긴 순수 CSS입니다. 지금은 Angular, 다음은 React를 지원하며, 순수 HTML에서는 언제나 쓸 수 있습니다.',
+        text: '컴포넌트는 캐스케이드 레이어에 담긴 순수 CSS입니다. 지금은 Angular를 지원하고, <a href="/guides/react">React</a>는 아직 스케줄러와 데이터 그리드만 지원하며, 순수 HTML에서는 언제나 쓸 수 있습니다.',
       },
       {
         title: '앱의 CSS가 언제나 우선',
@@ -2496,6 +2496,83 @@ export const messages: Messages = {
           },
         ],
       },
+      react: {
+        title: 'React 스케줄러와 데이터 그리드',
+        description:
+          'React 19와 Next.js에서 Needless UI 스케줄러와 데이터 그리드를 쓰는 방법입니다. 설치, 스타일 가져오기, 서버 렌더링, Angular API와의 대응을 다룹니다.',
+        blocks: [
+          {
+            kind: 'p',
+            html: '스케줄러와 데이터 그리드는 <code>@needless-ui/react</code>의 React 컴포넌트로도 제공됩니다. 기능, 키보드 조작, 접근성은 Angular와 같고, 스타일시트와 MIT 라이선스도 같습니다. 다른 컴포넌트도 준비하고 있습니다. React 19가 필요하며, Next.js App Router와 Vite에서 동작합니다.',
+          },
+          { kind: 'h2', id: 'install', text: '설치' },
+          { kind: 'code', file: 'snippets/react/install.sh' },
+          { kind: 'h2', id: 'styles', text: '스타일 가져오기' },
+          {
+            kind: 'p',
+            html: '컴포넌트에는 스타일이 들어 있지 않습니다. 앱의 CSS 파일에서 스타일시트를 한 번만 가져옵니다.',
+          },
+          { kind: 'code', file: 'snippets/react/globals.css' },
+          {
+            kind: 'p',
+            html: '레이어는 Angular에서와 똑같이 동작합니다. <a href="/guides/getting-started#styles">시작하기</a>에서 설명한 대로, 리셋은 <code>nui</code>보다 먼저 선언한 레이어에 넣고, Tailwind CSS를 사용한다면 <code>nui</code>를 Tailwind의 base 레이어와 유틸리티 사이에 둡니다.',
+          },
+          { kind: 'h2', id: 'scheduler', text: '스케줄러' },
+          {
+            kind: 'p',
+            html: '컴포넌트마다 엔트리 포인트가 따로 있습니다. 스케줄러는 전달한 <code>events</code>를 표시하고, 사용자가 일정을 옮기거나 새 일정의 시간을 고르면 콜백으로 알려 줍니다. 일정은 앱이 직접 보관합니다.',
+          },
+          { kind: 'code', file: 'guide-code/react/planner.tsx', lazy: true },
+          { kind: 'h2', id: 'grid', text: '데이터 그리드' },
+          {
+            kind: 'p',
+            html: '<code>columns</code>는 컴포넌트 밖에서 정의해, 그리드가 렌더링할 때마다 같은 작업을 반복하지 않게 합니다. 편집하면 새 행과 함께 <code>onRowsChange</code>가 호출되며, Excel 내보내기 같은 메서드는 그리드의 <code>ref</code>에 있습니다.',
+          },
+          { kind: 'code', file: 'guide-code/react/orders.tsx', lazy: true },
+          { kind: 'h2', id: 'api', text: 'React 방식의 API' },
+          {
+            kind: 'p',
+            html: 'React 컴포넌트는 Angular 컴포넌트와 같은 명세를 따르므로, API도 React의 방식으로 옮겨 그대로 대응합니다. 모든 prop은 <a href="/components/scheduler/api/react">스케줄러</a>와 <a href="/components/grid/api/react">데이터 그리드</a>의 API 페이지에 나와 있습니다.',
+          },
+          {
+            kind: 'table',
+            caption: 'Angular API와 그에 대응하는 React API',
+            head: ['Angular', 'React'],
+            rows: [
+              [
+                '모델: <code>[(view)]</code>',
+                '상태: <code>view</code>와 <code>onViewChange</code>, 또는 컴포넌트가 보관하는 <code>defaultView</code>',
+              ],
+              ['출력: <code>(eventClick)</code>', '콜백: <code>onEventClick</code>'],
+              [
+                '템플릿: <code>&lt;ng-template nuiSchedulerEvent&gt;</code>',
+                '그리는 함수: <code>renderEvent</code>',
+              ],
+              [
+                '메서드: <code>scheduler.next()</code>',
+                '<code>ref</code>의 메서드: <code>ref.current.next()</code>',
+              ],
+              [
+                '트리 데이터용 <code>children</code>',
+                '<code>getChildren</code>: React에서 <code>children</code>은 요소용으로 쓰입니다',
+              ],
+              [
+                '<code>locale</code>: 기본값은 앱의 <code>LOCALE_ID</code>',
+                '<code>locale</code>: 기본값은 <code>en-US</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'server', text: '서버 사이드 렌더링' },
+          {
+            kind: 'p',
+            html: '두 컴포넌트 모두 서버에서 렌더링되고 브라우저에서 하이드레이션됩니다. 패키지가 두 컴포넌트를 클라이언트 컴포넌트로 표시해 두었으므로, Server Component에서 직렬화할 수 있는 prop으로 렌더링할 수 있고, <code>nuiSchedulerFromIcs</code> 같은 헬퍼는 서버에서 실행됩니다. 콜백은 브라우저로 넘어갈 수 없으므로, 콜백을 받는 컴포넌트는 위의 두 예제처럼 직접 만든 클라이언트 컴포넌트 안에 둡니다.',
+          },
+          {
+            kind: 'p',
+            html: '사용자 환경에 따라 달라지는 것은 브라우저에서 표시될 때까지 기다립니다. 스케줄러의 현재 시각 선과, 오늘이 어느 날인지가 그렇습니다. 서버에서 스케줄러를 렌더링할 때는 <code>defaultDate</code>를 전달하십시오. 서버의 오늘이 사용자의 오늘과 다를 수 있기 때문입니다.',
+          },
+        ],
+      },
       theming: {
         title: '테마 설정',
         description:
@@ -3186,6 +3263,86 @@ export const messages: Messages = {
           html: '이 방침은 새 호스팅 업체로 이전하는 경우처럼 사이트가 바뀔 때 함께 변경됩니다. 아래 날짜는 현재 버전을 나타냅니다.',
         },
       ],
+    },
+  },
+  react: {
+    framework: '프레임워크',
+    title: (name) => `${name} React API`,
+    kinds: { prop: 'prop', state: '상태', callback: '콜백', render: '렌더 prop' },
+    state:
+      '상태는 React의 폼 입력 요소와 같은 방식으로 동작합니다. 값을 전달하고 <code>on…Change</code> 콜백에서 갱신하거나, <code>default…</code> 값을 전달해 컴포넌트가 보관하게 합니다.',
+    customization:
+      '설정하지 않은 커스터마이징 prop은 가장 가까운 <code>data-nui-*</code> 속성을 따릅니다. 자세한 내용은 <a href="/guides/customization">커스터마이징 가이드</a>를 참고하시기 바랍니다.',
+    items: {
+      scheduler: {
+        overview:
+          '스케줄러는 React 컴포넌트로도 제공됩니다. <code>@needless-ui/react/scheduler</code>의 <code>NuiScheduler</code>입니다. 이 페이지의 예제는 Angular로 작성되었으니, <a href="/components/scheduler/api/react">React API</a>와 <a href="/guides/react">React 가이드</a>를 참고하시기 바랍니다.',
+        apiDescription:
+          'Needless UI 스케줄러의 React API 레퍼런스입니다. prop, 제어할 수 있는 상태, 콜백, 렌더 prop, ref의 메서드를 설명합니다.',
+        api: {
+          NuiScheduler: {
+            members: {
+              ref: '스케줄러의 <code>ref</code>로 쓸 수 있는 페이지 이동 기능입니다. 직접 만든 툴바에서 씁니다.',
+              date: '표시된 날짜. 키보드 포커스가 있는 날짜이기도 합니다. 서버에서 스케줄러를 렌더링할 때는 <code>defaultDate</code>를 전달하십시오. 서버의 오늘이 사용자의 오늘과 다를 수 있습니다.',
+              toolbar: '툴바를 표시하거나, 전달받은 정보로 직접 만든 툴바를 그립니다.',
+              renderEvent: '일정을 직접 그립니다. 일정과 텍스트로 된 시간을 받습니다.',
+              renderResource: '리소스의 헤더를 직접 그립니다.',
+              onEventClick: '클릭하거나 Enter로 연 일정과 함께 호출됩니다.',
+              onEventChange:
+                '일정을 옮기거나 길이를 조절한 뒤 새 시간과 함께 호출되며, 리소스가 바뀌었으면 리소스도 함께 전달됩니다. 변경을 유지하려면 <code>events</code>를 갱신합니다.',
+              onSlotSelect: '그리드에서 선택한 시간 및 그 리소스와 함께 호출됩니다.',
+              onRangeChange:
+                '표시되는 첫날과 마지막 날이 바뀌면 이 두 날짜와 함께 호출됩니다. 그 기간의 일정을 불러올 때 씁니다.',
+            },
+          },
+          NuiSchedulerToolbar: {
+            summary: '<code>toolbar</code> 함수가 받는 값입니다. 직접 만든 툴바를 그릴 때 씁니다.',
+            members: {
+              'view, views': '표시된 보기와 전환할 수 있는 보기.',
+              'setView, previous, next, goToday':
+                '보기를 바꾸거나, 이전 또는 다음 페이지나 오늘을 보여 줍니다.',
+            },
+          },
+        },
+      },
+      grid: {
+        overview:
+          '데이터 그리드는 React 컴포넌트로도 제공됩니다. <code>@needless-ui/react/grid</code>의 <code>NuiGrid</code>입니다. 이 페이지의 예제는 Angular로 작성되었으니, <a href="/components/grid/api/react">React API</a>와 <a href="/guides/react">React 가이드</a>를 참고하시기 바랍니다.',
+        apiDescription:
+          'Needless UI 데이터 그리드의 React API 레퍼런스입니다. prop, 제어할 수 있는 상태, 콜백, 셀용 렌더 prop, ref의 메서드를 설명합니다.',
+        api: {
+          NuiGrid: {
+            members: {
+              ref: '그리드의 <code>ref</code>로 쓸 수 있는 기능입니다. 내보내기, 인쇄, 포커스를 다룹니다.',
+              expandAll: '모든 그룹과 자식이 있는 모든 행을 열거나, 모두 닫습니다.',
+              fit: '열 너비를 렌더링된 셀 중 가장 넓은 셀에 맞춥니다.',
+              rows: '데이터. 편집하면 해당 행이 교체되고 <code>onRowsChange</code>가 호출됩니다. 다음에 전달하는 <code>rows</code>가 편집 내용을 대체합니다.',
+              onRowsChange: '편집이 확정될 때마다 편집 후의 행과 함께 호출됩니다.',
+              groupBy: '행을 그룹화할 열. 바깥쪽부터 지정합니다.',
+              collapsed: '닫힌 그룹의 키. 그룹은 처음에 열려 있습니다.',
+              expanded: '트리 데이터에서 열린 행의 키. 행은 처음에 닫혀 있습니다.',
+              details: '세부 정보가 열린 행의 키.',
+              renderEmpty:
+                '행이 없을 때 표시되는 내용입니다. 필터 때문에 행이 숨겨졌는지 전달받습니다.',
+              renderDetail:
+                '행의 세부 정보로, 열면 그 행 아래에 표시됩니다. 그리드에 토글 열이 추가됩니다.',
+              onRowActivate: 'Enter 키나 더블클릭으로 연 행과 함께 호출됩니다.',
+              onCellEdit: '확정된 편집마다 그 편집과 함께 호출됩니다.',
+              onQueryChange:
+                '정렬, 필터, 검색, 페이지가 바뀔 때마다, 그리고 처음에 한 번 이들과 함께 호출됩니다.',
+            },
+          },
+          NuiGridColumn: {
+            summary:
+              '열 하나입니다. <a href="/components/grid/api#NuiGridColumn">Angular 열</a>의 모든 속성을 받으며(<code>id</code>와 <code>header</code>만 필수입니다), 열을 그리는 아래 두 속성도 받습니다.',
+            members: {
+              renderCell: '열의 셀을 직접 그립니다. 행, 그 값, 텍스트를 받습니다.',
+              renderHeader:
+                '열의 헤더를 직접 그립니다. 열의 이름은 여전히 <code>header</code>가 정합니다.',
+            },
+          },
+        },
+      },
     },
   },
 };
