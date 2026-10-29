@@ -2441,19 +2441,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'ઇન્સ્ટૉલેશન' },
           {
             kind: 'p',
-            html: 'કીબોર્ડ અને ઍક્સેસિબિલિટી વર્તન પૂરું પાડતા Angular Aria અને CDK સાથે Angular પૅકેજ ઉમેરો. સ્ટાઇલશીટ તેની સાથે જ આવે છે.',
+            html: '<code>ng add</code> ચલાવો. તે કીબોર્ડ અને ઍક્સેસિબિલિટી વર્તન પૂરું પાડતા Angular Aria અને CDK સાથે Angular પૅકેજ ઉમેરે છે, અને તમારી ગ્લોબલ સ્ટાઇલ્સમાં સ્ટાઇલશીટ ઇમ્પોર્ટ કરે છે.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'તેના બદલે જાતે સેટઅપ કરવું હોય, તો પૅકેજ ઉમેરો અને પછી નીચે બતાવ્યા પ્રમાણે સ્ટાઇલ્સ ઇમ્પોર્ટ કરો.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'સ્ટાઇલ્સ ઇમ્પોર્ટ કરો' },
           {
             kind: 'p',
-            html: '<code>src/styles.css</code> માં સ્ટાઇલશીટ એક વાર ઇમ્પોર્ટ કરો. તેમાં ડિઝાઇન ટોકન્સ અને બધા કમ્પોનન્ટ્સ સમાયેલા છે.',
+            html: "સ્ટાઇલશીટ <code>src/styles.css</code> ની સૌથી ઉપર એક જ વાર ઇમ્પોર્ટ થાય છે, જ્યાં <code>ng add</code> તેને મૂકે છે. Sass સ્ટાઇલશીટમાં તેના બદલે <code>@use '@needless-ui/css';</code> લખો. Needless UI ની સ્ટાઇલશીટમાં ડિઝાઇન ટોકન્સ અને બધા કમ્પોનન્ટ્સ સમાયેલા છે.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'બધું <code>@layer nui</code> ની અંદર આવે છે. જો તમારી ઍપમાં <code>a { color: inherit }</code> જેવા ગ્લોબલ રીસેટ હોય, તો તે કમ્પોનન્ટ્સને ઓવરરાઇડ ન કરે એ માટે તેમને <code>nui</code> પહેલાં જાહેર કરેલા લેયરમાં મૂકો.',
           },
+          {
+            kind: 'p',
+            html: 'જો તમે Tailwind CSS વાપરતા હો, તો <code>nui</code> ને Tailwind ના <code>base</code> લેયર પછી અને તેની યુટિલિટીઝ પહેલાં જાહેર કરો: આમ કરવાથી Tailwind ની રીસેટ સ્ટાઇલ્સ કમ્પોનન્ટ્સને ઓવરરાઇડ કરી શકતી નથી, અને યુટિલિટી ક્લાસ હજી પણ તેમના પર પ્રાથમિકતા ધરાવે છે. Tailwind મળે ત્યારે <code>ng add</code> આ જાતે જ કરી દે છે.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'કમ્પોનન્ટ વાપરો' },
           {
             kind: 'p',

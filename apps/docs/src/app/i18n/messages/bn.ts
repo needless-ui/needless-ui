@@ -2420,19 +2420,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'ইনস্টল করুন' },
           {
             kind: 'p',
-            html: 'Angular প্যাকেজটি Angular Aria ও CDK-এর সঙ্গে যোগ করুন; কীবোর্ড ও অ্যাক্সেসিবিলিটির আচরণ এই দুটিই দেয়। স্টাইলশিট প্যাকেজের সঙ্গেই আসে।',
+            html: '<code>ng add</code> চালান। এটি Angular প্যাকেজটি যোগ করে, সঙ্গে Angular Aria ও CDK-ও, যেগুলো কীবোর্ড ও অ্যাক্সেসিবিলিটির আচরণ দেয়। এটি আপনার গ্লোবাল স্টাইলে স্টাইলশিটও ইমপোর্ট করে দেয়।',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'এর বদলে নিজে হাতে সেট আপ করতে চাইলে প্যাকেজগুলো যোগ করুন, তারপর নিচে দেখানো উপায়ে স্টাইল ইমপোর্ট করুন।',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'স্টাইল ইমপোর্ট করুন' },
           {
             kind: 'p',
-            html: 'স্টাইলশিটটি <code>src/styles.css</code>-এ একবার ইমপোর্ট করুন। এতে ডিজাইন টোকেন ও সব কম্পোনেন্ট আছে।',
+            html: "স্টাইলশিটটি <code>src/styles.css</code>-এর একেবারে ওপরে একবারই ইমপোর্ট করা হয়, ঠিক যেখানে <code>ng add</code> এটি বসায়। Sass স্টাইলশিটে এর বদলে <code>@use '@needless-ui/css';</code> লিখুন। স্টাইলশিটটিতে ডিজাইন টোকেন ও সব কম্পোনেন্ট আছে।",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'সবকিছু থাকে <code>@layer nui</code>-এর ভেতরে। আপনার অ্যাপে <code>a { color: inherit }</code>-এর মতো গ্লোবাল রিসেট থাকলে সেগুলো <code>nui</code>-এর আগে ঘোষিত কোনো লেয়ারে রাখুন, যাতে সেগুলো কম্পোনেন্টকে ওভাররাইড না করে।',
           },
+          {
+            kind: 'p',
+            html: 'Tailwind CSS ব্যবহার করলে <code>nui</code> লেয়ারটি Tailwind-এর <code>base</code> লেয়ারের পরে এবং এর ইউটিলিটিগুলোর আগে ঘোষণা করুন: তাহলে Tailwind-এর রিসেট কম্পোনেন্টকে ওভাররাইড করতে পারবে না, আর ইউটিলিটি ক্লাস তখনও কম্পোনেন্টের চেয়ে অগ্রাধিকার পাবে। Tailwind খুঁজে পেলে <code>ng add</code> নিজেই এটি করে দেয়।',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'কম্পোনেন্ট ব্যবহার করুন' },
           {
             kind: 'p',

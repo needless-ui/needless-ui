@@ -2456,19 +2456,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: '설치' },
           {
             kind: 'p',
-            html: '키보드 및 접근성 동작을 제공하는 Angular Aria, CDK와 함께 Angular 패키지를 추가합니다. 스타일시트도 함께 설치됩니다.',
+            html: '<code>ng add</code>를 실행합니다. 이 명령은 키보드 및 접근성 동작을 제공하는 Angular Aria, CDK와 함께 Angular 패키지를 추가하고, 전역 스타일에서 스타일시트를 가져오도록 설정합니다.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: '대신 직접 설정하려면 패키지를 추가한 다음, 아래와 같이 스타일을 가져옵니다.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: '스타일 가져오기' },
           {
             kind: 'p',
-            html: '<code>src/styles.css</code>에서 스타일시트를 한 번만 가져옵니다. 디자인 토큰과 모든 컴포넌트가 포함되어 있습니다.',
+            html: "<code>src/styles.css</code> 맨 위에서 스타일시트를 한 번만 가져옵니다. <code>ng add</code>도 바로 이 위치에 추가합니다. Sass 파일에서는 대신 <code>@use '@needless-ui/css';</code>를 작성합니다. 이 스타일시트에는 디자인 토큰과 모든 컴포넌트가 포함되어 있습니다.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: '모든 것이 <code>@layer nui</code> 안에 들어 있습니다. 앱에 <code>a { color: inherit }</code> 같은 전역 리셋이 있다면, 컴포넌트를 덮어쓰지 않도록 <code>nui</code>보다 먼저 선언한 레이어에 넣어야 합니다.',
           },
+          {
+            kind: 'p',
+            html: 'Tailwind CSS를 사용한다면 Tailwind의 <code>base</code> 레이어 뒤, 유틸리티 앞에 <code>nui</code>를 선언합니다. 그러면 Tailwind의 리셋이 컴포넌트를 덮어쓰지 못하고, 유틸리티 클래스는 여전히 컴포넌트보다 우선합니다. <code>ng add</code>는 Tailwind를 감지하면 이렇게 설정합니다.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: '컴포넌트 사용하기' },
           {
             kind: 'p',

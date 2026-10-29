@@ -2464,19 +2464,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Cài đặt' },
           {
             kind: 'p',
-            html: 'Thêm gói Angular cùng với Angular Aria và CDK, hai thư viện cung cấp hành vi bàn phím và khả năng tiếp cận. Stylesheet đi kèm sẵn trong gói.',
+            html: 'Chạy <code>ng add</code>. Lệnh này thêm gói Angular cùng với Angular Aria và CDK, hai thư viện cung cấp hành vi bàn phím và khả năng tiếp cận, đồng thời import stylesheet vào style toàn cục của bạn.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Nếu muốn thiết lập thủ công, hãy thêm các gói, rồi import style như bên dưới.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Import style' },
           {
             kind: 'p',
-            html: 'Import stylesheet một lần trong <code>src/styles.css</code>. Stylesheet này bao gồm các design token và mọi component.',
+            html: "Chỉ cần import stylesheet một lần ở đầu <code>src/styles.css</code>, cũng là nơi <code>ng add</code> đặt nó vào. Trong stylesheet Sass, thay vào đó hãy viết <code>@use '@needless-ui/css';</code>. Stylesheet này bao gồm các design token và mọi component.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Mọi thứ đều nằm trong <code>@layer nui</code>. Nếu ứng dụng của bạn có các reset toàn cục như <code>a { color: inherit }</code>, hãy đặt chúng trong một layer được khai báo trước <code>nui</code> để chúng không ghi đè component.',
           },
+          {
+            kind: 'p',
+            html: 'Nếu dùng Tailwind CSS, hãy khai báo <code>nui</code> sau layer <code>base</code> của Tailwind và trước layer utilities: nhờ vậy, reset của Tailwind không thể xóa bỏ style của component, còn các utility class vẫn được ưu tiên hơn component. <code>ng add</code> sẽ tự làm việc này khi phát hiện Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Sử dụng component' },
           {
             kind: 'p',

@@ -2319,19 +2319,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: '安装' },
           {
             kind: 'p',
-            html: '添加 Angular 包，以及提供键盘和无障碍行为的 Angular Aria 与 CDK。样式表会随包一起安装。',
+            html: '运行 <code>ng add</code>。它会添加 Angular 包，以及提供键盘和无障碍行为的 Angular Aria 与 CDK，并在你的全局样式中导入样式表。',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: '如果想改为手动设置，请先添加这些包，再按下方示例导入样式。',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: '导入样式' },
           {
             kind: 'p',
-            html: '在 <code>src/styles.css</code> 中导入一次样式表即可，其中包含 Design Token 和所有组件。',
+            html: "在 <code>src/styles.css</code> 顶部导入一次样式表即可，<code>ng add</code> 也会把它放在这个位置。在 Sass 样式表中，请改用 <code>@use '@needless-ui/css';</code>。样式表中包含 Design Token 和所有组件。",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: '所有样式都位于 <code>@layer nui</code> 中。如果你的应用有 <code>a { color: inherit }</code> 这类全局重置样式，请把它们放进一个在 <code>nui</code> 之前声明的层中，以免覆盖组件样式。',
           },
+          {
+            kind: 'p',
+            html: '使用 Tailwind CSS 时，请把 <code>nui</code> 声明在 Tailwind 的 <code>base</code> 层之后、utilities 层之前：这样 Tailwind 的重置样式就无法抵消组件样式，而工具类依然优先于组件样式。<code>ng add</code> 检测到 Tailwind 时会自动这样做。',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: '使用组件' },
           {
             kind: 'p',

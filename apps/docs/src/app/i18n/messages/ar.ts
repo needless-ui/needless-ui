@@ -2428,19 +2428,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'التثبيت' },
           {
             kind: 'p',
-            html: 'أضف الحزمة الخاصة بـ Angular إلى جانب Angular Aria وCDK، فهما يوفّران سلوك لوحة المفاتيح وإمكانية الوصول. أما ورقة الأنماط فتأتي مع الحزمة.',
+            html: 'شغّل الأمر <code>ng add</code>. يضيف هذا الأمر الحزمة الخاصة بـ Angular إلى جانب Angular Aria وCDK اللذين يوفّران سلوك لوحة المفاتيح وإمكانية الوصول، ويستورد ورقة الأنماط ضمن أنماطك العامة.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'أما إن أردت الإعداد يدويًا، فأضف الحزم، ثم استورد الأنماط كما هو موضّح أدناه.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'استيراد الأنماط' },
           {
             kind: 'p',
-            html: 'استورد ورقة الأنماط مرة واحدة في <code>src/styles.css</code>. وهي تتضمن رموز التصميم وجميع المكونات.',
+            html: "تُستورد ورقة الأنماط مرة واحدة في أعلى <code>src/styles.css</code>، حيث يضعها <code>ng add</code>. وفي ورقة أنماط مكتوبة بـ Sass، اكتب بدلًا من ذلك <code>@use '@needless-ui/css';</code>. وتتضمن ورقة الأنماط رموز التصميم وجميع المكونات.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'كل شيء يأتي داخل <code>@layer nui</code>. فإذا كان في تطبيقك أنماط إعادة ضبط عامة مثل <code>a { color: inherit }</code>، فضعها في طبقة مُعرَّفة قبل <code>nui</code> حتى لا تتغلّب على المكونات.',
           },
+          {
+            kind: 'p',
+            html: 'إذا كنت تستخدم Tailwind CSS، فعرّف <code>nui</code> بعد طبقة <code>base</code> الخاصة بـ Tailwind وقبل طبقة الأدوات (utilities) فيه: عندها لا تتغلّب أنماط إعادة الضبط في Tailwind على المكونات، وتظل أصناف الأدوات (utility classes) تتغلّب عليها. ويتولى <code>ng add</code> ذلك بنفسه عندما يجد Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'استخدام مكوّن' },
           {
             kind: 'p',

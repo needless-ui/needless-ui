@@ -2527,19 +2527,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Shigarwa' },
           {
             kind: 'p',
-            html: 'Ku ƙara package na Angular tare da Angular Aria da CDK, waɗanda ke samar da aikin allon madannai da sauƙin amfani ga kowa. Stylesheet yana zuwa tare da shi.',
+            html: 'Ku gudanar da umarnin <code>ng add</code>. Yana ƙara package na Angular tare da Angular Aria da CDK, waɗanda ke samar da aikin allon madannai da sauƙin amfani ga kowa, kuma yana shigo da stylesheet a cikin salon gaba ɗaya na manhajarku.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Idan kuna son saita komai da hannu a maimakon haka, ku ƙara packages, sannan ku shigo da salo kamar yadda aka nuna a ƙasa.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Shigo da salo' },
           {
             kind: 'p',
-            html: 'Ku shigo da stylesheet sau ɗaya a cikin <code>src/styles.css</code>. Ya ƙunshi design tokens da kowane component.',
+            html: "Ana shigo da stylesheet sau ɗaya a saman <code>src/styles.css</code>, inda <code>ng add</code> ke saka shi. Idan kuna amfani da Sass, ku rubuta <code>@use '@needless-ui/css';</code> a maimakon haka. Stylesheet ɗin ya ƙunshi design tokens da kowane component.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Komai yana cikin <code>@layer nui</code>. Idan manhajarku tana da resets na gaba ɗaya kamar <code>a { color: inherit }</code>, ku sa su a cikin layer da aka ayyana kafin <code>nui</code> don kada su rinjayi components.',
           },
+          {
+            kind: 'p',
+            html: 'Idan kuna amfani da Tailwind CSS, ku ayyana <code>nui</code> bayan layer ɗin <code>base</code> na Tailwind kuma kafin utilities ɗinsa: ta haka reset ɗinsa ba zai iya goge salon components ba, kuma utility classes za su ci gaba da rinjayar su. <code>ng add</code> yana yin haka da kansa idan ya gano Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Amfani da component' },
           {
             kind: 'p',

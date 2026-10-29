@@ -2427,19 +2427,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Install' },
           {
             kind: 'p',
-            html: 'Add the Angular package together with Angular Aria and the CDK, which provide keyboard and accessibility behavior. The stylesheet comes with it.',
+            html: 'Run <code>ng add</code>. It adds the Angular package together with Angular Aria and the CDK, which provide keyboard and accessibility behavior, and imports the stylesheet in your global styles.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'To set it up by hand instead, add the packages, then import the styles as shown below.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Import the styles' },
           {
             kind: 'p',
-            html: 'Import the stylesheet once in <code>src/styles.css</code>. It includes the design tokens and every component.',
+            html: "The stylesheet goes once at the top of <code>src/styles.css</code>, where <code>ng add</code> puts it. In a Sass stylesheet, write <code>@use '@needless-ui/css';</code> instead. It includes the design tokens and every component.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Everything ships inside <code>@layer nui</code>. If your app has global resets such as <code>a { color: inherit }</code>, put them in a layer declared before <code>nui</code> so they don’t override components.',
           },
+          {
+            kind: 'p',
+            html: 'With Tailwind CSS, declare <code>nui</code> after Tailwind’s <code>base</code> layer and before its utilities: its reset then can’t undo components, and utility classes still win over them. <code>ng add</code> does this when it finds Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Use a component' },
           {
             kind: 'p',

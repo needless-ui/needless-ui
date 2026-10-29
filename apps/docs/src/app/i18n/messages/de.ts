@@ -2585,19 +2585,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Installation' },
           {
             kind: 'p',
-            html: 'Füge das Angular-Paket zusammen mit Angular Aria und dem CDK hinzu, die Tastaturverhalten und Barrierefreiheit liefern. Das Stylesheet ist schon dabei.',
+            html: 'Führe <code>ng add</code> aus. Der Befehl fügt das Angular-Paket zusammen mit Angular Aria und dem CDK hinzu, die Tastaturverhalten und Barrierefreiheit liefern, und importiert das Stylesheet in deine globalen Styles.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Möchtest du lieber alles von Hand einrichten, füge die Pakete hinzu und importiere danach die Styles wie unten gezeigt.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Styles importieren' },
           {
             kind: 'p',
-            html: 'Importiere das Stylesheet einmal in <code>src/styles.css</code>. Es enthält die Design-Tokens und alle Komponenten.',
+            html: "Das Stylesheet gehört einmal ganz oben in <code>src/styles.css</code>, wo <code>ng add</code> es auch einfügt. In einem Sass-Stylesheet schreibst du stattdessen <code>@use '@needless-ui/css';</code>. Es enthält die Design-Tokens und alle Komponenten.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Alles steckt in <code>@layer nui</code>. Wenn deine App globale Resets wie <code>a { color: inherit }</code> hat, lege sie in einen Layer, der vor <code>nui</code> deklariert ist, damit sie die Komponenten nicht überschreiben.',
           },
+          {
+            kind: 'p',
+            html: 'Mit Tailwind CSS deklarierst du <code>nui</code> nach dem <code>base</code>-Layer und vor den Utilities von Tailwind: Dann kann sein Reset die Komponenten nicht überschreiben, und Utility-Klassen setzen sich trotzdem gegen sie durch. <code>ng add</code> erledigt das, wenn es Tailwind findet.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Komponente verwenden' },
           {
             kind: 'p',

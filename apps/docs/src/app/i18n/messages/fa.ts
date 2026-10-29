@@ -2456,19 +2456,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'نصب' },
           {
             kind: 'p',
-            html: 'پکیج Angular را همراه با Angular Aria و CDK اضافه کنید؛ این دو رفتار صفحه‌کلید و دسترس‌پذیری را فراهم می‌کنند. استایل‌شیت هم همراه همین پکیج می‌آید.',
+            html: 'دستور <code>ng add</code> را اجرا کنید. این دستور پکیج Angular را همراه با Angular Aria و CDK، که رفتار صفحه‌کلید و دسترس‌پذیری را فراهم می‌کنند، اضافه می‌کند و استایل‌شیت را در استایل‌های سراسری شما ایمپورت می‌کند.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'اگر ترجیح می‌دهید راه‌اندازی را به‌صورت دستی انجام دهید، پکیج‌ها را اضافه کنید و سپس استایل‌ها را همان‌طور که در ادامه آمده است ایمپورت کنید.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'ایمپورت استایل‌ها' },
           {
             kind: 'p',
-            html: 'استایل‌شیت را یک بار در <code>src/styles.css</code> ایمپورت کنید. این فایل شامل توکن‌های طراحی و همهٔ کامپوننت‌هاست.',
+            html: "استایل‌شیت یک بار در ابتدای <code>src/styles.css</code> ایمپورت می‌شود، همان جایی که <code>ng add</code> آن را قرار می‌دهد. در استایل‌شیت‌های Sass، به‌جای آن <code>@use '@needless-ui/css';</code> را بنویسید. استایل‌شیت Needless UI شامل توکن‌های طراحی و همهٔ کامپوننت‌هاست.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'همه‌چیز داخل <code>@layer nui</code> ارائه می‌شود. اگر اپ شما ریست‌های سراسری مثل <code>a { color: inherit }</code> دارد، آن‌ها را در لایه‌ای بگذارید که پیش از <code>nui</code> تعریف شده باشد تا کامپوننت‌ها را بازنویسی نکنند.',
           },
+          {
+            kind: 'p',
+            html: 'اگر از Tailwind CSS استفاده می‌کنید، <code>nui</code> را پس از لایهٔ <code>base</code> در Tailwind و پیش از یوتیلیتی‌های آن تعریف کنید: در این صورت ریست Tailwind نمی‌تواند کامپوننت‌ها را بازنویسی کند و کلاس‌های یوتیلیتی همچنان بر آن‌ها اولویت دارند. <code>ng add</code> اگر Tailwind را پیدا کند، همین کار را خودش انجام می‌دهد.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'استفاده از یک کامپوننت' },
           {
             kind: 'p',

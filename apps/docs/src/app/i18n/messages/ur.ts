@@ -2470,19 +2470,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'انسٹالیشن' },
           {
             kind: 'p',
-            html: 'Angular پیکیج کو Angular Aria اور CDK کے ساتھ شامل کریں، جو کی بورڈ اور رسائی کا برتاؤ فراہم کرتے ہیں۔ اسٹائل شیٹ اسی پیکیج کے ساتھ آتی ہے۔',
+            html: '<code>ng add</code> چلائیں۔ یہ Angular پیکیج کو Angular Aria اور CDK کے ساتھ شامل کرتا ہے، جو کی بورڈ اور رسائی کا برتاؤ فراہم کرتے ہیں، اور اسٹائل شیٹ کو آپ کے گلوبل اسٹائلز میں امپورٹ کر دیتا ہے۔',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'اس کے بجائے خود سیٹ اپ کرنا ہو تو پیکیجز شامل کریں، پھر نیچے دکھائے گئے طریقے سے اسٹائلز امپورٹ کریں۔',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'اسٹائلز امپورٹ کریں' },
           {
             kind: 'p',
-            html: '<code>src/styles.css</code> میں اسٹائل شیٹ ایک بار امپورٹ کریں۔ اس میں ڈیزائن ٹوکنز اور تمام کمپوننٹس شامل ہیں۔',
+            html: "اسٹائل شیٹ <code>src/styles.css</code> میں سب سے اوپر صرف ایک بار امپورٹ ہوتی ہے، اور <code>ng add</code> بھی اسے وہیں رکھتا ہے۔ Sass اسٹائل شیٹ میں اس کی جگہ <code>@use '@needless-ui/css';</code> لکھیں۔ اس میں ڈیزائن ٹوکنز اور تمام کمپوننٹس شامل ہیں۔",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'سب کچھ <code>@layer nui</code> کے اندر آتا ہے۔ اگر آپ کی ایپ میں <code>a { color: inherit }</code> جیسے گلوبل ری سیٹس ہیں تو انہیں <code>nui</code> سے پہلے ڈکلیئر کی گئی لیئر میں رکھیں، تاکہ وہ کمپوننٹس کو اوور رائیڈ نہ کریں۔',
           },
+          {
+            kind: 'p',
+            html: 'اگر آپ Tailwind CSS استعمال کرتے ہیں تو <code>nui</code> کو Tailwind کی <code>base</code> لیئر کے بعد اور اس کی یوٹیلٹیز سے پہلے ڈکلیئر کریں: یوں Tailwind کا ری سیٹ کمپوننٹس کے اسٹائلز نہیں مٹا سکتا، اور یوٹیلٹی کلاسز پھر بھی ان پر غالب رہتی ہیں۔ Tailwind ملنے پر <code>ng add</code> یہ کام خود کر دیتا ہے۔',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'کمپوننٹ استعمال کریں' },
           {
             kind: 'p',

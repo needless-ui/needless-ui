@@ -2502,19 +2502,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Installazione' },
           {
             kind: 'p',
-            html: 'Aggiungi il pacchetto Angular insieme ad Angular Aria e al CDK, che forniscono il comportamento da tastiera e l’accessibilità. Il foglio di stile arriva con esso.',
+            html: 'Esegui <code>ng add</code>: aggiunge il pacchetto Angular insieme ad Angular Aria e al CDK, che forniscono il comportamento da tastiera e l’accessibilità, e importa il foglio di stile nei tuoi stili globali.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Se preferisci fare tutto a mano, aggiungi i pacchetti e poi importa gli stili come mostrato qui sotto.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Importa gli stili' },
           {
             kind: 'p',
-            html: 'Importa il foglio di stile una volta in <code>src/styles.css</code>. Include i design token e tutti i componenti.',
+            html: "Il foglio di stile, che include i design token e tutti i componenti, va importato una sola volta in cima a <code>src/styles.css</code>, dove lo inserisce <code>ng add</code>. In un foglio di stile Sass, scrivi invece <code>@use '@needless-ui/css';</code>.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Tutto è dentro <code>@layer nui</code>. Se la tua app ha reset globali come <code>a { color: inherit }</code>, mettili in un layer dichiarato prima di <code>nui</code>, così non sovrascrivono i componenti.',
           },
+          {
+            kind: 'p',
+            html: 'Con Tailwind CSS, dichiara <code>nui</code> dopo il layer <code>base</code> di Tailwind e prima delle sue utility: così il suo reset non può annullare gli stili dei componenti, ma le classi utility continuano a prevalere su di essi. Se trova Tailwind, <code>ng add</code> lo fa per te.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Usa un componente' },
           {
             kind: 'p',

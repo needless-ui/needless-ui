@@ -2460,19 +2460,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Kurulum' },
           {
             kind: 'p',
-            html: 'Angular paketini, klavye ve erişilebilirlik davranışını sağlayan Angular Aria ve CDK ile birlikte ekleyin. Stil dosyası da pakete dahildir.',
+            html: '<code>ng add</code> komutunu çalıştırın. Bu komut, Angular paketini klavye ve erişilebilirlik davranışını sağlayan Angular Aria ve CDK ile birlikte ekler, stil dosyasını da genel stillerinize içe aktarır.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Bunun yerine kurulumu kendiniz yapmak isterseniz paketleri ekleyin, ardından stilleri aşağıda gösterildiği gibi içe aktarın.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Stilleri içe aktarın' },
           {
             kind: 'p',
-            html: 'Stil dosyasını <code>src/styles.css</code> içinde bir kez içe aktarın. Dosya, tasarım token’larını ve tüm bileşenleri içerir.',
+            html: "Stil dosyasını <code>src/styles.css</code> dosyasının en üstünde bir kez içe aktarın; <code>ng add</code> komutu da onu oraya ekler. Bir Sass stil dosyasında ise bunun yerine <code>@use '@needless-ui/css';</code> yazın. Dosya, tasarım token’larını ve tüm bileşenleri içerir.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Her şey <code>@layer nui</code> içinde gelir. Uygulamanızda <code>a { color: inherit }</code> gibi genel sıfırlamalar varsa bileşenleri geçersiz kılmamaları için onları <code>nui</code> katmanından önce tanımlanan bir katmana koyun.',
           },
+          {
+            kind: 'p',
+            html: 'Tailwind CSS kullanıyorsanız <code>nui</code> katmanını Tailwind’in <code>base</code> katmanından sonra, utilities katmanından önce tanımlayın: böylece Tailwind’in sıfırlaması bileşen stillerini silemez, utility sınıfları ise bileşenlerin önüne geçmeye devam eder. <code>ng add</code>, Tailwind’i algıladığında bunu kendisi yapar.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Bir bileşen kullanın' },
           {
             kind: 'p',

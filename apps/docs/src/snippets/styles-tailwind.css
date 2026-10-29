@@ -1,0 +1,4 @@
+/* src/styles.css */
+@layer theme, base, nui, components, utilities;
+@import '@needless-ui/css';
+@import 'tailwindcss';

@@ -2508,19 +2508,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Instalasi' },
           {
             kind: 'p',
-            html: 'Tambahkan paket Angular bersama Angular Aria dan CDK, yang menyediakan perilaku keyboard dan aksesibilitas. Stylesheet-nya sudah disertakan.',
+            html: 'Jalankan <code>ng add</code>. Perintah ini menambahkan paket Angular bersama Angular Aria dan CDK, yang menyediakan perilaku keyboard dan aksesibilitas. Stylesheet-nya juga diimpor ke gaya global Anda.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Jika Anda lebih suka menyiapkannya secara manual, tambahkan paketnya, lalu impor gaya seperti yang ditunjukkan di bawah ini.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Impor gaya' },
           {
             kind: 'p',
-            html: 'Impor stylesheet sekali di <code>src/styles.css</code>. Stylesheet ini mencakup design token dan semua komponen.',
+            html: "Stylesheet cukup diimpor sekali di bagian paling atas <code>src/styles.css</code>, tempat <code>ng add</code> menaruhnya. Jika gaya global Anda memakai Sass, tulis <code>@use '@needless-ui/css';</code> sebagai gantinya. Stylesheet ini mencakup design token dan semua komponen.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Semuanya berada di dalam <code>@layer nui</code>. Jika aplikasi Anda punya reset global seperti <code>a { color: inherit }</code>, letakkan di layer yang dideklarasikan sebelum <code>nui</code> agar tidak menimpa komponen.',
           },
+          {
+            kind: 'p',
+            html: 'Jika Anda memakai Tailwind CSS, deklarasikan <code>nui</code> setelah layer <code>base</code> milik Tailwind dan sebelum utilitasnya: dengan begitu, reset Tailwind tidak bisa menghapus gaya komponen, sementara class utilitas tetap bisa menimpanya. <code>ng add</code> melakukan ini secara otomatis jika menemukan Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Gunakan komponen' },
           {
             kind: 'p',
