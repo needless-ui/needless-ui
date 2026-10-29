@@ -1,4 +1,4 @@
-import { computed, type Signal, signal, type WritableSignal } from '@angular/core';
+import { computed, linkedSignal, type Signal, signal, type WritableSignal } from '@angular/core';
 import {
   nuiCsv,
   type NuiCsvOptions,
@@ -120,8 +120,23 @@ export class NuiGridEngine<T> {
   readonly header: Signal<boolean>;
   /** Width of the scroll container, which `flex` columns share. */
   readonly containerWidth = signal(0);
-  /** The active cell. Row -1 is the header; columns count the leading ones. */
-  readonly active = signal({ row: -1, col: 0 });
+  /** Where the active cell can be: rows from the header (-1) or the first row, to the footer. */
+  private readonly bounds = computed(() => {
+    const lastRow = this.shown().length - 1 + (this.shown().length ? this.footerRows() : 0);
+    const firstRow = this.header() || lastRow < 0 ? -1 : 0;
+    return { firstRow, lastRow, lastCol: this.colCount() - 1 };
+  });
+  /**
+   * The active cell. Row -1 is the header; columns count the leading ones. It stays
+   * inside the grid when rows or columns go, or the header row does.
+   */
+  readonly active = linkedSignal<
+    { firstRow: number; lastRow: number; lastCol: number },
+    { row: number; col: number }
+  >({
+    source: this.bounds,
+    computation: (bounds, previous) => inside(previous?.value ?? { row: -1, col: 0 }, bounds),
+  });
 
   constructor(from: NuiGridSources<T>) {
     this.rows = from.rows;
@@ -909,13 +924,7 @@ export class NuiGridEngine<T> {
 
   /** Moves the active cell, kept inside the grid: in the rows when the header isn't drawn. */
   setActive(row: number, col: number): void {
-    const lastRow = this.shown().length - 1 + (this.shown().length ? this.footerRows() : 0);
-    const firstRow = this.header() || lastRow < 0 ? -1 : 0;
-    const lastCol = this.colCount() - 1;
-    this.active.set({
-      row: Math.max(firstRow, Math.min(lastRow, row)),
-      col: Math.max(0, Math.min(lastCol, col)),
-    });
+    this.active.set(inside({ row, col }, this.bounds()));
   }
 
   // Export -----------------------------------------------------------------------
@@ -937,6 +946,17 @@ export class NuiGridEngine<T> {
       columns.map((column) => (column.type ?? 'text') === 'text' || column.type === 'enum'),
     );
   }
+}
+
+/** The cell, moved inside the bounds. */
+function inside(
+  cell: { row: number; col: number },
+  bounds: { firstRow: number; lastRow: number; lastCol: number },
+): { row: number; col: number } {
+  return {
+    row: Math.max(bounds.firstRow, Math.min(bounds.lastRow, cell.row)),
+    col: Math.max(0, Math.min(bounds.lastCol, cell.col)),
+  };
 }
 
 /** A value as a group's key: dates by their time, empty ones as one. */

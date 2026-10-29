@@ -30,6 +30,7 @@ This repository is public, and anything pushed stays public. Before every commit
 - Angular components never ship styles. They set classes and `data-*` attributes that `@needless-ui/css` targets. Prefer directives on native elements over wrapper components.
 - Component CSS uses only semantic tokens (`--nui-color-bg-*`, `--nui-color-<tone>-*`, …), never numbered scales. A test enforces that referenced tokens exist.
 - Build behavior on native elements, `@angular/aria` and `@angular/cdk`; don't reimplement keyboard/ARIA logic.
+- State that follows other state is `computed()`, or `linkedSignal()` when it can also be set (the combobox's text, the range picker's typed ends, the grid's active cell), never an `effect()` that sets it. Effects reach outside signals: the DOM, outputs, form callbacks, announcements, timers and uploads, or a value from outside read into an editing model (the color picker's coordinates, the editor's document).
 - New component = spec + CSS + Angular entry point + tests + docs page (id in `docs/ids.ts`, API and examples in `docs/registry.ts`, words in every `i18n/messages/<locale>.ts`) + changeset (`pnpm changeset`).
 - All `@needless-ui/*` packages are versioned together (Changesets `fixed`).
 - Angular unit tests run in headless Chromium, Firefox and WebKit (Vitest browser mode, `@vitest/browser-playwright`); drive input with `userEvent` from `vitest/browser`. jsdom has no `<dialog>` or popover support.

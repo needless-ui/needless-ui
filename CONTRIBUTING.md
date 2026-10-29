@@ -45,7 +45,7 @@ tokens (DTCG JSON) ──build──▶ tokens.css ──imported by──▶ @n
 ## Conventions
 
 - Prefix everything with `nui`: selectors (`nui-*`, `[nui*]`), classes (`.nui-*`), custom properties (`--nui-*`) and layers (`nui.*`).
-- Angular: standalone, signal `input()` / `model()` / `output()`, host bindings in the `host` object, no `@HostBinding`, no NgModules. The generated `CLAUDE.md` lists the rest of the Angular style rules.
+- Angular: standalone, signal `input()` / `model()` / `output()`, host bindings in the `host` object, no `@HostBinding`, no NgModules. State that follows other state is `computed()`, or `linkedSignal()` when it can also be set; `effect()` is for reaching outside signals (the DOM, outputs, form callbacks, browser APIs). The generated `CLAUDE.md` lists the rest of the Angular style rules.
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat(button): …`, `fix(css): …`).
 - Code is formatted with Prettier (`pnpm format`); CI runs `pnpm format:check`.
 

@@ -216,4 +216,22 @@ describe('NuiGridEngine', () => {
     grid.setActive(3, 0);
     expect(grid.active()).toEqual({ row: -1, col: 0 });
   });
+
+  it('moves the active cell back inside when rows or columns go, or the header row does', () => {
+    const shownColumns = signal(columns);
+    const header = signal(true);
+    const grid = new NuiGridEngine<Order>({
+      rows: signal(orders),
+      columns: shownColumns,
+      header,
+    });
+    grid.setActive(3, 3);
+    grid.rows.set(orders.slice(0, 2));
+    expect(grid.active()).toEqual({ row: 1, col: 3 });
+    shownColumns.set(columns.slice(0, 2));
+    expect(grid.active()).toEqual({ row: 1, col: 1 });
+    grid.setActive(-1, 0);
+    header.set(false);
+    expect(grid.active()).toEqual({ row: 0, col: 0 });
+  });
 });

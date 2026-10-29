@@ -7,16 +7,15 @@ import {
   contentChild,
   DestroyRef,
   DOCUMENT,
-  effect,
   ElementRef,
   forwardRef,
   inject,
   input,
+  linkedSignal,
   model,
   output,
   PLATFORM_ID,
   signal,
-  untracked,
   viewChild,
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -193,7 +192,17 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
   });
   protected readonly template = contentChild(NuiOptionTemplate<V>);
   protected readonly open = signal(false);
-  protected readonly text = signal('');
+  /**
+   * The text in the field. While the list is open it's what's typed; closed, unfinished
+   * text goes and a single combobox shows the chosen label.
+   */
+  protected readonly text = linkedSignal({
+    source: () => ({
+      open: this.open(),
+      label: this.multiple() ? '' : (this.chosen()[0]?.label ?? ''),
+    }),
+    computation: ({ open, label }, previous) => (open && previous ? previous.value : label),
+  });
   protected readonly listId = inject(_IdGenerator).getId('nui-combobox-list-');
   protected readonly popupId = `${this.listId}-popup`;
   private readonly formDisabled = signal(false);
@@ -258,13 +267,6 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
   constructor() {
     // Trees list flat, with paths: ← and → belong to the text.
     this.engine.tree.set(false);
-    // A single combobox shows the chosen label while it isn't being edited.
-    effect(() => {
-      const label = this.multiple() ? '' : (this.chosen()[0]?.label ?? '');
-      untracked(() => {
-        if (!this.open()) this.text.set(label);
-      });
-    });
 
     if (!this.browser) return;
     // The list is a manual popover, so it closes on presses outside the field ourselves.
@@ -320,8 +322,7 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
       // handled in onKeydown, which prevents its default: the watcher never sees it.)
       this.stopWatching = nuiOnCloseRequest(() => this.hide());
     } else {
-      // Unfinished text goes: a single combobox shows its value again.
-      this.text.set(this.multiple() ? '' : (this.chosen()[0]?.label ?? ''));
+      // The text shows the value again (see `text`), and the list's query goes too.
       this.setQuery('');
     }
   }
