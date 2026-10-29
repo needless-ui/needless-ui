@@ -1,0 +1,47 @@
+/*
+ * @needless-ui/react/scheduler: the scheduler, and the helpers that read and write
+ * its events (repeat rules, iCalendar files), which run anywhere, servers included.
+ */
+export {
+  NUI_SCHEDULER_LABELS,
+  type NuiSchedulerBar,
+  type NuiSchedulerChange,
+  nuiSchedulerDays,
+  type NuiSchedulerEvent,
+  type NuiSchedulerFrequency,
+  nuiSchedulerFromIcs,
+  type NuiSchedulerHours,
+  type NuiSchedulerIcsData,
+  type NuiSchedulerIcsOptions,
+  type NuiSchedulerIcsReadOptions,
+  type NuiSchedulerLabels,
+  nuiSchedulerLanes,
+  nuiSchedulerMinutes,
+  nuiSchedulerOccurrences,
+  nuiSchedulerPage,
+  nuiSchedulerPlace,
+  type NuiSchedulerPlaced,
+  type NuiSchedulerResource,
+  nuiSchedulerResources,
+  nuiSchedulerRule,
+  type NuiSchedulerRule,
+  type NuiSchedulerSlot,
+  nuiSchedulerSpan,
+  type NuiSchedulerSpan,
+  nuiSchedulerStack,
+  type NuiSchedulerStacked,
+  type NuiSchedulerTimelineSpan,
+  nuiSchedulerToIcs,
+  type NuiSchedulerTone,
+  nuiSchedulerValue,
+  type NuiSchedulerView,
+  nuiSchedulerVisible,
+  nuiSchedulerWorking,
+} from '@needless-ui/core/scheduler';
+export {
+  NuiScheduler,
+  type NuiSchedulerEventContext,
+  type NuiSchedulerHandle,
+  type NuiSchedulerProps,
+  type NuiSchedulerToolbar,
+} from './scheduler.js';

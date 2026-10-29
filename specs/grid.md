@@ -4,7 +4,7 @@
 | ---------------------- | ----------- |
 | `@needless-ui/css`     | Implemented |
 | `@needless-ui/angular` | Implemented |
-| `@needless-ui/react`   | Planned     |
+| `@needless-ui/react`   | Implemented |
 
 ## Anatomy
 
@@ -50,6 +50,8 @@ The grid's model (`NuiGridEngine`: filtering, sorting, paging, selection, column
 | —                            | `exportXlsx()`, `print()`, `expandAll()`       | a spreadsheet (.xlsx) of the filtered, sorted rows; print every row; open or close all  | —                   |
 
 Templates: `nuiGridCell` (a column's cells, by id), `nuiGridHeader` (its header), `nuiGridEmpty` (the empty message) and `nuiGridDetail` (a row's details). Personality inputs: `corners`, `radius` and `density`.
+
+React (`@needless-ui/react/grid`) takes the same API in React's terms: each model is controlled (`sort`, `onSortChange`) or the grid's own (`defaultSort`), and `rows` are edited in place and reported through `onRowsChange`. Outputs are callbacks (`onRowActivate`, `onCellEdit`, `onQueryChange`), the templates are a column's `renderCell` and `renderHeader` and the grid's `renderEmpty` and `renderDetail`, tree data comes from `getChildren` (React keeps `children` for elements), and the methods are on its `ref`. The model is `@needless-ui/core/grid`'s pure functions, which `NuiGridEngine` wraps in signals.
 
 ### Columns
 
