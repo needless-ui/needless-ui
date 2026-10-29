@@ -1,6 +1,6 @@
 {
   "name": "@needless-ui/angular",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Accessible Angular components, all MIT: a scheduler with resource timelines and repeating events, a data grid with grouping, tree data and Excel export, and more.",
   "license": "MIT",
   "author": "Angelo Lamonaca",
