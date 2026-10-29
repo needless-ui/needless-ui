@@ -38,16 +38,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Komponen Angular aksesibel, direkayasa ngluwihi perlu',
+    title: 'Needless UI · Komponen Angular gratis karo scheduler lan grid data',
     description:
-      'Needless UI yaiku pustaka komponen Angular open source: elemen native, siji stylesheet tanpa framework, design token W3C lan WCAG 2.2 AA wis kalebu.',
+      'Pustaka komponen Angular gratis lan MIT: komponen aksesibel ing elemen native, karo pangatur jadhwal sumber daya lan grid data kanthi klompok lan ekspor Excel.',
     eyebrow: 'Open source · Angular 22 · MIT',
     heading: 'Komponen UI, direkayasa apik ngluwihi perlu.',
-    lead: 'Needless UI menehi gaya marang <strong>elemen native</strong> nganggo siji stylesheet tanpa framework lan design token W3C. Directive Angular-e nambahake prilaku saka Angular Aria, dadi saben komponen wis aksesibel wiwit render kapisan.',
+    lead: 'Komponen Angular sing aksesibel ing <strong>elemen native</strong>, diwenehi gaya nganggo siji stylesheet tanpa framework. Kabeh MIT, kalebu apa sing didol kapisah dening pustaka liyane: <a href="/components/scheduler">pangatur jadhwal</a> karo linimasa sumber daya, lan <a href="/components/grid">grid data</a> sing bisa nglompokake lan ekspor menyang Excel.',
     getStarted: 'Miwiti',
     browse: 'Pirsani komponen',
     featuresTitle: 'Kenapa digawe',
     features: [
+      {
+        title: 'Ora ana versi premium',
+        text: 'Linimasa sumber daya lan acara sing mbaleni ing <a href="/components/scheduler">pangatur jadhwal</a>, uga klompok, data wit lan ekspor Excel ing <a href="/components/grid">grid data</a>, kabeh MIT kaya liyane: ora ana kunci lisensi, ora ana watermark. Arep pindhah saka pustaka sing kudu dibayar? Pirsani pandhuan kanggo <a href="/guides/from-fullcalendar">FullCalendar</a> lan <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Elemen native dhisik',
         text: '<code>&lt;button nuiButton&gt;</code> iku tombol sing asli. Formulir, keyboard lan screen reader bisa mlaku amarga ora ana apa-apa sing mbungkus.',
@@ -73,9 +77,9 @@ export const messages: Messages = {
         text: 'Signal input, zoneless, server rendering lan siji entry point saben komponen, dadi aplikasi mung nggawa apa sing di-import.',
       },
     ],
-    codeTitle: 'Loro import, rampung',
+    codeTitle: 'Siji printah, banjur siji import',
     codeText:
-      'Tambahna paket, impor stylesheet sepisan, banjur agem komponen ing komponen standalone apa wae.',
+      'Lakokna ng add kanggo masang paket lan ngimpor stylesheet-e, banjur agem komponen ing komponen standalone apa wae.',
   },
 
   components: {
@@ -1175,10 +1179,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Grid data',
-        title: 'Komponen grid data kanggo Angular',
-        summary: 'Urutna, saring, pilih, sunting lan gulung baris, sepira wae akehe.',
+        title: 'Grid data Angular gratis karo klompok lan ekspor Excel',
+        summary: 'Urutna, saring, klompokna, sunting lan ekspor baris, sepira wae akehe.',
         description:
-          'Grid data Angular sing aksesibel ing tabel native: ngurutake pirang-pirang kolom, saringan, kaca utawa virtual scrolling, milih, nyunting lan mindhah kolom.',
+          'Grid data Angular gratis, lisensi MIT, ing tabel native: nglompokake karo total, data wit, ekspor Excel, saringan, nyunting lan virtual scrolling.',
         apiDescription:
           'Referensi API grid data Needless UI: input lan model nui-grid, definisi NuiGridColumn, lan template kanggo sel kustom.',
         a11yDescription:
@@ -2655,6 +2659,383 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Kanggo ruangan sing jejer ing sadina, pesenan sing mbaleni lan saben pilihan liyane, pirsani <a href="/components/scheduler">kaca pangatur jadhwal</a> lan <a href="/components/scheduler/api">API-ne</a>.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Saka FullCalendar menyang scheduler Angular gratis',
+        description:
+          'Saka FullCalendar Premium menyang pangatur jadhwal gratis Needless UI ing Angular: padhane opsi, linimasa pesenan ing loro-lorone, kekurangan lan jebakan data.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Linimasa sumber daya lan kolom sumber daya ing FullCalendar iku Premium: aplikasi komersial butuh kunci lisensi sing kudu dibayar. <a href="https://fullcalendar.io/license">Kaca lisensine</a> nyebutake pilihan sing gratis, kanggo aplikasi sing kabeh AGPL lan kanggo organisasi nirlaba sing kadhaftar. Pangatur jadhwal Needless UI nduweni kekarone kanthi lisensi MIT, uga acara sing mbaleni lan berkas iCalendar. Pandhuan iki mindhah aplikasi Angular saka siji menyang sijine: apa sing bisa langsung digawa, apa sing ora, lan data sing kudu diowahi.',
+          },
+          {
+            kind: 'p',
+            html: 'Pandhuan iki nganggo jeneng saka FullCalendar 7, kanthi jeneng versi 6 ing kurung kothak yen beda. Konektor Angular FullCalendar ndhukung Angular 16 nganti 22; Needless UI butuh Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Apa sing panjenengan entuk' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar lan pangatur jadhwal Needless UI',
+            head: ['Fitur', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Linimasa sumber daya: siji baris saben ruangan utawa wong',
+                'Premium',
+                'Ya: sadina, saminggu utawa sasasi',
+              ],
+              ['Sumber daya minangka kolom ing tampilan dina lan minggu', 'Premium', 'Ya'],
+              ['Tampilan sasi, minggu lan dina', 'Gratis', 'Ya'],
+              [
+                'Seret kanggo mindhah lan ngowahi ukuran',
+                'Gratis; menyang sumber daya liya kudu Premium',
+                'Ya, uga menyang sumber daya liya. Pungkasane bisa diowahi ukurane, wiwitane ora.',
+              ],
+              [
+                'Milih wektu kanggo nggawe acara',
+                'Gratis',
+                'Ya, nganggo pointer, pencetan dawa utawa keyboard',
+              ],
+              [
+                'Aturan kayata ora oleh tumpang-tindih',
+                'Gratis: opsi overlap lan constraint',
+                'Ya: siji fungsi <code>allow</code>, sing ditakoni sadurunge saben owah-owahan',
+              ],
+              [
+                'Mindhah lan ngowahi ukuran acara saka keyboard',
+                'Ora ana ing dokumentasi aksesibilitase, sing mung mbahas label ARIA lan fokus Tab',
+                'Ya, diumumake menyang screen reader',
+              ],
+              [
+                'Acara sing mbaleni',
+                'Gratis, nganggo plugin lan pustaka rrule',
+                'Wis kalebu: aturan RFC 5545, tanpa EXRULE, RDATE utawa aturan saben jam',
+              ],
+              ['iCalendar (.ics)', 'Gratis: maca feed', 'Maca lan nulis berkas .ics'],
+              [
+                'Tampilan dhaptar lan taun',
+                'Gratis',
+                'Agenda dina-dina sabanjure; ora ana tampilan taun',
+              ],
+              [
+                'Zona wektu',
+                'Gratis: lokal, UTC utawa kanthi jeneng',
+                'Ora: nampilake wektu persis kaya sing ditampa',
+              ],
+              [
+                'Sumber daya sing diklompokake, susun utawa nganggo pirang-pirang kolom',
+                'Premium',
+                'Ora: siji kolom, digambar nganggo template panjenengan',
+              ],
+              ['Seret lan seleh saka njaba, acara latar mburi', 'Gratis', 'Ora'],
+              ['Nyithak, rendering virtual', 'Premium', 'Ora'],
+              [
+                'Framework',
+                'Angular 16 nganti 22, React, Vue, JavaScript biasa lan liya-liyane',
+                'Angular 22; React sabanjure',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Apa cocog karo apa' },
+          {
+            kind: 'table',
+            caption: 'Opsi FullCalendar lan padhane ing Needless UI',
+            head: ['FullCalendar', 'Pangatur jadhwal Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, kanthi input kanggo saben opsi; tanpa plugin lan tanpa kunci',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, lan <code>timelineSpan</code> kanggo saminggu utawa sasasi',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> rong arah',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: ora ana sing pindhah nganti panjenengan nganyari <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: siji fungsi kanggo mindhah, ngowahi ukuran lan milih',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, ing menit',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, ing jam',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, kanthi dina saka 1 (Senen) nganti 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Template <code>nuiSchedulerEvent</code> lan <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (tag BCP 47 apa wae), <code>firstDay</code> saka 1 nganti 7, lan <code>labels</code> kanggo tembung-tembunge',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Linimasa pesenan ruangan nganggo loro-lorone' },
+          {
+            kind: 'p',
+            html: 'Ruangan iku sumber daya lan pesenan iku acara. Wong nyeret ing sadawane ruangan kanggo mesen lan nyeret pesenan kanggo mindhah; siji ruangan mung bisa diisi siji pesenan ing wektu sing padha. Nganggo FullCalendar 7 lan linimasa sumber daya Premium-e:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Nganggo pangatur jadhwal Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Ana rong bab sing beda. FullCalendar mindhah pesenan dhewe, banjur aplikasi nyalin owah-owahane; pangatur jadhwal Needless UI mung nglaporake, lan owah-owahane lagi ajeg sawise <code>events</code> dianyari, dadi data panjenengan tetep dadi siji-sijine sumber. Lan <code>allow</code> iku kode biasa, sing ditakoni sadurunge saben owah-owahan saka pointer utawa keyboard, dadi aturane bisa panjenengan tes dhewe. <a href="/guides/booking-calendar">Pandhuan kalender pesenan</a> nggawe aplikasi iki selangkah mbaka selangkah.',
+          },
+          { kind: 'h2', id: 'data', text: 'Ngowahi data' },
+          {
+            kind: 'table',
+            caption: 'Data FullCalendar lan apa sing dikarepake pangatur jadhwal',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '<code>end</code> acara sadina muput yaiku dina sawise acara',
+                '<code>end</code> acara sadina muput yaiku dina pungkasane: kurangi sadina',
+              ],
+              [
+                'Wektu bisa dipungkasi <code>Z</code> utawa offset kayata <code>+02:00</code>',
+                'Wektu biasa tanpa offset, kayata <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Dina saka 0 (Minggu) nganti 6, ing <code>businessHours</code> lan <code>firstDay</code>',
+                'Dina saka 1 (Senen) nganti 7 (Minggu)',
+              ],
+              ["Durasi minangka string, kayata <code>'00:30'</code>", 'Angka: menit utawa jam'],
+              [
+                'Sumber daya diurutake miturut id, banjur judhul',
+                'Sumber daya miturut urutan ing array',
+              ],
+              [
+                '<code>rrule</code> minangka obyek, lan <code>exrule</code>',
+                'String RFC 5545, kayata <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, lan <code>exdate</code>',
+              ],
+              [
+                'Zona wektu kayata <code>America/New_York</code>',
+                'Owahi wektune dhisik. <code>nuiSchedulerFromIcs(text, { timeZone })</code> ngowahi berkas .ics nalika maca.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Yen butuh sing durung ana' },
+          {
+            kind: 'p',
+            html: 'Yen aplikasi panjenengan gumantung marang zona wektu, sumber daya sing diklompokake, seret lan seleh saka njaba utawa nyithak, pangatur jadhwal iki durung bisa ngganti FullCalendar. <a href="https://github.com/needless-ui/needless-ui/issues">Bukak issue</a> kanggo apa sing panjenengan butuhake. Kanggo liyane, <a href="/components/scheduler">kaca pangatur jadhwal</a> nduweni saben input, output lan conto.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Saka AG Grid Enterprise menyang grid data Angular gratis',
+        description:
+          'Pindhahna aplikasi Angular saka AG Grid Enterprise menyang grid gratis Needless UI: klompok, total, data wit, ekspor Excel, padhane opsi lan kekurangane.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Nglompokake baris, agregasi, data wit, master/detail lan ekspor Excel ing AG Grid iku fitur Enterprise: kanggo produksi kudu nganggo lisensi komersial, lan tanpa kunci, grid nampilake watermark lan nulis error ing console. Grid data Needless UI nduweni klompok karo total, data wit, rincian baris lan ekspor .xlsx kanthi lisensi MIT. Pandhuan iki mindhah aplikasi Angular saka siji menyang sijine: apa sing bisa langsung digawa, apa sing ora, lan kepiye kode kudu diowahi.',
+          },
+          {
+            kind: 'p',
+            html: 'Pandhuan iki nganggo jeneng saka AG Grid 36. AG Grid 36 ndhukung Angular 20 nganti 22; Needless UI butuh Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Apa sing panjenengan entuk' },
+          {
+            kind: 'table',
+            caption: 'AG Grid lan grid data Needless UI',
+            head: ['Fitur', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Nglompokake baris, karo agregat lan baris total',
+                'Enterprise',
+                'Ya: pirang-pirang tingkat, karo jumlah, rata-rata, minimum, maksimum, cacah utawa fungsi',
+              ],
+              ['Data wit', 'Enterprise', 'Ya, saka baris sing susun'],
+              [
+                'Rincian ing sangisore baris (master/detail)',
+                'Enterprise',
+                'Ya: template apa wae ing sangisore baris, kalebu grid liyane',
+              ],
+              [
+                'Ekspor Excel',
+                'Enterprise: gaya, pirang-pirang sheet, gambar lan rumus',
+                'Ya: siji sheet isi sel sing duwe jinis, kanthi format angka lan header beku sing ana saringane',
+              ],
+              [
+                'Menu kolom karo pamilih kolom',
+                'Enterprise',
+                'Ya: ngurutake, nyaring, nyemat, mindhah, nyetel ambane lan ndhelikake saben kolom, uga nampilake utawa ndhelikake kabeh kolom',
+              ],
+              [
+                'Ngurutake miturut pirang-pirang kolom, panelusuran cepet, kaca, milih baris',
+                'Community',
+                'Ya',
+              ],
+              [
+                'Saringan kolom',
+                'Community: nganti rong syarat, digabung nganggo AND utawa OR',
+                'Siji syarat saben kolom',
+              ],
+              [
+                'Saringan set, multi lan lanjutan',
+                'Enterprise',
+                'Saperangan: checklist saka pilihan kolom, dudu saka nilai sing ana ing data',
+              ],
+              [
+                'Ngowahi ambane, mindhah, nyemat lan ndhelikake kolom, uga nyimpen kahanane',
+                'Community',
+                'Ya',
+              ],
+              ['Virtual scrolling', 'Community: baris lan kolom', 'Baris'],
+              [
+                'Nyunting sel',
+                'Community; sawetara editor kudu Enterprise',
+                'Ya, miturut jinis kolom, karo validasi; tanpa editor kustom lan tanpa undo',
+              ],
+              ['Pivot, grafik terintegrasi', 'Enterprise', 'Ora'],
+              [
+                'Clipboard, milih sarangkaian sel, menu konteks, status bar, side bar',
+                'Enterprise',
+                'Ora',
+              ],
+              [
+                'Data saka server',
+                'Row model sisih server: Enterprise; njupuk data saben blok: Community',
+                'Kaca saka server panjenengan, kanthi urutan, saringan lan panelusuran sing ditindakake server; ora bisa nglompokake ing server',
+              ],
+              ['Klompok kolom, nyeret baris, baris sing disemat', 'Community', 'Ora'],
+              [
+                'Framework',
+                'React, Angular 20 nganti 22, Vue lan JavaScript biasa',
+                'Angular 22; React sabanjure',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Apa cocog karo apa' },
+          {
+            kind: 'table',
+            caption: 'Opsi AG Grid lan padhane ing Needless UI',
+            head: ['AG Grid', 'Grid Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, ndhaftarake modul, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; ora ana sing kudu didhaftarake lan tanpa kunci',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (pilihan Intl utawa fungsi), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Template <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> ing kolom, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, dhaptar id kolom. Klompok wiwitane kabukak; <code>[(collapsed)]</code> nutup klompok-klompok kasebut.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> karo <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Template <code>nuiGridDetail</code>, lan <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, lan <code>[(selected)]</code>: kunci baris-baris sing dipilih',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> mbalekake Blob, lan <code>exportCsv()</code> mbalekake teks',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; arah saka tengen ngiwa ngetutake <code>dir</code> ing kaca',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Pesenan diklompokake miturut negara, nganggo loro-lorone',
+          },
+          {
+            kind: 'p',
+            html: 'Sing arep digawe: pesenan sing diklompokake miturut negara, karo total kanggo saben negara lan siji total kanggo kabeh, ekspor Excel, panelusuran cepet lan milih pirang-pirang baris. Nganggo AG Grid 36, sing kudu Enterprise kanggo klompok, total lan ekspor Excel:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Nganggo grid Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Ana sawetara bab sing beda. Sing dipilih disimpen minangka kunci, yaiku id baris, dadi ora ilang nalika ana data anyar; yen panjenengan butuh barise, golekana maneh saka kunci kasebut. Klompok wiwitane kabukak. Label klompok ana ing kolom kapisan sing katon, lan panelusuran mung maca kolom sing katon, dadi jarna kolom sing diklompokake tetep katon yen panelusuran kudu bisa nemokake isine. Lan <code>exportXlsx()</code> mbalekake berkas tinimbang ngundhuh: siji sheet isi baris sing wis disaring lan diurutake, tanpa baris klompok.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Yen butuh sing durung ana' },
+          {
+            kind: 'p',
+            html: 'Yen aplikasi panjenengan gumantung marang pivot, grafik, clipboard lan milih sarangkaian sel, nglompokake ing server utawa klompok kolom, grid Needless UI durung bisa ngganti AG Grid. <a href="https://github.com/needless-ui/needless-ui/issues">Bukak issue</a> kanggo apa sing panjenengan butuhake. Kanggo liyane, <a href="/components/grid">kaca grid data</a> nduweni saben input, output lan conto.',
           },
         ],
       },

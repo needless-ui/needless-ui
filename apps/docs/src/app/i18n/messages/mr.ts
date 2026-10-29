@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · ॲक्सेसिबल Angular कंपोनंट्स, विनाकारण बारकाईने घडवलेले',
+    title: 'Needless UI · शेड्यूलर आणि डेटा ग्रिडसह मोफत Angular कंपोनंट्स',
     description:
-      'Needless UI ही ओपन-सोर्स Angular कंपोनंट लायब्ररी आहे: नेटिव्ह एलिमेंट्स, फ्रेमवर्कमुक्त एक स्टाइलशीट, W3C डिझाइन टोकन आणि अंगभूत WCAG 2.2 AA.',
+      'मोफत, MIT लायसन्स असलेली Angular कंपोनंट लायब्ररी: नेटिव्ह एलिमेंट्सवर आधारित ॲक्सेसिबल कंपोनंट्स, रिसोर्स शेड्यूलर, आणि गटवारी व Excel एक्सपोर्ट असलेले डेटा ग्रिड.',
     eyebrow: 'ओपन सोर्स · Angular 22 · MIT',
     heading: 'UI कंपोनंट्स, गरजेपेक्षा कितीतरी जास्त बारकाईने इंजिनिअर केलेले.',
-    lead: 'Needless UI फ्रेमवर्कमुक्त एका स्टाइलशीटने आणि W3C डिझाइन टोकनने <strong>नेटिव्ह एलिमेंट्स</strong>ना स्टाइल देते. त्याचे Angular डायरेक्टिव्ह Angular Aria मधून वर्तन जोडतात, त्यामुळे प्रत्येक कंपोनंट पहिल्या रेंडरपासूनच ॲक्सेसिबल असतो.',
+    lead: 'ॲक्सेसिबल Angular कंपोनंट्स, <strong>नेटिव्ह एलिमेंट्स</strong>वर आधारित आणि फ्रेमवर्कमुक्त एकाच स्टाइलशीटने स्टाइल केलेले. सर्व काही MIT लायसन्सअंतर्गत, इतर लायब्ररी जे वेगळे विकतात तेसुद्धा: रिसोर्स टाइमलाइन असलेले <a href="/components/scheduler">शेड्यूलर</a>, आणि गटवारी व Excel एक्सपोर्ट असलेले <a href="/components/grid">डेटा ग्रिड</a>.',
     getStarted: 'सुरुवात करा',
     browse: 'कंपोनंट्स पाहा',
     featuresTitle: 'हे का बनवले',
     features: [
+      {
+        title: 'प्रीमियम प्लॅन नाही',
+        text: '<a href="/components/scheduler">शेड्यूलर</a>मधील रिसोर्स टाइमलाइन आणि वारंवार होणारे इव्हेंट, तसेच <a href="/components/grid">डेटा ग्रिड</a>मधील गटवारी, ट्री डेटा आणि Excel एक्सपोर्ट, हे सर्व बाकी सगळ्याप्रमाणेच MIT लायसन्सअंतर्गत आहे: लायसन्स की नाही, वॉटरमार्क नाही. सशुल्क लायब्ररीवरून येत आहात? <a href="/guides/from-fullcalendar">FullCalendar</a> आणि <a href="/guides/from-ag-grid">AG Grid</a> वरून स्थलांतर करण्यासाठीचे मार्गदर्शक वाचा.',
+      },
       {
         title: 'आधी नेटिव्ह एलिमेंट्स',
         text: '<code>&lt;button nuiButton&gt;</code> हे खरेखुरे बटण आहे. त्याभोवती काहीही गुंडाळलेले नसल्यामुळे फॉर्म, कीबोर्ड आणि स्क्रीन रीडर व्यवस्थित काम करतात.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'सिग्नल इनपुट्स, झोनलेस, सर्व्हर रेंडरिंग आणि प्रत्येक कंपोनंटसाठी स्वतंत्र एंट्री पॉइंट, त्यामुळे ॲपमध्ये फक्त इम्पोर्ट केलेलाच कोड जातो.',
       },
     ],
-    codeTitle: 'दोन इम्पोर्ट, आणि काम झाले',
+    codeTitle: 'एक कमांड, मग एक इम्पोर्ट',
     codeText:
-      'पॅकेज जोडा, स्टाइलशीट एकदा इम्पोर्ट करा आणि मग कोणत्याही स्टँडअलोन कंपोनंटमध्ये कंपोनंट्स वापरा.',
+      'पॅकेज इन्स्टॉल करण्यासाठी आणि त्याची स्टाइलशीट इम्पोर्ट करण्यासाठी ng add चालवा, मग कोणत्याही स्टँडअलोन कंपोनंटमध्ये कंपोनंट्स वापरा.',
   },
 
   components: {
@@ -1155,10 +1159,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Data grid',
-        title: 'Angular साठी डेटा ग्रिड कंपोनंट',
-        summary: 'कितीही ओळी सॉर्ट, फिल्टर, एडिट आणि स्क्रोल करा, आणि निवडा.',
+        title: 'गटवारी आणि Excel एक्सपोर्टसह मोफत Angular डेटा ग्रिड',
+        summary: 'कितीही ओळी सॉर्ट, फिल्टर, गटबद्ध, एडिट आणि एक्सपोर्ट करा.',
         description:
-          'नेटिव्ह टेबलवर आधारित ॲक्सेसिबल Angular डेटा ग्रिड: अनेक कॉलमनुसार सॉर्टिंग, फिल्टर्स, पेजेस किंवा व्हर्च्युअल स्क्रोलिंग, निवड, एडिटिंग आणि हलवता येणारे कॉलम.',
+          'मोफत, MIT लायसन्स असलेले, नेटिव्ह टेबलवर आधारित Angular डेटा ग्रिड: एकूण बेरजांसह गटवारी, ट्री डेटा, Excel एक्सपोर्ट, फिल्टर्स, एडिटिंग आणि व्हर्च्युअल स्क्रोलिंग.',
         apiDescription:
           'Needless UI डेटा ग्रिडचा API संदर्भ: nui-grid चे इनपुट आणि मॉडेल, NuiGridColumn ची व्याख्या, आणि कस्टम सेलसाठी टेम्पलेट.',
         a11yDescription:
@@ -2596,6 +2600,368 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'दिवस व्ह्यूमधील शेजारी-शेजारी रूम्स, वारंवार होणारी बुकिंग्ज आणि इतर सर्व पर्यायांसाठी <a href="/components/scheduler">शेड्यूलरचे पेज</a> आणि <a href="/components/scheduler/api">API</a> पाहा.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'FullCalendar वरून मोफत Angular शेड्यूलरवर स्थलांतर करा',
+        description:
+          'Angular ॲप FullCalendar Premium वरून मोफत Needless UI शेड्यूलरवर न्या: काय कशाशी जुळते, दोन्हींत बुकिंग टाइमलाइन, उणिवा आणि डेटामधील सापळे.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar ची रिसोर्स टाइमलाइन आणि रिसोर्स कॉलम Premium मध्ये येतात: व्यावसायिक ॲपसाठी सशुल्क लायसन्स की लागते. त्याच्या <a href="https://fullcalendar.io/license">लायसन्स पेज</a>वर मोफत पर्याय दिले आहेत: पूर्णपणे AGPL असलेल्या ॲप्ससाठी आणि नोंदणीकृत ना-नफा संस्थांसाठी. Needless UI शेड्यूलरमध्ये हे दोन्ही MIT लायसन्सअंतर्गत मिळतात, वारंवार होणारे इव्हेंट आणि iCalendar फाइल्ससह. हे मार्गदर्शक Angular ॲप एकाकडून दुसऱ्याकडे नेते: काय जसेच्या तसे चालते, काय चालत नाही, आणि कोणता डेटा रूपांतरित करावा लागतो.',
+          },
+          {
+            kind: 'p',
+            html: 'यात FullCalendar 7 मधील नावे वापरली आहेत, आणि आवृत्ती 6 मधील नावे वेगळी असतील तिथे ती चौकोनी कंसात दिली आहेत. FullCalendar चा Angular कनेक्टर Angular 16 ते 22 ला सपोर्ट करतो; Needless UI ला Angular 22 लागते.',
+          },
+          { kind: 'h2', id: 'compare', text: 'आपल्याला काय मिळते' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar आणि Needless UI शेड्यूलर',
+            head: ['फीचर', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'रिसोर्स टाइमलाइन: प्रत्येक रूम किंवा व्यक्तीसाठी एक ओळ',
+                'Premium',
+                'होय: एक दिवस, एक आठवडा किंवा एक महिना',
+              ],
+              ['दिवस आणि आठवडा व्ह्यूमध्ये कॉलमच्या रूपात रिसोर्स', 'Premium', 'होय'],
+              ['महिना, आठवडा आणि दिवस व्ह्यू', 'मोफत', 'होय'],
+              [
+                'ड्रॅग करून हलवणे आणि आकार बदलणे',
+                'मोफत; दुसऱ्या रिसोर्सवर हलवण्यासाठी Premium',
+                'होय, इतर रिसोर्सवरही. आकार शेवटाकडून बदलतो, सुरुवातीकडून नाही.',
+              ],
+              [
+                'इव्हेंट तयार करण्यासाठी वेळ निवडणे',
+                'मोफत',
+                'होय: पॉइंटरने, दाबून धरून किंवा कीबोर्डने',
+              ],
+              [
+                'ओव्हरलॅप टाळण्यासारखे नियम',
+                'मोफत: ओव्हरलॅप आणि कन्स्ट्रेंटचे पर्याय',
+                'होय: एकच <code>allow</code> फंक्शन, ज्याला प्रत्येक बदलापूर्वी विचारले जाते',
+              ],
+              [
+                'कीबोर्डने इव्हेंट हलवणे आणि त्यांचा आकार बदलणे',
+                'त्याच्या ॲक्सेसिबिलिटी दस्तऐवजात याचा उल्लेख नाही; त्यात ARIA लेबल्स आणि Tab फोकसची माहिती आहे',
+                'होय, आणि स्क्रीन रीडरना ते जाहीरही केले जाते',
+              ],
+              [
+                'वारंवार होणारे इव्हेंट',
+                'मोफत, rrule प्लगइन आणि लायब्ररीसह',
+                'अंगभूत: RFC 5545 चे नियम, पण EXRULE, RDATE आणि दर तासाला पुनरावृत्ती होणारे नियम नाहीत',
+              ],
+              ['iCalendar (.ics)', 'मोफत: फीड वाचते', '.ics फाइल्स वाचते आणि लिहिते'],
+              ['लिस्ट आणि वर्ष व्ह्यू', 'मोफत', 'पुढच्या दिवसांचा अजेंडा; वर्ष व्ह्यू नाहीत'],
+              [
+                'टाइम झोन',
+                'मोफत: लोकल, UTC किंवा नाव असलेले',
+                'नाही: मिळालेल्या वेळा जशाच्या तशा दाखवते',
+              ],
+              [
+                'गटबद्ध, नेस्टेड किंवा अनेक कॉलमचे रिसोर्स',
+                'Premium',
+                'नाही: एकच कॉलम, जो आपला टेम्पलेट काढतो',
+              ],
+              ['बाहेरून ड्रॅग आणि ड्रॉप, बॅकग्राउंड इव्हेंट', 'मोफत', 'नाही'],
+              ['प्रिंटिंग, व्हर्च्युअल रेंडरिंग', 'Premium', 'नाही'],
+              [
+                'फ्रेमवर्क',
+                'Angular 16 ते 22, React, Vue, साधे JavaScript आणि इतर',
+                'Angular 22; पुढे React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'काय कशाशी जुळते' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar चे पर्याय आणि Needless UI मधील त्यांचे समतुल्य',
+            head: ['FullCalendar', 'Needless UI शेड्यूलर'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, प्रत्येक पर्यायासाठी एक इनपुट; प्लगइन नाहीत आणि की नाही',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, आणि आठवडा किंवा महिन्यासाठी <code>timelineSpan</code>',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> दुतर्फी आहे',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: आपण <code>events</code> अपडेट करेपर्यंत काहीही हलत नाही',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: हलवणे, आकार बदलणे आणि निवड यांसाठी एकच फंक्शन',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, मिनिटांमध्ये',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, तासांमध्ये',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, आठवड्याचे दिवस 1 (सोमवार) ते 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code> आणि <code>nuiSchedulerResource</code> टेम्पलेट',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (कोणताही BCP 47 टॅग), 1 ते 7 मधील <code>firstDay</code>, आणि शेड्यूलरच्या मजकुरासाठी <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'रूम बुकिंग टाइमलाइन, दोन्ही प्रकारे' },
+          {
+            kind: 'p',
+            html: 'रूम्स म्हणजे रिसोर्स आणि बुकिंग्ज म्हणजे इव्हेंट. रूम बुक करण्यासाठी लोक तिच्या ओळीवर ड्रॅग करतात, बुकिंग हलवण्यासाठी ते बुकिंग ड्रॅग करतात, आणि एका रूममध्ये एका वेळी एकच बुकिंग असू शकते. FullCalendar 7 आणि त्याच्या Premium रिसोर्स टाइमलाइनसह:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI शेड्यूलरसह:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'दोन गोष्टी वेगळ्या प्रकारे चालतात. FullCalendar बुकिंग स्वतःच हलवते, आणि ॲप तो बदल आपल्या डेटामध्ये कॉपी करते; Needless UI शेड्यूलर फक्त बदल कळवते, आणि <code>events</code> अपडेट केल्यावरच तो टिकतो, त्यामुळे आपला डेटा हाच एकमेव स्रोत राहतो. शिवाय <code>allow</code> हा साधा कोड आहे, ज्याला पॉइंटर किंवा कीबोर्डने होणाऱ्या प्रत्येक बदलापूर्वी विचारले जाते, त्यामुळे नियम आपल्या हातात असतो आणि आपण तो टेस्ट करू शकता. <a href="/guides/booking-calendar">बुकिंग कॅलेंडरच्या मार्गदर्शकात</a> हे ॲप टप्प्याटप्प्याने तयार केले आहे.',
+          },
+          { kind: 'h2', id: 'data', text: 'डेटा रूपांतरित करा' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar चा डेटा आणि शेड्यूलरला अपेक्षित स्वरूप',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'दिवसभराच्या इव्हेंटचा <code>end</code> म्हणजे इव्हेंटनंतरचा दिवस',
+                'दिवसभराच्या इव्हेंटचा <code>end</code> म्हणजे त्याचा शेवटचा दिवस: एक दिवस वजा करा',
+              ],
+              [
+                'वेळेच्या शेवटी <code>Z</code> किंवा <code>+02:00</code> सारखा ऑफसेट असू शकतो',
+                'ऑफसेटशिवाय घड्याळातील वेळा, जसे <code>2026-11-02T09:30</code>',
+              ],
+              [
+                '<code>businessHours</code> आणि <code>firstDay</code> मध्ये आठवड्याचे दिवस 0 (रविवार) ते 6',
+                'आठवड्याचे दिवस 1 (सोमवार) ते 7 (रविवार)',
+              ],
+              ["कालावधी स्ट्रिंगच्या रूपात, जसे <code>'00:30'</code>", 'संख्या: मिनिटे किंवा तास'],
+              ['रिसोर्स id नुसार, मग शीर्षकानुसार सॉर्ट होतात', 'रिसोर्स ॲरेमधील क्रमानेच येतात'],
+              [
+                'ऑब्जेक्टच्या रूपात <code>rrule</code>, आणि <code>exrule</code>',
+                'RFC 5545 स्ट्रिंग, जसे <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, आणि <code>exdate</code>',
+              ],
+              [
+                '<code>America/New_York</code> सारखा टाइम झोन',
+                'आधी वेळा रूपांतरित करा. <code>nuiSchedulerFromIcs(text, { timeZone })</code> .ics फाइल्स वाचतानाच त्यांचे रूपांतर करते.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'जे नाही ते हवे असल्यास' },
+          {
+            kind: 'p',
+            html: 'आपले ॲप टाइम झोन, गटबद्ध रिसोर्स, बाहेरून ड्रॅग आणि ड्रॉप किंवा प्रिंटिंगवर अवलंबून असल्यास, शेड्यूलर अजून FullCalendar ची जागा घेऊ शकत नाही. आपल्याला जे हवे आहे त्यासाठी <a href="https://github.com/needless-ui/needless-ui/issues">इश्यू उघडा</a>. इतर सर्व गोष्टींसाठी <a href="/components/scheduler">शेड्यूलरच्या पेज</a>वर प्रत्येक इनपुट, आउटपुट आणि उदाहरण आहे.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'AG Grid Enterprise वरून मोफत Angular डेटा ग्रिडवर स्थलांतर करा',
+        description:
+          'Angular ॲप AG Grid Enterprise वरून मोफत Needless UI ग्रिडवर न्या: गटवारी, एकूण बेरजा, ट्री डेटा आणि Excel एक्सपोर्ट, काय कशाशी जुळते, आणि उणिवा.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid मधील ओळींची गटवारी, ॲग्रिगेशन, ट्री डेटा, master/detail आणि Excel एक्सपोर्ट Enterprise मध्ये येतात: प्रोडक्शनमध्ये वापरण्यासाठी व्यावसायिक लायसन्स लागते, आणि की नसल्यास ग्रिड वॉटरमार्क दाखवते आणि कन्सोलमध्ये त्रुटी नोंदवते. Needless UI डेटा ग्रिडमध्ये एकूण बेरजांसह गटवारी, ट्री डेटा, ओळींचा तपशील आणि .xlsx एक्सपोर्ट MIT लायसन्सअंतर्गत मिळतात. हे मार्गदर्शक Angular ॲप एकाकडून दुसऱ्याकडे नेते: काय जसेच्या तसे चालते, काय चालत नाही, आणि कोड कसा बदलतो.',
+          },
+          {
+            kind: 'p',
+            html: 'यात AG Grid 36 मधील नावे वापरली आहेत. AG Grid 36 हे Angular 20 ते 22 ला सपोर्ट करते; Needless UI ला Angular 22 लागते.',
+          },
+          { kind: 'h2', id: 'compare', text: 'आपल्याला काय मिळते' },
+          {
+            kind: 'table',
+            caption: 'AG Grid आणि Needless UI डेटा ग्रिड',
+            head: ['फीचर', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'ॲग्रिगेट्स आणि एकूण ओळीसह ओळींची गटवारी',
+                'Enterprise',
+                'होय: अनेक स्तरांवर, बेरीज, सरासरी, किमान, कमाल, संख्या किंवा एखाद्या फंक्शनसह',
+              ],
+              ['ट्री डेटा', 'Enterprise', 'होय, नेस्टेड ओळींमधून'],
+              [
+                'ओळीखाली तपशील (master/detail)',
+                'Enterprise',
+                'होय: ओळीखाली कोणताही टेम्पलेट, अगदी दुसरे ग्रिडसुद्धा',
+              ],
+              [
+                'Excel एक्सपोर्ट',
+                'Enterprise: स्टाइल्स, अनेक शीट्स, चित्रे आणि सूत्रे',
+                'होय: प्रकार जपणाऱ्या सेलची एक शीट, संख्यांच्या फॉरमॅटसह आणि फिल्टर्स असलेल्या फ्रीझ केलेल्या हेडरसह',
+              ],
+              [
+                'कॉलम निवडण्याच्या सोयीसह कॉलम मेनू',
+                'Enterprise',
+                'होय: प्रत्येक कॉलम सॉर्ट, फिल्टर, पिन आणि फिट करणे, हलवणे व लपवणे, आणि सर्व कॉलम एकदम दाखवणे किंवा लपवणे',
+              ],
+              ['अनेक कॉलमनुसार सॉर्टिंग, जलद शोध, पेजिंग, ओळींची निवड', 'Community', 'होय'],
+              [
+                'कॉलम फिल्टर्स',
+                'Community: AND किंवा OR ने जोडलेल्या जास्तीत जास्त दोन अटी',
+                'प्रत्येक कॉलमसाठी एक अट',
+              ],
+              [
+                'सेट, मल्टी आणि ॲडव्हान्स्ड फिल्टर्स',
+                'Enterprise',
+                'अंशतः: कॉलमच्या पर्यायांची चेकबॉक्स यादी, डेटामधील व्हॅल्यूंची नाही',
+              ],
+              [
+                'कॉलमची रुंदी बदलणे, कॉलम हलवणे, पिन करणे व लपवणे, आणि त्यांची स्थिती सेव्ह करणे',
+                'Community',
+                'होय',
+              ],
+              ['व्हर्च्युअल स्क्रोलिंग', 'Community: ओळी आणि कॉलम', 'ओळी'],
+              [
+                'सेल एडिटिंग',
+                'Community; काही एडिटर Enterprise मध्ये',
+                'होय, कॉलमच्या प्रकारानुसार, व्हॅलिडेशनसह; कस्टम एडिटर नाहीत आणि अनडू नाही',
+              ],
+              ['पिव्होटिंग, अंगभूत चार्ट्स', 'Enterprise', 'नाही'],
+              [
+                'क्लिपबोर्ड, सेल रेंज निवड, कॉन्टेक्स्ट मेनू, स्टेटस बार, साइड बार',
+                'Enterprise',
+                'नाही',
+              ],
+              [
+                'सर्व्हरवरील डेटा',
+                'सर्व्हर-साइड रो मॉडेल: Enterprise; ब्लॉकमध्ये लोडिंग: Community',
+                'आपल्या सर्व्हरकडून येणारी पेजेस, त्याच्याच सॉर्ट, फिल्टर्स आणि शोधासह; सर्व्हरवर गटवारी नाही',
+              ],
+              ['कॉलम गट, ओळी ड्रॅग करणे, पिन केलेल्या ओळी', 'Community', 'नाही'],
+              [
+                'फ्रेमवर्क',
+                'React, Angular 20 ते 22, Vue आणि साधे JavaScript',
+                'Angular 22; पुढे React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'काय कशाशी जुळते' },
+          {
+            kind: 'table',
+            caption: 'AG Grid चे पर्याय आणि Needless UI मधील त्यांचे समतुल्य',
+            head: ['AG Grid', 'Needless UI ग्रिड'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, मॉड्यूल नोंदणी, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; काहीही नोंदवायचे नाही आणि की नाही',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (Intl पर्याय किंवा फंक्शन), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', '<code>nuiGridCell</code> टेम्पलेट'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                'कॉलमचे <code>rowGroup</code>, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, कॉलम id ची यादी. गट सुरुवातीला उघडे असतात; <code>[(collapsed)]</code> त्यांना बंद करते.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> आणि <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                '<code>nuiGridDetail</code> टेम्पलेट, आणि <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, आणि <code>[(selected)]</code>: निवडलेल्या ओळींच्या की',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> Blob परत करते, आणि <code>exportCsv()</code> मजकूर',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; उजवीकडून डावीकडची दिशा पेजच्या <code>dir</code> नुसार ठरते',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'देशानुसार गटबद्ध ऑर्डर्स, दोन्ही प्रकारे' },
+          {
+            kind: 'p',
+            html: 'काम असे: देशानुसार गटबद्ध ऑर्डर्स, प्रत्येक देशाची एकूण बेरीज आणि सगळ्यांची मिळून एक एकूण बेरीज, Excel एक्सपोर्ट, जलद शोध आणि अनेक ओळींची निवड. AG Grid 36 सह, जिथे गटवारी, एकूण बेरजा आणि Excel एक्सपोर्टसाठी Enterprise लागते:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI ग्रिडसह:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'काही गोष्टी वेगळ्या प्रकारे चालतात. निवडीत की असतात, म्हणजे ओळींचे id, त्यामुळे नवीन डेटा आला तरी निवड टिकून राहते; ओळी हव्या असतील तेव्हा या की वापरून त्या शोधा. गट सुरुवातीला उघडे असतात. गटाचे लेबल पहिल्या दिसणाऱ्या कॉलममध्ये असते, आणि शोध फक्त दिसणारे कॉलमच वाचतो, त्यामुळे गटवारीच्या कॉलममधील व्हॅल्यूही शोधात जुळायला हव्या असतील तर तो कॉलम दिसता ठेवा. आणि <code>exportXlsx()</code> फाइल डाउनलोड करण्याऐवजी ती परत करते: फिल्टर व सॉर्ट केलेल्या ओळींची एक शीट, गट ओळींशिवाय.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'जे नाही ते हवे असल्यास' },
+          {
+            kind: 'p',
+            html: 'आपले ॲप पिव्होटिंग, चार्ट्स, क्लिपबोर्ड आणि रेंज निवड, सर्व्हरवरील गटवारी किंवा कॉलम गटांवर अवलंबून असल्यास, Needless UI ग्रिड अजून AG Grid ची जागा घेऊ शकत नाही. आपल्याला जे हवे आहे त्यासाठी <a href="https://github.com/needless-ui/needless-ui/issues">इश्यू उघडा</a>. इतर सर्व गोष्टींसाठी <a href="/components/grid">डेटा ग्रिडच्या पेज</a>वर प्रत्येक इनपुट, आउटपुट आणि उदाहरण आहे.',
           },
         ],
       },

@@ -248,7 +248,7 @@ describe('NuiScheduler', () => {
       locale="en-US"
       firstDay="1"
       editable
-      selectable
+      [selectable]="selectable()"
       (eventClick)="clicked.push($event)"
       (eventChange)="change($event)"
       (slotSelect)="slots.push($event)"
@@ -272,6 +272,7 @@ class Rooms {
   readonly snap = signal<number | undefined>(undefined);
   readonly allow = signal<((time: NuiSchedulerChange | NuiSchedulerSlot) => boolean) | null>(null);
   readonly toolbar = signal(true);
+  readonly selectable = signal(true);
   readonly resources = signal<NuiSchedulerResource[]>([
     { id: 'atlas', title: 'Atlas', data: 8, color: '#7c3aed' },
     { id: 'boreal', title: 'Boreal', data: 4, tone: 'success' },
@@ -712,5 +713,19 @@ describe('NuiScheduler edges', () => {
     await userEvent.keyboard('{Enter}');
     await stable();
     expect(document.activeElement).toBe(next);
+  });
+
+  it('chooses nothing with Enter when time can’t be chosen', async () => {
+    const { host, cell, stable } = await rooms((h) => {
+      h.view.set('week');
+      h.resources.set([]);
+      h.selectable.set(false);
+    });
+    cell('2026-09-25|480').focus();
+    await userEvent.keyboard('{Enter}');
+    await stable();
+    expect(host.slots).toEqual([]);
+    expect(cell('2026-09-25|480').hasAttribute('data-selected')).toBe(false);
+    expect(cell('2026-09-25|480').hasAttribute('aria-selected')).toBe(false);
   });
 });

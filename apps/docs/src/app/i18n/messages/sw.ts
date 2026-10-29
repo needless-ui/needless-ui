@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Vijenzi vya Angular vinavyofikika, vilivyosanifiwa mno',
+    title: 'Needless UI · Vijenzi vya Angular bure: kipanga ratiba, gridi ya data',
     description:
-      'Needless UI ni maktaba huria ya vijenzi vya Angular: vipengele asilia, stylesheet moja isiyotegemea framework, design token za W3C na WCAG 2.2 AA ndani yake.',
+      'Vijenzi vya Angular bure (MIT), vinavyofikika, juu ya vipengele asilia: kipanga ratiba cha rasilimali na gridi ya data yenye makundi na kuhamishia Excel.',
     eyebrow: 'Chanzo huria · Angular 22 · MIT',
     heading: 'Vijenzi vya UI, vilivyosanifiwa vizuri kupita kiasi.',
-    lead: 'Needless UI inapamba <strong>vipengele asilia</strong> kwa stylesheet moja isiyotegemea framework na design token za W3C. Directive zake za Angular zinaongeza tabia kutoka Angular Aria, hivyo kila kijenzi kinafikika tangu kinapoonyeshwa kwa mara ya kwanza.',
+    lead: 'Vijenzi vya Angular vinavyofikika, vilivyojengwa juu ya <strong>vipengele asilia</strong> na kupambwa kwa stylesheet moja isiyotegemea framework. Vyote viko chini ya leseni ya MIT, hata vile ambavyo maktaba nyingine huviuza kando: <a href="/components/scheduler">kipanga ratiba</a> chenye mistari ya muda ya rasilimali, na <a href="/components/grid">gridi ya data</a> yenye makundi na kuhamishia Excel.',
     getStarted: 'Anza',
     browse: 'Tazama vijenzi',
     featuresTitle: 'Kwa nini ipo',
     features: [
+      {
+        title: 'Hakuna toleo la kulipia',
+        text: 'Mstari wa muda wa rasilimali na matukio yanayojirudia ya <a href="/components/scheduler">kipanga ratiba</a>, pamoja na makundi, data ya mti na kuhamishia Excel katika <a href="/components/grid">gridi ya data</a>, viko chini ya leseni ya MIT kama kila kitu kingine: hakuna ufunguo wa leseni, hakuna alama maji. Unahama kutoka maktaba ya kulipia? Soma miongozo ya kuhama kutoka <a href="/guides/from-fullcalendar">FullCalendar</a> na <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Vipengele asilia kwanza',
         text: '<code>&lt;button nuiButton&gt;</code> ni kitufe halisi. Fomu, kibodi na visoma skrini vinafanya kazi kwa sababu hakuna kitu kinachokifunika.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'Signal inputs, zoneless, uonyeshaji kwenye seva na entry point moja kwa kila kijenzi, hivyo programu hubeba tu kile zinachoingiza.',
       },
     ],
-    codeTitle: 'Import mbili tu, umemaliza',
+    codeTitle: 'Amri moja, kisha import moja',
     codeText:
-      'Ongeza kifurushi, ingiza stylesheet mara moja, kisha tumia vijenzi ndani ya kijenzi chochote cha standalone.',
+      'Endesha ng add ili kusakinisha kifurushi na kuingiza stylesheet yake, kisha tumia vijenzi ndani ya kijenzi chochote cha standalone.',
   },
 
   components: {
@@ -1183,10 +1187,11 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Gridi ya data',
-        title: 'Kijenzi cha gridi ya data kwa Angular',
-        summary: 'Panga, chuja, chagua, hariri na pitia safu, hata ziwe nyingi kiasi gani.',
+        title: 'Gridi ya data ya Angular bure: makundi, kuhamishia Excel',
+        summary:
+          'Panga, chuja, weka katika makundi, hariri na hamisha safu, hata ziwe nyingi kiasi gani.',
         description:
-          'Gridi ya data ya Angular inayofikika juu ya jedwali asilia: kupanga na kuhamisha safu wima, vichujio, kurasa au virtual scrolling, uchaguzi na uhariri.',
+          'Gridi ya data ya Angular bure kwa leseni ya MIT, juu ya jedwali asilia: makundi na jumla, data ya mti, kuhamishia Excel, vichujio, uhariri na virtual scrolling.',
         apiDescription:
           'Marejeleo ya API ya gridi ya data ya Needless UI: input na model za nui-grid, ufafanuzi wa NuiGridColumn, na template za visanduku maalum.',
         a11yDescription:
@@ -2680,6 +2685,390 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Kwa vyumba kando kwa kando katika siku moja, uhifadhi unaojirudia na kila chaguo jingine, tazama <a href="/components/scheduler">ukurasa wa kipanga ratiba</a> na <a href="/components/scheduler/api">API</a> yake.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Kutoka FullCalendar hadi kipanga ratiba bure cha Angular',
+        description:
+          'Kutoka FullCalendar Premium hadi kipanga ratiba bure cha Needless UI kwa Angular: ulinganifu, mfano wa uhifadhi kwa zote mbili, mapungufu na mitego ya data.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Mstari wa muda wa rasilimali na safu wima za rasilimali katika FullCalendar ni sehemu ya Premium: programu ya kibiashara inahitaji ufunguo wa leseni wa kulipia. <a href="https://fullcalendar.io/license">Ukurasa wake wa leseni</a> unaorodhesha njia za bure, kwa programu ambazo ni AGPL kikamilifu na kwa mashirika yasiyo ya faida yaliyosajiliwa. Kipanga ratiba cha Needless UI kina vyote viwili chini ya leseni ya MIT, pamoja na matukio yanayojirudia na faili za iCalendar. Mwongozo huu unahamisha programu ya Angular kutoka kimoja hadi kingine: kinachohamia moja kwa moja, kisichohamia, na data unayohitaji kubadilisha.',
+          },
+          {
+            kind: 'p',
+            html: 'Mwongozo huu unatumia majina ya FullCalendar 7, na majina ya toleo la 6 kwenye mabano ya mraba pale yanapotofautiana. Kiunganishi cha Angular cha FullCalendar kinafanya kazi na Angular 16 hadi 22; Needless UI inahitaji Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Unachopata' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar na kipanga ratiba cha Needless UI',
+            head: ['Uwezo', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Mstari wa muda wa rasilimali: safu kwa kila chumba au mtu',
+                'Premium',
+                'Ndiyo: siku, wiki au mwezi',
+              ],
+              ['Rasilimali kama safu wima katika mionekano ya siku na wiki', 'Premium', 'Ndiyo'],
+              ['Mionekano ya mwezi, wiki na siku', 'Bure', 'Ndiyo'],
+              [
+                'Kuburuta ili kuhamisha na kubadilisha ukubwa',
+                'Bure; kwenda rasilimali nyingine kwa Premium',
+                'Ndiyo, hata kwenda rasilimali nyingine. Ukubwa hubadilishwa kutoka mwisho, si kutoka mwanzo.',
+              ],
+              [
+                'Kuchagua muda ili kuunda tukio',
+                'Bure',
+                'Ndiyo, kwa kipanya, kwa kubonyeza kwa muda mrefu au kwa kibodi',
+              ],
+              [
+                'Kanuni kama kuzuia matukio kupishana',
+                'Bure: chaguo za kupishana na za vizuizi',
+                'Ndiyo: function moja, <code>allow</code>, inayoulizwa kabla ya kila badiliko',
+              ],
+              [
+                'Kuhamisha na kubadilisha ukubwa wa matukio kwa kibodi',
+                'Haitajwi katika nyaraka zake za ufikivu, ambazo zinahusu lebo za ARIA na focus ya Tab',
+                'Ndiyo, na hutangazwa kwa visoma skrini',
+              ],
+              [
+                'Matukio yanayojirudia',
+                'Bure, kwa plugin na maktaba ya rrule',
+                'Yamejengwa ndani: kanuni za RFC 5545, bila EXRULE, RDATE wala kanuni za kurudia kila saa',
+              ],
+              ['iCalendar (.ics)', 'Bure: husoma feed', 'Husoma na kuandika faili za .ics'],
+              [
+                'Mionekano ya orodha na ya mwaka',
+                'Bure',
+                'Ajenda ya siku zijazo; hakuna mionekano ya mwaka',
+              ],
+              [
+                'Kanda za saa',
+                'Bure: ya ndani, UTC au yenye jina',
+                'Hapana: huonyesha nyakati jinsi zilivyopokelewa',
+              ],
+              [
+                'Rasilimali katika makundi, ndani ya nyingine au zenye safu wima kadhaa',
+                'Premium',
+                'Hapana: safu wima moja, inayochorwa na template yako',
+              ],
+              ['Kuburuta na kudondosha kutoka nje, matukio ya mandharinyuma', 'Bure', 'Hapana'],
+              ['Kuchapisha, virtual rendering', 'Premium', 'Hapana'],
+              [
+                'Framework',
+                'Angular 16 hadi 22, React, Vue, JavaScript tupu na zaidi',
+                'Angular 22; React inafuata',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Kipi kinalingana na kipi' },
+          {
+            kind: 'table',
+            caption: 'Chaguo za FullCalendar na zinazolingana nazo katika Needless UI',
+            head: ['FullCalendar', 'Kipanga ratiba cha Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, chenye input kwa kila chaguo; hakuna plugin wala ufunguo',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, na <code>timelineSpan</code> kwa wiki au mwezi',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> ni ya pande mbili',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: hakuna kinachosogea hadi usasishe <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: function moja kwa kuhamisha, kubadilisha ukubwa na kuchagua',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, kwa dakika',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, kwa saa',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, siku za wiki zikiwa 1 (Jumatatu) hadi 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Template za <code>nuiSchedulerEvent</code> na <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (tagi yoyote ya BCP 47), <code>firstDay</code> kuanzia 1 hadi 7, na <code>labels</code> kwa maneno yake',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Mstari wa muda wa kuhifadhi vyumba, kwa njia zote mbili',
+          },
+          {
+            kind: 'p',
+            html: 'Vyumba ni rasilimali na uhifadhi ni matukio. Watu huburuta juu ya safu ya chumba ili kukihifadhi na huburuta uhifadhi ili kuuhamisha; chumba kimoja hushikilia uhifadhi mmoja tu kwa wakati mmoja. Kwa FullCalendar 7 na mstari wake wa muda wa rasilimali wa Premium:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Kwa kipanga ratiba cha Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Mambo mawili hufanya kazi tofauti. FullCalendar huhamisha uhifadhi yenyewe, na programu hunakili badiliko; kipanga ratiba cha Needless UI huliripoti tu, na kusasisha <code>events</code> ndiko kunakolidumisha, hivyo data yako inabaki kuwa chanzo pekee. Pia, <code>allow</code> ni msimbo wa kawaida, unaoulizwa kabla ya kila badiliko kwa kipanya au kibodi, hivyo kanuni ni yako na unaweza kuijaribu. <a href="/guides/booking-calendar">Mwongozo wa kalenda ya kuhifadhi</a> hujenga programu hii hatua kwa hatua.',
+          },
+          { kind: 'h2', id: 'data', text: 'Kubadilisha data' },
+          {
+            kind: 'table',
+            caption: 'Data ya FullCalendar na kile ambacho kipanga ratiba hutarajia',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '<code>end</code> ya tukio la siku nzima ni siku inayofuata tukio',
+                '<code>end</code> ya tukio la siku nzima ni siku yake ya mwisho: toa siku moja',
+              ],
+              [
+                'Nyakati zinaweza kuishia kwa <code>Z</code> au tofauti ya saa kama <code>+02:00</code>',
+                'Nyakati za saa ya ukutani bila tofauti ya saa, kama <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Siku za wiki kuanzia 0 (Jumapili) hadi 6, katika <code>businessHours</code> na <code>firstDay</code>',
+                'Siku za wiki kuanzia 1 (Jumatatu) hadi 7 (Jumapili)',
+              ],
+              [
+                "Vipindi vya muda kama maandishi, kama <code>'00:30'</code>",
+                'Namba: dakika au saa',
+              ],
+              [
+                'Rasilimali hupangwa kwa id, kisha kwa kichwa',
+                'Rasilimali hufuata mpangilio wa array',
+              ],
+              [
+                '<code>rrule</code> kama object, na <code>exrule</code>',
+                'Maandishi ya RFC 5545, kama <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, na <code>exdate</code>',
+              ],
+              [
+                'Kanda ya saa kama <code>America/New_York</code>',
+                'Badilisha nyakati kwanza. <code>nuiSchedulerFromIcs(text, { timeZone })</code> hubadilisha faili za .ics inapozisoma.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Ukihitaji kisichokuwepo' },
+          {
+            kind: 'p',
+            html: 'Ikiwa programu yako inategemea kanda za saa, rasilimali katika makundi, kuburuta na kudondosha kutoka nje au kuchapisha, kipanga ratiba bado hakiwezi kuchukua nafasi ya FullCalendar. <a href="https://github.com/needless-ui/needless-ui/issues">Fungua issue</a> kwa kile unachohitaji. Kwa kila kitu kingine, <a href="/components/scheduler">ukurasa wa kipanga ratiba</a> una kila input, output na mfano.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Kutoka AG Grid Enterprise hadi gridi bure ya Angular',
+        description:
+          'Kutoka AG Grid Enterprise hadi gridi bure ya Needless UI kwa Angular: makundi, jumla, data ya mti, kuhamishia Excel, ulinganifu na mapungufu.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Kupanga safu katika makundi, thamani za muhtasari, data ya mti, master/detail na kuhamishia Excel katika AG Grid ni sehemu ya Enterprise: kuitumia katika production kunahitaji leseni ya kibiashara, na bila ufunguo gridi huonyesha alama maji na huandika kosa kwenye console. Gridi ya data ya Needless UI ina makundi yenye jumla, data ya mti, maelezo ya safu na kuhamishia .xlsx chini ya leseni ya MIT. Mwongozo huu unahamisha programu ya Angular kutoka moja hadi nyingine: kinachohamia moja kwa moja, kisichohamia, na jinsi msimbo unavyobadilika.',
+          },
+          {
+            kind: 'p',
+            html: 'Mwongozo huu unatumia majina ya AG Grid 36. AG Grid 36 inafanya kazi na Angular 20 hadi 22; Needless UI inahitaji Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Unachopata' },
+          {
+            kind: 'table',
+            caption: 'AG Grid na gridi ya data ya Needless UI',
+            head: ['Uwezo', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Kupanga safu katika makundi, pamoja na thamani za muhtasari na safu ya jumla',
+                'Enterprise',
+                'Ndiyo: ngazi kadhaa, pamoja na jumla, wastani, kiwango cha chini, kiwango cha juu, idadi au function',
+              ],
+              ['Data ya mti', 'Enterprise', 'Ndiyo, kutoka safu zilizo ndani ya safu nyingine'],
+              [
+                'Maelezo chini ya safu (master/detail)',
+                'Enterprise',
+                'Ndiyo: template yoyote chini ya safu, hata gridi nyingine',
+              ],
+              [
+                'Kuhamishia Excel',
+                'Enterprise: mitindo, laha kadhaa, picha na fomula',
+                'Ndiyo: laha moja ya visanduku vyenye aina zake, pamoja na miundo ya namba na kichwa kilichogandishwa chenye vichujio',
+              ],
+              [
+                'Menyu ya safu wima yenye kichaguzi cha safu wima',
+                'Enterprise',
+                'Ndiyo: kupanga, kuchuja, kubandika, kuhamisha, kurekebisha upana na kuficha kila safu wima, na kuzionyesha au kuzificha zote',
+              ],
+              [
+                'Kupanga kwa safu wima kadhaa, utafutaji wa haraka, kurasa, uchaguzi wa safu',
+                'Community',
+                'Ndiyo',
+              ],
+              [
+                'Vichujio vya safu wima',
+                'Community: hadi masharti mawili, yanayounganishwa kwa AND au OR',
+                'Sharti moja kwa kila safu wima',
+              ],
+              [
+                'Vichujio vya seti, mseto na vya hali ya juu',
+                'Enterprise',
+                'Kwa sehemu: orodha ya checkbox za chaguo za safu wima, si za thamani zilizo kwenye data',
+              ],
+              [
+                'Kubadilisha upana wa safu wima, kuzihamisha, kuzibandika na kuzificha, na kuhifadhi hali yao',
+                'Community',
+                'Ndiyo',
+              ],
+              [
+                'Kuchora kinachoonekana pekee (virtual scrolling)',
+                'Community: safu na safu wima',
+                'Safu',
+              ],
+              [
+                'Kuhariri visanduku',
+                'Community; baadhi ya vihariri ni Enterprise',
+                'Ndiyo, kulingana na aina ya safu wima, pamoja na uthibitishaji; hakuna vihariri maalum wala kutendua',
+              ],
+              ['Pivoting, chati zilizojengwa ndani', 'Enterprise', 'Hapana'],
+              [
+                'Ubao wa kunakili, kuchagua masafa ya visanduku, menyu ya muktadha, upau wa hali, upau wa pembeni',
+                'Enterprise',
+                'Hapana',
+              ],
+              [
+                'Data kutoka kwa seva',
+                'Model ya safu upande wa seva: Enterprise; kupakia kwa vipande: Community',
+                'Kurasa kutoka kwa seva yako, ambayo hupanga, huchuja na hutafuta yenyewe; hakuna makundi kwenye seva',
+              ],
+              ['Makundi ya safu wima, kuburuta safu, safu zilizobandikwa', 'Community', 'Hapana'],
+              [
+                'Framework',
+                'React, Angular 20 hadi 22, Vue na JavaScript tupu',
+                'Angular 22; React inafuata',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Kipi kinalingana na kipi' },
+          {
+            kind: 'table',
+            caption: 'Chaguo za AG Grid na zinazolingana nazo katika Needless UI',
+            head: ['AG Grid', 'Gridi ya Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, kusajili moduli, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; hakuna cha kusajili wala ufunguo',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (chaguo za Intl au function), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Template ya <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> ya safu wima, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, orodha ya id za safu wima. Makundi huanza yakiwa wazi; <code>[(collapsed)]</code> huyafunga.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> pamoja na <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Template ya <code>nuiGridDetail</code>, na <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, na <code>[(selected)]</code>: funguo za safu zilizochaguliwa',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> hurudisha Blob, na <code>exportCsv()</code> hurudisha maandishi',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; mwelekeo wa kulia kwenda kushoto hufuata <code>dir</code> ya ukurasa',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Oda katika makundi kwa nchi, kwa njia zote mbili' },
+          {
+            kind: 'p',
+            html: 'Kazi yenyewe: oda katika makundi kwa nchi, zenye jumla ya kila nchi na jumla kuu, kuhamishia Excel, utafutaji wa haraka na uchaguzi wa safu nyingi. Kwa AG Grid 36, ambapo makundi, jumla na kuhamishia Excel vinahitaji Enterprise:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Kwa gridi ya Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Mambo machache hufanya kazi tofauti. Uchaguzi hushikilia funguo, yaani id za safu, hivyo hudumu hata data mpya ikifika; unapohitaji safu zenyewe, zitafute kwa funguo hizo. Makundi huanza yakiwa wazi. Lebo ya kundi hukaa kwenye safu wima ya kwanza inayoonekana, na utafutaji husoma safu wima zinazoonekana pekee, hivyo usiifiche safu wima inayopanga makundi ikiwa utafutaji unapaswa kupata thamani zake. Pia, <code>exportXlsx()</code> hurudisha faili badala ya kuipakua: laha moja ya safu zilizochujwa na kupangwa, bila safu za makundi.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Ukihitaji kisichokuwepo' },
+          {
+            kind: 'p',
+            html: 'Ikiwa programu yako inategemea pivoting, chati, ubao wa kunakili na kuchagua masafa, makundi kwenye seva au makundi ya safu wima, gridi ya Needless UI bado haiwezi kuchukua nafasi ya AG Grid. <a href="https://github.com/needless-ui/needless-ui/issues">Fungua issue</a> kwa kile unachohitaji. Kwa kila kitu kingine, <a href="/components/grid">ukurasa wa gridi ya data</a> una kila input, output na mfano.',
           },
         ],
       },

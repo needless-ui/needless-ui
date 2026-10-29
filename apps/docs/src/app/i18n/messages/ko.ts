@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · 쓸데없이 잘 만든, 접근성을 갖춘 Angular 컴포넌트',
+    title: 'Needless UI · 스케줄러와 데이터 그리드를 갖춘 무료 Angular 컴포넌트',
     description:
-      'Needless UI는 오픈 소스 Angular 컴포넌트 라이브러리입니다. 네이티브 요소, 프레임워크 독립적인 스타일시트, W3C 디자인 토큰, WCAG 2.2 AA 준수를 기본 제공합니다.',
+      'MIT 라이선스의 무료 Angular 컴포넌트 라이브러리. 네이티브 요소 기반의 접근성 있는 컴포넌트에 리소스 스케줄러, 그룹화와 Excel 내보내기를 갖춘 데이터 그리드까지.',
     eyebrow: '오픈 소스 · Angular 22 · MIT',
     heading: '쓸데없이 잘 만든 UI 컴포넌트.',
-    lead: 'Needless UI는 프레임워크에 종속되지 않는 하나의 스타일시트와 W3C 디자인 토큰으로 <strong>네이티브 요소</strong>를 스타일링합니다. Angular 디렉티브가 Angular Aria의 동작을 더하므로, 모든 컴포넌트는 첫 렌더링부터 접근성을 갖춥니다.',
+    lead: '프레임워크에 종속되지 않는 하나의 스타일시트로 스타일링한, <strong>네이티브 요소</strong> 기반의 접근성을 갖춘 Angular 컴포넌트입니다. 모두 MIT 라이선스이며, 다른 라이브러리가 따로 판매하는 기능도 포함됩니다. 리소스 타임라인을 갖춘 <a href="/components/scheduler">스케줄러</a>, 그리고 그룹화와 Excel 내보내기를 지원하는 <a href="/components/grid">데이터 그리드</a>입니다.',
     getStarted: '시작하기',
     browse: '컴포넌트 둘러보기',
     featuresTitle: '존재 이유',
     features: [
+      {
+        title: '유료 버전 없음',
+        text: '<a href="/components/scheduler">스케줄러</a>의 리소스 타임라인과 반복 일정, <a href="/components/grid">데이터 그리드</a>의 그룹화, 트리 데이터, Excel 내보내기도 다른 모든 것과 마찬가지로 MIT 라이선스입니다. 라이선스 키도, 워터마크도 없습니다. 유료 라이브러리에서 옮겨 오시나요? <a href="/guides/from-fullcalendar">FullCalendar</a>와 <a href="/guides/from-ag-grid">AG Grid</a>에서 옮겨 오는 가이드를 참고하세요.',
+      },
       {
         title: '네이티브 요소 우선',
         text: '<code>&lt;button nuiButton&gt;</code>은 진짜 버튼입니다. 아무것도 감싸지 않으므로 폼, 키보드, 스크린 리더가 그대로 동작합니다.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: '시그널 입력, Zoneless, 서버 사이드 렌더링을 지원합니다. 컴포넌트마다 엔트리 포인트가 따로 있어 앱에는 가져온 것만 포함됩니다.',
       },
     ],
-    codeTitle: 'import 두 번이면 준비 완료',
+    codeTitle: '명령어 하나, 그리고 import 하나',
     codeText:
-      '패키지를 추가하고 스타일시트를 한 번만 가져오면, 어떤 스탠드얼론 컴포넌트에서든 바로 사용할 수 있습니다.',
+      'ng add를 실행하면 패키지 설치와 스타일시트 가져오기가 끝나고, 이후 어떤 스탠드얼론 컴포넌트에서든 바로 사용할 수 있습니다.',
   },
 
   components: {
@@ -1155,10 +1159,10 @@ export const messages: Messages = {
       },
       grid: {
         name: '데이터 그리드',
-        title: 'Angular 데이터 그리드 컴포넌트',
-        summary: '행이 아무리 많아도 정렬, 필터링, 선택, 편집, 스크롤을 할 수 있습니다.',
+        title: '무료 Angular 데이터 그리드: 그룹화와 Excel 내보내기',
+        summary: '행이 아무리 많아도 정렬, 필터링, 그룹화, 편집, 내보내기를 할 수 있습니다.',
         description:
-          '네이티브 table 요소로 만든 접근성을 갖춘 Angular 데이터 그리드입니다. 다중 열 정렬, 필터, 페이지네이션 또는 가상 스크롤, 선택, 편집, 열 이동을 지원합니다.',
+          'MIT 라이선스의 무료 Angular 데이터 그리드입니다. 네이티브 표 기반으로 합계가 있는 그룹화, 트리 데이터, Excel 내보내기, 필터, 편집, 가상 스크롤을 지원합니다.',
         apiDescription:
           'Needless UI 데이터 그리드의 API 레퍼런스입니다. nui-grid의 입력과 양방향 바인딩, NuiGridColumn 정의, 사용자 지정 셀 템플릿을 설명합니다.',
         a11yDescription:
@@ -2618,6 +2622,344 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '회의실을 나란히 놓은 일 보기, 반복 예약, 그 밖의 모든 옵션은 <a href="/components/scheduler">스케줄러 페이지</a>와 <a href="/components/scheduler/api">API</a>를 참고하시기 바랍니다.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'FullCalendar에서 무료 Angular 스케줄러로 전환하기',
+        description:
+          'Angular 앱을 FullCalendar Premium에서 무료 Needless UI 스케줄러로 옮기는 방법입니다. 옵션 대응, 양쪽으로 만든 예약 타임라인, 빠진 기능과 데이터 함정을 다룹니다.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar의 리소스 타임라인과 리소스 열은 Premium 기능이라, 상용 앱에서 쓰려면 유료 라이선스 키가 필요합니다. <a href="https://fullcalendar.io/license">라이선스 페이지</a>에는 무료로 쓸 수 있는 경우로 앱 전체가 AGPL인 경우와 등록된 비영리 단체인 경우가 나와 있습니다. Needless UI 스케줄러는 둘 다 MIT 라이선스로 제공하며, 반복 일정과 iCalendar 파일도 지원합니다. 이 가이드에서는 Angular 앱을 FullCalendar에서 Needless UI로 옮기면서, 그대로 옮겨지는 것과 그렇지 않은 것, 변환해야 할 데이터를 살펴봅니다.',
+          },
+          {
+            kind: 'p',
+            html: 'FullCalendar 7의 이름을 쓰고, 버전 6의 이름이 다르면 대괄호 안에 함께 적습니다. FullCalendar의 Angular 커넥터는 Angular 16부터 22까지 지원하고, Needless UI는 Angular 22가 필요합니다.',
+          },
+          { kind: 'h2', id: 'compare', text: '기능 비교' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar와 Needless UI 스케줄러',
+            head: ['기능', 'FullCalendar', 'Needless UI'],
+            rows: [
+              ['리소스 타임라인: 회의실이나 사람마다 한 행', 'Premium', '지원: 하루, 한 주, 한 달'],
+              ['일 보기와 주 보기에서 리소스를 열로 표시', 'Premium', '지원'],
+              ['월, 주, 일 보기', '무료', '지원'],
+              [
+                '드래그로 이동과 길이 조절',
+                '무료, 다른 리소스로 옮기기는 Premium',
+                '지원, 다른 리소스로도 이동 가능. 길이 조절은 끝에서만 되고 시작에서는 안 됨.',
+              ],
+              ['시간을 선택해 일정 만들기', '무료', '지원: 포인터, 길게 누르기, 키보드로 가능'],
+              [
+                '겹침 금지 같은 규칙',
+                '무료: overlap, constraint 옵션',
+                '지원: 모든 변경 전에 묻는 <code>allow</code> 함수 하나',
+              ],
+              [
+                '키보드로 일정 이동과 길이 조절',
+                '접근성 문서에 언급 없음(ARIA 레이블과 Tab 포커스만 다룸)',
+                '지원, 스크린 리더로 안내됨',
+              ],
+              [
+                '반복 일정',
+                '무료, rrule 플러그인과 라이브러리 사용',
+                '기본 내장: RFC 5545 규칙(EXRULE, RDATE, 시간 단위 규칙은 제외)',
+              ],
+              ['iCalendar(.ics)', '무료: 피드 읽기', '.ics 파일 읽기와 쓰기'],
+              ['목록 보기와 연간 보기', '무료', '앞으로 며칠간의 일정 목록, 연간 보기는 없음'],
+              ['시간대', '무료: 로컬, UTC, 이름 있는 시간대', '미지원: 받은 시각을 그대로 표시'],
+              ['그룹화, 중첩, 여러 열의 리소스', 'Premium', '미지원: 템플릿으로 그리는 열 하나'],
+              ['외부 드래그 앤 드롭, 배경 이벤트', '무료', '미지원'],
+              ['인쇄, 가상 렌더링', 'Premium', '미지원'],
+              [
+                '프레임워크',
+                'Angular 16~22, React, Vue, 순수 JavaScript 등',
+                'Angular 22, 다음은 React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: '옵션 대응' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar 옵션과 그에 대응하는 Needless UI 기능',
+            head: ['FullCalendar', 'Needless UI 스케줄러'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, 옵션마다 입력이 있고 플러그인도 키도 필요 없음',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, 한 주나 한 달은 <code>timelineSpan</code>으로 지정',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>, <code>[(view)]</code>는 양방향 바인딩',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: <code>events</code>를 갱신하기 전에는 아무것도 움직이지 않음',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: 이동, 길이 조절, 선택을 판단하는 함수 하나',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, 분 단위',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, 시 단위',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, 요일은 1(월요일)부터 7까지',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code>와 <code>nuiSchedulerResource</code> 템플릿',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code>(모든 BCP 47 태그), 1부터 7까지의 <code>firstDay</code>, 표시 문구를 정하는 <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: '두 라이브러리로 만드는 회의실 예약 타임라인' },
+          {
+            kind: 'p',
+            html: '회의실은 리소스이고 예약은 일정입니다. 회의실 행을 가로질러 드래그하면 예약하고 예약을 드래그하면 옮기며, 한 회의실에는 한 번에 예약 하나만 들어갑니다. FullCalendar 7과 Premium 리소스 타임라인으로는 다음과 같습니다.',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI 스케줄러로는 다음과 같습니다.' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: '두 가지가 다르게 동작합니다. FullCalendar는 예약을 직접 옮기고 앱이 그 변경을 따라 복사하지만, Needless UI 스케줄러는 변경을 알려 주기만 하고 <code>events</code>를 갱신해야 변경이 남으므로, 데이터의 출처가 늘 하나로 유지됩니다. 또 <code>allow</code>는 평범한 코드로, 포인터든 키보드든 모든 변경 전에 호출되므로 규칙을 직접 테스트할 수 있습니다. <a href="/guides/booking-calendar">회의실 예약 캘린더 가이드</a>에서 이 앱을 단계별로 만들어 봅니다.',
+          },
+          { kind: 'h2', id: 'data', text: '데이터 변환' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar 데이터와 스케줄러가 기대하는 형식',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '종일 일정의 <code>end</code>는 일정 다음 날',
+                '종일 일정의 <code>end</code>는 마지막 날이므로 하루를 빼야 함',
+              ],
+              [
+                '시각 끝에 <code>Z</code>나 <code>+02:00</code> 같은 오프셋이 붙을 수 있음',
+                '오프셋 없는 시각, 예: <code>2026-11-02T09:30</code>',
+              ],
+              [
+                '요일은 0(일요일)부터 6까지, <code>businessHours</code>와 <code>firstDay</code>에서 사용',
+                '요일은 1(월요일)부터 7(일요일)까지',
+              ],
+              ["기간은 <code>'00:30'</code> 같은 문자열", '숫자: 분 또는 시간'],
+              ['리소스는 id, 그다음 제목 순으로 정렬', '리소스는 배열 순서대로'],
+              [
+                '객체로 된 <code>rrule</code>과 <code>exrule</code>',
+                '<code>FREQ=WEEKLY;BYDAY=MO,FR</code> 같은 RFC 5545 문자열과 <code>exdate</code>',
+              ],
+              [
+                '<code>America/New_York</code> 같은 시간대',
+                '먼저 시각을 변환해야 함. <code>nuiSchedulerFromIcs(text, { timeZone })</code>는 .ics 파일을 읽으면서 변환함.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: '빠진 기능이 필요하다면' },
+          {
+            kind: 'p',
+            html: '앱이 시간대, 그룹화된 리소스, 외부 드래그 앤 드롭, 인쇄에 의존한다면 아직은 스케줄러가 FullCalendar를 대신할 수 없습니다. 필요한 기능은 <a href="https://github.com/needless-ui/needless-ui/issues">이슈로 등록</a>해 주세요. 그 밖의 것은 <a href="/components/scheduler">스케줄러 페이지</a>에서 모든 입력, 출력, 예제를 확인하세요.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'AG Grid Enterprise에서 무료 Angular 데이터 그리드로 전환',
+        description:
+          'Angular 앱을 AG Grid Enterprise에서 무료 Needless UI 그리드로 옮기는 방법입니다. 그룹화, 합계, 트리 데이터, Excel 내보내기, 옵션 대응, 빠진 기능을 다룹니다.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid의 행 그룹화, 집계, 트리 데이터, 마스터/디테일, Excel 내보내기는 Enterprise 기능입니다. 프로덕션에서 쓰려면 상용 라이선스가 필요하고, 키가 없으면 그리드에 워터마크가 표시되며 콘솔에 오류가 기록됩니다. Needless UI 데이터 그리드는 합계가 있는 그룹화, 트리 데이터, 행 세부 정보, .xlsx 내보내기를 MIT 라이선스로 제공합니다. 이 가이드에서는 Angular 앱을 AG Grid에서 Needless UI로 옮기면서, 그대로 옮겨지는 것과 그렇지 않은 것, 코드가 어떻게 바뀌는지를 살펴봅니다.',
+          },
+          {
+            kind: 'p',
+            html: 'AG Grid 36의 이름을 씁니다. AG Grid 36은 Angular 20부터 22까지 지원하고, Needless UI는 Angular 22가 필요합니다.',
+          },
+          { kind: 'h2', id: 'compare', text: '기능 비교' },
+          {
+            kind: 'table',
+            caption: 'AG Grid와 Needless UI 데이터 그리드',
+            head: ['기능', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                '집계 값과 합계 행을 갖춘 행 그룹화',
+                'Enterprise',
+                '지원: 여러 단계로 그룹화하고 합계, 평균, 최솟값, 최댓값, 개수 또는 함수로 집계',
+              ],
+              ['트리 데이터', 'Enterprise', '지원, 중첩된 행으로 구성'],
+              [
+                '행 아래 세부 정보(마스터/디테일)',
+                'Enterprise',
+                '지원: 행 아래에 어떤 템플릿이든 표시, 다른 그리드도 가능',
+              ],
+              [
+                'Excel 내보내기',
+                'Enterprise: 스타일, 여러 시트, 이미지, 수식',
+                '지원: 타입이 있는 셀로 된 시트 하나, 숫자 서식, 필터가 달린 고정 헤더',
+              ],
+              [
+                '열 선택기가 있는 열 메뉴',
+                'Enterprise',
+                '지원: 열마다 정렬, 필터링, 고정, 이동, 너비 맞춤, 숨기기가 가능하고, 모든 열을 한꺼번에 표시하거나 숨길 수 있음',
+              ],
+              ['여러 열 정렬, 빠른 검색, 페이지 나누기, 행 선택', 'Community', '지원'],
+              ['열 필터', 'Community: 조건 최대 2개, AND 또는 OR로 결합', '열마다 조건 하나'],
+              [
+                '세트 필터, 멀티 필터, 고급 필터',
+                'Enterprise',
+                '일부 지원: 데이터에 있는 값이 아니라 열의 선택지로 만든 체크리스트',
+              ],
+              ['열 크기 조절, 이동, 고정, 숨기기와 그 상태 저장', 'Community', '지원'],
+              ['가상 스크롤', 'Community: 행과 열', '행만'],
+              [
+                '셀 편집',
+                'Community, 일부 편집기는 Enterprise',
+                '지원: 열 타입별 편집과 유효성 검사, 사용자 지정 편집기와 실행 취소는 없음',
+              ],
+              ['피벗, 통합 차트', 'Enterprise', '미지원'],
+              [
+                '클립보드, 셀 범위 선택, 컨텍스트 메뉴, 상태 표시줄, 사이드바',
+                'Enterprise',
+                '미지원',
+              ],
+              [
+                '서버 데이터',
+                '서버 사이드 행 모델은 Enterprise, 블록 단위 로딩은 Community',
+                '서버에서 페이지 단위로 받아 오며 정렬, 필터, 검색은 서버가 처리. 서버 측 그룹화는 없음',
+              ],
+              ['열 그룹, 행 드래그, 고정 행', 'Community', '미지원'],
+              [
+                '프레임워크',
+                'React, Angular 20~22, Vue, 순수 JavaScript',
+                'Angular 22, 다음은 React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: '옵션 대응' },
+          {
+            kind: 'table',
+            caption: 'AG Grid 옵션과 그에 대응하는 Needless UI 기능',
+            head: ['AG Grid', 'Needless UI 그리드'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, 모듈 등록, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>, 등록할 것도 키도 필요 없음',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code>(Intl 옵션 또는 함수), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', '<code>nuiGridCell</code> 템플릿'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '열의 <code>rowGroup</code>, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>: 열 id 목록. 그룹은 처음에 열려 있고, <code>[(collapsed)]</code>로 닫음.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code>와 <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                '<code>nuiGridDetail</code> 템플릿과 <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, 그리고 선택된 행의 키를 담는 <code>[(selected)]</code>',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code>는 Blob을, <code>exportCsv()</code>는 텍스트를 반환',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>, 오른쪽에서 왼쪽 방향은 페이지의 <code>dir</code> 속성을 따름',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: '두 라이브러리로 만드는 국가별 주문 목록' },
+          {
+            kind: 'p',
+            html: '만들 것은 국가별로 그룹화한 주문 목록입니다. 국가마다 합계를 내고 전체 합계도 하나 두며, Excel 내보내기, 빠른 검색, 다중 선택을 지원합니다. 그룹화, 합계, Excel 내보내기에 Enterprise가 필요한 AG Grid 36으로는 다음과 같습니다.',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI 그리드로는 다음과 같습니다.' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: '몇 가지가 다르게 동작합니다. 선택은 행의 id인 키를 담으므로 새 데이터가 들어와도 유지됩니다. 행 자체가 필요하면 키로 행을 다시 찾으세요. 그룹은 처음에 열려 있습니다. 그룹의 레이블은 보이는 열 중 첫 번째 열에 표시되고 검색은 보이는 열만 대상으로 하므로, 그룹화한 열의 값도 검색되어야 한다면 그 열을 표시해 두세요. 또 <code>exportXlsx()</code>는 파일을 내려받지 않고 반환합니다. 필터링하고 정렬한 행을 담은 시트 하나이며, 그룹 행은 들어가지 않습니다.',
+          },
+          { kind: 'h2', id: 'gaps', text: '빠진 기능이 필요하다면' },
+          {
+            kind: 'p',
+            html: '앱이 피벗, 차트, 클립보드와 범위 선택, 서버 측 그룹화, 열 그룹에 의존한다면 아직은 Needless UI 그리드가 AG Grid를 대신할 수 없습니다. 필요한 기능은 <a href="https://github.com/needless-ui/needless-ui/issues">이슈로 등록</a>해 주세요. 그 밖의 것은 <a href="/components/grid">데이터 그리드 페이지</a>에서 모든 입력, 출력, 예제를 확인하세요.',
           },
         ],
       },

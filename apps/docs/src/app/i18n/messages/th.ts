@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · คอมโพเนนต์ Angular ที่เข้าถึงได้ ออกแบบละเอียดเกินจำเป็น',
+    title: 'Needless UI · คอมโพเนนต์ Angular ฟรี พร้อม Scheduler และตารางข้อมูล',
     description:
-      'Needless UI คือไลบรารีคอมโพเนนต์ Angular แบบโอเพนซอร์ส ใช้เอลิเมนต์เนทีฟ design token ของ W3C และสไตล์ชีตเดียวที่ไม่ผูกกับเฟรมเวิร์ก พร้อมรองรับ WCAG 2.2 AA ในตัว',
+      'ไลบรารีคอมโพเนนต์ Angular ฟรีภายใต้สัญญาอนุญาต MIT คอมโพเนนต์เข้าถึงได้และสร้างบนเอลิเมนต์เนทีฟ พร้อม Scheduler ที่มีไทม์ไลน์ทรัพยากร และตารางข้อมูลที่จัดกลุ่มและส่งออกเป็น Excel ได้',
     eyebrow: 'โอเพนซอร์ส · Angular 22 · MIT',
     heading: 'คอมโพเนนต์ UI ที่ออกแบบมาดีเกินความจำเป็น',
-    lead: 'Needless UI กำหนดสไตล์ให้<strong>เอลิเมนต์เนทีฟ</strong>ด้วย design token ของ W3C และสไตล์ชีตเดียวที่ไม่ผูกกับเฟรมเวิร์กใด ๆ ส่วน directive ของ Angular จะเพิ่มพฤติกรรมจาก Angular Aria คอมโพเนนต์ทุกตัวจึงเข้าถึงได้ตั้งแต่การเรนเดอร์ครั้งแรก',
+    lead: 'คอมโพเนนต์ Angular ที่เข้าถึงได้ สร้างบน<strong>เอลิเมนต์เนทีฟ</strong> และกำหนดสไตล์ด้วยสไตล์ชีตเดียวที่ไม่ผูกกับเฟรมเวิร์ก ทุกอย่างใช้สัญญาอนุญาต MIT รวมถึงสิ่งที่ไลบรารีอื่นแยกขายต่างหาก ได้แก่ <a href="/components/scheduler">Scheduler</a> ที่มีไทม์ไลน์ทรัพยากร และ<a href="/components/grid">ตารางข้อมูล</a>ที่จัดกลุ่มและส่งออกเป็น Excel ได้',
     getStarted: 'เริ่มต้นใช้งาน',
     browse: 'ดูคอมโพเนนต์ทั้งหมด',
     featuresTitle: 'สร้างขึ้นมาทำไม',
     features: [
+      {
+        title: 'ไม่มีรุ่นพรีเมียม',
+        text: 'ไทม์ไลน์ทรัพยากรและกิจกรรมที่เกิดซ้ำของ <a href="/components/scheduler">Scheduler</a> รวมถึงการจัดกลุ่ม ข้อมูลแบบต้นไม้ และการส่งออกเป็น Excel ของ<a href="/components/grid">ตารางข้อมูล</a> ใช้สัญญาอนุญาต MIT เหมือนส่วนอื่นทั้งหมด ไม่ต้องมี license key และไม่มีลายน้ำ หากกำลังย้ายมาจากไลบรารีแบบเสียเงิน อ่านคู่มือสำหรับ <a href="/guides/from-fullcalendar">FullCalendar</a> และ <a href="/guides/from-ag-grid">AG Grid</a> ได้เลย',
+      },
       {
         title: 'เอลิเมนต์เนทีฟมาก่อน',
         text: '<code>&lt;button nuiButton&gt;</code> คือปุ่มจริง ๆ ฟอร์ม คีย์บอร์ด และโปรแกรมอ่านหน้าจอจึงทำงานได้ตามปกติ เพราะไม่มีอะไรห่อหุ้มปุ่มไว้',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'รองรับ signal input และโหมด zoneless เรนเดอร์ฝั่งเซิร์ฟเวอร์ได้ และแยก entry point ให้แต่ละคอมโพเนนต์ แอปจึงรวมเฉพาะสิ่งที่ import เท่านั้น',
       },
     ],
-    codeTitle: 'Import แค่สองบรรทัดก็เสร็จ',
+    codeTitle: 'คำสั่งเดียว แล้ว import อีกบรรทัดเดียว',
     codeText:
-      'เพิ่มแพ็กเกจ import สไตล์ชีตครั้งเดียว แล้วใช้คอมโพเนนต์ในคอมโพเนนต์แบบ standalone ใดก็ได้',
+      'รัน ng add เพื่อติดตั้งแพ็กเกจและ import สไตล์ชีตให้ แล้วใช้คอมโพเนนต์ในคอมโพเนนต์แบบ standalone ใดก็ได้',
   },
 
   components: {
@@ -1147,10 +1151,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'ตารางข้อมูล',
-        title: 'คอมโพเนนต์ตารางข้อมูลสำหรับ Angular',
-        summary: 'เรียงลำดับ กรอง เลือก แก้ไข และเลื่อนดูแถวได้ไม่จำกัดจำนวน',
+        title: 'ตารางข้อมูล Angular ฟรี จัดกลุ่มและส่งออกเป็น Excel ได้',
+        summary: 'เรียงลำดับ กรอง จัดกลุ่ม แก้ไข และส่งออกแถวได้ไม่จำกัดจำนวน',
         description:
-          'ตารางข้อมูลของ Angular ที่เข้าถึงได้ สร้างบน table แบบเนทีฟ รองรับการเรียงลำดับหลายคอลัมน์ ตัวกรอง การแบ่งหน้าหรือ virtual scrolling การเลือก การแก้ไข และการย้ายคอลัมน์',
+          'ตารางข้อมูล Angular ฟรีภายใต้สัญญาอนุญาต MIT สร้างบน table แบบเนทีฟ รองรับการจัดกลุ่มพร้อมผลรวม ข้อมูลแบบต้นไม้ การส่งออกเป็น Excel ตัวกรอง การแก้ไข และ virtual scrolling',
         apiDescription:
           'เอกสารอ้างอิง API ของตารางข้อมูลใน Needless UI ได้แก่ input และ model ของ nui-grid นิยามคอลัมน์ NuiGridColumn และเทมเพลตสำหรับเซลล์ที่กำหนดเอง',
         a11yDescription:
@@ -2583,6 +2587,372 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'สำหรับห้องที่วางเคียงข้างกันในหนึ่งวัน การจองที่เกิดซ้ำ และตัวเลือกอื่น ๆ ทั้งหมด ดูได้ที่<a href="/components/scheduler">หน้าของ Scheduler</a> และ<a href="/components/scheduler/api">หน้า API</a>',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'ย้ายจาก FullCalendar มาใช้ Scheduler ฟรีสำหรับ Angular',
+        description:
+          'ย้ายแอป Angular จาก FullCalendar Premium มาใช้ Scheduler ฟรีของ Needless UI ดูว่าอะไรตรงกับอะไร ตัวอย่างไทม์ไลน์การจองทั้งสองแบบ สิ่งที่ยังขาด และกับดักเรื่องข้อมูล',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'ไทม์ไลน์ทรัพยากรและคอลัมน์ทรัพยากรของ FullCalendar อยู่ในรุ่น Premium แอปเชิงพาณิชย์จึงต้องใช้ license key ที่ต้องซื้อ <a href="https://fullcalendar.io/license">หน้าสัญญาอนุญาต</a>ของ FullCalendar ระบุทางเลือกที่ใช้ได้ฟรีไว้ สำหรับแอปที่เป็น AGPL ทั้งหมด และสำหรับองค์กรไม่แสวงหากำไรที่จดทะเบียนแล้ว ส่วน Scheduler ของ Needless UI มีทั้งสองอย่างภายใต้สัญญาอนุญาต MIT พร้อมกิจกรรมที่เกิดซ้ำและไฟล์ iCalendar คู่มือนี้จะพาย้ายแอป Angular จากตัวหนึ่งไปอีกตัว ทั้งสิ่งที่ย้ายมาได้เลย สิ่งที่ย้ายมาไม่ได้ และข้อมูลที่ต้องแปลง',
+          },
+          {
+            kind: 'p',
+            html: 'คู่มือนี้ใช้ชื่อตาม FullCalendar 7 และใส่ชื่อในเวอร์ชัน 6 ไว้ในวงเล็บเหลี่ยมเมื่อชื่อต่างกัน ตัวเชื่อมต่อ Angular ของ FullCalendar รองรับ Angular 16 ถึง 22 ส่วน Needless UI ต้องใช้ Angular 22',
+          },
+          { kind: 'h2', id: 'compare', text: 'สิ่งที่คุณจะได้' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar และ Scheduler ของ Needless UI',
+            head: ['ฟีเจอร์', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'ไทม์ไลน์ทรัพยากรที่มีแถวสำหรับแต่ละห้องหรือแต่ละคน',
+                'Premium',
+                'มี แสดงได้ทั้งหนึ่งวัน หนึ่งสัปดาห์ หรือหนึ่งเดือน',
+              ],
+              ['ทรัพยากรเป็นคอลัมน์ในมุมมองวันและสัปดาห์', 'Premium', 'มี'],
+              ['มุมมองเดือน สัปดาห์ และวัน', 'ฟรี', 'มี'],
+              [
+                'ลากเพื่อย้ายและปรับขนาด',
+                'ฟรี แต่การลากไปยังทรัพยากรอื่นต้องใช้ Premium',
+                'มี และลากไปยังทรัพยากรอื่นได้ด้วย ปรับขนาดได้จากปลาย แต่ปรับจากจุดเริ่มต้นไม่ได้',
+              ],
+              [
+                'เลือกช่วงเวลาเพื่อสร้างกิจกรรม',
+                'ฟรี',
+                'มี ใช้ได้ทั้งตัวชี้ การกดค้าง และคีย์บอร์ด',
+              ],
+              [
+                'กฎต่าง ๆ เช่น ห้ามเวลาซ้อนกัน',
+                'ฟรี ผ่านตัวเลือกเรื่องการซ้อนทับและข้อจำกัด',
+                'มี ผ่านฟังก์ชัน <code>allow</code> ฟังก์ชันเดียว ซึ่งจะถูกถามก่อนทุกการเปลี่ยนแปลง',
+              ],
+              [
+                'ย้ายและปรับขนาดกิจกรรมด้วยคีย์บอร์ด',
+                'ไม่มีในเอกสารด้านการเข้าถึง ซึ่งพูดถึงป้ายกำกับ ARIA และการโฟกัสด้วย Tab',
+                'มี และประกาศให้โปรแกรมอ่านหน้าจอทราบ',
+              ],
+              [
+                'กิจกรรมที่เกิดซ้ำ',
+                'ฟรี โดยใช้ปลั๊กอินและไลบรารี rrule',
+                'มีในตัว ใช้กฎตาม RFC 5545 ยกเว้น EXRULE RDATE และกฎรายชั่วโมง',
+              ],
+              ['iCalendar (.ics)', 'ฟรี อ่านฟีดได้', 'อ่านและเขียนไฟล์ .ics ได้'],
+              ['มุมมองรายการและมุมมองปี', 'ฟรี', 'มีกำหนดการของวันข้างหน้า แต่ไม่มีมุมมองปี'],
+              [
+                'เขตเวลา',
+                'ฟรี ทั้งเวลาท้องถิ่น UTC และเขตเวลาตามชื่อ',
+                'ไม่มี แสดงเวลาตามที่ได้รับมาโดยไม่แปลงเขตเวลา',
+              ],
+              [
+                'ทรัพยากรแบบจัดกลุ่ม ซ้อนกัน หรือหลายคอลัมน์',
+                'Premium',
+                'ไม่มี มีคอลัมน์เดียวที่วาดด้วยเทมเพลตของคุณ',
+              ],
+              ['การลากและวางจากภายนอก และกิจกรรมพื้นหลัง', 'ฟรี', 'ไม่มี'],
+              ['การสั่งพิมพ์ และการเรนเดอร์แบบ virtual', 'Premium', 'ไม่มี'],
+              [
+                'เฟรมเวิร์ก',
+                'Angular 16 ถึง 22, React, Vue, JavaScript ธรรมดา และอื่น ๆ',
+                'Angular 22 ส่วน React จะตามมา',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'อะไรตรงกับอะไร' },
+          {
+            kind: 'table',
+            caption: 'ตัวเลือกของ FullCalendar และสิ่งที่ใช้แทนใน Needless UI',
+            head: ['FullCalendar', 'Scheduler ของ Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code> <code>plugins</code> และ <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code> ที่มี input สำหรับทุกตัวเลือก ไม่มีปลั๊กอินและไม่ต้องใช้ key',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code> และ <code>timelineSpan</code> สำหรับหนึ่งสัปดาห์หรือหนึ่งเดือน',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code> โดย <code>[(view)]</code> ผูกได้สองทาง',
+              ],
+              [
+                '<code>resources</code> และ <code>events</code>',
+                '<code>[resources]</code> และ <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code> และ <code>extendedProps</code>',
+                '<code>resource</code> และ <code>data</code>',
+              ],
+              [
+                '<code>editable</code> และ <code>selectable</code>',
+                '<code>editable</code> และ <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code> ส่ง <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code> และ <code>eventResize</code>',
+                '<code>(eventChange)</code> โดยจะไม่มีอะไรขยับจนกว่าคุณจะอัปเดต <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code> <code>selectOverlap</code> และ <code>eventAllow</code>',
+                '<code>[allow]</code> ฟังก์ชันเดียวสำหรับการย้าย การปรับขนาด และการเลือก',
+              ],
+              [
+                '<code>slotDuration</code> และ <code>snapDuration</code>',
+                '<code>slotMinutes</code> และ <code>snapMinutes</code> หน่วยเป็นนาที',
+              ],
+              [
+                '<code>slotMinTime</code> <code>slotMaxTime</code> และ <code>scrollTime</code>',
+                '<code>dayStart</code> <code>dayEnd</code> และ <code>scrollHour</code> หน่วยเป็นชั่วโมง',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code> โดยวันในสัปดาห์เริ่มจาก 1 (วันจันทร์) ถึง 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code> และ <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'เทมเพลต <code>nuiSchedulerEvent</code> และ <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code> และ <code>firstDay</code>',
+                '<code>locale</code> (แท็ก BCP 47 ใดก็ได้) <code>firstDay</code> ตั้งแต่ 1 ถึง 7 และ <code>labels</code> สำหรับข้อความของ Scheduler',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'ไทม์ไลน์จองห้องด้วยทั้งสองไลบรารี' },
+          {
+            kind: 'p',
+            html: 'ห้องคือทรัพยากร และการจองคือกิจกรรม ผู้ใช้ลากผ่านแถวของห้องเพื่อจอง และลากการจองเพื่อย้าย โดยแต่ละห้องรับการจองได้ครั้งละหนึ่งรายการ เมื่อใช้ FullCalendar 7 กับไทม์ไลน์ทรัพยากรรุ่น Premium จะเขียนได้ดังนี้',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'ส่วนเมื่อใช้ Scheduler ของ Needless UI จะเขียนได้ดังนี้' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'มีสองเรื่องที่ทำงานต่างกัน เรื่องแรก FullCalendar ย้ายการจองเอง แล้วแอปจึงคัดลอกการเปลี่ยนแปลงตามไป ส่วน Scheduler ของ Needless UI เพียงรายงานการเปลี่ยนแปลง และการอัปเดต <code>events</code> คือสิ่งที่ทำให้การเปลี่ยนแปลงนั้นคงอยู่ ข้อมูลของคุณจึงเป็นแหล่งข้อมูลจริงเพียงแหล่งเดียว เรื่องที่สอง <code>allow</code> เป็นโค้ดธรรมดาที่ถูกถามก่อนทุกการเปลี่ยนแปลงจากตัวชี้หรือคีย์บอร์ด คุณจึงทดสอบกฎนั้นได้เอง <a href="/guides/booking-calendar">คู่มือสร้างปฏิทินจองห้องประชุม</a>จะพาสร้างแอปนี้ทีละขั้นตอน',
+          },
+          { kind: 'h2', id: 'data', text: 'การแปลงข้อมูล' },
+          {
+            kind: 'table',
+            caption: 'ข้อมูลของ FullCalendar และรูปแบบที่ Scheduler ต้องการ',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'ค่า <code>end</code> ของกิจกรรมทั้งวันคือวันถัดจากกิจกรรม',
+                'ค่า <code>end</code> ของกิจกรรมทั้งวันคือวันสุดท้ายของกิจกรรม จึงต้องลบออกหนึ่งวัน',
+              ],
+              [
+                'เวลาอาจลงท้ายด้วย <code>Z</code> หรือ offset เช่น <code>+02:00</code>',
+                'เวลาตามนาฬิกาที่ไม่มี offset เช่น <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'วันในสัปดาห์เริ่มจาก 0 (วันอาทิตย์) ถึง 6 ใน <code>businessHours</code> และ <code>firstDay</code>',
+                'วันในสัปดาห์เริ่มจาก 1 (วันจันทร์) ถึง 7 (วันอาทิตย์)',
+              ],
+              ["ระยะเวลาเป็นสตริง เช่น <code>'00:30'</code>", 'ตัวเลขที่เป็นนาทีหรือชั่วโมง'],
+              ['ทรัพยากรเรียงตาม id แล้วจึงตามชื่อ', 'ทรัพยากรเรียงตามลำดับในอาร์เรย์'],
+              [
+                '<code>rrule</code> ที่เป็นออบเจ็กต์ และ <code>exrule</code>',
+                'สตริงตาม RFC 5545 เช่น <code>FREQ=WEEKLY;BYDAY=MO,FR</code> และ <code>exdate</code>',
+              ],
+              [
+                'เขตเวลา เช่น <code>America/New_York</code>',
+                'แปลงเวลาก่อน ส่วน <code>nuiSchedulerFromIcs(text, { timeZone })</code> จะแปลงไฟล์ .ics ให้ระหว่างอ่าน',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'หากต้องการสิ่งที่ยังไม่มี' },
+          {
+            kind: 'p',
+            html: 'หากแอปของคุณต้องพึ่งเขตเวลา ทรัพยากรแบบจัดกลุ่ม การลากและวางจากภายนอก หรือการสั่งพิมพ์ Scheduler ยังใช้แทน FullCalendar ไม่ได้ในตอนนี้ <a href="https://github.com/needless-ui/needless-ui/issues">เปิด issue</a> เพื่อบอกสิ่งที่คุณต้องการ ส่วนเรื่องอื่นทั้งหมด <a href="/components/scheduler">หน้าของ Scheduler</a> มีทุก input output และตัวอย่าง',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'ย้ายจาก AG Grid Enterprise มาใช้ตารางข้อมูลฟรีสำหรับ Angular',
+        description:
+          'ย้ายแอป Angular จาก AG Grid Enterprise มาใช้ตารางข้อมูลฟรีของ Needless UI ทั้งการจัดกลุ่ม ผลรวม ข้อมูลแบบต้นไม้ และการส่งออกเป็น Excel ดูว่าอะไรตรงกับอะไร และสิ่งที่ยังขาด',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'การจัดกลุ่มแถว การคำนวณค่าสรุป ข้อมูลแบบต้นไม้ master/detail และการส่งออกเป็น Excel ของ AG Grid เป็นฟีเจอร์ในรุ่น Enterprise การนำไปใช้งานจริงต้องมีสัญญาอนุญาตเชิงพาณิชย์ และหากไม่มี license key ตารางจะแสดงลายน้ำและบันทึกข้อผิดพลาดลงคอนโซล ส่วนตารางข้อมูลของ Needless UI มีการจัดกลุ่มพร้อมผลรวม ข้อมูลแบบต้นไม้ รายละเอียดของแถว และการส่งออกเป็น .xlsx ภายใต้สัญญาอนุญาต MIT คู่มือนี้จะพาย้ายแอป Angular จากตัวหนึ่งไปอีกตัว ทั้งสิ่งที่ย้ายมาได้เลย สิ่งที่ย้ายมาไม่ได้ และโค้ดที่ต้องเปลี่ยน',
+          },
+          {
+            kind: 'p',
+            html: 'คู่มือนี้ใช้ชื่อตาม AG Grid 36 ซึ่งรองรับ Angular 20 ถึง 22 ส่วน Needless UI ต้องใช้ Angular 22',
+          },
+          { kind: 'h2', id: 'compare', text: 'สิ่งที่คุณจะได้' },
+          {
+            kind: 'table',
+            caption: 'AG Grid และตารางข้อมูลของ Needless UI',
+            head: ['ฟีเจอร์', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'การจัดกลุ่มแถว พร้อมค่าสรุปและแถวผลรวม',
+                'Enterprise',
+                'มี ซ้อนได้หลายระดับ พร้อมผลรวม ค่าเฉลี่ย ค่าต่ำสุด ค่าสูงสุด จำนวน หรือฟังก์ชัน',
+              ],
+              ['ข้อมูลแบบต้นไม้', 'Enterprise', 'มี สร้างจากแถวที่ซ้อนกัน'],
+              [
+                'รายละเอียดใต้แถว (master/detail)',
+                'Enterprise',
+                'มี ใส่เทมเพลตใดก็ได้ใต้แถว รวมถึงตารางข้อมูลอีกตาราง',
+              ],
+              [
+                'การส่งออกเป็น Excel',
+                'Enterprise รองรับสไตล์ หลายชีต รูปภาพ และสูตร',
+                'มี ส่งออกเป็นชีตเดียวที่เซลล์มีชนิดข้อมูล พร้อมรูปแบบตัวเลข และแถวหัวตารางที่ตรึงไว้พร้อมตัวกรอง',
+              ],
+              [
+                'เมนูคอลัมน์พร้อมเครื่องมือเลือกคอลัมน์',
+                'Enterprise',
+                'มี เรียงลำดับ กรอง ตรึง ย้าย ปรับความกว้างให้พอดี และซ่อนได้ทีละคอลัมน์ รวมถึงแสดงหรือซ่อนทุกคอลัมน์',
+              ],
+              [
+                'การเรียงลำดับตามหลายคอลัมน์ การค้นหาด่วน การแบ่งหน้า และการเลือกแถว',
+                'Community',
+                'มี',
+              ],
+              [
+                'ตัวกรองคอลัมน์',
+                'Community ใส่ได้สูงสุดสองเงื่อนไข เชื่อมด้วย AND หรือ OR',
+                'หนึ่งเงื่อนไขต่อคอลัมน์',
+              ],
+              [
+                'ตัวกรองแบบ Set Multi และ Advanced',
+                'Enterprise',
+                'บางส่วน มีรายการให้ติ๊กเลือกจากตัวเลือกของคอลัมน์ แต่ไม่ได้สร้างจากค่าในข้อมูล',
+              ],
+              [
+                'ปรับความกว้าง ย้าย ตรึง และซ่อนคอลัมน์ พร้อมบันทึกสถานะของคอลัมน์',
+                'Community',
+                'มี',
+              ],
+              ['การเลื่อนแบบ virtual', 'Community ทั้งแถวและคอลัมน์', 'แถว'],
+              [
+                'การแก้ไขเซลล์',
+                'Community แต่ตัวแก้ไขบางตัวต้องใช้ Enterprise',
+                'มี ตามชนิดของคอลัมน์ พร้อมการตรวจสอบค่า แต่ไม่มีตัวแก้ไขแบบกำหนดเองและไม่มีการเลิกทำ',
+              ],
+              ['การทำ pivot และแผนภูมิในตัว', 'Enterprise', 'ไม่มี'],
+              [
+                'คลิปบอร์ด การเลือกช่วงเซลล์ เมนูบริบท แถบสถานะ และแถบด้านข้าง',
+                'Enterprise',
+                'ไม่มี',
+              ],
+              [
+                'ข้อมูลจากเซิร์ฟเวอร์',
+                'Server-side row model ต้องใช้ Enterprise ส่วนการโหลดเป็นบล็อกใช้ได้ใน Community',
+                'รับข้อมูลทีละหน้าจากเซิร์ฟเวอร์ของคุณ โดยเซิร์ฟเวอร์จัดการการเรียงลำดับ ตัวกรอง และการค้นหา แต่ไม่มีการจัดกลุ่มบนเซิร์ฟเวอร์',
+              ],
+              ['กลุ่มคอลัมน์ การลากแถว และแถวที่ตรึงไว้', 'Community', 'ไม่มี'],
+              [
+                'เฟรมเวิร์ก',
+                'React, Angular 20 ถึง 22, Vue และ JavaScript ธรรมดา',
+                'Angular 22 ส่วน React จะตามมา',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'อะไรตรงกับอะไร' },
+          {
+            kind: 'table',
+            caption: 'ตัวเลือกของ AG Grid และสิ่งที่ใช้แทนใน Needless UI',
+            head: ['AG Grid', 'ตารางข้อมูลของ Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code> การลงทะเบียนโมดูล และ <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code> ไม่ต้องลงทะเบียนอะไรและไม่ต้องใช้ key',
+              ],
+              [
+                '<code>rowData</code> และ <code>columnDefs</code>',
+                '<code>[(rows)]</code> และ <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code> และ <code>headerName</code>',
+                '<code>id</code> และ <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code> <code>valueFormatter</code> และ <code>cellDataType</code>',
+                '<code>value</code> <code>format</code> (ตัวเลือก Intl หรือฟังก์ชัน) และ <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'เทมเพลต <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code> และ <code>hide</code>",
+                "<code>pinned: 'start'</code> และ <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> ของคอลัมน์ และ <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code> ซึ่งเป็นรายการ id ของคอลัมน์ กลุ่มจะขยายอยู่ตั้งแต่แรก และ <code>[(collapsed)]</code> ใช้ยุบกลุ่ม',
+              ],
+              [
+                '<code>aggFunc</code> และ <code>grandTotalRow</code>',
+                '<code>aggregate</code> และ <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> คู่กับ <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code> และ <code>detailCellRenderer</code>',
+                'เทมเพลต <code>nuiGridDetail</code> และ <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code> และ <code>getSelectedRows()</code>',
+                '<code>selection</code> และ <code>[(selected)]</code> ซึ่งเก็บคีย์ของแถวที่เลือก',
+              ],
+              [
+                '<code>pagination</code> และ <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code> <code>[(page)]</code> และ <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code> และ <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code> และ <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> คืนค่าเป็น Blob และ <code>exportCsv()</code> คืนค่าเป็นข้อความ',
+              ],
+              [
+                '<code>cellValueChanged</code> และ <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code> และ <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code> <code>total</code> และ <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code> และ <code>enableRtl</code>',
+                '<code>labels</code> ส่วนทิศทางขวาไปซ้ายจะเป็นไปตาม <code>dir</code> ของหน้า',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'คำสั่งซื้อที่จัดกลุ่มตามประเทศด้วยทั้งสองไลบรารี' },
+          {
+            kind: 'p',
+            html: 'โจทย์คือแสดงคำสั่งซื้อที่จัดกลุ่มตามประเทศ พร้อมยอดรวมของแต่ละประเทศและยอดรวมทั้งหมด ส่งออกเป็น Excel ได้ มีการค้นหาด่วน และเลือกได้หลายแถว เมื่อใช้ AG Grid 36 ซึ่งการจัดกลุ่ม ผลรวม และการส่งออกเป็น Excel ต้องใช้รุ่น Enterprise จะเขียนได้ดังนี้',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'ส่วนเมื่อใช้ตารางข้อมูลของ Needless UI จะเขียนได้ดังนี้' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'มีบางเรื่องที่ทำงานต่างกัน แถวที่เลือกจะถูกเก็บเป็นคีย์ ซึ่งก็คือ id ของแถว การเลือกจึงยังคงอยู่แม้จะได้ข้อมูลชุดใหม่ หากต้องการตัวแถวก็จับคู่คีย์กลับไปหาแถว กลุ่มจะขยายอยู่ตั้งแต่แรก ป้ายกำกับของกลุ่มจะอยู่ในคอลัมน์แรกที่มองเห็น และการค้นหาจะอ่านเฉพาะคอลัมน์ที่มองเห็น หากต้องการให้การค้นหาตรงกับคอลัมน์ที่ใช้จัดกลุ่มด้วย จึงต้องแสดงคอลัมน์นั้นไว้ และ <code>exportXlsx()</code> จะคืนไฟล์มาให้แทนการดาวน์โหลด ไฟล์นั้นมีชีตเดียวซึ่งเป็นแถวที่กรองและเรียงลำดับแล้ว โดยไม่มีแถวกลุ่ม',
+          },
+          { kind: 'h2', id: 'gaps', text: 'หากต้องการสิ่งที่ยังไม่มี' },
+          {
+            kind: 'p',
+            html: 'หากแอปของคุณต้องพึ่งการทำ pivot แผนภูมิ คลิปบอร์ดและการเลือกช่วงเซลล์ การจัดกลุ่มบนเซิร์ฟเวอร์ หรือกลุ่มคอลัมน์ ตารางข้อมูลของ Needless UI ยังใช้แทน AG Grid ไม่ได้ในตอนนี้ <a href="https://github.com/needless-ui/needless-ui/issues">เปิด issue</a> เพื่อบอกสิ่งที่คุณต้องการ ส่วนเรื่องอื่นทั้งหมด <a href="/components/grid">หน้าของตารางข้อมูล</a>มีทุก input output และตัวอย่าง',
           },
         ],
       },

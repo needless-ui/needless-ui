@@ -96,7 +96,7 @@ class PageLocale {}
                     <h2 [id]="block.id">{{ block.text }}</h2>
                   }
                   @case ('code') {
-                    <docs-code [key]="block.file" />
+                    <docs-code [key]="block.file" [lazy]="block.lazy ?? false" />
                   }
                   @case ('table') {
                     <div

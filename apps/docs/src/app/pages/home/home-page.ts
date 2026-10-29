@@ -19,7 +19,7 @@ import { TrustedHtml } from '../../shared/trusted';
         <div class="hero-text">
           <p class="eyebrow">{{ home.eyebrow }}</p>
           <h1 id="hero-title">{{ home.heading }}</h1>
-          <p class="hero-lead" [innerHTML]="home.lead | trusted"></p>
+          <p class="hero-lead" docsInAppLinks [innerHTML]="home.lead | trusted"></p>
           <div class="hero-actions">
             <a nuiButton size="lg" [routerLink]="i18n.link('/guides/getting-started')">
               {{ home.getStarted }}
@@ -58,7 +58,7 @@ import { TrustedHtml } from '../../shared/trusted';
         <h2 id="code-title">{{ home.codeTitle }}</h2>
         <p class="section-lead">{{ home.codeText }}</p>
         <div class="home-code">
-          <docs-code key="snippets/install.sh" />
+          <docs-code key="snippets/ng-add.sh" />
           <docs-code key="snippets/usage.ts" />
         </div>
       </section>

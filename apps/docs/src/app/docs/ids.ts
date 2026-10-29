@@ -37,6 +37,8 @@ export const GUIDE_IDS = [
   'theming',
   'customization',
   'booking-calendar',
+  'from-fullcalendar',
+  'from-ag-grid',
   'browser-support',
 ] as const;
 export type GuideId = (typeof GUIDE_IDS)[number];

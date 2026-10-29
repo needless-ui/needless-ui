@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · 無駄に作り込んだアクセシブルな Angular コンポーネント',
+    title: 'Needless UI · スケジューラーとデータグリッドを備えた無料の Angular UI',
     description:
-      'Needless UI はオープンソースの Angular コンポーネントライブラリ。ネイティブ要素、単一のスタイルシート、W3C デザイントークン、WCAG 2.2 AA 準拠を標準で備えています。',
+      'MIT ライセンスの無料 Angular コンポーネントライブラリ。ネイティブ要素ベースでアクセシブル。リソーススケジューラーと、グループ化や Excel 出力ができるデータグリッドも。',
     eyebrow: 'オープンソース · Angular 22 · MIT',
     heading: '無駄なほど丁寧に作り込んだ UI コンポーネント。',
-    lead: 'Needless UI は、フレームワーク非依存の単一のスタイルシートと W3C デザイントークンで<strong>ネイティブ要素</strong>にスタイルを適用します。Angular ディレクティブが Angular Aria の振る舞いを加えるので、どのコンポーネントも最初のレンダリングからアクセシブルです。',
+    lead: 'フレームワーク非依存の単一のスタイルシートでスタイルを付けた、<strong>ネイティブ要素</strong>ベースのアクセシブルな Angular コンポーネントです。ほかのライブラリなら別売りの機能まで、すべて MIT ライセンスです。リソースタイムラインを備えた<a href="/components/scheduler">スケジューラー</a>も、グループ化と Excel エクスポートに対応した<a href="/components/grid">データグリッド</a>も含まれます。',
     getStarted: 'はじめる',
     browse: 'コンポーネントを見る',
     featuresTitle: '存在理由',
     features: [
+      {
+        title: '有料版なし',
+        text: '<a href="/components/scheduler">スケジューラー</a>のリソースタイムラインと繰り返しの予定も、<a href="/components/grid">データグリッド</a>のグループ化、ツリーデータ、Excel エクスポートも、ほかのすべてと同じく MIT ライセンスです。ライセンスキーも透かしもありません。有料ライブラリから乗り換えるなら、<a href="/guides/from-fullcalendar">FullCalendar</a> と <a href="/guides/from-ag-grid">AG Grid</a> からの移行ガイドをご覧ください。',
+      },
       {
         title: 'ネイティブ要素ファースト',
         text: '<code>&lt;button nuiButton&gt;</code> は本物のボタンです。何もラップしていないので、フォームもキーボードもスクリーンリーダーもそのまま動作します。',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'シグナル入力、Zoneless、サーバーサイドレンダリングに対応。コンポーネントごとにエントリーポイントがあるので、アプリにはインポートしたものだけが含まれます。',
       },
     ],
-    codeTitle: 'インポート2つで完了',
+    codeTitle: 'コマンド1つ、あとはインポート1つ',
     codeText:
-      'パッケージを追加し、スタイルシートを一度インポートすれば、あとはどのスタンドアロンコンポーネントでも使えます。',
+      'ng add を実行すると、パッケージのインストールとスタイルシートのインポートが済みます。あとは、どのスタンドアロンコンポーネントでも使えます。',
   },
 
   components: {
@@ -1180,10 +1184,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'データグリッド',
-        title: 'Angular 用データグリッドコンポーネント',
-        summary: '何行あっても、並べ替え、絞り込み、選択、編集、スクロールができます。',
+        title: '無料の Angular データグリッド：グループ化と Excel 出力',
+        summary: '何行あっても、並べ替え、絞り込み、グループ化、編集、エクスポートができます。',
         description:
-          'ネイティブの table 要素で構築したアクセシブルな Angular データグリッド。複数列の並べ替え、フィルター、ページングや仮想スクロール、選択、編集、列の移動に対応します。',
+          'MIT ライセンスの無料 Angular データグリッド。ネイティブの table 要素で作り、合計付きのグループ化、ツリーデータ、Excel 出力、フィルター、編集、仮想スクロールに対応。',
         apiDescription:
           'Needless UI のデータグリッドの API リファレンス。nui-grid の入力と双方向バインディング、NuiGridColumn の定義、カスタムセル用のテンプレートを解説します。',
         a11yDescription:
@@ -2652,6 +2656,360 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '会議室を横に並べた日表示、繰り返しの予約、そのほかのすべてのオプションについては、<a href="/components/scheduler">スケジューラーのページ</a>とその <a href="/components/scheduler/api">API</a> をご覧ください。',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'FullCalendar から無料の Angular スケジューラーへ移行する',
+        description:
+          'Angular アプリを FullCalendar Premium から無料の Needless UI スケジューラーへ移行する方法。機能の対応、両方で作る予約タイムライン、足りない機能とデータの落とし穴。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar のリソースタイムラインとリソース列は Premium の機能で、商用アプリでは有料のライセンスキーが必要です。<a href="https://fullcalendar.io/license">ライセンスページ</a>には、無料で使える場合として、アプリ全体が AGPL の場合と、登録済みの非営利団体の場合が挙げられています。Needless UI のスケジューラーは、そのどちらも MIT ライセンスで提供し、繰り返しの予定と iCalendar ファイルにも対応しています。このガイドでは、Angular アプリを FullCalendar から Needless UI へ移行します。そのまま移せるもの、移せないもの、変換が必要なデータを順に見ていきます。',
+          },
+          {
+            kind: 'p',
+            html: 'FullCalendar 7 の名前を使い、バージョン 6 で名前が異なる場合は角かっこで併記します。FullCalendar の Angular コネクターは Angular 16 から 22 に対応していますが、Needless UI には Angular 22 が必要です。',
+          },
+          { kind: 'h2', id: 'compare', text: '機能の比較' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar と Needless UI のスケジューラー',
+            head: ['機能', 'FullCalendar', 'Needless UI'],
+            rows: [
+              ['リソースタイムライン：会議室や人ごとに1行', 'Premium', '対応：1日、1週間、1か月'],
+              ['日表示と週表示でリソースを列に並べる', 'Premium', '対応'],
+              ['月、週、日の各ビュー', '無料', '対応'],
+              [
+                'ドラッグで移動、リサイズ',
+                '無料（別のリソースへの移動は Premium）',
+                '対応。別のリソースへも移動できる。リサイズは終端だけで、始端からはできない。',
+              ],
+              ['時間を選択して予定を作成', '無料', '対応：ポインター、長押し、キーボードで選択'],
+              [
+                '重複禁止などのルール',
+                '無料：overlap と constraint のオプション',
+                '対応：変更のたびに確認する <code>allow</code> 関数1つ',
+              ],
+              [
+                'キーボードで予定を移動、リサイズ',
+                'アクセシビリティのドキュメントに記載なし（扱うのは ARIA ラベルと Tab キーでのフォーカス）',
+                '対応：スクリーンリーダーで読み上げ',
+              ],
+              [
+                '繰り返しの予定',
+                '無料（rrule のプラグインとライブラリを使用）',
+                '標準で対応：RFC 5545 のルール（EXRULE、RDATE、時間単位のルールは除く）',
+              ],
+              [
+                'iCalendar（.ics）',
+                '無料：フィードの読み込み',
+                '.ics ファイルの読み込みと書き出し',
+              ],
+              ['リスト表示と年表示', '無料', '今後数日の予定リスト（年表示はなし）'],
+              [
+                'タイムゾーン',
+                '無料：ローカル、UTC、名前付きのタイムゾーン',
+                '非対応：受け取った時刻をそのまま表示',
+              ],
+              [
+                'グループ化、入れ子、複数列のリソース',
+                'Premium',
+                '非対応：テンプレートで描画する1列のみ',
+              ],
+              ['外部からのドラッグ＆ドロップ、背景イベント', '無料', '非対応'],
+              ['印刷、仮想レンダリング', 'Premium', '非対応'],
+              [
+                'フレームワーク',
+                'Angular 16〜22、React、Vue、素の JavaScript など',
+                'Angular 22（次は React）',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: '対応関係' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar のオプションと、Needless UI での対応',
+            head: ['FullCalendar', 'Needless UI のスケジューラー'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>、<code>plugins</code>、<code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>（オプションごとに入力があり、プラグインもキーも不要）',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>（1週間や1か月なら <code>timelineSpan</code> も指定）',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>（<code>[(view)]</code> で双方向バインディング）',
+              ],
+              [
+                '<code>resources</code>、<code>events</code>',
+                '<code>[resources]</code>、<code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>、<code>extendedProps</code>',
+                '<code>resource</code>、<code>data</code>',
+              ],
+              [
+                '<code>editable</code>、<code>selectable</code>',
+                '<code>editable</code>、<code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>：<code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>、<code>eventResize</code>',
+                '<code>(eventChange)</code>：<code>events</code> を更新するまで何も動かない',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>、<code>selectOverlap</code>、<code>eventAllow</code>',
+                '<code>[allow]</code>：移動、リサイズ、選択を1つの関数で判定',
+              ],
+              [
+                '<code>slotDuration</code>、<code>snapDuration</code>',
+                '<code>slotMinutes</code>、<code>snapMinutes</code>（分単位）',
+              ],
+              [
+                '<code>slotMinTime</code>、<code>slotMaxTime</code>、<code>scrollTime</code>',
+                '<code>dayStart</code>、<code>dayEnd</code>、<code>scrollHour</code>（時間単位）',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>：曜日は 1（月曜日）から 7 まで',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>、<code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code> と <code>nuiSchedulerResource</code> のテンプレート',
+              ],
+              [
+                '<code>locale</code>、<code>firstDay</code>',
+                '<code>locale</code>（任意の BCP 47 タグ）、1〜7 の <code>firstDay</code>、文言を指定する <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: '会議室予約のタイムラインを両方で作る' },
+          {
+            kind: 'p',
+            html: '会議室はリソース、予約は予定です。会議室の行に沿ってドラッグすると予約でき、予約をドラッグすると移動できます。1つの会議室に同時に入る予約は1件だけです。FullCalendar 7 と、その Premium のリソースタイムラインでは次のようになります。',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI のスケジューラーでは次のようになります。' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: '動作が異なる点は2つあります。FullCalendar は予約を自ら移動し、アプリがその変更を写し取ります。Needless UI のスケジューラーは変更を通知するだけで、<code>events</code> を更新して初めて変更が反映されるため、アプリのデータが唯一の情報源であり続けます。また、<code>allow</code> はただのコードで、ポインターでもキーボードでも変更のたびに呼ばれるため、ルールを自分でテストできます。このアプリは、<a href="/guides/booking-calendar">会議室予約カレンダーのガイド</a>で順を追って作っています。',
+          },
+          { kind: 'h2', id: 'data', text: 'データの変換' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar のデータと、スケジューラーが求める形式',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '終日の予定の <code>end</code> は予定の翌日',
+                '終日の予定の <code>end</code> は最終日なので、1日引く',
+              ],
+              [
+                '時刻の末尾に <code>Z</code> や、<code>+02:00</code> などのオフセットが付くことがある',
+                'オフセットなしの時刻（例：<code>2026-11-02T09:30</code>）',
+              ],
+              [
+                '曜日は 0（日曜日）から 6。<code>businessHours</code> と <code>firstDay</code> で使う',
+                '曜日は 1（月曜日）から 7（日曜日）',
+              ],
+              ["期間は <code>'00:30'</code> のような文字列", '数値：分または時間'],
+              ['リソースは id 順、次にタイトル順に並ぶ', 'リソースは配列の順に並ぶ'],
+              [
+                '<code>rrule</code> はオブジェクト、<code>exrule</code> も使う',
+                '<code>FREQ=WEEKLY;BYDAY=MO,FR</code> のような RFC 5545 の文字列と、<code>exdate</code>',
+              ],
+              [
+                '<code>America/New_York</code> のようなタイムゾーン',
+                '先に時刻を変換する。<code>nuiSchedulerFromIcs(text, { timeZone })</code> は .ics ファイルを読み込みながら変換する。',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: '足りない機能が必要なら' },
+          {
+            kind: 'p',
+            html: 'アプリがタイムゾーン、グループ化したリソース、外部からのドラッグ＆ドロップ、印刷に頼っている場合、スケジューラーはまだ FullCalendar の代わりになりません。必要な機能は <a href="https://github.com/needless-ui/needless-ui/issues">Issue を作成</a>してお知らせください。それ以外については、<a href="/components/scheduler">スケジューラーのページ</a>にすべての入力、出力、例が載っています。',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'AG Grid Enterprise から無料の Angular データグリッドへ',
+        description:
+          'Angular アプリを AG Grid Enterprise から無料の Needless UI データグリッドへ移行する方法。グループ化と集計、ツリーデータ、Excel 出力、機能の対応、足りない機能。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid の行のグループ化、集計、ツリーデータ、マスター/ディテール、Excel エクスポートは Enterprise の機能です。本番環境で使うには商用ライセンスが必要で、ライセンスキーがないと、グリッドに透かしが表示され、コンソールにエラーが出力されます。Needless UI のデータグリッドは、集計付きのグループ化、ツリーデータ、行の詳細、.xlsx エクスポートを MIT ライセンスで提供しています。このガイドでは、Angular アプリを AG Grid から Needless UI へ移行します。そのまま移せるもの、移せないもの、コードがどう変わるかを順に見ていきます。',
+          },
+          {
+            kind: 'p',
+            html: 'AG Grid 36 の名前を使います。AG Grid 36 は Angular 20 から 22 に対応していますが、Needless UI には Angular 22 が必要です。',
+          },
+          { kind: 'h2', id: 'compare', text: '機能の比較' },
+          {
+            kind: 'table',
+            caption: 'AG Grid と Needless UI のデータグリッド',
+            head: ['機能', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                '行のグループ化（集計値と集計行付き）',
+                'Enterprise',
+                '対応：複数階層。合計、平均、最小値、最大値、件数、または関数で集計',
+              ],
+              ['ツリーデータ', 'Enterprise', '対応：入れ子の行から表示'],
+              [
+                '行の下の詳細（マスター/ディテール）',
+                'Enterprise',
+                '対応：行の下に任意のテンプレート（別のグリッドも可）',
+              ],
+              [
+                'Excel エクスポート',
+                'Enterprise：スタイル、複数シート、画像、数式',
+                '対応：型付きセルのシート1枚。数値書式と、フィルター付きの固定ヘッダー行',
+              ],
+              [
+                '列選択ツール付きの列メニュー',
+                'Enterprise',
+                '対応：各列の並べ替え、絞り込み、固定、移動、幅の自動調整、非表示と、全列の一括表示・非表示',
+              ],
+              ['複数列での並べ替え、クイック検索、ページング、行の選択', 'Community', '対応'],
+              [
+                '列フィルター',
+                'Community：条件は2つまで（AND または OR で結合）',
+                '列ごとに条件1つ',
+              ],
+              [
+                'セットフィルター、マルチフィルター、高度なフィルター',
+                'Enterprise',
+                '一部対応：列の選択肢から作るチェックリスト（データ内の値からではない）',
+              ],
+              ['列のリサイズ、移動、固定、非表示と、その状態の保存', 'Community', '対応'],
+              ['仮想スクロール', 'Community：行と列', '行のみ'],
+              [
+                'セルの編集',
+                'Community（一部のエディターは Enterprise）',
+                '対応：列の型に応じた編集と検証（カスタムエディターと元に戻す操作はなし）',
+              ],
+              ['ピボット、統合チャート', 'Enterprise', '非対応'],
+              [
+                'クリップボード、セル範囲の選択、コンテキストメニュー、ステータスバー、サイドバー',
+                'Enterprise',
+                '非対応',
+              ],
+              [
+                'サーバーのデータ',
+                'サーバーサイド行モデルは Enterprise、ブロック単位の読み込みは Community',
+                'サーバーからページ単位で取得し、並べ替え、フィルター、検索もサーバー側で処理（サーバー側でのグループ化は非対応）',
+              ],
+              ['列グループ、行のドラッグ、固定行', 'Community', '非対応'],
+              [
+                'フレームワーク',
+                'React、Angular 20〜22、Vue、素の JavaScript',
+                'Angular 22（次は React）',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: '対応関係' },
+          {
+            kind: 'table',
+            caption: 'AG Grid のオプションと、Needless UI での対応',
+            head: ['AG Grid', 'Needless UI のグリッド'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>、モジュールの登録、<code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>（登録するものもキーも不要）',
+              ],
+              [
+                '<code>rowData</code>、<code>columnDefs</code>',
+                '<code>[(rows)]</code>、<code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>、<code>headerName</code>',
+                '<code>id</code>、<code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>、<code>valueFormatter</code>、<code>cellDataType</code>',
+                '<code>value</code>、<code>format</code>（Intl のオプションまたは関数）、<code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', '<code>nuiGridCell</code> テンプレート'],
+              [
+                "<code>pinned: 'left'</code>、<code>hide</code>",
+                "<code>pinned: 'start'</code>、<code>hidden</code>",
+              ],
+              [
+                '列の <code>rowGroup</code>、<code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>：列 id のリスト。グループは最初から開いており、<code>[(collapsed)]</code> で閉じる。',
+              ],
+              [
+                '<code>aggFunc</code>、<code>grandTotalRow</code>',
+                '<code>aggregate</code>、<code>totals</code>',
+              ],
+              [
+                '<code>treeData</code>（<code>treeDataChildrenField</code> を指定）',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>、<code>detailCellRenderer</code>',
+                '<code>nuiGridDetail</code> テンプレートと <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>、<code>getSelectedRows()</code>',
+                '<code>selection</code> と <code>[(selected)]</code>（選択された行のキー）',
+              ],
+              [
+                '<code>pagination</code>、<code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>、<code>[(page)]</code>、<code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>、<code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>、<code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> は Blob を、<code>exportCsv()</code> はテキストを返す',
+              ],
+              [
+                '<code>cellValueChanged</code>、<code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>、<code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>、<code>total</code>、<code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>、<code>enableRtl</code>',
+                '<code>labels</code>（右から左への表示は、ページの <code>dir</code> に従う）',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: '国別にグループ化した注文を両方で作る' },
+          {
+            kind: 'p',
+            html: '作るのは、注文を国別にグループ化した一覧です。国ごとの合計と全体の合計を表示し、Excel エクスポート、クイック検索、複数選択にも対応させます。グループ化、集計、Excel エクスポートに Enterprise が必要な AG Grid 36 では次のようになります。',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI のグリッドでは次のようになります。' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: '動作が異なる点がいくつかあります。選択が保持するのは行の id であるキーなので、データが新しくなっても選択は残ります。行そのものが必要なときは、キーから行を引き当ててください。グループは最初から開いています。グループのラベルは表示中の最初の列に入り、検索は表示中の列だけを対象にするため、グループ化した列の値も検索で一致させたい場合は、その列を表示したままにしてください。また、<code>exportXlsx()</code> はファイルをダウンロードせずに返します。中身は、絞り込みと並べ替えを適用した行を収めたシート1枚で、グループ行は含まれません。',
+          },
+          { kind: 'h2', id: 'gaps', text: '足りない機能が必要なら' },
+          {
+            kind: 'p',
+            html: 'アプリがピボット、チャート、クリップボードと範囲選択、サーバー側でのグループ化、列グループに頼っている場合、Needless UI のグリッドはまだ AG Grid の代わりになりません。必要な機能は <a href="https://github.com/needless-ui/needless-ui/issues">Issue を作成</a>してお知らせください。それ以外については、<a href="/components/grid">データグリッドのページ</a>にすべての入力、出力、例が載っています。',
           },
         ],
       },

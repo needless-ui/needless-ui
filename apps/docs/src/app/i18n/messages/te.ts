@@ -39,16 +39,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · యాక్సెసిబుల్ Angular కాంపోనెంట్‌లు, అవసరానికి మించిన ఇంజినీరింగ్',
+    title: 'Needless UI · షెడ్యూలర్, డేటా గ్రిడ్‌తో ఉచిత Angular కాంపోనెంట్‌లు',
     description:
-      'Needless UI ఓపెన్ సోర్స్ Angular కాంపోనెంట్ లైబ్రరీ: నేటివ్ ఎలిమెంట్‌లు, ఫ్రేమ్‌వర్క్ అవసరం లేని ఒకే స్టైల్‌షీట్, W3C డిజైన్ టోకెన్‌లు, అంతర్నిర్మిత WCAG 2.2 AA.',
+      'ఉచిత, MIT లైసెన్స్ ఉన్న Angular కాంపోనెంట్ లైబ్రరీ: నేటివ్ ఎలిమెంట్‌లపై యాక్సెసిబుల్ కాంపోనెంట్‌లు, రిసోర్స్ షెడ్యూలర్, గ్రూపింగ్, Excel ఎక్స్‌పోర్ట్ ఉన్న డేటా గ్రిడ్.',
     eyebrow: 'ఓపెన్ సోర్స్ · Angular 22 · MIT',
     heading: 'అవసరం లేనంత బాగా ఇంజినీర్ చేసిన UI కాంపోనెంట్‌లు.',
-    lead: 'Needless UI ఏ ఫ్రేమ్‌వర్క్‌పైనా ఆధారపడని ఒకే స్టైల్‌షీట్, W3C డిజైన్ టోకెన్‌లతో <strong>నేటివ్ ఎలిమెంట్‌లకే</strong> స్టైల్ ఇస్తుంది. దీని Angular డైరెక్టివ్‌లు Angular Aria నుంచి ప్రవర్తనను జోడిస్తాయి, కాబట్టి ప్రతి కాంపోనెంట్ మొదటి రెండర్ నుంచే యాక్సెసిబుల్‌గా ఉంటుంది.',
+    lead: 'ఏ ఫ్రేమ్‌వర్క్‌పైనా ఆధారపడని ఒకే స్టైల్‌షీట్‌తో స్టైల్ అయ్యే, <strong>నేటివ్ ఎలిమెంట్‌లపై</strong> నిర్మించిన యాక్సెసిబుల్ Angular కాంపోనెంట్‌లు. ఇతర లైబ్రరీలు విడిగా అమ్మేవాటితో సహా అన్నీ MIT లైసెన్స్ కిందే: రిసోర్స్ టైమ్‌లైన్‌లతో <a href="/components/scheduler">షెడ్యూలర్</a>, గ్రూపింగ్, Excel ఎక్స్‌పోర్ట్ ఉన్న <a href="/components/grid">డేటా గ్రిడ్</a>.',
     getStarted: 'ప్రారంభించండి',
     browse: 'కాంపోనెంట్‌లను చూడండి',
     featuresTitle: 'ఇది ఎందుకు ఉంది',
     features: [
+      {
+        title: 'ప్రీమియం వెర్షన్ లేదు',
+        text: '<a href="/components/scheduler">షెడ్యూలర్‌లోని</a> రిసోర్స్ టైమ్‌లైన్, పునరావృత ఈవెంట్‌లు, <a href="/components/grid">డేటా గ్రిడ్‌లోని</a> గ్రూపింగ్, ట్రీ డేటా, Excel ఎక్స్‌పోర్ట్ కూడా మిగతా అన్నిటిలాగే MIT లైసెన్స్ కిందే ఉన్నాయి: లైసెన్స్ కీ అక్కర్లేదు, వాటర్‌మార్క్ ఉండదు. డబ్బు చెల్లించాల్సిన లైబ్రరీ నుంచి మారుతున్నారా? <a href="/guides/from-fullcalendar">FullCalendar</a>, <a href="/guides/from-ag-grid">AG Grid</a> గైడ్‌లను చదవండి.',
+      },
       {
         title: 'నేటివ్ ఎలిమెంట్‌లకే ప్రాధాన్యం',
         text: '<code>&lt;button nuiButton&gt;</code> నిజమైన బటన్. దాని చుట్టూ ఏ ర్యాపర్ లేదు కాబట్టి ఫారమ్‌లు, కీబోర్డ్, స్క్రీన్ రీడర్‌లు యథావిధిగా పనిచేస్తాయి.',
@@ -74,9 +78,9 @@ export const messages: Messages = {
         text: 'సిగ్నల్ ఇన్‌పుట్‌లు, zoneless, సర్వర్ రెండరింగ్, ప్రతి కాంపోనెంట్‌కు ఒక ఎంట్రీ పాయింట్. కాబట్టి యాప్‌లో మీరు ఇంపోర్ట్ చేసినవి మాత్రమే చేరుతాయి.',
       },
     ],
-    codeTitle: 'రెండు ఇంపోర్ట్‌లు, అంతే',
+    codeTitle: 'ఒక కమాండ్, ఆపై ఒక ఇంపోర్ట్',
     codeText:
-      'ప్యాకేజీని జోడించండి, స్టైల్‌షీట్‌ను ఒక్కసారి ఇంపోర్ట్ చేయండి, ఆపై ఏ standalone కాంపోనెంట్‌లోనైనా కాంపోనెంట్‌లను వాడండి.',
+      'ప్యాకేజీని ఇన్‌స్టాల్ చేసి, దాని స్టైల్‌షీట్‌ను ఇంపోర్ట్ చేయడానికి ng add రన్ చేయండి, ఆపై ఏ standalone కాంపోనెంట్‌లోనైనా కాంపోనెంట్‌లను వాడండి.',
   },
 
   components: {
@@ -1185,10 +1189,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Data grid',
-        title: 'Angular కోసం డేటా గ్రిడ్ కాంపోనెంట్',
-        summary: 'ఎన్ని వరుసలనైనా సార్ట్, ఫిల్టర్ చేయండి, ఎంచుకోండి, ఎడిట్, స్క్రోల్ చేయండి.',
+        title: 'గ్రూపింగ్, Excel ఎక్స్‌పోర్ట్‌తో ఉచిత Angular డేటా గ్రిడ్',
+        summary: 'ఎన్ని వరుసలనైనా సార్ట్, ఫిల్టర్, గ్రూప్, ఎడిట్, ఎక్స్‌పోర్ట్ చేయండి.',
         description:
-          'నేటివ్ టేబుల్‌పై యాక్సెసిబుల్ Angular డేటా గ్రిడ్: అనేక కాలమ్‌లపై సార్టింగ్, ఫిల్టర్‌లు, పేజీలు లేదా వర్చువల్ స్క్రోలింగ్, ఎంపిక, ఎడిటింగ్, కదిలించగల కాలమ్‌లు.',
+          'నేటివ్ టేబుల్‌పై ఉచిత, MIT లైసెన్స్ ఉన్న Angular డేటా గ్రిడ్: మొత్తాలతో గ్రూపింగ్, ట్రీ డేటా, Excel ఎక్స్‌పోర్ట్, ఫిల్టర్‌లు, ఎడిటింగ్, వర్చువల్ స్క్రోలింగ్.',
         apiDescription:
           'Needless UI డేటా గ్రిడ్ API రిఫరెన్స్: nui-grid ఇన్‌పుట్‌లు, మోడల్‌లు, NuiGridColumn నిర్వచనం, కస్టమ్ సెల్‌ల కోసం టెంప్లేట్‌లు.',
         a11yDescription:
@@ -2662,6 +2666,386 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'ఒక రోజులో పక్కపక్కనే గదులు, పునరావృత బుకింగ్‌లు, మిగతా అన్ని ఆప్షన్‌ల కోసం <a href="/components/scheduler">షెడ్యూలర్ పేజీ</a>, దాని <a href="/components/scheduler/api">API</a> చూడండి.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'FullCalendar నుంచి ఉచిత Angular షెడ్యూలర్‌కు మారండి',
+        description:
+          'Angular యాప్‌ను FullCalendar Premium నుంచి ఉచిత Needless UI షెడ్యూలర్‌కు మార్చండి: ఏది దేనికి సమానం, రెండు విధాలుగా బుకింగ్ టైమ్‌లైన్, లోటుపాట్లు, డేటా చిక్కులు.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar లోని రిసోర్స్ టైమ్‌లైన్, రిసోర్స్ కాలమ్‌లు Premium లో మాత్రమే ఉంటాయి: వాణిజ్య యాప్‌కు డబ్బు చెల్లించి కొనే లైసెన్స్ కీ కావాలి. దాని <a href="https://fullcalendar.io/license">లైసెన్స్ పేజీ</a> ఉచిత ఆప్షన్‌లను కూడా చెబుతుంది: పూర్తిగా AGPL కింద ఉండే యాప్‌లకు, రిజిస్టర్ అయిన లాభాపేక్ష లేని సంస్థలకు. Needless UI షెడ్యూలర్‌లో ఈ రెండూ MIT లైసెన్స్ కింద, పునరావృత ఈవెంట్‌లు, iCalendar ఫైల్‌లతో సహా ఉన్నాయి. ఈ గైడ్ ఒక Angular యాప్‌ను ఒకదాని నుంచి మరొకదానికి మారుస్తుంది: ఏవి యథాతథంగా వస్తాయి, ఏవి రావు, ఏ డేటాను మార్చాలి.',
+          },
+          {
+            kind: 'p',
+            html: 'ఈ గైడ్ FullCalendar 7 పేర్లను వాడుతుంది; వెర్షన్ 6 పేర్లు వేరుగా ఉన్నచోట వాటిని బ్రాకెట్‌లలో ఇస్తుంది. FullCalendar Angular కనెక్టర్ Angular 16 నుంచి 22 వరకు సపోర్ట్ చేస్తుంది; Needless UI కి Angular 22 అవసరం.',
+          },
+          { kind: 'h2', id: 'compare', text: 'మీకు ఏం లభిస్తుంది' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar, Needless UI షెడ్యూలర్',
+            head: ['ఫీచర్', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'రిసోర్స్ టైమ్‌లైన్: ప్రతి గదికీ లేదా వ్యక్తికీ ఒక వరుస',
+                'Premium',
+                'ఉంది: ఒక రోజు, ఒక వారం లేదా ఒక నెల',
+              ],
+              ['రోజు, వారం వీక్షణల్లో రిసోర్స్‌లు కాలమ్‌లుగా', 'Premium', 'ఉంది'],
+              ['నెల, వారం, రోజు వీక్షణలు', 'ఉచితం', 'ఉంది'],
+              [
+                'లాగి కదిలించడం, సైజు మార్చడం',
+                'ఉచితం; వేరే రిసోర్స్‌కు లాగాలంటే Premium',
+                'ఉంది, వేరే రిసోర్స్‌లకు కూడా. చివరి అంచు నుంచి సైజు మారుతుంది, మొదటి అంచు నుంచి మారదు.',
+              ],
+              [
+                'ఈవెంట్ సృష్టించడానికి సమయాన్ని ఎంచుకోవడం',
+                'ఉచితం',
+                'ఉంది: పాయింటర్‌తో, ఎక్కువసేపు నొక్కి లేదా కీబోర్డ్‌తో',
+              ],
+              [
+                'సమయాలు ఒకదానిపై ఒకటి పడకూడదు లాంటి నియమాలు',
+                'ఉచితం: ఓవర్‌ల్యాప్, కన్‌స్ట్రెయింట్ ఆప్షన్‌లు',
+                'ఉంది: ప్రతి మార్పుకు ముందు అడిగే ఒకే <code>allow</code> ఫంక్షన్',
+              ],
+              [
+                'ఈవెంట్‌లను కీబోర్డ్‌తో కదిలించడం, సైజు మార్చడం',
+                'దాని యాక్సెసిబిలిటీ డాక్యుమెంటేషన్‌లో లేదు; అది ARIA లేబుల్‌లు, Tab ఫోకస్ గురించే చెబుతుంది',
+                'ఉంది; స్క్రీన్ రీడర్‌లకు ప్రకటించబడుతుంది',
+              ],
+              [
+                'పునరావృత ఈవెంట్‌లు',
+                'ఉచితం; rrule ప్లగిన్, లైబ్రరీతో',
+                'అంతర్నిర్మితం: RFC 5545 నియమాలు; EXRULE, RDATE, గంటల వారీ నియమాలు తప్ప',
+              ],
+              [
+                'iCalendar (.ics)',
+                'ఉచితం: ఫీడ్‌ను చదువుతుంది',
+                '.ics ఫైల్‌లను చదువుతుంది, రాస్తుంది',
+              ],
+              ['లిస్ట్, సంవత్సర వీక్షణలు', 'ఉచితం', 'రాబోయే రోజుల ఎజెండా; సంవత్సర వీక్షణలు లేవు'],
+              [
+                'టైమ్ జోన్‌లు',
+                'ఉచితం: లోకల్, UTC లేదా పేరున్న జోన్',
+                'లేదు: అందుకున్న సమయాలను యథాతథంగా చూపిస్తుంది',
+              ],
+              [
+                'గ్రూప్ చేసిన, నెస్ట్ చేసిన లేదా అనేక కాలమ్‌ల రిసోర్స్‌లు',
+                'Premium',
+                'లేదు: మీ టెంప్లేట్ గీసే ఒకే కాలమ్',
+              ],
+              ['బయటి నుంచి డ్రాగ్ అండ్ డ్రాప్, బ్యాక్‌గ్రౌండ్ ఈవెంట్‌లు', 'ఉచితం', 'లేదు'],
+              ['ప్రింటింగ్, వర్చువల్ రెండరింగ్', 'Premium', 'లేదు'],
+              [
+                'ఫ్రేమ్‌వర్క్‌లు',
+                'Angular 16 నుంచి 22 వరకు, React, Vue, సాదా JavaScript, ఇంకా మరెన్నో',
+                'Angular 22; తర్వాత React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'ఏది దేనికి సమానం' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar ఆప్షన్‌లు, వాటికి సమానమైన Needless UI ఫీచర్‌లు',
+            head: ['FullCalendar', 'Needless UI షెడ్యూలర్'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, ప్రతి ఆప్షన్‌కు ఒక ఇన్‌పుట్‌తో; ప్లగిన్‌లు లేవు, కీ లేదు',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, వారం లేదా నెల కోసం <code>timelineSpan</code>',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> టూ-వే బైండింగ్',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: మీరు <code>events</code> ను అప్‌డేట్ చేసేవరకు ఏదీ కదలదు',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: కదిలించడం, సైజు మార్చడం, ఎంపికలు అన్నిటికీ ఒకే ఫంక్షన్',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, నిమిషాల్లో',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, గంటల్లో',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, వారం రోజులు 1 (సోమవారం) నుంచి 7 వరకు',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code>, <code>nuiSchedulerResource</code> టెంప్లేట్‌లు',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (ఏ BCP 47 ట్యాగ్ అయినా), 1 నుంచి 7 వరకు <code>firstDay</code>, దాని పదాల కోసం <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'గదుల బుకింగ్ టైమ్‌లైన్, రెండు విధాలుగా' },
+          {
+            kind: 'p',
+            html: 'గదులు రిసోర్స్‌లు, బుకింగ్‌లు ఈవెంట్‌లు. యూజర్‌లు గదిని బుక్ చేయడానికి దాని వరుస మీదుగా లాగుతారు, బుకింగ్‌ను కదిలించడానికి దాన్ని లాగుతారు; ఒక గదిలో ఒక సమయంలో ఒకే బుకింగ్ ఉంటుంది. FullCalendar 7, దాని Premium రిసోర్స్ టైమ్‌లైన్‌తో:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI షెడ్యూలర్‌తో:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'రెండు విషయాలు వేరుగా పనిచేస్తాయి. FullCalendar బుకింగ్‌ను తనంతట తానే కదిలిస్తుంది, యాప్ ఆ మార్పును కాపీ చేసుకుంటుంది; Needless UI షెడ్యూలర్ మాత్రం మార్పును తెలియజేస్తుంది, <code>events</code> ను అప్‌డేట్ చేస్తేనే అది నిలుస్తుంది, కాబట్టి మీ డేటాయే ఏకైక ఆధారంగా ఉంటుంది. అలాగే <code>allow</code> సాదా కోడ్, పాయింటర్ నుంచి గానీ కీబోర్డ్ నుంచి గానీ వచ్చే ప్రతి మార్పుకు ముందు షెడ్యూలర్ దాన్ని అడుగుతుంది, కాబట్టి ఆ నియమాన్ని మీరే టెస్ట్ చేయవచ్చు. <a href="/guides/booking-calendar">బుకింగ్ క్యాలెండర్ గైడ్</a> ఈ యాప్‌ను దశలవారీగా తయారు చేస్తుంది.',
+          },
+          { kind: 'h2', id: 'data', text: 'డేటాను మార్చడం' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar డేటా, షెడ్యూలర్ ఆశించేది',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'రోజంతా ఈవెంట్ <code>end</code> అంటే ఈవెంట్ తర్వాతి రోజు',
+                'రోజంతా ఈవెంట్ <code>end</code> అంటే దాని చివరి రోజు: ఒక రోజు తీసివేయండి',
+              ],
+              [
+                'సమయాలు <code>Z</code> తో గానీ <code>+02:00</code> లాంటి ఆఫ్‌సెట్‌తో గానీ ముగియవచ్చు',
+                'ఆఫ్‌సెట్ లేని గడియారపు సమయాలు, ఉదాహరణకు <code>2026-11-02T09:30</code>',
+              ],
+              [
+                '<code>businessHours</code>, <code>firstDay</code> లో వారం రోజులు 0 (ఆదివారం) నుంచి 6 వరకు',
+                'వారం రోజులు 1 (సోమవారం) నుంచి 7 (ఆదివారం) వరకు',
+              ],
+              [
+                "వ్యవధులు స్ట్రింగ్‌లుగా, ఉదాహరణకు <code>'00:30'</code>",
+                'సంఖ్యలు: నిమిషాలు లేదా గంటలు',
+              ],
+              [
+                'రిసోర్స్‌లు id ప్రకారం, తర్వాత టైటిల్ ప్రకారం సార్ట్ అవుతాయి',
+                'రిసోర్స్‌లు అరేలోని క్రమంలోనే',
+              ],
+              [
+                '<code>rrule</code> ఆబ్జెక్ట్‌గా, దానితో పాటు <code>exrule</code>',
+                '<code>FREQ=WEEKLY;BYDAY=MO,FR</code> లాంటి RFC 5545 స్ట్రింగ్, దానితో పాటు <code>exdate</code>',
+              ],
+              [
+                '<code>America/New_York</code> లాంటి టైమ్ జోన్',
+                'ముందుగా సమయాలను మార్చండి. <code>nuiSchedulerFromIcs(text, { timeZone })</code> .ics ఫైల్‌లను చదువుతూనే వాటి సమయాలను మారుస్తుంది.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'లేనిది మీకు కావాలంటే' },
+          {
+            kind: 'p',
+            html: 'మీ యాప్ టైమ్ జోన్‌లు, గ్రూప్ చేసిన రిసోర్స్‌లు, బయటి నుంచి డ్రాగ్ అండ్ డ్రాప్ లేదా ప్రింటింగ్‌పై ఆధారపడితే, షెడ్యూలర్ ఇంకా FullCalendar స్థానాన్ని భర్తీ చేసే స్థితిలో లేదు. మీకు కావాల్సిన దాని కోసం <a href="https://github.com/needless-ui/needless-ui/issues">ఒక issue తెరవండి</a>. మిగతా అన్నిటి కోసం, <a href="/components/scheduler">షెడ్యూలర్ పేజీలో</a> ప్రతి ఇన్‌పుట్, అవుట్‌పుట్, ఉదాహరణ ఉన్నాయి.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'AG Grid Enterprise నుంచి ఉచిత Angular డేటా గ్రిడ్‌కు మారండి',
+        description:
+          'Angular యాప్‌ను AG Grid Enterprise నుంచి ఉచిత Needless UI డేటా గ్రిడ్‌కు మార్చండి: గ్రూపింగ్, మొత్తాలు, ట్రీ డేటా, Excel ఎక్స్‌పోర్ట్, ఏది దేనికి సమానం, లోటుపాట్లు.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid లోని వరుసల గ్రూపింగ్, అగ్రిగేషన్, ట్రీ డేటా, master/detail, Excel ఎక్స్‌పోర్ట్ Enterprise లో మాత్రమే ఉంటాయి: ప్రొడక్షన్‌లో వాడాలంటే వాణిజ్య లైసెన్స్ కావాలి; లైసెన్స్ కీ లేకపోతే గ్రిడ్ వాటర్‌మార్క్ చూపిస్తుంది, కన్సోల్‌లో ఒక ఎర్రర్‌ను లాగ్ చేస్తుంది. Needless UI డేటా గ్రిడ్‌లో మొత్తాలతో గ్రూపింగ్, ట్రీ డేటా, వరుస వివరాలు, .xlsx ఎక్స్‌పోర్ట్ MIT లైసెన్స్ కిందే ఉన్నాయి. ఈ గైడ్ ఒక Angular యాప్‌ను ఒకదాని నుంచి మరొకదానికి మారుస్తుంది: ఏవి యథాతథంగా వస్తాయి, ఏవి రావు, కోడ్ ఎలా మారుతుంది.',
+          },
+          {
+            kind: 'p',
+            html: 'ఈ గైడ్ AG Grid 36 పేర్లను వాడుతుంది. AG Grid 36, Angular 20 నుంచి 22 వరకు సపోర్ట్ చేస్తుంది; Needless UI కి Angular 22 అవసరం.',
+          },
+          { kind: 'h2', id: 'compare', text: 'మీకు ఏం లభిస్తుంది' },
+          {
+            kind: 'table',
+            caption: 'AG Grid, Needless UI డేటా గ్రిడ్',
+            head: ['ఫీచర్', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'అగ్రిగేట్‌లు, మొత్తాల వరుసతో వరుసల గ్రూపింగ్',
+                'Enterprise',
+                'ఉంది: అనేక స్థాయిలు; కూడిక, సగటు, కనిష్ఠం, గరిష్ఠం, లెక్కింపు లేదా ఒక ఫంక్షన్‌తో',
+              ],
+              ['ట్రీ డేటా', 'Enterprise', 'ఉంది, నెస్ట్ చేసిన వరుసల నుంచి'],
+              [
+                'వరుస కింద వివరాలు (master/detail)',
+                'Enterprise',
+                'ఉంది: వరుస కింద ఏ టెంప్లేట్ అయినా, మరో గ్రిడ్ కూడా',
+              ],
+              [
+                'Excel ఎక్స్‌పోర్ట్',
+                'Enterprise: స్టైల్‌లు, అనేక షీట్‌లు, చిత్రాలు, ఫార్ములాలు',
+                'ఉంది: డేటా టైప్ ఉన్న సెల్‌లతో ఒకే షీట్; నంబర్ ఫార్మాట్‌లు, ఫిల్టర్‌లతో ఫ్రీజ్ చేసిన హెడర్ వరుస',
+              ],
+              [
+                'కాలమ్‌లను ఎంచుకునే సాధనంతో కాలమ్ మెనూ',
+                'Enterprise',
+                'ఉంది: ప్రతి కాలమ్‌నూ సార్ట్, ఫిల్టర్, పిన్ చేయవచ్చు, జరపవచ్చు, వెడల్పు సరిపెట్టవచ్చు, దాచవచ్చు; అన్నింటినీ ఒకేసారి చూపించవచ్చు లేదా దాచవచ్చు',
+              ],
+              [
+                'అనేక కాలమ్‌ల ప్రకారం సార్టింగ్, త్వరిత శోధన, పేజీలు, వరుసల ఎంపిక',
+                'Community',
+                'ఉంది',
+              ],
+              [
+                'కాలమ్ ఫిల్టర్‌లు',
+                'Community: AND లేదా OR తో కలిపిన గరిష్ఠంగా రెండు షరతులు',
+                'ఒక్కో కాలమ్‌కు ఒక షరతు',
+              ],
+              [
+                'Set, Multi, Advanced ఫిల్టర్‌లు',
+                'Enterprise',
+                'పాక్షికంగా: కాలమ్ ఆప్షన్‌లతో చెక్‌లిస్ట్; డేటాలోని విలువలతో కాదు',
+              ],
+              [
+                'కాలమ్‌ల వెడల్పు మార్చడం, జరపడం, పిన్ చేయడం, దాచడం, వాటి స్థితిని సేవ్ చేయడం',
+                'Community',
+                'ఉంది',
+              ],
+              ['వర్చువల్ స్క్రోలింగ్', 'Community: వరుసలు, కాలమ్‌లు', 'వరుసలు'],
+              [
+                'సెల్ ఎడిటింగ్',
+                'Community; కొన్ని ఎడిటర్‌లు Enterprise లో మాత్రమే',
+                'ఉంది, కాలమ్ టైప్‌ను బట్టి, వాలిడేషన్‌తో; కస్టమ్ ఎడిటర్‌లు లేవు, అన్‌డూ లేదు',
+              ],
+              ['పివటింగ్, ఇంటిగ్రేటెడ్ చార్ట్‌లు', 'Enterprise', 'లేదు'],
+              [
+                'క్లిప్‌బోర్డ్, సెల్ రేంజ్ ఎంపిక, కాంటెక్స్ట్ మెనూ, స్టేటస్ బార్, సైడ్ బార్',
+                'Enterprise',
+                'లేదు',
+              ],
+              [
+                'సర్వర్ నుంచి డేటా',
+                'సర్వర్ వైపు వరుసల మోడల్: Enterprise; బ్లాక్‌లుగా లోడ్ చేయడం: Community',
+                'మీ సర్వర్ నుంచి పేజీలు, దాని సార్ట్, ఫిల్టర్‌లు, శోధనతో; సర్వర్‌లో గ్రూపింగ్ లేదు',
+              ],
+              ['కాలమ్ గ్రూప్‌లు, వరుసలను లాగడం, పిన్ చేసిన వరుసలు', 'Community', 'లేదు'],
+              [
+                'ఫ్రేమ్‌వర్క్‌లు',
+                'React, Angular 20 నుంచి 22 వరకు, Vue, సాదా JavaScript',
+                'Angular 22; తర్వాత React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'ఏది దేనికి సమానం' },
+          {
+            kind: 'table',
+            caption: 'AG Grid ఆప్షన్‌లు, వాటికి సమానమైన Needless UI ఫీచర్‌లు',
+            head: ['AG Grid', 'Needless UI డేటా గ్రిడ్'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, మాడ్యూల్ రిజిస్ట్రేషన్, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; రిజిస్టర్ చేయాల్సింది ఏమీ లేదు, కీ లేదు',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (Intl ఆప్షన్‌లు లేదా ఒక ఫంక్షన్), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'ఒక <code>nuiGridCell</code> టెంప్లేట్'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                'కాలమ్ <code>rowGroup</code>, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, కాలమ్ id ల జాబితా. గ్రూప్‌లు తెరిచే మొదలవుతాయి; <code>[(collapsed)]</code> వాటిని మూసివేస్తుంది.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code>, దానితో పాటు <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'ఒక <code>nuiGridDetail</code> టెంప్లేట్, దానితో పాటు <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, దానితో పాటు <code>[(selected)]</code>: ఎంచుకున్న వరుసల కీలు',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> ఒక Blob ను, <code>exportCsv()</code> టెక్స్ట్‌ను రిటర్న్ చేస్తాయి',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; కుడి నుంచి ఎడమకు రాసే దిశ పేజీ <code>dir</code> ను అనుసరిస్తుంది',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'దేశాల వారీగా గ్రూప్ చేసిన ఆర్డర్‌లు, రెండు విధాలుగా',
+          },
+          {
+            kind: 'p',
+            html: 'పని: ఆర్డర్‌లను దేశాల వారీగా గ్రూప్ చేయాలి, ప్రతి దేశానికీ ఒక మొత్తం, అన్నిటికీ కలిపి ఒక మొత్తం చూపించాలి, Excel ఎక్స్‌పోర్ట్, త్వరిత శోధన, అనేక వరుసల ఎంపిక ఉండాలి. గ్రూపింగ్‌కు, మొత్తాలకు, Excel ఎక్స్‌పోర్ట్‌కు Enterprise అవసరమయ్యే AG Grid 36 తో:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI డేటా గ్రిడ్‌తో:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'కొన్ని విషయాలు వేరుగా పనిచేస్తాయి. ఎంపిక కీలను, అంటే వరుసల id లను, ఉంచుకుంటుంది, కాబట్టి కొత్త డేటా వచ్చినా అది నిలిచి ఉంటుంది; వరుసలే కావాలంటే, ఆ కీలను తిరిగి వరుసలకు మ్యాప్ చేయండి. గ్రూప్‌లు తెరిచే మొదలవుతాయి. గ్రూప్ లేబుల్ మొదట కనిపించే కాలమ్‌లో ఉంటుంది, శోధన కనిపించే కాలమ్‌లను మాత్రమే చదువుతుంది, కాబట్టి గ్రూప్ చేసిన కాలమ్‌లోనూ శోధన సరిపోలాలంటే ఆ కాలమ్‌ను కనిపించేలా ఉంచండి. అలాగే <code>exportXlsx()</code> ఫైల్‌ను డౌన్‌లోడ్ చేయదు, దాన్ని రిటర్న్ చేస్తుంది: ఫిల్టర్, సార్ట్ అయిన వరుసలతో ఒకే షీట్, గ్రూప్ వరుసలు లేకుండా.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'లేనిది మీకు కావాలంటే' },
+          {
+            kind: 'p',
+            html: 'మీ యాప్ పివటింగ్, చార్ట్‌లు, క్లిప్‌బోర్డ్, రేంజ్ ఎంపిక, సర్వర్‌లో గ్రూపింగ్ లేదా కాలమ్ గ్రూప్‌లపై ఆధారపడితే, Needless UI డేటా గ్రిడ్ ఇంకా AG Grid స్థానాన్ని భర్తీ చేసే స్థితిలో లేదు. మీకు కావాల్సిన దాని కోసం <a href="https://github.com/needless-ui/needless-ui/issues">ఒక issue తెరవండి</a>. మిగతా అన్నిటి కోసం, <a href="/components/grid">డేటా గ్రిడ్ పేజీలో</a> ప్రతి ఇన్‌పుట్, అవుట్‌పుట్, ఉదాహరణ ఉన్నాయి.',
           },
         ],
       },

@@ -6,10 +6,13 @@
 
 **The Needlessly Engineered Styling Toolkit.** An open-source UI component library for Angular, with React next. The name is a joke; the engineering isn't.
 
+**Everything is free**, including what other libraries sell separately: a [scheduler](https://www.needlessui.com/components/scheduler) with resource timelines, repeating events and iCalendar files, and a [data grid](https://www.needlessui.com/components/grid) with grouping, tree data and Excel export. MIT, with no premium tier and no license key. Moving off a paid library? Read the guides for moving [from FullCalendar](https://www.needlessui.com/guides/from-fullcalendar) and [from AG Grid](https://www.needlessui.com/guides/from-ag-grid).
+
 > Early development (`0.x`). APIs will change between minor versions until 1.0.
 
 ## Why another component library
 
+- **No premium tier.** Everything is MIT, including what other libraries often sell separately: the scheduler's resource timeline and recurring events, and the data grid's grouping, tree data and Excel export.
 - **Native elements first.** `<button nuiButton>` is a real `<button>`: native semantics, keyboard behavior and forms, with nothing wrapped around it.
 - **One stylesheet for every framework.** Components are styled by a framework-free CSS package. Angular and React bindings only set classes and `data-*` attributes, so both frameworks look and behave the same.
 - **Your CSS always wins.** Everything ships inside `@layer nui.*`, so plain CSS in your app overrides it without `!important` or specificity battles.
@@ -17,7 +20,6 @@
 - **Needlessly customizable.** Springs, press effects, entrances, corner shapes, radius and density: one attribute for a whole subtree, or one input per component. The springs are real physics, solved at build time and shipped as CSS `linear()` easings.
 - **Standard design tokens.** Tokens are W3C DTCG 2025.10 files, compiled to CSS custom properties with light and dark modes, including nested themes.
 - **Modern Angular.** Signal inputs, zoneless, OnPush, SSR- and hydration-safe, with one entry point per component so apps only ship what they import.
-- **No premium tier.** Everything is MIT, including what other libraries often sell separately: the scheduler's resource timeline and recurring events, and the data grid's grouping, tree data and Excel export.
 
 ## Packages
 

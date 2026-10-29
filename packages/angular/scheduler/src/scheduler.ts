@@ -1167,6 +1167,8 @@ export class NuiScheduler<T = unknown> {
         first.focus();
         return;
       }
+      // Without `selectable`, Enter on an empty cell chooses nothing, and marks nothing.
+      if (!this.selectable()) return;
       if (!this.selection()) this.selection.set({ anchor: cursor, focus: cursor });
       this.chooseSelection();
       return;
