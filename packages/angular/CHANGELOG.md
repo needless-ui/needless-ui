@@ -1,5 +1,16 @@
 # @needless-ui/angular
 
+## 0.9.0
+
+### Minor Changes
+
+- [#29](https://github.com/needless-ui/needless-ui/pull/29) [`5d17b04`](https://github.com/needless-ui/needless-ui/commit/5d17b04bef3e6d67de323409493e4285bf06326f) - **Date and time fields, date pickers, color picker, editor, rating:** these follow Signal Forms' control contract instead of a `ControlValueAccessor`. Forms bind their `value` model, their `disabled` and `readonly` inputs, and a new `touch` output, and `[formField]`, reactive forms and `ngModel` all take that contract since Angular 22. Reactive forms and `ngModel` now also pass the control's state to the inputs named for it: the editor's `invalid` follows the control's validity, and shows once the editor has been left (its new `touched` input, true without a form). The date pickers mark the field touched when focus leaves a date field, no longer each time it moves between segments. `min` and `max` take `undefined` too, Signal Forms' value for no bound, so the date controls compile with `[formField]`; the range picker ignores a range there, since only a date is a bound. The `writeValue`, `registerOnChange`, `registerOnTouched` and `setDisabledState` methods are gone from these classes. The select, combobox, dropzone, phone field, number input and mask keep their `ControlValueAccessor`: their value doesn't fit the contract (`values`, `files`, a native input) or their validation needs it.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @needless-ui/css@0.9.0
+
 ## 0.8.2
 
 ### Patch Changes
