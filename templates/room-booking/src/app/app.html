@@ -1,0 +1,51 @@
+<main>
+  <header class="intro">
+    <div>
+      <h1>Room bookings</h1>
+      <p>
+        Drag across a room to book it, or drag a booking to another room or time. A room holds one
+        booking at a time.
+      </p>
+    </div>
+    <div class="actions">
+      <button nuiButton variant="outline" type="button" (click)="addToCalendar()">
+        Add to calendar
+      </button>
+      <button nuiButton type="button" (click)="exportExcel(grid)">Export to Excel</button>
+    </div>
+  </header>
+
+  <nui-scheduler
+    [events]="bookings()"
+    [resources]="rooms"
+    view="timeline"
+    [views]="['timeline', 'week', 'day']"
+    dayStart="8"
+    dayEnd="19"
+    snapMinutes="15"
+    [businessHours]="hours"
+    editable
+    selectable
+    [allow]="free"
+    (slotSelect)="book($event)"
+    (eventChange)="move($event)"
+  >
+    <ng-template nuiSchedulerResource let-room>{{ room.title }}</ng-template>
+  </nui-scheduler>
+
+  <h2>Bookings by room</h2>
+  <nui-grid
+    #grid
+    label="Bookings by room"
+    height="24rem"
+    totals
+    [rows]="rows()"
+    [columns]="columns"
+    [(groupBy)]="groupBy"
+  />
+
+  <footer>
+    Built with <a href="https://www.needlessui.com">Needless UI</a>: the scheduler and the data grid
+    are MIT, like everything else.
+  </footer>
+</main>

@@ -30,3 +30,13 @@ updates:
       # Types for the Node version in .nvmrc, not the newest Node.
       - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
+
+  # The starter app, which users clone: it installs Needless UI and Angular from npm.
+  - package-ecosystem: npm
+    directory: /templates/room-booking
+    schedule:
+      interval: weekly
+    groups:
+      starter:
+        patterns:
+          - '*'

@@ -81,6 +81,10 @@ export class App {
 </button>
 ```
 
+## Starter app
+
+[`templates/room-booking`](templates/room-booking) is a working Angular app built on the scheduler and the data grid: rooms on a timeline, bookings grouped by room, and Excel and calendar exports. Its README deploys it to Vercel or opens it in StackBlitz in one click.
+
 ## Customization
 
 Any element can give everything inside it a personality, and components take the same values as inputs:
