@@ -26,7 +26,7 @@ tokens (DTCG JSON) ──build──▶ tokens.css ──imported by──▶ @n
 - **Component CSS** lives in `packages/css/src/components/<name>.css`, inside `@layer nui.components`. It may only use semantic tokens (`--nui-color-bg-*`, `--nui-color-<tone>-*` and so on), never the numbered scales. A test fails if a component references a token that doesn't exist.
 - **Angular components** live in `packages/angular/<name>/`, one secondary entry point each. They don't ship styles; they set the classes and `data-*` attributes that the CSS targets.
 - **React components** live in `packages/react/src/<name>/`, one entry point each (`@needless-ui/react/scheduler`). They set the same classes and attributes as the Angular ones, and follow the same spec. Modules with hooks start with `'use client'`, and nothing reads the DOM while rendering, so they render on servers.
-- **Shared logic** that needs no framework (dates, repeat rules, iCalendar, the grid's model, the spreadsheet writer) lives in `packages/core`, which both bindings import, so a fix lands in both. Its files and the React package's import each other with `.js` extensions, as Node's ESM needs once they're built.
+- **Shared logic** that needs no framework (dates, repeat rules, iCalendar, the scheduler's view, the grid's model, the spreadsheet writer) lives in `packages/core`, which both bindings import, so a fix lands in both. Its files and the React package's import each other with `.js` extensions, as Node's ESM needs once they're built.
 - **Specs** in `specs/<name>.md` define anatomy, API, states, keyboard behavior and accessibility for each component. Framework packages implement the spec, so Angular and React stay in step.
 
 ## Adding a component

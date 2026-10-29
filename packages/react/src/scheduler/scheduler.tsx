@@ -3,17 +3,67 @@
 import { type NuiDate, nuiToday, nuiUtc, nuiWeekdayNames, nuiWeekInfo } from '@needless-ui/core';
 import {
   NUI_SCHEDULER_LABELS,
+  NUI_SCHEDULER_LONG_PRESS,
+  NUI_SCHEDULER_SLOP,
+  NUI_SCHEDULER_VIEWS,
+  nuiSchedulerAgenda,
+  nuiSchedulerAnchor,
+  nuiSchedulerByResource,
+  type NuiSchedulerCell,
+  nuiSchedulerCellFromKey,
+  nuiSchedulerCellKey,
+  type NuiSchedulerCellSlot,
+  nuiSchedulerCellTime,
   type NuiSchedulerChange,
+  nuiSchedulerChosen,
+  nuiSchedulerColumns,
+  nuiSchedulerCursor,
+  type NuiSchedulerDrag,
+  nuiSchedulerDragPreview,
   type NuiSchedulerEvent,
+  nuiSchedulerEventLabel,
+  nuiSchedulerFormats,
+  nuiSchedulerFrame,
+  nuiSchedulerGhost,
+  type NuiSchedulerGhost,
   type NuiSchedulerHours,
+  nuiSchedulerIsoWeek,
+  nuiSchedulerIsSelected,
+  nuiSchedulerKey,
   type NuiSchedulerLabels,
+  nuiSchedulerLanding,
+  nuiSchedulerMoved,
+  nuiSchedulerMoveTo,
+  nuiSchedulerNowCell,
+  nuiSchedulerOffHours,
+  nuiSchedulerPaged,
+  nuiSchedulerPaint,
+  type NuiSchedulerPoint,
+  type NuiSchedulerPreview,
+  nuiSchedulerProposal,
+  nuiSchedulerRange,
   type NuiSchedulerResource,
+  nuiSchedulerResourceId,
+  nuiSchedulerResourceNames,
+  type NuiSchedulerSelection,
+  type NuiSchedulerShown,
+  nuiSchedulerShownDays,
   type NuiSchedulerSlot,
   type NuiSchedulerSpan,
+  nuiSchedulerStartText,
+  nuiSchedulerTarget,
+  nuiSchedulerTimed,
+  nuiSchedulerTimeline,
   type NuiSchedulerTimelineSpan,
+  nuiSchedulerTimeText,
+  nuiSchedulerTitle,
+  nuiSchedulerTopBars,
+  nuiSchedulerUnits,
   nuiSchedulerValue,
   type NuiSchedulerView,
   nuiSchedulerVisible,
+  nuiSchedulerWeeks,
+  nuiSchedulerWhen,
 } from '@needless-ui/core/scheduler';
 import {
   type CSSProperties,
@@ -31,58 +81,6 @@ import {
 } from 'react';
 import { isRtl, useControllable, useNow, useTouchActive } from '../internal.js';
 import { nuiPersonality, type NuiPersonalityProps } from '../personality.js';
-import {
-  agendaOf,
-  ALL_VIEWS,
-  anchorOf,
-  byResource,
-  type Cell,
-  cellFromKey,
-  cellKey,
-  chosen,
-  columnsOf,
-  cursorOf,
-  type Drag,
-  dragPreview,
-  formatsOf,
-  frameOf,
-  type Ghost,
-  ghostOf,
-  idOf,
-  isoWeekOf,
-  isSelected as inSelection,
-  key,
-  label,
-  landing,
-  LONG_PRESS,
-  moved,
-  moveTo,
-  nowCellOf,
-  off as offHours,
-  paged,
-  paint,
-  placedOf,
-  type Point,
-  type Preview,
-  proposal,
-  rangeOf,
-  resourceNames,
-  type Selection,
-  shownDays,
-  type Shown,
-  SLOP,
-  type Slot,
-  startText,
-  target,
-  timelineOf,
-  timeOf,
-  timeText,
-  titleOf,
-  topBarsOf,
-  unitsOf,
-  weeksOf,
-  when,
-} from './model.js';
 
 /** What an event's drawing gets, besides the event. */
 export interface NuiSchedulerEventContext {
@@ -277,11 +275,13 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     [weekends, weekend],
   );
   const offered = useMemo(
-    () => views ?? (resources.length ? [...ALL_VIEWS, 'timeline' as const] : ALL_VIEWS),
+    () =>
+      views ??
+      (resources.length ? [...NUI_SCHEDULER_VIEWS, 'timeline' as const] : NUI_SCHEDULER_VIEWS),
     [views, resources.length],
   );
   const frameFor = (shown: NuiSchedulerView) =>
-    frameOf({
+    nuiSchedulerFrame({
       view: shown,
       timelineSpan,
       start,
@@ -312,13 +312,13 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
   const snap = Math.max(1, snapMinutes ?? frame.step);
 
   /** The date the view shows from; every day of the view, hidden ones too; the days shown. */
-  const anchor = anchorOf(frame, date);
-  const range = useMemo(() => rangeOf(frame, anchor), [frame, anchor]);
-  const days = useMemo(() => shownDays(frame, range), [frame, range]);
+  const anchor = nuiSchedulerAnchor(frame, date);
+  const range = useMemo(() => nuiSchedulerRange(frame, anchor), [frame, anchor]);
+  const days = useMemo(() => nuiSchedulerShownDays(frame, range), [frame, range]);
   const first = range[0];
   const last = range[range.length - 1];
   const spans = useMemo(() => nuiSchedulerVisible(events, first, last), [events, first, last]);
-  const spansByResource = useMemo(() => byResource(spans), [spans]);
+  const spansByResource = useMemo(() => nuiSchedulerByResource(spans), [spans]);
   const spansOf = useCallback(
     (resource: NuiSchedulerResource | null): readonly NuiSchedulerSpan[] =>
       resource ? (spansByResource.get(resource.id) ?? []) : spans,
@@ -327,60 +327,71 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
 
   // Where the keyboard is on the grid: its slot follows the view until keys move it.
   const slotSource = `${frame.slotted}|${frame.scrollSlot}`;
-  const [slotState, setSlotState] = useState<{ source: string; slot: Slot }>(() => ({
-    source: slotSource,
-    slot: frame.slotted ? frame.scrollSlot : null,
-  }));
+  const [slotState, setSlotState] = useState<{ source: string; slot: NuiSchedulerCellSlot }>(
+    () => ({
+      source: slotSource,
+      slot: frame.slotted ? frame.scrollSlot : null,
+    }),
+  );
   let slot = slotState.slot;
   if (slotState.source !== slotSource) {
     slot = frame.slotted ? frame.scrollSlot : null;
     setSlotState({ source: slotSource, slot });
   }
-  const setSlot = (next: Slot) => setSlotState({ source: slotSource, slot: next });
+  const setSlot = (next: NuiSchedulerCellSlot) => setSlotState({ source: slotSource, slot: next });
   const [resourceId, setResourceId] = useState<string | null>(null);
   const cursor = useMemo(
-    () => cursorOf(frame, days, date, slot, resourceId),
+    () => nuiSchedulerCursor(frame, days, date, slot, resourceId),
     [frame, days, date, slot, resourceId],
   );
-  const [selection, setSelectionState] = useState<Selection | null>(null);
-  const [drag, setDragState] = useState<Drag | null>(null);
-  const [preview, setPreviewState] = useState<Preview | null>(null);
+  const [selection, setSelectionState] = useState<NuiSchedulerSelection | null>(null);
+  const [drag, setDragState] = useState<NuiSchedulerDrag | null>(null);
+  const [preview, setPreviewState] = useState<NuiSchedulerPreview | null>(null);
   const [status, setStatus] = useState('');
   /** Says something through the status region, even the same thing twice. */
   const announce = (message: string) =>
     setStatus((current) => (current === message ? `${message} ` : message));
 
-  const formats = useMemo(() => formatsOf(locale), [locale]);
+  const formats = useMemo(() => nuiSchedulerFormats(locale), [locale]);
   const weekdays = useMemo(() => {
     const long = nuiWeekdayNames(locale, start, 'long');
     return nuiWeekdayNames(locale, start, 'short')
       .map((short, i) => ({ short, long: long[i], day: ((start - 1 + i) % 7) + 1 }))
       .filter((name) => !hidden.has(name.day));
   }, [locale, start, hidden]);
-  const title = titleOf(frame, days, date, anchor, formats);
-  const weekNumber = weekNumbers ? isoWeekOf(frame, days[0]) : null;
+  const title = nuiSchedulerTitle(frame, days, date, anchor, formats);
+  const weekNumber = weekNumbers ? nuiSchedulerIsoWeek(frame, days[0]) : null;
   const slotLabels = useMemo(
     () => frame.slots.map((minutes) => formats.time.format(nuiUtc(nuiSchedulerValue(minutes)))),
     [frame, formats],
   );
 
   // The views' structures.
-  const columns = useMemo(() => columnsOf(frame, days), [frame, days]);
-  const placed = useMemo(() => placedOf(frame, columns, spansOf), [frame, columns, spansOf]);
-  const topBars = useMemo(() => topBarsOf(frame, days, spansOf), [frame, days, spansOf]);
-  const nowCell = useMemo(() => nowCellOf(frame, now), [frame, now]);
-  const units = useMemo(() => unitsOf(frame, days, slotLabels), [frame, days, slotLabels]);
-  const timeline = useMemo(() => timelineOf(frame, days, spansOf), [frame, days, spansOf]);
+  const columns = useMemo(() => nuiSchedulerColumns(frame, days), [frame, days]);
+  const placed = useMemo(
+    () => nuiSchedulerTimed(frame, columns, spansOf),
+    [frame, columns, spansOf],
+  );
+  const topBars = useMemo(() => nuiSchedulerTopBars(frame, days, spansOf), [frame, days, spansOf]);
+  const nowCell = useMemo(() => nuiSchedulerNowCell(frame, now), [frame, now]);
+  const units = useMemo(
+    () => nuiSchedulerUnits(frame, days, slotLabels),
+    [frame, days, slotLabels],
+  );
+  const timeline = useMemo(
+    () => nuiSchedulerTimeline(frame, days, spansOf),
+    [frame, days, spansOf],
+  );
   const weeks = useMemo(
-    () => weeksOf(frame, range, date, spans, formats, words, weekNumbers),
+    () => nuiSchedulerWeeks(frame, range, date, spans, formats, words, weekNumbers),
     [frame, range, date, spans, formats, words, weekNumbers],
   );
   const agenda = useMemo(
-    () => (view === 'agenda' ? agendaOf(days, spans, formats) : []),
+    () => (view === 'agenda' ? nuiSchedulerAgenda(days, spans, formats) : []),
     [view, days, spans, formats],
   );
   const ghost = useMemo(
-    () => ghostOf(frame, preview, days, weeks, resources),
+    () => nuiSchedulerGhost(frame, preview, days, weeks, resources),
     [frame, preview, days, weeks, resources],
   );
   /** Whether `allow` turns down what's being dragged or chosen. */
@@ -388,15 +399,15 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     if (!allow) return false;
     if (preview) {
       return !allow(
-        proposal<T>(
+        nuiSchedulerProposal<T>(
           preview.span,
           preview.start,
           preview.end,
-          moveTo(frame, preview, drag?.origin.cell.resource),
+          nuiSchedulerMoveTo(frame, preview, drag?.origin.cell.resource),
         ),
       );
     }
-    return selection ? !allow(chosen(frame, selection)) : false;
+    return selection ? !allow(nuiSchedulerChosen(frame, selection)) : false;
   }, [allow, preview, selection, frame, drag]);
   /** What a drag does, for the cursor: a resize goes across along bars and the timeline. */
   const dragging = useMemo(() => {
@@ -407,19 +418,19 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
 
   const root = useRef<HTMLDivElement>(null);
   const body = useRef<HTMLDivElement>(null);
-  const dragRef = useRef<Drag | null>(null);
-  const previewRef = useRef<Preview | null>(null);
+  const dragRef = useRef<NuiSchedulerDrag | null>(null);
+  const previewRef = useRef<NuiSchedulerPreview | null>(null);
   const suppressClick = useRef(false);
-  const selectionRef = useRef<Selection | null>(null);
-  const setDrag = (next: Drag | null) => {
+  const selectionRef = useRef<NuiSchedulerSelection | null>(null);
+  const setDrag = (next: NuiSchedulerDrag | null) => {
     dragRef.current = next;
     setDragState(next);
   };
-  const setSelection = (next: Selection | null) => {
+  const setSelection = (next: NuiSchedulerSelection | null) => {
     selectionRef.current = next;
     setSelectionState(next);
   };
-  const setPreview = (next: Preview | null) => {
+  const setPreview = (next: NuiSchedulerPreview | null) => {
     previewRef.current = next;
     setPreviewState(next);
   };
@@ -444,8 +455,10 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     find()?.focus();
   }, [focusTick]);
 
-  const cellElement = (cell: Cell): HTMLElement | null =>
-    root.current?.querySelector<HTMLElement>(`[data-cell="${CSS.escape(cellKey(cell))}"]`) ?? null;
+  const cellElement = (cell: NuiSchedulerCell): HTMLElement | null =>
+    root.current?.querySelector<HTMLElement>(
+      `[data-cell="${CSS.escape(nuiSchedulerCellKey(cell))}"]`,
+    ) ?? null;
 
   // Tell the app which days are shown, so it can load their events.
   const reported = useRef('');
@@ -491,8 +504,14 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
   /** The title a view shows for a date, to announce it as it comes. */
   const titleFor = (shown: NuiSchedulerView, day: NuiDate) => {
     const next = shown === view ? frame : frameFor(shown);
-    const at = anchorOf(next, day);
-    return titleOf(next, shownDays(next, rangeOf(next, at)), day, at, formats);
+    const at = nuiSchedulerAnchor(next, day);
+    return nuiSchedulerTitle(
+      next,
+      nuiSchedulerShownDays(next, nuiSchedulerRange(next, at)),
+      day,
+      at,
+      formats,
+    );
   };
 
   // These read the latest view and date, so a toolbar of your own (or the `ref`) can
@@ -506,7 +525,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
   const page = (direction: number) => {
     const shown = latestView();
     const at = shown === view ? frame : frameFor(shown);
-    const day = paged(at, anchorOf(at, latestDate()), direction);
+    const day = nuiSchedulerPaged(at, nuiSchedulerAnchor(at, latestDate()), direction);
     setDate(day);
     announce(titleFor(shown, day));
   };
@@ -535,10 +554,10 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
 
   // --- Choosing time ------------------------------------------------------------
 
-  const choose = (chosenSelection: Selection | null) => {
+  const choose = (chosenSelection: NuiSchedulerSelection | null) => {
     const current = latest.current;
     if (!chosenSelection || !current.props.selectable) return;
-    const slotChosen = chosen(current.frame, chosenSelection);
+    const slotChosen = nuiSchedulerChosen(current.frame, chosenSelection);
     setSelection(null);
     if (current.allow && !current.allow(slotChosen)) {
       announce(words.unavailable);
@@ -554,8 +573,8 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     to: number,
     resource?: string | readonly string[],
   ): boolean => {
-    const proposed = proposal<T>(span, from, to, resource);
-    const was = proposal<T>(span, span.start, span.end);
+    const proposed = nuiSchedulerProposal<T>(span, from, to, resource);
+    const was = nuiSchedulerProposal<T>(span, span.start, span.end);
     // Times that read the same aren't a change, such as an all-day event moved within its day.
     if (proposed.start === was.start && proposed.end === was.end && resource === undefined) {
       return false;
@@ -567,7 +586,10 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     }
     latest.current.props.onEventChange?.(proposed);
     announce(
-      words.moved(span.event.title, when({ ...span, start: from, end: to }, formats, words)),
+      words.moved(
+        span.event.title,
+        nuiSchedulerWhen({ ...span, start: from, end: to }, formats, words),
+      ),
     );
     return true;
   };
@@ -577,13 +599,13 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     return latest.current.spans.find((s) => s.key === id);
   };
 
-  const cellOf = (element: Element | null): Cell | null => {
+  const cellOf = (element: Element | null): NuiSchedulerCell | null => {
     const value = element?.closest<HTMLElement>('[data-cell]')?.getAttribute('data-cell');
-    return value ? cellFromKey(value) : null;
+    return value ? nuiSchedulerCellFromKey(value) : null;
   };
 
   /** The cell under a point, beneath any events drawn over it, and the time there. */
-  const pointAt = (x: number, y: number): Point | null => {
+  const pointAt = (x: number, y: number): NuiSchedulerPoint | null => {
     const host = root.current;
     if (!host) return null;
     const hit = host.ownerDocument
@@ -592,7 +614,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     const cell = cellOf(hit ?? null);
     if (!cell) return null;
     const { frame: current } = latest.current;
-    const [from, to] = timeOf(current, cell);
+    const [from, to] = nuiSchedulerCellTime(current, cell);
     if (typeof cell.slot !== 'number') return { cell, time: from };
     const rect = hit!.getBoundingClientRect();
     let share: number;
@@ -634,7 +656,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
       }
       return;
     }
-    const next = target(
+    const next = nuiSchedulerTarget(
       frame,
       cursor,
       event.key,
@@ -654,9 +676,9 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     } else {
       setSelection(null);
     }
-    if (cellKey(next) === cellKey(cursor)) return;
+    if (nuiSchedulerCellKey(next) === nuiSchedulerCellKey(cursor)) return;
     setSlot(next.slot);
-    setResourceId(idOf(frame, next.resource));
+    setResourceId(nuiSchedulerResourceId(frame, next.resource));
     setDate(next.day);
     focusAfterRender(() => cellElement(latest.current.cursor));
   };
@@ -668,7 +690,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     if (!span || !cell) return;
     if (event.altKey && event.key.startsWith('Arrow') && canEdit(span) && view !== 'agenda') {
       event.preventDefault();
-      const move = moved(
+      const move = nuiSchedulerMoved(
         frame,
         span,
         cell,
@@ -680,7 +702,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
       );
       if (!move || !change(span, move.start, move.end, move.resource)) return;
       // An occurrence the app replaces with an event of its own leaves focus on its new cell.
-      const land = landing(frame, span, move.start, move.to);
+      const land = nuiSchedulerLanding(frame, span, move.start, move.to);
       focusAfterRender(
         () =>
           root.current?.querySelector<HTMLElement>(
@@ -723,10 +745,10 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     if (span) latest.current.props.onEventClick?.(span.event as NuiSchedulerEvent<T>);
   };
 
-  const cellFocused = (day: NuiDate, at: Slot, resource: number | null) => {
+  const cellFocused = (day: NuiDate, at: NuiSchedulerCellSlot, resource: number | null) => {
     if (date !== day) setDate(day);
     if (slot !== at) setSlot(at);
-    const id = idOf(frame, resource);
+    const id = nuiSchedulerResourceId(frame, resource);
     if (id !== null && resourceId !== id) setResourceId(id);
   };
 
@@ -739,9 +761,9 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     const cell = cellOf(targetElement);
     const origin =
       pointAt(event.clientX, event.clientY) ??
-      (cell ? { cell, time: timeOf(frame, cell)[0] } : null);
+      (cell ? { cell, time: nuiSchedulerCellTime(frame, cell)[0] } : null);
     if (!origin) return;
-    let held: Drag;
+    let held: NuiSchedulerDrag;
     if (element) {
       const span = spanOf(element);
       if (!span || !canEdit(span)) return;
@@ -786,19 +808,19 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
             span,
             start: span.start,
             end: span.end,
-            resource: idOf(latest.current.frame, held.origin.cell.resource),
+            resource: nuiSchedulerResourceId(latest.current.frame, held.origin.cell.resource),
           });
         }
         // A tick to feel, where the page may vibrate (after the first tap on it).
         if (navigator.userActivation?.hasBeenActive !== false) navigator.vibrate?.(10);
-      }, LONG_PRESS);
+      }, NUI_SCHEDULER_LONG_PRESS);
     }
     doc.addEventListener(
       'pointermove',
       (e) => {
         if (e.pointerId !== pointer) return;
         if (picked) onPointerMove(e);
-        else if (Math.hypot(e.clientX - held.x, e.clientY - held.y) > SLOP) cancel();
+        else if (Math.hypot(e.clientX - held.x, e.clientY - held.y) > NUI_SCHEDULER_SLOP) cancel();
       },
       { signal },
     );
@@ -856,7 +878,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
       }
       return;
     }
-    const next = dragPreview(latest.current.frame, current, point, latest.current.snap);
+    const next = nuiSchedulerDragPreview(latest.current.frame, current, point, latest.current.snap);
     if (next) setPreview(next);
   };
 
@@ -864,11 +886,13 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     const held = dragRef.current;
     const landed = previewRef.current;
     const current = latest.current;
-    const resource = landed ? moveTo(current.frame, landed, held?.origin.cell.resource) : undefined;
+    const resource = landed
+      ? nuiSchedulerMoveTo(current.frame, landed, held?.origin.cell.resource)
+      : undefined;
     const refused =
       !!current.allow &&
       !!landed &&
-      !current.allow(proposal<T>(landed.span, landed.start, landed.end, resource));
+      !current.allow(nuiSchedulerProposal<T>(landed.span, landed.start, landed.end, resource));
     setDrag(null);
     setPreview(null);
     if (!held) return;
@@ -891,16 +915,16 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
 
   // --- Drawing ------------------------------------------------------------------
 
-  const isCursor = (day: NuiDate, at: Slot, resource: number | null) =>
+  const isCursor = (day: NuiDate, at: NuiSchedulerCellSlot, resource: number | null) =>
     cursor.day === day && cursor.slot === at && cursor.resource === resource;
-  const selected = (day: NuiDate, at: Slot, resource: number | null) =>
-    inSelection(frame, selection, day, at, resource);
-  const isOff = (day: NuiDate, at: Slot, resource: number | null) =>
-    offHours(frame, businessHours, day, at, resource);
+  const selected = (day: NuiDate, at: NuiSchedulerCellSlot, resource: number | null) =>
+    nuiSchedulerIsSelected(frame, selection, day, at, resource);
+  const isOff = (day: NuiDate, at: NuiSchedulerCellSlot, resource: number | null) =>
+    nuiSchedulerOffHours(frame, businessHours, day, at, resource);
 
   /** An event on the grids, wherever it sits: `place` says how. */
-  const drawEvent = ({ span, place }: Shown) => {
-    const colors = paint(span, resources);
+  const drawEvent = ({ span, place }: NuiSchedulerShown) => {
+    const colors = nuiSchedulerPaint(span, resources);
     const style: Style = {
       '--_color': colors.color ?? undefined,
       '--_offset': place.offset,
@@ -930,16 +954,20 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
         data-short={place.short || undefined}
         data-moving={preview?.span.key === span.key || undefined}
         style={style}
-        aria-label={label(span, resources, formats, words)}
+        aria-label={nuiSchedulerEventLabel(span, resources, formats, words)}
         onClick={(event) => eventClicked(event.currentTarget)}
       >
         {renderEvent ? (
-          renderEvent(span.event as NuiSchedulerEvent<T>, { time: timeText(span, formats, words) })
+          renderEvent(span.event as NuiSchedulerEvent<T>, {
+            time: nuiSchedulerTimeText(span, formats, words),
+          })
         ) : (
           <>
             {!span.allDay && (
               <span className="nui-scheduler-event-time">
-                {view === 'month' ? startText(span, formats) : timeText(span, formats, words)}
+                {view === 'month'
+                  ? nuiSchedulerStartText(span, formats)
+                  : nuiSchedulerTimeText(span, formats, words)}
               </span>
             )}
             <span className="nui-scheduler-event-title" dir="auto">
@@ -957,7 +985,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
   /** Where a dragged event would land. */
   const drawGhost = (at: string) => {
     if (!ghost || ghost.cell !== at) return null;
-    const shown: Ghost = ghost;
+    const shown: NuiSchedulerGhost = ghost;
     const style: Style = {
       '--_color': shown.color ?? undefined,
       '--_offset': shown.offset,
@@ -1108,8 +1136,8 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
               </div>
               <ul>
                 {group.spans.map((span) => {
-                  const colors = paint(span, resources);
-                  const names = resourceNames(span, resources);
+                  const colors = nuiSchedulerPaint(span, resources);
+                  const names = nuiSchedulerResourceNames(span, resources);
                   return (
                     <li key={span.key}>
                       <button
@@ -1125,11 +1153,11 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
                         data-color={colors.color === null ? undefined : ''}
                         data-recurring={span.event.recurrenceId === undefined ? undefined : ''}
                         style={{ '--_color': colors.color ?? undefined } as Style}
-                        aria-label={label(span, resources, formats, words)}
+                        aria-label={nuiSchedulerEventLabel(span, resources, formats, words)}
                         onClick={(event) => eventClicked(event.currentTarget)}
                       >
                         <span className="nui-scheduler-event-time">
-                          {timeText(span, formats, words)}
+                          {nuiSchedulerTimeText(span, formats, words)}
                         </span>
                         <span className="nui-scheduler-event-title" dir="auto">
                           {span.event.title}
@@ -1205,7 +1233,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
                   {row.resource ? drawResource(row.resource) : words.events(row.count)}
                 </th>
                 {units.map((unit, i) => {
-                  const id = key(unit.day, unit.slot, row.index);
+                  const id = nuiSchedulerKey(unit.day, unit.slot, row.index);
                   return (
                     <td
                       key={i}
@@ -1306,7 +1334,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
                 {words.allDay}
               </th>
               {columns.map((column, i) => {
-                const id = key(column.day, 'all', column.index);
+                const id = nuiSchedulerKey(column.day, 'all', column.index);
                 return (
                   <td
                     key={i}
@@ -1339,7 +1367,7 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
                   </span>
                 </th>
                 {columns.map((column, i) => {
-                  const id = key(column.day, minutes, column.index);
+                  const id = nuiSchedulerKey(column.day, minutes, column.index);
                   return (
                     <td
                       key={i}
