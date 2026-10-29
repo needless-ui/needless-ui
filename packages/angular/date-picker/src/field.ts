@@ -156,7 +156,9 @@ abstract class NuiSegmentedField {
   });
   /** How far the arrow keys move the minutes. */
   readonly minuteStep = input(1, { transform: numberAttribute });
+  /** Stops changes and takes the segments out of the tab order. */
   readonly disabled = input(false, { transform: booleanAttribute });
+  /** Stops changes; the segments can still be focused and read. */
   readonly readonly = input(false, { transform: booleanAttribute });
   /** Formats names and numbers; `LOCALE_ID` by default. */
   readonly locale = input(inject(LOCALE_ID));
@@ -531,6 +533,7 @@ export class NuiDateField extends NuiSegmentedField {
   template: TEMPLATE,
 })
 export class NuiTimeField extends NuiSegmentedField {
+  /** Stops at the hour, minute or second. */
   readonly granularity = input<'hour' | 'minute' | 'second'>('minute');
   protected readonly parts = computed(() => ({ date: false, time: this.granularity() }));
 }

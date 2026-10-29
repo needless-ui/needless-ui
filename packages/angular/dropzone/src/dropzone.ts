@@ -257,9 +257,11 @@ export class NuiDropzone<R = unknown> implements ControlValueAccessor {
 
   /** The kinds of file to take, as for `<input type="file">`: `image/*,.pdf`. */
   readonly accept = input('');
+  /** More than one file at a time. */
   readonly multiple = input(true, { transform: booleanAttribute });
   /** Offers a button to choose a folder, besides the files dropped. */
   readonly directory = input(false, { transform: booleanAttribute });
+  /** How many files it holds. */
   readonly maxFiles = input(Infinity, { transform: numberAttribute });
   /** The largest file to take, in bytes. */
   readonly maxSize = input(Infinity, { transform: numberAttribute });
@@ -273,6 +275,7 @@ export class NuiDropzone<R = unknown> implements ControlValueAccessor {
   readonly concurrency = input(3, { transform: numberAttribute });
   /** A line under the zone's text, such as the kinds and sizes it takes. */
   readonly hint = input('');
+  /** It takes no files. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Texts to replace, for translation. */
   readonly labels = input<Partial<NuiDropzoneLabels>>({});

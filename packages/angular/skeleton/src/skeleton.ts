@@ -24,5 +24,6 @@ export type NuiSkeletonShape = 'text' | 'circle' | 'block';
   },
 })
 export class NuiSkeleton {
+  /** `text` (a line), `circle` or `block`. */
   readonly shape = input<NuiSkeletonShape>('text');
 }

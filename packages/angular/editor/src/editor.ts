@@ -356,9 +356,11 @@ export class NuiEditor implements FormValueControl<string> {
   readonly labelledBy = input('');
   /** Ids of the elements that describe it, such as a hint. */
   readonly describedBy = input('');
+  /** Shown while it’s empty. */
   readonly placeholder = input('');
   /** Shows the content, formatted, without editing it. */
   readonly readonly = input(false, { transform: booleanAttribute });
+  /** Shows the content without editing; turns it off; marks it invalid. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Marks the content invalid, for assistive technology and styles. Forms set it too. */
   readonly invalid = input(false, { transform: booleanAttribute });

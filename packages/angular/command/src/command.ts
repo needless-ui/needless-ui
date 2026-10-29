@@ -155,11 +155,13 @@ const isEditable = (target: EventTarget | null) =>
   `,
 })
 export class NuiCommandPalette {
+  /** The commands, as `NuiCommand` objects. */
   readonly commands = input.required<readonly NuiCommand[]>();
   /** Whether the palette is open. Bind with `[(open)]`. */
   readonly open = model(false);
   /** Accessible name of the dialog and its search field. */
   readonly label = input('Command palette');
+  /** Text shown in the empty search field. */
   readonly placeholder = input('Type a command or search…');
   /** Opens and closes the palette from anywhere on the page. `null` turns it off. */
   readonly hotkey = input<string | null>('mod+k');
@@ -169,6 +171,7 @@ export class NuiCommandPalette {
   readonly loop = input(true, { transform: booleanAttribute });
   /** Filters as you type. Turn off when the commands come from a server search. */
   readonly filtering = input(true, { transform: booleanAttribute });
+  /** Shows a loading row while results are on their way. */
   readonly loading = input(false, { transform: booleanAttribute });
   /** Renders only the rows in view: always, never, or above 200 rows. */
   readonly virtual = input<boolean | 'auto'>('auto');
@@ -179,11 +182,17 @@ export class NuiCommandPalette {
   /** Emits the text as it's typed, for searching on a server. */
   readonly queryChange = output<string>();
 
+  /** Shown when no command matches the search. */
   readonly emptyLabel = input('No results');
+  /** Shown while `loading` is true. */
   readonly loadingLabel = input('Loading…');
+  /** Names the button that goes back from a page of nested commands, and its Esc hint in the footer. */
   readonly backLabel = input('Back');
+  /** The footer's Esc hint on the first page, where Esc closes the palette. */
   readonly closeLabel = input('Close');
+  /** The footer's hint for the arrow keys. */
   readonly moveLabel = input('Move');
+  /** The footer's hint for Enter. */
   readonly chooseLabel = input('Choose');
 
   /** The pages opened so far, from the top. */

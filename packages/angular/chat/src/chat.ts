@@ -64,6 +64,7 @@ import type { NuiChatLabelsInput, NuiChatMessage, NuiChatRating } from './types'
   `,
 })
 export class NuiChat {
+  /** The conversation to show. */
   readonly session = input.required<NuiChatSession>();
   /** The assistant's name, for screen readers. */
   readonly assistant = input('Assistant');
@@ -75,16 +76,19 @@ export class NuiChat {
   readonly images = input(false, { transform: booleanAttribute });
   /** The text being written. */
   readonly value = model('');
+  /** The hint in the empty field. */
   readonly placeholder = input<string | undefined>(undefined);
   /** Prompts to start with, shown until the first message. */
   readonly suggestions = input<readonly string[]>([]);
   /** Which keys send. */
   readonly sendOn = input<NuiChatSendOn>('auto');
+  /** Stops the composer from sending. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Take files: picked, pasted or dropped. */
   readonly attach = input(false, { transform: booleanAttribute });
   /** The kinds of file to take, as for `<input type="file">`. */
   readonly accept = input('');
+  /** How many files a message can carry. */
   readonly maxFiles = input(10, { transform: numberAttribute });
   /** The largest file to take, in bytes. */
   readonly maxSize = input(20_000_000, { transform: numberAttribute });

@@ -32,6 +32,7 @@ const PERSONALITY = {
 abstract class Floating {
   /** Side of the anchor it opens on. Start and end follow the text direction. */
   readonly side = input<NuiSide>('bottom');
+  /** How it lines up with the trigger along that side. */
   readonly align = input<NuiAlign>('start');
   /** Gap from the anchor, in pixels. */
   readonly offset = input(8, { transform: numberAttribute });
@@ -133,6 +134,7 @@ export class NuiPopover extends Floating {
   },
 })
 export class NuiPopoverTrigger {
+  /** The popover this element opens and closes. */
   readonly popover = input.required<NuiPopover>({ alias: 'nuiPopoverTrigger' });
   protected readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
@@ -317,6 +319,7 @@ function inTriangle(
   },
 })
 export class NuiHovercardTrigger {
+  /** The hovercard this element shows on hover and focus. */
   readonly card = input.required<NuiHovercard>({ alias: 'nuiHovercardTrigger' });
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 

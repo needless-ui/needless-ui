@@ -143,13 +143,17 @@ const CREATE = Symbol('create');
   `,
 })
 export class NuiCombobox<V = unknown> implements ControlValueAccessor {
+  /** The options, as `NuiOption` objects. */
   readonly options = input.required<readonly NuiOption<V>[]>();
   /** The chosen value. Bind with `[(value)]`. */
   readonly value = model<V | null>(null);
   /** The chosen values, with `multiple`. Bind with `[(values)]`. */
   readonly values = model<readonly V[]>([]);
+  /** Lets several options be chosen, shown as chips. */
   readonly multiple = input(false, { transform: booleanAttribute });
+  /** Text shown while the field is empty. */
   readonly placeholder = input('');
+  /** Disables the field. */
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Accessible name, when no `<label for>` names the input. */
   readonly label = input('');
@@ -174,12 +178,19 @@ export class NuiCombobox<V = unknown> implements ControlValueAccessor {
   /** Emits when the list opens or closes. */
   readonly openChange = output<boolean>();
 
+  /** Shown when no option matches the text. */
   readonly emptyLabel = input('No matches');
+  /** Shown while `loading` is true. */
   readonly loadingLabel = input('Loading…');
+  /** Names the button that clears the value. */
   readonly clearLabel = input('Clear');
+  /** Names the button that opens and closes the list. */
   readonly toggleLabel = input('Show options');
+  /** With `multiple`, names the list of chosen values shown as chips. */
   readonly chipsLabel = input('Selected');
+  /** Names each chip's remove button, from the option's label. */
   readonly removeLabel = input<(label: string) => string>((label) => `Remove ${label}`);
+  /** The option that adds the typed text as a new value, when nothing matches it exactly. */
   readonly createLabel = input<(text: string) => string>((text) => `Add “${text}”`);
 
   protected readonly engine: NuiOptionEngine<V> = new NuiOptionEngine<V>({

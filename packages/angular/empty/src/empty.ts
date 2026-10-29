@@ -31,6 +31,7 @@ export class NuiEmpty {}
   },
 })
 export class NuiEmptyMedia {
+  /** A built-in picture: `search`, `inbox`, `files` or `error`. */
   readonly illustration = input<NuiEmptyIllustration>();
 }
 

@@ -225,10 +225,13 @@ const BARE: readonly NuiGridFilterOp[] = ['empty', 'notEmpty'];
   `,
 })
 export class NuiGridPanel<T> {
+  /** The grid's engine: the panel reads and changes its sort, filters and column state. */
   readonly engine = input.required<NuiGridEngine<T>>();
   /** The column shown. It changes here when `pick` is on. */
   readonly columnId = model.required<string>();
+  /** Every text the grid shows or announces, to translate. */
   readonly labels = input.required<NuiGridLabels>();
+  /** Formats numbers and dates, and reads typed numbers. */
   readonly locale = input('en');
   /** Opened from the toolbar, not a header: a select picks the column. */
   readonly pick = input(false);

@@ -153,6 +153,7 @@ export class NuiTour {
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
   protected readonly id = `nui-tour-${nextId++}`;
 
+  /** The steps, in order. */
   readonly steps = input<readonly NuiTourStep[]>([]);
   /** Whether the tour is on. */
   readonly open = model(false);
