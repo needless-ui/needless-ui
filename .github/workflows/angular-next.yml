@@ -1,0 +1,62 @@
+name: Angular next
+
+# Every Monday, builds and tests against Angular's next release, the
+# prereleases of its next minor or major. A new major (and the peer range that
+# has to take it) is then ready the day it ships, and apps that update Angular
+# on day one don't find Needless UI blocking them. It never blocks a merge.
+
+on:
+  schedule:
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Reads the Playwright version package.json pins, to run the checks in its image.
+  playwright:
+    name: Playwright version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: /package.json
+          sparse-checkout-cone-mode: false
+      - id: version
+        run: echo "version=$(jq -r .devDependencies.playwright package.json)" >> "$GITHUB_OUTPUT"
+
+  check:
+    name: Build and test with Angular next
+    needs: playwright
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.playwright.outputs.version }}-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      # Every Angular package takes its next version, as peers too: a prerelease
+      # is outside the package's peer range, so without overrides an older copy
+      # of Angular would stay next to it, and their types wouldn't match.
+      # Prereleases are days old at most, so the release age rule can't apply.
+      - name: Move Angular to its next release
+        run: |
+          for package in @angular/aria @angular/cdk @angular/common @angular/compiler \
+            @angular/core @angular/forms @angular/platform-browser @angular/platform-server \
+            @angular/router @angular/ssr @angular/build @angular/cli @angular/compiler-cli \
+            @angular-devkit/core @angular-devkit/schematics @schematics/angular ng-packagr; do
+            echo "  '$package': $(npm view "$package@next" version)"
+          done | tee next-versions.yaml
+          sed -i '/^overrides:/r next-versions.yaml' pnpm-workspace.yaml
+          echo 'minimumReleaseAge: 0' >> pnpm-workspace.yaml
+          pnpm install --no-frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
