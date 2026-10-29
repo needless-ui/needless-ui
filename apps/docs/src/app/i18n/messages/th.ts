@@ -2421,19 +2421,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'การติดตั้ง' },
           {
             kind: 'p',
-            html: 'เพิ่มแพ็กเกจ Angular พร้อมกับ Angular Aria และ CDK ซึ่งให้พฤติกรรมด้านคีย์บอร์ดและการเข้าถึง สไตล์ชีตมาพร้อมกับแพ็กเกจแล้ว',
+            html: 'รัน <code>ng add</code> คำสั่งนี้จะเพิ่มแพ็กเกจ Angular พร้อมกับ Angular Aria และ CDK ซึ่งให้พฤติกรรมด้านคีย์บอร์ดและการเข้าถึง แล้ว import สไตล์ชีตไว้ในสไตล์ระดับโกลบอลของคุณให้ด้วย',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'หากต้องการตั้งค่าเองแทน ให้เพิ่มแพ็กเกจ แล้ว import สไตล์ตามที่แสดงด้านล่าง',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Import สไตล์' },
           {
             kind: 'p',
-            html: 'Import สไตล์ชีตครั้งเดียวใน <code>src/styles.css</code> สไตล์ชีตนี้มีทั้ง design token และคอมโพเนนต์ทุกตัว',
+            html: "Import สไตล์ชีตครั้งเดียวที่ด้านบนสุดของ <code>src/styles.css</code> ซึ่งเป็นตำแหน่งที่ <code>ng add</code> ใส่ไว้ให้ ในสไตล์ชีต Sass ให้เขียน <code>@use '@needless-ui/css';</code> แทน สไตล์ชีตนี้มีทั้ง design token และคอมโพเนนต์ทุกตัว",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'ทุกอย่างอยู่ใน <code>@layer nui</code> หากแอปของคุณมี reset ระดับโกลบอลอย่าง <code>a { color: inherit }</code> ให้ใส่ไว้ใน layer ที่ประกาศก่อน <code>nui</code> เพื่อไม่ให้เขียนทับคอมโพเนนต์',
           },
+          {
+            kind: 'p',
+            html: 'หากใช้ Tailwind CSS ให้ประกาศ <code>nui</code> ไว้หลัง layer <code>base</code> ของ Tailwind และก่อน layer utilities วิธีนี้ทำให้ reset ของ Tailwind ลบล้างสไตล์ของคอมโพเนนต์ไม่ได้ ขณะที่คลาส utility ยังคงมีผลเหนือคอมโพเนนต์ <code>ng add</code> จะจัดการส่วนนี้ให้เองเมื่อพบ Tailwind ในโปรเจกต์',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'ใช้คอมโพเนนต์' },
           {
             kind: 'p',

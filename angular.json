@@ -29,6 +29,7 @@
           "options": {
             "tsConfig": "packages/angular/tsconfig.spec.json",
             "runnerConfig": "packages/angular/vitest.config.ts",
+            "include": ["**/*.spec.ts"],
             "browsers": ["chromium", "firefox", "webkit"],
             "headless": true
           }

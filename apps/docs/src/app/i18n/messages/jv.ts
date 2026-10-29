@@ -2493,19 +2493,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Instalasi' },
           {
             kind: 'p',
-            html: 'Tambahna paket Angular bebarengan karo Angular Aria lan CDK, sing nyedhiyakake prilaku keyboard lan aksesibilitas. Stylesheet-e wis kalebu ing paket kasebut.',
+            html: 'Lakokna <code>ng add</code>. Printah iki nambahake paket Angular bebarengan karo Angular Aria lan CDK, sing nyedhiyakake prilaku keyboard lan aksesibilitas. Stylesheet-e uga diimpor menyang gaya global panjenengan.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Yen panjenengan luwih seneng nyiapake kanthi manual, tambahna paket-pakete, banjur impor gaya kaya sing katon ing ngisor iki.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Impor gaya' },
           {
             kind: 'p',
-            html: 'Impor stylesheet sepisan ing <code>src/styles.css</code>. Isine design token lan kabeh komponen.',
+            html: "Stylesheet cukup diimpor sepisan ing sisih paling ndhuwur <code>src/styles.css</code>; <code>ng add</code> uga nyelehake ing kono. Yen gaya global panjenengan nganggo Sass, tulis <code>@use '@needless-ui/css';</code> minangka gantine. Stylesheet iki isine design token lan kabeh komponen.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Kabeh ana ing njero <code>@layer nui</code>. Yen aplikasi panjenengan kagungan reset global kayata <code>a { color: inherit }</code>, lebokna ing layer sing diumumake sadurunge <code>nui</code> supaya ora nimpa komponen.',
           },
+          {
+            kind: 'p',
+            html: 'Yen panjenengan ngagem Tailwind CSS, <code>nui</code> kudu diumumake sawise layer <code>base</code> duweke Tailwind lan sadurunge utilitase: kanthi mangkono reset Tailwind ora bisa mbusak gaya komponen, lan class utilitas tetep ngalahake komponen. <code>ng add</code> nindakake iki kanthi otomatis yen nemokake Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Agem komponen' },
           {
             kind: 'p',

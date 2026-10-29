@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Adds Needless UI to an app: Angular Aria and the CDK, and the stylesheet in its global styles.",
+      "factory": "./ng-add/index.cjs",
+      "schema": "./ng-add/schema.json"
+    }
+  }
+}

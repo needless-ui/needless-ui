@@ -1,0 +1,16 @@
+/* Compiles the schematics to CommonJS, which the Angular CLI loads them as. */
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "types": [],
+    "rootDir": ".",
+    "outDir": "../../../dist/needless-ui/angular/schematics"
+  },
+  "include": ["**/*.cts"]
+}

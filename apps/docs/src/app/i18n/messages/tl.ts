@@ -2545,19 +2545,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Pag-install' },
           {
             kind: 'p',
-            html: 'Idagdag ang Angular package kasama ang Angular Aria at ang CDK, na nagbibigay ng keyboard behavior at accessibility. Kasama na rito ang stylesheet.',
+            html: 'Patakbuhin ang <code>ng add</code>. Idinadagdag nito ang Angular package kasama ang Angular Aria at ang CDK, na nagbibigay ng keyboard behavior at accessibility, at ini-import nito ang stylesheet sa global styles mo.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Kung gusto mo itong i-set up nang mano-mano, idagdag ang mga package, saka i-import ang mga style gaya ng ipinapakita sa ibaba.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'I-import ang mga style' },
           {
             kind: 'p',
-            html: 'I-import nang isang beses ang stylesheet sa <code>src/styles.css</code>. Kasama rito ang mga design token at ang bawat component.',
+            html: "I-import nang isang beses ang stylesheet sa pinakaitaas ng <code>src/styles.css</code>, kung saan din ito inilalagay ng <code>ng add</code>. Sa isang Sass stylesheet, isulat na lang ang <code>@use '@needless-ui/css';</code>. Kasama rito ang mga design token at ang bawat component.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Nasa loob ng <code>@layer nui</code> ang lahat. Kung may mga global reset ang app mo gaya ng <code>a { color: inherit }</code>, ilagay ang mga ito sa isang layer na idineklara bago ang <code>nui</code> para hindi nila ma-override ang mga component.',
           },
+          {
+            kind: 'p',
+            html: 'Kung gumagamit ka ng Tailwind CSS, ideklara ang <code>nui</code> pagkatapos ng <code>base</code> layer ng Tailwind at bago ang mga utility nito: sa gayon, hindi na mabubura ng reset ng Tailwind ang style ng mga component, at nananaig pa rin sa mga ito ang mga utility class. <code>ng add</code> na mismo ang gumagawa nito kapag nakita nitong may Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Gumamit ng component' },
           {
             kind: 'p',

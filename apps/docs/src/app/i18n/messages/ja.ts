@@ -2490,19 +2490,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'インストール' },
           {
             kind: 'p',
-            html: 'Angular パッケージを、キーボード操作とアクセシビリティの振る舞いを提供する Angular Aria および CDK と一緒に追加します。スタイルシートも同梱されています。',
+            html: '<code>ng add</code> を実行します。これにより、キーボード操作とアクセシビリティの振る舞いを提供する Angular Aria および CDK と一緒に Angular パッケージが追加され、グローバルスタイルでスタイルシートがインポートされます。',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: '手動で導入する場合は、パッケージを追加してから、下に示すとおりスタイルをインポートします。',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'スタイルのインポート' },
           {
             kind: 'p',
-            html: 'スタイルシートを <code>src/styles.css</code> で一度だけインポートします。デザイントークンとすべてのコンポーネントが含まれています。',
+            html: "スタイルシートは <code>src/styles.css</code> の先頭で一度だけインポートします。<code>ng add</code> が追加するのもこの位置です。グローバルスタイルが Sass の場合は、代わりに <code>@use '@needless-ui/css';</code> と書きます。スタイルシートには、デザイントークンとすべてのコンポーネントが含まれています。",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'すべては <code>@layer nui</code> に収められています。アプリに <code>a { color: inherit }</code> のようなグローバルなリセットがある場合は、コンポーネントを上書きしないよう、<code>nui</code> より前に宣言したレイヤーに入れてください。',
           },
+          {
+            kind: 'p',
+            html: 'Tailwind CSS を使う場合は、<code>nui</code> を Tailwind の <code>base</code> レイヤーより後、ユーティリティより前に宣言します。こうすると、Tailwind のリセットでコンポーネントのスタイルが打ち消されることはなく、ユーティリティクラスは引き続きコンポーネントより優先されます。<code>ng add</code> は Tailwind を検出すると、この順序でレイヤーを宣言します。',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'コンポーネントを使う' },
           {
             kind: 'p',

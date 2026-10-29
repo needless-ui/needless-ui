@@ -2518,19 +2518,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Usakinishaji' },
           {
             kind: 'p',
-            html: 'Ongeza kifurushi cha Angular pamoja na Angular Aria na CDK, ambavyo hutoa tabia ya kibodi na ufikivu. Stylesheet huja pamoja nacho.',
+            html: 'Endesha <code>ng add</code>. Amri hii huongeza kifurushi cha Angular pamoja na Angular Aria na CDK, ambavyo hutoa tabia ya kibodi na ufikivu, na huingiza stylesheet kwenye mitindo yako ya jumla.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Ukipendelea kufanya hivyo mwenyewe, ongeza vifurushi, kisha uingize mitindo kama inavyoonyeshwa hapa chini.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Ingiza mitindo' },
           {
             kind: 'p',
-            html: 'Ingiza stylesheet mara moja katika <code>src/styles.css</code>. Ina design token na kila kijenzi.',
+            html: "Stylesheet huingizwa mara moja mwanzoni mwa <code>src/styles.css</code>, mahali ambapo <code>ng add</code> huiweka. Katika stylesheet ya Sass, andika <code>@use '@needless-ui/css';</code> badala yake. Ina design token na kila kijenzi.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Kila kitu kimo ndani ya <code>@layer nui</code>. Ikiwa programu yako ina reset za jumla kama <code>a { color: inherit }</code>, ziweke kwenye layer iliyotangazwa kabla ya <code>nui</code> ili zisibatilishe vijenzi.',
           },
+          {
+            kind: 'p',
+            html: 'Ukitumia Tailwind CSS, tangaza layer ya <code>nui</code> baada ya layer ya <code>base</code> ya Tailwind na kabla ya utility zake: kwa njia hii reset ya Tailwind haiwezi kubatilisha vijenzi, na class za utility bado huvishinda. <code>ng add</code> hufanya hivi inapogundua Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Tumia kijenzi' },
           {
             kind: 'p',

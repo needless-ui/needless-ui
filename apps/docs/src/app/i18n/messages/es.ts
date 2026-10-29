@@ -2526,19 +2526,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Instalación' },
           {
             kind: 'p',
-            html: 'Añade el paquete de Angular junto con Angular Aria y el CDK, que aportan el comportamiento de teclado y de accesibilidad. La hoja de estilos viene incluida.',
+            html: 'Ejecuta <code>ng add</code>. El comando añade el paquete de Angular junto con Angular Aria y el CDK, que aportan el comportamiento de teclado y de accesibilidad, e importa la hoja de estilos en tus estilos globales.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Si prefieres configurarlo todo a mano, añade los paquetes y luego importa los estilos como se muestra más abajo.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Importa los estilos' },
           {
             kind: 'p',
-            html: 'Importa la hoja de estilos una sola vez en <code>src/styles.css</code>. Incluye los tokens de diseño y todos los componentes.',
+            html: "La hoja de estilos va una sola vez al principio de <code>src/styles.css</code>, donde la coloca <code>ng add</code>. En una hoja de estilos Sass, escribe en su lugar <code>@use '@needless-ui/css';</code>. Incluye los tokens de diseño y todos los componentes.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Todo va dentro de <code>@layer nui</code>. Si tu aplicación tiene resets globales como <code>a { color: inherit }</code>, ponlos en una capa declarada antes de <code>nui</code> para que no sobrescriban los componentes.',
           },
+          {
+            kind: 'p',
+            html: 'Con Tailwind CSS, declara <code>nui</code> después de la capa <code>base</code> de Tailwind y antes de sus utilidades: así su reset no puede sobrescribir los componentes, y las clases de utilidad siguen imponiéndose a ellos. <code>ng add</code> lo hace por ti cuando detecta Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Usa un componente' },
           {
             kind: 'p',

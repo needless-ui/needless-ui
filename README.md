@@ -35,15 +35,22 @@
 ## Quick start (Angular)
 
 ```bash
+ng add @needless-ui/angular
+```
+
+That adds the package with Angular Aria and the CDK, and imports the styles at the top of your global stylesheet. By hand, it's:
+
+```bash
 pnpm add @needless-ui/angular @angular/aria @angular/cdk
 ```
 
-Import the styles once, in `src/styles.css`:
-
 ```css
+/* src/styles.css */
 @layer reset, nui, app; /* optional: keeps your resets from overriding components */
 @import '@needless-ui/css';
 ```
+
+With Tailwind CSS, components go after Tailwind's base styles and before its utilities: `@layer theme, base, nui, components, utilities;` (`ng add` writes that line when it finds Tailwind).
 
 Use a component:
 

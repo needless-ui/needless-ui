@@ -2434,19 +2434,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'इन्स्टॉल करा' },
           {
             kind: 'p',
-            html: 'Angular पॅकेज Angular Aria आणि CDK सोबत जोडा; हे दोन्ही कीबोर्ड आणि ॲक्सेसिबिलिटीचे वर्तन पुरवतात. स्टाइलशीट पॅकेजसोबतच येते.',
+            html: '<code>ng add</code> चालवा. ही कमांड कीबोर्ड आणि ॲक्सेसिबिलिटीचे वर्तन पुरवणाऱ्या Angular Aria आणि CDK सोबत Angular पॅकेज जोडते, आणि आपल्या ग्लोबल स्टाइल्समध्ये स्टाइलशीट इम्पोर्ट करते.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'त्याऐवजी हे सर्व स्वतः करायचे असल्यास, पॅकेजेस जोडा आणि मग खाली दाखवल्याप्रमाणे स्टाइल्स इम्पोर्ट करा.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'स्टाइल्स इम्पोर्ट करा' },
           {
             kind: 'p',
-            html: 'स्टाइलशीट <code>src/styles.css</code> मध्ये एकदा इम्पोर्ट करा. त्यात डिझाइन टोकन आणि सर्व कंपोनंट्स आहेत.',
+            html: "स्टाइलशीट <code>src/styles.css</code> च्या सर्वात वर एकदाच इम्पोर्ट करा; <code>ng add</code> देखील ती तिथेच ठेवते. Sass फाइलमध्ये त्याऐवजी <code>@use '@needless-ui/css';</code> लिहा. या स्टाइलशीटमध्ये डिझाइन टोकन आणि सर्व कंपोनंट्स आहेत.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'सर्व काही <code>@layer nui</code> मध्ये असते. आपल्या ॲपमध्ये <code>a { color: inherit }</code> सारखे ग्लोबल रीसेट असतील, तर ते <code>nui</code> च्या आधी घोषित केलेल्या लेयरमध्ये ठेवा, म्हणजे ते कंपोनंट्सना ओव्हरराइड करणार नाहीत.',
           },
+          {
+            kind: 'p',
+            html: 'Tailwind CSS वापरत असल्यास, <code>nui</code> हा लेयर Tailwind च्या <code>base</code> लेयरनंतर आणि त्याच्या युटिलिटीजच्या आधी घोषित करा: त्यामुळे Tailwind चा रीसेट कंपोनंट्सना ओव्हरराइड करू शकत नाही, आणि युटिलिटी क्लासेस तरीही कंपोनंट्सपेक्षा वरचढ ठरतात. Tailwind आढळल्यास <code>ng add</code> हे आपोआप करते.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'कंपोनंट वापरा' },
           {
             kind: 'p',

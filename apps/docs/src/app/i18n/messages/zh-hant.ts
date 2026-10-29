@@ -2319,19 +2319,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: '安裝' },
           {
             kind: 'p',
-            html: '加入 Angular 套件，以及提供鍵盤操作與無障礙行為的 Angular Aria 和 CDK。樣式表會隨套件一起安裝。',
+            html: '執行 <code>ng add</code>。它會加入 Angular 套件，以及提供鍵盤操作與無障礙行為的 Angular Aria 和 CDK，並在你的全域樣式中匯入樣式表。',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: '如果想改為手動設定，請先加入這些套件，再依照下方範例匯入樣式。',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: '匯入樣式' },
           {
             kind: 'p',
-            html: '在 <code>src/styles.css</code> 中匯入一次樣式表即可，其中包含 Design Token 和所有元件。',
+            html: "在 <code>src/styles.css</code> 最上方匯入一次樣式表即可，<code>ng add</code> 也會把它放在這個位置。在 Sass 樣式表中，請改用 <code>@use '@needless-ui/css';</code>。樣式表中包含 Design Token 和所有元件。",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: '所有樣式都位於 <code>@layer nui</code> 中。如果你的應用程式有 <code>a { color: inherit }</code> 這類全域重設樣式，請把它們放進一個在 <code>nui</code> 之前宣告的層中，以免覆寫元件樣式。',
           },
+          {
+            kind: 'p',
+            html: '使用 Tailwind CSS 時，請把 <code>nui</code> 宣告在 Tailwind 的 <code>base</code> 層之後、utilities 層之前：這樣 Tailwind 的重設樣式就無法抵銷元件樣式，而 utility class 依然優先於元件樣式。<code>ng add</code> 偵測到 Tailwind 時會自動這樣做。',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: '使用元件' },
           {
             kind: 'p',

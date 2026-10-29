@@ -2493,19 +2493,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'Установка' },
           {
             kind: 'p',
-            html: 'Добавьте пакет для Angular вместе с Angular Aria и CDK: они отвечают за работу с клавиатурой и доступность. Таблица стилей входит в комплект.',
+            html: 'Выполните <code>ng add</code>. Команда добавит пакет для Angular вместе с Angular Aria и CDK, которые отвечают за работу с клавиатурой и доступность, и импортирует таблицу стилей в глобальные стили.',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'Чтобы настроить всё вручную, добавьте пакеты, а затем импортируйте стили, как показано ниже.',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'Импорт стилей' },
           {
             kind: 'p',
-            html: 'Импортируйте таблицу стилей один раз в <code>src/styles.css</code>. В неё входят дизайн-токены и все компоненты.',
+            html: "Таблица стилей импортируется один раз в самом начале <code>src/styles.css</code> — именно туда её добавляет <code>ng add</code>. В Sass-файле вместо этого напишите <code>@use '@needless-ui/css';</code>. В неё входят дизайн-токены и все компоненты.",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'Все стили находятся внутри <code>@layer nui</code>. Если в приложении есть глобальные сбросы вроде <code>a { color: inherit }</code>, поместите их в слой, объявленный до <code>nui</code>, чтобы они не переопределяли компоненты.',
           },
+          {
+            kind: 'p',
+            html: 'При работе с Tailwind CSS объявите слой <code>nui</code> после слоя <code>base</code> из Tailwind и перед его утилитами: тогда сброс Tailwind не сможет отменить стили компонентов, а утилитарные классы по-прежнему будут их перекрывать. <code>ng add</code> делает это сам, если находит Tailwind.',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'Использование компонента' },
           {
             kind: 'p',

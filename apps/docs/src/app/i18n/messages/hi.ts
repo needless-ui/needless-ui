@@ -2462,19 +2462,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'इंस्टॉल करें' },
           {
             kind: 'p',
-            html: 'Angular पैकेज को Angular Aria और CDK के साथ जोड़ें; यही दोनों कीबोर्ड और सुलभता से जुड़ा व्यवहार देते हैं। स्टाइलशीट पैकेज के साथ ही आती है।',
+            html: '<code>ng add</code> चलाएँ। यह Angular पैकेज के साथ Angular Aria और CDK भी जोड़ता है, जो कीबोर्ड और सुलभता से जुड़ा व्यवहार देते हैं, और स्टाइलशीट को आपके ग्लोबल स्टाइल में इम्पोर्ट कर देता है।',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'इसके बजाय सब कुछ ख़ुद सेट करना हो, तो पैकेज जोड़ें, फिर नीचे दिखाए अनुसार स्टाइल इम्पोर्ट करें।',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'स्टाइल इम्पोर्ट करें' },
           {
             kind: 'p',
-            html: 'स्टाइलशीट को <code>src/styles.css</code> में एक बार इम्पोर्ट करें। इसमें डिज़ाइन टोकन और सभी कंपोनेंट शामिल हैं।',
+            html: "स्टाइलशीट <code>src/styles.css</code> में सबसे ऊपर एक ही बार इम्पोर्ट होती है, वहीं जहाँ <code>ng add</code> उसे रखता है। अगर आपके ग्लोबल स्टाइल Sass में हैं, तो इसके बजाय <code>@use '@needless-ui/css';</code> लिखें। स्टाइलशीट में डिज़ाइन टोकन और सभी कंपोनेंट शामिल हैं।",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'सब कुछ <code>@layer nui</code> के अंदर आता है। अगर आपकी ऐप में <code>a { color: inherit }</code> जैसे ग्लोबल रीसेट हैं, तो उन्हें <code>nui</code> से पहले घोषित किसी लेयर में रखें, ताकि वे कंपोनेंट के स्टाइल ओवरराइड न करें।',
           },
+          {
+            kind: 'p',
+            html: 'अगर आप Tailwind CSS इस्तेमाल करते हैं, तो <code>nui</code> को Tailwind की <code>base</code> लेयर के बाद और उसकी यूटिलिटी से पहले घोषित करें: तब उसका रीसेट कंपोनेंट के स्टाइल नहीं मिटा पाता, और यूटिलिटी क्लास फिर भी कंपोनेंट पर भारी पड़ती हैं। Tailwind मिलने पर <code>ng add</code> यह अपने-आप कर देता है।',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'कंपोनेंट इस्तेमाल करें' },
           {
             kind: 'p',

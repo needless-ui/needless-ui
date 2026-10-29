@@ -2471,19 +2471,29 @@ export const messages: Messages = {
           { kind: 'h2', id: 'install', text: 'ਇੰਸਟਾਲ ਕਰੋ' },
           {
             kind: 'p',
-            html: 'Angular ਪੈਕੇਜ ਨੂੰ Angular Aria ਅਤੇ CDK ਦੇ ਨਾਲ ਜੋੜੋ; ਇਹੀ ਦੋਵੇਂ ਕੀ-ਬੋਰਡ ਅਤੇ ਪਹੁੰਚਯੋਗਤਾ ਨਾਲ ਜੁੜਿਆ ਵਿਹਾਰ ਦਿੰਦੇ ਹਨ। ਸਟਾਈਲਸ਼ੀਟ ਪੈਕੇਜ ਦੇ ਨਾਲ ਹੀ ਆਉਂਦੀ ਹੈ।',
+            html: '<code>ng add</code> ਚਲਾਓ। ਇਹ ਕੀ-ਬੋਰਡ ਅਤੇ ਪਹੁੰਚਯੋਗਤਾ ਨਾਲ ਜੁੜਿਆ ਵਿਹਾਰ ਦੇਣ ਵਾਲੇ Angular Aria ਅਤੇ CDK ਦੇ ਨਾਲ Angular ਪੈਕੇਜ ਜੋੜਦਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਗਲੋਬਲ ਸਟਾਈਲਾਂ ਵਿੱਚ ਸਟਾਈਲਸ਼ੀਟ ਇੰਪੋਰਟ ਕਰਦਾ ਹੈ।',
+          },
+          { kind: 'code', file: 'snippets/ng-add.sh' },
+          {
+            kind: 'p',
+            html: 'ਜੇ ਇਸ ਦੀ ਥਾਂ ਸਭ ਕੁਝ ਖ਼ੁਦ ਸੈੱਟ ਕਰਨਾ ਹੋਵੇ, ਤਾਂ ਪੈਕੇਜ ਜੋੜੋ, ਫਿਰ ਹੇਠਾਂ ਦਿਖਾਏ ਮੁਤਾਬਕ ਸਟਾਈਲ ਇੰਪੋਰਟ ਕਰੋ।',
           },
           { kind: 'code', file: 'snippets/install.sh' },
           { kind: 'h2', id: 'styles', text: 'ਸਟਾਈਲ ਇੰਪੋਰਟ ਕਰੋ' },
           {
             kind: 'p',
-            html: 'ਸਟਾਈਲਸ਼ੀਟ ਨੂੰ <code>src/styles.css</code> ਵਿੱਚ ਇੱਕ ਵਾਰ ਇੰਪੋਰਟ ਕਰੋ। ਇਸ ਵਿੱਚ ਡਿਜ਼ਾਈਨ ਟੋਕਨ ਅਤੇ ਸਾਰੇ ਕੰਪੋਨੈਂਟ ਸ਼ਾਮਲ ਹਨ।',
+            html: "ਸਟਾਈਲਸ਼ੀਟ ਨੂੰ <code>src/styles.css</code> ਵਿੱਚ ਸਭ ਤੋਂ ਉੱਪਰ ਇੱਕ ਵਾਰ ਇੰਪੋਰਟ ਕਰੋ; <code>ng add</code> ਵੀ ਇਸ ਨੂੰ ਉੱਥੇ ਹੀ ਰੱਖਦਾ ਹੈ। Sass ਫ਼ਾਈਲ ਵਿੱਚ ਇਸ ਦੀ ਥਾਂ <code>@use '@needless-ui/css';</code> ਲਿਖੋ। ਇਸ ਸਟਾਈਲਸ਼ੀਟ ਵਿੱਚ ਡਿਜ਼ਾਈਨ ਟੋਕਨ ਅਤੇ ਸਾਰੇ ਕੰਪੋਨੈਂਟ ਸ਼ਾਮਲ ਹਨ।",
           },
           { kind: 'code', file: 'snippets/styles.css' },
           {
             kind: 'p',
             html: 'ਸਭ ਕੁਝ <code>@layer nui</code> ਦੇ ਅੰਦਰ ਆਉਂਦਾ ਹੈ। ਜੇ ਤੁਹਾਡੀ ਐਪ ਵਿੱਚ <code>a { color: inherit }</code> ਵਰਗੇ ਗਲੋਬਲ ਰੀਸੈੱਟ ਹਨ, ਤਾਂ ਉਨ੍ਹਾਂ ਨੂੰ <code>nui</code> ਤੋਂ ਪਹਿਲਾਂ ਐਲਾਨੀ ਗਈ ਕਿਸੇ ਲੇਅਰ ਵਿੱਚ ਰੱਖੋ, ਤਾਂ ਜੋ ਉਹ ਕੰਪੋਨੈਂਟਾਂ ਨੂੰ ਓਵਰਰਾਈਡ ਨਾ ਕਰਨ।',
           },
+          {
+            kind: 'p',
+            html: 'ਜੇ ਤੁਸੀਂ Tailwind CSS ਵਰਤਦੇ ਹੋ, ਤਾਂ <code>nui</code> ਲੇਅਰ ਨੂੰ Tailwind ਦੀ <code>base</code> ਲੇਅਰ ਤੋਂ ਬਾਅਦ ਅਤੇ ਉਸ ਦੀਆਂ ਯੂਟਿਲਿਟੀਆਂ ਤੋਂ ਪਹਿਲਾਂ ਐਲਾਨੋ: ਇਸ ਤਰ੍ਹਾਂ Tailwind ਦਾ ਰੀਸੈੱਟ ਕੰਪੋਨੈਂਟਾਂ ਨੂੰ ਓਵਰਰਾਈਡ ਨਹੀਂ ਕਰ ਸਕਦਾ, ਅਤੇ ਯੂਟਿਲਿਟੀ ਕਲਾਸਾਂ ਫਿਰ ਵੀ ਕੰਪੋਨੈਂਟਾਂ ’ਤੇ ਭਾਰੂ ਰਹਿੰਦੀਆਂ ਹਨ। Tailwind ਮਿਲਣ ’ਤੇ <code>ng add</code> ਇਹ ਆਪਣੇ-ਆਪ ਕਰ ਦਿੰਦਾ ਹੈ।',
+          },
+          { kind: 'code', file: 'snippets/styles-tailwind.css' },
           { kind: 'h2', id: 'use', text: 'ਕੰਪੋਨੈਂਟ ਵਰਤੋ' },
           {
             kind: 'p',
