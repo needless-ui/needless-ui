@@ -5,7 +5,6 @@ import {
   computed,
   DestroyRef,
   ElementRef,
-  forwardRef,
   inject,
   Injector,
   input,
@@ -13,10 +12,10 @@ import {
   LOCALE_ID,
   model,
   numberAttribute,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
-import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   nuiAddDays,
   nuiAddMonths,
@@ -112,6 +111,16 @@ const PERSONALITY = {
   inputs: ['corners', 'radius', 'density'],
 };
 
+/** No bound: Signal Forms writes undefined for a field without one. */
+const orNull = (value: string | null | undefined): string | null => value ?? null;
+
+/**
+ * A range's bound is a date. Signal Forms types a field's min and max as its value,
+ * a whole range here, which isn't one: anything but a date means no bound.
+ */
+const dateOnly = (value: NuiDate | NuiDateRange | null | undefined): NuiDate | null =>
+  typeof value === 'string' ? value : null;
+
 /**
  * A date field with a calendar in a popover: type the date, or pick it.
  *
@@ -130,13 +139,10 @@ const PERSONALITY = {
   host: {
     class: 'nui-date-picker',
     role: 'group',
-    '[attr.data-disabled]': 'off() || null',
+    '[attr.data-disabled]': 'disabled() || null',
     '[attr.data-invalid]': 'field().invalid() || null',
     '[attr.data-open]': 'open() || null',
   },
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NuiDatePicker), multi: true },
-  ],
   template: `
     <nui-date-field
       [value]="value()"
@@ -147,11 +153,11 @@ const PERSONALITY = {
       [placeholder]="placeholder()"
       [hourCycle]="hourCycle()"
       [minuteStep]="minuteStep()"
-      [disabled]="off()"
+      [disabled]="disabled()"
       [readonly]="readonly()"
       [locale]="locale()"
       [labels]="words().field"
-      (focusout)="touched()"
+      (touch)="touch.emit()"
     />
     <button
       #trigger
@@ -160,7 +166,7 @@ const PERSONALITY = {
       [nuiPopoverTrigger]="popover"
       [attr.aria-label]="words().open"
       [attr.title]="words().open"
-      [disabled]="off() || readonly()"
+      [disabled]="disabled() || readonly()"
     ></button>
     <div
       nuiPopover
@@ -186,15 +192,15 @@ const PERSONALITY = {
     </div>
   `,
 })
-export class NuiDatePicker implements ControlValueAccessor {
+export class NuiDatePicker {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
 
   /** The date, or date and time. */
   readonly value = model<string | null>(null);
   readonly granularity = input<NuiDateGranularity>('day');
-  readonly min = input<string | null>(null);
-  readonly max = input<string | null>(null);
+  readonly min = input<string | null, string | null | undefined>(null, { transform: orNull });
+  readonly max = input<string | null, string | null | undefined>(null, { transform: orNull });
   /** Days that can't be picked in the calendar. */
   readonly unavailable = input<(date: NuiDate) => boolean>(() => false);
   /** Where empty segments start from, with the arrow keys. */
@@ -213,6 +219,8 @@ export class NuiDatePicker implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly locale = input(inject(LOCALE_ID));
   readonly labels = input<NuiDatePickerLabelsInput>({});
+  /** Emits when focus leaves the field, so forms mark it touched. */
+  readonly touch = output<void>();
 
   protected readonly field = viewChild.required(NuiDateField);
   private readonly calendar = viewChild(NuiCalendar);
@@ -220,11 +228,6 @@ export class NuiDatePicker implements ControlValueAccessor {
   private readonly popover = viewChild.required(NuiPopover);
   protected readonly words = computed(() => ({ ...NUI_DATE_PICKER_LABELS, ...this.labels() }));
   protected readonly open = signal(false);
-  private readonly formDisabled = signal(false);
-  protected readonly off = computed(() => this.disabled() || this.formDisabled());
-
-  private onChange: (value: string | null) => void = () => {};
-  private onTouched: () => void = () => {};
 
   /** Opens the calendar. */
   show(): void {
@@ -236,29 +239,8 @@ export class NuiDatePicker implements ControlValueAccessor {
     this.field().focus();
   }
 
-  writeValue(value: string | null): void {
-    this.value.set(value || null);
-  }
-
-  registerOnChange(fn: (value: string | null) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.formDisabled.set(disabled);
-  }
-
   protected set(value: string | null): void {
     this.value.set(value);
-    this.onChange(value);
-  }
-
-  protected touched(): void {
-    this.onTouched();
   }
 
   /** The popover opens under the whole field, not just its button. */
@@ -297,17 +279,10 @@ export class NuiDatePicker implements ControlValueAccessor {
   host: {
     class: 'nui-date-picker nui-date-range-picker',
     role: 'group',
-    '[attr.data-disabled]': 'off() || null',
+    '[attr.data-disabled]': 'disabled() || null',
     '[attr.data-invalid]': 'invalid() || null',
     '[attr.data-open]': 'open() || null',
   },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NuiDateRangePicker),
-      multi: true,
-    },
-  ],
   template: `
     <nui-date-field
       class="nui-date-range-start"
@@ -316,11 +291,11 @@ export class NuiDatePicker implements ControlValueAccessor {
       (valueChange)="setEnd('start', $event)"
       [min]="min()"
       [max]="max()"
-      [disabled]="off()"
+      [disabled]="disabled()"
       [readonly]="readonly()"
       [locale]="locale()"
       [labels]="words().field"
-      (focusout)="touched()"
+      (touch)="touch.emit()"
     />
     <span class="nui-date-range-dash" aria-hidden="true">–</span>
     <nui-date-field
@@ -330,11 +305,11 @@ export class NuiDatePicker implements ControlValueAccessor {
       (valueChange)="setEnd('end', $event)"
       [min]="min()"
       [max]="max()"
-      [disabled]="off()"
+      [disabled]="disabled()"
       [readonly]="readonly()"
       [locale]="locale()"
       [labels]="words().field"
-      (focusout)="touched()"
+      (touch)="touch.emit()"
     />
     <button
       #trigger
@@ -343,7 +318,7 @@ export class NuiDatePicker implements ControlValueAccessor {
       [nuiPopoverTrigger]="popover"
       [attr.aria-label]="words().open"
       [attr.title]="words().open"
-      [disabled]="off() || readonly()"
+      [disabled]="disabled() || readonly()"
     ></button>
     <div
       nuiPopover
@@ -387,13 +362,17 @@ export class NuiDatePicker implements ControlValueAccessor {
     </div>
   `,
 })
-export class NuiDateRangePicker implements ControlValueAccessor {
+export class NuiDateRangePicker {
   protected readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
 
   readonly value = model<NuiDateRange | null>(null);
-  readonly min = input<NuiDate | null>(null);
-  readonly max = input<NuiDate | null>(null);
+  readonly min = input<NuiDate | null, NuiDate | NuiDateRange | null | undefined>(null, {
+    transform: dateOnly,
+  });
+  readonly max = input<NuiDate | null, NuiDate | NuiDateRange | null | undefined>(null, {
+    transform: dateOnly,
+  });
   readonly unavailable = input<(date: NuiDate) => boolean>(() => false);
   /** Ranges to choose in one click. */
   readonly presets = input<readonly NuiDateRangePreset[]>([]);
@@ -411,14 +390,14 @@ export class NuiDateRangePicker implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly locale = input(inject(LOCALE_ID));
   readonly labels = input<NuiDatePickerLabelsInput>({});
+  /** Emits when focus leaves either field, so forms mark the range touched. */
+  readonly touch = output<void>();
 
   private readonly calendar = viewChild(NuiCalendar);
   private readonly trigger = viewChild.required<ElementRef<HTMLButtonElement>>('trigger');
   private readonly popover = viewChild.required(NuiPopover);
   protected readonly words = computed(() => ({ ...NUI_DATE_PICKER_LABELS, ...this.labels() }));
   protected readonly open = signal(false);
-  private readonly formDisabled = signal(false);
-  protected readonly off = computed(() => this.disabled() || this.formDisabled());
   /** The last value this picker set, to tell it from values set from outside. */
   private emitted: NuiDateRange | null | undefined;
   /**
@@ -442,9 +421,6 @@ export class NuiDateRangePicker implements ControlValueAccessor {
     return !!start && !!end && end < start;
   });
 
-  private onChange: (value: NuiDateRange | null) => void = () => {};
-  private onTouched: () => void = () => {};
-
   constructor() {
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
@@ -458,26 +434,6 @@ export class NuiDateRangePicker implements ControlValueAccessor {
 
   show(): void {
     this.popover().show(this.host);
-  }
-
-  writeValue(value: NuiDateRange | null): void {
-    this.value.set(value ?? null);
-  }
-
-  registerOnChange(fn: (value: NuiDateRange | null) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.formDisabled.set(disabled);
-  }
-
-  protected touched(): void {
-    this.onTouched();
   }
 
   protected setEnd(which: 'start' | 'end', date: NuiDate | null): void {
@@ -517,6 +473,5 @@ export class NuiDateRangePicker implements ControlValueAccessor {
     if (current?.start === range?.start && current?.end === range?.end) return;
     this.emitted = range;
     this.value.set(range);
-    this.onChange(range);
   }
 }

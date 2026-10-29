@@ -8,16 +8,16 @@ import {
   DestroyRef,
   effect,
   ElementRef,
-  forwardRef,
   inject,
   input,
   model,
+  output,
   PLATFORM_ID,
   signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   type NuiColor,
   nuiColorToRgb,
@@ -125,13 +125,10 @@ interface EyeDropperApi {
  */
 @Component({
   selector: 'nui-color-picker',
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NuiColorPicker), multi: true },
-  ],
   host: {
     class: 'nui-color-picker',
     '[attr.data-view]': "wheel() ? 'wheel' : null",
-    '[attr.data-disabled]': 'isDisabled() || null',
+    '[attr.data-disabled]': 'disabled() || null',
     '[style.--_value]': 'css()',
     '[style.--_opaque]': 'opaque()',
   },
@@ -165,13 +162,13 @@ interface EyeDropperApi {
         #thumb
         class="nui-color-thumb"
         role="slider"
-        [attr.tabindex]="isDisabled() ? null : 0"
+        [attr.tabindex]="disabled() ? null : 0"
         [attr.aria-label]="words().area"
         aria-valuemin="0"
         [attr.aria-valuemax]="wheel() ? 360 : 100"
         [attr.aria-valuenow]="wheel() ? round(hue()) : percent(saturation())"
         [attr.aria-valuetext]="position()"
-        [attr.aria-disabled]="isDisabled() || null"
+        [attr.aria-disabled]="disabled() || null"
         [style.inset-inline-start.%]="spot().x"
         [style.inset-block-start.%]="spot().y"
         (keydown)="onAreaKey($event)"
@@ -187,7 +184,7 @@ interface EyeDropperApi {
           [attr.data-copied]="copied() || null"
           [attr.aria-label]="words().copy"
           [attr.title]="words().copy"
-          [disabled]="isDisabled()"
+          [disabled]="disabled()"
           (click)="copyValue()"
         ></button>
         <span class="nui-color-hidden" role="status">{{ copied() ? words().copied : '' }}</span>
@@ -207,7 +204,7 @@ interface EyeDropperApi {
             [style.--_track]="lightnessTrack()"
             [attr.aria-label]="words().lightness"
             [attr.aria-valuetext]="percent(lightness()) + '%'"
-            [disabled]="isDisabled()"
+            [disabled]="disabled()"
             (input)="onLightness($event)"
           />
         } @else {
@@ -221,7 +218,7 @@ interface EyeDropperApi {
             [value]="round(hue())"
             [attr.aria-label]="words().hue"
             [attr.aria-valuetext]="round(hue()) + '°'"
-            [disabled]="isDisabled()"
+            [disabled]="disabled()"
             (input)="onHue($event)"
           />
         }
@@ -236,7 +233,7 @@ interface EyeDropperApi {
             [value]="percent(opacity())"
             [attr.aria-label]="words().alpha"
             [attr.aria-valuetext]="percent(opacity()) + '%'"
-            [disabled]="isDisabled()"
+            [disabled]="disabled()"
             (input)="onAlpha($event)"
           />
         }
@@ -248,7 +245,7 @@ interface EyeDropperApi {
           data-action="eyedropper"
           [attr.aria-label]="words().eyeDropper"
           [attr.title]="words().eyeDropper"
-          [disabled]="isDisabled()"
+          [disabled]="disabled()"
           (click)="pickFromScreen()"
         ></button>
       }
@@ -262,17 +259,17 @@ interface EyeDropperApi {
         autocapitalize="off"
         [attr.aria-label]="words().value"
         [value]="value()"
-        [disabled]="isDisabled()"
+        [disabled]="disabled()"
         (change)="onText($event)"
         (keydown)="onTextKey($event)"
-        (blur)="onTouched()"
+        (blur)="touch.emit()"
       />
       @if (formats().length > 1) {
         <button
           type="button"
           class="nui-color-format"
           [attr.aria-label]="words().format(formatName())"
-          [disabled]="isDisabled()"
+          [disabled]="disabled()"
           (click)="nextFormat()"
         >
           {{ formatName() }}
@@ -289,7 +286,7 @@ interface EyeDropperApi {
             [attr.aria-label]="swatch.label"
             [attr.title]="swatch.label"
             [attr.aria-pressed]="isCurrent(swatch.color)"
-            [disabled]="isDisabled()"
+            [disabled]="disabled()"
             (click)="use(swatch.color)"
           ></button>
         }
@@ -314,7 +311,7 @@ interface EyeDropperApi {
     }
   `,
 })
-export class NuiColorPicker implements ControlValueAccessor {
+export class NuiColorPicker implements FormValueControl<string> {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
   protected readonly width = WIDTH;
@@ -342,14 +339,14 @@ export class NuiColorPicker implements ControlValueAccessor {
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Texts to replace, for translation. */
   readonly labels = input<Partial<NuiColorPickerLabels>>({});
+  /** Emits when the text field loses focus, so forms mark the picker touched. */
+  readonly touch = output<void>();
 
   private readonly canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   private readonly thumb = viewChild.required<ElementRef<HTMLElement>>('thumb');
   private readonly field = viewChild.required<ElementRef<HTMLInputElement>>('field');
 
   protected readonly words = computed(() => ({ ...NUI_COLOR_PICKER_LABELS, ...this.labels() }));
-  private readonly formDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly wheel = computed(() => this.view() === 'wheel');
   protected readonly canPick = signal(false);
   protected readonly canCopy = signal(false);
@@ -486,12 +483,11 @@ export class NuiColorPicker implements ControlValueAccessor {
   /** The value last sent out, so it isn't read back into the picker's coordinates. */
   private sent: string | null = null;
   private copiedTimer?: ReturnType<typeof setTimeout>;
-  private onChange: (value: string) => void = () => undefined;
-  protected onTouched: () => void = () => undefined;
 
   constructor() {
     effect(() => {
-      const value = this.value();
+      // A form with no value yet writes null.
+      const value = this.value() ?? '';
       untracked(() => {
         if (value !== this.sent) this.read(value);
       });
@@ -631,7 +627,6 @@ export class NuiColorPicker implements ControlValueAccessor {
     if (value === this.sent) return;
     this.sent = value;
     this.value.set(value);
-    this.onChange(value);
   }
 
   /** Brings the other view's coordinates to the color, so switching views keeps it. */
@@ -646,7 +641,7 @@ export class NuiColorPicker implements ControlValueAccessor {
   }
 
   protected onAreaDown(event: PointerEvent): void {
-    if (this.isDisabled() || event.button !== 0) return;
+    if (this.disabled() || event.button !== 0) return;
     const area = event.currentTarget as HTMLElement;
     // A pointer that isn't live (a synthetic event, one already lifted) can't be captured.
     try {
@@ -684,7 +679,7 @@ export class NuiColorPicker implements ControlValueAccessor {
   }
 
   protected onAreaKey(event: KeyboardEvent): void {
-    if (this.isDisabled()) return;
+    if (this.disabled()) return;
     const moved = this.wheel() ? this.turn(event) : this.slide(event);
     if (!moved) return;
     event.preventDefault();
@@ -851,23 +846,5 @@ export class NuiColorPicker implements ControlValueAccessor {
     } catch {
       // Escape closed the eyedropper: nothing picked.
     }
-  }
-
-  writeValue(value: unknown): void {
-    const text = value == null ? '' : String(value);
-    this.read(text);
-    this.value.set(text);
-  }
-
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.formDisabled.set(disabled);
   }
 }

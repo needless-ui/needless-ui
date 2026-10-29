@@ -1,8 +1,17 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { describe, expect, it, onTestFinished, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { NUI_EDITOR_TOOLS, NuiEditor, type NuiEditorTool } from './editor';
+
+@Component({
+  imports: [NuiEditor, ReactiveFormsModule],
+  template: `<nui-editor label="Notes" [formControl]="control" />`,
+})
+class FormHost {
+  readonly control = new FormControl<string | null>(null, Validators.required);
+}
 
 @Component({
   imports: [NuiEditor],
@@ -76,6 +85,38 @@ async function setup(change?: (host: Host) => void) {
 }
 
 describe('NuiEditor', () => {
+  it('works with reactive forms: no value yet, an error once left, and disabled', async () => {
+    const fixture = TestBed.createComponent(FormHost);
+    document.body.append(fixture.nativeElement);
+    await fixture.whenStable();
+    const host = fixture.componentInstance;
+    const content = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      '.nui-editor-content',
+    )!;
+    // Required and empty, but not left yet: no error shows.
+    expect(content.hasAttribute('aria-invalid')).toBe(false);
+
+    content.focus();
+    content.blur();
+    await fixture.whenStable();
+    expect(host.control.touched).toBe(true);
+    expect(content.getAttribute('aria-invalid')).toBe('true');
+
+    await userEvent.type(content, 'Hi');
+    await fixture.whenStable();
+    expect(host.control.value).toBe('<p>Hi</p>');
+    expect(host.control.dirty).toBe(true);
+    expect(content.hasAttribute('aria-invalid')).toBe(false);
+
+    host.control.setValue('<p>From the form</p>');
+    await fixture.whenStable();
+    expect(content.textContent).toBe('From the form');
+    host.control.disable();
+    await fixture.whenStable();
+    expect(content.getAttribute('contenteditable')).toBe('false');
+    expect(content.getAttribute('aria-disabled')).toBe('true');
+  });
+
   it('is a named, multiline textbox with a toolbar', async () => {
     const { root, content } = await setup();
     expect(content.getAttribute('role')).toBe('textbox');

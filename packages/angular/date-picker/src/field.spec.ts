@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { disabled, form, FormField } from '@angular/forms/signals';
 import { userEvent } from 'vitest/browser';
 import { NuiDateField, NuiTimeField } from './field';
 import { nuiReadDigits, nuiSegmentPlaceholders } from './segments';
@@ -224,19 +225,67 @@ describe('NuiDateField', () => {
     expect(host.date()).toBe('2026-09-25T19:30');
   });
 
-  it('works with forms', async () => {
+  it('works with reactive forms: the value both ways, touched and disabled', async () => {
     const { host, segments, text, stable } = await setup();
     expect(text('form')).toBe('01/31/2026');
     segments('form')[1].focus();
     await userEvent.keyboard('15');
     await stable();
     expect(host.control.value).toBe('2026-01-15');
+    expect(host.control.dirty).toBe(true);
+    expect(host.control.touched).toBe(false);
+    (document.activeElement as HTMLElement).blur();
+    await stable();
+    expect(host.control.touched).toBe(true);
+    host.control.setValue('2026-12-24');
+    await stable();
+    expect(text('form')).toBe('12/24/2026');
     host.control.disable();
     await stable();
     expect(segments('form')[0].getAttribute('aria-disabled')).toBe('true');
     expect(segments('form')[0].hasAttribute('contenteditable')).toBe(false);
   });
+
+  it('works with Signal Forms: the value both ways, touched and disabled', async () => {
+    const fixture = TestBed.createComponent(SignalHost);
+    document.body.append(fixture.nativeElement);
+    await fixture.whenStable();
+    const host = fixture.componentInstance;
+    const root: HTMLElement = fixture.nativeElement;
+    const segments = () => [...root.querySelectorAll<HTMLElement>('[role="spinbutton"]')];
+    const text = () =>
+      root.querySelector<HTMLElement>('nui-date-field')!.textContent!.replace(/\s+/g, '');
+    expect(text()).toBe('03/01/2026');
+
+    segments()[1].focus();
+    await userEvent.keyboard('15');
+    await fixture.whenStable();
+    expect(host.model().due).toBe('2026-03-15');
+    expect(host.dates.due().dirty()).toBe(true);
+    (document.activeElement as HTMLElement).blur();
+    await fixture.whenStable();
+    expect(host.dates.due().touched()).toBe(true);
+
+    host.model.set({ due: '2027-07-04' });
+    await fixture.whenStable();
+    expect(text()).toBe('07/04/2027');
+    host.off.set(true);
+    await fixture.whenStable();
+    expect(segments()[0].getAttribute('aria-disabled')).toBe('true');
+  });
 });
+
+@Component({
+  imports: [NuiDateField, FormField],
+  template: `<nui-date-field aria-label="Due" [formField]="dates.due" locale="en-US" />`,
+})
+class SignalHost {
+  readonly model = signal<{ due: string | null }>({ due: '2026-03-01' });
+  readonly off = signal(false);
+  readonly dates = form(this.model, (path) => {
+    disabled(path.due, () => this.off());
+  });
+}
 
 describe('NuiTimeField', () => {
   it('uses the locale’s clock, and stores 24-hour times', async () => {

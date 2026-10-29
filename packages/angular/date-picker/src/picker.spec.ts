@@ -1,8 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { form, FormField } from '@angular/forms/signals';
 import type { NuiDateRange } from '@needless-ui/angular/calendar';
 import { page, userEvent } from 'vitest/browser';
 import { NuiDatePicker, NuiDateRangePicker, type NuiDateRangePreset } from './picker';
+
+@Component({
+  imports: [NuiDateRangePicker, FormField],
+  template: `<nui-date-range-picker aria-label="Stay" [formField]="trip.stay" locale="en-US" />`,
+})
+class SignalHost {
+  readonly model = signal<{ stay: NuiDateRange | null }>({
+    stay: { start: '2026-10-01', end: '2026-10-05' },
+  });
+  readonly trip = form(this.model);
+}
 
 @Component({
   imports: [NuiDatePicker, NuiDateRangePicker],
@@ -135,6 +147,30 @@ describe('NuiDateRangePicker', () => {
     expect(root.querySelector('#range .nui-date-picker-popover')!.matches(':popover-open')).toBe(
       false,
     );
+  });
+
+  it('works with Signal Forms: the range both ways, and touched', async () => {
+    const fixture = TestBed.createComponent(SignalHost);
+    document.body.append(fixture.nativeElement);
+    await fixture.whenStable();
+    const host = fixture.componentInstance;
+    const root: HTMLElement = fixture.nativeElement;
+    const [start, end] = [...root.querySelectorAll<HTMLElement>('nui-date-field')];
+    const text = (field: HTMLElement) => field.textContent!.replace(/\s+/g, '');
+    expect([text(start), text(end)]).toEqual(['10/01/2026', '10/05/2026']);
+
+    end.querySelector<HTMLElement>('[role="spinbutton"]')!.focus();
+    await userEvent.keyboard('11');
+    await fixture.whenStable();
+    expect(host.model().stay).toEqual({ start: '2026-10-01', end: '2026-11-05' });
+    expect(host.trip.stay().touched()).toBe(false);
+    (document.activeElement as HTMLElement).blur();
+    await fixture.whenStable();
+    expect(host.trip.stay().touched()).toBe(true);
+
+    host.model.set({ stay: { start: '2027-01-02', end: '2027-01-09' } });
+    await fixture.whenStable();
+    expect([text(start), text(end)]).toEqual(['01/02/2027', '01/09/2027']);
   });
 
   it('shows one month where two side by side would not fit', async () => {

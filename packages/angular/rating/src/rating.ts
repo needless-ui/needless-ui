@@ -3,14 +3,12 @@ import {
   booleanAttribute,
   Component,
   computed,
-  forwardRef,
   inject,
   input,
   model,
   numberAttribute,
-  signal,
+  output,
 } from '@angular/core';
-import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
  * Stars to pick from, built on native radio buttons: arrow keys move between
@@ -27,9 +25,6 @@ import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
  */
 @Component({
   selector: '[nuiRating]',
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NuiRating), multi: true },
-  ],
   host: {
     class: 'nui-rating',
     '[attr.role]': 'readonly() ? "img" : "radiogroup"',
@@ -37,7 +32,7 @@ import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     '[attr.data-readonly]': 'readonly() ? "" : null',
     '[style.--_value]': 'value() ?? 0',
     '[style.--_max]': 'max()',
-    '(focusout)': 'onTouched()',
+    '(focusout)': 'touch.emit()',
   },
   template: `
     @if (readonly()) {
@@ -51,7 +46,7 @@ import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
             [name]="name()"
             [value]="star"
             [checked]="value() === star"
-            [disabled]="isDisabled()"
+            [disabled]="disabled()"
             [attr.aria-label]="starLabel()(star)"
             (change)="choose(star)"
             (click)="toggle(star, $event)"
@@ -62,7 +57,7 @@ import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   `,
 })
-export class NuiRating implements ControlValueAccessor {
+export class NuiRating {
   /** The rating, or null for none. Bind with `[(value)]`. */
   readonly value = model<number | null>(null);
   readonly max = input(5, { transform: numberAttribute });
@@ -81,17 +76,13 @@ export class NuiRating implements ControlValueAccessor {
   readonly readonlyLabel = input<(value: number, max: number) => string>(
     (value, max) => `Rated ${value} out of ${max}`,
   );
+  /** Emits when focus leaves the stars, so forms mark the rating touched. */
+  readonly touch = output<void>();
 
   protected readonly stars = computed(() => Array.from({ length: this.max() }, (_, i) => i + 1));
-  private readonly formDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
-
-  private onChange: (value: number | null) => void = () => undefined;
-  protected onTouched: () => void = () => undefined;
 
   protected choose(star: number): void {
     this.value.set(star);
-    this.onChange(star);
   }
 
   /**
@@ -103,25 +94,6 @@ export class NuiRating implements ControlValueAccessor {
     // Safari doesn't focus a radio it clicks; focused, the arrow keys go on from it.
     const input = event.currentTarget as HTMLInputElement;
     if (input.ownerDocument.activeElement !== input) input.focus({ preventScroll: true });
-    if (this.clearable() && this.value() === star) {
-      this.value.set(null);
-      this.onChange(null);
-    }
-  }
-
-  writeValue(value: number | null): void {
-    this.value.set(value ?? null);
-  }
-
-  registerOnChange(fn: (value: number | null) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.formDisabled.set(disabled);
+    if (this.clearable() && this.value() === star) this.value.set(null);
   }
 }

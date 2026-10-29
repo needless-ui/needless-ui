@@ -8,17 +8,17 @@ import {
   DestroyRef,
   effect,
   ElementRef,
-  forwardRef,
   inject,
   Injector,
   input,
   model,
+  output,
   PLATFORM_ID,
   signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { FormValueControl } from '@angular/forms/signals';
 import { nuiFollow } from '@needless-ui/angular';
 import {
   nuiEditorFromHtml,
@@ -228,12 +228,9 @@ let nextId = 0;
 @Component({
   selector: 'nui-editor',
   imports: [Toolbar, ToolbarWidget],
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => NuiEditor), multi: true },
-  ],
   host: {
     class: 'nui-editor',
-    '[attr.data-disabled]': 'isDisabled() || null',
+    '[attr.data-disabled]': 'disabled() || null',
     '[attr.data-readonly]': 'readonly() || null',
   },
   template: `
@@ -245,7 +242,7 @@ let nextId = 0;
         role="toolbar"
         [attr.aria-label]="words().toolbar"
         [attr.aria-controls]="contentId"
-        [disabled]="isDisabled()"
+        [disabled]="disabled()"
         (click)="onToolClick($event)"
       >
         <!-- Buttons follow their tool, so the toolbar keeps its tab stop as tools come and go. -->
@@ -290,8 +287,8 @@ let nextId = 0;
       [attr.aria-describedby]="describedBy() || null"
       [attr.aria-placeholder]="placeholder() || null"
       [attr.aria-readonly]="readonly() || null"
-      [attr.aria-disabled]="isDisabled() || null"
-      [attr.aria-invalid]="invalid() || null"
+      [attr.aria-disabled]="disabled() || null"
+      [attr.aria-invalid]="(invalid() && touched()) || null"
       [attr.data-empty]="empty() || null"
       [attr.data-placeholder]="placeholder() || null"
       (beforeinput)="onBeforeInput($event)"
@@ -302,7 +299,7 @@ let nextId = 0;
       (cut)="onCopy($event, true)"
       (compositionstart)="composing = true"
       (compositionend)="onCompositionEnd()"
-      (blur)="onTouched()"
+      (blur)="touch.emit()"
     ></div>
     <!-- The link form renders on first use, so a page of editors ships none. -->
     @if (linkReady()) {
@@ -341,7 +338,7 @@ let nextId = 0;
     }
   `,
 })
-export class NuiEditor implements ControlValueAccessor {
+export class NuiEditor implements FormValueControl<string> {
   private readonly document = inject(DOCUMENT);
   private readonly injector = inject(Injector);
   private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -363,10 +360,17 @@ export class NuiEditor implements ControlValueAccessor {
   /** Shows the content, formatted, without editing it. */
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
-  /** Marks the content invalid, for assistive technology and styles. */
+  /** Marks the content invalid, for assistive technology and styles. Forms set it too. */
   readonly invalid = input(false, { transform: booleanAttribute });
+  /**
+   * Whether the editor has been left. Forms set it, so an error shows only once the
+   * user has been there; without a form it stays true.
+   */
+  readonly touched = input(true, { transform: booleanAttribute });
   /** Texts to replace, for translation. */
   readonly labels = input<Partial<NuiEditorLabels>>({});
+  /** Emits when the content loses focus, so forms mark the editor touched. */
+  readonly touch = output<void>();
 
   private readonly toolbar = viewChild<ElementRef<HTMLElement>>('toolbar');
   private readonly content = viewChild.required<ElementRef<HTMLElement>>('content');
@@ -385,9 +389,7 @@ export class NuiEditor implements ControlValueAccessor {
     if (tools !== NUI_EDITOR_TOOLS || this.touchFirst() !== false) return tools;
     return tools.filter((tool) => !TOUCH_TOOLS.includes(tool));
   });
-  private readonly formDisabled = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
-  protected readonly editable = computed(() => !this.readonly() && !this.isDisabled());
+  protected readonly editable = computed(() => !this.readonly() && !this.disabled());
 
   /** The document. */
   readonly doc = signal<NuiEditorDoc>(nuiEditorEmpty());
@@ -410,8 +412,6 @@ export class NuiEditor implements ControlValueAccessor {
   private linkTarget: { from: NuiEditorPoint; to: NuiEditorPoint } | null = null;
   private stopFollow: (() => void) | null = null;
   private readonly mac = this.browser && /Mac|iPhone|iPad/.test(navigator.platform);
-  private onChange: (value: string) => void = () => undefined;
-  protected onTouched: () => void = () => undefined;
 
   constructor() {
     // Draw the document, on the server too, so the page shows it before it runs.
@@ -421,7 +421,8 @@ export class NuiEditor implements ControlValueAccessor {
       if (!this.composing) untracked(() => this.ensureView().render(doc));
     });
     effect(() => {
-      const value = this.value();
+      // A form with no value yet writes null.
+      const value = this.value() ?? '';
       this.format();
       untracked(() => {
         if (value !== this.sent) this.read(value);
@@ -498,7 +499,6 @@ export class NuiEditor implements ControlValueAccessor {
     if (value !== this.sent) {
       this.sent = value;
       this.value.set(value);
-      this.onChange(value);
     }
   }
 
@@ -1184,25 +1184,5 @@ export class NuiEditor implements ControlValueAccessor {
         this.focus();
       }
     }
-  }
-
-  // Forms.
-
-  writeValue(value: unknown): void {
-    const text = value == null ? '' : String(value);
-    this.read(text);
-    this.value.set(text);
-  }
-
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.formDisabled.set(disabled);
   }
 }
