@@ -28,8 +28,9 @@ describe('@needless-ui/css bundle', () => {
     assert.match(css, /@layer nui\.components\s*\{\s*\.nui-button\s*\{/);
   });
 
-  it('has a preset for every customization value the Angular types allow, and no others', async () => {
-    const types = await readFile(new URL('../../angular/src/types.ts', import.meta.url), 'utf8');
+  it('has a preset for every customization value the types allow, and no others', async () => {
+    // The types both bindings use: @needless-ui/core's, which the Angular package re-exports.
+    const types = await readFile(new URL('../../core/src/types.ts', import.meta.url), 'utf8');
     const union = (type: string) => {
       const body = new RegExp(`export type ${type} =([^;]+);`).exec(types)?.[1] ?? '';
       return [...body.matchAll(/'([a-z]+)'/g)].map((m) => m[1]).sort();
