@@ -1,6 +1,6 @@
 {
   "name": "@needless-ui/core",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "The framework-free logic behind Needless UI: plain dates, repeat rules, iCalendar files, the data grid's model and its spreadsheet writer.",
   "license": "MIT",
   "author": "Angelo Lamonaca",
