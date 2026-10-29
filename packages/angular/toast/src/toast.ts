@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { isPlatformBrowser } from '@angular/common';
 import {
   afterRenderEffect,
@@ -17,6 +16,7 @@ import {
   untracked,
   viewChildren,
 } from '@angular/core';
+import { nuiAnnouncer } from '@needless-ui/angular';
 import { NuiButton } from '@needless-ui/angular/button';
 
 /** The palette and icon of a toast. Mirrors `data-tone` in @needless-ui/css. */
@@ -102,7 +102,7 @@ interface Timer {
  */
 @Service()
 export class NuiToaster {
-  private readonly announcer = inject(LiveAnnouncer);
+  private readonly announcer = nuiAnnouncer();
   private readonly list = signal<readonly NuiToast[]>([]);
   private readonly timers = new Map<string, Timer>();
   private paused = false;

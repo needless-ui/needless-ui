@@ -1052,6 +1052,34 @@
     text-align: start;
   }
 
+  /* A group's card leads with its toggle and value, which names the column already. */
+  .nui-grid[data-cards] .nui-grid-group > .nui-grid-cell:has(> .nui-grid-tree) {
+    justify-content: flex-start;
+  }
+
+  .nui-grid[data-cards] .nui-grid-group > .nui-grid-cell:has(> .nui-grid-tree)::before {
+    content: none;
+  }
+
+  /* Group and totals cards show what they add up: their empty cells fold away, until
+     the keyboard comes to one. */
+  .nui-grid[data-cards] :is(.nui-grid-group, .nui-grid-totals) > .nui-grid-cell:empty:not(:focus) {
+    block-size: 0;
+    padding-block-start: 0;
+  }
+
+  .nui-grid[data-cards]
+    :is(.nui-grid-group, .nui-grid-totals)
+    > .nui-grid-cell:empty:not(:focus, :last-child) {
+    padding-block-end: 0;
+  }
+
+  .nui-grid[data-cards]
+    :is(.nui-grid-group, .nui-grid-totals)
+    > .nui-grid-cell:empty:not(:focus)::before {
+    content: none;
+  }
+
   /* Checkboxes and toggles line up with the names, and with the toolbar's select all. */
   .nui-grid[data-cards] .nui-grid-row > .nui-grid-select {
     justify-content: flex-start;

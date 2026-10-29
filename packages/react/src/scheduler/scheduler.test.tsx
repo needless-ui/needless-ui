@@ -796,3 +796,109 @@ describe('NuiScheduler edges', () => {
     expect(cell('2026-09-25|480').hasAttribute('aria-selected')).toBe(false);
   });
 });
+
+/**
+ * The rules of @needless-ui/css that make the grid scroll as on a phone, which unit tests
+ * don't load: a body inside a border that scrolls both ways, a head and a column of times
+ * or names that stay put, rows of a height, and hours that read on their line. Columns are
+ * whole pixels wide, since WebKit scrolls by whole pixels.
+ */
+function phone() {
+  const style = document.head.appendChild(document.createElement('style'));
+  style.textContent = `
+    .nui-scheduler-body { overflow: auto; inline-size: 320px; block-size: 400px; border: 1px solid; }
+    .nui-scheduler-grid { inline-size: 1680px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+    .nui-scheduler-grid :is(th, td) { padding: 0; }
+    .nui-scheduler-grid thead { position: sticky; inset-block-start: 0; z-index: 4; background: Canvas; }
+    .nui-scheduler-corner, tbody :is(.nui-scheduler-time, .nui-scheduler-resource) {
+      position: sticky; inset-inline-start: 0; z-index: 3; inline-size: 80px; background: Canvas;
+    }
+    tbody .nui-scheduler-cell { block-size: 24px; }
+    tbody .nui-scheduler-time > span { display: inline-block; translate: 0 -0.55lh; }
+    :is(.nui-scheduler-hidden, .nui-scheduler-status) {
+      position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%);
+    }`;
+  onTestFinished(() => style.remove());
+}
+
+describe('NuiScheduler on a phone', () => {
+  it('takes the click that ends a tap on free time for no click on the event booked there', async () => {
+    const { cell, event, clicked, slots, update } = await setup(week());
+    const finger = (type: string, element: Element) =>
+      new PointerEvent(type, { ...at(element), pointerId: 7, pointerType: 'touch' });
+    const tap = (element: Element) => {
+      element.dispatchEvent(finger('pointerdown', element));
+      document.dispatchEvent(finger('pointerup', element));
+    };
+    // Chrome on Android sends a tap's click to what's under the finger once the page has
+    // drawn it: here, the event the app books on `slotSelect`.
+    const click = (element: Element, detail = 1) =>
+      element.dispatchEvent(new MouseEvent('click', { ...at(element), detail }));
+    tap(cell('2026-09-24|60'));
+    expect(slots).toEqual([
+      expect.objectContaining({ start: '2026-09-24T01:00', end: '2026-09-24T01:30' }),
+    ]);
+    await update({
+      events: [
+        ...week().events,
+        { id: 'new', title: 'New', start: '2026-09-24T01:00', end: '2026-09-24T01:30' },
+      ],
+    });
+    click(event('new'));
+    await settle();
+    expect(clicked).toEqual([]);
+
+    // The next tap on it is a click on it, and so is a key's click right after a tap on
+    // free time: it ends no press.
+    tap(event('new'));
+    click(event('new'));
+    tap(cell('2026-09-24|120'));
+    click(event('standup'), 0);
+    await settle();
+    expect(clicked.map((e) => e.id)).toEqual(['new', 'standup']);
+  });
+
+  it('opens the day at its start across, wherever the week was scrolled', async () => {
+    phone();
+    const { root, update } = await setup(rooms({ view: 'week' }));
+    const body = root.querySelector<HTMLElement>('.nui-scheduler-body')!;
+    body.scrollLeft = 600;
+    expect(body.scrollLeft).toBe(600);
+    await update({ view: 'day' });
+    // The week and the day share their body.
+    expect(root.querySelector('.nui-scheduler-body')).toBe(body);
+    expect(body.scrollLeft).toBe(0);
+  });
+
+  it('opens a day’s timeline at its hour, right after the names', async () => {
+    phone();
+    const { root, update } = await setup(rooms({ dayStart: 8 }));
+    expect(root.querySelector('.nui-scheduler-body')!.scrollLeft).toBe(0);
+
+    await update({ view: 'week' });
+    await update({ view: 'timeline', scrollHour: 10 });
+    const names = root.querySelector('.nui-scheduler-corner')!.getBoundingClientRect();
+    const hour = root.querySelector('th[data-slot="600"]')!.getBoundingClientRect();
+    expect(hour.left - names.right).toBeCloseTo(0, 0);
+  });
+
+  it('opens a day’s timeline at its hour from the right, right to left', async () => {
+    phone();
+    document.documentElement.dir = 'rtl';
+    onTestFinished(() => document.documentElement.removeAttribute('dir'));
+    const { root } = await setup(rooms({ dayStart: 8, scrollHour: 10 }));
+    const names = root.querySelector('.nui-scheduler-corner')!.getBoundingClientRect();
+    const hour = root.querySelector('th[data-slot="600"]')!.getBoundingClientRect();
+    expect(names.left - hour.right).toBeCloseTo(0, 0);
+  });
+
+  it('opens the week with the label of its hour in view, under the head', async () => {
+    phone();
+    const { root } = await setup(rooms({ view: 'week' }));
+    const head = root.querySelector('thead')!.getBoundingClientRect();
+    const label = root
+      .querySelector('[data-slot-row="480"] .nui-scheduler-time > span')!
+      .getBoundingClientRect();
+    expect(label.top).toBeGreaterThanOrEqual(head.bottom - 0.5);
+  });
+});

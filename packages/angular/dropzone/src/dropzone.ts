@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   booleanAttribute,
   Component,
@@ -15,6 +14,7 @@ import {
   untracked,
 } from '@angular/core';
 import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { nuiAnnouncer } from '@needless-ui/angular';
 import { type NuiUpload, NuiUploadQueue, type NuiUploader, nuiDroppedFiles } from './queue';
 
 /** Every text the dropzone shows or announces. */
@@ -252,7 +252,7 @@ let nextId = 0;
   `,
 })
 export class NuiDropzone<R = unknown> implements ControlValueAccessor {
-  private readonly announcer = inject(LiveAnnouncer);
+  private readonly announcer = nuiAnnouncer();
   protected readonly id = `nui-dropzone-${nextId++}`;
 
   /** The kinds of file to take, as for `<input type="file">`: `image/*,.pdf`. */

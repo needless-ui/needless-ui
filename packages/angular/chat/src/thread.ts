@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   afterNextRender,
@@ -23,6 +22,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { nuiAnnouncer } from '@needless-ui/angular';
 import { NuiButton } from '@needless-ui/angular/button';
 import {
   NuiMarkdown,
@@ -103,7 +103,7 @@ const touches = () => undefined;
   templateUrl: './thread.html',
 })
 export class NuiChatThread {
-  private readonly announcer = inject(LiveAnnouncer);
+  private readonly announcer = nuiAnnouncer();
   private readonly injector = inject(Injector);
   protected readonly id = `nui-chat-${nextId++}`;
 

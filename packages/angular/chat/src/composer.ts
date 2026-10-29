@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   afterNextRender,
   afterRenderEffect,
@@ -16,6 +15,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { nuiAnnouncer } from '@needless-ui/angular';
 import type { NuiChatSession } from './session';
 import { type NuiChatAttachment, type NuiChatLabelsInput, nuiChatWords } from './types';
 
@@ -157,7 +157,7 @@ const touches = () => undefined;
   `,
 })
 export class NuiChatComposer {
-  private readonly announcer = inject(LiveAnnouncer);
+  private readonly announcer = nuiAnnouncer();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   protected readonly id = `nui-chat-composer-${nextId++}`;
 
