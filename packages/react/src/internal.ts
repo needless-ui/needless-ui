@@ -1,27 +1,47 @@
 'use client';
 
 import { nuiNow } from '@needless-ui/core';
-import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 /**
  * A value that the parent can control (`value` and `onChange`) or leave to the
- * component (`defaultValue`), as React's own form elements do.
+ * component (`defaultValue`), as React's own form elements do. As with Angular's
+ * `model()`, setting the value it has already reports nothing. The third item
+ * reads the latest value, set but not yet rendered too, so a handler or a `ref`
+ * method can change it twice in a row (`next(); next()`).
  */
 export function useControllable<T>(
   value: T | undefined,
   initial: T | (() => T),
   onChange: ((value: T) => void) | undefined,
-): [T, (next: T) => void] {
+): [T, (next: T) => void, () => T] {
   const [own, setOwn] = useState(initial);
   const controlled = value !== undefined;
+  const current = controlled ? value : own;
+  const latest = useRef(current);
+  useLayoutEffect(() => {
+    latest.current = current;
+  });
   const set = useCallback(
     (next: T) => {
+      // Unchanged both as rendered and as last set: a parent that turned a value
+      // down still hears it asked for again.
+      if (Object.is(next, current) && Object.is(next, latest.current)) return;
+      latest.current = next;
       if (!controlled) setOwn(next);
       onChange?.(next);
     },
-    [controlled, onChange],
+    [current, controlled, onChange],
   );
-  return [controlled ? value : own, set];
+  const get = useCallback(() => latest.current, []);
+  return [current, set, get];
 }
 
 /**

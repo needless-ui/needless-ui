@@ -1,3 +1,4 @@
+import { nuiToday } from '@needless-ui/core';
 import type { ReactNode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
@@ -27,8 +28,8 @@ async function hydrate(ui: ReactNode): Promise<{ container: HTMLElement; errors:
 
 describe('hydration', () => {
   it('hydrates the scheduler’s HTML without a mismatch, then shows the reader’s today', async () => {
-    const today = new Date();
-    const date = today.toISOString().slice(0, 10);
+    // The reader's today, as the scheduler marks it: in their time zone, not UTC.
+    const date = nuiToday();
     const { container, errors } = await hydrate(
       <NuiScheduler
         defaultDate={date}

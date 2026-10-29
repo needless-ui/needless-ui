@@ -174,6 +174,20 @@ describe('NuiGrid groups, trees, details and totals', () => {
     expect(flashing).toEqual(['999']);
   });
 
+  it('stops flashing on time, even when new rows come before then', async () => {
+    const { host, root } = await setup();
+    const changed = sales.map((row) => (row.id === 2 ? { ...row, amount: 999 } : row));
+    host.set({ rows: changed });
+    await settle();
+    expect(root.querySelectorAll('[data-flash]').length).toBe(1);
+    // The same data again, in a new array: nothing flashes, and the flash above still ends.
+    host.set({ rows: [...changed] });
+    await settle();
+    await new Promise((resolve) => setTimeout(resolve, 1300));
+    await settle();
+    expect(root.querySelectorAll('[data-flash]').length).toBe(0);
+  });
+
   it('writes a spreadsheet', async () => {
     const { handle } = await setup();
     const blob = handle.current!.exportXlsx();

@@ -356,11 +356,9 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
     onPageSizeChange,
   );
   const [page, setPage] = useControllable(pageProp, defaultPage ?? 0, onPageChange);
-  const [columnState, setColumnState] = useControllable<readonly NuiGridColumnState[]>(
-    columnStateProp,
-    defaultColumnState ?? NONE,
-    onColumnStateChange,
-  );
+  const [columnState, setColumnState, latestColumnState] = useControllable<
+    readonly NuiGridColumnState[]
+  >(columnStateProp, defaultColumnState ?? NONE, onColumnStateChange);
   const [collapsed, setCollapsed] = useControllable<readonly string[]>(
     collapsedProp,
     defaultCollapsed ?? NONE,
@@ -617,21 +615,29 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
     if (!getChildren) return;
     setExpanded(open ? nuiGridParentKeys(rows, getChildren, key) : []);
   };
+  // Column changes start from the latest column state, rendered or not, so the `ref`'s
+  // `fit()` can go through every column in one loop.
+  const stateNow = () => nuiGridColumnStates(columns, latestColumnState(), byId);
+  const layoutOf = (now: readonly NuiGridColumnState[]) =>
+    nuiGridLayout({ byId, state: now, sort, filters, containerWidth, leading });
   const resize = (id: string, to: number) => {
     const column = byId.get(id);
-    if (column) setColumnState(nuiGridResized(state, column, to));
+    if (column) setColumnState(nuiGridResized(stateNow(), column, to));
   };
   const hide = (id: string, hidden = true) => {
-    const next = nuiGridHidden(state, byId.get(id), hidden, columnsLaid.length);
+    const now = stateNow();
+    const visible = now.filter((entry) => !entry.hidden).length;
+    const next = nuiGridHidden(now, byId.get(id), hidden, visible);
     if (next) setColumnState(next);
   };
   const moveTo = (id: string, target: string, side: 'before' | 'after') => {
-    const next = nuiGridMoved(state, columnsLaid, id, target, side);
+    const now = stateNow();
+    const next = nuiGridMoved(now, layoutOf(now), id, target, side);
     if (next) setColumnState(next);
   };
   const canMove = (id: string, delta: -1 | 1) => nuiGridNeighbour(columnsLaid, id, delta) !== null;
   const move = (id: string, delta: -1 | 1) => {
-    const other = nuiGridNeighbour(columnsLaid, id, delta);
+    const other = nuiGridNeighbour(layoutOf(stateNow()), id, delta);
     if (other) moveTo(id, other, delta < 0 ? 'before' : 'after');
   };
 
@@ -643,7 +649,7 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
     filters,
     setSort,
     setFilter,
-    pin: (id, pinned) => setColumnState(nuiGridPinned(state, id, pinned)),
+    pin: (id, pinned) => setColumnState(nuiGridPinned(stateNow(), id, pinned)),
     canMove,
     move,
     hide,
@@ -686,6 +692,16 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
     active.row,
     measured,
   ]);
+  // Only a virtual list draws other rows as it scrolls: the scroll position is
+  // state then, and otherwise just kept for when it turns virtual.
+  const scrolledTo = useRef(0);
+  const onScroll = () => {
+    scrolledTo.current = scroller.current!.scrollTop;
+    if (virtualized) setScrollTop(scrolledTo.current);
+  };
+  useLayoutEffect(() => {
+    if (virtualized) setScrollTop(scrolledTo.current);
+  }, [virtualized]);
   /** A virtual list needs a bounded height: 32rem unless `height` says otherwise. */
   const maxHeight = height ?? (virtualized ? '32rem' : null);
   const narrowed =
@@ -864,8 +880,17 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
     root.current!.ownerDocument.defaultView!.print();
   }, [printing]);
 
-  // Cells that changed in new rows flash, among the ones drawn.
+  // Cells that changed in new rows flash, among the ones drawn. Each batch stops
+  // flashing on its own timer, which new rows don't cancel: only unmounting does.
   const before = useRef<Map<unknown, T> | null>(null);
+  const flashTimers = useRef(new Set<ReturnType<typeof setTimeout>>());
+  useEffect(() => {
+    const timers = flashTimers.current;
+    return () => {
+      for (const timer of timers) clearTimeout(timer);
+      timers.clear();
+    };
+  }, []);
   useLayoutEffect(() => {
     const previous = before.current;
     before.current = new Map(rows.map((row) => [key(row), row]));
@@ -889,6 +914,7 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
       return next;
     });
     const timer = setTimeout(() => {
+      flashTimers.current.delete(timer);
       setFlashing((current) => {
         const next = new Map(current);
         for (const [k, ids] of changed) {
@@ -899,7 +925,7 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
         return next;
       });
     }, 1200);
-    return () => clearTimeout(timer);
+    flashTimers.current.add(timer);
     // Only new rows flash cells; the rest is read as it is then.
   }, [rows]);
 
@@ -1212,12 +1238,7 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
     const startX = event.clientX;
     const start = column.width;
     const sign = isRtl(root.current!) ? -1 : 1;
-    const base = state;
-    const moved = (e: PointerEvent) => {
-      const definition = byId.get(column.id);
-      if (definition)
-        setColumnState(nuiGridResized(base, definition, start + (e.clientX - startX) * sign));
-    };
+    const moved = (e: PointerEvent) => resize(column.id, start + (e.clientX - startX) * sign);
     const end = () => {
       handle.removeEventListener('pointermove', moved);
       handle.removeEventListener('pointerup', end);
@@ -1956,7 +1977,7 @@ export function NuiGrid<T>(props: NuiGridProps<T>): ReactNode {
         ref={scroller}
         className="nui-grid-scroll"
         style={{ '--_height': maxHeight ?? undefined } as Style}
-        onScroll={() => setScrollTop(scroller.current!.scrollTop)}
+        onScroll={onScroll}
       >
         <table
           className="nui-grid-table"

@@ -50,6 +50,7 @@ async function setup(patch: Partial<Settings> = {}) {
   const edits: NuiGridEdit<Person>[] = [];
   const activated: Person[] = [];
   const queries: NuiGridQuery[] = [];
+  const pages: number[] = [];
   const handle = createRef<NuiGridHandle>();
   const host = {
     settings: { rows: people, selected: [], sort: [], columnState: [], ...patch } as Settings,
@@ -75,6 +76,7 @@ async function setup(patch: Partial<Settings> = {}) {
         onCellEdit={(edit) => edits.push(edit)}
         onRowActivate={(row) => activated.push(row)}
         onQueryChange={(query) => queries.push(query)}
+        onPageChange={(page) => pages.push(page)}
       />
     );
   }
@@ -88,6 +90,7 @@ async function setup(patch: Partial<Settings> = {}) {
     edits,
     activated,
     queries,
+    pages,
     names: () =>
       [...table.querySelectorAll('tbody tr[data-index]')].map((row) =>
         row.querySelectorAll('td')[1].textContent!.trim(),
@@ -361,6 +364,22 @@ describe('NuiGrid', () => {
     expect(names()).toEqual(['Grace', 'Ada', 'Alan']);
     expect(queries.at(-1)!.sort).toEqual([{ column: 'name', direction: 'asc' }]);
     expect(table.getAttribute('aria-rowcount')).toBe('121');
+  });
+
+  it('fits every column from one loop over its ref, and reports only what changes', async () => {
+    const { host, handle, header, pages } = await setup();
+    for (const column of columns) handle.current!.fit(column.id);
+    await settle();
+    expect(host.settings.columnState!.map((entry) => typeof entry.width)).toEqual([
+      'number',
+      'number',
+      'number',
+      'number',
+    ]);
+    // Sorting goes back to the first page, which it's on already: no page to report.
+    await userEvent.click(header('Name'));
+    await settle();
+    expect(pages).toEqual([]);
   });
 
   it('exports the rows as CSV', async () => {

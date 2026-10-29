@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  type NuiDate,
-  nuiToday,
-  nuiUtc,
-  nuiWeekdayNames,
-  nuiWeekInfo,
-} from '@needless-ui/core';
+import { type NuiDate, nuiToday, nuiUtc, nuiWeekdayNames, nuiWeekInfo } from '@needless-ui/core';
 import {
   NUI_SCHEDULER_LABELS,
   type NuiSchedulerChange,
@@ -256,8 +250,12 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
   } = props;
   useTouchActive();
 
-  const [view, setViewValue] = useControllable(viewProp, defaultView, onViewChange);
-  const [date, setDate] = useControllable(dateProp, () => defaultDate ?? nuiToday(), onDateChange);
+  const [view, setViewValue, latestView] = useControllable(viewProp, defaultView, onViewChange);
+  const [date, setDate, latestDate] = useControllable(
+    dateProp,
+    () => defaultDate ?? nuiToday(),
+    onDateChange,
+  );
   const now = useNow();
   const today = now?.slice(0, 10) ?? null;
 
@@ -497,19 +495,23 @@ export function NuiScheduler<T = unknown>(props: NuiSchedulerProps<T>): ReactNod
     return titleOf(next, shownDays(next, rangeOf(next, at)), day, at, formats);
   };
 
+  // These read the latest view and date, so a toolbar of your own (or the `ref`) can
+  // call them one after another: `setView('day'); next()` shows the next day.
   const goToday = () => {
     const day = nuiToday();
     setDate(day);
-    announce(titleFor(view, day));
+    announce(titleFor(latestView(), day));
   };
 
   const page = (direction: number) => {
-    const day = paged(frame, anchor, direction);
+    const shown = latestView();
+    const at = shown === view ? frame : frameFor(shown);
+    const day = paged(at, anchorOf(at, latestDate()), direction);
     setDate(day);
-    announce(titleFor(view, day));
+    announce(titleFor(shown, day));
   };
 
-  const setView = (next: NuiSchedulerView, day = date) => {
+  const setView = (next: NuiSchedulerView, day = latestDate()) => {
     setViewValue(next);
     setSelection(null);
     announce(titleFor(next, day));

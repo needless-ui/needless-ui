@@ -26,6 +26,7 @@ async function setup(initial: Settings, keep?: (change: NuiSchedulerChange) => b
   const changes: NuiSchedulerChange[] = [];
   const slots: NuiSchedulerSlot[] = [];
   const ranges: string[] = [];
+  const dates: string[] = [];
   const handle = createRef<NuiSchedulerHandle>();
   const host = {
     settings: initial,
@@ -44,7 +45,10 @@ async function setup(initial: Settings, keep?: (change: NuiSchedulerChange) => b
         selectable
         {...settings}
         onViewChange={(view) => host.set({ view })}
-        onDateChange={(date) => host.set({ date })}
+        onDateChange={(date) => {
+          dates.push(date);
+          host.set({ date });
+        }}
         onEventClick={(event) => clicked.push(event)}
         onEventChange={(change) => {
           changes.push(change);
@@ -79,6 +83,7 @@ async function setup(initial: Settings, keep?: (change: NuiSchedulerChange) => b
     changes,
     slots,
     ranges,
+    dates,
     update: async (patch: Partial<Settings>) => {
       host.set(patch);
       await settle();
@@ -616,6 +621,49 @@ describe('NuiScheduler with resources', () => {
     await settle();
     expect(host.settings.date).toBe(nuiToday());
     await update({});
+  });
+
+  it('chains calls on its ref and on a toolbar of its own, as signals would', async () => {
+    const { host, handle, root, update } = await setup(
+      week({
+        toolbar: ({ setView, next }) => (
+          <button
+            type="button"
+            className="day-after"
+            onClick={() => {
+              setView('day');
+              next();
+            }}
+          >
+            The day after
+          </button>
+        ),
+      }),
+    );
+    handle.current!.next();
+    handle.current!.next();
+    await settle();
+    expect(host.settings.date).toBe('2026-10-09');
+    await update({ date: '2026-09-25' });
+    root.querySelector<HTMLButtonElement>('.day-after')!.click();
+    await settle();
+    expect(host.settings.view).toBe('day');
+    expect(host.settings.date).toBe('2026-09-26');
+  });
+
+  it('reports a date or a view only when it changes, as Angular models do', async () => {
+    const { root, cell, dates } = await setup(week());
+    cell('2026-09-25|480').focus();
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}');
+    await settle();
+    expect(document.activeElement).toBe(cell('2026-09-25|540'));
+    expect(dates).toEqual([]);
+    root.querySelector<HTMLButtonElement>('.nui-scheduler-view[aria-pressed="true"]')!.click();
+    await settle();
+    expect(dates).toEqual([]);
+    await userEvent.keyboard('{ArrowRight}');
+    await settle();
+    expect(dates).toEqual(['2026-09-26']);
   });
 });
 
