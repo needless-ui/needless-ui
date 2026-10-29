@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · کامپوننت‌های دسترس‌پذیر Angular، دقیق‌تر از حد لازم',
+    title: 'Needless UI · کامپوننت‌های رایگان Angular با زمان‌بند و جدول داده',
     description:
-      'Needless UI یک کتابخانهٔ کامپوننت متن‌باز برای Angular است: عناصر بومی، یک استایل‌شیت مستقل از فریم‌ورک، توکن‌های طراحی W3C و پشتیبانی داخلی از WCAG 2.2 AA.',
+      'کتابخانهٔ کامپوننت رایگان Angular با مجوز MIT: کامپوننت‌های دسترس‌پذیر بر پایهٔ عناصر بومی، با زمان‌بند منابع و جدول داده با گروه‌بندی و خروجی Excel.',
     eyebrow: 'متن‌باز · Angular 22 · مجوز MIT',
     heading: 'کامپوننت‌های رابط کاربری، دقیق‌تر از آنچه لازم است.',
-    lead: 'Needless UI با یک استایل‌شیت مستقل از فریم‌ورک و توکن‌های طراحی W3C به <strong>عناصر بومی</strong> استایل می‌دهد. دایرکتیو‌های Angular آن رفتار تعاملی را از Angular Aria می‌آورند؛ برای همین هر کامپوننت از همان رندر اول دسترس‌پذیر است.',
+    lead: 'کامپوننت‌های دسترس‌پذیر Angular بر پایهٔ <strong>عناصر بومی</strong> که یک استایل‌شیت مستقل از فریم‌ورک به آن‌ها استایل می‌دهد. همه با مجوز MIT، حتی آنچه کتابخانه‌های دیگر جداگانه می‌فروشند: یک <a href="/components/scheduler">زمان‌بند</a> با خط زمانی منابع، و یک <a href="/components/grid">جدول داده</a> با گروه‌بندی و خروجی Excel.',
     getStarted: 'شروع کنید',
     browse: 'مرور کامپوننت‌ها',
     featuresTitle: 'چرا ساخته شد؟',
     features: [
+      {
+        title: 'بدون نسخهٔ پولی',
+        text: 'خط زمانی منابع و رویدادهای تکرارشوندهٔ <a href="/components/scheduler">زمان‌بند</a>، و گروه‌بندی، دادهٔ درختی و خروجی Excel در <a href="/components/grid">جدول داده</a>، مثل همه‌چیز دیگر مجوز MIT دارند: نه کلید لایسنس، نه واترمارک. از یک کتابخانهٔ پولی می‌آیید؟ راهنماهای مهاجرت از <a href="/guides/from-fullcalendar">FullCalendar</a> و <a href="/guides/from-ag-grid">AG Grid</a> را بخوانید.',
+      },
       {
         title: 'عناصر بومی در اولویت',
         text: '<code>&lt;button nuiButton&gt;</code> یک دکمهٔ واقعی است. فرم‌ها، صفحه‌کلید و صفحه‌خوان‌ها درست کار می‌کنند، چون چیزی دور آن پیچیده نشده است.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'ورودی‌های سیگنالی، zoneless، رندر سمت سرور و یک نقطهٔ ورود برای هر کامپوننت؛ پس اپ‌ها فقط همان چیزی را در خود دارند که ایمپورت می‌کنند.',
       },
     ],
-    codeTitle: 'دو ایمپورت و تمام',
+    codeTitle: 'یک دستور، بعد یک ایمپورت',
     codeText:
-      'پکیج را اضافه کنید، استایل‌شیت را یک بار ایمپورت کنید و سپس کامپوننت‌ها را در هر کامپوننت standalone به کار ببرید.',
+      'دستور ng add را اجرا کنید تا پکیج نصب و استایل‌شیت آن ایمپورت شود، سپس کامپوننت‌ها را در هر کامپوننت standalone به کار ببرید.',
   },
 
   components: {
@@ -1167,10 +1171,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'جدول داده',
-        title: 'کامپوننت جدول داده برای Angular',
-        summary: 'هر تعداد ردیف را مرتب، فیلتر، انتخاب، ویرایش و اسکرول کنید.',
+        title: 'جدول دادهٔ رایگان Angular با گروه‌بندی و خروجی Excel',
+        summary: 'هر تعداد ردیف را مرتب، فیلتر، گروه‌بندی و ویرایش کنید و از آن‌ها خروجی بگیرید.',
         description:
-          'جدول دادهٔ دسترس‌پذیر Angular بر پایهٔ جدول بومی: مرتب‌سازی چندستونی، فیلتر، صفحه‌بندی یا اسکرول مجازی، انتخاب، ویرایش و ستون‌های جابه‌جاشدنی.',
+          'جدول دادهٔ رایگان Angular با مجوز MIT بر پایهٔ جدول بومی: گروه‌بندی با جمع کل، دادهٔ درختی، خروجی Excel، فیلتر، ویرایش و اسکرول مجازی.',
         apiDescription:
           'مرجع API جدول دادهٔ Needless UI: ورودی‌ها و مدل‌های nui-grid، تعریف NuiGridColumn و قالب‌هایی برای سلول‌های سفارشی.',
         a11yDescription:
@@ -2618,6 +2622,376 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'برای اتاق‌های کنار هم در نمای روز، رزروهای تکرارشونده و همهٔ گزینه‌های دیگر، <a href="/components/scheduler">صفحهٔ زمان‌بند</a> و <a href="/components/scheduler/api">مرجع API</a> آن را ببینید.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'مهاجرت از FullCalendar به زمان‌بند رایگان Angular',
+        description:
+          'یک اپ Angular را از FullCalendar Premium به زمان‌بند رایگان Needless UI ببرید: معادل هر گزینه، یک خط زمانی رزرو با هر دو، کمبودها و دام‌های داده.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'خط زمانی منابع و ستون‌های منابع در FullCalendar جزو Premium هستند: یک اپ تجاری به کلید لایسنس پولی نیاز دارد. <a href="https://fullcalendar.io/license">صفحهٔ لایسنس</a> آن گزینه‌های رایگان را فهرست می‌کند: برای اپ‌هایی که سراسر AGPL هستند و برای سازمان‌های غیرانتفاعی ثبت‌شده. زمان‌بند Needless UI هر دو را با مجوز MIT دارد، همراه با رویدادهای تکرارشونده و فایل‌های iCalendar. این راهنما یک اپ Angular را از یکی به دیگری منتقل می‌کند: چه چیزهایی منتقل می‌شوند، چه چیزهایی نه، و چه داده‌هایی باید تبدیل شوند.',
+          },
+          {
+            kind: 'p',
+            html: 'این راهنما از نام‌های FullCalendar 7 استفاده می‌کند و هر جا نام‌های نسخهٔ 6 فرق دارند، آن‌ها را در کروشه می‌آورد. رابط Angular در FullCalendar از Angular 16 تا 22 پشتیبانی می‌کند؛ Needless UI به Angular 22 نیاز دارد.',
+          },
+          { kind: 'h2', id: 'compare', text: 'چه به دست می‌آورید' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar و زمان‌بند Needless UI',
+            head: ['قابلیت', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'خط زمانی منابع: یک ردیف برای هر اتاق یا فرد',
+                'Premium',
+                'بله: یک روز، یک هفته یا یک ماه',
+              ],
+              ['منابع به‌صورت ستون در نماهای روز و هفته', 'Premium', 'بله'],
+              ['نماهای ماه، هفته و روز', 'رایگان', 'بله'],
+              [
+                'جابه‌جایی و تغییر اندازه با کشیدن',
+                'رایگان؛ به منبعی دیگر با Premium',
+                'بله، به منابع دیگر هم. اندازه از انتها تغییر می‌کند، نه از ابتدا.',
+              ],
+              [
+                'انتخاب زمان برای ساختن رویداد',
+                'رایگان',
+                'بله، با نشانگر، لمس طولانی یا صفحه‌کلید',
+              ],
+              [
+                'قاعده‌هایی مثل «بدون هم‌پوشانی»',
+                'رایگان: گزینه‌های هم‌پوشانی و محدودیت',
+                'بله: یک تابع <code>allow</code> که پیش از هر تغییر از آن پرسیده می‌شود',
+              ],
+              [
+                'جابه‌جایی و تغییر اندازهٔ رویدادها با صفحه‌کلید',
+                'در مستندات دسترس‌پذیری‌اش نیامده؛ این مستندات به برچسب‌های ARIA و فوکوس با Tab می‌پردازند',
+                'بله، همراه با اعلام به صفحه‌خوان‌ها',
+              ],
+              [
+                'رویدادهای تکرارشونده',
+                'رایگان، با پلاگین و کتابخانهٔ rrule',
+                'داخلی: قاعده‌های RFC 5545، بدون EXRULE، RDATE و قاعده‌های ساعتی',
+              ],
+              [
+                'iCalendar (.ics)',
+                'رایگان: یک فید را می‌خواند',
+                'فایل‌های .ics را می‌خواند و می‌نویسد',
+              ],
+              ['نماهای فهرست و سال', 'رایگان', 'برنامهٔ روزهای پیش رو؛ نمای سال ندارد'],
+              [
+                'منطقه‌های زمانی',
+                'رایگان: محلی، UTC یا منطقه‌های نام‌دار',
+                'خیر: زمان‌ها را همان‌طور که دریافت می‌کند نشان می‌دهد',
+              ],
+              [
+                'منابع گروه‌بندی‌شده، تودرتو یا چندستونی',
+                'Premium',
+                'خیر: یک ستون که قالب شما رسمش می‌کند',
+              ],
+              ['کشیدن و رها کردن از بیرون، رویدادهای پس‌زمینه', 'رایگان', 'خیر'],
+              ['چاپ، رندر مجازی', 'Premium', 'خیر'],
+              [
+                'فریم‌ورک‌ها',
+                'Angular 16 تا 22، React، Vue، JavaScript ساده و بیشتر',
+                'Angular 22؛ بعدی React است',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'چه چیزی معادل چیست' },
+          {
+            kind: 'table',
+            caption: 'گزینه‌های FullCalendar و معادل‌هایشان در Needless UI',
+            head: ['FullCalendar', 'زمان‌بند Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>، با یک ورودی برای هر گزینه؛ بدون پلاگین و بدون کلید',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>، و <code>timelineSpan</code> برای یک هفته یا یک ماه',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>؛ <code>[(view)]</code> دوطرفه است',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: تا <code>events</code> را به‌روز نکنید، چیزی جابه‌جا نمی‌شود',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: یک تابع برای جابه‌جایی، تغییر اندازه و انتخاب',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>، <code>snapMinutes</code>، بر حسب دقیقه',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>، <code>dayEnd</code>، <code>scrollHour</code>، بر حسب ساعت',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>، با روزهای هفته از 1 (دوشنبه) تا 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'قالب‌های <code>nuiSchedulerEvent</code> و <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (هر تگ زبان BCP 47)، <code>firstDay</code> از 1 تا 7، و <code>labels</code> برای متن‌هایش',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'خط زمانی رزرو اتاق، به هر دو روش' },
+          {
+            kind: 'p',
+            html: 'اتاق‌ها منابع هستند و رزروها رویدادها. کاربران روی یک اتاق می‌کشند تا رزروش کنند و یک رزرو را می‌کشند تا جابه‌جایش کنند، و هر اتاق در هر زمان فقط یک رزرو می‌پذیرد. با FullCalendar 7 و خط زمانی منابع Premium آن:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'با زمان‌بند Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'دو چیز متفاوت کار می‌کند. FullCalendar رزرو را خودش جابه‌جا می‌کند و اپ همان تغییر را در داده‌های خودش ثبت می‌کند؛ زمان‌بند Needless UI فقط آن را گزارش می‌دهد و به‌روز کردن <code>events</code> آن را نگه می‌دارد، پس داده‌های شما تنها منبع می‌مانند. و <code>allow</code> کدی معمولی است که پیش از هر تغییر با نشانگر یا صفحه‌کلید از آن پرسیده می‌شود، پس آزمودن قاعده در دست خودتان است. <a href="/guides/booking-calendar">راهنمای رزرو اتاق</a> این اپ را گام‌به‌گام می‌سازد.',
+          },
+          { kind: 'h2', id: 'data', text: 'تبدیل داده‌ها' },
+          {
+            kind: 'table',
+            caption: 'داده‌های FullCalendar و آنچه زمان‌بند انتظار دارد',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'در رویدادهای تمام‌روز، <code>end</code> روزِ بعد از رویداد است',
+                'در رویدادهای تمام‌روز، <code>end</code> آخرین روز رویداد است: یک روز کم کنید',
+              ],
+              [
+                'زمان‌ها ممکن است با <code>Z</code> یا آفستی مثل <code>+02:00</code> تمام شوند',
+                'زمان‌های محلی بدون آفست، مثل <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'روزهای هفته از 0 (یکشنبه) تا 6، در <code>businessHours</code> و <code>firstDay</code>',
+                'روزهای هفته از 1 (دوشنبه) تا 7 (یکشنبه)',
+              ],
+              ["مدت‌ها به‌صورت رشته، مثل <code>'00:30'</code>", 'عدد: دقیقه یا ساعت'],
+              ['منابع مرتب‌شده بر اساس شناسه و سپس عنوان', 'منابع به ترتیب آرایه'],
+              [
+                '<code>rrule</code> به‌صورت شیء، و <code>exrule</code>',
+                'یک رشتهٔ RFC 5545، مثل <code>FREQ=WEEKLY;BYDAY=MO,FR</code>، و <code>exdate</code>',
+              ],
+              [
+                'منطقهٔ زمانی‌ای مثل <code>America/New_York</code>',
+                'اول زمان‌ها را تبدیل کنید. <code>nuiSchedulerFromIcs(text, { timeZone })</code> فایل‌های .ics را هنگام خواندن تبدیل می‌کند.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'اگر به آنچه نیست نیاز دارید' },
+          {
+            kind: 'p',
+            html: 'اگر اپ شما به منطقه‌های زمانی، منابع گروه‌بندی‌شده، کشیدن و رها کردن از بیرون یا چاپ وابسته است، زمان‌بند هنوز نمی‌تواند جای FullCalendar را بگیرد. برای آنچه لازم دارید <a href="https://github.com/needless-ui/needless-ui/issues">یک issue باز کنید</a>. برای بقیهٔ موارد، <a href="/components/scheduler">صفحهٔ زمان‌بند</a> همهٔ ورودی‌ها، خروجی‌ها و مثال‌ها را دارد.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'مهاجرت از AG Grid Enterprise به جدول دادهٔ رایگان Angular',
+        description:
+          'یک اپ Angular را از AG Grid Enterprise به جدول دادهٔ رایگان Needless UI ببرید: گروه‌بندی، جمع کل، دادهٔ درختی و خروجی Excel، معادل هر گزینه و کمبودها.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'گروه‌بندی ردیف‌ها، تجمیع، دادهٔ درختی، جزئیات زیر ردیف (master/detail) و خروجی Excel در AG Grid جزو Enterprise هستند: استفاده در محیط عملیاتی به لایسنس تجاری نیاز دارد، و بدون کلید، جدول واترمارک نشان می‌دهد و خطایی در کنسول ثبت می‌کند. جدول دادهٔ Needless UI گروه‌بندی با جمع کل، دادهٔ درختی، جزئیات ردیف و خروجی .xlsx را با مجوز MIT دارد. این راهنما یک اپ Angular را از یکی به دیگری منتقل می‌کند: چه چیزهایی منتقل می‌شوند، چه چیزهایی نه، و کد چگونه تغییر می‌کند.',
+          },
+          {
+            kind: 'p',
+            html: 'این راهنما از نام‌های AG Grid 36 استفاده می‌کند. AG Grid 36 از Angular 20 تا 22 پشتیبانی می‌کند؛ Needless UI به Angular 22 نیاز دارد.',
+          },
+          { kind: 'h2', id: 'compare', text: 'چه به دست می‌آورید' },
+          {
+            kind: 'table',
+            caption: 'AG Grid و جدول دادهٔ Needless UI',
+            head: ['قابلیت', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'گروه‌بندی ردیف‌ها، با مقادیر تجمیعی و ردیف جمع کل',
+                'Enterprise',
+                'بله: در چند سطح، با جمع، میانگین، کمینه، بیشینه، تعداد یا یک تابع',
+              ],
+              ['دادهٔ درختی', 'Enterprise', 'بله، از ردیف‌های تودرتو'],
+              [
+                'جزئیات زیر ردیف (master/detail)',
+                'Enterprise',
+                'بله: هر قالبی زیر ردیف، حتی یک جدول دیگر',
+              ],
+              [
+                'خروجی Excel',
+                'Enterprise: استایل‌ها، چند کاربرگ، تصویر و فرمول',
+                'بله: یک کاربرگ با سلول‌های دارای نوع داده، قالب‌بندی اعداد و ردیف سرستون ثابت با فیلتر',
+              ],
+              [
+                'منوی ستون با انتخابگر ستون‌ها',
+                'Enterprise',
+                'بله: مرتب‌سازی، فیلتر، سنجاق، جابه‌جایی، هم‌عرض کردن با محتوا و پنهان کردن هر ستون، و نمایش یا پنهان کردن همهٔ ستون‌ها',
+              ],
+              [
+                'مرتب‌سازی بر اساس چند ستون، جستجوی سریع، صفحه‌بندی، انتخاب ردیف',
+                'Community',
+                'بله',
+              ],
+              [
+                'فیلتر ستون',
+                'Community: تا دو شرط که با AND یا OR ترکیب می‌شوند',
+                'یک شرط برای هر ستون',
+              ],
+              [
+                'فیلترهای مجموعه‌ای، چندگانه و پیشرفته',
+                'Enterprise',
+                'تا حدی: چک‌لیستی از گزینه‌های ستون، نه از مقدارهای موجود در داده‌ها',
+              ],
+              [
+                'تغییر اندازه، جابه‌جایی، سنجاق و پنهان کردن ستون‌ها، و ذخیرهٔ وضعیتشان',
+                'Community',
+                'بله',
+              ],
+              ['اسکرول مجازی', 'Community: ردیف‌ها و ستون‌ها', 'ردیف‌ها'],
+              [
+                'ویرایش سلول',
+                'Community؛ برخی ویرایشگرها با Enterprise',
+                'بله، بر اساس نوع ستون، با اعتبارسنجی؛ بدون ویرایشگر سفارشی و بدون واگرد',
+              ],
+              ['جدول‌های محوری (pivot)، نمودارهای یکپارچه', 'Enterprise', 'خیر'],
+              [
+                'کلیپ‌بورد، انتخاب محدودهٔ سلول‌ها، منوی زمینه، نوار وضعیت، نوار کناری',
+                'Enterprise',
+                'خیر',
+              ],
+              [
+                'داده از سرور',
+                'مدل ردیف سمت سرور: Enterprise؛ بارگذاری بلوکی: Community',
+                'صفحه‌هایی از سرور شما، با مرتب‌سازی، فیلترها و جستجوی خود سرور؛ بدون گروه‌بندی روی سرور',
+              ],
+              ['گروه‌های ستون، کشیدن ردیف‌ها، ردیف‌های سنجاق‌شده', 'Community', 'خیر'],
+              [
+                'فریم‌ورک‌ها',
+                'React، Angular 20 تا 22، Vue و JavaScript ساده',
+                'Angular 22؛ بعدی React است',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'چه چیزی معادل چیست' },
+          {
+            kind: 'table',
+            caption: 'گزینه‌های AG Grid و معادل‌هایشان در Needless UI',
+            head: ['AG Grid', 'جدول دادهٔ Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>، ثبت ماژول‌ها، <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>؛ بدون ثبت ماژول و بدون کلید',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>، <code>format</code> (گزینه‌های Intl یا یک تابع)، <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'یک قالب <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> در ستون، <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>، فهرستی از id ستون‌ها. گروه‌ها در ابتدا بازند؛ <code>[(collapsed)]</code> آن‌ها را می‌بندد.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> با <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'یک قالب <code>nuiGridDetail</code>، و <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>، و <code>[(selected)]</code>: کلیدهای ردیف‌های انتخاب‌شده',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> یک Blob برمی‌گرداند و <code>exportCsv()</code> متن',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>؛ جهت راست‌به‌چپ از <code>dir</code> صفحه پیروی می‌کند',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'سفارش‌های گروه‌بندی‌شده بر اساس کشور، به هر دو روش' },
+          {
+            kind: 'p',
+            html: 'کار از این قرار است: سفارش‌ها بر اساس کشور گروه‌بندی شوند، با جمع هر کشور و یک جمع کل برای همه، خروجی Excel، جستجوی سریع و انتخاب چندتایی. با AG Grid 36، که در آن گروه‌بندی، جمع‌ها و خروجی Excel به Enterprise نیاز دارند:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'با جدول دادهٔ Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'چند چیز متفاوت کار می‌کند. انتخاب، کلیدها یعنی id ردیف‌ها را نگه می‌دارد، پس با رسیدن دادهٔ تازه از بین نمی‌رود؛ هر وقت به خود ردیف‌ها نیاز داشتید، آن‌ها را از روی کلیدها پیدا کنید. گروه‌ها در ابتدا بازند. برچسب هر گروه در اولین ستون نمایان می‌نشیند و جستجو فقط ستون‌های نمایان را می‌خواند؛ پس اگر می‌خواهید جستجو در ستون گروه‌بندی‌شده هم انجام شود، آن را نمایان نگه دارید. و <code>exportXlsx()</code> به‌جای دانلود فایل، خود فایل را برمی‌گرداند: یک کاربرگ از ردیف‌های فیلترشده و مرتب‌شده، بدون ردیف‌های گروه.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'اگر به آنچه نیست نیاز دارید' },
+          {
+            kind: 'p',
+            html: 'اگر اپ شما به جدول‌های محوری، نمودارها، کلیپ‌بورد و انتخاب محدوده، گروه‌بندی روی سرور یا گروه‌های ستون وابسته است، جدول دادهٔ Needless UI هنوز نمی‌تواند جای AG Grid را بگیرد. برای آنچه لازم دارید <a href="https://github.com/needless-ui/needless-ui/issues">یک issue باز کنید</a>. برای بقیهٔ موارد، <a href="/components/grid">صفحهٔ جدول داده</a> همهٔ ورودی‌ها، خروجی‌ها و مثال‌ها را دارد.',
           },
         ],
       },

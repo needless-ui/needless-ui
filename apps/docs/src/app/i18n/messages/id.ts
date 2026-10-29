@@ -38,16 +38,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Komponen Angular aksesibel yang direkayasa berlebihan',
+    title: 'Needless UI · Komponen Angular gratis dengan penjadwal dan data grid',
     description:
-      'Needless UI adalah pustaka komponen Angular open source: elemen native, satu stylesheet tanpa framework, design token W3C, dan WCAG 2.2 AA bawaan.',
+      'Pustaka komponen Angular gratis berlisensi MIT, aksesibel dan berbasis elemen native: penjadwal sumber daya, serta data grid dengan grup dan ekspor Excel.',
     eyebrow: 'Open source · Angular 22 · MIT',
     heading: 'Komponen UI yang dirancang lebih matang dari yang perlu.',
-    lead: 'Needless UI memberi gaya pada <strong>elemen native</strong> dengan satu stylesheet yang tidak bergantung pada framework dan design token W3C. Direktif Angular-nya menambahkan perilaku dari Angular Aria, sehingga setiap komponen sudah aksesibel sejak render pertama.',
+    lead: 'Komponen Angular yang aksesibel di atas <strong>elemen native</strong>, dengan gaya dari satu stylesheet tanpa framework. Semuanya berlisensi MIT, termasuk yang dijual terpisah oleh pustaka lain: <a href="/components/scheduler">penjadwal</a> dengan timeline sumber daya, dan <a href="/components/grid">data grid</a> dengan pengelompokan dan ekspor Excel.',
     getStarted: 'Mulai',
     browse: 'Lihat komponen',
     featuresTitle: 'Mengapa dibuat',
     features: [
+      {
+        title: 'Tanpa paket premium',
+        text: 'Timeline sumber daya dan acara berulang di <a href="/components/scheduler">penjadwal</a>, serta pengelompokan, data pohon, dan ekspor Excel di <a href="/components/grid">data grid</a>, berlisensi MIT seperti bagian lainnya: tanpa kunci lisensi, tanpa watermark. Pindah dari pustaka berbayar? Baca panduan migrasi dari <a href="/guides/from-fullcalendar">FullCalendar</a> dan <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Elemen native lebih dulu',
         text: '<code>&lt;button nuiButton&gt;</code> adalah tombol sungguhan. Formulir, keyboard, dan pembaca layar tetap berfungsi karena tidak ada yang membungkusnya.',
@@ -73,9 +77,9 @@ export const messages: Messages = {
         text: 'Signal input, zoneless, rendering sisi server, dan satu entry point per komponen, sehingga aplikasi hanya menyertakan apa yang diimpornya.',
       },
     ],
-    codeTitle: 'Cukup dua baris impor',
+    codeTitle: 'Satu perintah, lalu satu impor',
     codeText:
-      'Tambahkan paketnya, impor stylesheet sekali, lalu gunakan komponen di dalam komponen standalone mana pun.',
+      'Jalankan ng add untuk memasang paket dan mengimpor stylesheet-nya, lalu gunakan komponen di dalam komponen standalone mana pun.',
   },
 
   components: {
@@ -1185,10 +1189,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Data grid',
-        title: 'Komponen data grid untuk Angular',
-        summary: 'Urutkan, saring, pilih, edit, dan gulir baris sebanyak apa pun.',
+        title: 'Data grid Angular gratis dengan grup dan ekspor Excel',
+        summary: 'Urutkan, saring, kelompokkan, edit, dan ekspor baris sebanyak apa pun.',
         description:
-          'Data grid Angular yang aksesibel berbasis tabel native: pengurutan multikolom, filter, paginasi atau virtual scrolling, pemilihan, edit, dan pemindahan kolom.',
+          'Data grid Angular gratis berlisensi MIT berbasis tabel native: pengelompokan dengan total, data pohon, ekspor Excel, filter, edit, dan virtual scrolling.',
         apiDescription:
           'Referensi API data grid Needless UI: input dan model nui-grid, definisi NuiGridColumn, serta template untuk sel kustom.',
         a11yDescription:
@@ -2670,6 +2674,383 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Untuk ruangan yang berdampingan dalam tampilan hari, pemesanan berulang, dan semua opsi lainnya, lihat <a href="/components/scheduler">halaman penjadwal</a> beserta <a href="/components/scheduler/api">API-nya</a>.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Beralih dari FullCalendar ke penjadwal Angular gratis',
+        description:
+          'Pindahkan aplikasi Angular dari FullCalendar Premium ke penjadwal Needless UI yang gratis: padanan opsi, timeline pemesanan, kekurangan, dan jebakan data.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Di FullCalendar, timeline sumber daya dan kolom sumber daya termasuk fitur Premium: aplikasi komersial memerlukan kunci lisensi berbayar. <a href="https://fullcalendar.io/license">Halaman lisensinya</a> mencantumkan opsi gratis, untuk aplikasi yang sepenuhnya berlisensi AGPL dan untuk organisasi nirlaba terdaftar. Penjadwal Needless UI menyediakan keduanya dengan lisensi MIT, lengkap dengan acara berulang dan file iCalendar. Panduan ini memindahkan aplikasi Angular dari yang satu ke yang lain: apa yang bisa langsung dibawa, apa yang tidak, dan data yang perlu dikonversi.',
+          },
+          {
+            kind: 'p',
+            html: 'Panduan ini memakai nama dari FullCalendar 7, dengan nama dari versi 6 dalam kurung siku jika berbeda. Konektor Angular FullCalendar mendukung Angular 16 hingga 22; Needless UI memerlukan Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Apa yang Anda dapatkan' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar dan penjadwal Needless UI',
+            head: ['Fitur', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Timeline sumber daya: satu baris per ruangan atau orang',
+                'Premium',
+                'Ya: sehari, seminggu, atau sebulan',
+              ],
+              ['Sumber daya sebagai kolom di tampilan hari dan minggu', 'Premium', 'Ya'],
+              ['Tampilan bulan, minggu, dan hari', 'Gratis', 'Ya'],
+              [
+                'Seret untuk memindahkan dan mengubah ukuran',
+                'Gratis; ke sumber daya lain dengan Premium',
+                'Ya, juga ke sumber daya lain. Ukuran diubah dari ujung akhir, bukan dari awal.',
+              ],
+              [
+                'Pilih waktu untuk membuat acara',
+                'Gratis',
+                'Ya, dengan pointer, tekan lama, atau keyboard',
+              ],
+              [
+                'Aturan seperti larangan tumpang-tindih',
+                'Gratis: opsi overlap dan constraint',
+                'Ya: satu fungsi <code>allow</code>, yang ditanya sebelum setiap perubahan',
+              ],
+              [
+                'Memindahkan dan mengubah ukuran acara dengan keyboard',
+                'Tidak ada di dokumentasi aksesibilitasnya, yang membahas label ARIA dan fokus Tab',
+                'Ya, diumumkan ke pembaca layar',
+              ],
+              [
+                'Acara berulang',
+                'Gratis, dengan plugin dan pustaka rrule',
+                'Bawaan: aturan RFC 5545, tanpa EXRULE, RDATE, atau aturan per jam',
+              ],
+              ['iCalendar (.ics)', 'Gratis: membaca feed', 'Membaca dan menulis file .ics'],
+              [
+                'Tampilan daftar dan tahun',
+                'Gratis',
+                'Agenda untuk hari-hari ke depan; tanpa tampilan tahun',
+              ],
+              [
+                'Zona waktu',
+                'Gratis: lokal, UTC, atau bernama',
+                'Tidak: menampilkan waktu jam dinding yang diterimanya apa adanya',
+              ],
+              [
+                'Sumber daya yang dikelompokkan, bertingkat, atau multikolom',
+                'Premium',
+                'Tidak: satu kolom, digambar oleh template Anda',
+              ],
+              ['Seret dan lepas dari luar, acara latar belakang', 'Gratis', 'Tidak'],
+              ['Pencetakan, rendering virtual', 'Premium', 'Tidak'],
+              [
+                'Framework',
+                'Angular 16 hingga 22, React, Vue, JavaScript biasa, dan lainnya',
+                'Angular 22; React menyusul',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Padanan opsi' },
+          {
+            kind: 'table',
+            caption: 'Opsi FullCalendar dan padanannya di Needless UI',
+            head: ['FullCalendar', 'Penjadwal Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, dengan satu input untuk setiap opsi; tanpa plugin dan tanpa kunci',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, dan <code>timelineSpan</code> untuk seminggu atau sebulan',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> bersifat dua arah',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: tidak ada yang berpindah sampai Anda memperbarui <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: satu fungsi untuk pemindahan, perubahan ukuran, dan pemilihan',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, dalam menit',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, dalam jam',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, dengan hari dari 1 (Senin) hingga 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Template <code>nuiSchedulerEvent</code> dan <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (tag BCP 47 apa pun), <code>firstDay</code> dari 1 hingga 7, dan <code>labels</code> untuk teksnya',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Timeline pemesanan ruangan, dengan keduanya' },
+          {
+            kind: 'p',
+            html: 'Ruangan adalah sumber daya dan pemesanan adalah acara. Pengguna menyeret melintasi sebuah ruangan untuk memesannya dan menyeret pemesanan untuk memindahkannya, dan satu ruangan hanya bisa menampung satu pemesanan dalam satu waktu. Dengan FullCalendar 7 dan timeline sumber daya Premium-nya:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Dengan penjadwal Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Ada dua hal yang bekerja secara berbeda. FullCalendar memindahkan pemesanan sendiri, lalu aplikasi menyalin perubahannya; penjadwal Needless UI hanya melaporkannya, dan perubahan itu baru tersimpan saat Anda memperbarui <code>events</code>, sehingga data Anda tetap menjadi satu-satunya sumber. Selain itu, <code>allow</code> adalah kode biasa yang ditanya sebelum setiap perubahan lewat pointer atau keyboard, sehingga aturannya bisa Anda uji sendiri. <a href="/guides/booking-calendar">Panduan pemesanan ruangan</a> membangun aplikasi ini langkah demi langkah.',
+          },
+          { kind: 'h2', id: 'data', text: 'Mengonversi data' },
+          {
+            kind: 'table',
+            caption: 'Data FullCalendar dan yang diharapkan penjadwal',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '<code>end</code> acara sepanjang hari adalah hari setelah acara itu',
+                '<code>end</code> acara sepanjang hari adalah hari terakhirnya: kurangi satu hari',
+              ],
+              [
+                'Waktu bisa diakhiri <code>Z</code> atau offset seperti <code>+02:00</code>',
+                'Waktu jam dinding tanpa offset, seperti <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Hari dalam seminggu dari 0 (Minggu) hingga 6, di <code>businessHours</code> dan <code>firstDay</code>',
+                'Hari dalam seminggu dari 1 (Senin) hingga 7 (Minggu)',
+              ],
+              ["Durasi berupa string, seperti <code>'00:30'</code>", 'Angka: menit atau jam'],
+              [
+                'Sumber daya diurutkan menurut id, lalu judul',
+                'Sumber daya sesuai urutan dalam array',
+              ],
+              [
+                '<code>rrule</code> berupa objek, dan <code>exrule</code>',
+                'String RFC 5545, seperti <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, dan <code>exdate</code>',
+              ],
+              [
+                'Zona waktu seperti <code>America/New_York</code>',
+                'Konversikan waktunya terlebih dahulu. <code>nuiSchedulerFromIcs(text, { timeZone })</code> mengonversi file .ics sambil membacanya.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Jika Anda membutuhkan yang belum ada' },
+          {
+            kind: 'p',
+            html: 'Jika aplikasi Anda bergantung pada zona waktu, sumber daya yang dikelompokkan, seret dan lepas dari luar, atau pencetakan, penjadwal ini belum bisa menggantikan FullCalendar. <a href="https://github.com/needless-ui/needless-ui/issues">Buka issue</a> untuk fitur yang Anda butuhkan. Untuk semua hal lainnya, <a href="/components/scheduler">halaman penjadwal</a> memuat setiap input, output, dan contoh.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Beralih dari AG Grid Enterprise ke grid Angular gratis',
+        description:
+          'Pindahkan aplikasi Angular dari AG Grid Enterprise ke grid Needless UI yang gratis: grup, total, data pohon, ekspor Excel, padanan opsi, dan kekurangan.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Di AG Grid, pengelompokan baris, agregasi, data pohon, master/detail, dan ekspor Excel termasuk fitur Enterprise: penggunaan di produksi memerlukan lisensi komersial, dan tanpa kunci lisensi, grid menampilkan watermark dan mencatat error di konsol. Data grid Needless UI menyediakan pengelompokan dengan total, data pohon, detail baris, dan ekspor .xlsx dengan lisensi MIT. Panduan ini memindahkan aplikasi Angular dari yang satu ke yang lain: apa yang bisa langsung dibawa, apa yang tidak, dan bagaimana kodenya berubah.',
+          },
+          {
+            kind: 'p',
+            html: 'Panduan ini memakai nama dari AG Grid 36. AG Grid 36 mendukung Angular 20 hingga 22; Needless UI memerlukan Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Apa yang Anda dapatkan' },
+          {
+            kind: 'table',
+            caption: 'AG Grid dan data grid Needless UI',
+            head: ['Fitur', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Pengelompokan baris, dengan agregat dan baris total',
+                'Enterprise',
+                'Ya: dalam beberapa tingkat, dengan jumlah, rata-rata, minimum, maksimum, hitungan, atau fungsi',
+              ],
+              ['Data pohon', 'Enterprise', 'Ya, dari baris bertingkat'],
+              [
+                'Detail di bawah baris (master/detail)',
+                'Enterprise',
+                'Ya: template apa pun di bawah baris, termasuk grid lain',
+              ],
+              [
+                'Ekspor Excel',
+                'Enterprise: gaya, beberapa lembar kerja, gambar, dan rumus',
+                'Ya: satu lembar kerja berisi sel bertipe, dengan format angka serta header yang dibekukan dan diberi filter',
+              ],
+              [
+                'Menu kolom dengan pemilih kolom',
+                'Enterprise',
+                'Ya: urutkan, saring, sematkan, pindahkan, sesuaikan lebar, dan sembunyikan setiap kolom, serta tampilkan atau sembunyikan semuanya',
+              ],
+              [
+                'Pengurutan menurut beberapa kolom, pencarian cepat, halaman, pemilihan baris',
+                'Community',
+                'Ya',
+              ],
+              [
+                'Filter kolom',
+                'Community: hingga dua kondisi, digabung dengan AND atau OR',
+                'Satu kondisi per kolom',
+              ],
+              [
+                'Filter set, multi, dan lanjutan',
+                'Enterprise',
+                'Sebagian: daftar centang berisi opsi kolom, bukan nilai yang ada di data',
+              ],
+              [
+                'Mengubah ukuran, memindahkan, menyematkan, dan menyembunyikan kolom, serta menyimpan statusnya',
+                'Community',
+                'Ya',
+              ],
+              ['Virtual scrolling', 'Community: baris dan kolom', 'Baris'],
+              [
+                'Pengeditan sel',
+                'Community; beberapa editor hanya ada di Enterprise',
+                'Ya, menurut tipe kolom, dengan validasi; tanpa editor kustom dan tanpa fitur urungkan',
+              ],
+              ['Pivot, grafik terintegrasi', 'Enterprise', 'Tidak'],
+              [
+                'Clipboard, pemilihan rentang sel, menu konteks, bilah status, bilah samping',
+                'Enterprise',
+                'Tidak',
+              ],
+              [
+                'Data dari server',
+                'Model baris sisi server: Enterprise; pemuatan per blok: Community',
+                'Halaman dari server Anda, dengan pengurutan, filter, dan pencarian dari server itu; tanpa pengelompokan di server',
+              ],
+              ['Grup kolom, menyeret baris, baris yang disematkan', 'Community', 'Tidak'],
+              [
+                'Framework',
+                'React, Angular 20 hingga 22, Vue, dan JavaScript biasa',
+                'Angular 22; React menyusul',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Padanan opsi' },
+          {
+            kind: 'table',
+            caption: 'Opsi AG Grid dan padanannya di Needless UI',
+            head: ['AG Grid', 'Grid Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, pendaftaran modul, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; tanpa pendaftaran dan tanpa kunci',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (opsi Intl atau fungsi), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Template <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> pada kolom, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, daftar id kolom. Grup awalnya terbuka; <code>[(collapsed)]</code> menutupnya.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> dengan <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Template <code>nuiGridDetail</code>, dan <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, dan <code>[(selected)]</code>: kunci baris yang dipilih',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> mengembalikan Blob, dan <code>exportCsv()</code> teks',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; arah kanan-ke-kiri mengikuti <code>dir</code> halaman',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Pesanan yang dikelompokkan per negara, dengan keduanya',
+          },
+          {
+            kind: 'p',
+            html: 'Tugasnya: pesanan dikelompokkan per negara, dengan total untuk setiap negara dan satu total keseluruhan, ekspor Excel, pencarian cepat, dan pemilihan beberapa baris. Dengan AG Grid 36, yang memerlukan Enterprise untuk pengelompokan, total, dan ekspor Excel:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Dengan grid Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Ada beberapa hal yang bekerja secara berbeda. Pemilihan disimpan sebagai kunci, yaitu id baris, sehingga tetap bertahan saat data baru masuk; petakan kembali kunci itu ke baris saat Anda membutuhkan barisnya. Grup awalnya terbuka. Label grup berada di kolom pertama yang terlihat, dan pencarian hanya membaca kolom yang terlihat, jadi biarkan kolom yang dikelompokkan tetap tampil jika pencarian perlu mencocokkannya. Selain itu, <code>exportXlsx()</code> mengembalikan file alih-alih mengunduhnya: satu lembar kerja berisi baris yang tersaring dan terurut, tanpa baris grup.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Jika Anda membutuhkan yang belum ada' },
+          {
+            kind: 'p',
+            html: 'Jika aplikasi Anda bergantung pada pivot, grafik, clipboard dan pemilihan rentang, pengelompokan di server, atau grup kolom, grid Needless UI belum bisa menggantikan AG Grid. <a href="https://github.com/needless-ui/needless-ui/issues">Buka issue</a> untuk fitur yang Anda butuhkan. Untuk semua hal lainnya, <a href="/components/grid">halaman data grid</a> memuat setiap input, output, dan contoh.',
           },
         ],
       },

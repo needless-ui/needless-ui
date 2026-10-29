@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · 无障碍 Angular 组件，精心打磨到近乎多余',
+    title: 'Needless UI · 免费 Angular 组件，自带日程表和数据表格',
     description:
-      'Needless UI 是一个开源 Angular 组件库：基于原生元素和一份不依赖框架的样式表，采用 W3C Design Token，内置 WCAG 2.2 AA 无障碍支持。',
+      '免费、采用 MIT 许可证的 Angular 组件库：基于原生元素的无障碍组件，外加带资源时间轴的日程表，以及支持分组和 Excel 导出的数据表格。',
     eyebrow: '开源 · Angular 22 · MIT',
     heading: 'UI 组件，精心打磨到近乎多余。',
-    lead: 'Needless UI 用一份不依赖框架的样式表和 W3C Design Token 为<strong>原生元素</strong>添加样式。它的 Angular 指令通过 Angular Aria 提供交互行为，因此每个组件从首次渲染起就具备无障碍支持。',
+    lead: '基于<strong>原生元素</strong>的无障碍 Angular 组件，由一份不依赖框架的样式表提供样式。全部采用 MIT 许可证，连其他库单独收费的功能也包括在内：带资源时间轴的<a href="/components/scheduler">日程表</a>，以及支持分组和 Excel 导出的<a href="/components/grid">数据表格</a>。',
     getStarted: '快速开始',
     browse: '浏览组件',
     featuresTitle: '为何而生',
     features: [
+      {
+        title: '没有付费版',
+        text: '<a href="/components/scheduler">日程表</a>的资源时间轴和重复日程，以及<a href="/components/grid">数据表格</a>的分组、树形数据和 Excel 导出，都和其他部分一样采用 MIT 许可证：无需许可证密钥，也没有水印。正在从付费库迁移？请阅读 <a href="/guides/from-fullcalendar">FullCalendar</a> 和 <a href="/guides/from-ag-grid">AG Grid</a> 的迁移指南。',
+      },
       {
         title: '原生元素优先',
         text: '<code>&lt;button nuiButton&gt;</code> 就是一个真正的按钮。它外面没有包裹任何东西，所以表单、键盘和屏幕阅读器都能正常工作。',
@@ -72,8 +76,8 @@ export const messages: Messages = {
         text: 'Signal 输入属性、Zoneless、服务端渲染，且每个组件都有独立的入口点，应用只会打包实际导入的部分。',
       },
     ],
-    codeTitle: '两处导入，大功告成',
-    codeText: '安装软件包，导入一次样式表，就可以在任意独立组件中使用这些组件了。',
+    codeTitle: '一条命令，再加一处导入',
+    codeText: '运行 ng add 安装软件包并导入样式表，然后就能在任意独立组件中使用这些组件了。',
   },
 
   components: {
@@ -1114,10 +1118,10 @@ export const messages: Messages = {
       },
       grid: {
         name: '数据表格',
-        title: 'Angular 数据表格组件',
-        summary: '对任意数量的行进行排序、筛选、选择、编辑和滚动浏览。',
+        title: '免费 Angular 数据表格，支持分组和 Excel 导出',
+        summary: '对任意数量的行进行排序、筛选、分组、编辑和导出。',
         description:
-          '基于原生 table 元素的无障碍 Angular 数据表格：多列排序、筛选、分页或虚拟滚动、行选择、编辑，以及可移动的列。',
+          '免费、采用 MIT 许可证的 Angular 数据表格，基于原生 table 元素：带合计的分组、树形数据、Excel 导出、筛选、编辑和虚拟滚动。',
         apiDescription:
           'Needless UI 数据表格的 API 参考：nui-grid 的输入属性与双向绑定、NuiGridColumn 列定义，以及自定义单元格的模板。',
         a11yDescription:
@@ -2481,6 +2485,340 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: '如需在日视图中并排显示会议室、使用重复日程或了解其他所有选项，请查看<a href="/components/scheduler">日程表页面</a>及其 <a href="/components/scheduler/api">API</a>。',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: '从 FullCalendar 迁移到免费的 Angular 日程表',
+        description:
+          '将 Angular 应用从 FullCalendar Premium 迁移到免费的 Needless UI 日程表：选项对照、两种写法的预订时间轴、功能缺口和数据陷阱。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar 的资源时间轴和按资源分列的视图属于 Premium 版：商业应用需要付费购买许可证密钥。它的<a href="https://fullcalendar.io/license">许可证页面</a>列出了可以免费使用的情形：整个应用都采用 AGPL，或者由已注册的非营利组织使用。Needless UI 日程表在 MIT 许可证下同时提供这两项功能，还支持重复日程和 iCalendar 文件。本指南介绍如何把 Angular 应用从前者迁移到后者：哪些可以直接沿用，哪些不行，以及哪些数据需要转换。',
+          },
+          {
+            kind: 'p',
+            html: '文中使用 FullCalendar 7 的名称；版本 6 的名称与之不同时，写在方括号中。FullCalendar 的 Angular 连接器支持 Angular 16 到 22；Needless UI 需要 Angular 22。',
+          },
+          { kind: 'h2', id: 'compare', text: '功能对比' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar 与 Needless UI 日程表',
+            head: ['功能', 'FullCalendar', 'Needless UI'],
+            rows: [
+              ['资源时间轴：每个会议室或每个人各占一行', 'Premium', '支持：一天、一周或一个月'],
+              ['日视图和周视图中按资源分列', 'Premium', '支持'],
+              ['月、周、日视图', '免费', '支持'],
+              [
+                '拖动来移动日程或调整时长',
+                '免费；拖到另一个资源上需要 Premium',
+                '支持，也能拖到其他资源上。可以拖动结束端调整时长，开始端不行。',
+              ],
+              ['选择时间来创建日程', '免费', '支持，可用指针、长按或键盘'],
+              [
+                '规则，例如不允许重叠',
+                '免费：overlap 和 constraint 选项',
+                '支持：只需一个 <code>allow</code> 函数，每次变更前都会询问它',
+              ],
+              [
+                '用键盘移动日程、调整时长',
+                '其无障碍文档中没有提到；文档只涉及 ARIA 标签和 Tab 焦点',
+                '支持，并会向屏幕阅读器播报',
+              ],
+              [
+                '重复日程',
+                '免费，需配合 rrule 插件和库',
+                '内置：RFC 5545 规则，但不支持 EXRULE、RDATE 和按小时重复的规则',
+              ],
+              ['iCalendar（.ics）', '免费：可读取订阅源', '可读写 .ics 文件'],
+              ['列表视图和年视图', '免费', '提供未来几天的日程列表；没有年视图'],
+              ['时区', '免费：本地时区、UTC 或命名时区', '不支持：按收到的时间原样显示'],
+              ['分组、嵌套或多列的资源', 'Premium', '不支持：只有一列，由你的模板绘制'],
+              ['外部拖放、背景日程', '免费', '不支持'],
+              ['打印、虚拟渲染', 'Premium', '不支持'],
+              [
+                '框架',
+                'Angular 16 到 22、React、Vue、纯 JavaScript 等',
+                'Angular 22；下一步是 React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: '选项对照' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar 的选项及其在 Needless UI 中的对应项',
+            head: ['FullCalendar', 'Needless UI 日程表'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>、<code>plugins</code>、<code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>，每个选项都有对应的输入属性；不需要插件，也不需要密钥',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>，按周或按月显示时再加上 <code>timelineSpan</code>',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>；<code>[(view)]</code> 支持双向绑定',
+              ],
+              [
+                '<code>resources</code>、<code>events</code>',
+                '<code>[resources]</code>、<code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>、<code>extendedProps</code>',
+                '<code>resource</code>、<code>data</code>',
+              ],
+              [
+                '<code>editable</code>、<code>selectable</code>',
+                '<code>editable</code>、<code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>：<code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>、<code>eventResize</code>',
+                '<code>(eventChange)</code>：在你更新 <code>events</code> 之前，什么都不会移动',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>、<code>selectOverlap</code>、<code>eventAllow</code>',
+                '<code>[allow]</code>：用一个函数统一处理移动、调整时长和选择',
+              ],
+              [
+                '<code>slotDuration</code>、<code>snapDuration</code>',
+                '<code>slotMinutes</code>、<code>snapMinutes</code>，以分钟为单位',
+              ],
+              [
+                '<code>slotMinTime</code>、<code>slotMaxTime</code>、<code>scrollTime</code>',
+                '<code>dayStart</code>、<code>dayEnd</code>、<code>scrollHour</code>，以小时为单位',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>，星期用 1（星期一）到 7 表示',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>、<code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code> 和 <code>nuiSchedulerResource</code> 模板',
+              ],
+              [
+                '<code>locale</code>、<code>firstDay</code>',
+                '<code>locale</code>（任意 BCP 47 语言标签）、<code>firstDay</code>（取值 1 到 7），以及用于界面文字的 <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: '会议室预订时间轴的两种写法' },
+          {
+            kind: 'p',
+            html: '会议室是资源，预订是日程。用户在会议室的行上拖动来预订，拖动预订来移动它，并且一个会议室同一时间只能有一个预订。使用 FullCalendar 7 及其 Premium 资源时间轴：',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: '使用 Needless UI 日程表：' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: '有两点不同。FullCalendar 会自行移动预订，再由应用同步这一变更；Needless UI 日程表只报告变更，你更新 <code>events</code> 后变更才会保留，因此你的数据始终是唯一的数据源。另外，<code>allow</code> 就是普通代码，无论变更来自指针还是键盘，每次变更前都会询问它，所以这条规则可以由你自己测试。<a href="/guides/booking-calendar">会议室预订日历指南</a>会一步步构建这个应用。',
+          },
+          { kind: 'h2', id: 'data', text: '转换数据' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar 的数据与日程表要求的格式',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '全天日程的 <code>end</code> 是日程结束后的那一天',
+                '全天日程的 <code>end</code> 是它的最后一天：需要减去一天',
+              ],
+              [
+                '时间可能以 <code>Z</code> 或偏移量（例如 <code>+02:00</code>）结尾',
+                '不带偏移量的本地时间，例如 <code>2026-11-02T09:30</code>',
+              ],
+              [
+                '星期用 0（星期日）到 6 表示，用于 <code>businessHours</code> 和 <code>firstDay</code>',
+                '星期用 1（星期一）到 7（星期日）表示',
+              ],
+              ["时长用字符串表示，例如 <code>'00:30'</code>", '用数字表示：分钟数或小时数'],
+              ['资源先按 id 排序，再按标题排序', '资源按数组中的顺序排列'],
+              [
+                '对象形式的 <code>rrule</code>，以及 <code>exrule</code>',
+                'RFC 5545 字符串（例如 <code>FREQ=WEEKLY;BYDAY=MO,FR</code>），以及 <code>exdate</code>',
+              ],
+              [
+                '时区，例如 <code>America/New_York</code>',
+                '先换算时间。<code>nuiSchedulerFromIcs(text, { timeZone })</code> 会在读取 .ics 文件时完成换算。',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: '如果需要尚未支持的功能' },
+          {
+            kind: 'p',
+            html: '如果你的应用依赖时区、资源分组、外部拖放或打印，这个日程表目前还无法取代 FullCalendar。欢迎就你需要的功能<a href="https://github.com/needless-ui/needless-ui/issues">提交 issue</a>。至于其他内容，<a href="/components/scheduler">日程表页面</a>列出了每个输入属性、输出属性和示例。',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: '从 AG Grid Enterprise 迁移到免费的 Angular 数据表格',
+        description:
+          '将 Angular 应用从 AG Grid Enterprise 迁移到免费的 Needless UI 数据表格：分组、合计、树形数据和 Excel 导出，以及选项对照和功能缺口。',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid 的行分组、聚合、树形数据、主从表和 Excel 导出都属于 Enterprise 版功能：在生产环境中使用需要商业许可证；没有密钥时，表格会显示水印，并在控制台输出一条错误。Needless UI 数据表格在 MIT 许可证下提供带合计的分组、树形数据、行详情和 .xlsx 导出。本指南介绍如何把 Angular 应用从前者迁移到后者：哪些可以直接沿用，哪些不行，以及代码要怎么改。',
+          },
+          {
+            kind: 'p',
+            html: '文中使用 AG Grid 36 的名称。AG Grid 36 支持 Angular 20 到 22；Needless UI 需要 Angular 22。',
+          },
+          { kind: 'h2', id: 'compare', text: '功能对比' },
+          {
+            kind: 'table',
+            caption: 'AG Grid 与 Needless UI 数据表格',
+            head: ['功能', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                '行分组，带聚合值和合计行',
+                'Enterprise',
+                '支持：可多级分组，聚合方式包括总和、平均值、最小值、最大值、计数或自定义函数',
+              ],
+              ['树形数据', 'Enterprise', '支持，由嵌套的行构成'],
+              [
+                '行下方的详情（master/detail）',
+                'Enterprise',
+                '支持：行下方可放任意模板，包括另一个表格',
+              ],
+              [
+                'Excel 导出',
+                'Enterprise：样式、多个工作表、图片和公式',
+                '支持：单个工作表，单元格保留数据类型，带数字格式，表头冻结并可筛选',
+              ],
+              [
+                '带列选择器的列菜单',
+                'Enterprise',
+                '支持：可对每列排序、筛选、固定、移动、自动调整列宽和隐藏，也能一次显示或隐藏所有列',
+              ],
+              ['多列排序、快速搜索、分页、行选择', 'Community', '支持'],
+              ['列筛选', 'Community：最多两个条件，以 AND 或 OR 连接', '每列一个条件'],
+              [
+                '集合筛选、多重筛选和高级筛选',
+                'Enterprise',
+                '部分支持：勾选列表来自列的选项，而不是数据中的值',
+              ],
+              ['调整列宽、移动、固定和隐藏列，并保存列状态', 'Community', '支持'],
+              ['虚拟滚动', 'Community：行和列', '仅限行'],
+              [
+                '单元格编辑',
+                'Community；部分编辑器属于 Enterprise',
+                '支持，按列类型编辑并带校验；不支持自定义编辑器，也不支持撤销',
+              ],
+              ['数据透视、集成图表', 'Enterprise', '不支持'],
+              ['剪贴板、单元格区域选择、右键菜单、状态栏、侧边栏', 'Enterprise', '不支持'],
+              [
+                '服务器数据',
+                '服务器端行模型：Enterprise；分块加载：Community',
+                '由你的服务器分页提供，排序、筛选和搜索也由服务器完成；不支持服务器端分组',
+              ],
+              ['表头分组、行拖动、固定行', 'Community', '不支持'],
+              [
+                '框架',
+                'React、Angular 20 到 22、Vue 和纯 JavaScript',
+                'Angular 22；下一步是 React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: '选项对照' },
+          {
+            kind: 'table',
+            caption: 'AG Grid 的选项及其在 Needless UI 中的对应项',
+            head: ['AG Grid', 'Needless UI 数据表格'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>、模块注册、<code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>；无需注册，也不需要密钥',
+              ],
+              [
+                '<code>rowData</code>、<code>columnDefs</code>',
+                '<code>[(rows)]</code>、<code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>、<code>headerName</code>',
+                '<code>id</code>、<code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>、<code>valueFormatter</code>、<code>cellDataType</code>',
+                '<code>value</code>、<code>format</code>（Intl 选项或函数）、<code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', '<code>nuiGridCell</code> 模板'],
+              [
+                "<code>pinned: 'left'</code>、<code>hide</code>",
+                "<code>pinned: 'start'</code>、<code>hidden</code>",
+              ],
+              [
+                '列的 <code>rowGroup</code>、<code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>，即由列 id 组成的列表。分组默认展开；<code>[(collapsed)]</code> 用于折叠分组。',
+              ],
+              [
+                '<code>aggFunc</code>、<code>grandTotalRow</code>',
+                '<code>aggregate</code>、<code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> 配合 <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>、<code>detailCellRenderer</code>',
+                '<code>nuiGridDetail</code> 模板，以及 <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>、<code>getSelectedRows()</code>',
+                '<code>selection</code>，以及 <code>[(selected)]</code>：所选行的 key',
+              ],
+              [
+                '<code>pagination</code>、<code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>、<code>[(page)]</code>、<code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>、<code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>、<code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> 返回 Blob，<code>exportCsv()</code> 返回文本',
+              ],
+              [
+                '<code>cellValueChanged</code>、<code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>、<code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>、<code>total</code>、<code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>、<code>enableRtl</code>',
+                '<code>labels</code>；从右到左的布局由页面的 <code>dir</code> 决定',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: '按国家分组订单的两种写法' },
+          {
+            kind: 'p',
+            html: '任务如下：订单按国家分组，每个国家有一个合计，所有订单还有一个总计；此外还要支持 Excel 导出、快速搜索和多选。使用 AG Grid 36 时，分组、合计和 Excel 导出都需要 Enterprise 版：',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: '使用 Needless UI 数据表格：' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: '有几点不同。选择保存的是 key，也就是行的 id，因此数据更新后选择依然保留；需要行本身时，再根据 key 找回对应的行。分组默认展开。分组的标签显示在第一个可见列中，而搜索只读取可见列，所以如果希望搜索也能匹配分组所依据的列，就要让这一列保持显示。另外，<code>exportXlsx()</code> 会返回文件，而不是直接下载：文件只有一个工作表，包含筛选和排序后的行，不含分组行。',
+          },
+          { kind: 'h2', id: 'gaps', text: '如果需要尚未支持的功能' },
+          {
+            kind: 'p',
+            html: '如果你的应用依赖数据透视、图表、剪贴板和区域选择、服务器端分组或表头分组，Needless UI 数据表格目前还无法取代 AG Grid。欢迎就你需要的功能<a href="https://github.com/needless-ui/needless-ui/issues">提交 issue</a>。至于其他内容，<a href="/components/grid">数据表格页面</a>列出了每个输入属性、输出属性和示例。',
           },
         ],
       },

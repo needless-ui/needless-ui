@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · অ্যাক্সেসিবল Angular কম্পোনেন্ট, অকারণ যত্নে গড়া',
+    title: 'Needless UI · শিডিউলার ও ডেটা গ্রিডসহ বিনামূল্যের Angular কম্পোনেন্ট',
     description:
-      'Needless UI একটি ওপেন-সোর্স Angular কম্পোনেন্ট লাইব্রেরি: নেটিভ এলিমেন্ট, একটি ফ্রেমওয়ার্ক-নিরপেক্ষ স্টাইলশিট, W3C ডিজাইন টোকেন ও বিল্ট-ইন WCAG 2.2 AA।',
+      'বিনামূল্যের, MIT লাইসেন্সের Angular কম্পোনেন্ট লাইব্রেরি: নেটিভ এলিমেন্টের ওপর অ্যাক্সেসিবল কম্পোনেন্ট, সঙ্গে রিসোর্স শিডিউলার আর গ্রুপিং ও Excel এক্সপোর্টসহ ডেটা গ্রিড।',
     eyebrow: 'ওপেন সোর্স · Angular 22 · MIT',
     heading: 'UI কম্পোনেন্ট, দরকারের চেয়ে অনেক বেশি যত্নে ইঞ্জিনিয়ার করা।',
-    lead: 'Needless UI একটি ফ্রেমওয়ার্ক-নিরপেক্ষ স্টাইলশিট ও W3C ডিজাইন টোকেন দিয়ে <strong>নেটিভ এলিমেন্ট</strong> স্টাইল করে। এর Angular ডিরেক্টিভগুলো Angular Aria থেকে আচরণ যোগ করে, তাই প্রতিটি কম্পোনেন্ট প্রথম রেন্ডার থেকেই অ্যাক্সেসিবল।',
+    lead: '<strong>নেটিভ এলিমেন্টের</strong> ওপর তৈরি অ্যাক্সেসিবল Angular কম্পোনেন্ট, যেগুলোর স্টাইল আসে একটিমাত্র ফ্রেমওয়ার্ক-নিরপেক্ষ স্টাইলশিট থেকে। সবকিছুই MIT লাইসেন্সে, এমনকি অন্য লাইব্রেরিগুলো যা আলাদা করে বিক্রি করে, সেটাও: রিসোর্স টাইমলাইনসহ একটি <a href="/components/scheduler">শিডিউলার</a>, আর গ্রুপিং ও Excel এক্সপোর্টসহ একটি <a href="/components/grid">ডেটা গ্রিড</a>।',
     getStarted: 'শুরু করুন',
     browse: 'কম্পোনেন্ট দেখুন',
     featuresTitle: 'কেন এটি তৈরি',
     features: [
+      {
+        title: 'প্রিমিয়াম সংস্করণ নেই',
+        text: '<a href="/components/scheduler">শিডিউলারের</a> রিসোর্স টাইমলাইন ও পুনরাবৃত্ত ইভেন্ট, আর <a href="/components/grid">ডেটা গ্রিডের</a> গ্রুপিং, ট্রি ডেটা ও Excel এক্সপোর্ট বাকি সবকিছুর মতোই MIT লাইসেন্সে: কোনো লাইসেন্স কী নেই, কোনো ওয়াটারমার্কও নেই। কোনো পেইড লাইব্রেরি থেকে আসছেন? <a href="/guides/from-fullcalendar">FullCalendar</a> ও <a href="/guides/from-ag-grid">AG Grid</a> থেকে সরে আসার গাইড পড়ুন।',
+      },
       {
         title: 'আগে নেটিভ এলিমেন্ট',
         text: '<code>&lt;button nuiButton&gt;</code> একটি আসল বাটন। এর চারপাশে কিছু জড়ানো নেই বলেই ফর্ম, কীবোর্ড ও স্ক্রিন রিডার ঠিকঠাক কাজ করে।',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'সিগন্যাল ইনপুট, জোনলেস, সার্ভার রেন্ডারিং আর প্রতিটি কম্পোনেন্টের আলাদা এন্ট্রি পয়েন্ট, তাই অ্যাপে শুধু ইমপোর্ট করা কোডটুকুই যায়।',
       },
     ],
-    codeTitle: 'দুটি ইমপোর্ট, ব্যস',
+    codeTitle: 'একটি কমান্ড, তারপর একটি ইমপোর্ট',
     codeText:
-      'প্যাকেজ যোগ করুন, স্টাইলশিট একবার ইমপোর্ট করুন, তারপর যেকোনো স্ট্যান্ডঅ্যালোন কম্পোনেন্টে কম্পোনেন্টগুলো ব্যবহার করুন।',
+      'প্যাকেজ ইনস্টল করতে আর তার স্টাইলশিট ইমপোর্ট করতে ng add চালান, তারপর যেকোনো স্ট্যান্ডঅ্যালোন কম্পোনেন্টে কম্পোনেন্টগুলো ব্যবহার করুন।',
   },
 
   components: {
@@ -1156,10 +1160,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Data grid',
-        title: 'Angular-এর জন্য ডেটা গ্রিড কম্পোনেন্ট',
-        summary: 'যেকোনো সংখ্যক সারি সর্ট, ফিল্টার, এডিট ও স্ক্রল করুন, আর বেছে নিন।',
+        title: 'গ্রুপিং ও Excel এক্সপোর্টসহ বিনামূল্যের Angular ডেটা গ্রিড',
+        summary: 'যেকোনো সংখ্যক সারি সর্ট, ফিল্টার, গ্রুপ, এডিট ও এক্সপোর্ট করুন।',
         description:
-          'নেটিভ টেবিলের ওপর তৈরি অ্যাক্সেসিবল Angular ডেটা গ্রিড: একাধিক কলামে সর্টিং, ফিল্টার, পেজ বা ভার্চুয়াল স্ক্রলিং, বাছাই, এডিটিং ও সরানো যায় এমন কলাম।',
+          'নেটিভ টেবিলের ওপর তৈরি বিনামূল্যের, MIT লাইসেন্সের Angular ডেটা গ্রিড: মোটসহ গ্রুপিং, ট্রি ডেটা, Excel এক্সপোর্ট, ফিল্টার, এডিটিং ও ভার্চুয়াল স্ক্রলিং।',
         apiDescription:
           'Needless UI ডেটা গ্রিডের API রেফারেন্স: nui-grid-এর ইনপুট ও মডেল, NuiGridColumn-এর সংজ্ঞা, আর কাস্টম সেলের টেমপ্লেট।',
         a11yDescription:
@@ -2582,6 +2586,368 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'দিনের ভিউতে পাশাপাশি রুম, পুনরাবৃত্ত বুকিং আর বাকি সব অপশনের জন্য <a href="/components/scheduler">শিডিউলারের পেজ</a> ও তার <a href="/components/scheduler/api">API</a> দেখুন।',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'FullCalendar থেকে বিনামূল্যের Angular শিডিউলারে চলে আসুন',
+        description:
+          'একটি Angular অ্যাপকে FullCalendar Premium থেকে বিনামূল্যের Needless UI শিডিউলারে আনুন: কোনটির বদলে কোনটি, দুইভাবেই একটি বুকিং টাইমলাইন, ঘাটতি আর ডেটার ফাঁদ।',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'FullCalendar-এর রিসোর্স টাইমলাইন ও রিসোর্স কলাম Premium-এর অংশ: বাণিজ্যিক অ্যাপের জন্য একটি পেইড লাইসেন্স কী লাগে। এর <a href="https://fullcalendar.io/license">লাইসেন্স পেজে</a> বিনামূল্যের বিকল্পগুলো দেওয়া আছে: পুরোপুরি AGPL অ্যাপের জন্য, আর নিবন্ধিত অলাভজনক প্রতিষ্ঠানের জন্য। Needless UI শিডিউলারে দুটোই আছে MIT লাইসেন্সে, সঙ্গে পুনরাবৃত্ত ইভেন্ট আর iCalendar ফাইল। এই গাইড একটি Angular অ্যাপকে একটি থেকে অন্যটিতে নিয়ে যায়: কী একইভাবে চলে আসে, কী আসে না, আর কোন ডেটা রূপান্তর করতে হয়।',
+          },
+          {
+            kind: 'p',
+            html: 'এখানে FullCalendar 7-এর নাম ব্যবহার করা হয়েছে, আর যেখানে ভার্সন 6-এর নাম আলাদা, সেগুলো তৃতীয় বন্ধনীতে দেওয়া আছে। FullCalendar-এর Angular কানেক্টর Angular 16 থেকে 22 সাপোর্ট করে; Needless UI-এর দরকার Angular 22।',
+          },
+          { kind: 'h2', id: 'compare', text: 'আপনি কী পাবেন' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar ও Needless UI শিডিউলার',
+            head: ['ফিচার', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'রিসোর্স টাইমলাইন: প্রতিটি রুম বা ব্যক্তির জন্য একটি সারি',
+                'Premium',
+                'হ্যাঁ: একটি দিন, সপ্তাহ বা মাস',
+              ],
+              ['দিন ও সপ্তাহের ভিউতে কলাম হিসেবে রিসোর্স', 'Premium', 'হ্যাঁ'],
+              ['মাস, সপ্তাহ ও দিনের ভিউ', 'বিনামূল্যে', 'হ্যাঁ'],
+              [
+                'ড্র্যাগ করে সরানো ও রিসাইজ করা',
+                'বিনামূল্যে; অন্য রিসোর্সে সরাতে Premium লাগে',
+                'হ্যাঁ, অন্য রিসোর্সেও। শেষ প্রান্ত টেনে রিসাইজ করা যায়, শুরুরটা নয়।',
+              ],
+              [
+                'ইভেন্ট তৈরির জন্য সময় বেছে নেওয়া',
+                'বিনামূল্যে',
+                'হ্যাঁ, পয়েন্টার, লং প্রেস বা কীবোর্ড দিয়ে',
+              ],
+              [
+                'ওভারল্যাপ না হওয়ার মতো নিয়ম',
+                'বিনামূল্যে: ওভারল্যাপ ও কনস্ট্রেইন্টের অপশন',
+                'হ্যাঁ: একটিই <code>allow</code> ফাংশন, প্রতিটি পরিবর্তনের আগে যাকে জিজ্ঞেস করা হয়',
+              ],
+              [
+                'কীবোর্ড দিয়ে ইভেন্ট সরানো ও রিসাইজ করা',
+                'এর অ্যাক্সেসিবিলিটি ডকুমেন্টেশনে নেই, যেখানে ARIA লেবেল আর Tab ফোকাসের কথা আছে',
+                'হ্যাঁ, স্ক্রিন রিডারে ঘোষণাসহ',
+              ],
+              [
+                'পুনরাবৃত্ত ইভেন্ট',
+                'বিনামূল্যে, rrule প্লাগইন ও লাইব্রেরি দিয়ে',
+                'বিল্ট-ইন: RFC 5545 নিয়ম, তবে EXRULE, RDATE বা ঘণ্টাভিত্তিক নিয়ম ছাড়া',
+              ],
+              ['iCalendar (.ics)', 'বিনামূল্যে: একটি ফিড পড়ে', '.ics ফাইল পড়ে ও লেখে'],
+              ['লিস্ট ও বছরের ভিউ', 'বিনামূল্যে', 'সামনের দিনগুলোর একটি এজেন্ডা; বছরের ভিউ নেই'],
+              [
+                'টাইম জোন',
+                'বিনামূল্যে: লোকাল, UTC বা নামসহ জোন',
+                'না: যে সময় পায়, ঘড়ির সেই সময়ই দেখায়',
+              ],
+              [
+                'গ্রুপ করা, নেস্টেড বা একাধিক কলামের রিসোর্স',
+                'Premium',
+                'না: একটি কলাম, যা আপনার টেমপ্লেট আঁকে',
+              ],
+              ['বাইরে থেকে ড্র্যাগ অ্যান্ড ড্রপ, ব্যাকগ্রাউন্ড ইভেন্ট', 'বিনামূল্যে', 'না'],
+              ['প্রিন্টিং, ভার্চুয়াল রেন্ডারিং', 'Premium', 'না'],
+              [
+                'ফ্রেমওয়ার্ক',
+                'Angular 16 থেকে 22, React, Vue, সাধারণ JavaScript ও আরও',
+                'Angular 22; এরপর React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'কোনটির বদলে কোনটি' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar-এর অপশন ও Needless UI-তে সেগুলোর বিকল্প',
+            head: ['FullCalendar', 'Needless UI শিডিউলার'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, প্রতিটি অপশনের জন্য একটি ইনপুটসহ; কোনো প্লাগইন বা কী নেই',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, আর সপ্তাহ বা মাসের জন্য <code>timelineSpan</code>',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> দুই দিকেই বাইন্ড হয়',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: আপনি <code>events</code> আপডেট না করা পর্যন্ত কিছুই সরে না',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: সরানো, রিসাইজ ও বাছাইয়ের জন্য একটিই ফাংশন',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, মিনিটে',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, ঘণ্টায়',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, সপ্তাহের দিন 1 (সোমবার) থেকে 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                '<code>nuiSchedulerEvent</code> ও <code>nuiSchedulerResource</code> টেমপ্লেট',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (যেকোনো BCP 47 ট্যাগ), 1 থেকে 7 পর্যন্ত <code>firstDay</code>, আর এর লেখাগুলোর জন্য <code>labels</code>',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'রুম বুকিংয়ের টাইমলাইন, দুইভাবেই' },
+          {
+            kind: 'p',
+            html: 'রুম হলো রিসোর্স, আর বুকিং হলো ইভেন্ট। কোনো রুমের সারি জুড়ে ড্র্যাগ করলে রুমটি বুক হয়, কোনো বুকিং ড্র্যাগ করলে সেটি সরে যায়, আর একটি রুমে একসময়ে একটিই বুকিং থাকতে পারে। FullCalendar 7 ও তার Premium রিসোর্স টাইমলাইন দিয়ে:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI শিডিউলার দিয়ে:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'দুটি জিনিস আলাদাভাবে কাজ করে। FullCalendar নিজেই বুকিং সরিয়ে দেয়, আর অ্যাপ সেই পরিবর্তন নিজের ডেটায় কপি করে নেয়; Needless UI শিডিউলার শুধু সেটি জানায়, আর আপনি <code>events</code> আপডেট করলে তবেই পরিবর্তনটি থাকে, তাই আপনার ডেটাই থাকে একমাত্র উৎস। আর <code>allow</code> সাধারণ কোড, পয়েন্টার বা কীবোর্ড থেকে আসা প্রতিটি পরিবর্তনের আগে যাকে জিজ্ঞেস করা হয়, তাই নিয়মটি আপনি নিজেই টেস্ট করতে পারেন। <a href="/guides/booking-calendar">রুম বুকিংয়ের গাইড</a> ধাপে ধাপে এই অ্যাপটি তৈরি করে দেখায়।',
+          },
+          { kind: 'h2', id: 'data', text: 'ডেটা রূপান্তর' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar-এর ডেটা আর শিডিউলার যা আশা করে',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'সারাদিনের ইভেন্টের <code>end</code> হলো ইভেন্টের পরের দিন',
+                'সারাদিনের ইভেন্টের <code>end</code> হলো তার শেষ দিন: এক দিন বাদ দিন',
+              ],
+              [
+                'সময়ের শেষে <code>Z</code> বা <code>+02:00</code>-এর মতো অফসেট থাকতে পারে',
+                'অফসেট ছাড়া ঘড়ির সময়, যেমন <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'সপ্তাহের দিন 0 (রবিবার) থেকে 6, <code>businessHours</code> ও <code>firstDay</code>-তে',
+                'সপ্তাহের দিন 1 (সোমবার) থেকে 7 (রবিবার)',
+              ],
+              ["স্ট্রিং হিসেবে সময়কাল, যেমন <code>'00:30'</code>", 'সংখ্যা: মিনিট বা ঘণ্টা'],
+              ['রিসোর্স সাজানো হয় id, তারপর শিরোনাম অনুযায়ী', 'রিসোর্স থাকে অ্যারের ক্রমে'],
+              [
+                'অবজেক্ট হিসেবে <code>rrule</code>, আর <code>exrule</code>',
+                'RFC 5545 স্ট্রিং, যেমন <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, আর <code>exdate</code>',
+              ],
+              [
+                '<code>America/New_York</code>-এর মতো টাইম জোন',
+                'আগে সময়গুলো রূপান্তর করুন। <code>nuiSchedulerFromIcs(text, { timeZone })</code> .ics ফাইল পড়ার সময়ই রূপান্তর করে।',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'যা নেই, তা দরকার হলে' },
+          {
+            kind: 'p',
+            html: 'আপনার অ্যাপ যদি টাইম জোন, গ্রুপ করা রিসোর্স, বাইরে থেকে ড্র্যাগ অ্যান্ড ড্রপ বা প্রিন্টিংয়ের ওপর নির্ভর করে, তাহলে শিডিউলার এখনো FullCalendar-এর জায়গা নিতে পারবে না। আপনার যা দরকার, তার জন্য <a href="https://github.com/needless-ui/needless-ui/issues">একটি issue খুলুন</a>। বাকি সবকিছুর জন্য <a href="/components/scheduler">শিডিউলারের পেজে</a> প্রতিটি ইনপুট, আউটপুট ও উদাহরণ আছে।',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'AG Grid Enterprise থেকে বিনামূল্যের Angular ডেটা গ্রিডে চলে আসুন',
+        description:
+          'একটি Angular অ্যাপকে AG Grid Enterprise থেকে বিনামূল্যের Needless UI গ্রিডে আনুন: গ্রুপিং, মোট, ট্রি ডেটা ও Excel এক্সপোর্ট, কোনটির বদলে কোনটি, আর ঘাটতি।',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'AG Grid-এর সারি গ্রুপিং, অ্যাগ্রিগেশন, ট্রি ডেটা, মাস্টার/ডিটেইল আর Excel এক্সপোর্ট Enterprise-এর অংশ: প্রোডাকশনে ব্যবহারের জন্য বাণিজ্যিক লাইসেন্স লাগে, আর লাইসেন্স কী ছাড়া গ্রিডটি একটি ওয়াটারমার্ক দেখায় ও কনসোলে একটি এরর লগ করে। Needless UI ডেটা গ্রিডে মোটসহ গ্রুপিং, ট্রি ডেটা, সারির বিস্তারিত আর .xlsx এক্সপোর্ট আছে MIT লাইসেন্সে। এই গাইড একটি Angular অ্যাপকে একটি থেকে অন্যটিতে নিয়ে যায়: কী একইভাবে চলে আসে, কী আসে না, আর কোড কীভাবে বদলায়।',
+          },
+          {
+            kind: 'p',
+            html: 'এখানে AG Grid 36-এর নাম ব্যবহার করা হয়েছে। AG Grid 36 সাপোর্ট করে Angular 20 থেকে 22; Needless UI-এর দরকার Angular 22।',
+          },
+          { kind: 'h2', id: 'compare', text: 'আপনি কী পাবেন' },
+          {
+            kind: 'table',
+            caption: 'AG Grid ও Needless UI ডেটা গ্রিড',
+            head: ['ফিচার', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'সারি গ্রুপিং, অ্যাগ্রিগেট ও মোটের সারিসহ',
+                'Enterprise',
+                'হ্যাঁ: একাধিক স্তরে, যোগফল, গড়, সর্বনিম্ন, সর্বোচ্চ, গণনা বা একটি ফাংশন দিয়ে',
+              ],
+              ['ট্রি ডেটা', 'Enterprise', 'হ্যাঁ, নেস্টেড সারি থেকে'],
+              [
+                'সারির নিচে বিস্তারিত (মাস্টার/ডিটেইল)',
+                'Enterprise',
+                'হ্যাঁ: সারির নিচে যেকোনো টেমপ্লেট, এমনকি আরেকটি গ্রিডও',
+              ],
+              [
+                'Excel এক্সপোর্ট',
+                'Enterprise: স্টাইল, একাধিক শিট, ছবি ও ফর্মুলা',
+                'হ্যাঁ: সঠিক টাইপের সেলসহ একটি শিট, নম্বর ফরম্যাট আর ফিল্টারসহ ফ্রিজ করা হেডার',
+              ],
+              [
+                'কলাম বেছে নেওয়ার সুবিধাসহ কলাম মেনু',
+                'Enterprise',
+                'হ্যাঁ: প্রতিটি কলাম সর্ট, ফিল্টার, পিন ও ফিট করা, সরানো ও লুকানো, আর সব কলাম একসঙ্গে দেখানো বা লুকানো',
+              ],
+              ['একাধিক কলাম ধরে সর্ট, কুইক সার্চ, পেজ, সারি বাছাই', 'Community', 'হ্যাঁ'],
+              [
+                'কলাম ফিল্টার',
+                'Community: সর্বোচ্চ দুটি শর্ত, AND বা OR দিয়ে জোড়া',
+                'প্রতি কলামে একটি শর্ত',
+              ],
+              [
+                'সেট, মাল্টি ও অ্যাডভান্সড ফিল্টার',
+                'Enterprise',
+                'আংশিক: কলামের অপশনগুলোর একটি চেকলিস্ট, ডেটায় থাকা ভ্যালুগুলোর নয়',
+              ],
+              [
+                'কলাম রিসাইজ করা, সরানো, পিন করা ও লুকানো, আর সেগুলোর অবস্থা সংরক্ষণ',
+                'Community',
+                'হ্যাঁ',
+              ],
+              ['ভার্চুয়াল স্ক্রলিং', 'Community: সারি ও কলাম', 'সারি'],
+              [
+                'সেল এডিটিং',
+                'Community; কিছু এডিটরের জন্য Enterprise লাগে',
+                'হ্যাঁ, কলামের টাইপ অনুযায়ী, ভ্যালিডেশনসহ; কাস্টম এডিটর নেই, আনডুও নেই',
+              ],
+              ['পিভটিং, ইন্টিগ্রেটেড চার্ট', 'Enterprise', 'না'],
+              [
+                'ক্লিপবোর্ড, সেল রেঞ্জ বাছাই, কনটেক্সট মেনু, স্ট্যাটাস বার, সাইড বার',
+                'Enterprise',
+                'না',
+              ],
+              [
+                'সার্ভার থেকে ডেটা',
+                'সার্ভার-সাইড রো মডেল: Enterprise; ব্লকে ব্লকে লোড: Community',
+                'আপনার সার্ভার থেকে পেজ, সার্ভারের নিজের সর্ট, ফিল্টার ও সার্চসহ; সার্ভারে গ্রুপিং নেই',
+              ],
+              ['কলাম গ্রুপ, সারি ড্র্যাগ করা, পিন করা সারি', 'Community', 'না'],
+              [
+                'ফ্রেমওয়ার্ক',
+                'React, Angular 20 থেকে 22, Vue ও সাধারণ JavaScript',
+                'Angular 22; এরপর React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'কোনটির বদলে কোনটি' },
+          {
+            kind: 'table',
+            caption: 'AG Grid-এর অপশন ও Needless UI-তে সেগুলোর বিকল্প',
+            head: ['AG Grid', 'Needless UI গ্রিড'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, মডিউল রেজিস্ট্রেশন, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; কিছু রেজিস্টার করতে হয় না, কোনো কী-ও নেই',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (Intl অপশন বা একটি ফাংশন), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'একটি <code>nuiGridCell</code> টেমপ্লেট'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                'কলামের <code>rowGroup</code>, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, কলাম id-র একটি তালিকা। গ্রুপগুলো শুরুতে খোলা থাকে; <code>[(collapsed)]</code> সেগুলো বন্ধ করে।',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code>, সঙ্গে <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'একটি <code>nuiGridDetail</code> টেমপ্লেট, আর <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, আর <code>[(selected)]</code>: বেছে নেওয়া সারিগুলোর কী',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> একটি Blob রিটার্ন করে, আর <code>exportCsv()</code> টেক্সট',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; ডান থেকে বাঁয়ে লেখার দিক পেজের <code>dir</code> অনুসরণ করে',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'দেশ অনুযায়ী গ্রুপ করা অর্ডার, দুইভাবেই' },
+          {
+            kind: 'p',
+            html: 'কাজটি হলো: দেশ অনুযায়ী গ্রুপ করা অর্ডার, প্রতিটি দেশের একটি মোট আর সব মিলিয়ে একটি মোট, Excel এক্সপোর্ট, কুইক সার্চ আর একাধিক সারি বাছাই। AG Grid 36 দিয়ে, যেখানে গ্রুপিং, মোট আর Excel এক্সপোর্টের জন্য Enterprise লাগে:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Needless UI গ্রিড দিয়ে:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'কয়েকটি জিনিস আলাদাভাবে কাজ করে। বাছাই ধরে রাখে কী, অর্থাৎ সারিগুলোর id, তাই নতুন ডেটা এলেও বাছাই টিকে থাকে; সারিগুলো দরকার হলে সেই কী দিয়ে সারিগুলো আবার খুঁজে নিন। গ্রুপগুলো শুরুতে খোলা থাকে। গ্রুপের লেবেল বসে প্রথম দৃশ্যমান কলামে, আর সার্চ শুধু দৃশ্যমান কলামগুলোই পড়ে, তাই সার্চে গ্রুপ করা কলামটিও মেলাতে চাইলে সেটি দৃশ্যমান রাখুন। আর <code>exportXlsx()</code> ফাইলটি ডাউনলোড না করে রিটার্ন করে: ফিল্টার ও সর্ট করা সারিগুলোর একটি শিট, গ্রুপ সারি ছাড়া।',
+          },
+          { kind: 'h2', id: 'gaps', text: 'যা নেই, তা দরকার হলে' },
+          {
+            kind: 'p',
+            html: 'আপনার অ্যাপ যদি পিভটিং, চার্ট, ক্লিপবোর্ড ও রেঞ্জ বাছাই, সার্ভারে গ্রুপিং বা কলাম গ্রুপের ওপর নির্ভর করে, তাহলে Needless UI গ্রিড এখনো AG Grid-এর জায়গা নিতে পারবে না। আপনার যা দরকার, তার জন্য <a href="https://github.com/needless-ui/needless-ui/issues">একটি issue খুলুন</a>। বাকি সবকিছুর জন্য <a href="/components/grid">ডেটা গ্রিডের পেজে</a> প্রতিটি ইনপুট, আউটপুট ও উদাহরণ আছে।',
           },
         ],
       },

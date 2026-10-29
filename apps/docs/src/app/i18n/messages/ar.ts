@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · مكونات Angular سهلة الوصول ومُتقنة أكثر مما يلزم',
+    title: 'Needless UI · مكونات Angular مجانية مع مُجدوِل مواعيد وشبكة بيانات',
     description:
-      'Needless UI هي مكتبة مكونات Angular مفتوحة المصدر: عناصر أصلية، وورقة أنماط واحدة مستقلة عن أطر العمل، ورموز تصميم W3C، ودعم مدمج لمعيار WCAG 2.2 AA.',
+      'مكتبة مكونات Angular مجانية برخصة MIT: مكونات سهلة الوصول مبنية على العناصر الأصلية، مع مُجدوِل للموارد وشبكة بيانات تدعم التجميع والتصدير إلى Excel.',
     eyebrow: 'مفتوحة المصدر · Angular 22 · رخصة MIT',
     heading: 'مكونات واجهات مستخدم، مُتقنة أكثر مما يلزم.',
-    lead: 'تُنسّق Needless UI <strong>العناصر الأصلية</strong> بورقة أنماط واحدة مستقلة عن أطر العمل وبرموز تصميم W3C. أما توجيهات Angular فيها فتضيف السلوك من Angular Aria، ولذلك يكون كل مكوّن سهل الوصول منذ العرض الأول.',
+    lead: 'مكونات Angular سهلة الوصول مبنية على <strong>العناصر الأصلية</strong>، وتُنسّقها ورقة أنماط واحدة مستقلة عن أطر العمل. وكلها برخصة MIT، بما في ذلك ما تبيعه المكتبات الأخرى منفصلًا: <a href="/components/scheduler">مُجدوِل</a> بخطوط زمنية للموارد، و<a href="/components/grid">شبكة بيانات</a> تدعم التجميع والتصدير إلى Excel.',
     getStarted: 'ابدأ الآن',
     browse: 'تصفّح المكونات',
     featuresTitle: 'لماذا هذه المكتبة؟',
     features: [
+      {
+        title: 'لا نسخة مدفوعة',
+        text: 'الخط الزمني للموارد والأحداث المتكررة في <a href="/components/scheduler">المُجدوِل</a>، والتجميع والبيانات الشجرية والتصدير إلى Excel في <a href="/components/grid">شبكة البيانات</a>، كلها برخصة MIT مثل كل شيء آخر: بلا مفتاح ترخيص ولا علامة مائية. هل تنتقل من مكتبة مدفوعة؟ اقرأ دليلَي الانتقال من <a href="/guides/from-fullcalendar">FullCalendar</a> و<a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'العناصر الأصلية أولًا',
         text: '<code>&lt;button nuiButton&gt;</code> زرٌّ حقيقي. وتعمل معه النماذج ولوحة المفاتيح وقارئات الشاشة كما ينبغي، لأنه لا يُغلَّف بأي عنصر آخر.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'مدخلات تعتمد على signals، ودعم zoneless، والعرض من جانب الخادم، ونقطة دخول مستقلة لكل مكوّن، فلا تحمل التطبيقات إلا ما تستورده.',
       },
     ],
-    codeTitle: 'استيرادان وانتهى الأمر',
+    codeTitle: 'أمر واحد، ثم استيراد واحد',
     codeText:
-      'أضف الحزمة، واستورد ورقة الأنماط مرة واحدة، ثم استخدم المكونات داخل أي مكوّن مستقل (standalone).',
+      'شغّل ng add لتثبيت الحزمة واستيراد ورقة الأنماط الخاصة بها، ثم استخدم المكونات داخل أي مكوّن مستقل (standalone).',
   },
 
   components: {
@@ -1158,10 +1162,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'شبكة البيانات',
-        title: 'مكوّن شبكة البيانات لتطبيقات Angular',
-        summary: 'فرز وتصفية وتحديد وتحرير، وتمرير عبر أي عدد من الصفوف.',
+        title: 'شبكة بيانات مجانية لـ Angular مع التجميع وتصدير Excel',
+        summary: 'فرز وتصفية وتجميع وتحرير وتصدير لأي عدد من الصفوف.',
         description:
-          'شبكة بيانات سهلة الوصول لتطبيقات Angular على جدول أصلي: فرز بعدة أعمدة، وتصفية، وصفحات أو تمرير افتراضي، وتحديد، وتحرير، وأعمدة قابلة للنقل.',
+          'شبكة بيانات مجانية لتطبيقات Angular برخصة MIT على جدول أصلي: تجميع مع الإجماليات، وبيانات شجرية، وتصدير إلى Excel، وتصفية، وتحرير، وتمرير افتراضي.',
         apiDescription:
           'مرجع API لشبكة البيانات في Needless UI: مُدخلات nui-grid وخصائصه ثنائية الاتجاه، وتعريف NuiGridColumn، وقوالب للخلايا المخصصة.',
         a11yDescription:
@@ -2590,6 +2594,356 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'ولعرض القاعات جنبًا إلى جنب في يوم واحد، وللحجوزات المتكررة وسائر الخيارات، راجع <a href="/components/scheduler">صفحة المُجدوِل</a> و<a href="/components/scheduler/api">مرجع API</a> الخاص به.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'الانتقال من FullCalendar إلى مُجدوِل مجاني لـ Angular',
+        description:
+          'انقل تطبيق Angular من FullCalendar Premium إلى مُجدوِل Needless UI المجاني: ما يقابل كل خيار، وخط زمني للحجوزات بالطريقتين، وما ينقص، ومزالق البيانات.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'الخط الزمني للموارد وأعمدة الموارد في FullCalendar من ميزات Premium: فالتطبيق التجاري يحتاج إلى مفتاح ترخيص مدفوع. وتسرد <a href="https://fullcalendar.io/license">صفحة الترخيص</a> الخاصة به الخيارات المجانية، للتطبيقات التي تكون كلها برخصة AGPL وللمؤسسات غير الربحية المسجّلة. أما مُجدوِل Needless UI فيقدّم الاثنين برخصة MIT، مع الأحداث المتكررة وملفات iCalendar. ويشرح هذا الدليل نقل تطبيق Angular من أحدهما إلى الآخر: ما ينتقل كما هو، وما لا ينتقل، والبيانات التي يجب تحويلها.',
+          },
+          {
+            kind: 'p',
+            html: 'يستخدم الدليل أسماء FullCalendar 7، ويضع أسماء الإصدار 6 بين قوسين معقوفين حيث تختلف. ويدعم موصّل FullCalendar لـ Angular الإصدارات من Angular 16 إلى 22؛ أما Needless UI فتتطلب Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'ما الذي تحصل عليه' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar ومُجدوِل Needless UI',
+            head: ['الميزة', 'FullCalendar', 'Needless UI'],
+            rows: [
+              ['خط زمني للموارد: صف لكل قاعة أو شخص', 'Premium', 'نعم: يوم أو أسبوع أو شهر'],
+              ['الموارد على هيئة أعمدة في عرضَي اليوم والأسبوع', 'Premium', 'نعم'],
+              ['عروض الشهر والأسبوع واليوم', 'مجاني', 'نعم'],
+              [
+                'السحب لنقل الأحداث وتغيير مدتها',
+                'مجاني؛ والنقل إلى مورد آخر مع Premium',
+                'نعم، وإلى موارد أخرى أيضًا. وتتغير المدة من النهاية، لا من البداية.',
+              ],
+              [
+                'اختيار وقت لإنشاء حدث',
+                'مجاني',
+                'نعم، بالمؤشر أو بالضغط المطوّل أو بلوحة المفاتيح',
+              ],
+              [
+                'قواعد مثل منع التداخل',
+                'مجاني: خيارات للتداخل والقيود',
+                'نعم: دالة <code>allow</code> واحدة تُسأل قبل كل تغيير',
+              ],
+              [
+                'نقل الأحداث وتغيير مدتها من لوحة المفاتيح',
+                'غير مذكور في توثيق إمكانية الوصول الخاص به، الذي يتناول تسميات ARIA والتركيز بمفتاح Tab',
+                'نعم، مع الإعلان عن ذلك لقارئات الشاشة',
+              ],
+              [
+                'الأحداث المتكررة',
+                'مجاني، مع إضافة rrule ومكتبتها',
+                'مدمجة: قواعد RFC 5545، دون EXRULE وRDATE والقواعد التي تتكرر بالساعة',
+              ],
+              ['iCalendar (.ics)', 'مجاني: يقرأ موجزًا (feed)', 'يقرأ ملفات .ics ويكتبها'],
+              ['عروض القائمة والسنة', 'مجاني', 'جدول أعمال للأيام القادمة؛ ولا عروض للسنة'],
+              [
+                'المناطق الزمنية',
+                'مجاني: المحلية أو UTC أو منطقة مسمّاة',
+                'لا: يعرض الأوقات كما تصله',
+              ],
+              ['موارد مجمّعة أو متداخلة أو متعددة الأعمدة', 'Premium', 'لا: عمود واحد يرسمه قالبك'],
+              ['السحب والإفلات من خارج التقويم، وأحداث الخلفية', 'مجاني', 'لا'],
+              ['الطباعة، والعرض الافتراضي (virtual rendering)', 'Premium', 'لا'],
+              [
+                'أطر العمل',
+                'من Angular 16 إلى 22، وReact، وVue، وJavaScript الخالص، وغيرها',
+                'Angular 22؛ وReact هو التالي',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'ما يقابل كل خيار' },
+          {
+            kind: 'table',
+            caption: 'خيارات FullCalendar وما يقابلها في Needless UI',
+            head: ['FullCalendar', 'مُجدوِل Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>، مع مُدخَل لكل خيار؛ دون إضافات ودون مفتاح',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>، و<code>timelineSpan</code> لأسبوع أو شهر',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>؛ و<code>[(view)]</code> ثنائي الاتجاه',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: لا يتحرك شيء حتى تُحدّث <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: دالة واحدة لعمليات النقل وتغيير المدة والاختيار',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>، <code>snapMinutes</code>، بالدقائق',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>، <code>dayEnd</code>، <code>scrollHour</code>، بالساعات',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>، وأيام الأسبوع فيه من 1 (الاثنين) إلى 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'القالبان <code>nuiSchedulerEvent</code> و<code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (أي وسم لغة وفق BCP 47)، و<code>firstDay</code> من 1 إلى 7، و<code>labels</code> لنصوصه',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'خط زمني لحجز القاعات، بالطريقتين' },
+          {
+            kind: 'p',
+            html: 'القاعات موارد، والحجوزات أحداث. يسحب الناس عبر قاعة لحجزها، ويسحبون الحجز لنقله، ولا تتسع القاعة إلا لحجز واحد في الوقت نفسه. مع FullCalendar 7 وخطه الزمني للموارد من Premium:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'ومع مُجدوِل Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'يختلف أمران. ينقل FullCalendar الحجز بنفسه، ثم ينسخ التطبيق التغيير؛ أما مُجدوِل Needless UI فيُبلغ عنه فقط، وتحديث <code>events</code> هو ما يُبقيه، فتظل بياناتك المصدر الوحيد. كما أن <code>allow</code> شيفرة عادية تُسأل قبل كل تغيير بالمؤشر أو بلوحة المفاتيح، لذا فالقاعدة بين يديك لتختبرها. ويبني <a href="/guides/booking-calendar">دليل حجز القاعات</a> هذا التطبيق خطوة بخطوة.',
+          },
+          { kind: 'h2', id: 'data', text: 'تحويل البيانات' },
+          {
+            kind: 'table',
+            caption: 'بيانات FullCalendar وما يتوقعه المُجدوِل',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'قيمة <code>end</code> في الحدث الذي يستغرق اليوم كله هي اليوم التالي له',
+                'قيمة <code>end</code> في الحدث الذي يستغرق اليوم كله هي يومه الأخير: اطرح يومًا',
+              ],
+              [
+                'قد تنتهي الأوقات بـ <code>Z</code> أو بفارق توقيت مثل <code>+02:00</code>',
+                'أوقات محلية دون فارق توقيت، مثل <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'أيام الأسبوع من 0 (الأحد) إلى 6، في <code>businessHours</code> و<code>firstDay</code>',
+                'أيام الأسبوع من 1 (الاثنين) إلى 7 (الأحد)',
+              ],
+              ["المدد نصوص، مثل <code>'00:30'</code>", 'أرقام: دقائق أو ساعات'],
+              ['الموارد مرتبة حسب المعرّف ثم العنوان', 'الموارد بترتيبها في المصفوفة'],
+              [
+                '<code>rrule</code> على هيئة كائن، و<code>exrule</code>',
+                'نص وفق RFC 5545، مثل <code>FREQ=WEEKLY;BYDAY=MO,FR</code>، و<code>exdate</code>',
+              ],
+              [
+                'منطقة زمنية مثل <code>America/New_York</code>',
+                'حوّل الأوقات أولًا. وتحوّل <code>nuiSchedulerFromIcs(text, { timeZone })</code> ملفات .ics أثناء قراءتها.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'إن احتجت إلى ما ينقصه' },
+          {
+            kind: 'p',
+            html: 'إذا كان تطبيقك يعتمد على المناطق الزمنية أو الموارد المجمّعة أو السحب والإفلات من الخارج أو الطباعة، فلا يمكن للمُجدوِل أن يحل محل FullCalendar بعد. <a href="https://github.com/needless-ui/needless-ui/issues">افتح بلاغًا (issue)</a> بما تحتاج إليه. ولكل ما عدا ذلك، تضم <a href="/components/scheduler">صفحة المُجدوِل</a> كل مُدخَل ومُخرَج ومثال.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'من AG Grid Enterprise إلى شبكة بيانات مجانية لـ Angular',
+        description:
+          'انقل تطبيق Angular من AG Grid Enterprise إلى شبكة بيانات Needless UI المجانية: التجميع والإجماليات والبيانات الشجرية وتصدير Excel، وما يقابل كل خيار، وما ينقص.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'تجميع الصفوف، والحسابات التجميعية، والبيانات الشجرية، والتفاصيل تحت الصفوف (master/detail)، والتصدير إلى Excel، كلها من ميزات Enterprise في AG Grid: فالاستخدام في بيئة الإنتاج يتطلب ترخيصًا تجاريًا، ومن دون مفتاح تعرض الشبكة علامة مائية وتسجّل خطأً في وحدة التحكم. أما شبكة البيانات في Needless UI فتقدّم برخصة MIT التجميع مع الإجماليات، والبيانات الشجرية، وتفاصيل الصفوف، والتصدير إلى ملفات .xlsx. ويشرح هذا الدليل نقل تطبيق Angular من إحداهما إلى الأخرى: ما ينتقل كما هو، وما لا ينتقل، وكيف تتغير الشيفرة.',
+          },
+          {
+            kind: 'p',
+            html: 'يستخدم الدليل أسماء AG Grid 36. ويدعم AG Grid 36 الإصدارات من Angular 20 إلى 22؛ أما Needless UI فتتطلب Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'ما الذي تحصل عليه' },
+          {
+            kind: 'table',
+            caption: 'AG Grid وشبكة بيانات Needless UI',
+            head: ['الميزة', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'تجميع الصفوف، مع القيم التجميعية وصف للإجماليات',
+                'Enterprise',
+                'نعم: على عدة مستويات، مع المجموع أو المتوسط أو أصغر قيمة أو أكبر قيمة أو العدد أو دالة',
+              ],
+              ['البيانات الشجرية', 'Enterprise', 'نعم، من صفوف متداخلة'],
+              [
+                'تفاصيل تحت الصف (master/detail)',
+                'Enterprise',
+                'نعم: أي قالب تحت الصف، حتى لو كان شبكة أخرى',
+              ],
+              [
+                'التصدير إلى Excel',
+                'Enterprise: الأنماط، وأوراق متعددة، والصور، والصيغ',
+                'نعم: ورقة واحدة بخلايا محددة الأنواع، مع تنسيقات الأرقام وصف رؤوس مجمَّد فيه عوامل التصفية',
+              ],
+              [
+                'قائمة العمود مع أداة لاختيار الأعمدة',
+                'Enterprise',
+                'نعم: فرز كل عمود وتصفيته وتثبيته ونقله وملاءمة عرضه مع محتواه وإخفاؤه، وإظهار الأعمدة كلها أو إخفاؤها',
+              ],
+              ['الفرز حسب عدة أعمدة، والبحث السريع، والصفحات، وتحديد الصفوف', 'Community', 'نعم'],
+              [
+                'عوامل تصفية الأعمدة',
+                'Community: حتى شرطين يربط بينهما AND أو OR',
+                'شرط واحد لكل عمود',
+              ],
+              [
+                'تصفية القيم (set) والتصفية المتعددة (multi) والتصفية المتقدمة',
+                'Enterprise',
+                'جزئيًا: قائمة اختيار بخيارات العمود، لا بالقيم الموجودة في البيانات',
+              ],
+              ['تغيير عرض الأعمدة ونقلها وتثبيتها وإخفاؤها، وحفظ حالتها', 'Community', 'نعم'],
+              ['التمرير الافتراضي', 'Community: الصفوف والأعمدة', 'الصفوف'],
+              [
+                'تحرير الخلايا',
+                'Community؛ وبعض المحرِّرات مع Enterprise',
+                'نعم، حسب نوع العمود، مع التحقق من الصحة؛ دون محرِّرات مخصصة ودون تراجع',
+              ],
+              ['الجداول المحورية (pivoting)، والرسوم البيانية المدمجة', 'Enterprise', 'لا'],
+              [
+                'الحافظة، وتحديد نطاقات الخلايا، والقائمة السياقية، وشريط الحالة، والشريط الجانبي',
+                'Enterprise',
+                'لا',
+              ],
+              [
+                'بيانات من الخادم',
+                'نموذج الصفوف من جانب الخادم: Enterprise؛ والتحميل على دفعات: Community',
+                'صفحات من خادمك، بالفرز وعوامل التصفية والبحث التي يطبّقها؛ دون تجميع على الخادم',
+              ],
+              ['مجموعات الأعمدة، وسحب الصفوف، والصفوف المثبّتة', 'Community', 'لا'],
+              [
+                'أطر العمل',
+                'React، وAngular من 20 إلى 22، وVue، وJavaScript الخالص',
+                'Angular 22؛ وReact هو التالي',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'ما يقابل كل خيار' },
+          {
+            kind: 'table',
+            caption: 'خيارات AG Grid وما يقابلها في Needless UI',
+            head: ['AG Grid', 'شبكة بيانات Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>، وتسجيل الوحدات، و<code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>؛ دون تسجيل ودون مفتاح',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>، و<code>format</code> (خيارات Intl أو دالة)، و<code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'قالب <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> في العمود، و<code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>، وهو قائمة بمعرّفات الأعمدة. وتبدأ المجموعات مفتوحة؛ ويغلقها <code>[(collapsed)]</code>.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> مع <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'قالب <code>nuiGridDetail</code>، و<code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>، و<code>[(selected)]</code>: مفاتيح الصفوف المحددة',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                'يُرجع <code>exportXlsx()</code> كائن Blob، ويُرجع <code>exportCsv()</code> نصًّا',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>؛ ويتبع الاتجاه من اليمين إلى اليسار سمة <code>dir</code> في الصفحة',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'طلبات مجمّعة حسب البلد، بالطريقتين' },
+          {
+            kind: 'p',
+            html: 'المهمة: طلبات مجمّعة حسب البلد، مع إجمالي لكل بلد وإجمالي عام، وتصدير إلى Excel، وبحث سريع، وتحديد متعدد. مع AG Grid 36، حيث يتطلب التجميع والإجماليات والتصدير إلى Excel إصدار Enterprise:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'ومع شبكة بيانات Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'تختلف بضعة أمور. يحتفظ التحديد بالمفاتيح، أي معرّفات الصفوف، لذا يبقى صالحًا حين تصل بيانات جديدة؛ وحين تحتاج إلى الصفوف نفسها، فاعثر عليها بهذه المفاتيح. وتبدأ المجموعات مفتوحة. وتظهر تسمية المجموعة في أول عمود ظاهر، والبحث لا يقرأ إلا الأعمدة الظاهرة، لذا أبقِ العمود المجمَّع ظاهرًا إن أردت أن يطابقه البحث. كما أن <code>exportXlsx()</code> يُرجع الملف بدلًا من تنزيله: ورقة واحدة بالصفوف المصفّاة والمفروزة، دون صفوف المجموعات.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'إن احتجت إلى ما ينقصه' },
+          {
+            kind: 'p',
+            html: 'إذا كان تطبيقك يعتمد على الجداول المحورية أو الرسوم البيانية أو الحافظة وتحديد النطاقات أو التجميع على الخادم أو مجموعات الأعمدة، فلا يمكن لشبكة بيانات Needless UI أن تحل محل AG Grid بعد. <a href="https://github.com/needless-ui/needless-ui/issues">افتح بلاغًا (issue)</a> بما تحتاج إليه. ولكل ما عدا ذلك، تضم <a href="/components/grid">صفحة شبكة البيانات</a> كل مُدخَل ومُخرَج ومثال.',
           },
         ],
       },

@@ -38,16 +38,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Доступные компоненты Angular, продуманные сверх меры',
+    title: 'Needless UI · Бесплатные компоненты Angular с планировщиком и таблицей',
     description:
-      'Needless UI — библиотека компонентов Angular с открытым кодом: нативные элементы, таблица стилей без фреймворка, дизайн-токены W3C и WCAG 2.2 AA из коробки.',
+      'Бесплатная библиотека компонентов Angular под MIT: доступность, нативные элементы, планировщик ресурсов и таблица данных с группировкой и экспортом в Excel.',
     eyebrow: 'Open source · Angular 22 · MIT',
     heading: 'UI-компоненты, сделанные тщательнее, чем нужно.',
-    lead: 'Needless UI стилизует <strong>нативные элементы</strong> с помощью одной таблицы стилей, не зависящей от фреймворка, и дизайн-токенов W3C. Директивы Angular добавляют поведение из Angular Aria, так что доступность каждого компонента обеспечена с первого же рендера.',
+    lead: 'Доступные компоненты Angular на <strong>нативных элементах</strong>, оформленные одной таблицей стилей, не зависящей от фреймворка. Всё под лицензией MIT, включая то, что другие библиотеки продают отдельно: <a href="/components/scheduler">планировщик</a> с таймлайнами ресурсов и <a href="/components/grid">таблицу данных</a> с группировкой и экспортом в Excel.',
     getStarted: 'Начать',
     browse: 'Посмотреть компоненты',
     featuresTitle: 'Зачем это нужно',
     features: [
+      {
+        title: 'Без премиум-версии',
+        text: 'Таймлайн ресурсов и повторяющиеся события <a href="/components/scheduler">планировщика</a>, а также группировка, древовидные данные и экспорт в Excel <a href="/components/grid">таблицы данных</a> распространяются под лицензией MIT, как и всё остальное: без лицензионного ключа и водяных знаков. Переходите с платной библиотеки? Прочитайте руководства по переходу с <a href="/guides/from-fullcalendar">FullCalendar</a> и <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'В основе — нативные элементы',
         text: '<code>&lt;button nuiButton&gt;</code> — настоящая кнопка. Формы, клавиатура и скринридеры работают, потому что её ничем не оборачивают.',
@@ -73,9 +77,9 @@ export const messages: Messages = {
         text: 'Signal inputs, zoneless, серверный рендеринг и отдельная точка входа для каждого компонента: в приложение попадает только то, что оно импортирует.',
       },
     ],
-    codeTitle: 'Два импорта — и готово',
+    codeTitle: 'Одна команда, затем один импорт',
     codeText:
-      'Добавьте пакет, один раз импортируйте таблицу стилей и используйте компоненты в любом standalone-компоненте.',
+      'Выполните ng add, чтобы установить пакет и импортировать его таблицу стилей, а затем используйте компоненты в любом standalone-компоненте.',
   },
 
   components: {
@@ -1176,10 +1180,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Таблица данных',
-        title: 'Компонент таблицы данных для Angular',
-        summary: 'Сортировка, фильтрация, выбор, правка и прокрутка любого числа строк.',
+        title: 'Бесплатная таблица данных Angular: группировка и Excel',
+        summary: 'Сортировка, фильтрация, группировка, правка и экспорт любого числа строк.',
         description:
-          'Доступная таблица данных для Angular на нативной HTML-таблице: сортировка по нескольким столбцам, фильтры, пагинация или виртуальная прокрутка, выбор и правка.',
+          'Бесплатная таблица данных Angular под MIT на HTML-таблице: группировка с итогами, древовидные данные, экспорт в Excel, фильтры, правка и виртуальная прокрутка.',
         apiDescription:
           'Справочник по API таблицы данных Needless UI: входные и двусторонние свойства nui-grid, описание NuiGridColumn и шаблоны собственных ячеек.',
         a11yDescription:
@@ -2655,6 +2659,380 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'О переговорных, стоящих рядом в виде дня, о повторяющихся бронированиях и обо всех остальных параметрах читайте на <a href="/components/scheduler">странице планировщика</a> и в <a href="/components/scheduler/api">справочнике по API</a>.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Переход с FullCalendar на бесплатный планировщик Angular',
+        description:
+          'С FullCalendar Premium на бесплатный планировщик Needless UI для Angular: соответствия, таймлайн бронирований в двух вариантах, ограничения и ловушки в данных.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Таймлайн ресурсов и столбцы ресурсов в FullCalendar относятся к Premium: коммерческому приложению нужен платный лицензионный ключ. На <a href="https://fullcalendar.io/license">странице лицензий</a> FullCalendar перечислены бесплатные варианты — для приложений, полностью открытых под AGPL, и для зарегистрированных некоммерческих организаций. В планировщике Needless UI и то и другое доступно под лицензией MIT, а вместе с ними повторяющиеся события и файлы iCalendar. Это руководство помогает перевести приложение Angular с одного на другое: что переносится, что нет и какие данные нужно преобразовать.',
+          },
+          {
+            kind: 'p',
+            html: 'Здесь используются названия из FullCalendar 7, а там, где в версии 6 они другие, старые названия указаны в квадратных скобках. Коннектор FullCalendar для Angular поддерживает Angular с 16 по 22; Needless UI нужен Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Что вы получаете' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar и планировщик Needless UI',
+            head: ['Возможность', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Таймлайн ресурсов: по строке на каждую комнату или человека',
+                'Premium',
+                'Да: день, неделя или месяц',
+              ],
+              ['Ресурсы столбцами в видах дня и недели', 'Premium', 'Да'],
+              ['Виды месяца, недели и дня', 'Бесплатно', 'Да'],
+              [
+                'Перенос и изменение длительности перетаскиванием',
+                'Бесплатно; на другой ресурс — в Premium',
+                'Да, в том числе на другие ресурсы. Длительность меняется за конец, а не за начало.',
+              ],
+              [
+                'Выбор времени для создания события',
+                'Бесплатно',
+                'Да: указателем, долгим нажатием или с клавиатуры',
+              ],
+              [
+                'Правила вроде запрета пересечений',
+                'Бесплатно: параметры пересечений и ограничений',
+                'Да: одна функция <code>allow</code>, которая вызывается перед каждым изменением',
+              ],
+              [
+                'Перенос и изменение длительности событий с клавиатуры',
+                'Нет в его документации по доступности: она описывает метки ARIA и фокус по Tab',
+                'Да, с озвучиванием для скринридеров',
+              ],
+              [
+                'Повторяющиеся события',
+                'Бесплатно, с плагином и библиотекой rrule',
+                'Встроены: правила RFC 5545, кроме EXRULE, RDATE и ежечасных правил',
+              ],
+              ['iCalendar (.ics)', 'Бесплатно: чтение фида', 'Чтение и запись файлов .ics'],
+              ['Виды списка и года', 'Бесплатно', 'Повестка дня на ближайшие дни; видов года нет'],
+              [
+                'Часовые пояса',
+                'Бесплатно: локальный, UTC или именованный',
+                'Нет: показывает полученное время как есть',
+              ],
+              [
+                'Сгруппированные, вложенные или многоколоночные ресурсы',
+                'Premium',
+                'Нет: один столбец, который рисует ваш шаблон',
+              ],
+              ['Перетаскивание извне, фоновые события', 'Бесплатно', 'Нет'],
+              ['Печать, виртуальный рендеринг', 'Premium', 'Нет'],
+              [
+                'Фреймворки',
+                'Angular с 16 по 22, React, Vue, чистый JavaScript и другие',
+                'Angular 22; следующий — React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Что чему соответствует' },
+          {
+            kind: 'table',
+            caption: 'Параметры FullCalendar и их аналоги в Needless UI',
+            head: ['FullCalendar', 'Планировщик Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code> с входным свойством для каждого параметра; без плагинов и ключа',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, а для недели или месяца — <code>timelineSpan</code>',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> — двусторонняя привязка',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: ничего не сдвинется, пока вы не обновите <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: одна функция для переноса, изменения длительности и выбора времени',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code> — в минутах',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code> — в часах',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code> с днями недели от 1 (понедельник) до 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Шаблоны <code>nuiSchedulerEvent</code> и <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (любой тег BCP 47), <code>firstDay</code> от 1 до 7 и <code>labels</code> для текстов планировщика',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Таймлайн бронирования переговорных в двух вариантах',
+          },
+          {
+            kind: 'p',
+            html: 'Переговорные — это ресурсы, а бронирования — события. Пользователи протягивают по строке переговорной, чтобы забронировать её, и перетаскивают бронирование, чтобы перенести его, а в переговорной одновременно может быть только одно бронирование. С FullCalendar 7 и его таймлайном ресурсов из Premium:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'С планировщиком Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Есть два отличия. FullCalendar сам переносит бронирование, а приложение копирует изменение; планировщик Needless UI только сообщает о нём, а сохраняется оно, когда вы обновляете <code>events</code>, так что единственным источником истины остаются ваши данные. Кроме того, <code>allow</code> — обычный код, который вызывается перед каждым изменением указателем или с клавиатуры, поэтому правило в ваших руках и его можно протестировать. В <a href="/guides/booking-calendar">руководстве по календарю бронирования</a> это приложение собирается шаг за шагом.',
+          },
+          { kind: 'h2', id: 'data', text: 'Преобразование данных' },
+          {
+            kind: 'table',
+            caption: 'Данные FullCalendar и то, чего ждёт планировщик',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '<code>end</code> события на весь день — следующий день после события',
+                '<code>end</code> события на весь день — его последний день: вычтите один день',
+              ],
+              [
+                'Время может заканчиваться на <code>Z</code> или на смещение вроде <code>+02:00</code>',
+                'Время без смещения, как на часах, например <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Дни недели от 0 (воскресенье) до 6 в <code>businessHours</code> и <code>firstDay</code>',
+                'Дни недели от 1 (понедельник) до 7 (воскресенье)',
+              ],
+              ["Длительности строками, например <code>'00:30'</code>", 'Числа: минуты или часы'],
+              ['Ресурсы сортируются по id, затем по названию', 'Ресурсы идут в порядке массива'],
+              [
+                '<code>rrule</code> в виде объекта и <code>exrule</code>',
+                'Строка RFC 5545, например <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, и <code>exdate</code>',
+              ],
+              [
+                'Часовой пояс, например <code>America/New_York</code>',
+                'Сначала пересчитайте время. <code>nuiSchedulerFromIcs(text, { timeZone })</code> делает это сам при чтении файлов .ics.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Если вам нужно то, чего нет' },
+          {
+            kind: 'p',
+            html: 'Если ваше приложение зависит от часовых поясов, сгруппированных ресурсов, перетаскивания извне или печати, планировщик пока не заменит FullCalendar. <a href="https://github.com/needless-ui/needless-ui/issues">Откройте issue</a> и опишите, что вам нужно. Для всего остального на <a href="/components/scheduler">странице планировщика</a> есть все входные и выходные свойства и примеры.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'С AG Grid Enterprise на бесплатную таблицу Angular',
+        description:
+          'С AG Grid Enterprise на бесплатную таблицу Needless UI для Angular: группировка, итоги, древовидные данные, экспорт в Excel, соответствия и ограничения.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'В AG Grid группировка строк, агрегация, древовидные данные, master/detail и экспорт в Excel относятся к Enterprise: для использования в продакшене нужна коммерческая лицензия, а без ключа таблица показывает водяной знак и выводит ошибку в консоль. В таблице данных Needless UI группировка с итогами, древовидные данные, подробности строк и экспорт в .xlsx доступны под лицензией MIT. Это руководство помогает перевести приложение Angular с одного на другое: что переносится, что нет и как меняется код.',
+          },
+          {
+            kind: 'p',
+            html: 'Здесь используются названия из AG Grid 36. AG Grid 36 поддерживает Angular с 20 по 22; Needless UI нужен Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Что вы получаете' },
+          {
+            kind: 'table',
+            caption: 'AG Grid и таблица данных Needless UI',
+            head: ['Возможность', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Группировка строк с агрегатами и строкой итогов',
+                'Enterprise',
+                'Да: несколько уровней, итоги — сумма, среднее, минимум, максимум, количество или функция',
+              ],
+              ['Древовидные данные', 'Enterprise', 'Да, из вложенных строк'],
+              [
+                'Подробности под строкой (master/detail)',
+                'Enterprise',
+                'Да: любой шаблон под строкой, в том числе другая таблица',
+              ],
+              [
+                'Экспорт в Excel',
+                'Enterprise: стили, несколько листов, изображения и формулы',
+                'Да: один лист с типизированными ячейками, форматами чисел и закреплённым заголовком с фильтрами',
+              ],
+              [
+                'Меню столбца с выбором столбцов',
+                'Enterprise',
+                'Да: сортировка, фильтрация, закрепление, перемещение, подгонка ширины и скрытие каждого столбца, а также показ и скрытие всех сразу',
+              ],
+              [
+                'Сортировка по нескольким столбцам, быстрый поиск, пагинация, выбор строк',
+                'Community',
+                'Да',
+              ],
+              [
+                'Фильтры столбцов',
+                'Community: до двух условий, объединённых через AND или OR',
+                'Одно условие на столбец',
+              ],
+              [
+                'Фильтры по набору значений, составные и расширенные',
+                'Enterprise',
+                'Частично: чекбоксы с вариантами столбца, а не со значениями из данных',
+              ],
+              [
+                'Изменение ширины, перемещение, закрепление и скрытие столбцов, сохранение их состояния',
+                'Community',
+                'Да',
+              ],
+              ['Виртуальная прокрутка', 'Community: строки и столбцы', 'Строки'],
+              [
+                'Редактирование ячеек',
+                'Community; некоторые редакторы — Enterprise',
+                'Да, по типу столбца, с валидацией; без собственных редакторов и отмены правок',
+              ],
+              ['Сводные таблицы, встроенные диаграммы', 'Enterprise', 'Нет'],
+              [
+                'Буфер обмена, выделение диапазонов ячеек, контекстное меню, строка состояния, боковая панель',
+                'Enterprise',
+                'Нет',
+              ],
+              [
+                'Данные с сервера',
+                'Серверная модель строк: Enterprise; загрузка блоками: Community',
+                'Страницы с вашего сервера, который сам сортирует, фильтрует и ищет; без группировки на сервере',
+              ],
+              ['Группы столбцов, перетаскивание строк, закреплённые строки', 'Community', 'Нет'],
+              [
+                'Фреймворки',
+                'React, Angular с 20 по 22, Vue и чистый JavaScript',
+                'Angular 22; следующий — React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Что чему соответствует' },
+          {
+            kind: 'table',
+            caption: 'Параметры AG Grid и их аналоги в Needless UI',
+            head: ['AG Grid', 'Таблица Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, регистрация модулей, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; без регистрации и ключа',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (параметры Intl или функция), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Шаблон <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> у столбца, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code> — список id столбцов. Группы изначально раскрыты; <code>[(collapsed)]</code> сворачивает их.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> с <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Шаблон <code>nuiGridDetail</code> и <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code> и <code>[(selected)]</code> — ключи выбранных строк',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> возвращает Blob, а <code>exportCsv()</code> — текст',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; направление справа налево берётся из <code>dir</code> страницы',
+              ],
+            ],
+          },
+          {
+            kind: 'h2',
+            id: 'example',
+            text: 'Заказы, сгруппированные по странам, в двух вариантах',
+          },
+          {
+            kind: 'p',
+            html: 'Задача: заказы, сгруппированные по странам, с итогом по каждой стране и общим итогом, экспорт в Excel, быстрый поиск и множественный выбор. С AG Grid 36, где для группировки, итогов и экспорта в Excel нужен Enterprise:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'С таблицей Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Есть несколько отличий. Выбор хранит ключи — id строк, поэтому он сохраняется, когда приходят новые данные; если нужны сами строки, найдите их по ключам. Группы изначально раскрыты. Подпись группы выводится в первом видимом столбце, а поиск идёт только по видимым столбцам, поэтому не скрывайте столбец группировки, если поиск должен находить его значения. И <code>exportXlsx()</code> возвращает файл, а не скачивает его: один лист с отфильтрованными и отсортированными строками, без строк групп.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Если вам нужно то, чего нет' },
+          {
+            kind: 'p',
+            html: 'Если ваше приложение зависит от сводных таблиц, диаграмм, буфера обмена и выделения диапазонов, группировки на сервере или групп столбцов, таблица Needless UI пока не заменит AG Grid. <a href="https://github.com/needless-ui/needless-ui/issues">Откройте issue</a> и опишите, что вам нужно. Для всего остального на <a href="/components/grid">странице таблицы данных</a> есть все входные и выходные свойства и примеры.',
           },
         ],
       },

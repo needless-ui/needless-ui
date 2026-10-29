@@ -37,16 +37,20 @@ export const messages: Messages = {
   },
 
   home: {
-    title: 'Needless UI · Component Angular hỗ trợ tiếp cận, kỹ lưỡng quá mức',
+    title: 'Needless UI · Thư viện Angular miễn phí có bộ lập lịch và bảng dữ liệu',
     description:
-      'Needless UI là thư viện component Angular mã nguồn mở: phần tử native, một stylesheet độc lập với framework, design token W3C và tích hợp sẵn WCAG 2.2 AA.',
+      'Thư viện component Angular miễn phí, giấy phép MIT: component hỗ trợ tiếp cận trên phần tử native, bộ lập lịch tài nguyên và bảng dữ liệu có nhóm, xuất Excel.',
     eyebrow: 'Mã nguồn mở · Angular 22 · MIT',
     heading: 'Component UI, chăm chút kỹ hơn mức cần thiết.',
-    lead: 'Needless UI tạo kiểu cho <strong>phần tử native</strong> bằng một stylesheet độc lập với framework và design token W3C. Các directive Angular bổ sung hành vi từ Angular Aria, nên mọi component đều hỗ trợ tiếp cận ngay từ lần render đầu tiên.',
+    lead: 'Component Angular hỗ trợ tiếp cận, dựa trên <strong>phần tử native</strong> và được tạo kiểu bằng một stylesheet độc lập với framework. Tất cả đều theo giấy phép MIT, kể cả những thứ mà các thư viện khác bán riêng: <a href="/components/scheduler">bộ lập lịch</a> có timeline tài nguyên, và <a href="/components/grid">bảng dữ liệu</a> hỗ trợ nhóm dòng và xuất Excel.',
     getStarted: 'Bắt đầu',
     browse: 'Xem các component',
     featuresTitle: 'Lý do ra đời',
     features: [
+      {
+        title: 'Không có bản trả phí',
+        text: 'Timeline tài nguyên và sự kiện lặp lại của <a href="/components/scheduler">bộ lập lịch</a>, cùng tính năng nhóm dòng, dữ liệu dạng cây và xuất Excel của <a href="/components/grid">bảng dữ liệu</a>, đều theo giấy phép MIT như mọi thứ khác: không cần khóa giấy phép, không có hình mờ. Bạn đang chuyển từ một thư viện trả phí? Hãy đọc hướng dẫn chuyển từ <a href="/guides/from-fullcalendar">FullCalendar</a> và từ <a href="/guides/from-ag-grid">AG Grid</a>.',
+      },
       {
         title: 'Ưu tiên phần tử native',
         text: '<code>&lt;button nuiButton&gt;</code> là một nút thật sự. Biểu mẫu, bàn phím và trình đọc màn hình đều hoạt động bình thường vì không có gì bọc quanh nó.',
@@ -72,9 +76,9 @@ export const messages: Messages = {
         text: 'Signal input, zoneless, render phía máy chủ và mỗi component một entry point riêng, nên ứng dụng chỉ đóng gói những gì nó import.',
       },
     ],
-    codeTitle: 'Hai lệnh import là xong',
+    codeTitle: 'Một lệnh, rồi một dòng import',
     codeText:
-      'Thêm gói, import stylesheet một lần, rồi dùng component trong bất kỳ standalone component nào.',
+      'Chạy ng add để cài gói và import stylesheet của nó, rồi dùng component trong bất kỳ standalone component nào.',
   },
 
   components: {
@@ -1166,10 +1170,10 @@ export const messages: Messages = {
       },
       grid: {
         name: 'Bảng dữ liệu',
-        title: 'Component bảng dữ liệu cho Angular',
-        summary: 'Sắp xếp, lọc, chọn, chỉnh sửa và cuộn qua bao nhiêu dòng cũng được.',
+        title: 'Bảng dữ liệu Angular miễn phí có nhóm dòng và xuất Excel',
+        summary: 'Sắp xếp, lọc, nhóm, chỉnh sửa và xuất bao nhiêu dòng cũng được.',
         description:
-          'Bảng dữ liệu Angular hỗ trợ tiếp cận dựa trên phần tử table native: sắp xếp nhiều cột, bộ lọc, phân trang hoặc cuộn ảo, chọn dòng, chỉnh sửa và di chuyển cột.',
+          'Bảng dữ liệu Angular miễn phí, giấy phép MIT, dựa trên phần tử table native: nhóm dòng kèm tổng, dữ liệu dạng cây, xuất Excel, bộ lọc, chỉnh sửa và cuộn ảo.',
         apiDescription:
           'Tài liệu API về bảng dữ liệu của Needless UI: input và model của nui-grid, định nghĩa NuiGridColumn và template cho ô tùy biến.',
         a11yDescription:
@@ -2626,6 +2630,374 @@ export const messages: Messages = {
           {
             kind: 'p',
             html: 'Về các phòng xếp cạnh nhau trong chế độ xem ngày, lượt đặt chỗ lặp lại và mọi tùy chọn khác, hãy xem <a href="/components/scheduler">trang của bộ lập lịch</a> và <a href="/components/scheduler/api">API</a> của nó.',
+          },
+        ],
+      },
+      'from-fullcalendar': {
+        title: 'Chuyển từ FullCalendar sang bộ lập lịch Angular miễn phí',
+        description:
+          'Chuyển ứng dụng Angular từ FullCalendar Premium sang bộ lập lịch miễn phí của Needless UI: đối chiếu tùy chọn, ví dụ đặt phòng, chỗ còn thiếu, bẫy dữ liệu.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Timeline tài nguyên và chế độ xem chia cột theo tài nguyên của FullCalendar thuộc bản Premium: ứng dụng thương mại cần một khóa giấy phép trả phí. <a href="https://fullcalendar.io/license">Trang giấy phép</a> của FullCalendar có liệt kê các trường hợp được dùng miễn phí: ứng dụng hoàn toàn theo AGPL và tổ chức phi lợi nhuận đã đăng ký. Bộ lập lịch của Needless UI có cả hai tính năng này theo giấy phép MIT, kèm sự kiện lặp lại và tệp iCalendar. Hướng dẫn này giúp bạn chuyển một ứng dụng Angular từ FullCalendar sang Needless UI: những gì mang theo được, những gì không, và dữ liệu cần chuyển đổi.',
+          },
+          {
+            kind: 'p',
+            html: 'Hướng dẫn này dùng tên gọi của FullCalendar 7, và ghi tên của phiên bản 6 trong ngoặc vuông ở những chỗ hai phiên bản khác nhau. Gói tích hợp Angular của FullCalendar hỗ trợ Angular 16 đến 22; Needless UI cần Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Bạn nhận được gì' },
+          {
+            kind: 'table',
+            caption: 'FullCalendar và bộ lập lịch của Needless UI',
+            head: ['Tính năng', 'FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                'Timeline tài nguyên: mỗi phòng hoặc mỗi người một dòng',
+                'Premium',
+                'Có: một ngày, một tuần hoặc một tháng',
+              ],
+              ['Tài nguyên dạng cột trong chế độ xem ngày và tuần', 'Premium', 'Có'],
+              ['Chế độ xem tháng, tuần và ngày', 'Miễn phí', 'Có'],
+              [
+                'Kéo để di chuyển và đổi độ dài',
+                'Miễn phí; kéo sang tài nguyên khác thì cần Premium',
+                'Có, kể cả sang tài nguyên khác. Kéo điểm kết thúc để đổi độ dài; điểm bắt đầu thì không.',
+              ],
+              [
+                'Chọn thời gian để tạo sự kiện',
+                'Miễn phí',
+                'Có, bằng con trỏ, nhấn giữ hoặc bàn phím',
+              ],
+              [
+                'Quy tắc như không cho trùng giờ',
+                'Miễn phí: tùy chọn overlap và constraint',
+                'Có: một hàm <code>allow</code>, được hỏi trước mọi thay đổi',
+              ],
+              [
+                'Di chuyển và đổi độ dài sự kiện bằng bàn phím',
+                'Không có trong tài liệu về khả năng tiếp cận của FullCalendar, vốn chỉ nói về nhãn ARIA và focus bằng Tab',
+                'Có, kèm thông báo cho trình đọc màn hình',
+              ],
+              [
+                'Sự kiện lặp lại',
+                'Miễn phí, cần plugin và thư viện rrule',
+                'Tích hợp sẵn: quy tắc RFC 5545, trừ EXRULE, RDATE và quy tắc lặp theo giờ',
+              ],
+              ['iCalendar (.ics)', 'Miễn phí: đọc nguồn cấp lịch', 'Đọc và ghi tệp .ics'],
+              [
+                'Chế độ xem danh sách và xem năm',
+                'Miễn phí',
+                'Lịch biểu cho những ngày sắp tới; không có chế độ xem năm',
+              ],
+              [
+                'Múi giờ',
+                'Miễn phí: giờ địa phương, UTC hoặc múi giờ có tên',
+                'Không: hiển thị đúng giờ nhận được',
+              ],
+              [
+                'Tài nguyên theo nhóm, lồng nhau hoặc nhiều cột',
+                'Premium',
+                'Không: một cột, do template của bạn vẽ',
+              ],
+              ['Kéo thả từ bên ngoài, sự kiện nền', 'Miễn phí', 'Không'],
+              ['In, render ảo', 'Premium', 'Không'],
+              [
+                'Framework',
+                'Angular 16 đến 22, React, Vue, JavaScript thuần và nhiều hơn nữa',
+                'Angular 22; tiếp theo là React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Đối chiếu tùy chọn' },
+          {
+            kind: 'table',
+            caption: 'Tùy chọn của FullCalendar và phần tương ứng trong Needless UI',
+            head: ['FullCalendar', 'Bộ lập lịch Needless UI'],
+            rows: [
+              [
+                '<code>&lt;full-calendar [options]&gt;</code>, <code>plugins</code>, <code>schedulerLicenseKey</code>',
+                '<code>&lt;nui-scheduler&gt;</code>, mỗi tùy chọn là một input; không có plugin và không cần khóa',
+              ],
+              [
+                "<code>initialView: 'resourceTimelineDay'</code>",
+                '<code>view="timeline"</code>, thêm <code>timelineSpan</code> để xem một tuần hoặc một tháng',
+              ],
+              [
+                "<code>initialView: 'timeGridWeek'</code>",
+                '<code>view="week"</code>; <code>[(view)]</code> là liên kết hai chiều',
+              ],
+              [
+                '<code>resources</code>, <code>events</code>',
+                '<code>[resources]</code>, <code>[events]</code>',
+              ],
+              [
+                '<code>resourceId</code>, <code>extendedProps</code>',
+                '<code>resource</code>, <code>data</code>',
+              ],
+              [
+                '<code>editable</code>, <code>selectable</code>',
+                '<code>editable</code>, <code>selectable</code>',
+              ],
+              [
+                '<code>select</code>',
+                '<code>(slotSelect)</code>: <code>{ start, end, allDay, resource }</code>',
+              ],
+              [
+                '<code>eventDrop</code>, <code>eventResize</code>',
+                '<code>(eventChange)</code>: không có gì di chuyển cho đến khi bạn cập nhật <code>events</code>',
+              ],
+              ['<code>eventClick</code>', '<code>(eventClick)</code>'],
+              [
+                '<code>eventOverlap</code>, <code>selectOverlap</code>, <code>eventAllow</code>',
+                '<code>[allow]</code>: một hàm cho cả di chuyển, đổi độ dài và chọn thời gian',
+              ],
+              [
+                '<code>slotDuration</code>, <code>snapDuration</code>',
+                '<code>slotMinutes</code>, <code>snapMinutes</code>, tính bằng phút',
+              ],
+              [
+                '<code>slotMinTime</code>, <code>slotMaxTime</code>, <code>scrollTime</code>',
+                '<code>dayStart</code>, <code>dayEnd</code>, <code>scrollHour</code>, tính bằng giờ',
+              ],
+              [
+                '<code>businessHours</code>',
+                '<code>[businessHours]</code>, với các ngày trong tuần từ 1 (thứ Hai) đến 7',
+              ],
+              ['<code>datesSet</code>', '<code>(rangeChange)</code>'],
+              [
+                '<code>eventContent</code>, <code>resourceCellContent</code> [<code>resourceLabelContent</code>]',
+                'Template <code>nuiSchedulerEvent</code> và <code>nuiSchedulerResource</code>',
+              ],
+              [
+                '<code>locale</code>, <code>firstDay</code>',
+                '<code>locale</code> (mọi thẻ BCP 47), <code>firstDay</code> từ 1 đến 7, và <code>labels</code> cho câu chữ của nó',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Timeline đặt phòng họp, viết theo cả hai cách' },
+          {
+            kind: 'p',
+            html: 'Phòng là tài nguyên, còn lượt đặt chỗ là sự kiện. Người dùng kéo qua một phòng để đặt phòng đó, kéo một lượt đặt chỗ để di chuyển nó, và mỗi phòng chỉ nhận một lượt đặt chỗ tại một thời điểm. Với FullCalendar 7 và timeline tài nguyên Premium của nó:',
+          },
+          { kind: 'code', file: 'guide-code/fullcalendar-bookings.ts', lazy: true },
+          { kind: 'p', html: 'Với bộ lập lịch của Needless UI:' },
+          { kind: 'code', file: 'snippets/booking.ts', lazy: true },
+          { kind: 'code', file: 'snippets/booking.html', lazy: true },
+          {
+            kind: 'p',
+            html: 'Có hai điểm hoạt động khác nhau. FullCalendar tự di chuyển lượt đặt chỗ, rồi ứng dụng chép lại thay đổi đó; bộ lập lịch của Needless UI chỉ báo lại thay đổi, và thay đổi chỉ được giữ khi bạn cập nhật <code>events</code>, nên dữ liệu của bạn luôn là nguồn duy nhất. Ngoài ra, <code>allow</code> chỉ là code thông thường, được hỏi trước mọi thay đổi dù đến từ con trỏ hay bàn phím, nên bạn tự kiểm thử được quy tắc này. <a href="/guides/booking-calendar">Hướng dẫn lịch đặt phòng họp</a> xây dựng ứng dụng này từng bước một.',
+          },
+          { kind: 'h2', id: 'data', text: 'Chuyển đổi dữ liệu' },
+          {
+            kind: 'table',
+            caption: 'Dữ liệu của FullCalendar và định dạng mà bộ lập lịch cần',
+            head: ['FullCalendar', 'Needless UI'],
+            rows: [
+              [
+                '<code>end</code> của sự kiện cả ngày là ngày sau khi sự kiện kết thúc',
+                '<code>end</code> của sự kiện cả ngày là ngày cuối cùng của nó: hãy trừ đi một ngày',
+              ],
+              [
+                'Thời gian có thể kết thúc bằng <code>Z</code> hoặc độ lệch múi giờ như <code>+02:00</code>',
+                'Thời gian không kèm độ lệch múi giờ, chẳng hạn <code>2026-11-02T09:30</code>',
+              ],
+              [
+                'Ngày trong tuần từ 0 (Chủ nhật) đến 6, trong <code>businessHours</code> và <code>firstDay</code>',
+                'Ngày trong tuần từ 1 (thứ Hai) đến 7 (Chủ nhật)',
+              ],
+              [
+                "Thời lượng ở dạng chuỗi, chẳng hạn <code>'00:30'</code>",
+                'Dạng số: số phút hoặc số giờ',
+              ],
+              [
+                'Tài nguyên được sắp xếp theo id, rồi theo tiêu đề',
+                'Tài nguyên giữ đúng thứ tự trong mảng',
+              ],
+              [
+                '<code>rrule</code> dạng đối tượng, và <code>exrule</code>',
+                'Chuỗi RFC 5545, chẳng hạn <code>FREQ=WEEKLY;BYDAY=MO,FR</code>, và <code>exdate</code>',
+              ],
+              [
+                'Múi giờ như <code>America/New_York</code>',
+                'Hãy chuyển đổi thời gian trước. <code>nuiSchedulerFromIcs(text, { timeZone })</code> chuyển đổi tệp .ics ngay khi đọc.',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'gaps', text: 'Nếu bạn cần những gì còn thiếu' },
+          {
+            kind: 'p',
+            html: 'Nếu ứng dụng của bạn phụ thuộc vào múi giờ, tài nguyên theo nhóm, kéo thả từ bên ngoài hoặc tính năng in, bộ lập lịch chưa thể thay thế FullCalendar. Hãy <a href="https://github.com/needless-ui/needless-ui/issues">mở một issue</a> cho tính năng bạn cần. Với mọi thứ khác, <a href="/components/scheduler">trang của bộ lập lịch</a> có đủ mọi input, output và ví dụ.',
+          },
+        ],
+      },
+      'from-ag-grid': {
+        title: 'Từ AG Grid Enterprise sang bảng dữ liệu Angular miễn phí',
+        description:
+          'Chuyển ứng dụng Angular từ AG Grid Enterprise sang bảng dữ liệu Needless UI miễn phí: nhóm dòng kèm tổng, dữ liệu dạng cây, xuất Excel, đối chiếu và chỗ thiếu.',
+        blocks: [
+          {
+            kind: 'p',
+            html: 'Nhóm dòng, tổng hợp giá trị, dữ liệu dạng cây, master/detail và xuất Excel của AG Grid thuộc bản Enterprise: muốn dùng trong môi trường production thì cần giấy phép thương mại, và nếu không có khóa, bảng sẽ hiện hình mờ và ghi một lỗi ra console. Bảng dữ liệu của Needless UI có nhóm dòng kèm tổng, dữ liệu dạng cây, chi tiết dòng và xuất .xlsx theo giấy phép MIT. Hướng dẫn này giúp bạn chuyển một ứng dụng Angular từ AG Grid sang Needless UI: những gì mang theo được, những gì không, và code thay đổi ra sao.',
+          },
+          {
+            kind: 'p',
+            html: 'Hướng dẫn này dùng tên gọi của AG Grid 36. AG Grid 36 hỗ trợ Angular 20 đến 22; Needless UI cần Angular 22.',
+          },
+          { kind: 'h2', id: 'compare', text: 'Bạn nhận được gì' },
+          {
+            kind: 'table',
+            caption: 'AG Grid và bảng dữ liệu của Needless UI',
+            head: ['Tính năng', 'AG Grid', 'Needless UI'],
+            rows: [
+              [
+                'Nhóm dòng, kèm giá trị tổng hợp và dòng tổng cộng',
+                'Enterprise',
+                'Có: nhiều cấp, với tổng, trung bình, nhỏ nhất, lớn nhất, số lượng hoặc một hàm',
+              ],
+              ['Dữ liệu dạng cây', 'Enterprise', 'Có, từ các dòng lồng nhau'],
+              [
+                'Chi tiết bên dưới dòng (master/detail)',
+                'Enterprise',
+                'Có: template bất kỳ bên dưới dòng, kể cả một bảng dữ liệu khác',
+              ],
+              [
+                'Xuất Excel',
+                'Enterprise: style, nhiều trang tính, hình ảnh và công thức',
+                'Có: một trang tính với ô giữ đúng kiểu dữ liệu, kèm định dạng số và dòng tiêu đề cố định có bộ lọc',
+              ],
+              [
+                'Menu cột kèm bộ chọn cột',
+                'Enterprise',
+                'Có: sắp xếp, lọc, ghim, di chuyển, chỉnh vừa độ rộng và ẩn từng cột, cũng như hiện hoặc ẩn tất cả các cột',
+              ],
+              ['Sắp xếp theo nhiều cột, tìm kiếm nhanh, phân trang, chọn dòng', 'Community', 'Có'],
+              [
+                'Bộ lọc cột',
+                'Community: tối đa hai điều kiện, nối bằng AND hoặc OR',
+                'Một điều kiện cho mỗi cột',
+              ],
+              [
+                'Bộ lọc tập giá trị, bộ lọc kết hợp và bộ lọc nâng cao',
+                'Enterprise',
+                'Một phần: danh sách checkbox lấy từ các lựa chọn của cột, không phải từ các giá trị trong dữ liệu',
+              ],
+              ['Đổi độ rộng, di chuyển, ghim, ẩn cột và lưu trạng thái cột', 'Community', 'Có'],
+              ['Cuộn ảo', 'Community: dòng và cột', 'Chỉ dòng'],
+              [
+                'Chỉnh sửa ô',
+                'Community; một số trình chỉnh sửa thuộc Enterprise',
+                'Có, theo kiểu cột, kèm kiểm tra hợp lệ; không có trình chỉnh sửa tùy biến và không có hoàn tác',
+              ],
+              ['Pivot, biểu đồ tích hợp', 'Enterprise', 'Không'],
+              [
+                'Sao chép và dán, chọn vùng ô, menu ngữ cảnh, thanh trạng thái, thanh bên',
+                'Enterprise',
+                'Không',
+              ],
+              [
+                'Dữ liệu từ máy chủ',
+                'Mô hình dòng phía máy chủ: Enterprise; tải theo khối: Community',
+                'Từng trang từ máy chủ của bạn, do máy chủ sắp xếp, lọc và tìm kiếm; không nhóm dòng phía máy chủ',
+              ],
+              ['Nhóm cột, kéo thả dòng, dòng được ghim', 'Community', 'Không'],
+              [
+                'Framework',
+                'React, Angular 20 đến 22, Vue và JavaScript thuần',
+                'Angular 22; tiếp theo là React',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'mapping', text: 'Đối chiếu tùy chọn' },
+          {
+            kind: 'table',
+            caption: 'Tùy chọn của AG Grid và phần tương ứng trong Needless UI',
+            head: ['AG Grid', 'Bảng dữ liệu Needless UI'],
+            rows: [
+              [
+                '<code>&lt;ag-grid-angular&gt;</code>, đăng ký module, <code>LicenseManager.setLicenseKey()</code>',
+                '<code>&lt;nui-grid&gt;</code>; không cần đăng ký gì, cũng không cần khóa',
+              ],
+              [
+                '<code>rowData</code>, <code>columnDefs</code>',
+                '<code>[(rows)]</code>, <code>[columns]</code>',
+              ],
+              [
+                '<code>field</code>, <code>headerName</code>',
+                '<code>id</code>, <code>header</code>',
+              ],
+              [
+                '<code>valueGetter</code>, <code>valueFormatter</code>, <code>cellDataType</code>',
+                '<code>value</code>, <code>format</code> (tùy chọn Intl hoặc một hàm), <code>type</code>',
+              ],
+              ['<code>cellRenderer</code>', 'Template <code>nuiGridCell</code>'],
+              [
+                "<code>pinned: 'left'</code>, <code>hide</code>",
+                "<code>pinned: 'start'</code>, <code>hidden</code>",
+              ],
+              [
+                '<code>rowGroup</code> của cột, <code>groupDefaultExpanded</code>',
+                '<code>[(groupBy)]</code>, danh sách id của các cột. Nhóm mặc định mở sẵn; <code>[(collapsed)]</code> đóng chúng lại.',
+              ],
+              [
+                '<code>aggFunc</code>, <code>grandTotalRow</code>',
+                '<code>aggregate</code>, <code>totals</code>',
+              ],
+              [
+                '<code>treeData</code> với <code>treeDataChildrenField</code>',
+                '<code>children: (row) =&gt; row.children</code>',
+              ],
+              [
+                '<code>masterDetail</code>, <code>detailCellRenderer</code>',
+                'Template <code>nuiGridDetail</code>, và <code>[(details)]</code>',
+              ],
+              ['<code>quickFilterText</code>', '<code>[(search)]</code>'],
+              [
+                '<code>rowSelection</code>, <code>getSelectedRows()</code>',
+                '<code>selection</code>, và <code>[(selected)]</code>: khóa của các dòng được chọn',
+              ],
+              [
+                '<code>pagination</code>, <code>paginationPageSize</code>',
+                '<code>[(pageSize)]</code>, <code>[(page)]</code>, <code>pageSizes</code>',
+              ],
+              [
+                '<code>getColumnState()</code>, <code>applyColumnState()</code>',
+                '<code>[(columnState)]</code>',
+              ],
+              [
+                '<code>exportDataAsExcel()</code>, <code>exportDataAsCsv()</code>',
+                '<code>exportXlsx()</code> trả về một Blob, còn <code>exportCsv()</code> trả về văn bản',
+              ],
+              [
+                '<code>cellValueChanged</code>, <code>rowDoubleClicked</code>',
+                '<code>(cellEdit)</code>, <code>(rowActivate)</code>',
+              ],
+              [
+                "<code>rowModelType: 'serverSide'</code>",
+                '<code>mode="server"</code>, <code>total</code>, <code>(queryChange)</code>',
+              ],
+              [
+                '<code>localeText</code>, <code>enableRtl</code>',
+                '<code>labels</code>; hướng từ phải sang trái theo <code>dir</code> của trang',
+              ],
+            ],
+          },
+          { kind: 'h2', id: 'example', text: 'Đơn hàng nhóm theo quốc gia, viết theo cả hai cách' },
+          {
+            kind: 'p',
+            html: 'Bài toán: đơn hàng được nhóm theo quốc gia, có tổng cho từng quốc gia và một tổng chung cho tất cả, xuất Excel, tìm kiếm nhanh và chọn nhiều dòng. Với AG Grid 36, phần nhóm dòng, tổng và xuất Excel đều cần bản Enterprise:',
+          },
+          { kind: 'code', file: 'guide-code/ag-grid-orders.ts', lazy: true },
+          { kind: 'p', html: 'Với bảng dữ liệu của Needless UI:' },
+          { kind: 'code', file: 'guide-code/grid-orders.ts', lazy: true },
+          {
+            kind: 'p',
+            html: 'Có vài điểm hoạt động khác. Lựa chọn chứa khóa, tức id của các dòng, nên vẫn giữ nguyên khi có dữ liệu mới; khi cần chính các dòng, hãy ánh xạ khóa ngược lại thành dòng. Nhóm mặc định mở sẵn. Nhãn của nhóm nằm ở cột hiển thị đầu tiên, và tìm kiếm chỉ đọc các cột đang hiển thị, nên nếu muốn tìm kiếm khớp cả cột dùng để nhóm, hãy để cột đó hiển thị. Ngoài ra, <code>exportXlsx()</code> trả về tệp thay vì tải xuống: một trang tính gồm các dòng đã lọc và sắp xếp, không có dòng nhóm.',
+          },
+          { kind: 'h2', id: 'gaps', text: 'Nếu bạn cần những gì còn thiếu' },
+          {
+            kind: 'p',
+            html: 'Nếu ứng dụng của bạn phụ thuộc vào pivot, biểu đồ, sao chép, dán và chọn vùng ô, nhóm dòng phía máy chủ hoặc nhóm cột, bảng dữ liệu của Needless UI chưa thể thay thế AG Grid. Hãy <a href="https://github.com/needless-ui/needless-ui/issues">mở một issue</a> cho tính năng bạn cần. Với mọi thứ khác, <a href="/components/grid">trang của bảng dữ liệu</a> có đủ mọi input, output và ví dụ.',
           },
         ],
       },

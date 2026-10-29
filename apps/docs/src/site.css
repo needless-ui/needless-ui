@@ -647,6 +647,12 @@
     color: var(--nui-color-text-muted);
   }
 
+  /* No premium tier: the reason most people come, across the whole row. */
+  .feature:first-child {
+    grid-column: 1 / -1;
+    border-color: var(--nui-color-accent-border);
+  }
+
   /* A column that can shrink: code lines scroll in their block, not the page. */
   .home-code {
     display: grid;
