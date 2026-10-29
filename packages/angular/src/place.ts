@@ -122,6 +122,28 @@ export interface NuiFollowOptions extends Pick<
 }
 
 /**
+ * Moves a rect from `getBoundingClientRect()` into the visible part of the page, the
+ * visual viewport, where `nuiPlace` works. Engines measure client rects from different
+ * corners: Chromium and Firefox from the layout viewport, which fixed positions use,
+ * WebKit from the visual viewport, which the on-screen keyboard and pinch zoom move.
+ * `origin` is where a fixed element at top 0, left 0 is in client coordinates, which
+ * tells them apart: (0, 0), or minus `offset`, the visual viewport's offset in the
+ * layout one.
+ */
+export function nuiVisibleRect(
+  rect: NuiRect,
+  origin: { top: number; left: number },
+  offset: { top: number; left: number },
+): NuiRect {
+  return {
+    top: rect.top - origin.top - offset.top,
+    left: rect.left - origin.left - offset.left,
+    width: rect.width,
+    height: rect.height,
+  };
+}
+
+/**
  * Keeps a fixed-position `floating` element (a popover in the top layer) next to
  * `anchor` while the page scrolls or resizes, or either element changes size. It
  * writes `top`, `left`, the max sizes, `data-side`, `data-overflow` (when it's
@@ -134,9 +156,23 @@ export function nuiFollow(
   floating: HTMLElement,
   options: NuiFollowOptions = {},
 ): () => void {
-  const view = floating.ownerDocument.defaultView;
+  const doc = floating.ownerDocument;
+  const view = doc.defaultView;
   if (!view) return () => undefined;
-  const root = floating.ownerDocument.documentElement;
+  const root = doc.documentElement;
+  // An empty fixed element in the top left corner: where it is in client coordinates
+  // tells how the engine measures them (see nuiVisibleRect).
+  const corner = doc.createElement('div');
+  Object.assign(corner.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '0',
+    height: '0',
+    visibility: 'hidden',
+    pointerEvents: 'none',
+  });
+  doc.body.appendChild(corner);
   let frame = 0;
 
   const update = () => {
@@ -145,16 +181,19 @@ export function nuiFollow(
     style.maxHeight = '';
     style.maxWidth = '';
     if (options.matchWidth) style.minWidth = `${anchor.getBoundingClientRect().width}px`;
-    const box = anchor.getBoundingClientRect();
     // What's visible of the page: the on-screen keyboard (and pinch zoom) leave a
     // smaller visual viewport inside the layout one that fixed positions use.
     const visual = view.visualViewport;
     const x = visual?.offsetLeft ?? 0;
     const y = visual?.offsetTop ?? 0;
+    const box = nuiVisibleRect(anchor.getBoundingClientRect(), corner.getBoundingClientRect(), {
+      top: y,
+      left: x,
+    });
     const height = floating.offsetHeight;
     const placement = nuiPlace({
       ...options,
-      anchor: { top: box.top - y, left: box.left - x, width: box.width, height: box.height },
+      anchor: box,
       floating: { width: floating.offsetWidth, height },
       viewport: {
         width: Math.min(root.clientWidth, visual?.width ?? Infinity),
@@ -171,8 +210,8 @@ export function nuiFollow(
     floating.toggleAttribute('data-overflow', height > placement.maxHeight);
     const vertical = placement.side === 'top' || placement.side === 'bottom';
     const center = vertical
-      ? box.left - x + box.width / 2 - placement.left
-      : box.top - y + box.height / 2 - placement.top;
+      ? box.left + box.width / 2 - placement.left
+      : box.top + box.height / 2 - placement.top;
     style.setProperty('--nui-anchor-center', `${Math.round(center)}px`);
   };
   const schedule = () => {
@@ -195,5 +234,6 @@ export function nuiFollow(
     view.visualViewport?.removeEventListener('resize', schedule);
     view.visualViewport?.removeEventListener('scroll', schedule);
     observer.disconnect();
+    corner.parentNode?.removeChild(corner);
   };
 }
