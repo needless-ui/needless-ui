@@ -409,6 +409,8 @@ describe('NuiScheduler with resources', () => {
       start: '2026-09-25T09:00',
       end: '2026-09-25T10:30',
     });
+    // The last move focuses its event again after the render: wait for it.
+    await stable();
     // An event of two resources leaves one for the other.
     events('planning')[1].focus();
     await userEvent.keyboard('{Alt>}{ArrowUp}{/Alt}');
