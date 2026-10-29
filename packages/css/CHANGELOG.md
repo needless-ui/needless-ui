@@ -1,5 +1,12 @@
 # @needless-ui/css
 
+## 0.10.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @needless-ui/tokens@0.10.1
+
 ## 0.10.0
 
 ### Patch Changes

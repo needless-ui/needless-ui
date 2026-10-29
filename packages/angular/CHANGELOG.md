@@ -1,5 +1,15 @@
 # @needless-ui/angular
 
+## 0.10.1
+
+### Patch Changes
+
+- [#45](https://github.com/needless-ui/needless-ui/pull/45) [`0e5551e`](https://github.com/needless-ui/needless-ui/commit/0e5551e08729dc796f9d7a4fb5496bf65383dc94) - **npm page:** the package's description and README now say what it includes for free: a scheduler with resource timelines and repeating events, and a data grid with grouping, tree data and Excel export.
+
+- [#43](https://github.com/needless-ui/needless-ui/pull/43) [`1046a29`](https://github.com/needless-ui/needless-ui/commit/1046a29cc0f22d65ce927e995cf30512da4cd657) - **Scheduler:** without `selectable`, Enter or Space on an empty cell left that cell drawn as chosen time (`data-selected`) until another key cleared it, though nothing was chosen. The keys now choose nothing there, and mark nothing.
+- Updated dependencies []:
+  - @needless-ui/css@0.10.1
+
 ## 0.10.0
 
 ### Minor Changes
