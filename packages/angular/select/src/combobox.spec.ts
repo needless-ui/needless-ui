@@ -136,6 +136,22 @@ describe('NuiCombobox', () => {
     expect(popup.matches(':popover-open')).toBe(false);
   });
 
+  it('keeps what is typed when the value changes from outside, until the list closes', async () => {
+    const { host, settle, part } = await setup();
+    const { input, popup } = part('single');
+    await userEvent.fill(input, 'Jap');
+    await settle();
+    expect(popup.matches(':popover-open')).toBe(true);
+    host.country.set('it');
+    await settle();
+    expect(input.value).toBe('Jap');
+
+    await userEvent.keyboard('{Escape}');
+    await settle();
+    expect(popup.matches(':popover-open')).toBe(false);
+    expect(input.value).toBe('Italy');
+  });
+
   it('adds chips, creates new ones from text, and removes them from the keyboard', async () => {
     const { host, settle, part } = await setup();
     const { host: field, input, popup, labels, chips } = part('tags');

@@ -101,6 +101,26 @@ describe('NuiDateRangePicker', () => {
     expect(host.range()).toEqual({ start: '2026-10-01', end: '2026-10-30' });
   });
 
+  it('fills both fields from a range set outside, and keeps an end typed out of order', async () => {
+    const { host, root, settle } = await setup();
+    const [start, end] = [...root.querySelectorAll<HTMLElement>('#range nui-date-field')];
+    const text = (field: HTMLElement) => field.textContent!.replace(/\s+/g, '');
+    host.range.set({ start: '2026-10-01', end: '2026-10-30' });
+    await settle();
+    expect([text(start), text(end)]).toEqual(['10/01/2026', '10/30/2026']);
+
+    // An end before the start empties the value, but the fields keep what's typed.
+    end.querySelector<HTMLElement>('[role="spinbutton"]')!.focus();
+    await userEvent.keyboard('09');
+    await settle();
+    expect(host.range()).toBeNull();
+    expect([text(start), text(end)]).toEqual(['10/01/2026', '09/30/2026']);
+
+    host.range.set({ start: '2026-11-02', end: '2026-11-06' });
+    await settle();
+    expect([text(start), text(end)]).toEqual(['11/02/2026', '11/06/2026']);
+  });
+
   it('picks a range in two months, or from a preset', async () => {
     await page.viewport(1024, 768);
     const { host, root, settle } = await setup();

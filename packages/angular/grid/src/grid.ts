@@ -364,14 +364,6 @@ export class NuiGrid<T> {
       untracked(() => this.queryChange.emit(query));
     });
 
-    // Keep the active cell inside the grid when rows or columns go, or the header row does.
-    effect(() => {
-      engine.shown();
-      engine.colCount();
-      engine.header();
-      untracked(() => engine.setActive(engine.active().row, engine.active().col));
-    });
-
     // The panel's anchor, a header or the toolbar's button, comes or goes with cards.
     let cards: boolean | undefined;
     effect(() => {

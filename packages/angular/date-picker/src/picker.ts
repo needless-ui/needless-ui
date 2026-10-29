@@ -4,12 +4,12 @@ import {
   Component,
   computed,
   DestroyRef,
-  effect,
   ElementRef,
   forwardRef,
   inject,
   Injector,
   input,
+  linkedSignal,
   LOCALE_ID,
   model,
   numberAttribute,
@@ -419,11 +419,22 @@ export class NuiDateRangePicker implements ControlValueAccessor {
   protected readonly open = signal(false);
   private readonly formDisabled = signal(false);
   protected readonly off = computed(() => this.disabled() || this.formDisabled());
-  /** Each end as typed, which may be only one of them so far. */
-  protected readonly start = signal<NuiDate | null>(null);
-  protected readonly end = signal<NuiDate | null>(null);
   /** The last value this picker set, to tell it from values set from outside. */
   private emitted: NuiDateRange | null | undefined;
+  /**
+   * Each end as typed, which may be only one of them so far. A value from outside
+   * fills both; one the fields made leaves them as typed.
+   */
+  protected readonly start = linkedSignal<NuiDateRange | null, NuiDate | null>({
+    source: this.value,
+    computation: (value, previous) =>
+      previous && value === this.emitted ? previous.value : (value?.start ?? null),
+  });
+  protected readonly end = linkedSignal<NuiDateRange | null, NuiDate | null>({
+    source: this.value,
+    computation: (value, previous) =>
+      previous && value === this.emitted ? previous.value : (value?.end ?? null),
+  });
   /** The end comes before the start. */
   readonly invalid = computed(() => {
     const start = this.start();
@@ -435,13 +446,6 @@ export class NuiDateRangePicker implements ControlValueAccessor {
   private onTouched: () => void = () => {};
 
   constructor() {
-    // A value from outside fills both fields; one the fields made leaves them as typed.
-    effect(() => {
-      const value = this.value();
-      if (value === this.emitted) return;
-      this.start.set(value?.start ?? null);
-      this.end.set(value?.end ?? null);
-    });
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
       const query = matchMedia('(max-width: 40rem)');
