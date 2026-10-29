@@ -1,5 +1,13 @@
 # @needless-ui/angular
 
+## 0.8.1
+
+### Patch Changes
+
+- [#25](https://github.com/needless-ui/needless-ui/pull/25) [`2833048`](https://github.com/needless-ui/needless-ui/commit/28330480cba03d9ec984a914fab260a13472df7d) - **Data grid, combobox, date range picker:** state that followed other state through an `effect()` now follows it with `linkedSignal()`, so it's right whenever it's read. `NuiGridEngine` keeps its active cell inside the grid by itself when rows or columns go, or the header or footer rows do. It used to rely on an effect in the grid component, so an engine used on its own could keep a cell that was gone. The combobox's text and the range picker's fields behave as before.
+- Updated dependencies []:
+  - @needless-ui/css@0.8.1
+
 ## 0.8.0
 
 ### Minor Changes
